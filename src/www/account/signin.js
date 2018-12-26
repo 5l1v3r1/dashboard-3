@@ -1,0 +1,71 @@
+const dashboard = require('../../../index.js')
+
+module.exports = {
+  get: renderPage,
+  post: submitForm
+}
+
+function renderPage (req, res, messageTemplate) {
+  const doc = dashboard.HTML.parse(req.route.html)
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+  }
+  if (req.body) {
+    const usernameField = doc.getElementById('username')
+    usernameField.setAttribute('value', req.body.username || '')
+  }
+  return dashboard.Response.end(req, res, doc)
+}
+
+async function submitForm (req, res) {
+  if (!req || !req.body) {
+    return renderPage(req, res, 'invalid-username')
+  }
+  if (!req.body.username || !req.body.username.length) {
+    return renderPage(req, res, 'invalid-username')
+  }
+  if (!req.body.password || !req.body.password.length) {
+    return renderPage(req, res, 'invalid-password')
+  }
+  if (global.minimumUsernameLength > req.body.username.length ||
+    global.maximumUsernameLength < req.body.username.length) {
+    return renderPage(req, res, 'invalid-username-length')
+  }
+  if (global.minimumPasswordLength > req.body.password.length ||
+    global.maximumPasswordLength < req.body.password.length) {
+    return renderPage(req, res, 'invalid-password-length')
+  }
+  let session
+  // create session
+  try {
+    session = await global.api.user.CreateSession.post(req)
+  } catch (error) {
+    return renderPage(req, res, error.message)
+  }
+  if (!session) {
+    return renderPage(req, res, 'invalid-username')
+  }
+  // load account unless coming via registration
+  if (!req.account) {
+    const accountReq = { query: { accountid: session.accountid }, appid: req.appid, account: { accountid: session.accountid } }
+    req.account = await global.api.user.Account._get(accountReq)
+  }
+  req.session = session
+  // session cookie
+  let cookieStr = 'httponly; path=/'
+  if (req.secure) {
+    cookieStr += '; secure'
+  }
+  if (global.domain) {
+    cookieStr += '; domain=' + global.domain
+  }
+  if (session.expires) {
+    cookieStr += '; expires=' + dashboard.Timestamp.date(session.expires).toUTCString()
+  }
+  res.setHeader('set-cookie', [
+    `sessionid=${session.sessionid}; ${cookieStr}`,
+    `token=${session.token}; ${cookieStr}`
+  ])
+  const nextURL = req.query && req.query.returnURL ? req.query.returnURL : '/home'
+  return dashboard.Response.redirect(req, res, nextURL)
+}

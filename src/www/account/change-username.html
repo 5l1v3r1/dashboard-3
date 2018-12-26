@@ -1,0 +1,40 @@
+<!doctype html>
+<html navbar="/account/navbar-account.html">
+  <head>
+    <title>Change username</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Change username</h1>
+    <p>All usernames are irreversibly-encrypted before storing the data (bcrypt + shared salt).</p>
+    <div id="message-container"></div>
+    <form id="submit-form" method="POST" class="pure-form pure-form-stacked">
+      <fieldset>
+        <div class="pure-control-group">
+          <label for="username">New username</label>
+          <input id="username" name="username" type="text" maxlength="1000" />
+        </div>
+        <div class="pure-controls">
+          <button id="submit-button" type="submit" class="pure-button pure-button-primary">Set new username</button>
+        </div>
+      </fieldset>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message">Success! Your new username must be used from now on.</div>
+  </template>
+  <template id="invalid-username">
+    <div class="error message">Error! Invalid or duplicate new username.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message">Error! An unknown error occurred.</div>
+  </template>
+  <template id="invalid-username-length">
+    <div class="error message">Error! Invalid new username length.</div>
+  </template>
+  <template id="duplicate-username">
+    <div class="error message">Error! Somebody else is using that username.</div>
+  </template>
+</html>

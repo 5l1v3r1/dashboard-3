@@ -1,0 +1,1014 @@
+
+> @userappstore/dashboard@1.0.0 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> mocha src --recursive --timeout 420000 --slow 420000
+
+
+
+  internal-api/api
+    API#wrapAPIRequest()
+      ✓ should allow guest access
+      ✓ should return object
+      ✓ should end response with JSON
+
+  content/session-impersonation-header
+    SessionImpersionationHeader#AFTER
+      ✓ should do nothing for non-administrator
+      ✓ should do nothing when not impersonating
+      ✓ should add impersonation message to header
+
+  content/session-unlocked-header
+    SessionUnlockedHeader#AFTER
+      ✓ should do nothing for not-unlocked accounts
+      ✓ should add lock message to header
+
+  internal-api/format
+    Format#parseDate()
+      ✓ should throw error for missing date
+      ✓ should throw error for invalid date
+    Format#date()
+      ✓ should zero pad days
+      ✓ should zero pad months
+
+  internal-api/hash
+    Hash#fixedSaltHash()
+      ✓ should produce the same hash each time
+    Hash#fixedSaltCompare()
+      ✓ should match text with hash
+    Hash#randomSaltHash()
+      ✓ should hash differently each time
+    Hash#randomSaltCompare()
+      ✓ should match passwords
+      ✓ should not match invalid passwords
+
+  internal-api/html
+    HTML#parseHTML()
+      ✓ should reject invalid strings
+      ✓ should return expected contents
+    HTML#findOrCreateTableBody()
+      ✓ should require a document
+      ✓ should require a table
+      ✓ should accept table ids
+      ✓ should return existing TBODY
+      ✓ should create new TBODY as last child of table
+    HTML#renderTable()
+      ✓ should require a document
+      ✓ should require a table
+      ✓ should require a template
+      ✓ should require a dataset
+      ✓ should create TR for each item
+      ✓ should alternate TR class
+      ✓ should contain expected data
+    HTML#renderList()
+      ✓ should require a document
+      ✓ should require a list
+      ✓ should require a template
+      ✓ should require a dataset
+      ✓ should create LI for each item
+      ✓ should contain expected data
+    HTML#renderTemplate()
+      ✓ should require a document
+      ✓ should not require a data object
+      ✓ should require a template
+      ✓ should require a parent element
+      ✓ should append contents to parent element
+    HTML#renderPagination()
+      ✓ should require a document
+      ✓ should require a total greater than 0
+      ✓ should require an offset less than total
+      ✓ should accept null or string offset
+      ✓ should enforce global page size
+      ✓ should override global page size
+
+  internal-api/merge-package-json
+    MergePackageJSON#loadRootJSON()
+      Merged menu order
+        ✓ should put application menus first
+        ✓ should put dashboard menus last
+        ✓ should put module menus between between application and dashboard
+        ✓ should include nested modules
+      Merged content handler order
+        ✓ should put application content handler last
+        ✓ should put dashboard content handlers first
+        ✓ should put module content handlers between dashboard and application
+        ✓ should include nested modules
+      Merged server handler order
+        ✓ should put application server handlers last
+        ✓ should put dashboard server handlers first
+        ✓ should put module server handlers between dashboard and application
+        ✓ should include nested modules
+
+  internal-api/response
+    Response#throw404()
+      ✓ should set 404 status
+      ✓ should contain 404 code
+      ✓ should contain 404 error
+    Response#throw500()
+      ✓ should set 500 status
+      ✓ should contain 500 code
+      ✓ should contain error message
+    Response#throw511()
+      ✓ should set 511 status
+      ✓ should contain 511 code
+
+  internal-api/server
+    Server#authenticateRequest()
+      ✓ should reject missing token
+      ✓ should reject invalid token
+      ✓ should identify user from token
+    Server#parsePostData()
+      ✓ should ignore file uploads
+      ✓ should ignore no-content uploads
+      ✓ should parse post data
+    Server#receiveRequest()
+      ✓ should bind query data of URL to req
+      ✓ should not bind route for unknown url
+      ✓ should bind route to req
+
+  internal-api/storage-list
+    StorageList#add
+      ✓ should add string properties
+      ✓ should add int properties
+      ✓ should add float properties
+      ✓ should add boolean properties
+    StorageList#count
+      ✓ should count the items
+      ✓ should not count removed items
+    StorageList#remove
+      ✓ should remove the item
+    StorageList#list
+      ✓ should enforce page size
+      ✓ should enforce offset
+    StorageList#listAll
+      ✓ should return all records
+
+  internal-api/storage-list
+    StorageObject#getProperties
+      ✓ should return string properties
+      ✓ should return int properties
+      ✓ should return float properties
+      ✓ should return boolean properties
+    StorageObject#getProperty
+      ✓ should return string property
+      ✓ should return int property
+      ✓ should return float property
+      ✓ should return boolean property
+    StorageObject#removeProperty
+      ✓ should delete properties
+    StorageObject#removeProperties
+      ✓ should delete properties
+    StorageObject#setProperty
+      ✓ should set string property
+      ✓ should set int property
+      ✓ should set float property
+      ✓ should set boolean property
+    StorageObject#setProperties
+      ✓ should set string properties
+      ✓ should set int properties
+      ✓ should set float properties
+      ✓ should set boolean properties
+
+  internal-api/storage
+    Storage#read
+      ✓ should require file
+      ✓ should return file contents
+    Storage#write()
+      ✓ should require file
+      ✓ should require contents
+      ✓ should accept content object
+      ✓ should accept content string
+      ✓ should write file contents
+    Storage#deleteFile()
+      ✓ should require file
+      ✓ should delete file
+
+  internal-api/timestamp
+    #create()
+      ✓ should reject null date
+      ✓ should accept date
+      ✓ should accept string
+
+  internal-api/uuid
+    #random
+      ✓ should reject null length
+      ✓ should use provided characters
+    #v4()
+      ✓ should be a v4 uuid
+
+  /account/authorize
+    Authorize#BEFORE
+      ✓ should require locked session
+    Authorize#GET
+      ✓ should present the form
+    Authorize#POST
+      ✓ should reject missing username
+      ✓ should enforce username length
+      ✓ should reject missing password
+      ✓ should enforce password length
+      ✓ should reject invalid password
+      ✓ should reject different account credentials
+      ✓ should require impersonating administrator use own credentials
+      ✓ should unlock session
+      ✓ should unlock session for impersonating administrator
+
+  /account/change-password
+    ChangePassword#GET
+      ✓ should present the form
+    ChangePassword#POST
+      ✓ should reject missing password
+      ✓ should reject short password
+      ✓ should reject mismatched passwords
+      ✓ should apply after authorization
+
+  /account/change-username
+    ChangeUsername#GET
+      ✓ should present the form
+    ChangeUsername#POST
+      ✓ should reject missing username
+      ✓ should reject short username
+      ✓ should apply after authorization
+
+  /account/create-profile
+    CreateProfile#GET
+      ✓ should present the form
+    CreateProfile#POST
+      ✓ should reject missing first name
+      ✓ should enforce first name length
+      ✓ should reject missing last name
+      ✓ should enforce last name length
+      ✓ should reject missing email
+      ✓ should create after authorization
+      ✓ should create and set default after authorization
+
+  /account/create-reset-code
+    CreateResetCode#GET
+      ✓ should present the form
+    CreateResetCode#POST
+      ✓ should reject missing code
+      ✓ should reject short code
+      ✓ should create after authorization
+
+  /account/delete-account-complete
+    DeleteAccountComplete#GET
+      ✓ should present 3 days remaining message
+      ✓ should present 7 days remaining message
+      ✓ should present instant delete message
+
+  /account/delete-account
+    DeleteAccount#GET
+      ✓ should present the form
+    DeleteAccount#POST
+      ✓ should apply after authorization
+
+  /account/delete-profile
+    DeleteProfile#BEFORE
+      ✓ should reject invalid profile
+      ✓ should reject default profile
+      ✓ should reject other account's profile
+    DeleteProfile#GET
+      ✓ should present the form
+      ✓ should present the profile table
+    DeleteProfile#POST
+      ✓ should delete after authorization
+
+  /account/delete-reset-code
+    DeleteResetCode#BEFORE
+      ✓ should reject invalid code
+      ✓ should reject other account's code
+    DeleteResetCode#GET
+      ✓ should present the form
+      ✓ should present the reset code table
+    DeleteResetCode#POST
+      ✓ should delete after authorization
+
+  /account/edit-profile
+    EditProfile#BEFORE
+      ✓ should bind profile to req
+    EditProfile#GET
+      ✓ should present the form
+    EditProfile#POST
+      ✓ should reject missing first name
+      ✓ should enforce first name length
+      ✓ should reject missing last name
+      ✓ should enforce last name length
+      ✓ should reject missing email
+      ✓ should apply after authorization
+
+  /account/end-all-sessions
+    EndAllSessions#GET
+      ✓ should present the form
+    EndAllSessions#POST
+      ✓ should generate a new session key
+      ✓ should invalidate current session
+
+  /account/end-session
+    EndSession#BEFORE
+      ✓ should bind session to req
+    EndSession#GET
+      ✓ should present the form
+      ✓ should present the session table
+    EndSession#POST
+      ✓ should end the session
+
+  /account/lock-session
+    LockSession#GET
+      ✓ should reject invalid session
+      ✓ should remove unlocked status
+
+  /account/profile
+    Profile#BEFORE
+      ✓ should bind profile to req
+    Profile#GET
+      ✓ should present the profile table
+
+  /account/profiles
+    Profiles#BEFORE
+      ✓ should bind profiles to req
+    Profiles#GET
+      ✓ should limit profiles to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /account/register
+    Register#GET
+      ✓ should present the form
+    Register#POST
+      ✓ should reject missing username
+      ✓ should enforce username length
+      ✓ should reject missing password
+      ✓ should enforce password length
+      ✓ should reject invalid confirm
+      ✓ should reject missing first name
+      ✓ should enforce first name length
+      ✓ should reject missing last name
+      ✓ should enforce last name length
+      ✓ should reject missing email
+      ✓ should create account and 20-minute session
+      ✓ should create account with profile information
+
+  /account/reset-account
+    ResetAccount#GET
+      ✓ should present the form
+    ResetAccount#POST
+      ✓ should reject missing username
+      ✓ should enforce username length
+      ✓ should reject missing reset code
+      ✓ should enforce reset code length
+      ✓ should reject missing password
+      ✓ should enforce password length
+      ✓ should require confirm
+      ✓ should not reset deleted account
+      ✓ should reset session key
+      ✓ should reset code last used
+      ✓ should sign in
+
+  /account/reset-code
+    ResetCode#BEFORE
+      ✓ should bind reset code to req
+    ResetCode#GET
+      ✓ should present the reset code table
+
+  /account/reset-codes
+    ResetCodes#BEFORE
+      ✓ should bind reset codes to req
+    ResetCodes#GET
+      ✓ should show never created
+      ✓ should update created date
+      ✓ should show never deleted
+      ✓ should update deleted date
+      ✓ should show never used
+      ✓ should update used date
+      ✓ should limit reset codes to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /account/restore-account
+    RestoreAccount#GET
+      ✓ should present the form
+    RestoreAccount#POST
+      ✓ should reject missing username
+      ✓ should enforce username length
+      ✓ should reject missing password
+      ✓ should enforce password length
+      ✓ should reject invalid password
+      ✓ should reject if after deletion date
+      ✓ should unset account deleted
+
+  /account/session
+    Session#BEFORE
+      ✓ should bind session to req
+    Session#GET
+      ✓ should present the session table
+
+  /account/sessions
+    Sessions#BEFORE
+      ✓ should bind sessions to req
+    Sessions#GET
+      ✓ should show never reset date
+      ✓ should update last reset date
+      ✓ should update last signed in date
+      ✓ should exclude ended sessions
+      ✓ should limit sessions to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /account/set-default-profile
+    SetDefaultProfile#BEFORE
+      ✓ should bind posted profile to req
+      ✓ should bind all profiles to req
+    SetDefaultProfile#GET
+      ✓ should present the form
+      ✓ should present the profile table
+    SetDefaultProfile#POST
+      ✓ should set the authorized profile as default
+
+  /account/signin
+    Signin#GET
+      ✓ should present the form
+    Signin#POST
+      ✓ should reject missing username
+      ✓ should enforce username length
+      ✓ should reject missing password
+      ✓ should reject invalid password
+      ✓ should enforce password length
+      ✓ should create session expiring in 20 minutes as default
+      ✓ should create session expiring in 20 minutes
+      ✓ should create session expiring in 8 hours
+      ✓ should create session expiring in 30 days
+
+  /account/signout
+    Signout#GET
+      ✓ should end the session
+      ✓ should redirect to signout complete page
+
+  /administrator/account-profiles
+    AccountProfiles#BEFORE
+      ✓ should bind profiles to req
+    Profiles#GET
+      ✓ should present the account table
+      ✓ should limit profiles to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /administrator/account-reset-codes
+    AccountResetCodes#BEFORE
+      ✓ should bind reset codes to req
+    AccountResetCodes#GET
+      ✓ should present the reset codes table
+      ✓ should present the account table
+      ✓ should limit reset codes to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /administrator/account-sessions
+    AccountSessions#BEFORE
+      ✓ should bind sessions to req
+    AccountSessions#GET
+      ✓ should present the sessions table
+      ✓ should present the account table
+      ✓ should limit sessions to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /administrator/account
+    Account#BEFORE
+      ✓ should bind account to req
+      ✓ should bind profiles to req
+      ✓ should bind sessions to req
+      ✓ should bind reset codes to req
+    Account#GET
+      ✓ should present the account table
+      ✓ should present the profile table
+      ✓ should present the sessions table
+      ✓ should hide empty reset codes table
+      ✓ should present a populated reset codes table
+
+  /administrator/accounts
+    Accounts#BEFORE
+      ✓ should bind accounts to req
+    Accounts#GET
+      ✓ should present the accounts table
+      ✓ should limit accounts to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /administrator/administrators
+    Administrators#BEFORE
+      ✓ should bind administrators to req
+    Administrators#GET
+      ✓ should present the administrators table
+      ✓ should limit accounts to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /administrator/assign-administrator
+    AssignAdministrator#BEFORE
+      ✓ should bind account to req
+    AssignAdministrator#GET
+      ✓ should present the form
+      ✓ should present the account table
+    AssignAdministrator#POST
+      ✓ should apply after authorization
+
+  /administrator/create-reset-code
+    CreateResetCode#BEFORE
+      ✓ should bind account to req
+    CreateResetCode#GET
+      ✓ should present the form
+      ✓ should present the account table
+    CreateResetCode#POST
+      ✓ should apply after authorization
+
+  /administrator/delete-account
+    DeleteAccount#BEFORE
+      ✓ should reject invalid accountid
+      ✓ should allow account not scheduled for deletion
+      ✓ should allow account not ready for deletion
+      ✓ should bind account to req
+    DeleteAccount#GET
+      ✓ should present the form
+      ✓ should present the account table
+    DeleteAccount#POST
+      ✓ should immediately delete after authorization
+
+  /administrator/delete-schedule
+    DeleteSchedule#BEFORE
+      ✓ should bind deleted accounts to req
+    DeleteSchedule#GET
+      ✓ should present the deleted accounts table
+      ✓ should limit accounts to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /administrator/end-impersonation
+    EndImpersonation#BEFORE
+      ✓ should reject invalid session
+      ✓ should remove impersonate status
+      ✓ should end the user session of the administrator
+
+  /administrator/impersonate-account
+    ImpersonateAccount#GET
+      ✓ should set impersonate status
+
+  /administrator/profile
+    Profile#BEFORE
+      ✓ should bind profile to req
+    Profile#GET
+      ✓ should present the profile table
+
+  /administrator/profiles
+    Profiles#BEFORE
+      ✓ should bind profiles to req
+    Profiles#GET
+      ✓ should limit profiles to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /administrator/reset-code
+    ResetCode#BEFORE
+      ✓ should bind reset code to req
+    ResetCode#GET
+      ✓ should present the reset code table
+
+  /administrator/reset-codes
+    ResetCodes#BEFORE
+      ✓ should bind reset codes to req
+    ResetCodes#GET
+      ✓ should present the reset codes table
+      ✓ should limit reset codes to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /administrator/reset-session-key
+    ResetSessionKey#BEFORE
+      ✓ should bind account to req
+    ResetSessionKey#GET
+      ✓ should present the form
+      ✓ should present the account table
+    ResetSessionKey#POST
+      ✓ should apply after authorization
+
+  /administrator/revoke-administrator
+    RevokeAdministrator#BEFORE
+      ✓ should bind account to req
+    RevokeAdministrator#GET
+      ✓ should present the form
+    RevokeAdministrator#POST
+      ✓ should apply after authorization
+
+  /administrator/schedule-account-delete
+    ScheduleAccountDelete#BEFORE
+      ✓ should bind account to req
+    ScheduleAccountDelete#GET
+      ✓ should present the form
+      ✓ should present the account table
+    ScheduleAccountDelete#POST
+      ✓ should apply after authorization
+
+  /administrator/session
+    Session#BEFORE
+      ✓ should bind session to req
+    Session#GET
+      ✓ should present the session table
+
+  /administrator/sessions
+    Sessions#BEFORE
+      ✓ should bind sessions to req
+    Sessions#GET
+      ✓ should present the sessions table
+      ✓ should limit sessions to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /administrator/transfer-ownership
+    TransferOwnership#BEFORE
+      ✓ should bind account to req
+    TransferOwnership#GET
+      ✓ should present the form
+      ✓ should present the account table
+    TransferOwnership#POST
+      ✓ should apply after authorization
+
+  /api/administrator/account-profiles-count
+    AccountProfilesCount#GET
+      ✓ should count account's profiles
+
+  /api/administrator/account-profiles
+    AccountProfiles#GET
+      ✓ should limit profiles to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/administrator/account-reset-codes-count
+    AccountResetCodesCount#GET
+      ✓ should count account's reset codes
+
+  /api/administrator/account-reset-codes
+    AccountResetCodes#GET
+      ✓ should return reset codes
+      ✓ should redact code hash
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/administrator/account-sessions-count
+    AccountSessionsCount#GET
+      ✓ should count account's sessions
+
+  /api/administrator/account-sessions
+    AccountSessions#GET
+      ✓ should return sessions
+      ✓ should redact each session token
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/administrator/account
+    Account#GET
+      ✓ should return specified user data
+      ✓ should redact username, password, session key
+
+  /api/administrator/accounts-count
+    AccountCount#GET
+      ✓ should count all accounts
+
+  /api/administrator/accounts
+    Accounts#GET
+      ✓ should return accounts
+      ✓ should redact username, password, sessionKey
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/administrator/administrator-accounts-count
+    AdministratorAccountsCount#GET
+      ✓ should count all administrators' accounts
+
+  /api/administrator/administrator-accounts
+    AdministratorAccounts#GET
+      ✓ should return administrators' accounts
+      ✓ should redact username, password, session key
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/administrator/create-reset-code
+    CreateResetCode#BEFORE
+      ✓ should enforce code length
+    CreateResetCode#POST
+      ✓ should create a code
+
+  /api/administrator/delete-account
+    DeleteAccount#BEFORE
+      ✓ should allow account not scheduled for delete
+      ✓ should allow account not ready to delete
+    DeleteAccount#DELETE
+      ✓ should delete account
+
+  /api/administrator/deleted-accounts-count
+    DeletedAccountsCount#GET
+      ✓ should count all profiles
+
+  /api/administrator/deleted-accounts
+    DeletedAccounts#GET
+      ✓ should return deleted accounts
+      ✓ should redact username, password, session key
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+
+  /api/administrator/profile
+    Profile#GET
+      ✓ should return specified profile data
+
+  /api/administrator/profiles-count
+    ProfilesCount#GET
+      ✓ should count all profiles
+
+  /api/administrator/profiles
+    Profiles#GET
+      ✓ should limit profiles to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/administrator/reset-account-administrator
+    ResetAccountAdministrator#BEFORE
+      ✓ should require an administrator accountid
+    ResetAccountAdministrator#PATCH
+      ✓ should apply authorized revocation
+
+  /api/administrator/reset-code
+    ResetCode#GET
+      ✓ should return reset code data
+      ✓ should redact code hash
+
+  /api/administrator/reset-codes-count
+    ResetCodesCount#GET
+      ✓ should count all reset codes
+
+  /api/administrator/reset-codes
+    ResetCodes#GET
+      ✓ should return reset codes
+      ✓ should redact code hash
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/administrator/reset-session-impersonate
+    ResetSessionImpersonate#PATCH
+      ✓ should remove impersonation from session
+      ✓ should end impersonated session
+
+  /api/administrator/reset-session-key
+    ResetSessionKey#BEFORE
+      ✓ should reject invalid account
+      ✓ should reject account scheduled for deletion
+    ResetSessionKey#PATCH
+      ✓ should increase sessionKeyNumber
+      ✓ should update sessionKeyLastReset
+
+  /api/administrator/session
+    Session#GET
+      ✓ should return user session
+      ✓ should redact token
+
+  /api/administrator/sessions-count
+    SessionsCount#GET
+      ✓ should count all sessions
+
+  /api/administrator/sessions
+    Sessions#GET
+      ✓ should return sessions
+      ✓ should redact each session token
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/administrator/set-account-administrator
+    SetAccountAdministrator#BEFORE
+      ✓ should reject invalid accountid
+      ✓ should reject own accountid
+      ✓ should require a non-administrator accountid
+    SetAccountAdministrator#PATCH
+      ✓ should apply authorized new administrator
+
+  /api/administrator/set-account-deleted
+    SetAccountDeleted#BEFORE
+      ✓ should reject invalid accountid
+      ✓ should reject own accountid
+    SetAccountDeleted#PATCH
+      ✓ should schedule for immediate deletion
+      ✓ should schedule for future deletion
+
+  /api/administrator/set-owner-account
+    SetOwnerAccount#BEFORE
+      ✓ should reject invalid accountid
+      ✓ should reject non-owner administrators
+      ✓ should reject transferring to self accountid
+    SetOwnerAccount#PATCH
+      ✓ should apply authorized new ownership
+      ✓ should revoke own ownership
+
+  /api/administrator/set-session-impersonate
+    SetSessionImpersonate#PATCH
+      ✓ should set authorized impersonate
+
+  /api/user/account
+    Account#GET
+      ✓ should reject invalid accountid
+      ✓ should reject other accountid
+      ✓ should return account data
+      ✓ should redact username, password, sessionKey
+
+  /api/user/create-account
+    CreateAccount#POST
+      ✓ should require a username
+      ✓ should require a username length
+      ✓ should require a password
+      ✓ should require a username length
+      ✓ should create account
+
+  /api/user/create-profile
+    CreateProfile#BEFORE
+      ✓ should reject missing first name
+      ✓ should enforce first name length
+      ✓ should reject missing last name
+      ✓ should enforce last name length
+      ✓ should reject missing email
+    CreateProfile#POST
+      ✓ should create authorized new profile
+      ✓ should create authorized new profile and set as default
+
+  /api/user/create-reset-code
+    CreateResetCode#BEFORE
+      ✓ should enforce code length
+      ✓ should hash reset code and remove plain text
+    CreateResetCode#POST
+      ✓ should create a code after authorization
+
+  /api/user/create-session
+    CreateSession#POST
+      ✓ should require a username
+      ✓ should require a username length
+      ✓ should require a password
+      ✓ should require a username length
+      ✓ should create session expiring in 20 minutes
+      ✓ should create session expiring in 8 hours
+      ✓ should create session expiring in 30 days
+
+  /api/user/delete-profile
+    DeleteProfile#BEFORE
+      ✓ should require valid profile
+      ✓ should reject default profile
+    DeleteProfile#DELETE
+      ✓ should delete the profile
+
+  /api/user/delete-reset-code
+    DeleteResetCode#BEFORE
+      ✓ should require valid reset code
+    DeleteResetCode#DELETE
+      ✓ should delete the code
+
+  /api/user/profile
+    Profile#GET
+      ✓ should reject invalid profileid
+      ✓ should reject other account
+      ✓ should return profile data
+
+  /api/user/profiles-count
+    ProfilesCount#GET
+      ✓ should count profiles
+
+  /api/user/profiles
+    Profiles#GET
+      ✓ should limit profiles to one page
+      ✓ should redact profile hash
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/user/reset-account-deleted
+    ResetAccountDeleted#PATCH
+      ✓ should require a username
+      ✓ should enforce username length
+      ✓ should require a password
+      ✓ should enforce password length
+      ✓ should require account be scheduled for deletion
+      ✓ should restore account
+
+  /api/user/reset-account-password
+    ResetAccountPassword#PATCH
+      ✓ should require username
+      ✓ should require new password
+      ✓ should require enforce password requirements
+      ✓ should require reset code
+      ✓ should require valid reset code
+
+  /api/user/reset-code
+    ResetCode#GET
+      ✓ should require valid reset code
+      ✓ should require own codeid
+      ✓ should return reset code data
+      ✓ should redact code hash
+
+  /api/user/reset-codes-count
+    ResetCodesCount#GET
+      ✓ should count reset codes
+
+  /api/user/reset-codes
+    ResetCodes#GET
+      ✓ should limit codes to one page
+      ✓ should redact code hash
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/user/reset-session-key
+    ResetSessionKey#PATCH
+      ✓ should end current session
+      ✓ should update account sessionKeyLastReset
+
+  /api/user/reset-session-unlocked
+    ResetSessionUnlocked#PATCH
+      ✓ should reject not-unlocked session
+      ✓ should remove unlocked status from the session
+
+  /api/user/session
+    Session#GET
+      ✓ should reject invalid sessionid
+      ✓ should require own sessionid
+      ✓ should return session data
+      ✓ should redact token
+
+  /api/user/session-count
+    SessionsCount#GET
+      ✓ should count sessions
+
+  /api/user/sessions
+    Sessions#GET
+      ✓ should limit session list to one page
+      ✓ should enforce page size
+      ✓ should enforce specified offset
+      ✓ should return all records
+
+  /api/user/set-account-deleted
+    SetAccountDeleted#BEFORE
+      ✓ should reject invalid accountid
+      ✓ should reject other account's accountid
+    SetAccountDeleted#DELETE
+      ✓ should schedule deletion in 7 days
+      ✓ should schedule deletion in 3 days
+      ✓ should schedule immediate deletion
+
+  /api/user/set-account-password
+    SetAccountPassword#BEFORE
+      ✓ should enforce password length
+      ✓ should hash new password and remove plain text
+    SetAccountPassword#PATCH
+      ✓ should apply authorized new password
+
+  /api/user/set-account-profile
+    SetAccountProfile#BEFORE
+      ✓ should reject default profile
+    SetAccountProfile#PATCH
+      ✓ should apply authorized new default
+
+  /api/user/set-account-username
+    SetAccountUsername#BEFORE
+      ✓ should enforce username length
+      ✓ should hash new username and remove plain text
+    SetAccountUsername#PATCH
+      ✓ should apply authorized new username
+
+  /api/user/set-session-ended
+    SetSessionEnded#BEFORE
+      ✓ should reject invalid sessionid
+      ✓ should reject ended session
+    SetSessionEnded#PATCH
+      ✓ should accept locked session
+      ✓ should end the session
+
+  /api/user/set-session-unlocked
+    SetSessionUnlocked#POST
+      ✓ should require a locked session
+      ✓ should require a username
+      ✓ should require a password
+      ✓ should require a valid username and password
+      ✓ should reject other account username and password
+      ✓ should require impersonating administrator use own credentials
+      ✓ should unlock locked session for user
+      ✓ should unlock session for impersonating administrator
+
+  /api/user/update-profile
+    UpdateProfile#BEFORE
+      ✓ should reject missing first name
+      ✓ should enforce first name length
+      ✓ should reject missing last name
+      ✓ should enforce last name length
+      ✓ should reject missing email
+    UpdateProfile#PATCH
+      ✓ should apply authorized new values
+
+
+  548 passing (14m)
+

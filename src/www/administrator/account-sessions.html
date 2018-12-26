@@ -1,0 +1,54 @@
+<!doctype html>
+<html navbar="/administrator/navbar-account.html">
+  <head>
+    <title>Sessions belonging to ${account.accountid}</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Sessions belonging to ${account.accountid}</h1>
+    <div id="message-container"></div>
+    <div id="no-sessions">
+      <p>This account does not have any sessions yet.</p>
+    </div>
+    <table id="accounts-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tr id="${account.accountid}">
+        <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td><a href="mailto:${account.email}">${account.email}</a></td>
+      </tr>
+    </table>
+    <table id="sessions-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Created</th>
+          <th>Expires</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+    <ul id="page-links" class="pagination"></ul>
+  </body>
+  <template id='page-link'>
+    <li><a href="/administrator/sessions?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
+  </template>
+  <template id="session-row">
+    <tr id="${session.sessionid}">
+      <td><a href="session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
+      <td>${session.createdFormatted}</td>
+      <td>${session.expiresFormatted}</td>
+      <td class="pure-button-group">
+        <a class="pure-button" href="/administrator/account?accountid=${session.accountid}">Account</a>
+      </td>
+    </tr>
+  </template>
+</html>

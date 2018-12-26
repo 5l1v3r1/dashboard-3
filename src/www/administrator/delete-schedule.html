@@ -1,0 +1,44 @@
+<!doctype html>
+<html navbar="/administrator/navbar.html">
+  <head>
+    <title>Delete schedule</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Delete schedule</h1>
+    <p>These accounts are waiting to be deleted.</p>
+    <div id="message-container"></div>
+    <table id="accounts-table" class="pure-table object-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Created</th>
+          <th>Last signed in</th>
+          <th>Delete date</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+    <ul id="page-links" class="pagination"></ul>
+  </body>
+  <template id='page-link'>
+    <li><a href="/administrator/delete-schedule?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
+  </template>
+  <template id="account-row">
+    <tr id="${account.accountid}">
+      <td><a href="/administrator/account?accountid=${account.accountid}">Account</a></td>
+      <td>${account.firstName} ${account.lastName}</td>
+      <td><a href="mailto:${account.email}">${account.email}</a></td>
+      <td>${account.createdFormatted}</td>
+      <td>${account.lastSignedIn}</td>
+      <td>${account.delete}</td>
+      <td class="pure-button-group">
+        <a class="pure-button" href="/administrator/delete-account?accountid=${account.accountid}">Delete</a>
+      </td>
+    </tr>
+  </template>
+</html>

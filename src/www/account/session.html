@@ -1,0 +1,37 @@
+<!doctype html>
+<html navbar="/account/navbar-session.html">
+  <head>
+    <title>View ${session.sessionid}</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>View ${session.sessionid}</h1>
+    <div id="message-container"></div>
+    <table id="sessions-table" class="pure-table data-table">
+      <tbody id="${session.sessionid}">
+        <tr>
+          <th>ID</th>
+          <td>${session.sessionid}</td>
+        </tr>
+        <tr>
+          <th>Created</th>
+          <td>${session.createdFormatted}</td>
+        </tr>
+        <tr>
+          <th>Expires</th>
+          <td>${session.expiresFormatted}</td>
+        </tr>
+        <tr>
+          <th>IP address</th>
+          <td>${session.ip}</td>
+        </tr>
+        <tr>
+          <th>User agent</th>
+          <td>${session.userAgent}
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+html, body { padding: 0; margin: 0; font-family: sans-serif; color: #333; min-width: 320px }
+body { line-height: 100%; background-color: #FFF }
+ul, li { list-style-type: none; padding: 0; margin: 0 }
+a { text-decoration: none }
+input,
+select,
+textarea,
+a,
+button,
+div { outline: 0 }
+
+/* wrapper for sizing the dashboard and application screen division */
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column
+}
+
+.application { 
+  border: 0;
+  flex: 1
+}
+
+/* notifications messages like session unlocked, impersonating */
+.notifications { background-color: #000; flex-direction: row; width: 100%; }
+.notifications div { background-color: #07C; width: 100%; padding: 0.5rem; margin: 0; font-size: 0.8rem; color: rgba(255, 255, 255, 0.75); flex-direction: column }
+.notifications div:nth-child(2n-1) { opacity: 0.8 } 
+.notifications a { text-decoration: underline; color: #FFF }
+
+/* header */
+.header { display: flex; justify-content: space-between; flex-direction: row; flex-wrap: nowrap; align-content: stretch; height: 4rem;  }
+.header .heading { flex-direction: row; align-self: flex-start; font-size: 1.2rem; letter-spacing: 0; margin: 0; padding: 0 0 0 1.5rem; color: inherit; font-weight: normal; line-height: 4rem }
+.header .heading a { color: inherit; opacity: 0.8 }
+.menus { flex-direction: row; align-self: flex-end; line-height: 4rem; margin-right: 1rem }
+.menu { display: inline-block; position: relative; margin: 0 0 0 1rem; padding: 0 0 0 1rem; cursor: pointer; 
+  font-size: 0.8rem; color: inherit; font-size: 0.8rem; color: #666 }
+.menu:hover menu,
+.menu:hover ol { display: block }
+.menu menu,
+.menu ol { position: absolute; padding: 0; margin: 0; border-radius: 0.5rem; background-color: #FFF; 
+  list-style-type: none; min-width: 15rem; text-align: right; z-index: 1; top: 3.5rem; right: 0.5rem;
+  filter: drop-shadow(0 0 1rem rgba(33, 66, 99, 0.75)); display: none }
+.menu menu li { margin: 0; height: auto; line-height: 2rem } 
+.menu menu li:first-child a:hover:after { border-bottom-color: #FFF }
+.menu menu li:first-child a { border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; border-top-color: transparent }
+.menu menu li:last-child a { border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem; border-bottom-color: transparent }
+.menu menu li:first-child a:after, 
+.menu menu li:first-child a:before { border: 0.5rem solid transparent; content: " "; position: absolute; pointer-events: none; bottom: 100%; right: 1rem }
+.menu menu li:first-child a:after { border-bottom-color: #FFF }
+.menu menu li:first-child a:before { margin-left: -2rem; border-bottom-color: #FFF }
+.menu menu a,
+.menu menu a:visited { font-size: 1rem; color: #369; display: block; padding: 0.75rem; background-color: #FFF; text-decoration: none }
+.menu menu a:hover { color: #07C; background-color: #FFF }
+.menu menu a:focus { background-color: #EEE; color: #000 }
+.menu menu a.current-page { color: #999 }
+
+/* navigation bar */
+.navigation { height: 3rem; line-height: 3rem; padding: 0; margin: 0; background-color:#EEE; color: #666; width: 100%; }
+.navigation ul, .navigation li, .navigation a { color: inherit }
+.navigation ul { margin: 0 0 0 1rem }
+.navigation ul,
+.navigation li,
+.navigation span,
+.navigation a { margin: 0 0 0 1rem; height: 3rem; line-height: 3rem; padding: 0 0.25rem; opacity: 0.8; font-size: 0.9rem }
+.navigation span { padding: 0; opacity: 0.6; }
+.navigation li,
+.navigation a,
+.navigation span { display: inline-block }
+.navigation a:hover,
+.navigation a:focus { opacity: 1 }

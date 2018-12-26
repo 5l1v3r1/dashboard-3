@@ -1,0 +1,49 @@
+<!doctype html>
+<html navbar="/account/navbar.html">
+  <head>
+    <title>Sessions</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Sessions</h1>
+    <p>Each time you sign in a new session is created.</p>
+    <ul id="important-items-list" class="important-items"></ul>
+    <div id="message-container"></div>
+    <div id="no-sessions">
+      <p>You do not have any sessions yet.</p>
+    </div>
+    <table id="sessions-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Created</th>
+          <th>Expires</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+    <ul id="page-links" class="pagination"></ul>
+  </body>
+  <template id='page-link'>
+    <li><a href="/account/sessions?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
+  </template>
+  <template id="session-row">
+    <tr id="${session.sessionid}">
+      <td><a href="/account/session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
+      <td>${session.createdFormatted}</td>
+      <td>${session.expiresFormatted}</td>
+      <td class="pure-button-group" role="group">
+        <a class="pure-button" href="/account/end-session?sessionid=${session.sessionid}">End session</a>
+      </td>
+    </tr>
+  </template>
+  <template id="important-item">
+    <li>
+      ${important.date}
+      <span id="last-reset-${important.itemid}">Last reset</span>
+      <span id="last-signin-${important.itemid}">Last sign in</span>
+    </li>
+  </template>
+</html>

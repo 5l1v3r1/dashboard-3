@@ -1,0 +1,44 @@
+<!doctype html>
+<html navbar="/account/navbar-profile.html">
+  <head>
+    <title>View ${profile.profileid}</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>View ${profile.profileid}</h1>
+    <table id="profiles-table" class="pure-table data-table">
+      <tbody id="${profile.profileid}">
+        <tr>
+          <th>ID</th>
+          <td>${profile.profileid}</td>
+        </tr>
+        <tr>
+          <th>Created</th>
+          <td>${profile.createdFormatted}</td>
+        </tr>
+        <tr>
+          <th>First name</th>
+          <td>${profile.firstName}</td>
+        </tr>
+        <tr>
+          <th>Last name</th>
+          <td>${profile.lastName}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td><a href="mailto:${profile.email}">${profile.email}</a></td>
+        </tr>
+        <tr>
+          <th>IP address</th>
+          <td>${profile.ip}</td>
+        </tr>
+        <tr>
+          <th>User agent</th>
+          <td>${profile.userAgent}</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

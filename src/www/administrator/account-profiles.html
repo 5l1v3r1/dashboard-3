@@ -1,0 +1,55 @@
+<!doctype html>
+<html navbar="/administrator/navbar-account.html">
+  <head>
+    <title>Profiles belonging to ${account.accountid}</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Profiles belonging to ${account.accountid}</h1>
+    <div id="no-profiles">
+      <p>This account does not have any profiles yet.</p>
+    </div>
+    <table id="accounts-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tr id="${account.accountid}">
+        <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td><a href="mailto:${account.email}">${account.email}</a></td>
+      </tr>
+    </table>
+    <table id="profiles-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Created</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Email</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+    <ul id="page-links" class="pagination"></ul>
+  </body>
+  <template id='page-link'>
+    <li><a href="/administrator/profiles?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
+  </template>
+  <template id="profile-row">
+    <tr id="${profile.profileid}">
+      <td><a href="profile?profileid=${profile.profileid}">${profile.profileid}</a></td>
+      <td>${profile.createdFormatted}</td>
+      <td>${profile.firstName}</td>
+      <td>${profile.lastName}</td>
+      <td><a href="mailto:${profile.email}">${profile.email}</a></td>
+      <td></td>
+    </tr>
+  </template>
+</html>

@@ -1,0 +1,372 @@
+const fs = require('fs')
+const Hash = require('./hash.js')
+const HTML = require('./html.js')
+const http = require('http')
+const Proxy = require('./proxy.js')
+const qs = require('querystring')
+const Response = require('./response.js')
+const StorageObject = require('./storage-object.js')
+const Timestamp = require('./timestamp.js')
+const url = require('url')
+const util = require('util')
+
+const parsePostData = util.promisify((req, callback) => {
+  if (req.headers['content-type'] && req.headers['content-type'].startsWith('multipart/form-data')) {
+    return callback()
+  }
+  if (!req.headers['content-length']) {
+    return callback()
+  }
+  let body = ''
+  req.on('data', (data) => {
+    body += data
+  })
+  return req.on('end', () => {
+    if (!body) {
+      return callback()
+    }
+    return callback(null, body)
+  })
+})
+
+let server
+const fileCache = {}
+const hashCache = {}
+const hashCacheItems = []
+
+module.exports = {
+  authenticateRequest,
+  parsePostData,
+  receiveRequest,
+  start,
+  stop,
+  staticFile
+}
+
+function start () {
+  server = http.createServer(receiveRequest)
+  server.listen(global.port, global.host)
+  return server
+}
+
+function stop () {
+  return server.close()
+}
+
+async function receiveRequest (req, res) {
+  if (process.env.DEBUG_ERRORS) {
+    console.log('server.receive', req.url)
+  }
+  const question = req.url.indexOf('?')
+  req.state = 'received'
+  req.appid = global.appid
+  req.urlPath = question === -1 ? req.url : req.url.substring(0, question)
+  const dot = req.urlPath.lastIndexOf('.')
+  req.route = global.sitemap[`${req.urlPath}/index`] || global.sitemap[req.urlPath]
+  req.extension = dot > -1 ? req.urlPath.substring(dot + 1) : null
+  if (question !== -1) {
+    req.query = url.parse(req.url, true).query
+  }
+  if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
+    req.bodyRaw = await parsePostData(req)
+    if (req.bodyRaw) {
+      req.body = qs.parse(req.bodyRaw)
+    }
+  }
+  // disallow public API access unless it's explicitly enabled
+  // or the application server making the request
+  if (global.applicationServer && global.applicationServer === req.headers['x-application-server']) {
+    const token = req.headers['x-dashboard-token']
+    let expectedText
+    if (req.headers['x-accountid']) {
+      const accountid = req.headers['x-accountid']
+      const sessionid = req.headers['x-sessionid']
+      expectedText = `${global.applicationServerToken}/${accountid}/${sessionid}`
+    } else {
+      expectedText = global.applicationServerToken
+    }
+    if (hashCache[expectedText]) {
+      req.applicationServer = hashCache[expectedText] === token
+    } else {
+      req.applicationServer = Hash.randomSaltCompare(expectedText, token)
+      hashCache[expectedText] = token
+      hashCacheItems.unshift(expectedText)
+      if (hashCacheItems.length > 100000) {
+        hashCacheItems.pop()
+      }
+    }
+  }
+  if (!req.applicationServer && req.headers['x-application-server']) {
+    return Response.throw500(req, res)
+  }
+  if (req.url.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer) {
+    return Response.throw404(req, res)
+  }
+  // public static files are served without authentication
+  if (req.url.startsWith('/public/')) {
+    if (req.method === 'GET') {
+      return staticFile(req, res)
+    } else {
+      return Response.throw404(req, res)
+    }
+  }
+  try {
+    await executeHandlers(req, res, 'before', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
+  } catch (error) {
+    if (process.env.DEBUG_ERRORS) {
+      console.log('server.before', error)
+    }
+    if (error.message === 'invalid-route') {
+      return Response.throw404(req, res)
+    }
+    return Response.throw500(req, res)
+  }
+  if (res.ended) {
+    return
+  }
+  req.state = 'before-complete'
+  // routes with APIs must support the method being requested
+  if (req.route && req.route.api !== 'static-page') {
+    const methodHandler = req.route.api[req.method.toLowerCase()]
+    if (!methodHandler) {
+      return Response.throw404(req, res)
+    }
+  }
+  let user
+  // the application server specifies the account holder
+  if (req.applicationServer) {
+    if (req.headers['x-accountid']) {
+      const accountReq = { query: { accountid: req.headers['x-accountid'] }, appid: req.appid }
+      const account = await global.api.administrator.Account._get(accountReq)
+      const sessionReq = { query: { sessionid: req.headers['x-sessionid'] }, appid: req.appid }
+      const session = await global.api.administrator.Session._get(sessionReq)
+      user = { account, session }
+    }
+    // otherwise use cookie-based authentiation
+  } else {
+    try {
+      user = await authenticateRequest(req)
+      if (process.env.DEBUG_ERRORS) {
+        if (user) {
+          if (user.account.administrator) {
+            if (user.account.ownerid) {
+              console.log('server.authenticate (owner)', user.account.accountid, user.session.sessionid, 'impersonating?', user.session.impersonate)
+            } else {
+              console.log('server.authenticate (administrator)', user.account.accountid, user.session.sessionid, 'impersonating?', user.session.impersonate)
+            }
+          } else {
+            console.log('server.authenticate', user.account.accountid, user.session.sessionid)
+          }
+        } else {
+          console.log('server.authenticate', 'guest')
+        }
+      }
+    } catch (error) {
+      if (process.env.DEBUG_ERRORS) {
+        console.log('server.authenticate', error)
+      }
+    }
+  }
+  if (user) {
+    req.session = user.session
+    req.account = user.account
+    // clearing old sessions
+    if (req.session) {
+      if (user.session.unlocked > 1 && user.session.unlocked < Timestamp.now) {
+        await StorageObject.removeProperties(`${req.appid}/${user.session.sessionid}`, ['lockStarted', 'lockData', 'lockURL', 'lock', 'unlocked'])
+        const sessionReq = { query: { sessionid: user.session.sessionid }, appid: req.appid }
+        req.session = await global.api.administrator.Session._get(sessionReq)
+      }
+      // restoring locked session data
+      if (req.url === req.session.lockURL && req.session.unlocked && req.session.lockData) {
+        req.body = JSON.parse(req.session.lockData)
+        await StorageObject.removeProperty(`${req.appid}/${req.session.sessionid}`, 'lockData')
+        const sessionReq = { query: { sessionid: user.session.sessionid }, appid: req.appid }
+        req.session = await global.api.administrator.Session._get(sessionReq)
+      }
+      // restricting locked session URLs
+      if (req.session.lock && !req.session.unlocked) {
+        if (req.urlPath.startsWith('/api/')) {
+          if (req.urlPath !== '/api/user/set-session-unlocked' &&
+              req.urlPath !== '/api/user/set-session-ended') {
+            res.statusCode = 511
+            res.setHeader('content-type', 'application/json')
+            return res.end(`{ "object": "lock", "message": "Authorization required" }`)
+          }
+        } else if (req.urlPath !== '/account/authorize' && req.urlPath !== '/account/signout') {
+          return Response.redirect(req, res, '/account/authorize')
+        }
+      }
+    }
+    // administrators
+    if (user.account.administrator) {
+      if (user.session.impersonate) {
+        if (req.urlPath.startsWith('/administrator/') && req.urlPath !== '/administrator/end-impersonation') {
+          return Response.throw500(req, res)
+        }
+        if (req.urlPath.startsWith('/api/administrator/') && req.urlPath !== '/api/administrator/reset-session-impersonate') {
+          res.statusCode = 511
+          res.setHeader('content-type', 'application/json')
+          return res.end(`{ "object": "error", "message": "invalid-account" }`)
+        }
+        const sessionReq = { query: { sessionid: user.session.impersonate }, appid: req.appid }
+        req.session = await global.api.administrator.Session._get(sessionReq)
+        const accountReq = { query: { accountid: req.session.accountid }, appid: req.appid }
+        req.account = await global.api.administrator.Account._get(accountReq)
+      }
+    }
+  }
+  // require signing in to continue
+  if (!req.account && req.route && req.route.auth !== false) {
+    if (req.urlPath.startsWith('/api/')) {
+      res.statusCode = 511
+      res.setHeader('content-type', 'application/json')
+      return res.end(`{ "object": "auth", "message": "Sign in required" }`)
+    }
+    return Response.redirectToSignIn(req, res)
+  }
+  // require administrators and they must not be impersonating accounts
+  if (req.urlPath.startsWith('/administrator') || req.urlPath.startsWith('/api/administrator/')) {
+    if (!req.account.administrator &&
+        req.urlPath !== '/administrator/end-impersonation' &&
+        req.urlPath !== '/api/administrator/reset-session-impersonate') {
+      return Response.redirectToSignIn(req, res)
+    }
+  }
+  // the 'after' handlers can see signed in users
+  req.state = 'authenticated'
+  try {
+    await executeHandlers(req, res, 'after', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
+  } catch (error) {
+    if (process.env.DEBUG_ERRORS) {
+      console.log('server.after', error)
+    }
+    if (error.message === 'invalid-route') {
+      return Response.throw404(req, res)
+    }
+    return Response.throw500(req, res)
+  }
+  if (res.ended) {
+    return
+  }
+  req.state = 'after-complete'
+  // if there's no route the request is passed to the application server
+  req.route = global.sitemap[req.urlPath]
+  if (!req.route) {
+    if (global.applicationServer) {
+      return Proxy.pass(req, res)
+    } else {
+      return Response.throw404(req, res)
+    }
+  }
+  // static html pages
+  if (req.route.api === 'static-page') {
+    const doc = HTML.parse(req.route.html)
+    return Response.end(req, res, doc)
+  }
+  // iframe of a URL
+  if (req.route.iframe) {
+    return Response.end(req, res)
+  }
+  // nodejs handler for the route
+  req.state = 'route'
+  if (req.urlPath.startsWith('/api/')) {
+    return req.route.api[req.method.toLowerCase()](req, res)
+  }
+  try {
+    await req.route.api[req.method.toLowerCase()](req, res)
+  } catch (error) {
+    if (process.env.DEBUG_ERRORS) {
+      console.log('server.route', error)
+    }
+    return Response.throw500(req, res)
+  }
+}
+
+async function executeHandlers (req, res, method, handlers) {
+  if (!handlers || !handlers.length) {
+    return
+  }
+  for (const handler of handlers) {
+    if (!handler || !handler[method]) {
+      continue
+    }
+    await handler[method](req, res)
+    if (res.ended) {
+      return
+    }
+  }
+}
+
+async function staticFile (req, res) {
+  // root /public folder
+  let filePath = `${global.rootPath}${req.urlPath}`
+  if (!fs.existsSync(filePath)) {
+    // dashboard /public folder
+    filePath = `${global.applicationPath}/node_modules/@userappstore/dashboard/src/www${req.urlPath}`
+    // module /public folder
+    if (!fs.existsSync(filePath)) {
+      for (const moduleName of global.packageJSON.dashboard.moduleNames) {
+        filePath = `${global.applicationPath}/node_modules/${moduleName}/src/www/${req.urlPath}`
+        if (fs.existsSync(filePath)) {
+          break
+        }
+      }
+    }
+  }
+  if (fs.existsSync(filePath)) {
+    const stat = fs.statSync(filePath)
+    if (stat.isDirectory()) {
+      return Response.throw404(req, res)
+    }
+    fileCache[filePath] = fileCache[filePath] || fs.readFileSync(filePath)
+    return Response.end(req, res, null, fileCache[filePath])
+  }
+  if (global.applicationServer) {
+    return Proxy.pass(req, res)
+  }
+  return Response.throw404(req, res)
+}
+
+async function authenticateRequest (req) {
+  if (!req.headers.cookie || !req.headers.cookie.length) {
+    return
+  }
+  const segments = req.headers.cookie.split(';')
+  const cookie = {}
+  for (const segment of segments) {
+    if (!segment || segment.indexOf('=') === -1) {
+      continue
+    }
+    const parts = segment.split('=')
+    const key = parts.shift().trim()
+    const value = parts.join('=')
+    cookie[key] = decodeURI(value)
+  }
+  if (!cookie) {
+    return
+  }
+  if (!cookie.sessionid || !cookie.token) {
+    throw new Error('invalid-cookie')
+  }
+  const sessionReq = { query: { sessionid: cookie.sessionid }, appid: req.appid }
+  const session = await global.api.administrator.Session._get(sessionReq)
+  if (!session) {
+    throw new Error('invalid-sessionid')
+  }
+  if(session.ended) {
+    throw new Error('invalid-session')
+  }
+  const accountReq = { query: { accountid: session.accountid }, appid: req.appid }
+  const account = await global.api.administrator.Account._get(accountReq)
+  if (!account || account.deleted) {
+    throw new Error('invalid-account')
+  }
+  const sessionToken = await StorageObject.getProperty(`${req.appid}/${session.sessionid}`, 'tokenHash')
+  const sessionKey = await StorageObject.getProperty(`${req.appid}/${account.accountid}`, 'sessionKey')
+  const tokenHash = Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${global.dashboardSessionKey}`)
+  if (sessionToken !== tokenHash) {
+    throw new Error('invalid-cookie')
+  }
+  return { session, account }
+}

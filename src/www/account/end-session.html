@@ -1,0 +1,39 @@
+<!doctype html>
+<html navbar="/account/navbar-session.html">
+  <head>
+    <title>End session ${session.sessionid}</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>End session ${session.sessionid}</h1>
+    <p>This session will be ended immediately.</p>
+    <div id="message-container"></div>
+    <table id="sessions-table" class="pure-table object-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Created</th>
+          <th>Expires</th>
+        </tr>
+      </thead>
+      <tr id="${session.sessionid}">
+        <td>${session.sessionid}</td>
+        <td>${session.createdFormatted}</td>
+        <td>${session.expiresFormatted}</td>
+      </tr>
+    </table>
+    <form id="submit-form" method="POST" class="pure-form">
+      <fieldset>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary">End session</button>
+      </fieldset>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message">Success! The session has been ended.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message">Error! An unknown error occurred.</div>
+  </template>
+</html>

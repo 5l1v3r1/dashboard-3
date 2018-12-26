@@ -1,0 +1,166 @@
+const assert = require('assert')
+const http = require('http')
+const Server = require('./server.js')
+const Timestamp = require('./timestamp.js')
+const TestHelper = require('../test-helper.js')
+
+/* eslint-env mocha */
+describe('internal-api/server', () => {
+  describe('Server#authenticateRequest()', () => {
+    it('should reject missing token', async () => {
+      const req = TestHelper.createRequest(`/account/change-username`)
+      req.headers = {}
+      let result
+      try {
+        await Server.authenticateRequest(req)
+      } catch (error) {
+      }
+      assert.strictEqual(result, undefined)
+    })
+
+    it('should reject invalid token', async () => {
+      const req = TestHelper.createRequest('/account/change-username')
+      req.headers = {
+        cookie: `sessionid=invalid; token=invalid`
+      }
+      req.cookie = {
+        sessionid: 'invalid',
+        token: 'invalid'
+      }
+      let errorMessage
+      try {
+        await Server.authenticateRequest(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-sessionid')
+    })
+
+    it('should identify user from token', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/change-username`)
+      req.method = 'GET'
+      const expires = Timestamp.date(user.session.expires).toUTCString()
+      req.headers = {
+        cookie: `sessionid=${user.session.sessionid}; token=${user.session.token}; expires=${expires}; path=/`
+      }
+      const result = await Server.authenticateRequest(req)
+      assert.strictEqual(result.account.accountid, user.account.accountid)
+    })
+  })
+
+  describe('Server#parsePostData()', () => {
+    it('should ignore file uploads', async () => {
+      const req = TestHelper.createRequest(`/account/change-username`)
+      req.headers = {
+        'content-type': 'multipart/form-data',
+        'content-length': '1234'
+      }
+      const bodyRaw = await Server.parsePostData(req)
+      assert.strictEqual(bodyRaw, undefined)
+    })
+
+    it('should ignore no-content uploads', async () => {
+      const requestOptions = {
+        host: 'localhost',
+        path: '/account/signin',
+        port: process.env.PORT,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'content-length': 0
+        }
+      }
+      const proxyRequest = http.request(requestOptions, (proxyResponse) => {
+        let body = ''
+        proxyResponse.on('data', (chunk) => {
+          body += chunk
+        })
+        return proxyResponse.on('end', () => {
+          const doc = TestHelper.extractDoc(body)
+          const username = doc.getElementById('username')
+          assert.strictEqual(username.attr.value, undefined)
+        })
+      })
+      return proxyRequest.end()
+    })
+
+    it('should parse post data', async () => {
+      const postData = 'username=invalid&password=nope'
+      const requestOptions = {
+        host: 'localhost',
+        path: '/account/signin',
+        port: process.env.PORT,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'content-length': postData.length
+        }
+      }
+      const proxyRequest = http.request(requestOptions, (proxyResponse) => {
+        let body = ''
+        proxyResponse.on('data', (chunk) => {
+          body += chunk
+        })
+        return proxyResponse.on('end', () => {
+          const doc = TestHelper.extractDoc(body)
+          const username = doc.getElementById('username')
+          assert.strictEqual(username.attr.value, 'invalid')
+        })
+      })
+      proxyRequest.write(postData)
+      return proxyRequest.end()
+    })
+  })
+
+  describe('Server#receiveRequest()', () => {
+    it('should bind query data of URL to req', async () => {
+      const req = TestHelper.createRequest(`/account/change-username?param1=1&param2=this`)
+      req.headers = {}
+      req.method = 'GET'
+      const res = {
+        setHeader: () => {
+        },
+        end: () => {
+          assert.strictEqual(req.query.param1, '1')
+          assert.strictEqual(req.query.param2, 'this')
+        }
+      }
+      return Server.receiveRequest(req, res)
+    })
+
+    it('should not bind route for unknown url', async () => {
+      const req = TestHelper.createRequest(`/not-real`)
+      req.method = 'GET'
+      delete (req.route)
+      req.headers = {
+        'user-agent': 'test'
+      }
+      const res = {
+        setHeader: () => {
+        },
+        end: () => {
+          assert.strictEqual(req.route, undefined)
+        }
+      }
+      return Server.receiveRequest(req, res)
+    })
+
+    it('should bind route to req', async () => {
+      const req = TestHelper.createRequest(`/account/change-username?param1=1&param2=this`)
+      req.method = 'GET'
+      delete (req.route)
+      req.headers = {
+        'user-agent': 'test'
+      }
+      const res = {
+        setHeader: () => {
+        },
+        end: () => {
+          assert.strictEqual(req.route.api, global.sitemap['/account/change-username'].api)
+        }
+      }
+      return Server.receiveRequest(req, res)
+    })
+  })
+})

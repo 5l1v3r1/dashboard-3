@@ -1,0 +1,61 @@
+/* eslint-env mocha */
+const assert = require('assert')
+const dashboard = require('../../../../index.js')
+const TestHelper = require('../../../../test-helper.js')
+
+/* eslint-env mocha */
+describe(`/api/user/set-session-ended`, () => {
+  describe('SetSessionEnded#BEFORE', () => {
+    it('should reject invalid sessionid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/api/user/set-session-ended?sessionid=invalid')
+      req.account = user.account
+      req.session = user.session
+      let errorMessage
+      try {
+        await req.route.api.before(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-sessionid')
+    })
+
+    it('should reject ended session', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/set-session-ended?sessionid=${user.session.sessionid}`)
+      req.account = user.account
+      req.session = user.session
+      await req.patch()
+      let errorMessage
+      try {
+        await req.route.api.before(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-session')
+    })
+  })
+
+  describe('SetSessionEnded#PATCH', () => {
+    it('should accept locked session', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.lockSession(user)
+      const req = TestHelper.createRequest(`/api/user/set-session-ended?sessionid=${user.session.sessionid}`)
+      req.account = user.account
+      req.session = user.session
+      const sessionNow = await req.patch()
+      assert.notStrictEqual(sessionNow.ended, undefined)
+      assert.notStrictEqual(sessionNow.ended, null)
+    })
+
+    it('should end the session', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/set-session-ended?sessionid=${user.session.sessionid}`)
+      req.account = user.account
+      req.session = user.session
+      const sessionNow = await req.patch()
+      assert.notStrictEqual(sessionNow.ended, undefined)
+      assert.notStrictEqual(sessionNow.ended, null)
+    })
+  })
+})

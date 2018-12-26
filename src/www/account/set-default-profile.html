@@ -1,0 +1,47 @@
+<!doctype html>
+<html navbar="/account/navbar-profile.html">
+  <head>
+    <title>Set default profile</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Set default profile</h1>
+    <p>Your default profile serves as the primary point of contact for your account.</p>
+    <table id="profiles-table" class="pure-table object-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tr id="${profile.profileid}">
+        <td>${profile.profileid}</td>
+        <td>${profile.createdFormatted}</td>
+      </tr>
+    </table>
+    <div id="message-container"></div>
+    <form id="submit-form" method="POST" class="pure-form">
+      <fieldset>
+        <select id="profileid" name="profileid">
+          <option value="">Select profile</option>
+        </select>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary">Set default profile</button>
+      </fieldset>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message">Success! The profile is now your default.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message">Error! An unknown error occurred.</div>
+  </template>
+  <template id="default-profile">
+    <div class="error message">Error! This is already your default profile.</div>
+  </template>
+  <template id="profile-option">
+    <option value="${profile.profileid}">${profile.email}, ${profile.firstName} ${profile.lastName}</option>
+  </template>
+</html>

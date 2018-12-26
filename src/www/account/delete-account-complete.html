@@ -1,0 +1,18 @@
+<!doctype html>
+<html auth="false" template="false">
+  <head>
+    <title>Delete account complete</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body class="entry-form">
+    <div id="message-container"></div>
+  </body>
+  <template id="instant-delete">
+    <div id="instant-delete" class="success message">Your account has been irreversibly deleted.</div>
+  </template>
+  <template id="scheduled-delete">
+    <div id="scheduled-delete" class="success message">Your account will be deleted in ${data.numDays} days unless you cancel before then.</div>
+  </template>
+</html>

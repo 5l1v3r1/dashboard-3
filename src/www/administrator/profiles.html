@@ -1,0 +1,42 @@
+<!doctype html>
+<html navbar="/administrator/navbar.html">
+  <head>
+    <title>Profiles</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Profiles</h1>
+    <p>The profiles are created by users for administrative purposes.</p>
+    <div id="no-profiles">
+      <p>There are no profiles yet.</p>
+    </div>
+    <table id="profiles-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Created</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Email</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+    <ul id="page-links" class="pagination"></ul>
+  </body>
+  <template id='page-link'>
+    <li><a href="/administrator/profiles?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
+  </template>
+  <template id="profile-row">
+    <tr id="${profile.profileid}">
+      <td><a href="profile?profileid=${profile.profileid}">${profile.profileid}</a></td>
+      <td>${profile.createdFormatted}</td>
+      <td>${profile.firstName}</td>
+      <td>${profile.lastName}</td>
+      <td><a href="mailto:${profile.email}">${profile.email}</a></td>
+      <td></td>
+    </tr>
+  </template>
+</html>

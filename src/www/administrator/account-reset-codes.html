@@ -1,0 +1,51 @@
+<!doctype html>
+<html navbar="/administrator/navbar-account.html">
+  <head>
+    <title>Reset codes belonging to ${account.accountid}</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Reset codes belonging to ${account.accountid}</h1>
+    <div id="message-container"></div>
+    <div id="no-reset-codes">
+      <p>This account does not have any reset codes yet.</p>
+    </div>
+    <table id="accounts-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tr id="${account.accountid}">
+        <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td><a href="mailto:${account.email}">${account.email}</a></td>
+      </tr>
+    </table>
+    <table id="reset-codes-table" class="pure-table pure-table-striped list-table">
+      <tr>
+        <thead>
+          <th>ID</th>
+          <th>Created</th>
+          <th></th>
+        </thead>
+      </tr>
+    </table>
+    <ul id="page-links" class="pagination"></ul>
+  </body>
+  <template id='page-link'>
+    <li><a href="/administrator/reset-codes?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
+  </template>
+  <template id="reset-code-row">
+    <tr id="${resetCode.codeid}">
+      <td>${resetCode.codeid}</td>
+      <td>${resetCode.createdFormatted}</td>
+      <td>
+      </td>
+    </tr>
+  </template>
+</html>

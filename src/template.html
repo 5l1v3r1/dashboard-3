@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link href="/public/dashboard.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="dashboard">
+        <section id="notifications-container" class="notifications"></section>
+        <header id="header" class="header">
+          <h1 id="heading" class="heading"></h1>
+          <section class="menus">
+            <div id="administrator-menu-container" class="menu">
+              Administrator
+              <menu id="administrator-menu"></menu>
+            </div>
+            <div id="account-menu-container" class="menu">
+              Account
+              <menu id="account-menu"></menu>
+            </div>
+          </section>
+        </header>
+        <section id="navigation" class="navigation">
+          <nav id="nav-links"></nav>
+        </section>
+      </div>
+      <iframe id="application-iframe" class="application" sandbox="allow-top-navigation allow-scripts allow-forms allow-same-origin allow-popups" />
+    </div>
+  </body>
+  <template id="heading-link">
+    <a href="${link.href}">${link.text}</a>
+  </template>
+  <template id="menu-link">
+    <li><a href="${link.href}">${link.text}</a></li>
+  </template>
+  <template id="session-impersonate">
+    <div class="notification">
+      You are impersonating ${session.accountid}, to access your own account  
+      <a class="pure-button" href="/administrator/end-impersonation?${session.sessionid}">end impersonation</a>.
+    </div>
+  </template>
+  <template id="session-unlocked">
+      <div class="notification">
+      Your session is unlocked, this will expire automatically or you may
+      <a class="pure-button" href="/account/lock-session">lock your session</a>.
+    </div>
+  </template>
+</html>
