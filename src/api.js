@@ -67,7 +67,7 @@ function wrapAPIRequest (nodejsHandler, filePath) {
           res.setHeader('content-type', 'application/json')
           return res.end(`{ "object": "auth", "message": "Sign in required" }`)
         }
-        return { "object": "auth", "message": 'Sign in required' }
+        return { 'object': 'auth', 'message': 'Sign in required' }
       }
       if (nodejsHandler.before) {
         try {
@@ -133,7 +133,7 @@ function wrapAPIRequest (nodejsHandler, filePath) {
         if (res) {
           res.statusCode = 500
           res.setHeader('content-type', 'application/json')
-          return res.end(`{ "object": "error", "message": "${error.message || "An error ocurred"}" }`)
+          return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
         }
         throw error
       }
