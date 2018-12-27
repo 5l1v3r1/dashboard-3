@@ -56,7 +56,7 @@ function pass(req, res) {
     proxyRes.on('end', () => {
       switch (proxyRes.statusCode) {
         case 200:
-          if (proxyRes.headers['content-type'].indexOf('text/html') > 1) {
+          if (proxyRes.headers['content-type'] && proxyRes.headers['content-type'].indexOf('text/html') === 0) {
             body = body.toString('utf-8')
             if (body.indexOf('<html') > -1) {
               let doc
