@@ -34,7 +34,7 @@ This is free and unencumbered software released into the public domain.  The MIT
 
 ## Installation
 
-You must install [Redis](https://redis.io) and [NodeJS](https://nodejs.org) 8.1.4+ prior to these steps.
+You must install [NodeJS](https://nodejs.org) 8.12.0+ prior to these steps.
 
 ### Dashboard server
 
@@ -52,18 +52,16 @@ The first account to register will be the owner and an administrator.
 
 ### Application server
 
-The APPLICATION_SERVER_TOKEN is used to verify API requests to the Dashboard server came from your application server and vice-versa:
+The APPLICATION_SERVER_TOKEN is used to verify requests between the Dashboard and Application servers:
 
-    if (req.headers['x-dashboard-server'] === 'http://my-dashboard')
+    if (req.headers['x-dashboard-server'] === DASHBOARD_SERVER)
       if (req.headers['x-accountid']) {
         const accountid = req.headers['x-accountid']
         const sessionid = req.headers['x-sessionid']
-        if (!bcrypt.compareSync(`abcdef:${accountid'}/${sessionid}`, req.headers['x-dashboard-token'])) {
+        if (!bcrypt.compareSync(`${APPLICATION_SERVER_TOKEN}/${accountid'}/${sessionid}`, req.headers['x-dashboard-token'])) {
           res.statusCode = 404
           return res.end()
         }
-      } else {
-        // anonymous request
       }
     }
 
@@ -109,6 +107,10 @@ If your application is hosted somewhere Dashboard will proxy your server and ser
 
 When your application server receives a request information is included in the headers to identify the user and session.  Your application server can access Dashboard's private APIs on behalf of that user.
 
+## Dashboard storage
+
+You can use Dashboard with your local file system, ideal for development and applications with a small number of users such as family or small teams.  Alternative storage engines include [Amazon S3](https://github.com/userappstore/storage-s3) (and equivalents), and [Redis](https://github.com/userappstore/storage-redis).  You can code your own alternatives for other databases by mimicking the Storage API's basic operations to read, write and list data.
+
 ## Dashboard modules
 
 Additional APIs, content and functionality can be added by `npm install` and nominating Dashboard modules in your `package.json`.  You can read more about this on the [Dashboard configuration wiki page](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
@@ -128,7 +130,7 @@ Modules can supplement the global.sitemap with additional routes which automatic
 
 ## Privacy
 
-Dashboard accounts requires no personal information from the user and irreversibly encrypts signin usernames so they cannot be used for anything else.  There are no third-party trackers, analytics or other content in Dashboard pages.
+Dashboard accounts can require no personal information from the user and irreversibly encrypts signin usernames so they cannot be used for anything else.  There are no third-party trackers, analytics or other content in Dashboard pages.
 
 ## Security
 
