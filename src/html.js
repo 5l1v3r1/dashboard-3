@@ -313,6 +313,7 @@ function renderPagination (doc, offset, total, pageSize) {
   doc.getElementById(`page-link-${currentPage}`).classList.add('current-page')
 }
 
+const tempPath = process.env.TEMP_PATH || os.tmpdir()
 function createCopy (dataObject, dataObjectName, element) {
   let templates
   if (element.tag === 'html') {
@@ -328,14 +329,14 @@ function createCopy (dataObject, dataObjectName, element) {
   dataObjectName = dataObjectName || 'data'
   const wrapper = 'const ' + dataObjectName + ' = ' + JSON.stringify(dataObject) + ';\n' +
                   'module.exports = `<template>' + docStr + '</template>`'
-  const tempPath = os.tmpdir() + '/' + UUID.random(64)
-  fs.writeFileSync(tempPath, wrapper)
+  const filePath = tempPath + UUID.random(64)
+  fs.writeFileSync(filePath, wrapper)
   let formatted
   try {
-    formatted = require(tempPath)
+    formatted = require(filePath)
   } catch (error) {
   }
-  fs.unlinkSync(tempPath)
+  fs.unlinkSync(filePath)
   if (!formatted) {
     throw new Error('invalid-html')
   }
