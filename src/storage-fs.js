@@ -1,5 +1,4 @@
 const fs = require('fs')
-const path = require('path')
 
 module.exports = {
   exists,
@@ -12,7 +11,7 @@ module.exports = {
 
 let storagePath
 if (!process.env.STORAGE_ENGINE) {
-  storagePath = process.env.STORAGE_PATH || path.join(__dirname, '../data')
+  storagePath = process.env.STORAGE_PATH || `${global.applicationPath}/data`
   if (!fs.existsSync(storagePath)) {
     createFolder(storagePath)
   }
