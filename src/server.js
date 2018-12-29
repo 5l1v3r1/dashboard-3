@@ -99,11 +99,11 @@ async function receiveRequest (req, res) {
   if (!req.applicationServer && req.headers['x-application-server']) {
     return Response.throw500(req, res)
   }
-  if (req.url.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer) {
+  if (req.urlPath.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer) {
     return Response.throw404(req, res)
   }
   // public static files are served without authentication
-  if (req.url.startsWith('/public/')) {
+  if (req.urlPath.startsWith('/public/') || req.urlPath === '/favicon.ico') {
     if (req.method === 'GET') {
       return staticFile(req, res)
     } else {
