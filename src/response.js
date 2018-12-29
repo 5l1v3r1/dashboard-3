@@ -149,11 +149,20 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     }
   }
   // navbar can be set by making <template id="navbar" />
-  // in your own HTML and putting the links you desire in it
+  // in your own HTML and putting the links you desire in it.
+  //
+  // it may have to be parsed as HTML because it is stored as
+  // text, that way it isn't preemptively parsed with broken
+  // string ${} templates in the HTML waiting for
+  // querystring variables in many cases
   const navbarTemplate = doc.getElementById('navbar')
   const navigation = templateDoc.getElementById('navigation')
-  if (navbarTemplate && navbarTemplate.child) {
-    navigation.child = navbarTemplate.child
+  if (navbarTemplate && navbarTemplate.child && navbarTemplate.child.length) {
+    if (navbarTemplate.child[0].node === 'text') {
+      navigation.child = HTML.parse(`<div>` + navbarTemplate.child[0].text + `</div>`).child
+    } else {
+      navigation.child = navbarTemplate.child
+    }
   } else {
     navigation.setAttribute('style', 'display: none')
   }
