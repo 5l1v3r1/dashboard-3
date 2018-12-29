@@ -217,11 +217,11 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   // modifications upon the completed docs
   if (global.packageJSON.dashboard.content.length) {
     for (const contentHandler of global.packageJSON.dashboard.content) {
-      if (contentHandler.template) {
-        await contentHandler.template(req, res, templateDoc)
-      }
       if (contentHandler.page) {
         await contentHandler.page(req, res, doc)
+      }
+      if (contentHandler.template) {
+        await contentHandler.template(req, res, templateDoc)
       }
     }
   }
