@@ -85,30 +85,24 @@ function wrapAPIRequest (nodejsHandler, filePath) {
         }
       }
       if (nodejsHandler.lock) {
+        // lock the session to the API URL
         if (req.session.lockURL !== req.url) {
-          if (!req.session.sessionid || !req.session.sessionid.length) {
-            throw new Error('invalid-sessionid')
-          }
-          if (req.session.lock) {
-            throw new Error('invalid-session')
-          }
+          // remove old lock data
           if (req.session.unlocked > Timestamp.now) {
             await StorageObject.setProperty(`${req.appid}/${req.session.sessionid}`, `lockURL`, req.url)
-            await StorageObject.removeProperty(`${req.appid}/${req.session.sessionid}`, `lockStarted`)
-            await StorageObject.removeProperty(`${req.appid}/${req.session.sessionid}`, `lockData`)
+            await StorageObject.removeProperties(`${req.appid}/${req.session.sessionid}`, [ `lockStarted`, `lockData` ])
           } else {
-            await StorageObject.removeProperty(`${req.appid}/${req.session.sessionid}`, `unlocked`)
-            await StorageObject.setProperty(`${req.appid}/${req.session.sessionid}`, `lock`, Timestamp.now)
-            await StorageObject.setProperty(`${req.appid}/${req.session.sessionid}`, `lockURL`, req.url)
-            await StorageObject.removeProperty(`${req.appid}/${req.session.sessionid}`, `lockStarted`)
-            await StorageObject.removeProperty(`${req.appid}/${req.session.sessionid}`, `lockData`)
+            // remove old unlock data
+            await StorageObject.setProperties(`${req.appid}/${req.session.sessionid}`, { lock: Timestamp.now, lockURL: req.url })
+            await StorageObject.removeProperties(`${req.appid}/${req.session.sessionid}`, [ `unlocked`, `lockStarted`, `lockData` ])
           }
-          const sessionReq = { query: { sessionid: req.session.sessionid }, appid: req.appid, account: req.account }
-          req.session = await global.api.user.Session._get(sessionReq)
-        }
+        } 
         if (!req.session.unlocked) {
-          await StorageObject.setProperty(`${req.appid}/${req.session.sessionid}`, 'lockStarted', Timestamp.now)
-          await StorageObject.setProperty(`${req.appid}/${req.session.sessionid}`, 'lockData', req.body ? JSON.stringify(req.body) : '{}')
+          await StorageObject.setProperties(`${req.appid}/${req.session.sessionid}`, { 
+            lockStarted: Timestamp.now, 
+            lockData: req.body ? JSON.stringify(req.body) : '{}',
+            lockURL: req.url,
+          })
           if (res) {
             res.statusCode = 511
             res.setHeader('content-type', 'application/json')
@@ -116,12 +110,15 @@ function wrapAPIRequest (nodejsHandler, filePath) {
           }
           return { object: 'lock', message: 'Authorization required' }
         }
-        await StorageObject.removeProperties(`${req.appid}/${req.session.sessionid}`, ['lockStarted', 'lockData', 'lockURL', 'lock'])
+        // remove old lock data
+        const staleData = ['lockStarted', 'lockData', 'lockURL', 'lock']
+        // remove old unlock data
         if (req.session.unlocked <= Timestamp.now) {
-          await StorageObject.removeProperty(`${req.appid}/${req.session.sessionid}`, 'unlocked')
-          const sessionReq = { query: { sessionid: req.session.sessionid }, appid: req.appid, account: req.account }
-          req.session = await global.api.user.Session._get(sessionReq)
+          staleData.push('unlocked')
         }
+        await StorageObject.removeProperties(`${req.appid}/${req.session.sessionid}`, staleData)
+        const sessionReq = { query: { sessionid: req.session.sessionid }, appid: req.appid, account: req.account }
+        req.session = await global.api.user.Session._get(sessionReq)
       }
       let result
       try {
