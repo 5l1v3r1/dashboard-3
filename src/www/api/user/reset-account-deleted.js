@@ -21,7 +21,7 @@ module.exports = {
     if (global.minimumPasswordLength > req.body.password.length) {
       throw new Error('invalid-password-length')
     }
-    const usernameHash = dashboard.Hash.fixedSaltHash(req.body.username)
+    const usernameHash = dashboard.Hash.fixedSaltHash(req.body.username, req.alternativeFixedSalt, req.alternativeEncryptionKey)
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
       throw new Error('invalid-username')

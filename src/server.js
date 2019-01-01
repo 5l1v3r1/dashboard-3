@@ -112,7 +112,7 @@ async function receiveRequest (req, res) {
     if (hashCache[expectedText]) {
       req.applicationServer = hashCache[expectedText] === token
     } else {
-      req.applicationServer = Hash.randomSaltCompare(expectedText, token)
+      req.applicationServer = Hash.randomSaltCompare(expectedText, token, req.alternativeEncryptionKey)
       hashCache[expectedText] = token
       hashCacheItems.unshift(expectedText)
       if (hashCacheItems.length > 100000) {
@@ -363,7 +363,7 @@ async function authenticateRequest (req) {
   }
   const sessionToken = await StorageObject.getProperty(`${req.appid}/${session.sessionid}`, 'tokenHash')
   const sessionKey = await StorageObject.getProperty(`${req.appid}/${account.accountid}`, 'sessionKey')
-  const tokenHash = Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${global.dashboardSessionKey}`)
+  const tokenHash = Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${global.dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeEncryptionKey)
   if (sessionToken !== tokenHash) {
     throw new Error('invalid-cookie')
   }

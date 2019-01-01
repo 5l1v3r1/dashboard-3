@@ -25,7 +25,7 @@ module.exports = {
     if (global.minimumResetCodeLength > req.body.code.length) {
       throw new Error('invalid-reset-code-length')
     }
-    const usernameHash = dashboard.Hash.fixedSaltHash(req.body.username)
+    const usernameHash = dashboard.Hash.fixedSaltHash(req.body.username, req.alternativeFixedSalt, req.alternativeEncryptionKey)
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
       throw new Error('invalid-username')
@@ -41,7 +41,7 @@ module.exports = {
     if (account.deleted < dashboard.Timestamp.now) {
       throw new Error('invalid-account')
     }
-    const codeHash = dashboard.Hash.fixedSaltHash(req.body.code)
+    const codeHash = dashboard.Hash.fixedSaltHash(req.body.code, req.alternativeFixedSalt, req.alternativeEncryptionKey)
     const codeid = await dashboard.Storage.read(`${req.appid}/map/account/resetCodes/${account.accountid}/${codeHash}`)
     if (!codeid) {
       throw new Error('invalid-reset-code')
@@ -52,7 +52,7 @@ module.exports = {
     if (!code) {
       throw new Error('invalid-reset-code')
     }
-    const passwordHash = dashboard.Hash.randomSaltHash(req.body.password)
+    const passwordHash = dashboard.Hash.randomSaltHash(req.body.password, req.alternativeWorkloadFactor, req.alternativeEncryptionKey)
     await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`,'passwordHash', passwordHash)
     await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`,'resetCodeLastUsed', dashboard.Timestamp.now)
     await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`, 'sessionKey', dashboard.UUID.random(64))

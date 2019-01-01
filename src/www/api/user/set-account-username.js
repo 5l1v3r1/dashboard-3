@@ -19,7 +19,7 @@ module.exports = {
       global.maximumUsernameLength < req.body.username.length) {
       throw new Error('invalid-username-length')
     }
-    req.body.usernameHash = dashboard.Hash.fixedSaltHash(req.body.username)
+    req.body.usernameHash = dashboard.Hash.fixedSaltHash(req.body.username, req.alternativeFixedSalt, req.alternativeEncryptionKey)
     delete (req.body.username)
   },
   patch: async (req) => {

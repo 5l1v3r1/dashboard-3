@@ -16,7 +16,7 @@ module.exports = {
       global.maximumResetCodeLength < req.body.code.length) {
       throw new Error('invalid-reset-code-length')
     }
-    req.body.codeHash = dashboard.Hash.fixedSaltHash(req.body.code)
+    req.body.codeHash = dashboard.Hash.fixedSaltHash(req.body.code, req.alternativeFixedSalt, req.alternativeEncryptionKey)
     delete (req.body.code)
   },
   post: async (req) => {

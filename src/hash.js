@@ -7,21 +7,21 @@ module.exports = {
   randomSaltHash
 }
 
-function fixedSaltCompare(text, hash) {
-  return fixedSaltHash(text) === hash
+function fixedSaltCompare(text, hash, alternativeFixedSalt, alternativeEncryptionKey) {
+  return fixedSaltHash(text, alternativeFixedSalt, alternativeEncryptionKey) === hash
 }
 
 const fixedCache = {}
 const fixedCacheItems = []
 
-function fixedSaltHash(text) {
+function fixedSaltHash(text, alternativeFixedSalt, alternativeEncryptionKey) {
   const cached = fixedCache[text]
   if (cached) {
     return cached
   }
-  const finalText = text + (global.applicationEncryptionKey || '')
-  const full = bcrypt.hashSync(finalText, global.bcryptFixedSalt)
-  const hashed = full.substring(global.bcryptFixedSalt.length)
+  const finalText = text + (alternativeEncryptionKey || global.applicationEncryptionKey || '')
+  const full = bcrypt.hashSync(finalText, alternativeFixedSalt || global.bcryptFixedSalt)
+  const hashed = full.substring(alternativeFixedSalt ? alternativeFixedSalt.length : global.bcryptFixedSalt.length)
   const fileSafe = makeFileNameSafe(hashed)
   fixedCache[text] = fileSafe
   fixedCacheItems.unshift(text)
@@ -35,13 +35,13 @@ function fixedSaltHash(text) {
 const randomCache = {}
 const randomCacheItems = []
 
-function randomSaltCompare(text, hash) {
+function randomSaltCompare(text, hash, alternativeEncryptionKey) {
   const cacheKey = `${text}:${hash}`
   const cached = randomCache[cacheKey]
   if (cached === true || cached === false) {
     return cached
   }
-  const match = bcrypt.compareSync(text + (global.applicationEncryptionKey || ''), hash)
+  const match = bcrypt.compareSync(text + (alternativeEncryptionKey || global.applicationEncryptionKey || ''), hash)
   randomCache[cacheKey] = match
   randomCacheItems.unshift(cacheKey)
   if (randomCacheItems.length > 10000) {
@@ -51,9 +51,9 @@ function randomSaltCompare(text, hash) {
   return match
 }
 
-function randomSaltHash(text) {
-  const salt = bcrypt.genSaltSync(global.bcryptWorkloadFactor || 11)
-  return bcrypt.hashSync(text + (global.applicationEncryptionKey || ''), salt)
+function randomSaltHash(text, alternativeWorkloadFactor, alternativeEncryptionKey) {
+  const salt = bcrypt.genSaltSync(alternativeWorkloadFactor || global.bcryptWorkloadFactor || 11)
+  return bcrypt.hashSync(text + (alternativeEncryptionKey || global.applicationEncryptionKey || ''), salt)
 }
 
 function makeFileNameSafe(str) {
