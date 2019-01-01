@@ -63,14 +63,14 @@ module.exports = {
   Format: require('./src/format.js'),
   Hash: require('./src/hash.js'),
   HTML: require('./src/html.js'),
-  Storage: require('./src/storage.js'),
-  StorageList: require('./src/storage-list.js'),
-  StorageObject: require('./src/storage-object.js'),
   Response: require('./src/response.js'),
   Timestamp: require('./src/timestamp.js'),
   UUID: require('./src/uuid.js'),
   start: async (applicationPath) => {
     await module.exports.setup(applicationPath)
+    module.exports.Storage = require('./src/storage.js')
+    module.exports.StorageList = require('./src/storage-list.js')
+    module.exports.StorageObject = require('./src/storage-object.js')
     if (!process.env.SILENT_START) {
       const configuration = outputConfiguration()
       console.log(configuration)

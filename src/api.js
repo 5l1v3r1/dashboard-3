@@ -1,9 +1,10 @@
-const StorageObject = require('./storage-object.js')
+let StorageObject
 const Timestamp = require('./timestamp.js')
 
 module.exports = {
   wrapAPIRequest,
   generate: () => {
+    StorageObject = require('./storage-object.js')
     const api = {}
     for (const url in global.sitemap) {
       if (url.indexOf('/api/') !== 0) {
