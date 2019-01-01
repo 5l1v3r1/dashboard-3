@@ -58,7 +58,6 @@ async function receiveRequest (req, res) {
     console.log('server.receive', req.url)
   }
   const question = req.url.indexOf('?')
-  req.state = 'received'
   req.appid = global.appid
   req.urlPath = question === -1 ? req.url : req.url.substring(0, question)
   const dot = req.urlPath.lastIndexOf('.')
@@ -73,17 +72,41 @@ async function receiveRequest (req, res) {
       req.body = qs.parse(req.bodyRaw)
     }
   }
-  // disallow public API access unless it's explicitly enabled
-  // or the application server making the request
-  if (global.applicationServer && global.applicationServer === req.headers['x-application-server']) {
+  // public static files are served without authentication
+  if (req.urlPath.startsWith('/public/') || req.urlPath === '/favicon.ico') {
+    if (req.method === 'GET') {
+      return staticFile(req, res)
+    } else {
+      return Response.throw404(req, res)
+    }
+  }
+  // before handlers
+  try {
+    await executeHandlers(req, res, 'before', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
+  } catch (error) {
+    if (process.env.DEBUG_ERRORS) {
+      console.log('server.before', error)
+    }
+    if (error.message === 'invalid-route') {
+      return Response.throw404(req, res)
+    }
+    return Response.throw500(req, res)
+  }
+  if (res.ended) {
+    return
+  }
+  // if it is an application server making the request verify the token
+  const applicationServer = global.applicationServer ? req.alternativeApplicationServer || global.applicationServer : null
+  if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
     const token = req.headers['x-dashboard-token']
+    const applicationServerToken = req.alternativeApplicationServerToken || global.applicationServerToken
     let expectedText
     if (req.headers['x-accountid']) {
       const accountid = req.headers['x-accountid']
       const sessionid = req.headers['x-sessionid']
-      expectedText = `${global.applicationServerToken}/${accountid}/${sessionid}`
+      expectedText = `${applicationServerToken}/${accountid}/${sessionid}`
     } else {
-      expectedText = global.applicationServerToken
+      expectedText = applicationServerToken
     }
     if (hashCache[expectedText]) {
       req.applicationServer = hashCache[expectedText] === token
@@ -99,32 +122,10 @@ async function receiveRequest (req, res) {
   if (!req.applicationServer && req.headers['x-application-server']) {
     return Response.throw500(req, res)
   }
+  // public access to the API must be enabled otherwise only the application server can
   if (req.urlPath.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer) {
     return Response.throw404(req, res)
   }
-  // public static files are served without authentication
-  if (req.urlPath.startsWith('/public/') || req.urlPath === '/favicon.ico') {
-    if (req.method === 'GET') {
-      return staticFile(req, res)
-    } else {
-      return Response.throw404(req, res)
-    }
-  }
-  try {
-    await executeHandlers(req, res, 'before', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
-  } catch (error) {
-    if (process.env.DEBUG_ERRORS) {
-      console.log('server.before', error)
-    }
-    if (error.message === 'invalid-route') {
-      return Response.throw404(req, res)
-    }
-    return Response.throw500(req, res)
-  }
-  if (res.ended) {
-    return
-  }
-  req.state = 'before-complete'
   // routes with APIs must support the method being requested
   if (req.route && req.route.api !== 'static-page') {
     const methodHandler = req.route.api[req.method.toLowerCase()]
@@ -234,7 +235,6 @@ async function receiveRequest (req, res) {
     }
   }
   // the 'after' handlers can see signed in users
-  req.state = 'authenticated'
   try {
     await executeHandlers(req, res, 'after', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
   } catch (error) {
@@ -249,7 +249,6 @@ async function receiveRequest (req, res) {
   if (res.ended) {
     return
   }
-  req.state = 'after-complete'
   // if there's no route the request is passed to the application server
   req.route = global.sitemap[req.urlPath]
   if (!req.route) {
@@ -269,7 +268,6 @@ async function receiveRequest (req, res) {
     return Response.end(req, res)
   }
   // nodejs handler for the route
-  req.state = 'route'
   if (req.urlPath.startsWith('/api/')) {
     return req.route.api[req.method.toLowerCase()](req, res)
   }
