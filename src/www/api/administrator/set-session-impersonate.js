@@ -28,7 +28,8 @@ module.exports = {
   patch: async (req) => {
     const sessionid = `session_${await dashboard.UUID.generateID()}`
     const token = dashboard.UUID.random(64)
-    const tokenHash = dashboard.Hash.fixedSaltHash(`${req.data.account.accountid}/${token}/${req.data.account.sessionKey}/${global.dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeEncryptionKey)
+    const dashboardSessionKey = req.alternativeSessionKey || global.sessionKey
+    const tokenHash = dashboard.Hash.fixedSaltHash(`${req.data.account.accountid}/${token}/${req.data.account.sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeEncryptionKey)
     const sessionInfo = {
       object: 'session',
       sessionid: sessionid,

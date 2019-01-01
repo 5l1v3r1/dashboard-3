@@ -363,7 +363,8 @@ async function authenticateRequest (req) {
   }
   const sessionToken = await StorageObject.getProperty(`${req.appid}/${session.sessionid}`, 'tokenHash')
   const sessionKey = await StorageObject.getProperty(`${req.appid}/${account.accountid}`, 'sessionKey')
-  const tokenHash = Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${global.dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeEncryptionKey)
+  const dashboardSessionKey = req.alternativeSessionKey || global.sessionKey
+  const tokenHash = Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeEncryptionKey)
   if (sessionToken !== tokenHash) {
     throw new Error('invalid-cookie')
   }
