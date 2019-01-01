@@ -5,7 +5,7 @@ const http = require('http')
 const Proxy = require('./proxy.js')
 const qs = require('querystring')
 const Response = require('./response.js')
-const StorageObject = require('./storage-object.js')
+let StorageObject
 const Timestamp = require('./timestamp.js')
 const url = require('url')
 const util = require('util')
@@ -44,6 +44,7 @@ module.exports = {
 }
 
 function start () {
+  StorageObject = require('./storage-object.js')
   server = http.createServer(receiveRequest)
   server.listen(global.port, global.host)
   return server
