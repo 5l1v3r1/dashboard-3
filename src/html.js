@@ -329,7 +329,7 @@ function createCopy (dataObject, dataObjectName, element) {
   dataObjectName = dataObjectName || 'data'
   const wrapper = 'const ' + dataObjectName + ' = ' + JSON.stringify(dataObject) + ';\n' +
                   'module.exports = `<template>' + docStr + '</template>`'
-  const filePath = tempPath + UUID.random(64)
+  const filePath = tempPath + '/' + UUID.random(64)
   fs.writeFileSync(filePath, wrapper)
   let formatted
   try {
