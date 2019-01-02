@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt-node')
-const hashed = require('./uuid.js')
+const UUID = require('./uuid.js')
 
 module.exports = {
   fixedSaltCompare,
