@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 
 module.exports = {
+  encode,
   generateID,
   random,
   v4
@@ -24,18 +25,28 @@ function v4 () {
     byteToHex[buffer[i++]] + byteToHex[buffer[i++]] + byteToHex[buffer[i++]] + byteToHex[buffer[i++]] + byteToHex[buffer[i++]] + byteToHex[buffer[i++]]
 }
 
-// via https://github.com/klughammer/node-randomstring/blob/master/lib/charset.js
 function random (length) {
   if (!length) {
     return null
   }
-  let string = ''
+  let str = ''
   const buffer = crypto.randomBytes(length)
   for (const byte of buffer) {
-    const characterPosition = byte % global.uuidEncodingCharacters.length
-    string += global.uuidEncodingCharacters.charAt(characterPosition)
+    str += byteToHex[byte]
   }
-  return string
+  return str
+}
+
+function encode (string) { 
+  if (!string || !string.length) {
+    return null
+  }
+  let str = ''
+  const buffer = Buffer.from(string)
+  for (const byte of buffer) {
+    str += byteToHex[byte]
+  }
+  return str
 }
 
 // via https://coligo.io/create-url-shortener-with-node-express-mongo/

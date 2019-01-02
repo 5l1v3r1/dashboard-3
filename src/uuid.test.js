@@ -7,15 +7,6 @@ describe('internal-api/uuid', () => {
     it('should reject null length', async () => {
       assert.strictEqual(UUID.random(), null)
     })
-
-    it('should use provided characters', async () => {
-      const characters = global.uuidEncodingCharacters = 'abcdef123456'
-      const random = UUID.random(100)
-      assert.strictEqual(100, random.length)
-      for (const char of random) {
-        assert.strictEqual(characters.indexOf(char) > -1, true)
-      }
-    })
   })
 
   describe('#v4()', () => {
