@@ -41,7 +41,6 @@ beforeEach(async () => {
   global.deleteDelay = 7
   global.maximumProfileFieldLength = 50
   global.pageSize = 2
-  global.uuidEncodingCharacters = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
   global.allowPublicAPI = true
   global.bcryptFixedSalt = bcrypt.genSaltSync(1)
   if (!process.env.STORAGE_ENGINE) {

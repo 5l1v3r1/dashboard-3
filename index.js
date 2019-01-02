@@ -57,7 +57,6 @@ global.bcryptWorkloadFactor = parseInt(process.env.BCRYPT_WORKLOAD_FACTOR || '10
 global.deleteDelay = parseInt(process.env.DELETE_DELAY || '7', 10)
 global.maximumProfileFieldLength = parseInt(process.env.MAXIMUM_PROFILE_FIELD_LENGTH || '50', 10)
 global.pageSize = parseInt(process.env.PAGE_SIZE || '10', 10)
-global.uuidEncodingCharacters = process.env.UUID_ENCODING_CHARACTERS || 'abcdefghijlkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
 module.exports = {
   Format: require('./src/format.js'),

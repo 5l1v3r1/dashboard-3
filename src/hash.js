@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt-node')
+const hashed = require('./uuid.js')
 
 module.exports = {
   fixedSaltCompare,
@@ -22,14 +23,16 @@ function fixedSaltHash(text, alternativeFixedSalt, alternativeEncryptionKey) {
   const finalText = text + (alternativeEncryptionKey || global.applicationEncryptionKey || '')
   const full = bcrypt.hashSync(finalText, alternativeFixedSalt || global.bcryptFixedSalt)
   const hashed = full.substring(alternativeFixedSalt ? alternativeFixedSalt.length : global.bcryptFixedSalt.length)
-  const fileSafe = makeFileNameSafe(hashed)
-  fixedCache[text] = fileSafe
+  // if the user is using 'fs' or 's3' there are restrictions and fixed 
+  // hashes are often used for indexes
+  const fileFriendlyFormat = UUID.encode(hashed)
+  fixedCache[text] = fileFriendlyFormat
   fixedCacheItems.unshift(text)
   if (fixedCacheItems.length > 10000) {
     const removed = fixedCacheItems.pop()
     delete (fixedCache[removed])
   }
-  return fileSafe
+  return fileFriendlyFormat
 }
 
 const randomCache = {}
@@ -54,14 +57,4 @@ function randomSaltCompare(text, hash, alternativeEncryptionKey) {
 function randomSaltHash(text, alternativeWorkloadFactor, alternativeEncryptionKey) {
   const salt = bcrypt.genSaltSync(alternativeWorkloadFactor || global.bcryptWorkloadFactor || 11)
   return bcrypt.hashSync(text + (alternativeEncryptionKey || global.applicationEncryptionKey || ''), salt)
-}
-
-function makeFileNameSafe(str) {
-  let string = ''
-  const buffer = Buffer.from(str)
-  for (const byte of buffer) {
-    const characterPosition = byte % global.uuidEncodingCharacters.length
-    string += global.uuidEncodingCharacters.charAt(characterPosition)
-  }
-  return string
 }
