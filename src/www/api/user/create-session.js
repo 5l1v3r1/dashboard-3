@@ -18,13 +18,13 @@ module.exports = {
     if (global.minimumPasswordLength > req.body.password.length) {
       throw new Error('invalid-password-length')
     }
-    const usernameHash = dashboard.Hash.fixedSaltHash(req.body.username, req.alternativeFixedSalt, req.alternativeEncryptionKey)
+    const usernameHash = dashboard.Hash.fixedSaltHash(req.body.username, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
       throw new Error('invalid-username')
     }
     const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/${accountid}`, 'passwordHash')
-    const validPassword = dashboard.Hash.randomSaltCompare(req.body.password, passwordHash, req.alternativeEncryptionKey)
+    const validPassword = dashboard.Hash.randomSaltCompare(req.body.password, passwordHash, req.alternativeDashboardEncryptionKey)
     if (!validPassword) {
       throw new Error('invalid-password')
     }
@@ -45,7 +45,7 @@ module.exports = {
     const sessionid = `session_${await dashboard.UUID.generateID()}`
     const sessionToken = dashboard.UUID.random(64)
     const dashboardSessionKey = req.alternativeSessionKey || global.sessionKey
-    const tokenHash = dashboard.Hash.fixedSaltHash(`${accountid}/${sessionToken}/${account.sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeEncryptionKey)
+    const tokenHash = dashboard.Hash.fixedSaltHash(`${accountid}/${sessionToken}/${account.sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
     const sessionInfo = {
       object: 'session',
       sessionid: sessionid,

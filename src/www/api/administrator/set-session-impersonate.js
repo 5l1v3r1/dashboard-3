@@ -29,7 +29,7 @@ module.exports = {
     const sessionid = `session_${await dashboard.UUID.generateID()}`
     const token = dashboard.UUID.random(64)
     const dashboardSessionKey = req.alternativeSessionKey || global.sessionKey
-    const tokenHash = dashboard.Hash.fixedSaltHash(`${req.data.account.accountid}/${token}/${req.data.account.sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeEncryptionKey)
+    const tokenHash = dashboard.Hash.fixedSaltHash(`${req.data.account.accountid}/${token}/${req.data.account.sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
     const sessionInfo = {
       object: 'session',
       sessionid: sessionid,

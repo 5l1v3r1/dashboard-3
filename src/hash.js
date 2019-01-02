@@ -8,19 +8,19 @@ module.exports = {
   randomSaltHash
 }
 
-function fixedSaltCompare(text, hash, alternativeFixedSalt, alternativeEncryptionKey) {
-  return fixedSaltHash(text, alternativeFixedSalt, alternativeEncryptionKey) === hash
+function fixedSaltCompare(text, hash, alternativeFixedSalt, alternativeDashboardEncryptionKey) {
+  return fixedSaltHash(text, alternativeFixedSalt, alternativeDashboardEncryptionKey) === hash
 }
 
 const fixedCache = {}
 const fixedCacheItems = []
 
-function fixedSaltHash(text, alternativeFixedSalt, alternativeEncryptionKey) {
+function fixedSaltHash(text, alternativeFixedSalt, alternativeDashboardEncryptionKey) {
   const cached = fixedCache[text]
   if (cached) {
     return cached
   }
-  const finalText = text + (alternativeEncryptionKey || global.applicationEncryptionKey || '')
+  const finalText = text + (alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || '')
   const full = bcrypt.hashSync(finalText, alternativeFixedSalt || global.bcryptFixedSalt)
   const hashed = full.substring(alternativeFixedSalt ? alternativeFixedSalt.length : global.bcryptFixedSalt.length)
   // if the user is using 'fs' or 's3' there are restrictions and fixed 
@@ -38,13 +38,13 @@ function fixedSaltHash(text, alternativeFixedSalt, alternativeEncryptionKey) {
 const randomCache = {}
 const randomCacheItems = []
 
-function randomSaltCompare(text, hash, alternativeEncryptionKey) {
+function randomSaltCompare(text, hash, alternativeDashboardEncryptionKey) {
   const cacheKey = `${text}:${hash}`
   const cached = randomCache[cacheKey]
   if (cached === true || cached === false) {
     return cached
   }
-  const match = bcrypt.compareSync(text + (alternativeEncryptionKey || global.applicationEncryptionKey || ''), hash)
+  const match = bcrypt.compareSync(text + (alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || ''), hash)
   randomCache[cacheKey] = match
   randomCacheItems.unshift(cacheKey)
   if (randomCacheItems.length > 10000) {
@@ -54,7 +54,7 @@ function randomSaltCompare(text, hash, alternativeEncryptionKey) {
   return match
 }
 
-function randomSaltHash(text, alternativeWorkloadFactor, alternativeEncryptionKey) {
+function randomSaltHash(text, alternativeWorkloadFactor, alternativeDashboardEncryptionKey) {
   const salt = bcrypt.genSaltSync(alternativeWorkloadFactor || global.bcryptWorkloadFactor || 11)
-  return bcrypt.hashSync(text + (alternativeEncryptionKey || global.applicationEncryptionKey || ''), salt)
+  return bcrypt.hashSync(text + (alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || ''), salt)
 }

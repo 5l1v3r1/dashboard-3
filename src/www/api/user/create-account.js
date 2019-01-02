@@ -58,8 +58,8 @@ module.exports = {
     if (req.body['last-name']) {
       profileInfo.lastName = req.body['last-name']
     }
-    const usernameHash = dashboard.Hash.fixedSaltHash(req.body.username, req.alternativeFixedSalt, req.alternativeEncryptionKey)
-    const passwordHash = dashboard.Hash.randomSaltHash(req.body.password, req.alternativeWorkloadFactor, req.alternativeEncryptionKey)
+    const usernameHash = dashboard.Hash.fixedSaltHash(req.body.username, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
+    const passwordHash = dashboard.Hash.randomSaltHash(req.body.password, req.alternativeWorkloadFactor, req.alternativeDashboardEncryptionKey)
     const accountInfo = {
       object: 'account',
       accountid: accountid,
