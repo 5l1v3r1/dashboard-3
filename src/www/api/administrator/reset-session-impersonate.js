@@ -15,8 +15,8 @@ module.exports = {
     if (session.ended) {
       throw new Error('invalid-session')
     }
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.session.sessionid}`, 'ended', dashboard.Timestamp.now)
-    await dashboard.StorageObject.removeProperty(`${req.appid}/${req.session.impersonator}`, 'impersonate')
+    await dashboard.StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, 'ended', dashboard.Timestamp.now)
+    await dashboard.StorageObject.removeProperty(`${req.appid}/session/${req.session.impersonator}`, 'impersonate')
     req.success = true
     delete (req.session.impersonate)
     return req.session

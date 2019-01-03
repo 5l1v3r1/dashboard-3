@@ -23,8 +23,8 @@ module.exports = {
     }
   },
   patch: async (req) => {
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'owner', dashboard.Timestamp.now)
-    await dashboard.StorageObject.removeProperty(`${req.appid}/${req.account.accountid}`, 'owner')
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'owner', dashboard.Timestamp.now)
+    await dashboard.StorageObject.removeProperty(`${req.appid}/account/${req.account.accountid}`, 'owner')
     req.success = true
     return global.api.administrator.Account.get(req)
   }

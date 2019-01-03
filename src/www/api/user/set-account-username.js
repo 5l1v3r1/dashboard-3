@@ -23,12 +23,12 @@ module.exports = {
     delete (req.body.username)
   },
   patch: async (req) => {
-    const oldUsernameHash = await dashboard.StorageObject.getProperty(`${req.appid}/${req.query.accountid}`, 'usernameHash')
+    const oldUsernameHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'usernameHash')
     await dashboard.Storage.deleteFile(`${req.appid}/map/usernames/${oldUsernameHash}`)
     await dashboard.Storage.write(`${req.appid}/map/usernames/${req.body.usernameHash}`, req.query.accountid)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'usernameHash', req.body.usernameHash)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'usernameHash', req.body.usernameHash)
     req.account.usernameLastChanged = dashboard.Timestamp.now
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'usernameLastChanged', dashboard.Timestamp.now)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'usernameLastChanged', dashboard.Timestamp.now)
     req.success = true
     return req.account
   }

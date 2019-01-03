@@ -38,11 +38,11 @@ module.exports = {
       lastName: req.body['last-name'],
       email: req.body.email
     }
-    await dashboard.Storage.write(`${req.appid}/${profileid}`, profileInfo)
+    await dashboard.Storage.write(`${req.appid}/profile/${profileid}`, profileInfo)
     await dashboard.StorageList.add(`${req.appid}/profiles`, profileid)
     await dashboard.StorageList.add(`${req.appid}/account/profiles/${req.query.accountid}`, profileid)
     if (req.body.default === 'true') {
-      await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'profileid', profileid)
+      await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'profileid', profileid)
     }
     req.success = true
     return profileInfo

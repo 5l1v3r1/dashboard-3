@@ -24,8 +24,8 @@ module.exports = {
   },
   patch: async (req) => {
     req.account.passwordLastChanged = dashboard.Timestamp.now
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'passwordHash', req.body.passwordHash)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'passwordLastChanged', dashboard.Timestamp.now)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash', req.body.passwordHash)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordLastChanged', dashboard.Timestamp.now)
     req.success = true
     return req.account
   }

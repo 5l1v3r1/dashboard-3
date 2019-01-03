@@ -15,8 +15,8 @@ module.exports = {
     }
   },
   delete: async (req) => {
-    await dashboard.Storage.deleteFile(`${req.appid}/${req.query.profileid}`)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.account.accountid}`, 'profileLastDeleted', dashboard.Timestamp.now)
+    await dashboard.Storage.deleteFile(`${req.appid}/profile/${req.query.profileid}`)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.account.accountid}`, 'profileLastDeleted', dashboard.Timestamp.now)
     await dashboard.StorageList.remove(`${req.appid}/profiles`, req.query.profileid)
     await dashboard.StorageList.remove(`${req.appid}/account/profiles/${req.account.accountid}`, req.query.profileid)
     req.success = true

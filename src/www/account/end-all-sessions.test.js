@@ -21,12 +21,12 @@ describe('/account/end-all-sessions', () => {
   describe('EndAllSessions#POST', () => {
     it('should generate a new session key', async () => {
       const user = await TestHelper.createUser()
-      const previous = await dashboard.StorageObject.getProperty(`${global.appid}/${user.account.accountid}`, 'sessionKey')
+      const previous = await dashboard.StorageObject.getProperty(`${global.appid}/account/${user.account.accountid}`, 'sessionKey')
       const req = TestHelper.createRequest('/account/end-all-sessions')
       req.account = user.account
       req.session = user.session
       await req.post()
-      const current = await dashboard.StorageObject.getProperty(`${req.appid}/${user.account.accountid}`, 'sessionKey')
+      const current = await dashboard.StorageObject.getProperty(`${req.appid}/account/${user.account.accountid}`, 'sessionKey')
       assert.notStrictEqual(current, previous)
     })
 

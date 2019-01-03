@@ -37,7 +37,7 @@ module.exports = {
     if (account.deleted < dashboard.Timestamp.now) {
       throw new Error('invalid-account')
     }
-    await dashboard.StorageObject.removeProperty(`${req.appid}/${account.accountid}`, 'deleted')
+    await dashboard.StorageObject.removeProperty(`${req.appid}/account/${account.accountid}`, 'deleted')
     await dashboard.StorageList.remove(`${req.appid}/deleted/accounts`, account.accountid)
     req.success = true
     req.query = req.query || {}

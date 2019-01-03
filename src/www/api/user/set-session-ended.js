@@ -17,7 +17,7 @@ module.exports = {
     }
   },
   patch: async (req) => {
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.sessionid}`, 'ended', dashboard.Timestamp.now)
+    await dashboard.StorageObject.setProperty(`${req.appid}/session/${req.query.sessionid}`, 'ended', dashboard.Timestamp.now)
     req.success = true
     return global.api.user.Session.get(req)
   }

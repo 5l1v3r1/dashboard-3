@@ -24,14 +24,14 @@ module.exports = {
   },
   post: async (req) => {
     const codeid = `code_${await dashboard.UUID.generateID()}`
-    await dashboard.Storage.write(`${req.appid}/${codeid}`, {
+    await dashboard.Storage.write(`${req.appid}/resetCode/${codeid}`, {
       object: 'resetCode',
       accountid: req.query.accountid,
       codeid: codeid,
       codeHash: req.body.codeHash,
       created: dashboard.Timestamp.now
     })
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.account.accountid}`, 'resetCodeLastCreated', dashboard.Timestamp.now)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.account.accountid}`, 'resetCodeLastCreated', dashboard.Timestamp.now)
     await dashboard.StorageList.add(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.add(`${req.appid}/account/resetCodes/${req.query.accountid}`, codeid)
     await dashboard.Storage.write(`${req.appid}/map/account/resetCodes/${req.query.accountid}/${req.body.codeHash}`, codeid)

@@ -39,7 +39,7 @@ module.exports = {
     if (account.deleted) {
       throw new Error('invalid-account')
     }
-    const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/${accountid}`, `passwordHash`)
+    const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${accountid}`, `passwordHash`)
     const validPassword = dashboard.Hash.randomSaltCompare(req.body.password, passwordHash, req.alternativeDashboardEncryptionKey)
     if (!validPassword) {
       throw new Error('invalid-password')
@@ -56,8 +56,8 @@ module.exports = {
     } else {
       req.session.unlocked = 1
     }
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.sessionid}`, `unlocked`, req.session.unlocked)
-    await dashboard.StorageObject.removeProperty(`${req.appid}/${req.query.sessionid}`, `lock`)
+    await dashboard.StorageObject.setProperty(`${req.appid}/session/${req.query.sessionid}`, `unlocked`, req.session.unlocked)
+    await dashboard.StorageObject.removeProperty(`${req.appid}/session/${req.query.sessionid}`, `lock`)
     req.success = true
     return req.session
   }

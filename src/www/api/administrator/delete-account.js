@@ -13,7 +13,7 @@ module.exports = {
     req.data = { account }
   },
   delete: async (req) => {
-    await dashboard.Storage.deleteFile(`${req.appid}/${req.query.accountid}`)
+    await dashboard.Storage.deleteFile(`${req.appid}/account/${req.query.accountid}`)
     await dashboard.StorageList.remove(`${req.appid}/accounts`, req.query.accountid)
     if (req.data.account.administrator) {
       await dashboard.StorageList.remove(`${req.appid}/administrator/accounts`, req.query.accountid)

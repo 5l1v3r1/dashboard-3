@@ -30,7 +30,7 @@ module.exports = {
     req.data = { profile }
   },
   patch: async (req) => {
-    await dashboard.StorageObject.setProperties(`${req.appid}/${req.query.profileid}`, {
+    await dashboard.StorageObject.setProperties(`${req.appid}/profile/${req.query.profileid}`, {
       firstName: req.body['first-name'],
       lastName: req.body['last-name'],
       email: req.body.email

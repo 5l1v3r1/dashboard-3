@@ -90,16 +90,16 @@ function wrapAPIRequest (nodejsHandler, filePath) {
         if (req.session.lockURL !== req.url) {
           // remove old lock data
           if (req.session.unlocked > Timestamp.now) {
-            await StorageObject.setProperty(`${req.appid}/${req.session.sessionid}`, `lockURL`, req.url)
-            await StorageObject.removeProperties(`${req.appid}/${req.session.sessionid}`, [ `lockStarted`, `lockData` ])
+            await StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, `lockURL`, req.url)
+            await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, [ `lockStarted`, `lockData` ])
           } else {
             // remove old unlock data
-            await StorageObject.setProperties(`${req.appid}/${req.session.sessionid}`, { lock: Timestamp.now, lockURL: req.url })
-            await StorageObject.removeProperties(`${req.appid}/${req.session.sessionid}`, [ `unlocked`, `lockStarted`, `lockData` ])
+            await StorageObject.setProperties(`${req.appid}/session/${req.session.sessionid}`, { lock: Timestamp.now, lockURL: req.url })
+            await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, [ `unlocked`, `lockStarted`, `lockData` ])
           }
         } 
         if (!req.session.unlocked) {
-          await StorageObject.setProperties(`${req.appid}/${req.session.sessionid}`, { 
+          await StorageObject.setProperties(`${req.appid}/session/${req.session.sessionid}`, { 
             lockStarted: Timestamp.now, 
             lockData: req.body ? JSON.stringify(req.body) : '{}',
             lockURL: req.url,
@@ -117,7 +117,7 @@ function wrapAPIRequest (nodejsHandler, filePath) {
         if (req.session.unlocked <= Timestamp.now) {
           staleData.push('unlocked')
         }
-        await StorageObject.removeProperties(`${req.appid}/${req.session.sessionid}`, staleData)
+        await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, staleData)
         const sessionReq = { query: { sessionid: req.session.sessionid }, appid: req.appid, account: req.account }
         req.session = await global.api.user.Session._get(sessionReq)
       }

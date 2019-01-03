@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt-node')
 const fs = require('fs')
 const Hash = require('./hash.js')
 const HTML = require('./html.js')
@@ -43,18 +44,18 @@ module.exports = {
   staticFile
 }
 
-function start () {
+function start() {
   StorageObject = require('./storage-object.js')
   server = http.createServer(receiveRequest)
   server.listen(global.port, global.host)
   return server
 }
 
-function stop () {
+function stop() {
   return server.close()
 }
 
-async function receiveRequest (req, res) {
+async function receiveRequest(req, res) {
   if (process.env.DEBUG_ERRORS) {
     console.log('server.receive', req.url)
   }
@@ -99,7 +100,6 @@ async function receiveRequest (req, res) {
   // if it is an application server making the request verify the token
   const applicationServer = global.applicationServer ? req.alternativeApplicationServer || global.applicationServer : null
   if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
-    const token = req.headers['x-dashboard-token']
     const applicationServerToken = req.alternativeApplicationServerToken || global.applicationServerToken
     let expectedText
     if (req.headers['x-accountid']) {
@@ -110,10 +110,10 @@ async function receiveRequest (req, res) {
       expectedText = applicationServerToken
     }
     if (hashCache[expectedText]) {
-      req.applicationServer = hashCache[expectedText] === token
+      req.applicationServer = hashCache[expectedText] === req.headers['x-dashboard-token']
     } else {
-      req.applicationServer = Hash.randomSaltCompare(expectedText, token, req.alternativeDashboardEncryptionKey)
-      hashCache[expectedText] = token
+      req.applicationServer = bcrypt.compareSync(expectedText, req.headers['x-dashboard-token'])
+      hashCache[expectedText] = expectedText
       hashCacheItems.unshift(expectedText)
       if (hashCacheItems.length > 100000) {
         hashCacheItems.pop()
@@ -121,7 +121,10 @@ async function receiveRequest (req, res) {
     }
   }
   if (!req.applicationServer && req.headers['x-application-server']) {
+    console.log('not application server')
     return Response.throw500(req, res)
+  } else if (req.applicationServer) {
+    console.log('is application server')
   }
   // public access to the API must be enabled otherwise only the application server can
   if (req.urlPath.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer) {
@@ -175,14 +178,14 @@ async function receiveRequest (req, res) {
     // clearing old sessions
     if (req.session) {
       if (user.session.unlocked > 1 && user.session.unlocked < Timestamp.now) {
-        await StorageObject.removeProperties(`${req.appid}/${user.session.sessionid}`, ['lockStarted', 'lockData', 'lockURL', 'lock', 'unlocked'])
+        await StorageObject.removeProperties(`${req.appid}/session/${user.session.sessionid}`, ['lockStarted', 'lockData', 'lockURL', 'lock', 'unlocked'])
         const sessionReq = { query: { sessionid: user.session.sessionid }, appid: req.appid }
         req.session = await global.api.administrator.Session._get(sessionReq)
       }
       // restoring locked session data
       if (req.url === req.session.lockURL && req.session.unlocked && req.session.lockData) {
         req.body = JSON.parse(req.session.lockData)
-        await StorageObject.removeProperty(`${req.appid}/${req.session.sessionid}`, 'lockData')
+        await StorageObject.removeProperty(`${req.appid}/session/${req.session.sessionid}`, 'lockData')
         const sessionReq = { query: { sessionid: user.session.sessionid }, appid: req.appid }
         req.session = await global.api.administrator.Session._get(sessionReq)
       }
@@ -190,7 +193,7 @@ async function receiveRequest (req, res) {
       if (req.session.lock && !req.session.unlocked) {
         if (req.urlPath.startsWith('/api/')) {
           if (req.urlPath !== '/api/user/set-session-unlocked' &&
-              req.urlPath !== '/api/user/set-session-ended') {
+            req.urlPath !== '/api/user/set-session-ended') {
             res.statusCode = 511
             res.setHeader('content-type', 'application/json')
             return res.end(`{ "object": "lock", "message": "Authorization required" }`)
@@ -229,10 +232,13 @@ async function receiveRequest (req, res) {
   }
   // require administrators and they must not be impersonating accounts
   if (req.urlPath.startsWith('/administrator') || req.urlPath.startsWith('/api/administrator/')) {
-    if (!req.account.administrator &&
-        req.urlPath !== '/administrator/end-impersonation' &&
-        req.urlPath !== '/api/administrator/reset-session-impersonate') {
+    if (!req.account) {
       return Response.redirectToSignIn(req, res)
+    }
+    if (!req.account.administrator &&
+      req.urlPath !== '/administrator/end-impersonation' &&
+      req.urlPath !== '/api/administrator/reset-session-impersonate') {
+      return Response.throw500(req, res)
     }
   }
   // the 'after' handlers can see signed in users
@@ -282,7 +288,7 @@ async function receiveRequest (req, res) {
   }
 }
 
-async function executeHandlers (req, res, method, handlers) {
+async function executeHandlers(req, res, method, handlers) {
   if (!handlers || !handlers.length) {
     return
   }
@@ -297,7 +303,7 @@ async function executeHandlers (req, res, method, handlers) {
   }
 }
 
-async function staticFile (req, res) {
+async function staticFile(req, res) {
   // root /public folder
   let filePath = `${global.rootPath}${req.urlPath}`
   if (!fs.existsSync(filePath)) {
@@ -327,7 +333,7 @@ async function staticFile (req, res) {
   return Response.throw404(req, res)
 }
 
-async function authenticateRequest (req) {
+async function authenticateRequest(req) {
   if (!req.headers.cookie || !req.headers.cookie.length) {
     return
   }
@@ -353,7 +359,7 @@ async function authenticateRequest (req) {
   if (!session) {
     throw new Error('invalid-sessionid')
   }
-  if(session.ended) {
+  if (session.ended) {
     throw new Error('invalid-session')
   }
   const accountReq = { query: { accountid: session.accountid }, appid: req.appid }
@@ -361,8 +367,8 @@ async function authenticateRequest (req) {
   if (!account || account.deleted) {
     throw new Error('invalid-account')
   }
-  const sessionToken = await StorageObject.getProperty(`${req.appid}/${session.sessionid}`, 'tokenHash')
-  const sessionKey = await StorageObject.getProperty(`${req.appid}/${account.accountid}`, 'sessionKey')
+  const sessionToken = await StorageObject.getProperty(`${req.appid}/session/${session.sessionid}`, 'tokenHash')
+  const sessionKey = await StorageObject.getProperty(`${req.appid}/account/${account.accountid}`, 'sessionKey')
   const dashboardSessionKey = req.alternativeSessionKey || global.sessionKey
   const tokenHash = Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
   if (sessionToken !== tokenHash) {

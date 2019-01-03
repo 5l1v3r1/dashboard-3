@@ -53,13 +53,15 @@ module.exports = {
       throw new Error('invalid-reset-code')
     }
     const passwordHash = dashboard.Hash.randomSaltHash(req.body.password, req.alternativeWorkloadFactor, req.alternativeDashboardEncryptionKey)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`,'passwordHash', passwordHash)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`,'resetCodeLastUsed', dashboard.Timestamp.now)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`, 'sessionKey', dashboard.UUID.random(64))
-    await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`, 'sessionKeyLastReset', dashboard.Timestamp.now)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`, 'passwordLastChanged', dashboard.Timestamp.now)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`, 'sessionKeyNumber', account.sessionKeyNumber + 1)
-    await dashboard.Storage.deleteFile(`${req.appid}/${code.codeid}`)
+    await dashboard.StorageObject.setProperties(`${req.appid}/account/${accountid}`, {
+      passwordHash,
+      resetCodeLastUsed: dashboard.Timestamp.now,
+      sessionKey: dashboard.UUID.random(64),
+      sessionKeyLastReset: dashboard.Timestamp.now,
+      passwordLastChanged: dashboard.Timestamp.now,
+      sessionKeyNumber: account.sessionKeyNumber + 1
+    })
+    await dashboard.Storage.deleteFile(`${req.appid}/resetCode/${code.codeid}`)
     await dashboard.StorageList.remove(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.remove(`${req.appid}/account/resetCodes/${accountid}`, codeid)
     await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${accountid}/${codeHash}`)

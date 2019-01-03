@@ -12,7 +12,7 @@ module.exports = {
     if (!session.unlocked) {
       throw new Error('invalid-session')
     }
-    await dashboard.StorageObject.removeProperty(`${req.appid}/${req.query.sessionid}`, 'unlocked')
+    await dashboard.StorageObject.removeProperty(`${req.appid}/session/${req.query.sessionid}`, 'unlocked')
     return global.api.user.Session.get(req)
   }
 }

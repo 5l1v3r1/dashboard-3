@@ -16,18 +16,20 @@ const fixedCache = {}
 const fixedCacheItems = []
 
 function fixedSaltHash(text, alternativeFixedSalt, alternativeDashboardEncryptionKey) {
-  const cached = fixedCache[text]
+  const cacheKey = `${text}:${alternativeFixedSalt}:${alternativeDashboardEncryptionKey}`
+  const cached = fixedCache[cacheKey]
   if (cached) {
     return cached
   }
   const finalText = text + (alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || '')
-  const full = bcrypt.hashSync(finalText, alternativeFixedSalt || global.bcryptFixedSalt)
-  const hashed = full.substring(alternativeFixedSalt ? alternativeFixedSalt.length : global.bcryptFixedSalt.length)
-  // if the user is using 'fs' or 's3' there are restrictions and fixed 
-  // hashes are often used for indexes
+  const salt = alternativeFixedSalt || global.bcryptFixedSalt
+  const full = bcrypt.hashSync(finalText, salt)
+  const hashed = full.substring(salt.length)
+  // if the user is using 'fs' or 's3' these hashes are used in filenames 
+  // so they get hex-encoded for compatibility
   const fileFriendlyFormat = UUID.encode(hashed)
-  fixedCache[text] = fileFriendlyFormat
-  fixedCacheItems.unshift(text)
+  fixedCache[cacheKey] = fileFriendlyFormat
+  fixedCacheItems.unshift(cacheKey)
   if (fixedCacheItems.length > 10000) {
     const removed = fixedCacheItems.pop()
     delete (fixedCache[removed])
@@ -39,12 +41,13 @@ const randomCache = {}
 const randomCacheItems = []
 
 function randomSaltCompare(text, hash, alternativeDashboardEncryptionKey) {
-  const cacheKey = `${text}:${hash}`
+  const cacheKey = `${text}:${hash}:${alternativeDashboardEncryptionKey}`
   const cached = randomCache[cacheKey]
   if (cached === true || cached === false) {
     return cached
   }
-  const match = bcrypt.compareSync(text + (alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || ''), hash)
+  const key = alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || ''
+  const match = bcrypt.compareSync(text + key, hash)
   randomCache[cacheKey] = match
   randomCacheItems.unshift(cacheKey)
   if (randomCacheItems.length > 10000) {
@@ -55,6 +58,8 @@ function randomSaltCompare(text, hash, alternativeDashboardEncryptionKey) {
 }
 
 function randomSaltHash(text, alternativeWorkloadFactor, alternativeDashboardEncryptionKey) {
-  const salt = bcrypt.genSaltSync(alternativeWorkloadFactor || global.bcryptWorkloadFactor || 11)
-  return bcrypt.hashSync(text + (alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || ''), salt)
+  const workload = alternativeWorkloadFactor || global.bcryptWorkloadFactor
+  const key = alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || ''
+  const salt = bcrypt.genSaltSync(workload)
+  return bcrypt.hashSync(text + key, salt)
 }

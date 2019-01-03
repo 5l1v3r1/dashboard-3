@@ -42,8 +42,8 @@ module.exports = {
       impersonator: req.session.sessionid
     }
     await dashboard.Storage.write(`${req.appid}/map/sessionids/${sessionid}`, req.body.accountid)
-    await dashboard.Storage.write(`${req.appid}/${sessionid}`, sessionInfo)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.sessionid}`, 'impersonate', sessionid)
+    await dashboard.Storage.write(`${req.appid}/session/${sessionid}`, sessionInfo)
+    await dashboard.StorageObject.setProperty(`${req.appid}/session/${req.query.sessionid}`, 'impersonate', sessionid)
     await dashboard.StorageList.add(`${req.appid}/sessions`, sessionid)
     await dashboard.StorageList.add(`${req.appid}/account/sessions/${req.body.accountid}`, sessionid)
     await dashboard.Storage.write(`${req.appid}/map/sessionids/${sessionid}`, req.body.accountid)

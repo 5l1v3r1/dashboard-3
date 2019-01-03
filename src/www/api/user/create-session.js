@@ -23,7 +23,7 @@ module.exports = {
     if (!accountid) {
       throw new Error('invalid-username')
     }
-    const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/${accountid}`, 'passwordHash')
+    const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${accountid}`, 'passwordHash')
     const validPassword = dashboard.Hash.randomSaltCompare(req.body.password, passwordHash, req.alternativeDashboardEncryptionKey)
     if (!validPassword) {
       throw new Error('invalid-password')
@@ -55,8 +55,8 @@ module.exports = {
       expires: dashboard.Timestamp.now + expireSeconds,
       sessionKeyNumber: account.sessionKeyNumber
     }
-    await dashboard.StorageObject.setProperty(`${req.appid}/${account.accountid}`, 'lastSignedIn', dashboard.Timestamp.now)
-    await dashboard.Storage.write(`${req.appid}/${sessionid}`, sessionInfo)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${account.accountid}`, 'lastSignedIn', dashboard.Timestamp.now)
+    await dashboard.Storage.write(`${req.appid}/session/${sessionid}`, sessionInfo)
     await dashboard.Storage.write(`${req.appid}/map/sessionids/${sessionid}`, accountid)
     await dashboard.StorageList.add(`${req.appid}/sessions`, sessionid)
     await dashboard.StorageList.add(`${req.appid}/account/sessions/${accountid}`, sessionid)

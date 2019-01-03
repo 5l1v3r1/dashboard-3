@@ -5,7 +5,7 @@ module.exports = {
     if (!req.query || !req.query.sessionid) {
       throw new Error('invalid-sessionid')
     }
-    let session = await dashboard.Storage.read(`${req.appid}/${req.query.sessionid}`)
+    let session = await dashboard.Storage.read(`${req.appid}/session/${req.query.sessionid}`)
     if (!session) {
       throw new Error('invalid-sessionid')
     }

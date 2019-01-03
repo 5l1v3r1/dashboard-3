@@ -20,9 +20,11 @@ module.exports = {
     req.data = { account }
   },
   patch: async (req) => {
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'sessionKey', dashboard.UUID.random(64))
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'sessionKeyLastReset', dashboard.Timestamp.now)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'sessionKeyNumber', req.data.account.sessionKeyNumber + 1)
+    await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, {
+      sessionKey: dashboard.UUID.random(64),
+      sessionKeyLastReset: dashboard.Timestamp.now,
+      sessionKeyNumber: req.data.account.sessionKeyNumber + 1
+    })
     req.success = true
     return global.api.administrator.Account.get(req)
   }

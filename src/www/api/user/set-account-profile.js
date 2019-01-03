@@ -25,7 +25,7 @@ module.exports = {
     }
   },
   patch: async (req) => {
-    await dashboard.StorageObject.setProperty(`${req.appid}/${req.query.accountid}`, 'profileid', req.body.profileid)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'profileid', req.body.profileid)
     req.success = true
     return global.api.user.Account.get(req)
   }

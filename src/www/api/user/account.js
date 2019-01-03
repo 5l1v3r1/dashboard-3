@@ -5,7 +5,7 @@ module.exports = {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
-    let account = await dashboard.Storage.read(`${req.appid}/${req.query.accountid}`)
+    let account = await dashboard.Storage.read(`${req.appid}/account/${req.query.accountid}`)
     if (!account) {
       throw new Error('invalid-accountid')
     }

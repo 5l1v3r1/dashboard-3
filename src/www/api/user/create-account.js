@@ -76,9 +76,8 @@ module.exports = {
       accountInfo.owner = dashboard.Timestamp.now
     }
     await dashboard.Storage.write(`${req.appid}/map/usernames/${usernameHash}`, accountid)
-    await dashboard.Storage.write(`${req.appid}/${accountid}`, accountInfo)
-    await dashboard.Storage.write(`${req.appid}/${profileid}`, profileInfo)
-    await dashboard.StorageObject.setProperty(`${req.appid}/${accountid}`, 'profileid', profileid)
+    await dashboard.Storage.write(`${req.appid}/account/${accountid}`, accountInfo)
+    await dashboard.Storage.write(`${req.appid}/profile/${profileid}`, profileInfo)
     await dashboard.StorageList.add(`${req.appid}/accounts`, accountid)
     await dashboard.StorageList.add(`${req.appid}/profiles`, profileid)
     await dashboard.StorageList.add(`${req.appid}/account/profiles/${accountid}`, profileid)
