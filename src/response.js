@@ -221,7 +221,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     form.attr.method = form.attr.method || 'POST'
     form.attr.action = form.attr.action || req.url
   }
-  highlightCurrentPage(req.urlPath, templateDoc)
   // configured template and page content handlers can perform
   // modifications upon the completed docs
   if (global.packageJSON.dashboard.content.length) {
@@ -234,6 +233,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       }
     }
   }
+  highlightCurrentPage(req.urlPath, templateDoc)
   // page content is injected into the template using a srcdoc
   // so the user does not need an additional HTTP request, that means
   // it must be formatted for compatibility with srcdoc="..."
