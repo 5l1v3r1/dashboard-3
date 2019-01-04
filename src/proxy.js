@@ -3,6 +3,7 @@ const http = require('http')
 const https = require('https')
 const HTML = require('./html.js')
 const Response = require('./response.js')
+const querystring = require('querystring')
 
 module.exports = { pass }
 
@@ -44,8 +45,11 @@ function pass(req, res) {
     requestOptions.headers['x-dashboard-token'] = tokenHash
   }
   if (req.body) {
-    requestOptions.headers['content-length'] = req.headers['content-length']
-    requestOptions.headers['content-type'] = req.headers['content-type']
+    if (!req.bodyRaw) {
+      req.bodyRaw = querystring.stringify(req.body)
+    }
+    requestOptions.headers['content-length'] = req.headers['content-length'] || req.bodyRaw.length
+    requestOptions.headers['content-type'] = req.headers['content-type'] || 'application/x-www-form-urlencoded'
   }
   const protocol = global.applicationServer.startsWith('https') ? https : http
   const proxyReq = protocol.request(requestOptions, (proxyRes) => {
