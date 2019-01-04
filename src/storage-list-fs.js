@@ -1,11 +1,17 @@
 const fs = require('fs')
-const path = require('path')
 const Storage = require('./storage.js')
 
 // The main Storage class will add the storagePath prefix automatically
 // for 'add' and 'remove' as they directly proxy read and write, but for
 // other commands the storagePath needs to be included
-const storagePath = process.env.STORAGE_PATH || path.join(__dirname, '../data')
+let storagePath
+
+if (!process.env.STORAGE_ENGINE) {
+  storagePath = process.env.STORAGE_PATH || `${global.applicationPath}/data`
+  if (!fs.existsSync(storagePath)) {
+    createFolder(storagePath)
+  }
+}
 
 module.exports = {
   add,
@@ -103,4 +109,16 @@ async function remove(path, itemid) {
     return
   }
   return Storage.deleteFile(`${path}/${itemid}`)
+}
+
+function createFolder(path) {
+  const nested = path.substring(storagePath.length + 1)
+  const nestedParts = nested.split('/')
+  let nestedPath = storagePath
+  for (const part of nestedParts) {
+    nestedPath += `/${part}`
+    if (!fs.existsSync(nestedPath)) {
+      fs.mkdirSync(nestedPath)
+    }
+  }
 }
