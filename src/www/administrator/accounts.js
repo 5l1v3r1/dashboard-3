@@ -8,8 +8,10 @@ module.exports = {
 async function beforeRequest (req) {
   const total = await global.api.administrator.AccountsCount.get(req)
   const accounts = await global.api.administrator.Accounts.get(req)
-  for (const account of accounts) {
-    account.createdFormatted = dashboard.Timestamp.date(account.created)
+  if (accounts && accounts.length) {
+    for (const account of accounts) {
+      account.createdFormatted = dashboard.Timestamp.date(account.created)
+    }
   }
   const offset = req.query ? req.query.offset || 0 : 0
   req.data = { accounts, total, offset }

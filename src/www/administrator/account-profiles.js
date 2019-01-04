@@ -11,8 +11,10 @@ async function beforeRequest (req) {
   }
   const total = await global.api.administrator.AccountProfilesCount.get(req)
   const profiles = await global.api.administrator.AccountProfiles.get(req)
-  for (const profile of profiles) {
-    profile.createdFormatted = dashboard.Timestamp.date(profile.created)
+  if (profiles && profiles.length) {
+    for (const profile of profiles) {
+      profile.createdFormatted = dashboard.Timestamp.date(profile.created)
+    }
   }
   const account = await global.api.administrator.Account.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
