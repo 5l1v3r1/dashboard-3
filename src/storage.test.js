@@ -21,6 +21,35 @@ describe('internal-api/storage', async () => {
     })
   })
 
+  describe('Storage#readMany', () => {
+    it('should require files array', async () => {
+      let errorMessage
+      try {
+        await Storage.readMany(null)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-files')
+      errorMessage = null
+      try {
+        await Storage.readMany([])
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-files')
+    })
+
+    it('should return files contents', async () => {
+      await Storage.write('test/1', { test: 1 })
+      await Storage.write('test/2', { test: 2 })
+      await Storage.write('test/3', { test: 3 })
+      const files = await Storage.readMany('test', ['1', '2', '3'])
+      assert.strictEqual(files['1'], '{"test":1}')
+      assert.strictEqual(files['2'], '{"test":2}')
+      assert.strictEqual(files['3'], '{"test":3}')
+    })
+  })
+
   describe('Storage#write()', async () => {
     it('should require file', async () => {
       let errorMessage

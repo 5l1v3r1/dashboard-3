@@ -32,13 +32,12 @@ module.exports = {
     if (!files || !files.length) {
       throw new Error('invalid-files')
     }
-    const data = {}
+    const data = storage.readMany(prefix, files)
     for (const file of files) {
-      const contents = await storage.read(`${prefix}/${file}`)
-      if (!contents) {
+      if (!data[file]) {
         continue
       }
-      data[file] = decrypt(contents)
+      data[file] = decrypt(data[file])
     }
     return data
   },
