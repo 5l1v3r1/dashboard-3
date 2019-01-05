@@ -23,7 +23,7 @@ describe('/account/lock-session', () => {
       const req = TestHelper.createRequest(`/account/lock-session`)
       req.account = user.account
       req.session = user.session
-      await req.get()
+      const x = await req.get()
       const req2 = TestHelper.createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)
       req2.account = administrator.account
       req2.session = administrator.session

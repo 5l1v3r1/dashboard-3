@@ -18,9 +18,7 @@
     "test": "mocha src --recursive --timeout 420000 --slow 420000"
   },
   "dashboard": {
-    "content": [
-      "/src/content/session-unlocked-header.js"
-    ],
+    "content": [],
     "modules": [],
     "server": [],
     "page": [],

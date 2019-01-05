@@ -177,17 +177,19 @@ async function receiveRequest(req, res) {
     req.account = user.account
     // clearing old sessions
     if (req.session) {
-      if (user.session.unlocked > 1 && user.session.unlocked < Timestamp.now) {
+      if (req.session.unlocked > 1 && req.session.unlocked < Timestamp.now) {
         await StorageObject.removeProperties(`${req.appid}/session/${user.session.sessionid}`, ['lockStarted', 'lockData', 'lockURL', 'lock', 'unlocked'])
-        const sessionReq = { query: { sessionid: user.session.sessionid }, appid: req.appid }
-        req.session = await global.api.administrator.Session._get(sessionReq)
+        delete (req.session.lockStarted)
+        delete (req.session.lockData)
+        delete (req.session.lockURL)
+        delete (req.session.lock)
+        delete (req.session.unlocked)
       }
       // restoring locked session data
       if (req.url === req.session.lockURL && req.session.unlocked && req.session.lockData) {
         req.body = JSON.parse(req.session.lockData)
         await StorageObject.removeProperty(`${req.appid}/session/${req.session.sessionid}`, 'lockData')
-        const sessionReq = { query: { sessionid: user.session.sessionid }, appid: req.appid }
-        req.session = await global.api.administrator.Session._get(sessionReq)
+        delete (req.session.lockData)
       }
       // restricting locked session URLs
       if (req.session.lock && !req.session.unlocked) {
@@ -349,7 +351,7 @@ async function authenticateRequest(req) {
   }
   const sessionToken = await StorageObject.getProperty(`${req.appid}/session/${session.sessionid}`, 'tokenHash')
   const sessionKey = await StorageObject.getProperty(`${req.appid}/account/${account.accountid}`, 'sessionKey')
-  const dashboardSessionKey = req.alternativeSessionKey || global.sessionKey
+  const dashboardSessionKey = req.alternativeSessionKey || global.dashboardSessionKey
   const tokenHash = await Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
   if (sessionToken !== tokenHash) {
     throw new Error('invalid-cookie')

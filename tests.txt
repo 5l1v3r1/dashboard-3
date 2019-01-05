@@ -10,11 +10,6 @@
       ✓ should return object
       ✓ should end response with JSON
 
-  content/session-unlocked-header
-    SessionUnlockedHeader#AFTER
-      ✓ should do nothing for not-unlocked accounts
-      ✓ should add lock message to header
-
   internal-api/format
     Format#parseDate()
       ✓ should throw error for missing date
@@ -92,6 +87,8 @@
         ✓ should include nested modules
 
   internal-api/response
+    Response#wrapTemplateWithSrcDoc
+      ✓ should add session unlocked message to header
     Response#throw404()
       ✓ should set 404 status
       ✓ should contain 404 code
@@ -983,5 +980,5 @@
       ✓ should apply authorized new values
 
 
-  535 passing (17m)
+  534 passing (17m)
 

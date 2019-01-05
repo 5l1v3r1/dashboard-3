@@ -294,6 +294,9 @@ async function lockSession(user, impersonatingid) {
   req.authorize = false
   await req.patch()
   user.password = 'new-password'
+  const req2 = createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)
+  user.session = await req2.route.api._get(req2)
+  user.session.token = req.session.token
   return user.session
 }
 
@@ -306,7 +309,8 @@ async function unlockSession(user, long) {
     password: user.account.password,
     remember: long ? 'minutes' : ''
   }
-  await req.patch()
+  user.session = await req.patch()
+  user.session.token = req.session.token
   return user.session
 }
 

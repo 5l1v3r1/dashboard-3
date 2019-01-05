@@ -23,6 +23,7 @@ module.exports = {
   throw511,
   throwError,
   compress,
+  wrapTemplateWithSrcDoc,
   eTag
 }
 
@@ -137,6 +138,10 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   const templateDoc = HTML.parse(global.packageJSON.templateHTML)
   if (!templateDoc) {
     throw new Error()
+  }
+  // display the session unlocked header
+  if (req.session && req.session.unlocked) {
+    HTML.renderTemplate(templateDoc, req.session, 'session-unlocked', 'notifications-container')
   }
   // embed additional CSS, JS etc by placing the code within
   // your own HTML in a <template id="head" />

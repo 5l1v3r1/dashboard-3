@@ -59,7 +59,7 @@ async function submitForm (req, res) {
       return renderPage(req, res, 'success')
     }
     return dashboard.Response.redirect(req, res, `/account/authorize`)
-  } catch (error) {        
+  } catch (error) {
     return renderPage(req, res, error.message)
   }
 }

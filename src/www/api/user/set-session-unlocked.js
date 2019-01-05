@@ -55,6 +55,7 @@ module.exports = {
     await dashboard.StorageObject.setProperty(`${req.appid}/session/${req.query.sessionid}`, `unlocked`, req.session.unlocked)
     await dashboard.StorageObject.removeProperty(`${req.appid}/session/${req.query.sessionid}`, `lock`)
     req.success = true
+    delete (req.session.lock)
     return req.session
   }
 }

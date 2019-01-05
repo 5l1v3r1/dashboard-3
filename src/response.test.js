@@ -1,8 +1,26 @@
 /* eslint-env mocha */
 const assert = require('assert')
+const HTML = require('./html.js')
 const Response = require('./response.js')
+const TestHelper = require('../test-helper.js')
 
 describe('internal-api/response', () => {
+  describe('Response#wrapTemplateWithSrcDoc', async () => {
+    it('should add session unlocked message to header', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.lockSession(user)
+      user.session = await TestHelper.unlockSession(user, true)
+      const req = TestHelper.createRequest(`/account/change-username`)
+      req.account = user.account
+      req.session = user.session
+      const doc = HTML.parse('<html><body></body></html>')
+      const combined = await Response.wrapTemplateWithSrcDoc(req, null, doc)
+      const templateDoc = HTML.parse(combined)
+      const notificationsContainer = templateDoc.getElementById('notifications-container')
+      assert.strictEqual(notificationsContainer.child.length, 1)
+    })
+  })
+
   describe('Response#throw404()', () => {
     it('should set 404 status', async () => {
       const res = {

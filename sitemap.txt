@@ -13,10 +13,6 @@ Special HTML files:
 /src/error.html
 /src/redirect.html
 
-Content handlers:
-/src/content/session-impersonation-header.js
-/src/content/session-unlocked-header.js
-
 URL ------------------------------------------- AUTH ---- LOCK --- TEMPLATE ----- HTTP REQUESTS - NODEJS ----- HTML -------
 /                                               GUEST              FULLSCREEN     GET                          /src/www    
 /account                                                                          GET             /src/www     /src/www    
@@ -57,8 +53,6 @@ URL ------------------------------------------- AUTH ---- LOCK --- TEMPLATE ----
 /administrator/create-reset-code                                                  GET POST        /src/www     /src/www    
 /administrator/delete-account                                                     GET POST        /src/www     /src/www    
 /administrator/delete-schedule                                                    GET             /src/www     /src/www    
-/administrator/end-impersonation                                                  GET             /src/www                 
-/administrator/impersonate-account                                                GET POST        /src/www     /src/www    
 /administrator/profile                                                            GET             /src/www     /src/www    
 /administrator/profiles                                                           GET             /src/www     /src/www    
 /administrator/reset-code                                                         GET             /src/www     /src/www    
@@ -91,7 +85,6 @@ URL ------------------------------------------- AUTH ---- LOCK --- TEMPLATE ----
 /api/administrator/reset-code                                                     GET             /src/www                 
 /api/administrator/reset-codes                                                    GET             /src/www                 
 /api/administrator/reset-codes-count                                              GET             /src/www                 
-/api/administrator/reset-session-impersonate                                      PATCH           /src/www                 
 /api/administrator/reset-session-key                      LOCK                    PATCH           /src/www                 
 /api/administrator/session                                                        GET             /src/www                 
 /api/administrator/sessions                                                       GET             /src/www                 
@@ -99,7 +92,6 @@ URL ------------------------------------------- AUTH ---- LOCK --- TEMPLATE ----
 /api/administrator/set-account-administrator              LOCK                    PATCH           /src/www                 
 /api/administrator/set-account-deleted                    LOCK                    PATCH           /src/www                 
 /api/administrator/set-owner-account                      LOCK                    PATCH           /src/www                 
-/api/administrator/set-session-impersonate                LOCK                    PATCH           /src/www                 
 /api/user/account                                                                 GET             /src/www                 
 /api/user/create-account                        GUEST                             POST            /src/www                 
 /api/user/create-profile                                  LOCK                    POST            /src/www                 
