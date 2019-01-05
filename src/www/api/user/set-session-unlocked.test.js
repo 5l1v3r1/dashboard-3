@@ -81,28 +81,6 @@ describe(`/api/user/set-session-unlocked`, () => {
       assert.strictEqual(session.message, 'invalid-account')
     })
 
-    it('should require impersonating administrator use own credentials', async () => {
-      const owner = await TestHelper.createOwner()
-      const administrator = await TestHelper.createAdministrator(owner)
-      const user = await TestHelper.createUser()
-      await TestHelper.setImpersonate(administrator, user.account.accountid)
-      await TestHelper.lockSession(administrator, user.account.accountid)
-      const req = TestHelper.createRequest(`/api/administrator/sessions?accountid=${user.account.accountid}`)
-      req.account = owner.account
-      req.session = owner.session
-      const userSessions = await req.get()
-      const impersonatingSession = userSessions[0]
-      const req2 = TestHelper.createRequest(`/api/user/set-session-unlocked?sessionid=${impersonatingSession.sessionid}`)
-      req2.account = administrator.account
-      req2.session = administrator.session
-      req2.body = {
-        username: user.account.username,
-        password: user.account.password
-      }
-      const session = await req2.patch()
-      assert.strictEqual(session.message, 'invalid-account')
-    })
-
     it('should unlock locked session for user', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.lockSession(user)
@@ -116,33 +94,6 @@ describe(`/api/user/set-session-unlocked`, () => {
       const session = await req.patch()
       assert.notStrictEqual(session.unlocked, undefined)
       assert.notStrictEqual(session.unlocked, null)
-    })
-
-    it('should unlock session for impersonating administrator', async () => {
-      const owner = await TestHelper.createOwner()
-      const administrator = await TestHelper.createAdministrator(owner)
-      const username = administrator.account.username
-      const password = administrator.account.password
-      const user = await TestHelper.createUser()
-      await TestHelper.setImpersonate(administrator, user.account.accountid)
-      await TestHelper.lockSession(administrator, user.account.accountid)
-      const req2 = TestHelper.createRequest(`/api/administrator/sessions?accountid=${user.account.accountid}`)
-      req2.account = owner.account
-      req2.session = owner.session
-      const userSessions = await req2.get()
-      const impersonatingSession = userSessions[0]
-      const req = TestHelper.createRequest(`/api/user/set-session-unlocked?sessionid=${impersonatingSession.sessionid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      req.body = {
-        username,
-        password
-      }
-      await req.patch()
-      const userSessionsNow = await req2.get()
-      const impersonatingSessionNow = userSessionsNow[0]
-      assert.notStrictEqual(impersonatingSessionNow.unlocked, undefined)
-      assert.notStrictEqual(impersonatingSessionNow.unlocked, null)
     })
   })
 })

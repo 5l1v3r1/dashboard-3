@@ -129,23 +129,6 @@ describe('/account/authorize', () => {
       assert.strictEqual(message.attr.template, 'invalid-account')
     })
 
-    it('should require impersonating administrator use own credentials', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.setImpersonate(administrator, user.account.accountid)
-      await TestHelper.lockSession(administrator, user.account.accountid)
-      const req = TestHelper.createRequest(`/account/authorize`)
-      req.account = administrator.account
-      req.session = administrator.session
-      req.body = {
-        username: user.account.username,
-        password: user.account.password
-      }
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-account')
-    })
-
     it('should unlock session', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.lockSession(user)
@@ -155,26 +138,6 @@ describe('/account/authorize', () => {
       req.body = {
         username: user.account.username,
         password: user.account.password
-      }
-      const page = await req.post()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.notStrictEqual(redirectURL, null)
-      assert.notStrictEqual(redirectURL, undefined)
-      assert.notStrictEqual(redirectURL, '/account/authorize')
-      assert.notStrictEqual(redirectURL, '/account/signin')
-    })
-
-    it('should unlock session for impersonating administrator', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.setImpersonate(administrator, user.account.accountid)
-      await TestHelper.lockSession(administrator, user.account.accountid)
-      const req = TestHelper.createRequest(`/account/authorize`)
-      req.account = administrator.account
-      req.session = administrator.session
-      req.body = {
-        username: administrator.account.username,
-        password: administrator.account.password
       }
       const page = await req.post()
       const redirectURL = TestHelper.extractRedirectURL(page)

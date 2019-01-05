@@ -10,12 +10,6 @@
       ✓ should return object
       ✓ should end response with JSON
 
-  content/session-impersonation-header
-    SessionImpersionationHeader#AFTER
-      ✓ should do nothing for non-administrator
-      ✓ should do nothing when not impersonating
-      ✓ should add impersonation message to header
-
   content/session-unlocked-header
     SessionUnlockedHeader#AFTER
       ✓ should do nothing for not-unlocked accounts
@@ -171,6 +165,9 @@
     Storage#read
       ✓ should require file
       ✓ should return file contents
+    Storage#readMany
+      ✓ should require files array
+      ✓ should return files contents
     Storage#write()
       ✓ should require file
       ✓ should require contents
@@ -190,7 +187,6 @@
   internal-api/uuid
     #random
       ✓ should reject null length
-      ✓ should use provided characters
     #v4()
       ✓ should be a v4 uuid
 
@@ -206,9 +202,7 @@
       ✓ should enforce password length
       ✓ should reject invalid password
       ✓ should reject different account credentials
-      ✓ should require impersonating administrator use own credentials
       ✓ should unlock session
-      ✓ should unlock session for impersonating administrator
 
   /account/change-password
     ChangePassword#GET
@@ -539,16 +533,6 @@
       ✓ should enforce page size
       ✓ should enforce specified offset
 
-  /administrator/end-impersonation
-    EndImpersonation#BEFORE
-      ✓ should reject invalid session
-      ✓ should remove impersonate status
-      ✓ should end the user session of the administrator
-
-  /administrator/impersonate-account
-    ImpersonateAccount#GET
-      ✓ should set impersonate status
-
   /administrator/profile
     Profile#BEFORE
       ✓ should bind profile to req
@@ -754,11 +738,6 @@
       ✓ should enforce specified offset
       ✓ should return all records
 
-  /api/administrator/reset-session-impersonate
-    ResetSessionImpersonate#PATCH
-      ✓ should remove impersonation from session
-      ✓ should end impersonated session
-
   /api/administrator/reset-session-key
     ResetSessionKey#BEFORE
       ✓ should reject invalid account
@@ -808,10 +787,6 @@
     SetOwnerAccount#PATCH
       ✓ should apply authorized new ownership
       ✓ should revoke own ownership
-
-  /api/administrator/set-session-impersonate
-    SetSessionImpersonate#PATCH
-      ✓ should set authorized impersonate
 
   /api/user/account
     Account#GET
@@ -995,9 +970,7 @@
       ✓ should require a password
       ✓ should require a valid username and password
       ✓ should reject other account username and password
-      ✓ should require impersonating administrator use own credentials
       ✓ should unlock locked session for user
-      ✓ should unlock session for impersonating administrator
 
   /api/user/update-profile
     UpdateProfile#BEFORE
@@ -1010,5 +983,5 @@
       ✓ should apply authorized new values
 
 
-  548 passing (14m)
+  535 passing (17m)
 

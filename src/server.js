@@ -152,12 +152,12 @@ async function receiveRequest(req, res) {
         if (user) {
           if (user.account.administrator) {
             if (user.account.ownerid) {
-              console.log('server.authenticate (owner)', user.account.accountid, user.session.sessionid, 'impersonating?', user.session.impersonate)
+              console.log('server.authenticate (owner)', user.account.accountid, user.session.sessionid)
             } else {
-              console.log('server.authenticate (administrator)', user.account.accountid, user.session.sessionid, 'impersonating?', user.session.impersonate)
+              console.log('server.authenticate (administrator)', user.account.accountid, user.session.sessionid)
             }
           } else {
-            console.log('server.authenticate', user.account.accountid, user.session.sessionid)
+            console.log('server.authenticate (user)', user.account.accountid, user.session.sessionid)
           }
         } else {
           console.log('server.authenticate', 'guest')
@@ -200,23 +200,6 @@ async function receiveRequest(req, res) {
         }
       }
     }
-    // administrators
-    if (user.account.administrator) {
-      if (user.session.impersonate) {
-        if (req.urlPath.startsWith('/administrator/') && req.urlPath !== '/administrator/end-impersonation') {
-          return Response.throw500(req, res)
-        }
-        if (req.urlPath.startsWith('/api/administrator/') && req.urlPath !== '/api/administrator/reset-session-impersonate') {
-          res.statusCode = 511
-          res.setHeader('content-type', 'application/json')
-          return res.end(`{ "object": "error", "message": "invalid-account" }`)
-        }
-        const sessionReq = { query: { sessionid: user.session.impersonate }, appid: req.appid }
-        req.session = await global.api.administrator.Session._get(sessionReq)
-        const accountReq = { query: { accountid: req.session.accountid }, appid: req.appid }
-        req.account = await global.api.administrator.Account._get(accountReq)
-      }
-    }
   }
   // require signing in to continue
   if (!req.account && req.route && req.route.auth !== false) {
@@ -232,9 +215,7 @@ async function receiveRequest(req, res) {
     if (!req.account) {
       return Response.redirectToSignIn(req, res)
     }
-    if (!req.account.administrator &&
-      req.urlPath !== '/administrator/end-impersonation' &&
-      req.urlPath !== '/api/administrator/reset-session-impersonate') {
+    if (!req.account.administrator) {
       return Response.throw500(req, res)
     }
   }

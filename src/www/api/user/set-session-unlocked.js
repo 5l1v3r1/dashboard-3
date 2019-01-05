@@ -44,11 +44,7 @@ module.exports = {
     if (!validPassword) {
       throw new Error('invalid-password')
     }
-    if (req.session.administratorid) {
-      if (req.session.administratorid !== account.accountid) {
-        throw new Error('invalid-account')
-      }
-    } else if (account.accountid !== req.account.accountid) {
+    if (account.accountid !== req.account.accountid) {
       throw new Error('invalid-account')
     }
     if (req.body.remember === 'minutes') {

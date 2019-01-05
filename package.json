@@ -19,7 +19,6 @@
   },
   "dashboard": {
     "content": [
-      "/src/content/session-impersonation-header.js",
       "/src/content/session-unlocked-header.js"
     ],
     "modules": [],

@@ -81,7 +81,6 @@ module.exports = {
   deleteResetCode,
   createUser,
   setDeleted,
-  setImpersonate,
   lockSession,
   unlockSession,
   useResetCode,
@@ -319,18 +318,6 @@ async function setDeleted(user) {
   user.account.username = req.account.username
   user.account.password = req.account.password
   return user.account
-}
-
-async function setImpersonate(administrator, accountid) {
-  const req = createRequest(`/api/administrator/account?accountid=${accountid}`)
-  req.account = administrator.account
-  req.session = administrator.session
-  await req.get()
-  const req2 = createRequest(`/api/administrator/set-session-impersonate?sessionid=${administrator.session.sessionid}`)
-  req2.account = administrator.account
-  req2.session = administrator.session
-  req2.body = { accountid }
-  await req2.patch()
 }
 
 async function createResetCode(user) {
