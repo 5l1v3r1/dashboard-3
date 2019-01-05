@@ -257,7 +257,6 @@ async function receiveRequest(req, res) {
     return
   }
   // if there's no route the request is passed to the application server
-  req.route = global.sitemap[req.urlPath]
   if (!req.route) {
     if (global.applicationServer) {
       return Proxy.pass(req, res)
