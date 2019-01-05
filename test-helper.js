@@ -219,11 +219,11 @@ async function createOwner() {
   const owner = await createUser('owner-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000))
   if (!owner.account.administrator) {
     const req2 = createRequest(`/api/administrator/set-account-administrator?accountid=${owner.account.accountid}`)
-    owner.account = await req2.route.api._patch(req2)
+    owner.account = await req2.route.api.patch(req2)
   }
   if (!owner.account.owner) {
     const req2 = createRequest(`/api/administrator/set-owner-account?accountid=${owner.account.accountid}`)
-    owner.account = await req2.route.api._patch(req2)
+    owner.account = await req2.route.api.patch(req2)
   }
   return owner
 }
@@ -243,7 +243,7 @@ async function createUser(username) {
   if (testDataIndex === testData.length) {
     testDataIndex = 0
   }
-  const account = await req.post()
+  let account = await req.post()
   account.username = username
   account.password = password
   const req2 = createRequest(`/api/user/create-session?accountid=${account.accountid}`)
@@ -251,22 +251,22 @@ async function createUser(username) {
     username,
     password
   }
-  const session = await req2.post()
+  let session = await req2.post()
   const req3 = createRequest(`/api/user/profile?profileid=${account.profileid}`)
   req3.account = account
   req3.session = session
+  const profile = await req3.get()
   const req4 = createRequest(`/api/user/account?accountid=${account.accountid}`)
   req4.account = account
   req4.session = session
+  account = await req4.get()
   const req5 = createRequest(`/api/user/session?sessionid=${session.sessionid}`)
   req5.account = account
   req5.session = session
-  const user = { 
-    profile: await req3.get(),
-    account: await req4.get(), 
-    session: await req5.get()
-  }
-  user.session.token = session.token
+  const token = session.token
+  session = await req5.get()
+  const user = { profile, account, session }
+  user.session.token = token
   user.account.username = username
   user.account.password = password
   return user
@@ -283,8 +283,8 @@ async function createSession(user, expires) {
   return user.session
 }
 
-async function lockSession(user, impersonatingid) {
-  const req = createRequest(`/api/user/set-account-password?accountid=${impersonatingid || user.account.accountid}`)
+async function lockSession(user) {
+  const req = createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
   req.body = {

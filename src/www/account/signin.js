@@ -47,8 +47,10 @@ async function submitForm (req, res) {
   }
   // load account unless coming via registration
   if (!req.account) {
-    const accountReq = { query: { accountid: session.accountid }, appid: req.appid, account: { accountid: session.accountid } }
-    req.account = await global.api.user.Account._get(accountReq)
+    const query = req.query
+    req.query = { accountid: session.accountid }
+    req.account = await global.api.administrator.Account._get(req)
+    req.query = query
   }
   req.session = session
   // session cookie

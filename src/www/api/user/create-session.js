@@ -28,8 +28,10 @@ module.exports = {
     if (!validPassword) {
       throw new Error('invalid-password')
     }
-    const accountReq = { query: { accountid }, appid: req.appid, account: { accountid } }
-    const account = await global.api.user.Account._get(accountReq)
+    const query = req.query
+    req.query = { accountid }
+    const account = await global.api.administrator.Account._get(req)
+    req.query = query
     let expireSeconds
     switch (req.body.remember) {
       case 'hours':

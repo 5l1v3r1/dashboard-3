@@ -23,8 +23,10 @@ module.exports = {
     }
     delete (session.tokenHash)
     if (!session.ended) {
-      const accountReq = { query: { accountid: session.accountid }, appid: req.appid }
-      const account = await global.api.administrator.Account._get(accountReq)
+      const query = req.query
+      req.query.accountid = session.accountid
+      const account = await global.api.administrator.Account._get(req)
+      req.query = query
       if (session.sessionKeyNumber < account.sessionKeyNumber) {
         session.ended = account.sessionKeyLastReset
       } else if (session.expires <= dashboard.Timestamp.now) {

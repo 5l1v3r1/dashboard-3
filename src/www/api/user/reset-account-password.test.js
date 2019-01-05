@@ -59,5 +59,19 @@ describe('/api/user/reset-account-password', () => {
       const account = await req.patch()
       assert.strictEqual(account.message, 'invalid-reset-code')
     })
+
+    it('should set new account password', async () => {
+      const user = await TestHelper.createUser()
+      const code = await TestHelper.createResetCode(user)
+      const req = TestHelper.createRequest(`/api/user/reset-account-password`)
+      req.body = {
+        username: user.account.username,
+        password: `new-password`,
+        code: code.code
+      }
+      const accountNow = await req.patch()
+      assert.notStrictEqual(accountNow.sessionKeyLastReset, undefined)
+      assert.notStrictEqual(accountNow.sessionKeyLastReset, null)
+    })
   })
 })

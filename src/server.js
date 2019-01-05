@@ -141,10 +141,12 @@ async function receiveRequest(req, res) {
   // the application server specifies the account holder
   if (req.applicationServer) {
     if (req.headers['x-accountid']) {
-      const accountReq = { query: { accountid: req.headers['x-accountid'] }, appid: req.appid }
-      const account = await global.api.administrator.Account._get(accountReq)
-      const sessionReq = { query: { sessionid: req.headers['x-sessionid'] }, appid: req.appid }
-      const session = await global.api.administrator.Session._get(sessionReq)
+      const query = req.query
+      req.query = { accountid: req.headers['x-accountid']}
+      const account = await global.api.administrator.Account._get(req)
+      req.query.sessionid = req.headers['x-sessionid']
+      const session = await global.api.administrator.Session._get(req)
+      req.query = query
       user = { account, session }
     }
     // otherwise use cookie-based authentiation
@@ -336,16 +338,18 @@ async function authenticateRequest(req) {
   if (!cookie.sessionid || !cookie.token) {
     throw new Error('invalid-cookie')
   }
-  const sessionReq = { query: { sessionid: cookie.sessionid }, appid: req.appid }
-  const session = await global.api.administrator.Session._get(sessionReq)
+  const query = req.query
+  req.query = { sessionid: cookie.sessionid }
+  const session = await global.api.administrator.Session._get(req)
   if (!session) {
     throw new Error('invalid-sessionid')
   }
   if (session.ended) {
     throw new Error('invalid-session')
   }
-  const accountReq = { query: { accountid: session.accountid }, appid: req.appid }
-  const account = await global.api.administrator.Account._get(accountReq)
+  req.query.accountid = session.accountid
+  const account = await global.api.administrator.Account._get(req)
+  req.query = query
   if (!account || account.deleted) {
     throw new Error('invalid-account')
   }

@@ -9,7 +9,7 @@ module.exports = {
     if (req.query.profileid === req.account.profileid) {
       throw new Error('invalid-profile')
     }
-    const profile = await global.api.user.Profile._get(req)
+    const profile = await global.api.user.Profile.get(req)
     if (profile.accountid !== req.account.accountid) {
       throw new Error('invalid-account')
     }

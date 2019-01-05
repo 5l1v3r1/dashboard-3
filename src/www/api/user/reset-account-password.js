@@ -30,8 +30,9 @@ module.exports = {
     if (!accountid) {
       throw new Error('invalid-username')
     }
-    const accountReq = { query: { accountid }, appid: req.appid, account: { accountid } }
-    const account = await global.api.user.Account._get(accountReq)
+    const query = req.query
+    req.query = { accountid }
+    const account = await global.api.administrator.Account._get(req)
     if (!account) {
       throw new Error('invalid-username')
     }
@@ -46,9 +47,9 @@ module.exports = {
     if (!codeid) {
       throw new Error('invalid-reset-code')
     }
-    req.query = req.query || {}
     req.query.codeid = codeid
-    const code = await global.api.user.ResetCode.get(req)
+    const code = await global.api.user.ResetCode._get(req)
+    req.query = query
     if (!code) {
       throw new Error('invalid-reset-code')
     }

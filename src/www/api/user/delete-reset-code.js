@@ -20,6 +20,6 @@ module.exports = {
     await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${req.account.accountid}/${codeHash}`)
     req.success = true
     req.query.accountid = req.account.accountid
-    return global.api.user.Account._get(req)
+    return global.api.user.Account.get(req)
   }
 }

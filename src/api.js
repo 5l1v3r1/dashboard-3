@@ -118,8 +118,10 @@ function wrapAPIRequest (nodejsHandler, filePath) {
           staleData.push('unlocked')
         }
         await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, staleData)
-        const sessionReq = { query: { sessionid: req.session.sessionid }, appid: req.appid, account: req.account }
-        req.session = await global.api.user.Session._get(sessionReq)
+        const query = req.query
+        req.query = { sessionid: req.session.sessionid }
+        req.session = await global.api.user.Session._get(req)
+        req.query = query
       }
       let result
       try {
