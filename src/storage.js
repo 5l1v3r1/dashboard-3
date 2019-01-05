@@ -1,9 +1,12 @@
 const crypto = require('crypto')
-let storage
+let storage, cache
 if (process.env.STORAGE_ENGINE) {
   storage = require(process.env.STORAGE_ENGINE).Storage
 } else {
   storage = require(`./storage-fs.js`)
+}
+if (process.env.STORAGE_CACHE) {
+  cache = require('./storage-cache.js')
 }
 
 module.exports = {
@@ -18,6 +21,12 @@ module.exports = {
     if (!file) {
       throw new Error('invalid-file')
     }
+    if (cache) {
+      const cached = await cache.get(file)
+      if (cached) {
+        return cached
+      } 
+    }
     const exists = await module.exports.exists(file)
     if (!exists) {
       return undefined
@@ -26,18 +35,35 @@ module.exports = {
     if (!contents) {
       return null
     }
-    return decrypt(contents)
+    const data = decrypt(contents)
+    if (cache) {
+      await cache.set(file, data)
+    }
+    return data
   },
   readMany: async (prefix, files) => {
     if (!files || !files.length) {
       throw new Error('invalid-files')
     }
-    const data = storage.readMany(prefix, files)
+    const data = {}
+    if (cache) {
+      for (const file of files) {
+        const cached = await cache.get(file)
+        if (cached) {
+          data[file] = cached
+          files.splice(files.indexOf(file), 1)
+        }
+      }
+    }
+    const uncachedData = await storage.readMany(prefix, files)
     for (const file of files) {
-      if (!data[file]) {
+      if (!uncachedData[file]) {
         continue
       }
-      data[file] = decrypt(data[file])
+      data[file] = decrypt(uncachedData[file])
+      if (cache) {
+        await cache.set(file, data[file])
+      }
     }
     return data
   },
@@ -45,7 +71,11 @@ module.exports = {
     if (!file) {
       throw new Error('invalid-file')
     }
-    return storage.readImage(file)
+    const data = storage.readImage(file)
+    if (cache) {
+      await cache.set(file, data)
+    }
+    return data
   },
   write: async (file, contents) => {
     if (!file) {
@@ -57,7 +87,10 @@ module.exports = {
     if (contents && !contents.substring) {
       contents = JSON.stringify(contents)
     }
-    return storage.write(file, encrypt(contents))
+    await storage.write(file, encrypt(contents))
+    if (cache) {
+      await cache.set(file, contents)
+    }
   },
   writeImage: async (file, buffer) => {
     if (!file) {
@@ -66,13 +99,19 @@ module.exports = {
     if (!buffer) {
       throw new Error('invalid-buffer')
     }
-    return storage.writeImage(file, buffer)
+    await storage.writeImage(file, buffer)
+    if (cache) {
+      await cache.set(file, contents)
+    }
   },
   deleteFile: async (file) => {
     if (!file) {
       throw new Error('invalid-file')
     }
-    return storage.deleteFile(file)
+    await storage.deleteFile(file)
+    if (cache) {
+      await cache.remove(file)
+    }
   }
 }
 

@@ -16,6 +16,10 @@ if (process.env.STORAGE_ENGINE) {
   require(`${process.env.STORAGE_ENGINE}/test-helper.js`)
 }
 
+if (process.env.STORAGE_CACHE) {
+  require(`${process.env.STORAGE_CACHE}/test-helper.js`)
+}
+
 before(async () => {
   await dashboard.start(global.applicationPath || __dirname)
 })
