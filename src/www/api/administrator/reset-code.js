@@ -5,7 +5,12 @@ module.exports = {
     if (!req.query || !req.query.codeid) {
       throw new Error('invalid-codeid')
     }
-    let code = await dashboard.Storage.read(`${req.appid}/resetCode/${req.query.codeid}`)
+    let code
+    if (req.cacheData && req.cacheData[req.query.codeid]) {
+      code = req.cacheData[req.query.codeid]
+    } else {
+      code = await dashboard.Storage.read(`${req.appid}/resetCode/${req.query.codeid}`)
+    }
     if (!code) {
       throw new Error('invalid-codeid')
     }

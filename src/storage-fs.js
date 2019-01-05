@@ -4,6 +4,7 @@ module.exports = {
   exists,
   read,
   readImage,
+  readMany,
   write,
   writeImage,
   deleteFile
@@ -70,6 +71,20 @@ async function read (file) {
     return undefined
   }
   return fs.readFileSync(`${storagePath}/${file}`).toString('utf-8')
+}
+
+async function readMany(prefix, files) {
+  if (!files || !files.length) {
+    throw new Error('invalid-files')
+  }
+  const data = {}
+  for (const file of files) {
+    if (!fs.existsSync(`${storagePath}/${prefix}/${file}`)) {
+      return undefined
+    }
+    data[file] = fs.readFileSync(`${storagePath}/${prefix}/${file}`).toString('utf-8')
+  }
+  return data
 }
 
 async function readImage (file) {

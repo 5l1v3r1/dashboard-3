@@ -28,6 +28,20 @@ module.exports = {
     }
     return decrypt(contents)
   },
+  readMany: async (prefix, files) => {
+    if (!files || !files.length) {
+      throw new Error('invalid-files')
+    }
+    const data = {}
+    for (const file of files) {
+      const contents = await storage.read(`${prefix}/${file}`)
+      if (!contents) {
+        continue
+      }
+      data[file] = decrypt(contents)
+    }
+    return data
+  },
   readImage: async (file) => {
     if (!file) {
       throw new Error('invalid-file')

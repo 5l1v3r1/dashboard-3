@@ -18,6 +18,7 @@ module.exports = {
     if (!codeids || !codeids.length) {
       return null
     }
+    req.cacheData = await dashboard.Storage.readMany('resetCode', codeids)
     const resetCodes = []
     for (const codeid of codeids) {
       req.query.codeid = codeid
