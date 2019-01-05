@@ -121,10 +121,7 @@ async function receiveRequest(req, res) {
     }
   }
   if (!req.applicationServer && req.headers['x-application-server']) {
-    console.log('not application server')
     return Response.throw500(req, res)
-  } else if (req.applicationServer) {
-    console.log('is application server')
   }
   // public access to the API must be enabled otherwise only the application server can
   if (req.urlPath.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer) {
