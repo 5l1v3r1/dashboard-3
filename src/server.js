@@ -100,23 +100,26 @@ async function receiveRequest(req, res) {
   // if it is an application server making the request verify the token
   const applicationServer = global.applicationServer ? req.alternativeApplicationServer || global.applicationServer : null
   if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
-    const applicationServerToken = req.alternativeApplicationServerToken || global.applicationServerToken
-    let expectedText
-    if (req.headers['x-accountid']) {
-      const accountid = req.headers['x-accountid']
-      const sessionid = req.headers['x-sessionid']
-      expectedText = `${applicationServerToken}/${accountid}/${sessionid}`
-    } else {
-      expectedText = applicationServerToken
-    }
-    if (hashCache[expectedText]) {
-      req.applicationServer = hashCache[expectedText] === req.headers['x-dashboard-token']
-    } else {
-      req.applicationServer = bcrypt.compareSync(expectedText, req.headers['x-dashboard-token'])
-      hashCache[expectedText] = expectedText
-      hashCacheItems.unshift(expectedText)
-      if (hashCacheItems.length > 100000) {
-        hashCacheItems.pop()
+    const tokenWorkload = bcrypt.getRounds(req.headers['x-dashboard-token'])
+    if (tokenWorkload === 1) {
+      const applicationServerToken = req.alternativeApplicationServerToken || global.applicationServerToken
+      let expectedText
+      if (req.headers['x-accountid']) {
+        const accountid = req.headers['x-accountid']
+        const sessionid = req.headers['x-sessionid']
+        expectedText = `${applicationServerToken}/${accountid}/${sessionid}`
+      } else {
+        expectedText = applicationServerToken
+      }
+      if (hashCache[expectedText]) {
+        req.applicationServer = hashCache[expectedText] === req.headers['x-dashboard-token']
+      } else {
+        req.applicationServer = bcrypt.compareSync(expectedText, req.headers['x-dashboard-token'])
+        hashCache[expectedText] = expectedText
+        hashCacheItems.unshift(expectedText)
+        if (hashCacheItems.length > 100000) {
+          hashCacheItems.pop()
+        }
       }
     }
   }
