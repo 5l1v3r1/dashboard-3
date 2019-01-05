@@ -48,9 +48,9 @@ module.exports = {
       throw new Error('invalid-reset-code')
     }
     req.query.codeid = codeid
-    const code = await global.api.user.ResetCode._get(req)
+    const code = await global.api.administrator.ResetCode._get(req)
     req.query = query
-    if (!code) {
+    if (!code || code.accountid !== accountid) {
       throw new Error('invalid-reset-code')
     }
     const passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, req.alternativeWorkloadFactor, req.alternativeDashboardEncryptionKey)
