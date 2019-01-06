@@ -41,7 +41,6 @@ beforeEach(async () => {
   global.maximumProfileFirstNameLength = 100
   global.minimumProfileLastNameLength = 1
   global.maximumProfileLastNameLength = 100
-  global.bcryptWorkloadFactor = 4
   global.deleteDelay = 7
   global.maximumProfileFieldLength = 50
   global.pageSize = 2

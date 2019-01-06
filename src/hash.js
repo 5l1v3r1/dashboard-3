@@ -88,7 +88,7 @@ function randomSaltHash(text, alternativeWorkloadFactor, alternativeDashboardEnc
     callback = alternativeWorkloadFactor
     alternativeWorkloadFactor = null
   }
-  const workload = alternativeWorkloadFactor || global.bcryptWorkloadFactor
+  const workload = alternativeWorkloadFactor || bcrypt.getRounds(global.bcryptFixedSalt)
   const key = alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || ''
   return bcrypt.genSalt(workload, (error, salt) => {
     if (error) {
