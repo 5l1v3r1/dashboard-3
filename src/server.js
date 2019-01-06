@@ -100,7 +100,9 @@ async function receiveRequest(req, res) {
   // if it is an application server making the request verify the token
   const applicationServer = global.applicationServer ? req.alternativeApplicationServer || global.applicationServer : null
   if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
-    const tokenWorkload = bcrypt.getRounds(req.headers['x-dashboard-token'])
+
+    const receivedToken = req.headers['x-dashboard-token']
+    const tokenWorkload = bcrypt.getRounds(receivedToken)
     if (tokenWorkload === 4) {
       const applicationServerToken = req.alternativeApplicationServerToken || global.applicationServerToken
       let expectedText
@@ -112,13 +114,15 @@ async function receiveRequest(req, res) {
         expectedText = applicationServerToken
       }
       if (hashCache[expectedText]) {
-        req.applicationServer = hashCache[expectedText] === req.headers['x-dashboard-token']
+        req.applicationServer = hashCache[expectedText] === receivedToken
       } else {
-        req.applicationServer = bcrypt.compareSync(expectedText, req.headers['x-dashboard-token'])
-        hashCache[expectedText] = expectedText
-        hashCacheItems.unshift(expectedText)
-        if (hashCacheItems.length > 100000) {
-          hashCacheItems.pop()
+        req.applicationServer = bcrypt.compareSync(expectedText, receivedToken)
+        if (req.applicationServer) {
+          hashCache[expectedText] = receivedToken
+          hashCacheItems.unshift(expectedText)
+          if (hashCacheItems.length > 100000) {
+            hashCacheItems.pop()
+          }
         }
       }
     }
