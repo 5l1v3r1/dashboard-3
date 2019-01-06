@@ -117,12 +117,12 @@ async function receiveRequest(req, res) {
         req.applicationServer = hashCache[expectedText] === receivedToken
       } else {
         req.applicationServer = bcrypt.compareSync(expectedText, receivedToken)
-        if (req.applicationServer) {
-          hashCache[expectedText] = receivedToken
-          hashCacheItems.unshift(expectedText)
-          if (hashCacheItems.length > 100000) {
-            hashCacheItems.pop()
-          }
+      }
+      if (req.applicationServer) {
+        hashCache[expectedText] = receivedToken
+        hashCacheItems.unshift(expectedText)
+        if (hashCacheItems.length > 100000) {
+          hashCacheItems.pop()
         }
       }
     }
