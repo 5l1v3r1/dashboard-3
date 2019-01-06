@@ -34,6 +34,7 @@ module.exports = {
   compareSync,
   hash,
   hashSync,
+  getRounds: bcrypt.getRounds,
   genSalt: bcrypt.genSalt,
   genSaltSync: bcrypt.genSaltSync
 }
