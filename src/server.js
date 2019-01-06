@@ -101,7 +101,7 @@ async function receiveRequest(req, res) {
   const applicationServer = global.applicationServer ? req.alternativeApplicationServer || global.applicationServer : null
   if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
     const tokenWorkload = bcrypt.getRounds(req.headers['x-dashboard-token'])
-    if (tokenWorkload === 1) {
+    if (tokenWorkload === 4) {
       const applicationServerToken = req.alternativeApplicationServerToken || global.applicationServerToken
       let expectedText
       if (req.headers['x-accountid']) {
