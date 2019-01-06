@@ -8,6 +8,7 @@ let storagePath
 
 if (!process.env.STORAGE_ENGINE) {
   storagePath = process.env.STORAGE_PATH || `${global.applicationPath}/data`
+  storagePath += '/list'
   if (!fs.existsSync(storagePath)) {
     createFolder(storagePath)
   }
