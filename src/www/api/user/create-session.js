@@ -47,7 +47,8 @@ module.exports = {
     const sessionid = `session_${await dashboard.UUID.generateID()}`
     const sessionToken = dashboard.UUID.random(64)
     const dashboardSessionKey = req.alternativeSessionKey || global.dashboardSessionKey
-    const tokenHash = await dashboard.Hash.fixedSaltHash(`${accountid}/${sessionToken}/${account.sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
+    const sessionKey = await dashboard.StorageObject.getProperty(`${req.appid}/account/${account.accountid}`, 'sessionKey')
+    const tokenHash = await dashboard.Hash.fixedSaltHash(`${accountid}/${sessionToken}/${sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
     const sessionInfo = {
       object: 'session',
       sessionid: sessionid,
