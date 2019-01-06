@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt-node')
+const bcrypt = require('./bcrypt.js')
 const util = require('util')
 const UUID = require('./uuid.js')
 
@@ -37,7 +37,7 @@ function fixedSaltHash(text, alternativeFixedSalt, alternativeDashboardEncryptio
   }
   const finalText = text + (alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || '')
   const salt = alternativeFixedSalt || global.bcryptFixedSalt
-  return bcrypt.hash(finalText, salt, null, (error, full) => {
+  return bcrypt.hash(finalText, salt, (error, full) => {
     if (error) {
       return callback(error)
     }
@@ -95,5 +95,5 @@ function randomSaltHash(text, alternativeWorkloadFactor, alternativeDashboardEnc
       return callback(error)
     }
     return bcrypt.hash(text + key, salt, null, callback)
-  })  
+  })
 }

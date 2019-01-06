@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt-node')
+const bcrypt = require('./bcrypt.js')
 const fs = require('fs')
 const Hash = require('./hash.js')
 const HTML = require('./html.js')

@@ -45,7 +45,7 @@
     }
   },
   "dependencies": {
-    "bcrypt-node": "^0.1.0",
+    "bcryptjs": "^2.4.3",
     "server-html": "^9.0.0",
     "uglify-js": "^2.8.29"
   }

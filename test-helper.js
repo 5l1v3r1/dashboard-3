@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-const bcrypt = require('bcrypt-node')
+const bcrypt = require('./src/bcrypt.js')
 const dashboard = require('./index.js')
 const fs = require('fs')
 const http = require('http')
@@ -41,12 +41,12 @@ beforeEach(async () => {
   global.maximumProfileFirstNameLength = 100
   global.minimumProfileLastNameLength = 1
   global.maximumProfileLastNameLength = 100
-  global.bcryptWorkloadFactor = 1
+  global.bcryptWorkloadFactor = 4
   global.deleteDelay = 7
   global.maximumProfileFieldLength = 50
   global.pageSize = 2
   global.allowPublicAPI = true
-  global.bcryptFixedSalt = bcrypt.genSaltSync(1)
+  global.bcryptFixedSalt = bcrypt.genSaltSync(4)
   if (!process.env.STORAGE_ENGINE) {
     if (fs.existsSync(storagePath)) {
       deleteLocalData(storagePath)
