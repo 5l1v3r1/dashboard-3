@@ -33,14 +33,14 @@ function pass(req, res) {
   }
   if (req.account) {
     const token = `${global.applicationServerToken}/${req.account.accountid}/${req.session.sessionid}`
-    const salt = bcrypt.genSaltSync(1)
+    const salt = bcrypt.genSaltSync(4)
     const tokenHash = bcrypt.hashSync(token, salt)
     requestOptions.headers['x-accountid'] = req.account.accountid
     requestOptions.headers['x-sessionid'] = req.session.sessionid
     requestOptions.headers['x-dashboard-token'] = tokenHash
   } else {
     const token = global.applicationServerToken
-    const salt = bcrypt.genSaltSync(1)
+    const salt = bcrypt.genSaltSync(4)
     const tokenHash = bcrypt.hashSync(token, salt)
     requestOptions.headers['x-dashboard-token'] = tokenHash
   }
