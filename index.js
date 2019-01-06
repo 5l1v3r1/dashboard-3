@@ -38,6 +38,7 @@ if (process.env.REDIS_ENCRYPTION_SECRET &&
 }
 
 // optional configuration variables with safe defaults
+global.appid = process.env.APPID || process.env.DOMAIN || 'dashboard'
 global.allowPublicAPI = process.env.ALLOW_PUBLIC_API === 'true'
 global.dashboardServer = process.env.DASHBOARD_SERVER
 global.domain = process.env.DOMAIN || ''
