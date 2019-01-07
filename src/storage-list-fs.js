@@ -30,7 +30,7 @@ const statCacheItems = []
 
 function exists (path, itemid, callback) {
   return fs.exists(`${storagePath}/${path}/${itemid}`, (exists) => {
-    return callback(exists)
+    return callback(null, exists)
   })
 }
 
