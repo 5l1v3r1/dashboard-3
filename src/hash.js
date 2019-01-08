@@ -83,12 +83,12 @@ function randomSaltCompare(text, hash, alternativeDashboardEncryptionKey, callba
   })
 }
 
-function randomSaltHash(text, alternativeWorkloadFactor, alternativeDashboardEncryptionKey, callback) {
+function randomSaltHash(text, alternativeDashboardEncryptionKey, callback) {
   if (!callback) {
-    callback = alternativeWorkloadFactor
-    alternativeWorkloadFactor = null
+    callback = alternativeDashboardEncryptionKey
+    alternativeDashboardEncryptionKey = null
   }
-  const workload = alternativeWorkloadFactor || bcrypt.getRounds(global.bcryptFixedSalt)
+  const workload = bcrypt.getRounds(global.bcryptFixedSalt)
   const key = alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || ''
   return bcrypt.genSalt(workload, (error, salt) => {
     if (error) {
