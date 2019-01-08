@@ -35,10 +35,7 @@ function exists (path, itemid, callback) {
 }
 
 function add (path, itemid, callback) {
-  return exists(path, itemid, (error, exists) => {
-    if (error) {
-      return callback(error)
-    }
+  return exists(path, itemid, (_, exists) => {
     if (!exists) {
       createFolder(`${storagePath}/${path}`)
       return fs.writeFile(`${storagePath}/${path}/${itemid}`, '', callback)
@@ -173,7 +170,7 @@ function cacheItemStats(path, itemids, callback) {
 }
 
 function remove(path, itemid, callback) {
-  return exists (path, itemid, (exists) => {
+  return exists (path, itemid, (_, exists) => {
     if (!exists) {
       return callback()
     }
