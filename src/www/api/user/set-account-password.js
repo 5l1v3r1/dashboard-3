@@ -19,7 +19,11 @@ module.exports = {
       global.maximumPasswordLength < req.body.password.length) {
       throw new Error('invalid-password-length')
     }
-    req.body.passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, req.alternativeWorkloadFactor, req.alternativeDashboardEncryptionKey)
+    let dashboardEncryptionKey = global.dashboardEncryptionKey
+    if (req.server) {
+      dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
+    }
+    req.body.passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, dashboardEncryptionKey)
     delete (req.body.password)
   },
   patch: async (req) => {

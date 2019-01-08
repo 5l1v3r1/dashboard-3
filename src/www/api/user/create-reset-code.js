@@ -19,7 +19,13 @@ module.exports = {
       global.maximumResetCodeLength < req.body.code.length) {
       throw new Error('invalid-reset-code-length')
     }
-    req.body.codeHash = await dashboard.Hash.fixedSaltHash(req.body.code, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
+    let dashboardEncryptionKey = global.dashboardEncryptionKey
+    let bcryptFixedSalt = global.bcryptFixedSalt
+    if (req.server) {
+      dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
+      bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
+    }
+    req.body.codeHash = await dashboard.Hash.fixedSaltHash(req.body.code, bcryptFixedSalt, dashboardEncryptionKey)
     delete (req.body.code)
   },
   post: async (req) => {

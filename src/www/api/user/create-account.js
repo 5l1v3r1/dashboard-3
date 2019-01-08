@@ -58,8 +58,14 @@ module.exports = {
     if (req.body['last-name']) {
       profileInfo.lastName = req.body['last-name']
     }
-    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
-    const passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, req.alternativeWorkloadFactor, req.alternativeDashboardEncryptionKey)
+    let dashboardEncryptionKey = global.dashboardEncryptionKey
+    let bcryptFixedSalt = global.bcryptFixedSalt
+    if (req.server) {
+      dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
+      bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
+    }
+    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)
+    const passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, dashboardEncryptionKey)
     const accountInfo = {
       object: 'account',
       accountid: accountid,

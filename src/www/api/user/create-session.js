@@ -18,13 +18,22 @@ module.exports = {
     if (global.minimumPasswordLength > req.body.password.length) {
       throw new Error('invalid-password-length')
     }
-    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
+    let dashboardEncryptionKey = global.dashboardEncryptionKey
+    let dashboardSessionKey = global.dashboardSessionKey
+    let bcryptFixedSalt = global.bcryptFixedSalt
+    if (req.server) {
+      dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
+      dashboardSessionKey = req.server.dashboardSessionKey || dashboardSessionKey
+      bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
+    }
+
+    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
       throw new Error('invalid-username')
     }
     const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${accountid}`, 'passwordHash')
-    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, passwordHash, req.alternativeDashboardEncryptionKey)
+    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, passwordHash, dashboardEncryptionKey)
     if (!validPassword) {
       throw new Error('invalid-password')
     }
@@ -46,9 +55,8 @@ module.exports = {
     }
     const sessionid = `session_${await dashboard.UUID.generateID()}`
     const sessionToken = dashboard.UUID.random(64)
-    const dashboardSessionKey = req.alternativeSessionKey || global.dashboardSessionKey
     const sessionKey = await dashboard.StorageObject.getProperty(`${req.appid}/account/${account.accountid}`, 'sessionKey')
-    const tokenHash = await dashboard.Hash.fixedSaltHash(`${accountid}/${sessionToken}/${sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
+    const tokenHash = await dashboard.Hash.fixedSaltHash(`${accountid}/${sessionToken}/${sessionKey}/${dashboardSessionKey}`, bcryptFixedSalt, dashboardEncryptionKey)
     const sessionInfo = {
       object: 'session',
       sessionid: sessionid,

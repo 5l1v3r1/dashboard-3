@@ -98,13 +98,18 @@ async function receiveRequest(req, res) {
     return
   }
   // if it is an application server making the request verify the token
-  const applicationServer = global.applicationServer ? req.alternativeApplicationServer || global.applicationServer : null
+  let applicationServer = global.applicationServer
+  if (req.server) {
+    applicationServer = req.server.applicationServer || applicationServer
+  }
   if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
-
     const receivedToken = req.headers['x-dashboard-token']
     const tokenWorkload = bcrypt.getRounds(receivedToken)
     if (tokenWorkload === 4) {
-      const applicationServerToken = req.alternativeApplicationServerToken || global.applicationServerToken
+      let applicationServerToken = global.applicationServerToken
+      if (req.server) {
+        applicationServerToken = req.server.applicationServerToken || applicationServerToken
+      }
       let expectedText
       if (req.headers['x-accountid']) {
         const accountid = req.headers['x-accountid']
@@ -359,8 +364,15 @@ async function authenticateRequest(req) {
   }
   const sessionToken = await StorageObject.getProperty(`${req.appid}/session/${session.sessionid}`, 'tokenHash')
   const sessionKey = await StorageObject.getProperty(`${req.appid}/account/${account.accountid}`, 'sessionKey')
-  const dashboardSessionKey = req.alternativeSessionKey || global.dashboardSessionKey
-  const tokenHash = await Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${dashboardSessionKey}`, req.alternativeFixedSalt, req.alternativeDashboardEncryptionKey)
+  let dashboardEncryptionKey = global.dashboardEncryptionKey
+  let dashboardSessionKey = global.dashboardSessionKey
+  let bcryptFixedSalt = global.bcryptFixedSalt
+  if (req.server) {
+    dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
+    dashboardSessionKey = req.server.dashboardSessionKey || dashboardSessionKey
+    bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
+  }
+  const tokenHash = await Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${dashboardSessionKey}`, bcryptFixedSalt, dashboardEncryptionKey)
   if (sessionToken !== tokenHash) {
     throw new Error('invalid-cookie')
   }
