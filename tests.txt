@@ -875,6 +875,7 @@
       ✓ should require enforce password requirements
       ✓ should require reset code
       ✓ should require valid reset code
+      ✓ should set new account password
 
   /api/user/reset-code
     ResetCode#GET
@@ -980,5 +981,5 @@
       ✓ should apply authorized new values
 
 
-  534 passing (17m)
+  535 passing (51s)
 
