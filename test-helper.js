@@ -1,4 +1,6 @@
 /* eslint-env mocha */
+global.applicationPath = global.applicationPath || __dirname
+global.appid = global.appid || `tests`
 const bcrypt = require('./src/bcrypt.js')
 const dashboard = require('./index.js')
 const fs = require('fs')
@@ -62,7 +64,6 @@ afterEach(() => {
     }
   }
 })
-
 
 after((callback) => {
   dashboard.stop()
