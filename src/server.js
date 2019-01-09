@@ -226,15 +226,6 @@ async function receiveRequest(req, res) {
     }
     return Response.redirectToSignIn(req, res)
   }
-  // require administrators and they must not be impersonating accounts
-  if (req.urlPath.startsWith('/administrator') || req.urlPath.startsWith('/api/administrator/')) {
-    if (!req.account) {
-      return Response.redirectToSignIn(req, res)
-    }
-    if (!req.account.administrator) {
-      return Response.throw500(req, res)
-    }
-  }
   // the 'after' handlers can see signed in users
   try {
     await executeHandlers(req, res, 'after', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
@@ -249,6 +240,15 @@ async function receiveRequest(req, res) {
   }
   if (res.ended) {
     return
+  }
+  // everything within these paths requires an administrator to access
+  if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') || req.urlPath.startsWith('/api/administrator/')) {
+    if (!req.account) {
+      return Response.redirectToSignIn(req, res)
+    }
+    if (!req.account.administrator) {
+      return Response.throw500(req, res)
+    }
   }
   // if there's no route the request is passed to the application server
   if (!req.route) {
