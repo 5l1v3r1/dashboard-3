@@ -148,7 +148,7 @@ function createRequest(rawURL) {
               await proxy('PATCH', `/api/user/set-session-unlocked?sessionid=${req.session.sessionid}`, req)
             } else {
               await proxy('POST', '/account/authorize', req)
-            }            
+            }
           } catch (error) {
             return error
           }
@@ -217,13 +217,20 @@ async function createAdministrator(owner) {
 
 async function createOwner() {
   const owner = await createUser('owner-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000))
+  // to ensure an owner account is created the
+  // APIs are accessed via their unwrapped methods
+  // without creating or validating a real request
   if (!owner.account.administrator) {
-    const req2 = createRequest(`/api/administrator/set-account-administrator?accountid=${owner.account.accountid}`)
-    owner.account = await req2.route.api.patch(req2)
+    const req = createRequest(`/api/administrator/set-account-administrator?accountid=${owner.account.accountid}`)
+    req.account = owner.account
+    req.session = owner.session
+    owner.account = await req.route.api._patch(req)
   }
   if (!owner.account.owner) {
     const req2 = createRequest(`/api/administrator/set-owner-account?accountid=${owner.account.accountid}`)
-    owner.account = await req2.route.api.patch(req2)
+    req2.account = owner.account
+    req2.session = owner.session
+    owner.account = await req2.route.api._patch(req2)
   }
   return owner
 }
@@ -232,8 +239,8 @@ async function createUser(username) {
   username = username || 'user-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000)
   const password = username
   const req = createRequest('/api/user/create-account')
-  req.body = { 
-    username, 
+  req.body = {
+    username,
     password,
     [`first-name`]: testData[testDataIndex].firstName,
     [`last-name`]: testData[testDataIndex].lastName,
@@ -247,7 +254,7 @@ async function createUser(username) {
   account.username = username
   account.password = password
   const req2 = createRequest(`/api/user/create-session?accountid=${account.accountid}`)
-  req2.body = { 
+  req2.body = {
     username,
     password
   }
