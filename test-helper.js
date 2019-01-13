@@ -108,65 +108,63 @@ function createRequest(rawURL) {
     req.query = url.parse(rawURL, true).query
   }
   req.route = global.sitemap[req.urlPath]
-  if (req.route) {
-    for (const verb of ['get', 'post', 'patch', 'delete', 'put']) {
-      if (!req.route.api[verb]) {
-        continue
+  if (global.applicationServer && !req.route) {
+    req.route = {}
+  }
+  for (const verb of ['get', 'post', 'patch', 'delete', 'put']) {
+    req[verb] = async () => {
+      req.method = verb.toUpperCase()
+      await wait()
+      // perform the operation
+      let result
+      try {
+        result = await proxy(verb, rawURL, req)
+      } catch (error) {
+        return error
       }
-      req[verb] = async () => {
-        req.method = verb.toUpperCase()
-        await wait()
-        // perform the operation
-        let result
+      if (req.authorize === false) {
+        return result
+      }
+      await wait()
+      let redirectURL
+      // check if it requires authorization
+      if (result && result.node === 'element') {
+        redirectURL = extractRedirectURL(result)
+      } else if (result && result.message === 'Authorization required') {
+        redirectURL = '/account/authorize'
+      }
+      if (redirectURL === '/account/authorize') {
+        const bodyWas = req.body
+        req.body = {
+          username: req.account.username,
+          password: req.account.password
+        }
+        if (process.env.UNLOCK_SESSION) {
+          req.body.remember = 'minutes'
+        }
         try {
-          result = await proxy(verb, rawURL, req)
+          if (rawURL.startsWith('/api/')) {
+            await proxy('PATCH', `/api/user/set-session-unlocked?sessionid=${req.session.sessionid}`, req)
+          } else {
+            await proxy('POST', '/account/authorize', req)
+          }
         } catch (error) {
           return error
         }
-        if (req.authorize === false) {
-          return result
+        let result3
+        req.body = bodyWas
+        try {
+          if (rawURL.startsWith('/api/')) {
+            result3 = await proxy(verb.toUpperCase(), rawURL, req)
+          } else {
+            result3 = await proxy('GET', rawURL, req)
+          }
+        } catch (error) {
+          return error
         }
-        await wait()
-        let redirectURL
-        // check if it requires authorization
-        if (result && result.node === 'element') {
-          redirectURL = extractRedirectURL(result)
-        } else if (result && result.message === 'Authorization required') {
-          redirectURL = '/account/authorize'
-        }
-        if (redirectURL === '/account/authorize') {
-          const bodyWas = req.body
-          req.body = {
-            username: req.account.username,
-            password: req.account.password
-          }
-          if (process.env.UNLOCK_SESSION) {
-            req.body.remember = 'minutes'
-          }
-          try {
-            if (rawURL.startsWith('/api/')) {
-              await proxy('PATCH', `/api/user/set-session-unlocked?sessionid=${req.session.sessionid}`, req)
-            } else {
-              await proxy('POST', '/account/authorize', req)
-            }
-          } catch (error) {
-            return error
-          }
-          let result3
-          req.body = bodyWas
-          try {
-            if (rawURL.startsWith('/api/')) {
-              result3 = await proxy(verb.toUpperCase(), rawURL, req)
-            } else {
-              result3 = await proxy('GET', rawURL, req)
-            }
-          } catch (error) {
-            return error
-          }
-          return result3
-        }
-        return result
+        return result3
       }
+      return result
     }
   }
   return req
