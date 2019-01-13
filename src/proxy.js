@@ -85,11 +85,23 @@ function pass(req, res) {
         case 302:
           return Response.redirect(req, res, proxyRes.headers['location'])
         case 404:
+          if (req.urlPath.startsWith('/api/')) {
+            res.setHeader('content-type', 'application/json')
+            return res.end('{ \"object\": "error", \"message\": "Invalid content was returned from the application server" }') 
+          }
           return Response.throw404(req, res)
         case 511:
+          if (req.urlPath.startsWith('/api/')) {
+            res.setHeader('content-type', 'application/json')
+            return res.end('{ \"object\": "error", \"message\": "Invalid content was returned from the application server" }') 
+          }
           return Response.redirectToSignIn(req, res)
         case 500:
         default:
+          if (req.urlPath.startsWith('/api/')) {
+            res.setHeader('content-type', 'application/json')
+           return res.end('{ \"object\": "error", \"message\": "Invalid content was returned from the application server" }') 
+          }
           return Response.throw500(req, res)
       }
     })
