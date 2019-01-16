@@ -795,9 +795,11 @@
   /api/user/create-account
     CreateAccount#POST
       ✓ should require a username
-      ✓ should require a username length
+      ✓ should enforce minimum username length
+      ✓ should enforce maximum username length
       ✓ should require a password
-      ✓ should require a username length
+      ✓ should enforce minimum password length
+      ✓ should enforce maximum password length
       ✓ should create account
 
   /api/user/create-profile
@@ -981,5 +983,5 @@
       ✓ should apply authorized new values
 
 
-  535 passing (51s)
+  537 passing (46s)
 

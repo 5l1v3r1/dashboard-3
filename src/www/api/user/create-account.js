@@ -12,10 +12,12 @@ module.exports = {
     if (!req.body.password || !req.body.password.length) {
       throw new Error('invalid-password')
     }
-    if (global.minimumUsernameLength > req.body.username.length) {
+    if (global.minimumUsernameLength > req.body.username.length ||
+        global.maximumUsernameLength < req.body.username.length) {
       throw new Error('invalid-username-length')
     }
-    if (global.minimumPasswordLength > req.body.password.length) {
+    if (global.minimumPasswordLength > req.body.password.length ||
+        global.maximumPasswordLength < req.body.password.length) {
       throw new Error('invalid-password-length')
     }
     // profile requirements
