@@ -98,13 +98,6 @@ module.exports = {
   }
 }
 
-// assistant for unit tests
-if (process.env.NODE_ENV === 'testing') {
-  module.exports.loadTestHelper = () => {
-    return require('./test-helper.js')
-  }
-}
-
 function outputConfiguration () {
   let widestURL = 0
   let widestHTML = 0
