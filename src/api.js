@@ -60,90 +60,115 @@ function wrapAPIRequest (nodejsHandler, filePath) {
     if (nodejsHandler[`_${functionName}`]) {
       continue
     }
-    nodejsHandler[`_${functionName}`] = originalFunction
-    nodejsHandler[functionName] = async (req, res) => {
-      if (!req.session && nodejsHandler.auth !== false) {
-        if (res) {
-          res.statusCode = 511
-          res.setHeader('content-type', 'application/json')
-          return res.end(`{ "object": "auth", "message": "Sign in required" }`)
-        }
-        return { 'object': 'auth', 'message': 'Sign in required' }
+    if (nodejsHandler.lock) {
+      nodejsHandler[`_${functionName}`] = wrapSessionLocking(nodejsHandler, originalFunction)
+    } else if (nodejsHandler.before) {
+      nodejsHandler[`_${functionName}`] = wrapBeforeHandling(nodejsHandler, originalFunction)
+    } else {
+      nodejsHandler[`_${functionName}`] = originalFunction 
+    }
+    nodejsHandler[functionName] = wrapResponseHandling(nodejsHandler[`_${functionName}`])
+  }
+  return nodejsHandler
+}
+
+function wrapBeforeHandling (nodejsHandler, method) {
+  return async (req) => {
+    try {
+      await nodejsHandler.before(req)
+    } catch (error){
+      if (process.env.DEBUG_ERRORS) {
+        console.log('api.before', error)
       }
-      if (nodejsHandler.before) {
-        try {
-          await nodejsHandler.before(req)
-        } catch (error) {
-          if (process.env.DEBUG_ERRORS) {
-            console.log('api.before', error)
-          }
-          if (res) {
-            res.statusCode = 500
-            res.setHeader('content-type', 'application/json')
-            return res.end(`{ "object": "error", "message": "An error ocurred"}`)
-          }
-          throw error
-        }
+      throw error
+    }
+    try {
+      return method(req)
+    } catch (error) {
+      if (process.env.DEBUG_ERRORS) {
+        console.log('api.method', error)
       }
-      if (nodejsHandler.lock) {
-        // lock the session to the API URL
-        if (req.session.lockURL !== req.url) {
-          // remove old lock data
-          if (req.session.unlocked > Timestamp.now) {
-            await StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, `lockURL`, req.url)
-            await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, [ `lockStarted`, `lockData` ])
-          } else {
-            // remove old unlock data
-            await StorageObject.setProperties(`${req.appid}/session/${req.session.sessionid}`, { lock: Timestamp.now, lockURL: req.url })
-            await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, [ `unlocked`, `lockStarted`, `lockData` ])
-          }
-        } 
-        if (!req.session.unlocked) {
-          await StorageObject.setProperties(`${req.appid}/session/${req.session.sessionid}`, { 
-            lockStarted: Timestamp.now, 
-            lockData: req.body ? JSON.stringify(req.body) : '{}',
-            lockURL: req.url,
-          })
-          if (res) {
-            res.statusCode = 511
-            res.setHeader('content-type', 'application/json')
-            return res.end(`{ "object": "lock", "message": "Authorization required" }`)
-          }
-          return { object: 'lock', message: 'Authorization required' }
-        }
-        // remove old lock data
-        const staleData = ['lockStarted', 'lockData', 'lockURL', 'lock']
-        // remove old unlock data
-        if (req.session.unlocked <= Timestamp.now) {
-          staleData.push('unlocked')
-        }
-        await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, staleData)
-        const query = req.query
-        req.query = { sessionid: req.session.sessionid }
-        req.session = await global.api.user.Session._get(req)
-        req.query = query
-      }
-      let result
+      throw error
+    }
+  }
+}
+
+function wrapSessionLocking (nodejsHandler, method) {
+  return async (req) => {
+    if (!req.session) {
+      return { 'object': 'auth', 'message': 'Sign in required' }
+    }
+    if (nodejsHandler.before) {
       try {
-        result = await originalFunction(req)
+        await nodejsHandler.before(req)
       } catch (error) {
         if (process.env.DEBUG_ERRORS) {
-          console.log('api.after', error)
-        }
-        if (res) {
-          res.statusCode = 500
-          res.setHeader('content-type', 'application/json')
-          return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
+          console.log('api.before', error)
         }
         throw error
       }
-      if (res) {
-        res.statusCode = 200
-        res.setHeader('content-type', 'application/json')
-        return res.end(result ? JSON.stringify(result) : '')
+    }
+    // lock the session to the API URL
+    if (req.session.lockURL !== req.url) {
+      // remove old lock data
+      if (req.session.unlocked > Timestamp.now) {
+        await StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, `lockURL`, req.url)
+        await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, [`lockStarted`, `lockData`])
+      } else {
+        // remove old lock and unlock data
+        await StorageObject.setProperties(`${req.appid}/session/${req.session.sessionid}`, { lock: Timestamp.now, lockURL: req.url })
+        await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, [`unlocked`, `lockStarted`, `lockData`])
       }
-      return result
+    }
+    // update the lock data and wait for authorization
+    if (!req.session.unlocked) {
+      await StorageObject.setProperties(`${req.appid}/session/${req.session.sessionid}`, {
+        lockStarted: Timestamp.now,
+        lockData: req.body ? JSON.stringify(req.body) : '{}',
+        lockURL: req.url,
+      })
+      return { object: 'lock', message: 'Authorization required' }
+    }
+    // remove old lock and unlock data
+    const staleData = ['lockStarted', 'lockData', 'lockURL', 'lock']
+    if (req.session.unlocked <= Timestamp.now) {
+      staleData.push('unlocked')
+    }
+    await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, staleData)
+    const query = req.query
+    req.query = { sessionid: req.session.sessionid }
+    req.session = await global.api.user.Session._get(req)
+    req.query = query
+    // complete the operation
+    try {
+      return method(req)
+    } catch (error) {
+      if (process.env.DEBUG_ERRORS) {
+        console.log('api.method', error)
+      }
+      throw error
     }
   }
-  return nodejsHandler
+}
+
+function wrapResponseHandling (method) {
+  return async (req, res) => {
+    let result
+    try {
+      result = await method(req)
+    } catch (error) {
+      if (res) {
+        res.statusCode = 500
+        res.setHeader('content-type', 'application/json')
+        return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
+      }
+      throw error
+    }
+    if (res) {
+      res.statusCode = 200
+      res.setHeader('content-type', 'application/json')
+      return res.end(result ? JSON.stringify(result) : '')
+    }
+    return result
+  }
 }
