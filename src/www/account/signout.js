@@ -7,7 +7,7 @@ module.exports = {
 async function renderPage (req, res, messageTemplate) {
   req.query = req.query || {}
   req.query.sessionid = req.session.sessionid
-  await global.api.user.SetSessionEnded.patch(req)
+  await global.api.user.SetSessionEnded._patch(req)
   let cookieStr = `httponly; path=/`
   if (req.secure) {
     cookieStr += '; secure'

@@ -6,7 +6,7 @@ module.exports = {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
-    const account = await global.api.administrator.Account.get(req)
+    const account = await global.api.administrator.Account._get(req)
     if (!account) {
       throw new Error('invalid-accountid')
     }

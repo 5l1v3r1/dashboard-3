@@ -11,7 +11,7 @@ async function beforeRequest (req) {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid
     try { 
-      await global.api.user.ResetSessionKey.patch(req)
+      await global.api.user.ResetSessionKey._patch(req)
     } catch (error) {
       req.error = error.message
     }
@@ -37,7 +37,7 @@ async function submitForm (req, res) {
   try {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid
-    await global.api.user.ResetSessionKey.patch(req)
+    await global.api.user.ResetSessionKey._patch(req)
     if (req.success) {
       return dashboard.Response.redirectToSignIn(req, res)
     }

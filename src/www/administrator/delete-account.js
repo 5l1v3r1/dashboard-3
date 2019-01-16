@@ -12,12 +12,12 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     try {
-      return global.api.administrator.DeleteAccount.delete(req)
+      return global.api.administrator.DeleteAccount._delete(req)
     } catch (error) {
       req.error = error.message
     }
   }
-  const account = await global.api.administrator.Account.get(req)
+  const account = await global.api.administrator.Account._get(req)
   if (!account) {
     throw new Error('invalid-accountid')
   }
@@ -48,7 +48,7 @@ async function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.administrator.DeleteAccount.delete(req)
+    await global.api.administrator.DeleteAccount._delete(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

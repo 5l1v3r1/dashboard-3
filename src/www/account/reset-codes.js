@@ -54,8 +54,8 @@ async function beforeRequest (req) {
   }
   req.query = req.query || {}
   req.query.accountid = req.account.accountid
-  const total = await global.api.user.ResetCodesCount.get(req)
-  const resetCodes = await global.api.user.ResetCodes.get(req)
+  const total = await global.api.user.ResetCodesCount._get(req)
+  const resetCodes = await global.api.user.ResetCodes._get(req)
   if (resetCodes && resetCodes.length) {
     for (const code of resetCodes) {
       code.createdFormatted = dashboard.Timestamp.date(code.created)

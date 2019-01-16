@@ -12,12 +12,12 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     try {
-      await global.api.administrator.SetAccountAdministrator.patch(req)
+      await global.api.administrator.SetAccountAdministrator._patch(req)
     } catch (error) {
       req.error = error.message
     }
   }
-  const account = await global.api.administrator.Account.get(req)
+  const account = await global.api.administrator.Account._get(req)
   if (!account || account.deleted) {
     throw new Error('invalid-account')
   }
@@ -44,7 +44,7 @@ async function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.administrator.SetAccountAdministrator.patch(req)
+    await global.api.administrator.SetAccountAdministrator._patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

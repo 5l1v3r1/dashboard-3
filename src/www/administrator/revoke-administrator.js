@@ -12,12 +12,12 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     try {
-      await global.api.administrator.ResetAccountAdministrator.patch(req)
+      await global.api.administrator.ResetAccountAdministrator._patch(req)
     } catch (error) {
       req.error = error.message
     }
   }
-  const account = await global.api.administrator.Account.get(req)
+  const account = await global.api.administrator.Account._get(req)
   account.created = dashboard.Timestamp.date(account.created)
   account.lastSignedIn = dashboard.Timestamp.date(account.lastSignedIn)
   req.data = { account }
@@ -41,7 +41,7 @@ async function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.administrator.ResetAccountAdministrator.patch(req)
+    await global.api.administrator.ResetAccountAdministrator._patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

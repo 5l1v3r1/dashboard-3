@@ -9,7 +9,7 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.codeid) {
     throw new Error('invalid-codeid')
   }
-  const resetCode = await global.api.user.ResetCode.get(req)
+  const resetCode = await global.api.user.ResetCode._get(req)
   resetCode.createdFormatted = dashboard.Timestamp.date(resetCode.created)
   req.data = { resetCode }
 }

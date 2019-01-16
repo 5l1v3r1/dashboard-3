@@ -38,7 +38,7 @@ async function submitForm (req, res) {
   let session
   // create session
   try {
-    session = await global.api.user.CreateSession.post(req)
+    session = await global.api.user.CreateSession._post(req)
   } catch (error) {
     return renderPage(req, res, error.message)
   }

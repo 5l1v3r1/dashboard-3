@@ -39,10 +39,10 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-confirm')
   }
   try {
-    await global.api.user.ResetAccountPassword.patch(req)
+    await global.api.user.ResetAccountPassword._patch(req)
   } catch (error) {
     return renderPage(req, res, error.message)
   }
   req.route = global.sitemap['/account/signin']
-  return req.route.api.post(req)
+  return req.route.api._post(req)
 }

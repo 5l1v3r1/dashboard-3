@@ -8,8 +8,8 @@ module.exports = {
 async function beforeRequest (req) {
   req.query = req.query || {}
   req.query.accountid = req.account.accountid
-  const total = await global.api.user.ProfilesCount.get(req)
-  const profiles = await global.api.user.Profiles.get(req)
+  const total = await global.api.user.ProfilesCount._get(req)
+  const profiles = await global.api.user.Profiles._get(req)
   if (profiles && profiles.length) {
     for (const profile of profiles) {
       profile.createdFormatted = dashboard.Timestamp.date(profile.created)

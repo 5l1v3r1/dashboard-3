@@ -13,7 +13,7 @@ module.exports = {
       throw new Error('invalid-profileid')
     }
     req.query.profileid = req.body.profileid
-    const profile = await global.api.user.Profile.get(req)
+    const profile = await global.api.user.Profile._get(req)
     if (!profile) {
       throw new Error('invalid-profileid')
     }
@@ -27,6 +27,6 @@ module.exports = {
   patch: async (req) => {
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'profileid', req.body.profileid)
     req.success = true
-    return global.api.user.Account.get(req)
+    return global.api.user.Account._get(req)
   }
 }

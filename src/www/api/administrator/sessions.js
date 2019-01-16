@@ -17,7 +17,7 @@ module.exports = {
     const sessions = []
     for (const sessionid of sessionids) {
       req.query.sessionid = sessionid
-      const session = await global.api.administrator.Session.get(req)
+      const session = await global.api.administrator.Session._get(req)
       sessions.push(session)
     }
     return sessions

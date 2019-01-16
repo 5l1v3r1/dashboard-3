@@ -70,7 +70,7 @@ async function submitForm (req, res) {
     }
   }
   try {
-    await global.api.user.CreateAccount.post(req)
+    await global.api.user.CreateAccount._post(req)
   } catch (error) {
     return renderPage(req, res, error.message)
   }

@@ -44,7 +44,7 @@ async function submitForm (req, res) {
   try {
     req.query = req.query || {}
     req.query.sessionid = req.session.sessionid
-    req.session = await global.api.user.SetSessionUnlocked.patch(req)
+    req.session = await global.api.user.SetSessionUnlocked._patch(req)
     return dashboard.Response.redirect(req, res, req.session.lockURL)
   } catch (error) {
     return renderPage(req, res, error.message)

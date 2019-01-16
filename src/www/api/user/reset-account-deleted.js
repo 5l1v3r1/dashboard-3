@@ -21,7 +21,6 @@ module.exports = {
     if (global.minimumPasswordLength > req.body.password.length) {
       throw new Error('invalid-password-length')
     }
-
     let dashboardEncryptionKey = global.dashboardEncryptionKey
     let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
@@ -32,6 +31,11 @@ module.exports = {
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
       throw new Error('invalid-username')
+    }
+    const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${accountid}`, 'passwordHash')
+    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, passwordHash, dashboardEncryptionKey)
+    if (!validPassword) {
+      throw new Error('invalid-password')
     }
     const query = req.query
     req.query = { accountid }
@@ -49,8 +53,6 @@ module.exports = {
     await dashboard.StorageObject.removeProperty(`${req.appid}/account/${account.accountid}`, 'deleted')
     await dashboard.StorageList.remove(`${req.appid}/deleted/accounts`, account.accountid)
     req.success = true
-    req.query = req.query || {}
-    req.query.accountid = account.accountid
-    return global.api.user.Account.get(req)
+    return global.api.administrator.Account._get(req)
   }
 }

@@ -5,7 +5,7 @@ module.exports = {
     if (!req.query || !req.query.sessionid) {
       throw new Error('invalid-sessionid')
     }
-    const session = await global.api.user.Session.get(req)
+    const session = await global.api.user.Session._get(req)
     if (!session) {
       throw new Error('invalid-sessionid')
     }
@@ -19,6 +19,6 @@ module.exports = {
   patch: async (req) => {
     await dashboard.StorageObject.setProperty(`${req.appid}/session/${req.query.sessionid}`, 'ended', dashboard.Timestamp.now)
     req.success = true
-    return global.api.user.Session.get(req)
+    return global.api.user.Session._get(req)
   }
 }

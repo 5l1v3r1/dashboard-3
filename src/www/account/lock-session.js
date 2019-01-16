@@ -8,7 +8,7 @@ async function renderPage(req, res) {
   req.query = req.query || {}
   req.query.sessionid = req.session.sessionid
   try {
-    req.session = await global.api.user.ResetSessionUnlocked.patch(req)
+    req.session = await global.api.user.ResetSessionUnlocked._patch(req)
   } catch (error) {
     if (error.message === 'invalid-session') {
       return dashboard.Response.throw500(req, res, error)

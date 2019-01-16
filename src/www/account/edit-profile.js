@@ -12,12 +12,12 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     try {
-      await global.api.user.UpdateProfile.patch(req)
+      await global.api.user.UpdateProfile._patch(req)
     } catch (error) {
       req.error = error.message
     }
   }
-  const profile = await global.api.user.Profile.get(req)
+  const profile = await global.api.user.Profile._get(req)
   req.data = { profile }
 }
 
@@ -68,7 +68,7 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-profile-email')
   }
   try {
-    await global.api.user.UpdateProfile.patch(req)
+    await global.api.user.UpdateProfile._patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

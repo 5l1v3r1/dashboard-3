@@ -209,7 +209,17 @@ describe('/account/register', () => {
         confirm: 'a-user-password'
       }
       await req.post()
-      const hours = Math.floor((req.session.expires - dashboard.Timestamp.now) / 60 / 60)
+      const req2 = TestHelper.createRequest(`/api/user/create-session`)
+      req2.body = {
+        username: req.body.username,
+        password: req.body.password
+      }
+      const secondSession = await req2.post()
+      const req3 = TestHelper.createRequest(`/api/user/sessions?accountid=${secondSession.accountid}`)
+      req3.account = { accountid: secondSession.accountid }
+      req3.session = secondSession
+      const sessions = await req3.get()
+      const hours = Math.floor((sessions[1].expires - dashboard.Timestamp.now) / 60 / 60)
       assert.strictEqual(hours, 0)
     })
 

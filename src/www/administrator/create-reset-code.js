@@ -12,12 +12,12 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     try {
-      await global.api.administrator.CreateResetCode.post(req)
+      await global.api.administrator.CreateResetCode._post(req)
     } catch (error) {
       req.error = error.message
     }
   }
-  const account = await global.api.administrator.Account.get(req)
+  const account = await global.api.administrator.Account._get(req)
   if (!account || account.deleted) {
     throw new Error('invalid-account')
   }
@@ -62,7 +62,7 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-reset-code-length')
   }
   try {
-    await global.api.administrator.CreateResetCode.post(req)
+    await global.api.administrator.CreateResetCode._post(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

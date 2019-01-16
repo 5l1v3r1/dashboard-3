@@ -17,7 +17,7 @@ module.exports = {
     const resetCodes = []
     for (const codeid of codeids) {
       req.query.codeid = codeid
-      const resetCode = await global.api.administrator.ResetCode.get(req)
+      const resetCode = await global.api.administrator.ResetCode._get(req)
       resetCodes.push(resetCode)
     }
     return resetCodes

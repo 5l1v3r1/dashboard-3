@@ -30,10 +30,10 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-password-length')
   }
   try {
-    await global.api.user.ResetAccountDeleted.patch(req)
+    await global.api.user.ResetAccountDeleted._patch(req)
   } catch (error) {
     return renderPage(req, res, error.message)
   }
   req.route = global.sitemap['/account/signin']
-  return req.route.api.post(req, res)
+  return req.route.api._post(req, res)
 }

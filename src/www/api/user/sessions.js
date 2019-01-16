@@ -22,7 +22,7 @@ module.exports = {
     const sessions = []
     for (const sessionid of sessionids) {
       req.query.sessionid = sessionid
-      const session = await global.api.user.Session.get(req)
+      const session = await global.api.user.Session._get(req)
       sessions.push(session)
     }
     return sessions

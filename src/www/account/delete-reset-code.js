@@ -12,12 +12,12 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     try {
-      await global.api.user.DeleteResetCode.delete(req)
+      await global.api.user.DeleteResetCode._delete(req)
     } catch (error) {
       req.error = error.message
     }
   }
-  const resetCode = await global.api.user.ResetCode.get(req)
+  const resetCode = await global.api.user.ResetCode._get(req)
   if (!resetCode) {
     throw new Error('invalid-codeid')
   }
@@ -50,7 +50,7 @@ function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.user.DeleteResetCode.delete(req)
+    await global.api.user.DeleteResetCode._delete(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

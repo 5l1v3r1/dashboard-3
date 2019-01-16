@@ -6,7 +6,7 @@ module.exports = {
     if (!req.query || !req.query.codeid) {
       throw new Error('invalid-codeid')
     }
-    const code = await global.api.user.ResetCode.get(req)
+    const code = await global.api.user.ResetCode._get(req)
     if (code.accountid !== req.account.accountid) {
       throw new Error('invalid-account')
     }
@@ -20,6 +20,6 @@ module.exports = {
     await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${req.account.accountid}/${codeHash}`)
     req.success = true
     req.query.accountid = req.account.accountid
-    return global.api.user.Account.get(req)
+    return global.api.user.Account._get(req)
   }
 }

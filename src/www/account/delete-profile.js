@@ -12,12 +12,12 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     try {
-      await global.api.user.DeleteProfile.delete(req)
+      await global.api.user.DeleteProfile._delete(req)
     } catch (error) {
       req.error = error.message
     }
   }
-  const profile = await global.api.user.Profile.get(req)
+  const profile = await global.api.user.Profile._get(req)
   if (!profile) {
     throw new Error('invalid-profileid')
   }
@@ -54,7 +54,7 @@ function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.user.DeleteProfile.delete(req)
+    await global.api.user.DeleteProfile._delete(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

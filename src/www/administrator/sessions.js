@@ -6,8 +6,8 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const total = await global.api.administrator.SessionsCount.get(req)
-  const sessions = await global.api.administrator.Sessions.get(req)
+  const total = await global.api.administrator.SessionsCount._get(req)
+  const sessions = await global.api.administrator.Sessions._get(req)
   if (sessions && sessions.length) {
     for (const session of sessions) {
       session.createdFormatted = dashboard.Timestamp.date(session.created)

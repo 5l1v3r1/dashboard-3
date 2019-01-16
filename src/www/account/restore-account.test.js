@@ -108,17 +108,15 @@ describe('/account/restore-account', () => {
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
       const req = TestHelper.createRequest('/account/restore-account')
-      req.account = user.account
-      req.session = user.session
       req.body = {
         username: user.account.username,
-        password: 'invalid-password'
+        password: user.account.password
       }
-      await req.post()
+      const reuslt = await req.post()
       const req2 = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
-      req2.accout = administrator.account
+      req2.account = administrator.account
       req2.session = administrator.session
-      const account = await req2.get(req2)
+      const account = await req2.get()
       assert.strictEqual(account.deleted, undefined)
     })
   })

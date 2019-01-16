@@ -6,7 +6,7 @@ module.exports = {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
-    const account = await global.api.administrator.Account.get(req)
+    const account = await global.api.administrator.Account._get(req)
     if (!account) {
       throw new Error('invalid-accountid')
     }
@@ -19,6 +19,6 @@ module.exports = {
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'deleted', dashboard.Timestamp.now + delay - 1)
     await dashboard.StorageList.add(`${req.appid}/deleted/accounts`, req.query.accountid)
     req.success = true
-    return global.api.administrator.Account.get(req)
+    return global.api.administrator.Account._get(req)
   }
 }
