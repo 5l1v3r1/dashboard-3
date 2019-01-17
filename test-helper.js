@@ -206,7 +206,7 @@ async function createAdministrator(owner) {
     req2.account = owner.account
     req2.session = owner.session
     const credentials = administrator.account
-    administrator.account = await req2.patch()
+    administrator.account = await req2.route.api._patch(req2)
     administrator.account.username = credentials.username
     administrator.account.password = credentials.password
   }
@@ -215,20 +215,18 @@ async function createAdministrator(owner) {
 
 async function createOwner() {
   const owner = await createUser('owner-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000))
-  // to ensure an owner account is created the
-  // APIs are accessed via their unwrapped methods
-  // without creating or validating a real request
+  // only the first account created is the owner and only
+  // the owner can transfer to a different account so the
+  // API cannot assign the permission needed and the
+  // storage must be written to directly
   if (!owner.account.administrator) {
-    const req = createRequest(`/api/administrator/set-account-administrator?accountid=${owner.account.accountid}`)
-    req.account = owner.account
-    req.session = owner.session
-    owner.account = await req.route.api._patch(req)
+    await dashboard.StorageObject.setProperty(`${global.appid}/account/${owner.account.accountid}`, `administrator`, dashboard.Timestamp.now)
+    await dashboard.StorageList.add(`${global.appid}/administrator/accounts`, owner.account.accountid)
+    owner.account.administrator = dashboard.Timestamp.now
   }
   if (!owner.account.owner) {
-    const req2 = createRequest(`/api/administrator/set-owner-account?accountid=${owner.account.accountid}`)
-    req2.account = owner.account
-    req2.session = owner.session
-    owner.account = await req2.route.api._patch(req2)
+    await dashboard.StorageObject.setProperty(`${global.appid}/account/${owner.account.accountid}`, `owner`, dashboard.Timestamp.now)
+    owner.account.owner = dashboard.Timestamp.now
   }
   return owner
 }
