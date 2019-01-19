@@ -175,7 +175,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   const pageTitles = doc.getElementsByTagName('title')
   const templateTitles = templateDoc.getElementsByTagName('title')
   if (pageTitles && pageTitles.length &&
-      templateTitles && templateTitles.length) {
+    templateTitles && templateTitles.length) {
     templateTitles[0].child = pageTitles[0].child
   }
   // heading title link
@@ -194,7 +194,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     text: newTitle
   }
   HTML.renderTemplate(templateDoc, headingLink, 'heading-link', 'heading')
-  // account and administrator menus
+  // account menu for users
   if (!req.account) {
     const accountMenuContainer = templateDoc.getElementById('account-menu-container')
     accountMenuContainer.parentNode.removeChild(accountMenuContainer)
@@ -206,16 +206,16 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       accountMenuContainer.parentNode.removeChild(accountMenuContainer)
     }
   }
-  // remove the administrator menu for normal accounts and session impersionation
+  // administrator menu for owner and administrators
   if (!req.account.administrator || req.session.administratorid) {
     const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
-    administratorMenuContainer.parentNode.removeChild(administratorMenuContainer)
+    administratorMenuContainer.setAttribute('style', 'display: none')
   } else {
     if (global.packageJSON.dashboard.menus.administrator && global.packageJSON.dashboard.menus.administrator.length) {
       HTML.renderList(templateDoc, global.packageJSON.dashboard.menus.administrator, 'menu-link', 'administrator-menu')
     } else {
       const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
-      administratorMenuContainer.parentNode.removeChild(administratorMenuContainer)
+      administratorMenuContainer.setAttribute('style', 'display: none')
     }
   }
   // forms in the page content need to have an action mapped to
