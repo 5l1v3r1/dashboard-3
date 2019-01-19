@@ -27,7 +27,7 @@ input[type="submit"] { position: absolute; left: -10000px; top: -10000px; z-inde
 .pure-control-group input[type="text"],
 .pure-control-group input[type="password"],
 .pure-control-group input[type="email"],
-.pure-control-group input[type="number"] { border: 1px solid #ccc; box-shadow: inset 0 0 3px #ccc; background-color: #EEE; border-radius: 0; color: #333; font-size: 0.9rem }
+.pure-control-group input[type="number"] { border: 1px solid #ccc; box-shadow: inset 0 0 3px #ccc; background-color: #EEE; border-radius: 0; color: #333; font-size: 0.9rem; max-width: 100% }
 .pure-control-group input:focus { border-color: #0078e7; box-shadow: inset 0 0 3px #FFF }
 .pure-checkbox input { margin-right: 0.5rem }
 .pure-checkbox label { font-size: 0.8rem; color: #333;  text-transform: none; font-size: 1rem }
