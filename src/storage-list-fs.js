@@ -53,7 +53,6 @@ function count (path, callback) {
       if (error) {
         return callback(error)
       }
-
       if (!itemids || !itemids.length) {
         return callback(null, 0)
       }
