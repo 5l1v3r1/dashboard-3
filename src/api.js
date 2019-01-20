@@ -65,7 +65,7 @@ function wrapAPIRequest (nodejsHandler, filePath) {
     } else if (nodejsHandler.before) {
       nodejsHandler[`_${functionName}`] = wrapBeforeHandling(nodejsHandler, originalFunction)
     } else {
-      nodejsHandler[`_${functionName}`] = originalFunction 
+      nodejsHandler[`_${functionName}`] = originalFunction
     }
     nodejsHandler[functionName] = wrapResponseHandling(nodejsHandler[`_${functionName}`])
   }
@@ -124,10 +124,13 @@ function wrapSessionLocking (nodejsHandler, method) {
     }
     // update the lock data and wait for authorization
     if (!req.session.unlocked) {
+      req.session.lock = Timestamp.now
+      req.session.lockData = req.body ? JSON.stringify(req.body) : '{}'
+      req.session.lockURL = req.url
       await StorageObject.setProperties(`${req.appid}/session/${req.session.sessionid}`, {
-        lock: Timestamp.now,
-        lockData: req.body ? JSON.stringify(req.body) : '{}',
-        lockURL: req.url,
+        lock: req.session.lock,
+        lockData: req.session.lockData,
+        lockURL: req.session.lockURL,
       })
       return { object: 'lock', message: 'Authorization required' }
     }
