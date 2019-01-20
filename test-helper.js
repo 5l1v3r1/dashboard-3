@@ -202,11 +202,11 @@ async function createAdministrator(owner) {
     if (!owner) {
       throw new Error('created a user with no owner to elevate permissions')
     }
+    const credentials = administrator.account
     const req2 = createRequest(`/api/administrator/set-account-administrator?accountid=${administrator.account.accountid}`)
     req2.account = owner.account
     req2.session = owner.session
-    const credentials = administrator.account
-    administrator.account = await req2.route.api._patch(req2)
+    administrator.account = await req2.patch(req2)
     administrator.account.username = credentials.username
     administrator.account.password = credentials.password
   }
