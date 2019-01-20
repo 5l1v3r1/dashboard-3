@@ -111,30 +111,35 @@ function wrapSessionLocking (nodejsHandler, method) {
     // lock the session to the API URL
     if (req.session.lockURL !== req.url) {
       // remove old lock data
+      const oldData = []
       if (req.session.unlocked > Timestamp.now) {
-        await StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, `lockURL`, req.url)
-        await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, [`lockStarted`, `lockData`])
+        oldData.push(`lock`, `lockData`)
       } else {
-        // remove old lock and unlock data
-        await StorageObject.setProperties(`${req.appid}/session/${req.session.sessionid}`, { lock: Timestamp.now, lockURL: req.url })
-        await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, [`unlocked`, `lockStarted`, `lockData`])
+        oldData.push(`unlocked`, `lock`, `lockData`)
+      }
+      await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, oldData)
+      for (const property of oldData) {
+        delete (req.session[property])
       }
     }
     // update the lock data and wait for authorization
     if (!req.session.unlocked) {
       await StorageObject.setProperties(`${req.appid}/session/${req.session.sessionid}`, {
-        lockStarted: Timestamp.now,
+        lock: Timestamp.now,
         lockData: req.body ? JSON.stringify(req.body) : '{}',
         lockURL: req.url,
       })
       return { object: 'lock', message: 'Authorization required' }
     }
     // remove old lock and unlock data
-    const staleData = ['lockStarted', 'lockData', 'lockURL', 'lock']
+    const staleData = ['lockData', 'lockURL', 'lock']
     if (req.session.unlocked <= Timestamp.now) {
       staleData.push('unlocked')
     }
     await StorageObject.removeProperties(`${req.appid}/session/${req.session.sessionid}`, staleData)
+    for (const property of staleData) {
+      delete (req.session[property])
+    }
     const query = req.query
     req.query = { sessionid: req.session.sessionid }
     req.session = await global.api.user.Session._get(req)

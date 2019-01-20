@@ -189,8 +189,7 @@ async function receiveRequest(req, res) {
     // clearing old sessions
     if (req.session) {
       if (req.session.unlocked > 1 && req.session.unlocked < Timestamp.now) {
-        await StorageObject.removeProperties(`${req.appid}/session/${user.session.sessionid}`, ['lockStarted', 'lockData', 'lockURL', 'lock', 'unlocked'])
-        delete (req.session.lockStarted)
+        await StorageObject.removeProperties(`${req.appid}/session/${user.session.sessionid}`, ['lockData', 'lockURL', 'lock', 'unlocked'])
         delete (req.session.lockData)
         delete (req.session.lockURL)
         delete (req.session.lock)
