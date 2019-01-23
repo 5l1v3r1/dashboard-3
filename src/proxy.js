@@ -65,7 +65,7 @@ async function pass(req, res) {
       let nextPostData = `--${boundary}\r\n`
       nextPostData += `Content-Disposition: form-data; name="${field}"; filename="${req.uploads[field].name}"\r\n`
       nextPostData += `Content-Type: ${req.uploads[field].type}\r\n\r\n`
-      nextPostData += req.uploads[field].buffer
+      nextPostData += req.uploads[field].buffer.toString('binary')
       nextPostData += '\r\n'
       body.push(nextPostData)
     }
