@@ -7,7 +7,7 @@ const querystring = require('querystring')
 
 module.exports = { pass }
 
-function pass(req, res) {
+async function pass(req, res) {
   let baseURL = global.applicationServer.split('://')[1]
   const baseSlash = baseURL.indexOf('/')
   if (baseSlash > -1) {
@@ -44,12 +44,35 @@ function pass(req, res) {
     const tokenHash = bcrypt.hashSync(token, salt)
     requestOptions.headers['x-dashboard-token'] = tokenHash
   }
-  if (req.body) {
+  if (req.body && req.headers['content-type'] && req.headers['content-type'].startsWith('application/x-www-form-urlencoded')) {
+    // post data
     if (!req.bodyRaw) {
       req.bodyRaw = querystring.stringify(req.body)
     }
     requestOptions.headers['content-length'] = req.headers['content-length'] || req.bodyRaw.length
     requestOptions.headers['content-type'] = req.headers['content-type'] || 'application/x-www-form-urlencoded'
+  } else if (req.uploads && req.headers['content-type'] && req.headers['content-type'].startsWith('multipart/form-data;')) {
+    // post data with file uploads
+    const boundary = '--------------------------' + (Math.random() + '').split('.')[1]
+    const body = []
+    for (const field in req.body) {
+      let nextPostData = `--${boundary}\r\n`
+      nextPostData += `Content-Disposition: form-data; name="${field}"\r\n\r\n`
+      nextPostData += `${req.body[field]}\r\n`
+      body.push(nextPostData)
+    }
+    for (const field in req.uploads) {
+      let nextPostData = `--${boundary}\r\n`
+      nextPostData += `Content-Disposition: form-data; name="${field}"; filename="${req.uploads[field].name}"\r\n`
+      nextPostData += `Content-Type: ${req.uploads[field].type}\r\n\r\n`
+      nextPostData += req.uploads[field].buffer
+      nextPostData += '\r\n'
+      body.push(nextPostData)
+    }
+    body.push(`--${boundary}--`)
+    req.body = req.bodyRaw = Buffer.from(body.join(''), 'binary')
+    requestOptions.headers['content-length'] = Buffer.byteLength(req.body)
+    requestOptions.headers['content-type'] = 'multipart/form-data; boundary=' + boundary
   }
   const protocol = global.applicationServer.startsWith('https') ? https : http
   const proxyReq = protocol.request(requestOptions, (proxyRes) => {
@@ -87,20 +110,20 @@ function pass(req, res) {
         case 404:
           if (req.urlPath.startsWith('/api/')) {
             res.setHeader('content-type', 'application/json')
-            return res.end('{ \"object\": "error", \"message\": "Invalid content was returned from the application server" }') 
+            return res.end('{ \"object\": "error", \"message\": "Invalid content was returned from the application server" }')
           }
           return Response.throw404(req, res)
         case 511:
           if (req.urlPath.startsWith('/api/')) {
             res.setHeader('content-type', 'application/json')
-            return res.end('{ \"object\": "error", \"message\": "Invalid content was returned from the application server" }') 
+            return res.end('{ \"object\": "error", \"message\": "Invalid content was returned from the application server" }')
           }
           return Response.redirectToSignIn(req, res)
         case 500:
         default:
           if (req.urlPath.startsWith('/api/')) {
             res.setHeader('content-type', 'application/json')
-           return res.end('{ \"object\": "error", \"message\": "Invalid content was returned from the application server" }') 
+            return res.end('{ \"object\": "error", \"message\": "Invalid content was returned from the application server" }')
           }
           return Response.throw500(req, res)
       }
