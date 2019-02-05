@@ -165,6 +165,9 @@ function wrapResponseHandling (method) {
     try {
       result = await method(req)
     } catch (error) {
+      if (process.env.DEBUG_ERRORS) {
+        console.log('api.method', error)
+      }
       if (res) {
         res.statusCode = 500
         res.setHeader('content-type', 'application/json')
