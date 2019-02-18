@@ -7,7 +7,7 @@ module.exports = {
     }
     let session
     if (req.cacheData && req.cacheData[req.query.sessionid]) {
-      session = req.cache[req.query.sessionid]
+      session = req.cacheData[req.query.sessionid]
     } else {
       session = await dashboard.Storage.read(`${req.appid}/session/${req.query.sessionid}`)
     }

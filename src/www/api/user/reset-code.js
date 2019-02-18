@@ -7,7 +7,7 @@ module.exports = {
     }
     let code
     if (req.cacheData && req.cacheData[req.query.codeid]) {
-      code = req.cache[req.query.codeid]
+      code = req.cacheData[req.query.codeid]
     } else {
       code = await dashboard.Storage.read(`${req.appid}/resetCode/${req.query.codeid}`)
     }
