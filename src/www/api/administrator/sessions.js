@@ -13,7 +13,7 @@ module.exports = {
     if (!sessionids || !sessionids.length) {
       return null
     }
-    req.cacheData = await dashboard.Storage.readMany('session', sessionids)
+    req.cacheData = await dashboard.Storage.readMany(`${req.appid}/sessions`, sessionids)
     const sessions = []
     for (const sessionid of sessionids) {
       req.query.sessionid = sessionid
