@@ -8,7 +8,7 @@ module.exports = {
     if (!accountids || !accountids.length) {
       return null
     }
-    req.cacheData = await dashboard.Storage.readMany(`${req.appid}/accounts`, accountids)
+    req.cacheData = await dashboard.Storage.readMany(`${req.appid}/account`, accountids)
     const accounts = []
     for (const accountid of accountids) {
       req.query.accountid = accountid

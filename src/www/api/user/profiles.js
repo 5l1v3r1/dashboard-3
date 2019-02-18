@@ -17,7 +17,7 @@ module.exports = {
     if (!profileids || !profileids.length) {
       return null
     }
-    req.cacheData = await dashboard.Storage.readMany(`${req.appid}/profiles`, profileids)
+    req.cacheData = await dashboard.Storage.readMany(`${req.appid}/profile`, profileids)
     const profiles = []
     for (const profileid of profileids) {
       req.query.profileid = profileid
