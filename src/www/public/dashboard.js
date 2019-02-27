@@ -2,6 +2,8 @@ var pages = []
 
 window.addEventListener('load', function (event) {
   event.preventDefault()
+  var state = { response: document.body.parentNode.outerHTML, url: window.location.toString() }
+  window.history.replaceState(state, document.title, state.location)
   bindLinksAndForm()
   window.addEventListener('popstate', browseBack)
 })
@@ -80,8 +82,7 @@ function parseResponse(response, url) {
   var htmlDoc = (new DOMParser).parseFromString(response, 'text/html')
   var newNavigation = htmlDoc.getElementById('navigation')
   if (!newNavigation) {
-    document.head.innerHTML = htmlDoc.head.innerHTML
-    document.body.innerHTML = htmlDoc.body.innerHTML
+    document.body.parentNode.innerHTML = htmlDoc.body.parentNode.innerHTML
     return
   }
   var navigation = document.getElementById('navigation')
@@ -96,11 +97,9 @@ function parseResponse(response, url) {
     document.title = iframe.contentDocument.title
   }
   iframe.srcdoc = newIframe.srcdoc
-  if (!noHistory) {
-    var state = { response: response, url: url }
-    pages.push(state)
-    window.history.pushState(state, document.title, url)
-  }
+  var state = { response: response, url: url }
+  pages.push(state)
+  window.history.pushState(state, document.title, url)
   bindLinksAndForm()
   return false
 }
