@@ -1,10 +1,12 @@
+var pages = []
+
 window.addEventListener('load', function (event) {
   event.preventDefault()
   bindLinksAndForm()
   window.addEventListener('popstate', browseBack)
 })
 
-function bindLinksAndForm () {
+function bindLinksAndForm() {
   var iframe = document.getElementById('application-iframe')
   var links = document.getElementsByTagName('a')
   for (var i = 0, len = links.length; i < len; i++) {
@@ -19,15 +21,14 @@ function bindLinksAndForm () {
     form.addEventListener('submit', submitForm)
   }
 }
-function browseBack (event) {
-  if (!event.state) {
-    return
-  }
+function browseBack(event) {
   event.preventDefault()
-  return parseResponse(event.state.response, event.state.url, true)
+  pages.pop()
+  var state = pages.pop()
+  return parseResponse(state.response, state.url)
 }
 
-function clickLink (event) {
+function clickLink(event) {
   event.preventDefault()
   return send(event.target.href, null, 'GET', function (error, response) {
     if (error) {
@@ -37,7 +38,7 @@ function clickLink (event) {
   })
 }
 
-function submitForm (event) {
+function submitForm(event) {
   event.preventDefault()
   var form = event.target
   var buttons = Array.slice(form.getElementsByTagName('button'))
@@ -75,11 +76,12 @@ function submitForm (event) {
   })
 }
 
-function parseResponse (response, url, noHistory) {
+function parseResponse(response, url) {
   var htmlDoc = (new DOMParser).parseFromString(response, 'text/html')
   var newNavigation = htmlDoc.getElementById('navigation')
   if (!newNavigation) {
-    document.innerHTML = response
+    document.head.innerHTML = htmlDoc.head.innerHTML
+    document.body.innerHTML = htmlDoc.body.innerHTML
     return
   }
   var navigation = document.getElementById('navigation')
@@ -89,20 +91,21 @@ function parseResponse (response, url, noHistory) {
     links[i].onclick = clickLink
   }
   var newIframe = htmlDoc.getElementById('application-iframe')
-  newIframe.onload = function () {
-    document.title = newIframe.contentDocument.title
-    if (!noHistory) {
-      window.history.pushState({ response: response, url: url }, document.title, url)
-    }
-  }
   var iframe = document.getElementById('application-iframe')
-  iframe.parentNode.appendChild(newIframe)
-  iframe.parentNode.removeChild(iframe)
+  iframe.onload = function () {
+    document.title = iframe.contentDocument.title
+  }
+  iframe.srcdoc = newIframe.srcdoc
+  if (!noHistory) {
+    var state = { response: response, url: url }
+    pages.push(state)
+    window.history.pushState(state, document.title, url)
+  }
   bindLinksAndForm()
   return false
 }
 
-function send (url, data, method, callback) {
+function send(url, data, method, callback) {
   var postData
   if (data) {
     var arr = []
