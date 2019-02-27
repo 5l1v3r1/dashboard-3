@@ -174,17 +174,11 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   // <title> is copied from the page to the template <title>
   const pageTitles = doc.getElementsByTagName('title')
   const templateTitles = templateDoc.getElementsByTagName('title')
-  if (pageTitles && pageTitles.length &&
-    templateTitles && templateTitles.length) {
+  if (pageTitles && pageTitles.length && templateTitles && templateTitles.length) {
     templateTitles[0].child = pageTitles[0].child
   }
   // heading title link
-  let newTitle
-  if (pageTitles && pageTitles.length) {
-    newTitle = pageTitles[0].child[0].text || global.packageJSON.dashboard.title
-  } else {
-    newTitle = global.packageJSON.dashboard.title
-  }
+  let newTitle = global.packageJSON.dashboard.title
   if (newTitle.indexOf(' ') > -1) {
     newTitle = newTitle.split(' ').join('&nbsp;')
   }
