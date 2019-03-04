@@ -82,6 +82,15 @@ function parseResponse(response, url) {
   var htmlDoc = (new DOMParser).parseFromString(response, 'text/html')
   var newNavigation = htmlDoc.getElementById('navigation')
   if (!newNavigation) {
+    var metaTags = htmlDoc.getElementsByTagName('meta')
+    if (metaTags && metaTags.length) {
+      for (var i = 0, len = metaTags.length; i < len; i++) {
+        if (metaTags[i]['http-equiv'] === 'refresh' && metaTags[i].content) {
+          document.location = metaTags[i].content.split(';url=')[0]
+          return
+        }
+      }
+    }
     document.body.parentNode.innerHTML = htmlDoc.body.parentNode.innerHTML
     return
   }
