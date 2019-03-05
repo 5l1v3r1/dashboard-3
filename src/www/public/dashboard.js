@@ -57,15 +57,17 @@ function submitForm(event) {
     postData[input.name] = input.value || ''
   }
   if (selects && selects.length) {
+    selects = [].concat(selects)
     for (i = 0, len = selects.length; i < len; i++) {
       var select = selects[i]
       if (!select.name || !select.name.length) {
         continue
       }
-      postData[select.name] = select.options[select.selectedIndex].value || ''
+      postData[select.name] = select.value
     }
   }
   if (textareas && textareas.length) {
+    textareas = [].concat(textareas)
     for (i = 0, len = textareas.length; i < len; i++) {
       var textarea = textareas[i]
       if (!textarea.name || !textarea.name.length) {
