@@ -96,7 +96,7 @@ function parseResponse(response, url) {
           return
         }
       }
-    } else if (metaTags['http-equiv'] === 'refresh' && metaTags.content) {
+    } else if (metaTags && metaTags['http-equiv'] === 'refresh' && metaTags.content) {
       document.location = metaTags.content.split(';url=')[0]
       return
     }
