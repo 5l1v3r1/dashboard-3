@@ -43,11 +43,11 @@ function clickLink(event) {
 function submitForm(event) {
   event.preventDefault()
   var form = event.target
-  var buttons = Array.slice(form.getElementsByTagName('button'))
-  var inputs = Array.slice(form.getElementsByTagName('input'))
-  var selects = Array.slice(form.getElementsByTagName('select'))
-  var textareas = Array.slice(form.getElementsByTagName('textarea'))
-  var nameValues = Array.concat(buttons).concat(inputs)
+  var buttons = form.querySelector('button')
+  var inputs = form.querySelector('input')
+  var selects = form.querySelector('select')
+  var textareas = form.querySelector('textarea')
+  var nameValues = [].concat(buttons).concat(inputs)
   var postData = {}
   for (let i = 0, len = nameValues.length; i < len; i++) {
     var input = nameValues[i]
@@ -56,19 +56,23 @@ function submitForm(event) {
     }
     postData[input.name] = input.value || ''
   }
-  for (i = 0, len = selects.length; i < len; i++) {
-    var select = selects[i]
-    if (!select.name || !select.name.length) {
-      continue
+  if (selects && selects.length) {
+    for (i = 0, len = selects.length; i < len; i++) {
+      var select = selects[i]
+      if (!select.name || !select.name.length) {
+        continue
+      }
+      postData[select.name] = select.options[select.selectedIndex].value || ''
     }
-    postData[select.name] = select.options[select.selectedIndex].value || ''
   }
-  for (i = 0, len = textareas.length; i < len; i++) {
-    var textarea = textareas[i]
-    if (!textarea.name || !textarea.name.length) {
-      continue
+  if (textareas && textareas.length) {
+    for (i = 0, len = textareas.length; i < len; i++) {
+      var textarea = textareas[i]
+      if (!textarea.name || !textarea.name.length) {
+        continue
+      }
+      postData[textarea.name] = textarea.innerText || ''
     }
-    postData[textarea.name] = textarea.innerText || ''
   }
   return send(form.action, postData, 'POST', function (error, response) {
     if (error) {
@@ -82,7 +86,7 @@ function parseResponse(response, url) {
   var htmlDoc = (new DOMParser).parseFromString(response, 'text/html')
   var newNavigation = htmlDoc.getElementById('navigation')
   if (!newNavigation) {
-    var metaTags = htmlDoc.getElementsByTagName('meta')
+    var metaTags = htmlDoc.querySelector('meta')
     if (metaTags && metaTags.length) {
       for (var i = 0, len = metaTags.length; i < len; i++) {
         if (metaTags[i]['http-equiv'] === 'refresh' && metaTags[i].content) {
@@ -90,6 +94,9 @@ function parseResponse(response, url) {
           return
         }
       }
+    } else if (metaTags['http-equiv'] === 'refresh' && metaTags.content) {
+      document.location = metaTags.content.split(';url=')[0]
+      return
     }
     document.body.parentNode.innerHTML = htmlDoc.body.parentNode.innerHTML
     return
