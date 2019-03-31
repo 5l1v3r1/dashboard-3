@@ -22,7 +22,7 @@ async function beforeRequest (req) {
     throw new Error('invalid-account')
   }
   account.created = dashboard.Timestamp.date(account.created)
-  account.lastSignedIn = dashboard.Timestamp.date(account.lastSignedIn)
+  account.lastSignedInFormatted = dashboard.Timestamp.date(account.lastSignedIn)
   req.data = { account }
 }
 

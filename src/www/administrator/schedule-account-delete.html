@@ -15,12 +15,16 @@
           <th>ID</th>
           <th>Name</th>
           <th>Email</th>
+          <th>Created</th>
+          <th>Last signed in</th>
         </tr>
       </thead>
       <tr id="${account.accountid}">
         <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
         <td>${account.firstName} ${account.lastName}</td>
         <td><a href="mailto:${account.email}">${account.email}</a></td>
+        <td>${account.createdFormatted}</td>
+        <td>${account.lastSignedInFormatted}</td>
       </tr>
     </table>
     <form id="submit-form" method="POST" class="pure-form">

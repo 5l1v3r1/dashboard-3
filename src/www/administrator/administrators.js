@@ -12,6 +12,7 @@ async function beforeRequest (req) {
     for (const administrator of administrators) {
       administrator.createdFormatted = dashboard.Timestamp.date(administrator.created)
       administrator.administratorFormatted = dashboard.Timestamp.date(administrator.administrator)
+      administrator.lastSignedInFormatted = dashboard.Timestamp.date(administrator.lastSignedIn)
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

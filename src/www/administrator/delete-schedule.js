@@ -11,6 +11,7 @@ async function beforeRequest (req) {
   if (accounts && accounts.length) {
     for (const account of accounts) {
       account.createdFormatted = dashboard.Timestamp.date(account.created)
+      account.lastSignedInFormatted = dashboard.Timestamp.date(account.lastSignedIn)
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

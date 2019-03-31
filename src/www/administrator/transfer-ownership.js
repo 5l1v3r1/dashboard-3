@@ -19,7 +19,7 @@ async function beforeRequest (req) {
   }
   const account = await global.api.administrator.Account._get(req)
   account.createdFormatted = dashboard.Timestamp.date(account.created)
-  account.lastSignedIn = dashboard.Timestamp.date(account.lastSignedIn)
+  account.lastSignedInFormatted = dashboard.Timestamp.date(account.lastSignedIn)
   req.data = { account }
 }
 
