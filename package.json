@@ -10,7 +10,7 @@
   "name": "@userappstore/dashboard",
   "repository": {
     "type": "git",
-    "url": "git://gitlab.com/userappstore/dashboard.git"
+    "url": "git://github.com/userappstore/dashboard.git"
   },
   "scripts": {
     "debug": "node main.js --debug-brk=5858",
