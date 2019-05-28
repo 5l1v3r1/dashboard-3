@@ -15,8 +15,8 @@ describe('internal-api/storage', async () => {
     })
 
     it('should return file contents', async () => {
-      await Storage.write('test-read', { test: true })
-      const file = await Storage.read('test-read')
+      await Storage.write('test-read/1', { test: true })
+      const file = await Storage.read('test-read/1')
       assert.strictEqual(file, '{"test":true}')
     })
   })
