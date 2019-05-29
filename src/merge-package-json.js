@@ -144,15 +144,30 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     packageJSON.dashboard.contentFilePaths[i] = moduleName + trimPath(filePath)
   }
   // load the special HTML files
+  const applicationJSONErrorHTMLPath = applicationJSON.dashboard['error.html'] ? `${global.applicationPath}${applicationJSON.dashboard['error.html']}` : null
+  const applicationJSONRedirectHTMLPath = applicationJSON.dashboard['redirect.html'] ? `${global.applicationPath}${applicationJSON.dashboard['redirect.html']}` : null
+  const applicationJSONTemplateHTMLPath = applicationJSON.dashboard['template.html'] ? `${global.applicationPath}${applicationJSON.dashboard['template.html']}` : null
   const applicationErrorHTMLPath = `${global.applicationPath}/src/error.html`
   const applicationRedirectHTMLPath = `${global.applicationPath}/src/redirect.html`
   const applicationTemplateHTMLPath = `${global.applicationPath}/src/template.html`
   const dashboardErrorHTMLPath = `${global.applicationPath}/node_modules/@userappstore/dashboard/src/error.html`
   const dashboardRedirectHTMLPath = `${global.applicationPath}/node_modules/@userappstore/dashboard/src/redirect.html`
   const dashboardTemplateHTMLPath = `${global.applicationPath}/node_modules/@userappstore/dashboard/src/template.html`
-  packageJSON.errorHTMLPath = fs.existsSync(applicationErrorHTMLPath) ? applicationErrorHTMLPath : dashboardErrorHTMLPath
-  packageJSON.redirectHTMLPath = fs.existsSync(applicationRedirectHTMLPath) ? applicationRedirectHTMLPath : dashboardRedirectHTMLPath
-  packageJSON.templateHTMLPath = fs.existsSync(applicationTemplateHTMLPath) ? applicationTemplateHTMLPath : dashboardTemplateHTMLPath
+  if (applicationJSONErrorHTMLPath && fs.existsSync(applicationJSONErrorHTMLPath)) {
+    packageJSON.errorHTMLPath = applicationJSONErrorHTMLPath
+  } else {
+    packageJSON.errorHTMLPath = fs.existsSync(applicationErrorHTMLPath) ? applicationErrorHTMLPath : dashboardErrorHTMLPath
+  }
+  if (applicationJSONRedirectHTMLPath && fs.existsSync(applicationJSONRedirectHTMLPath)) {
+    packageJSON.redirectHTMLPath = applicationJSONRedirectHTMLPath
+  } else {
+    packageJSON.redirectHTMLPath = fs.existsSync(applicationRedirectHTMLPath) ? applicationRedirectHTMLPath : dashboardRedirectHTMLPath
+  }
+  if (applicationJSONTemplateHTMLPath && fs.existsSync(applicationJSONTemplateHTMLPath)) {
+    packageJSON.templateHTMLPath = applicationJSONTemplateHTMLPath
+  } else {
+    packageJSON.templateHTMLPath = fs.existsSync(applicationTemplateHTMLPath) ? applicationTemplateHTMLPath : dashboardTemplateHTMLPath
+  }
   packageJSON.errorHTML = fs.readFileSync(packageJSON.errorHTMLPath).toString('utf-8')
   packageJSON.redirectHTML = fs.readFileSync(packageJSON.redirectHTMLPath).toString('utf-8')
   packageJSON.templateHTML = fs.readFileSync(packageJSON.templateHTMLPath).toString('utf-8')
