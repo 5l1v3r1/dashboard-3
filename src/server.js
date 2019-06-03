@@ -52,7 +52,9 @@ function start() {
 }
 
 function stop() {
-  return server.close()
+  if (server) {
+    server.close()
+  }
 }
 
 async function receiveRequest(req, res) {
