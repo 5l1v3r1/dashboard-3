@@ -3,6 +3,7 @@ const fs = require('fs')
 const Hash = require('./hash.js')
 const HTML = require('./html.js')
 const http = require('http')
+const Multiparty = require('multiparty')
 const Proxy = require('./proxy.js')
 const qs = require('querystring')
 const Response = require('./response.js')
@@ -30,6 +31,45 @@ const parsePostData = util.promisify((req, callback) => {
   })
 })
 
+const parseMultiPartData = util.promisify((req, callback) => {
+  const form = new Multiparty.Form()
+  return form.parse(req, async (error, fields, files) => {
+    if (error) {
+      return callback(error)
+    }
+    req.body = {}
+    for (const field in fields) {
+      body[field] = fields[field][0]
+    }
+    req.uploads = {}
+    if (files && files.length) {
+      for (const filename in files) {
+        const file = files[filename][0]
+        const extension = file.originalFilename.toLowerCase().split('.').pop()
+        const type = extension === 'png' ? 'image/png' : 'image/jpeg'
+        req.uploads[filename] = {
+          type,
+          buffer: fs.readFileSync(file.path),
+          name: file.name
+        }
+        fs.unlinkSync(file.path)
+      }
+    }
+    return callback()
+  })
+})
+
+async function deleteUploads(files) {
+  for (const field in files) {
+    if (!files[field] || !files[field].length) {
+      continue
+    }
+    for (const file of files[field]) {
+      fs.unlinkSync(file.path)
+    }
+  }
+}
+
 let server
 const fileCache = {}
 const hashCache = {}
@@ -38,6 +78,7 @@ const hashCacheItems = []
 module.exports = {
   authenticateRequest,
   parsePostData,
+  parseMultiPartData,
   receiveRequest,
   start,
   stop,
@@ -70,10 +111,14 @@ async function receiveRequest(req, res) {
   if (question !== -1) {
     req.query = url.parse(req.url, true).query
   }
-  if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
-    req.bodyRaw = await parsePostData(req)
-    if (req.bodyRaw) {
-      req.body = qs.parse(req.bodyRaw)
+  if (!req.body) {
+    if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
+      req.bodyRaw = await parsePostData(req)
+      if (req.bodyRaw) {
+        req.body = qs.parse(req.bodyRaw)
+      } else {
+        req.body = await parseMultiPartData(req)
+      }
     }
   }
   // public static files are served without authentication
@@ -153,7 +198,7 @@ async function receiveRequest(req, res) {
   if (req.applicationServer) {
     if (req.headers['x-accountid']) {
       const query = req.query
-      req.query = { accountid: req.headers['x-accountid']}
+      req.query = { accountid: req.headers['x-accountid'] }
       let account
       try {
         account = await global.api.administrator.Account._get(req)
@@ -264,6 +309,9 @@ async function receiveRequest(req, res) {
     if (!req.account.administrator) {
       return Response.throw500(req, res)
     }
+  }
+  if (req.url.indexOf('/webhooks/') === -1) {
+    console.log(req.url, req.method, req.body, req.uploads)
   }
   // if there's no route the request is passed to the application server
   if (!req.route) {

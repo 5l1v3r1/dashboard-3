@@ -44,14 +44,10 @@ async function pass(req, res) {
     const tokenHash = bcrypt.hashSync(token, salt)
     requestOptions.headers['x-dashboard-token'] = tokenHash
   }
-  if (req.body && req.headers['content-type'] && req.headers['content-type'].startsWith('application/x-www-form-urlencoded')) {
-    // post data
-    if (!req.bodyRaw) {
-      req.bodyRaw = querystring.stringify(req.body)
-    }
+  if (req.body && req.bodyRaw) {
     requestOptions.headers['content-length'] = req.headers['content-length'] || req.bodyRaw.length
     requestOptions.headers['content-type'] = req.headers['content-type'] || 'application/x-www-form-urlencoded'
-  } else if (req.uploads && req.headers['content-type'] && req.headers['content-type'].startsWith('multipart/form-data;')) {
+  } else if (req.body) {
     // post data with file uploads
     const boundary = '--------------------------' + (Math.random() + '').split('.')[1]
     const body = []

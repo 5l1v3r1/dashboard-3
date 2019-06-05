@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "multiparty": "^4.2.1",
     "server-html": "^9.0.0",
     "uglify-js": "^2.8.29"
   }
