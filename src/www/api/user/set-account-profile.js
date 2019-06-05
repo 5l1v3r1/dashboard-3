@@ -23,9 +23,15 @@ module.exports = {
     if (req.account.profileid === profile.profileid) {
       throw new Error('invalid-profile')
     }
+    req.data = { profile }
   },
   patch: async (req) => {
-    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'profileid', req.body.profileid)
+    await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, {
+      profileid: req.data.profile.profileid,
+      firstName: req.data.profile.firstName,
+      lastName: req.data.profile.lastName,
+      email: req.data.profile.email
+    })
     req.success = true
     return global.api.user.Account._get(req)
   }

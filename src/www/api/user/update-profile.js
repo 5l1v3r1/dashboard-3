@@ -35,6 +35,13 @@ module.exports = {
       lastName: req.body['last-name'],
       email: req.body.email
     })
+    if (req.query.profileid === req.account.profileid) {
+      await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, {
+        firstName: req.body['first-name'],
+        lastName: req.body['last-name'],
+        email: req.body.email
+      })
+    }
     req.success = true
     req.data.profile.firstName = req.body['first-name']
     req.data.profile.lastName = req.body['last-name']
