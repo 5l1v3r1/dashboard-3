@@ -92,13 +92,12 @@ async function receiveRequest(req, res) {
   if (question !== -1) {
     req.query = url.parse(req.url, true).query
   }
-  if (!req.body) {
-    if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
+  if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
+    await parseMultiPartData(req)
+    if (!req.body) {
       req.bodyRaw = await parsePostData(req)
       if (req.bodyRaw) {
         req.body = qs.parse(req.bodyRaw)
-      } else {
-        await parseMultiPartData(req)
       }
     }
   }
