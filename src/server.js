@@ -154,9 +154,23 @@ async function receiveRequest(req, res) {
     if (req.headers['x-accountid']) {
       const query = req.query
       req.query = { accountid: req.headers['x-accountid']}
-      const account = await global.api.administrator.Account._get(req)
+      let account
+      try {
+        account = await global.api.administrator.Account._get(req)
+      } catch (error) {
+      }
+      if (!account) {
+        return Response.throw500(req, res)
+      }
       req.query.sessionid = req.headers['x-sessionid']
-      const session = await global.api.administrator.Session._get(req)
+      let session
+      try {
+        session = await global.api.administrator.Session._get(req)
+      } catch (error) {
+      }
+      if (!session) {
+        return Response.throw500(req, res)
+      }
       req.query = query
       user = { account, session }
     }
@@ -350,18 +364,23 @@ async function authenticateRequest(req) {
   }
   const query = req.query
   req.query = { sessionid: cookie.sessionid }
-  const session = await global.api.administrator.Session._get(req)
-  if (!session) {
-    throw new Error('invalid-sessionid')
+  let session
+  try {
+    session = await global.api.administrator.Session._get(req)
+  } catch (error) {
   }
-  if (session.ended) {
-    throw new Error('invalid-session')
+  if (!session || session.ended) {
+    return
   }
   req.query.accountid = session.accountid
-  const account = await global.api.administrator.Account._get(req)
+  let account
+  try {
+    account = await global.api.administrator.Account._get(req)
+  } catch (error) {
+  }
   req.query = query
   if (!account || account.deleted) {
-    throw new Error('invalid-account')
+    return
   }
   const sessionToken = await StorageObject.getProperty(`${req.appid}/session/${session.sessionid}`, 'tokenHash')
   const sessionKey = await StorageObject.getProperty(`${req.appid}/account/${account.accountid}`, 'sessionKey')
