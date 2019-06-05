@@ -40,7 +40,7 @@ const parseMultiPartData = util.promisify((req, callback) => {
       const file = files[filename][0]
       const extension = file.originalFilename.toLowerCase().split('.').pop()
       const type = extension === 'png' ? 'image/png' : 'image/jpeg'
-      req.uploads[filename] = {
+      req.uploads[filename + '.' + extension] = {
         type,
         buffer: fs.readFileSync(file.path),
         name: file.name
@@ -93,9 +93,25 @@ async function receiveRequest(req, res) {
     req.query = url.parse(req.url, true).query
   }
   if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
-    await parseMultiPartData(req)
+    if (req.headers['content-type'] && req.headers['content-type'].indexOf('multipart/form-data;') > -1) {
+      try {
+        await parseMultiPartData(req)
+      } catch (error) {
+        if (process.env.DEBUG_ERRORS) {
+          console.log('server.parseMultiPartData', error)
+        }
+        return Response.throw500(req, res)
+      }
+    }
     if (!req.body) {
-      req.bodyRaw = await parsePostData(req)
+      try {
+        req.bodyRaw = await parsePostData(req)
+      } catch (error) {
+        if (process.env.DEBUG_ERRORS) {
+          console.log('server.parsePostData', error)
+        }
+        return Response.throw500(req, res)
+      }
       if (req.bodyRaw) {
         req.body = qs.parse(req.bodyRaw)
       }
