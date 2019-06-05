@@ -39,7 +39,7 @@ const parseMultiPartData = util.promisify((req, callback) => {
     }
     req.body = {}
     for (const field in fields) {
-      body[field] = fields[field][0]
+      req.body[field] = fields[field][0]
     }
     req.uploads = {}
     if (files && files.length) {
