@@ -13,12 +13,6 @@ const url = require('url')
 const util = require('util')
 
 const parsePostData = util.promisify((req, callback) => {
-  if (req.headers['content-type'] && req.headers['content-type'].startsWith('multipart/form-data')) {
-    return callback()
-  }
-  if (!req.headers['content-length']) {
-    return callback()
-  }
   let body = ''
   req.on('data', (data) => {
     body += data
@@ -42,33 +36,20 @@ const parseMultiPartData = util.promisify((req, callback) => {
       req.body[field] = fields[field][0]
     }
     req.uploads = {}
-    if (files && files.length) {
-      for (const filename in files) {
-        const file = files[filename][0]
-        const extension = file.originalFilename.toLowerCase().split('.').pop()
-        const type = extension === 'png' ? 'image/png' : 'image/jpeg'
-        req.uploads[filename] = {
-          type,
-          buffer: fs.readFileSync(file.path),
-          name: file.name
-        }
-        fs.unlinkSync(file.path)
+    for (const filename in files) {
+      const file = files[filename][0]
+      const extension = file.originalFilename.toLowerCase().split('.').pop()
+      const type = extension === 'png' ? 'image/png' : 'image/jpeg'
+      req.uploads[filename] = {
+        type,
+        buffer: fs.readFileSync(file.path),
+        name: file.name
       }
+      fs.unlinkSync(file.path)
     }
     return callback()
   })
 })
-
-async function deleteUploads(files) {
-  for (const field in files) {
-    if (!files[field] || !files[field].length) {
-      continue
-    }
-    for (const file of files[field]) {
-      fs.unlinkSync(file.path)
-    }
-  }
-}
 
 let server
 const fileCache = {}
@@ -117,7 +98,7 @@ async function receiveRequest(req, res) {
       if (req.bodyRaw) {
         req.body = qs.parse(req.bodyRaw)
       } else {
-        req.body = await parseMultiPartData(req)
+        await parseMultiPartData(req)
       }
     }
   }
