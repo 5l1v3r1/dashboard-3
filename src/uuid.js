@@ -51,5 +51,5 @@ function encode (string) {
 
 // via https://coligo.io/create-url-shortener-with-node-express-mongo/
 function generateID () {
-  return random(process.env.ID_LENGTH || 16)
+  return random(global.idLength || 16)
 }
