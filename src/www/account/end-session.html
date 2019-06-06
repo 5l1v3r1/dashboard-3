@@ -24,7 +24,7 @@
         <td>${session.expiresFormatted}</td>
       </tr>
     </table>
-    <form id="submit-form" method="POST" class="pure-form">
+    <form id="submit-form" method="POST" class="pure-form" action="/account/end-session?sessionid=${session.sessionid}">
       <fieldset>
         <button id="submit-button" type="submit" class="pure-button pure-button-primary">End session</button>
       </fieldset>

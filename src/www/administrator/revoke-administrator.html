@@ -28,7 +28,7 @@
         <td>${account.lastSignedInFormatted}</td>
       </tr>
     </table>
-    <form id="submit-form" method="POST" class="pure-form">
+    <form id="submit-form" method="POST" class="pure-form" action="/administrator/revoke-administrator?accountid=${account.accountid}">
       <fieldset>
         <button id="submit-button" type="submit" class="pure-button pure-button-primary">Revoke administrator</button>
       </fieldset>

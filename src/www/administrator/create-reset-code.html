@@ -28,7 +28,7 @@
         <td>${account.lastSignedInFormatted}</td>
       </tr>
     </table>
-    <form id="submit-form" method="POST" class="pure-form">
+    <form id="submit-form" method="POST" class="pure-form" action="/administrator/create-reset-code?accountid=${account.accountid}">
       <fieldset>
         <div class="pure-control-group">
           <label for="code">Reset code</label>
