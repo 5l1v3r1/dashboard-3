@@ -144,9 +144,9 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     packageJSON.dashboard.contentFilePaths[i] = moduleName + trimPath(filePath)
   }
   // load the special HTML files
-  const applicationJSONErrorHTMLPath = applicationJSON.dashboard['error.html'] ? `${global.applicationPath}${applicationJSON.dashboard['error.html']}` : null
-  const applicationJSONRedirectHTMLPath = applicationJSON.dashboard['redirect.html'] ? `${global.applicationPath}${applicationJSON.dashboard['redirect.html']}` : null
-  const applicationJSONTemplateHTMLPath = applicationJSON.dashboard['template.html'] ? `${global.applicationPath}${applicationJSON.dashboard['template.html']}` : null
+  const applicationJSONErrorHTMLPath = (applicationJSON || packageJSON).dashboard['error.html'] ? `${global.applicationPath}${applicationJSON.dashboard['error.html']}` : null
+  const applicationJSONRedirectHTMLPath = (applicationJSON || packageJSON).dashboard['redirect.html'] ? `${global.applicationPath}${applicationJSON.dashboard['redirect.html']}` : null
+  const applicationJSONTemplateHTMLPath = (applicationJSON || packageJSON).dashboard['template.html'] ? `${global.applicationPath}${applicationJSON.dashboard['template.html']}` : null
   const applicationErrorHTMLPath = `${global.applicationPath}/src/error.html`
   const applicationRedirectHTMLPath = `${global.applicationPath}/src/redirect.html`
   const applicationTemplateHTMLPath = `${global.applicationPath}/src/template.html`
@@ -198,7 +198,12 @@ function mergeModuleJSON (baseJSON, moduleJSON, nested) {
       if (baseJSON.dashboard.server.indexOf(relativePath) > -1) {
         continue
       }
-      const filePath = `${global.applicationPath}/node_modules/${moduleJSON.name}/${relativePath}`
+      let filePath
+      if (relativePath.indexOf('node_modules/') > -1) {
+        filePath = `${global.applicationPath}${relativePath}`
+      } else {
+        filePath = `${global.applicationPath}/${moduleJSON.name}${relativePath}`
+      }
       baseJSON.dashboard.server.push(relativePath)
       baseJSON.dashboard.serverFilePaths.push(filePath)
     }
@@ -278,9 +283,12 @@ function trimModuleName (str) {
     return ''
   }
   let moduleName = str.split('node_modules/').pop()
-  if (moduleName.indexOf('@') === 0) {
-    const nameParts = moduleName.split('/')
-    return nameParts[0] + '/' + nameParts[1]
+  const slashIndex = moduleName.indexOf('/')
+  if (slashIndex) {
+    moduleName = moduleName.substring(0, slashIndex)
+  }
+  if (moduleName.indexOf('@userappstore') === 0) {
+    return moduleName
   }
   return moduleName.substring(0, moduleName.indexOf('/'))
 }
