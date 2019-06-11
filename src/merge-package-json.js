@@ -131,7 +131,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     }
     const moduleName = trimModuleName(filePath)
     if (moduleName) {
-      packageJSON.dashboard.serverFilePaths[i] = moduleName + trimPath(filePath)
+      packageJSON.dashboard.serverFilePaths[i] = filePath
     }
   }
   // load the complete content handler list
@@ -202,7 +202,7 @@ function mergeModuleJSON (baseJSON, moduleJSON, nested) {
       if (relativePath.indexOf('node_modules/') > -1) {
         filePath = `${global.applicationPath}${relativePath}`
       } else {
-        filePath = `${global.applicationPath}/${moduleJSON.name}${relativePath}`
+        filePath = `${global.applicationPath}/node_modules/${moduleJSON.name}${relativePath}`
       }
       baseJSON.dashboard.server.push(relativePath)
       baseJSON.dashboard.serverFilePaths.push(filePath)
@@ -279,16 +279,14 @@ function trimPath (str) {
 }
 
 function trimModuleName (str) {
-  if (str.indexOf('node_modules') === -1) {
+  if (str.indexOf('node_modules/') === -1) {
     return ''
   }
-  let moduleName = str.split('node_modules/').pop()
-  const slashIndex = moduleName.indexOf('/')
-  if (slashIndex) {
-    moduleName = moduleName.substring(0, slashIndex)
+  let shortPath = str.split('node_modules/').pop()
+  const slashIndex = shortPath.indexOf('/')
+  if (shortPath.indexOf('@') !== 0) {
+    return shortPath.substring(0, slashIndex)
   }
-  if (moduleName.indexOf('@userappstore') === 0) {
-    return moduleName
-  }
-  return moduleName.substring(0, moduleName.indexOf('/'))
+  const parts = shortPath.split('/')
+  return parts[0] + '/' + parts[1]
 }
