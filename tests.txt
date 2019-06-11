@@ -132,7 +132,7 @@
     StorageList#listAll
       ✓ should return all records
 
-  internal-api/storage-list
+  internal-api/storage-object
     StorageObject#getProperties
       ✓ should return string properties
       ✓ should return int properties
@@ -867,24 +867,7 @@
       ✓ should enforce username length
       ✓ should require a password
       ✓ should enforce password length
-got account { object: 'account',
-  accountid: 'account_4a383081832f0b7b8176d24e6ec31269',
-  profileid: 'profile_f5dc0c7c43f205ba4f88721405a6053d',
-  sessionKeyNumber: 1,
-  created: 1547663806,
-  administrator: 1547663806,
-  owner: 1547663806,
-  lastSignedIn: 1547663806 }
       ✓ should require account be scheduled for deletion
-got account { object: 'account',
-  accountid: 'account_a9c2e02958649aac22c99ada3a5a278e',
-  profileid: 'profile_f1cab9dba07ec664cb3bde07e3a190ab',
-  sessionKeyNumber: 1,
-  created: 1547663806,
-  administrator: 1547663806,
-  owner: 1547663806,
-  lastSignedIn: 1547663806,
-  deleted: 1548268605 }
       ✓ should restore account
 
   /api/user/reset-account-password
@@ -1000,5 +983,5 @@ got account { object: 'account',
       ✓ should apply authorized new values
 
 
-  537 passing (45s)
+  537 passing (56s)
 
