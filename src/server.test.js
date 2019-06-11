@@ -10,11 +10,7 @@ describe('internal-api/server', () => {
     it('should reject missing token', async () => {
       const req = TestHelper.createRequest(`/account/change-username`)
       req.headers = {}
-      let result
-      try {
-        await Server.authenticateRequest(req)
-      } catch (error) {
-      }
+      const result = await Server.authenticateRequest(req)
       assert.strictEqual(result, undefined)
     })
 
@@ -27,13 +23,8 @@ describe('internal-api/server', () => {
         sessionid: 'invalid',
         token: 'invalid'
       }
-      let errorMessage
-      try {
-        await Server.authenticateRequest(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-sessionid')
+      const result = await Server.authenticateRequest(req)
+      assert.strictEqual(result, undefined)
     })
 
     it('should identify user from token', async () => {
