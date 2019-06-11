@@ -13,6 +13,11 @@ const url = require('url')
 const util = require('util')
 
 const parsePostData = util.promisify((req, callback) => {
+  if (req.headers &&
+      req.headers['content-type'] &&
+      req.headers['content-type'].indexOf('multipart/form-data') > -1) {
+        return callback()
+      }
   let body = ''
   req.on('data', (data) => {
     body += data
@@ -305,9 +310,6 @@ async function receiveRequest(req, res) {
     if (!req.account.administrator) {
       return Response.throw500(req, res)
     }
-  }
-  if (req.url.indexOf('/webhooks/') === -1) {
-    console.log(req.url, req.method, req.body, req.uploads)
   }
   // if there's no route the request is passed to the application server
   if (!req.route) {
