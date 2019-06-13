@@ -26,7 +26,7 @@ If you are building a SaaS with Dashboard consider publishing it on [UserAppStor
 
 #### Development
 
-Development takes place on [Gitlab](https://github.com/userappstore).  Releases, documentation and issues are hosted on [Github](https://github.com/userappstore).  Releases are also published on [NPM](https://www.npmjs.com/package/@userappstore/dashboard).
+Development takes place on [Github](https://github.com/userappstore).  Releases, documentation and issues are hosted on [Github](https://github.com/userappstore) and [NPM](https://www.npmjs.com/package/@userappstore/dashboard).
 
 #### License
 
