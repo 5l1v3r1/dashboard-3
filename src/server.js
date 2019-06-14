@@ -406,7 +406,7 @@ async function authenticateRequest(req) {
     return
   }
   if (!cookie.sessionid || !cookie.token) {
-    throw new Error('invalid-cookie')
+    return
   }
   const query = req.query
   req.query = { sessionid: cookie.sessionid }
@@ -440,7 +440,7 @@ async function authenticateRequest(req) {
   }
   const tokenHash = await Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${dashboardSessionKey}`, bcryptFixedSalt, dashboardEncryptionKey)
   if (sessionToken !== tokenHash) {
-    throw new Error('invalid-cookie')
+    return
   }
   return { session, account }
 }
