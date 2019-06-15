@@ -402,9 +402,6 @@ async function authenticateRequest(req) {
     const value = parts.join('=')
     cookie[key] = decodeURI(value)
   }
-  if (!cookie) {
-    return
-  }
   if (!cookie.sessionid || !cookie.token) {
     return
   }
