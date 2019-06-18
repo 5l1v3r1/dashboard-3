@@ -200,6 +200,7 @@
       ✓ should reject invalid password
       ✓ should reject different account credentials
       ✓ should unlock session
+      ✓ should remove lock from session
 
   /account/change-password
     ChangePassword#GET
@@ -903,6 +904,12 @@
       ✓ should end current session
       ✓ should update account sessionKeyLastReset
 
+  /api/user/reset-session-locked
+    ResetSessionLocked#PATCH
+      ✓ should reject not-locked session
+      ✓ should reject unlocked session
+      ✓ should remove lock from the session
+
   /api/user/reset-session-unlocked
     ResetSessionUnlocked#PATCH
       ✓ should reject not-unlocked session
@@ -983,5 +990,5 @@
       ✓ should apply authorized new values
 
 
-  537 passing (2m)
+  541 passing (2m)
 

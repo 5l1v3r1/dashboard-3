@@ -164,5 +164,24 @@ describe('/account/authorize', () => {
       assert.notStrictEqual(redirectURL, '/account/authorize')
       assert.notStrictEqual(redirectURL, '/account/signin')
     })
+
+    it('should remove lock from session', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
+      await TestHelper.lockSession(user)
+      const req = TestHelper.createRequest('/account/authorize')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        cancel: 'true'
+      }
+      const page = await req.post()
+      const redirectURL = TestHelper.extractRedirectURL(page)
+      assert.notStrictEqual(redirectURL, null)
+      assert.notStrictEqual(redirectURL, undefined)
+      assert.notStrictEqual(redirectURL, '/account/authorize')
+      assert.notStrictEqual(redirectURL, '/account/signin')
+    })
   })
 })

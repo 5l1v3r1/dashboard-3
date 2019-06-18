@@ -24,8 +24,11 @@ async function submitForm (req, res) {
   if (!req.body) {
     return renderPage(req, res)
   }
-  if (req.body.cancel === 'cancel') {
-    return dashboard.Response.redirect(req, res, '/signout')
+  if (req.body.cancel === 'true') {
+    req.query = req.query || {}
+    req.query.sessionid = req.session.sessionid
+    await global.api.user.ResetSessionLocked.patch(req)
+    return dashboard.Response.redirect(req, res, req.session.lockURL)
   }
   if (!req.body.username || !req.body.username.length) {
     return renderPage(req, res, 'invalid-username')
