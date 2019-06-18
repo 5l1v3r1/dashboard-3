@@ -144,9 +144,10 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     packageJSON.dashboard.contentFilePaths[i] = moduleName + trimPath(filePath)
   }
   // load the special HTML files
-  const applicationJSONErrorHTMLPath = (applicationJSON || packageJSON).dashboard['error.html'] ? `${global.applicationPath}${applicationJSON.dashboard['error.html']}` : null
-  const applicationJSONRedirectHTMLPath = (applicationJSON || packageJSON).dashboard['redirect.html'] ? `${global.applicationPath}${applicationJSON.dashboard['redirect.html']}` : null
-  const applicationJSONTemplateHTMLPath = (applicationJSON || packageJSON).dashboard['template.html'] ? `${global.applicationPath}${applicationJSON.dashboard['template.html']}` : null
+  const firstJSON = (applicationJSON || packageJSON)
+  const applicationJSONErrorHTMLPath = firstJSON.dashboard && firstJSON.dashboard['error.html'] ? `${global.applicationPath}${firstJSON.dashboard['error.html']}` : null
+  const applicationJSONRedirectHTMLPath = firstJSON.dashboard && firstJSON.dashboard['redirect.html'] ? `${global.applicationPath}${firstJSON.dashboard['redirect.html']}` : null
+  const applicationJSONTemplateHTMLPath = firstJSON.dashboard && firstJSON.dashboard['template.html'] ? `${global.applicationPath}${firstJSON.dashboard['template.html']}` : null
   const applicationErrorHTMLPath = `${global.applicationPath}/src/error.html`
   const applicationRedirectHTMLPath = `${global.applicationPath}/src/redirect.html`
   const applicationTemplateHTMLPath = `${global.applicationPath}/src/template.html`
