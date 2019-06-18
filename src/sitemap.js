@@ -94,6 +94,17 @@ function attachRoutes (routes, folderPath) {
     if (urlKey === '') {
       urlKey = '/'
     }
+    if (routes[urlKey]) {
+      if (jsFileExists) {
+        routes[urlKey].jsFilePath = jsFilePath.substring(global.applicationPath.length)
+        routes[urlKey].api = require(jsFilePath)
+      }
+      if (htmlFileExists) {
+        routes[urlKey].htmlFilePath = htmlFilePath.substring(global.applicationPath.length)
+        routes[urlKey].html = fs.readFileSync(htmlFilePath).toString('utf-8')
+      }
+      continue
+    }
     let template = true
     let auth = api && api.auth === false ? api.auth : true
     let navbar = ''
