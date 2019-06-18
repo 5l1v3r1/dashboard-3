@@ -22,6 +22,8 @@ describe('/account/authorize', () => {
   describe('Authorize#GET', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest('/account/authorize')
       req.account = user.account
@@ -35,6 +37,8 @@ describe('/account/authorize', () => {
   describe('Authorize#POST', () => {
     it('should reject missing username', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest('/account/authorize')
       req.account = user.account
@@ -50,6 +54,8 @@ describe('/account/authorize', () => {
 
     it('should enforce username length', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest('/account/authorize')
       req.account = user.account
@@ -67,6 +73,8 @@ describe('/account/authorize', () => {
 
     it('should reject missing password', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest('/account/authorize')
       req.account = user.account
@@ -83,6 +91,8 @@ describe('/account/authorize', () => {
 
     it('should enforce password length', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest('/account/authorize')
       req.account = user.account
@@ -99,6 +109,8 @@ describe('/account/authorize', () => {
 
     it('should reject invalid password', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest('/account/authorize')
       req.account = user.account
@@ -114,8 +126,12 @@ describe('/account/authorize', () => {
 
     it('should reject different account credentials', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
-      const user2 = await TestHelper.createUser()
+      const user2 = await TestHelper.createUser()      
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user2)
       await TestHelper.lockSession(user2)
       const req = TestHelper.createRequest('/account/authorize')
       req.account = user.account
@@ -131,6 +147,8 @@ describe('/account/authorize', () => {
 
     it('should unlock session', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest('/account/authorize')
       req.account = user.account

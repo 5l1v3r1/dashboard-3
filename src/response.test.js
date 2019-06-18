@@ -8,6 +8,8 @@ describe('internal-api/response', () => {
   describe('Response#wrapTemplateWithSrcDoc', async () => {
     it('should add session unlocked message to header', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       user.session = await TestHelper.unlockSession(user, true)
       const req = TestHelper.createRequest(`/account/change-username`)

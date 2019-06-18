@@ -44,6 +44,8 @@ async function submitForm (req, res) {
     req.query.accountid = req.account.accountid
     await global.api.user.ResetSessionKey._patch(req)
     if (req.success) {
+      req.query = {}
+      req.url = req.urlPath = '/home'
       return dashboard.Response.redirectToSignIn(req, res)
     }
     return dashboard.Response.redirect(req, res, '/account/authorize')

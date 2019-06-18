@@ -71,6 +71,17 @@ after((callback) => {
   return callback()
 })
 
+const wait = util.promisify(function (amount, callback) {
+  if (amount && !callback) {
+    callback = amount
+    amount = null
+  }
+  if (!process.env.STORAGE_ENGINE) {
+    return setTimeout(callback, amount || 1)
+  }
+  return callback()
+})
+
 module.exports = {
   createAdministrator,
   createOwner,
@@ -85,18 +96,9 @@ module.exports = {
   unlockSession,
   useResetCode,
   extractDoc,
-  extractRedirectURL
+  extractRedirectURL,
+  wait
 }
-
-// this delay is used to pad file creation / modification
-// times so list orders isn't jumbled due to nearly
-// instant sequential writes
-const wait = util.promisify(function(callback) {
-  if (!process.env.STORAGE_ENGINE) {
-    return setTimeout(callback, 1)
-  }
-  return callback()
-})
 
 function createRequest(rawURL) {
   const req = {

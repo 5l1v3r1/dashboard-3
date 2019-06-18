@@ -132,7 +132,12 @@ function wrapSessionLocking (nodejsHandler, method) {
         lockData: req.session.lockData,
         lockURL: req.session.lockURL,
       })
-      return { object: 'lock', message: 'Authorization required' }
+      // allow the first session to skip account locking
+      const firstSession = req.session.created === req.account.created ||
+                           parseInt(req.session.created, 10) === parseInt(req.account.created, 10) + 1
+      if (!firstSession) {
+        return { object: 'lock', message: 'Authorization required' }
+      }
     }
     // remove old lock and unlock data
     const staleData = ['lockData', 'lockURL', 'lock']

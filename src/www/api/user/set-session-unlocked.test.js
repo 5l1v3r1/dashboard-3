@@ -19,6 +19,8 @@ describe(`/api/user/set-session-unlocked`, () => {
 
     it('should require a username', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest(`/api/user/set-session-unlocked?sessionid=${user.session.sessionid}`)
       req.account = user.account
@@ -33,6 +35,8 @@ describe(`/api/user/set-session-unlocked`, () => {
 
     it('should require a password', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest(`/api/user/set-session-unlocked?sessionid=${user.session.sessionid}`)
       req.account = user.account
@@ -48,6 +52,8 @@ describe(`/api/user/set-session-unlocked`, () => {
 
     it('should require a valid username and password', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest(`/api/user/set-session-unlocked?sessionid=${user.session.sessionid}`)
       req.account = user.account
@@ -68,6 +74,8 @@ describe(`/api/user/set-session-unlocked`, () => {
 
     it('should reject other account username and password', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const user2 = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-session-unlocked?sessionid=${user.session.sessionid}`)
@@ -83,6 +91,8 @@ describe(`/api/user/set-session-unlocked`, () => {
 
     it('should unlock locked session for user', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.wait(2200)
+      await TestHelper.createSession(user)
       await TestHelper.lockSession(user)
       const req = TestHelper.createRequest(`/api/user/set-session-unlocked?sessionid=${user.session.sessionid}`)
       req.account = user.account

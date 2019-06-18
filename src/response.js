@@ -268,7 +268,6 @@ function redirectToSignIn (req, res) {
         variables.push(`${field}=${value}`)
       }
     }
-
     if (variables.length) {
       returnURL = `${req.urlPath}%3F${variables.join('&')}`
     }
