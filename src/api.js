@@ -1,10 +1,11 @@
-let StorageObject
+let StorageObject, StorageList
 const Timestamp = require('./timestamp.js')
 
 module.exports = {
   wrapAPIRequest,
   generate: () => {
     StorageObject = require('./storage-object.js')
+    StorageList = require('./storage-list.js')
     const api = {}
     for (const url in global.sitemap) {
       if (url.indexOf('/api/') !== 0) {
@@ -133,9 +134,8 @@ function wrapSessionLocking (nodejsHandler, method) {
         lockURL: req.session.lockURL,
       })
       // allow the first session to skip account locking
-      const firstSession = req.session.created === req.account.created ||
-                           parseInt(req.session.created, 10) === parseInt(req.account.created, 10) + 1
-      if (!firstSession) {
+      const sessions = await StorageList.list(`${req.appid}/account/sessions/${req.account.accountid}`)
+      if (sessions.length > 1) {
         return { object: 'lock', message: 'Authorization required' }
       }
     }
