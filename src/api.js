@@ -134,7 +134,7 @@ function wrapSessionLocking (nodejsHandler, method) {
         lockURL: req.session.lockURL,
       })
       // allow the first session to skip account locking
-      const sessions = await StorageList.list(`${req.appid}/account/sessions/${req.account.accountid}`)
+      const sessions = await StorageList.list(`${req.appid}/account/sessions/${req.account.accountid}`, 0, 2)
       if (sessions.length > 1) {
         return { object: 'lock', message: 'Authorization required' }
       }
