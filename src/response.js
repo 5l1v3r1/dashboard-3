@@ -59,12 +59,20 @@ async function end (req, res, doc, blob) {
   }
 }
 
-function redirect (req, res, url) {
+async function redirect (req, res, url) {
   if (!url || !url.length || !url.startsWith('/')) {
     throw new Error('invalid-url')
   }
   res.setHeader('content-type', mimeTypes.html)
-  return res.end(global.packageJSON.redirectHTML.split('{url}').join(url))
+  const doc = HTML.parse(global.packageJSON.redirectHTML.split('{url}').join(url))
+  if (global.packageJSON.dashboard.content.length) {
+    for (const contentHandler of global.packageJSON.dashboard.content) {
+      if (contentHandler.page) {
+        await contentHandler.page(req, res, doc)
+      }
+    }
+  }
+  return res.end(doc.toString())
 }
 
 function throw404 (req, res) {
