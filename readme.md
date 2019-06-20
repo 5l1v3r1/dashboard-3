@@ -1,10 +1,14 @@
 # Dashboard
 
-Dashboard is a NodeJS project that provides a user account system and administration tools for web applications.  A traditional web application has a tailor-made user login and management system often grievously lacking in functionality that will be added later, or forfeits very priviliged information to Google and Facebook.  When you use Dashboard you start with a complete UI for your users and administrators to manage the beaurocacy of web apps. 
+Dashboard is a NodeJS project that provides a reusable account management system for web applications. 
 
-You can use your preferred language, database and tools to write your application with Dashboard hosted seperately.  Dashboard will proxy your content as the user requests it, and your server can access Dashboard's comprehensive API to retrieve account-related data.
+Dashboard proxies your application server to create a single website where pages like signing in or changing your password are provided by Dashboard.  Your application server can be anything you want, and use Dashboard's API to access data as required.
 
-NodeJS developers may embed Dashboard as a module `@userappstore/dashboard` and share the hosting, or host Dashboard seperately too.
+Using modules you can expand Dashboard to include organizations, subscriptions powered by Stripe, or a Stripe Connect platform.
+
+Dashboard and official modules are completely API-driven.  The API is accessible to your application server and can be configured to allow public access.
+
+Dashboard content functions without clientside JavaScript.  It can be overriden with your own content or styling or you may use the APIs 
 
 ### Demonstrations
 
@@ -13,9 +17,9 @@ NodeJS developers may embed Dashboard as a module `@userappstore/dashboard` and 
 - [Dashboard + Stripe Subscriptions module](https://stripe-subscriptions-5701.herokuapp.com)
 - [Dashboard + Stripe Connect module](https://stripe-connect-8509.herokuapp.com)
 
-### UserAppStore
+### App Stores
 
-If you are building a SaaS with Dashboard consider publishing it on [UserAppStore](https://userappstore.com), an app store for subscriptions.   UserAppStore is powered by Dashboard and open source too.
+Application servers written for Dashboard can be published on websites running our [app store](https://github.com/userappstore/app-store-dashboard-server) software like [UserAppStore](https://userappstore.com).
 
 #### Documentation
 - [Introduction](https://github.com/userappstore/dashboard/wiki)
@@ -36,43 +40,24 @@ This is free and unencumbered software released into the public domain.  The MIT
 
 You must install [NodeJS](https://nodejs.org) 8.12.0+ prior to these steps.
 
-### Dashboard server
+### Setting up the dashboard server
 
-The first account to register will be the owner and an administrator.
+Dashboard is installed via NPM which is bundled with NodeJS.  It is installed within the `node_modules/@userappstore/dashboard` folder.  You can configure Dashboard within your package.json and start script.
 
-    $ git clone https://github.com/userappstore/dashboard
-    $ cd dashboard
-    $ npm install --only=production
-    $ NODE_ENV="development" \
-      DASHBOARD_SERVER=http://localhost:8000 \
-      APPLICATION_SERVER=http://localhost:8001 \
-      APPLICATION_SERVER_TOKEN="abcdef" \
-      DOMAIN=localhost \
-      node main.js
-
-### Application server
-
-The APPLICATION_SERVER_TOKEN is used to verify requests between the Dashboard and Application servers:
-
-    if (req.headers['x-dashboard-server'] === DASHBOARD_SERVER)
-      if (req.headers['x-accountid']) {
-        const accountid = req.headers['x-accountid']
-        const sessionid = req.headers['x-sessionid']
-        if (!bcrypt.compareSync(`${APPLICATION_SERVER_TOKEN}/${accountid'}/${sessionid}`, req.headers['x-dashboard-token'])) {
-          res.statusCode = 404
-          return res.end()
-        }
-      }
-    }
-
-### NodeJS module
 
     $ mkdir project
     $ cd project
     $ npm init
     $ npm install @userappstore/dashboard --only=production
     # create a main.js
-    $ node main.js
+    # create a src/www/index.html to override home page
+    # create a src/www/account/register.html to override register page
+    $ NODE_ENV="development" \
+      DASHBOARD_SERVER=http://localhost:8000 \
+      APPLICATION_SERVER=http://localhost:8001 \
+      APPLICATION_SERVER_TOKEN="abcdef" \
+      DOMAIN=localhost \
+      node main.js
 
 Your `main.js` should contain the code to start Dashboard:
     
@@ -83,9 +68,28 @@ Your sitemap will output the server address, by default you can access it at:
 
     http://localhost:8000
 
+### Your application server
+
+Your application can server can be written using your preferred technology stack.  When your server receives a request from your Dashboard server it includes identifiers for the user and session.
+
+Requests can be verified via the APPLICATION_SERVER_TOKEN.  This is a shared secret known by both the Dashboard and your application server.  This token and account/session identifiers allow you to query the Dashboard server's API for additional information.
+
+The request headers will 
+
+    if (req.headers['x-dashboard-server'] === MY_DASHBOARD_SERVER)
+      if (req.headers['x-accountid']) {
+        const accountid = req.headers['x-accountid']
+        const sessionid = req.headers['x-sessionid']
+        if (!bcrypt.compareSync(`${APPLICATION_SERVER_TOKEN}/${accountid'}/${sessionid}`, req.headers['x-dashboard-token'])) {
+          res.statusCode = 404
+          return res.end()
+        }
+      }
+    }
+
 ### The sitemap.txt file
 
-Each time Dashboard starts it unifies the `src/www` of itself, modules being imported and your own NodeJS additions if any.  All URLs and configuration is written to `sitemap.txt`.
+Each time Dashboard starts it generates a sitemap of all the URLs it has found combining itself with any additional modules or content added to the Dashboard server.
 
 ### The tests.txt file
 
@@ -94,22 +98,20 @@ This software has a test suite located alongside each NodeJS file in a `.test.js
     $ npm install mocha -g
     $ npm test
 
-## Application server
-
-Dashboard covers your user accounts, the application you write can share the same server and NodeJS process or be a completely separate piece of software in any language on any platform.  
-
-If your application runs with Dashboard in NodeJS you can [add content directly](https://github.com/userappstore/dashboard/wiki/Creating-Dashboard-content) to your `/src/www` and it will be included in your sitemap automatically.
-
-If your application is hosted somewhere Dashboard will proxy your server and serve the responsest:
-
-    process.env.APPLICATION_SERVER = "http://localhost:1234"
-    process.env.APPLICATION_SERVER_TOKEN = "A shared secret"
-
-When your application server receives a request information is included in the headers to identify the user and session.  Your application server can access Dashboard's private APIs on behalf of that user.
-
 ## Dashboard storage
 
-You can use Dashboard with your local file system, ideal for development and applications with a small number of users such as family or small teams.  Alternative storage engines include [Amazon S3](https://github.com/userappstore/storage-s3) (and equivalents), and [Redis](https://github.com/userappstore/storage-redis).  You can code your own alternatives for other databases by mimicking the Storage API's basic operations to read, write and list data.
+You can use Dashboard with your local file system or other storage backends with various pros and cons.  The storage may encrypts data with AES-256 encryption by specifying a 32-character encryption secret:
+
+    ENCRYPTION_KEY="abcdefghijklmnopqrstuvwxyz123456"
+
+| Name | Description | Package   | Repository |
+|------|-------------|-----------|------------|
+| Redis | Very fast but expensive to scale | @dashboard/storage-redis | [github](https://github.com/userappstore/storage-edis) |
+| Amazon S3 | Slow but cheap to scale | @dashboard/storage-s3 | [github](https://github.com/userappstore/storage-s3) |
+| PostgreSQL | Fast but not cheap to scale | @dashboard/storage-postgreqsl | [github](https://github.com/userappstore/storage-postgresql) |
+
+You can code your own alternatives for other databases by mimicking the Storage API's basic operations to read, write and list data.
+
 
 ## Dashboard modules
 
@@ -130,32 +132,5 @@ Modules can supplement the global.sitemap with additional routes which automatic
 
 ## Privacy
 
-Dashboard accounts can require no personal information from the user and irreversibly encrypts signin usernames so they cannot be used for anything else.  There are no third-party trackers, analytics or other content in Dashboard pages.
-
-## Security
-
-Dashboard encrypts all usernames with a fixed-salt bcrypt hash.  The reason for using a fixed hash is to ensure the same output every time so the hashed username remains a unique identifier.  Passwords are encrypted with a random-salt bcrypt hash.
-
-    process.env.BCRYPT_FIXED_SALT = "$2a$10....."
-    process.env.BCRYPT_WORKLOAD_FACTOR = "11"
-    process.env.MINIMUM_USERNAME_LENGTH = "10"
-    process.env.MAXIMUM_USERNAME_LENGTH = "100"
-    process.env.MINIMUM_PASSWORD_LENGTH = "10"
-    process.env.MAXIMUM_PASSWORD_LENGTH = "100"
-    process.env.MINIMUM_RESET_CODE_LENGTH = "10"
-    process.env.MINIMUM_RESET_CODE_LENGTH = "100"
-
-The database encrypts keys and string values with AES-256 encryption and a random IV or a shared IV depending on whether a consistent string is required.  This transparently overrides most Redis operations.
-
-    process.env.REDIS_ENCRYPTION_SECRET = "this is my encryption key and it can be as long as I want"
-
-## Account security
-
-Deleting accounts is done on a schedule allowing time for the user or administrator to cancel the process.  Administrators can delete accounts any time including scheduled accounts after the time passes.
-
-    process.env.DELETE_DELAY = 7 # days
-
-Account modifications locks the session to the current URL, binds any POST data to the session and then requires the user authenticates.  
-
-The user may 'remember' the authentication if they anticipate performing many locked operations so they don't have to authenticate each time.  After authentication the user is redirected back and the authorized operation is completed, when it is not necessary the operation is completed immediately.
+Dashboard accounts can require no personal information from the user and irreversibly encrypts signin usernames so they cannot be used for anything else.  There are no third-party trackers, analytics or resources embedded in Dashboard pages.
 
