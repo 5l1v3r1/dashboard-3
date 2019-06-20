@@ -24,26 +24,12 @@ Application servers written for Dashboard can be published on websites running o
 #### Documentation
 - [Introduction](https://github.com/userappstore/dashboard/wiki)
 - [Configuring Dashboard](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
-- [Contributing to Dashboard](https://github.com/userappstore/dashboard/wiki/Contributing-to-Dashboard)
 - [Dashboard code structure](https://github.com/userappstore/dashboard/wiki/Dashboard-code-structure)
 - [Server request lifecycle](https://github.com/userappstore/dashboard/wiki/Server-Request-Lifecycle)
 
-#### Development
-
-Development takes place on [Github](https://github.com/userappstore).  Releases, documentation and issues are hosted on [Github](https://github.com/userappstore) and [NPM](https://www.npmjs.com/package/@userappstore/dashboard).
-
-#### License
-
-This is free and unencumbered software released into the public domain.  The MIT License is provided for countries that have not established a public domain.
-
-## Installation
-
-You must install [NodeJS](https://nodejs.org) 8.12.0+ prior to these steps.
-
 ### Setting up the dashboard server
 
-Dashboard is installed via NPM which is bundled with NodeJS.  It is installed within the `node_modules/@userappstore/dashboard` folder.  You can configure Dashboard within your package.json and start script.
-
+You must install [NodeJS](https://nodejs.org) 8.12.0+ prior to these steps.  Dashboard is installed via NPM which is bundled with NodeJS.  It is installed within the `node_modules/@userappstore/dashboard` folder.  You can configure Dashboard within your package.json and start script.
 
     $ mkdir project
     $ cd project
@@ -87,17 +73,6 @@ The request headers will
       }
     }
 
-### The sitemap.txt file
-
-Each time Dashboard starts it generates a sitemap of all the URLs it has found combining itself with any additional modules or content added to the Dashboard server.
-
-### The tests.txt file
-
-This software has a test suite located alongside each NodeJS file in a `.test.js` file.  The tests run using `mocha`.  Prior to release the completed, successful test suite output is written to `tests.txt`.
-
-    $ npm install mocha -g
-    $ npm test
-
 ## Dashboard storage
 
 You can use Dashboard with your local file system or other storage backends with various pros and cons.  The storage may encrypts data with AES-256 encryption by specifying a 32-character encryption secret:
@@ -132,5 +107,12 @@ Modules can supplement the global.sitemap with additional routes which automatic
 
 ## Privacy
 
-Dashboard accounts can require no personal information from the user and irreversibly encrypts signin usernames so they cannot be used for anything else.  There are no third-party trackers, analytics or resources embedded in Dashboard pages.
+Dashboard accounts optionally support anonymous registration and irreversibly encrypt signin username and passwords.  There are no third-party trackers, analytics or resources embedded in Dashboard pages.  
 
+#### Development
+
+Development takes place on [Github](https://github.com/userappstore).  Releases, documentation and issues are hosted on [Github](https://github.com/userappstore) and [NPM](https://www.npmjs.com/package/@userappstore/dashboard).
+
+#### License
+
+This is free and unencumbered software released into the public domain.  The MIT License is provided for countries that have not established a public domain.
