@@ -6,9 +6,12 @@ Dashboard proxies your application server to create a single website where pages
 
 Using modules you can expand Dashboard to include organizations, subscriptions powered by Stripe, or a Stripe Connect platform.
 
-Dashboard and official modules are completely API-driven.  The API is accessible to your application server and can be configured to allow public access.
+Application servers written for Dashboard can be published on websites running our [app store](https://github.com/userappstore/app-store-dashboard-server) software like [UserAppStore](https://userappstore.com).
 
-Dashboard content functions without clientside JavaScript.  It can be overriden with your own content or styling or you may use the APIs 
+- [Introduction](https://github.com/userappstore/dashboard/wiki)
+- [Configuring Dashboard](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
+- [Dashboard code structure](https://github.com/userappstore/dashboard/wiki/Dashboard-code-structure)
+- [Server request lifecycle](https://github.com/userappstore/dashboard/wiki/Server-Request-Lifecycle)
 
 ### Demonstrations
 
@@ -17,15 +20,36 @@ Dashboard content functions without clientside JavaScript.  It can be overriden 
 - [Dashboard + Stripe Subscriptions module](https://stripe-subscriptions-5701.herokuapp.com)
 - [Dashboard + Stripe Connect module](https://stripe-connect-8509.herokuapp.com)
 
-### App Stores
+## Dashboard storage
 
-Application servers written for Dashboard can be published on websites running our [app store](https://github.com/userappstore/app-store-dashboard-server) software like [UserAppStore](https://userappstore.com).
+You can use Dashboard with your local file system or other storage backends with various pros and cons.  The storage may encrypts data with AES-256 encryption by specifying a 32-character encryption secret:
 
-#### Documentation
-- [Introduction](https://github.com/userappstore/dashboard/wiki)
-- [Configuring Dashboard](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
-- [Dashboard code structure](https://github.com/userappstore/dashboard/wiki/Dashboard-code-structure)
-- [Server request lifecycle](https://github.com/userappstore/dashboard/wiki/Server-Request-Lifecycle)
+    ENCRYPTION_KEY="abcdefghijklmnopqrstuvwxyz123456"
+
+| Name | Description | Package   | Repository |
+|------|-------------|-----------|------------|
+| Redis | Very fast but expensive to scale | @dashboard/storage-redis | [github](https://github.com/userappstore/storage-edis) |
+| Amazon S3 | Slow but cheap to scale | @dashboard/storage-s3 | [github](https://github.com/userappstore/storage-s3) |
+| PostgreSQL | Fast but not cheap to scale | @dashboard/storage-postgreqsl | [github](https://github.com/userappstore/storage-postgresql) |
+
+You can code your own alternatives for other databases by mimicking the Storage API's basic operations to read, write and list data.
+
+## Dashboard modules
+
+Additional APIs, content and functionality can be added by `npm install` and nominating Dashboard modules in your `package.json`.  You can read more about this on the [Dashboard configuration wiki page](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
+
+    "dashboard": {
+      "modules": [ "package", "package2" ]
+    }
+
+Modules can supplement the global.sitemap with additional routes which automatically maps them into the `Private API` shared as global.api.
+
+| Name | Description | Package   | Repository |
+|------|-------------|-----------|------------|
+| MaxMind GeoIP | IP address-based geolocation | @dashboard/maxmind-geoip | [github](https://github.com/userappstore/maxmind-geoip) |
+| Organizations | User created groups | @dashboard/organizations | [github](https://github.com/userappstore/organizations) |
+| Stripe Subscriptions | SaaS functionality | @dashboard/stripe-subscriptions | [github](https://github.com/userappstore/stripe-subscriptions) |
+| Stripe Connect | Marketplace functionality | @dashboard/stripe-connect | [github](https://github.com/userappstore/stripe-connect)
 
 ### Setting up the dashboard server
 
@@ -59,8 +83,6 @@ Your sitemap will output the server address, by default you can access it at:
 Your application can server can be written using your preferred technology stack.  When your server receives a request from your Dashboard server it includes identifiers for the user and session.
 
 Requests can be verified via the APPLICATION_SERVER_TOKEN.  This is a shared secret known by both the Dashboard and your application server.  This token and account/session identifiers allow you to query the Dashboard server's API for additional information.
-
-The request headers will 
 
     if (req.headers['x-dashboard-server'] === MY_DASHBOARD_SERVER)
       if (req.headers['x-accountid']) {
@@ -134,39 +156,39 @@ The request headers will
 | /api/user/set-session-unlocked                    | PATCH  | sessionid=   |            |
 | /api/user/update-profile                          | PATCH  | profileid=   |            |
 
-## Access geoip information from the dashboard server
+## Access user information from the dashboard server
 
 | Method                                             | Querystring  | POST data  |
 |----------------------------------------------------|--------------|------------|
-| global.api.Administrator.Account.get(req)                      | accountid=   |            |
-| global.api.Administrator.AccountProfiles.get(req)              | accountid=   |            |
-| global.api.Administrator.AccountProfilesCount.get(req)         | accountid=   |            |
-| global.api.Administrator.AccountResetCodes.get(req)            | accountid=   |            |
-| global.api.Administrator.AccountResetCodesCount.get(req)       | accountid=   |            |
-| global.api.Administrator.AccountSessions.get(req)              | accountid=   |            |
-| global.api.Administrator.AccountSessionsCount.get(req)         | accountid=   |            |
-| global.api.Administrator.Accounts.get(req)                     |              |            |
-| global.api.Administrator.AccountsCount.get(req)                |              |            |
-| global.api.Administrator.AdministratorAccounts.get(req)        |              |            |
-| global.api.Administrator.AdministratorAccountsCount.get(req)   |              |            |
-| global.api.Administrator.CreateResetCode.post(req)             | accountid=   |            |
-| global.api.Administrator.DeleteAccount.delete(req)             | accountid=   |            |
-| global.api.Administrator.DeletedAccounts.get(req)              |              |            |
-| global.api.Administrator.DeletedAccountsCount.get(req)         |              |            |
-| global.api.Administrator.Profile.get(req)                      | profileid=   |            |
-| global.api.Administrator.Profiles.get(req)                     |              |            |
-| global.api.Administrator.ProfilesCount.get(req)                |              |            |
-| global.api.Administrator.ResetAccountAdministrator.patch(req)  | accountid=   |            |
-| global.api.Administrator.ResetCode.get(req)                    | codeid=      |            |
-| global.api.Administrator.ResetCodes.get(req)                   |              |            |
-| global.api.Administrator.ResetCodesCount.get(req)              |              |            |
-| global.api.Administrator.ResetSessionKey.patch(req)            | accountid=   |            |
-| global.api.Administrator.Session.get(req)                      | sessionid=   |            |
-| global.api.Administrator.Sessions.get(req)                     |              |            |
-| global.api.Administrator.SessionsCount.get(req)                |              |            |
-| global.api.Administrator.SetAccountAdministrator.patch(req)    | accountid=   |            |
-| global.api.Administrator.SetAccountDeleted.patch(req)          | accountid=   |            |
-| global.api.Administrator.SetOwnerAccount.patch(req)            | accountid=   |            |
+| global.api.administrator.Account.get(req)                      | accountid=   |            |
+| global.api.administrator.AccountProfiles.get(req)              | accountid=   |            |
+| global.api.administrator.AccountProfilesCount.get(req)         | accountid=   |            |
+| global.api.administrator.AccountResetCodes.get(req)            | accountid=   |            |
+| global.api.administrator.AccountResetCodesCount.get(req)       | accountid=   |            |
+| global.api.administrator.AccountSessions.get(req)              | accountid=   |            |
+| global.api.administrator.AccountSessionsCount.get(req)         | accountid=   |            |
+| global.api.administrator.Accounts.get(req)                     |              |            |
+| global.api.administrator.AccountsCount.get(req)                |              |            |
+| global.api.administrator.AdministratorAccounts.get(req)        |              |            |
+| global.api.administrator.AdministratorAccountsCount.get(req)   |              |            |
+| global.api.administrator.CreateResetCode.post(req)             | accountid=   |            |
+| global.api.administrator.DeleteAccount.delete(req)             | accountid=   |            |
+| global.api.administrator.DeletedAccounts.get(req)              |              |            |
+| global.api.administrator.DeletedAccountsCount.get(req)         |              |            |
+| global.api.administrator.Profile.get(req)                      | profileid=   |            |
+| global.api.administrator.Profiles.get(req)                     |              |            |
+| global.api.administrator.ProfilesCount.get(req)                |              |            |
+| global.api.administrator.ResetAccountAdministrator.patch(req)  | accountid=   |            |
+| global.api.administrator.ResetCode.get(req)                    | codeid=      |            |
+| global.api.administrator.ResetCodes.get(req)                   |              |            |
+| global.api.administrator.ResetCodesCount.get(req)              |              |            |
+| global.api.administrator.ResetSessionKey.patch(req)            | accountid=   |            |
+| global.api.administrator.Session.get(req)                      | sessionid=   |            |
+| global.api.administrator.Sessions.get(req)                     |              |            |
+| global.api.administrator.SessionsCount.get(req)                |              |            |
+| global.api.administrator.SetAccountAdministrator.patch(req)    | accountid=   |            |
+| global.api.administrator.SetAccountDeleted.patch(req)          | accountid=   |            |
+| global.api.administrator.SetOwnerAccount.patch(req)            | accountid=   |            |
 | global.api.user.Account.get(req)                               | accountid=   |            |
 | global.api.user.CreateAccount.post(req)                        |              |            |
 | global.api.user.CreateProfile.post(req)                        | accountid=   |            |
@@ -194,38 +216,6 @@ The request headers will
 | global.api.user.SetSessionEnded.patch(req)                     | sessionid=   |            |
 | global.api.user.SetSessionUnlocked.patch(req)                  | sessionid=   |            |
 | global.api.user.UpdateProfile.patch(req)                       | profileid=   |            |
-
-## Dashboard storage
-
-You can use Dashboard with your local file system or other storage backends with various pros and cons.  The storage may encrypts data with AES-256 encryption by specifying a 32-character encryption secret:
-
-    ENCRYPTION_KEY="abcdefghijklmnopqrstuvwxyz123456"
-
-| Name | Description | Package   | Repository |
-|------|-------------|-----------|------------|
-| Redis | Very fast but expensive to scale | @dashboard/storage-redis | [github](https://github.com/userappstore/storage-edis) |
-| Amazon S3 | Slow but cheap to scale | @dashboard/storage-s3 | [github](https://github.com/userappstore/storage-s3) |
-| PostgreSQL | Fast but not cheap to scale | @dashboard/storage-postgreqsl | [github](https://github.com/userappstore/storage-postgresql) |
-
-You can code your own alternatives for other databases by mimicking the Storage API's basic operations to read, write and list data.
-
-
-## Dashboard modules
-
-Additional APIs, content and functionality can be added by `npm install` and nominating Dashboard modules in your `package.json`.  You can read more about this on the [Dashboard configuration wiki page](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
-
-    "dashboard": {
-      "modules": [ "package", "package2" ]
-    }
-
-Modules can supplement the global.sitemap with additional routes which automatically maps them into the `Private API` shared as global.api.
-
-| Name | Description | Package   | Repository |
-|------|-------------|-----------|------------|
-| MaxMind GeoIP | IP address-based geolocation | @dashboard/maxmind-geoip | [github](https://github.com/userappstore/maxmind-geoip) |
-| Organizations | User created groups | @dashboard/organizations | [github](https://github.com/userappstore/organizations) |
-| Stripe Subscriptions | SaaS functionality | @dashboard/stripe-subscriptions | [github](https://github.com/userappstore/stripe-subscriptions) |
-| Stripe Connect | Marketplace functionality | @dashboard/stripe-connect | [github](https://github.com/userappstore/stripe-connect)
 
 ## Privacy
 
