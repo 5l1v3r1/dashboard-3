@@ -73,6 +73,128 @@ The request headers will
       }
     }
 
+## Access user information from your application server
+
+| URL                                               | Method | Querystring  | POST data  |
+|---------------------------------------------------|--------|--------------|------------|
+| /api/administrator/account                        | GET    | accountid=   |            |
+| /api/administrator/account-profiles               | GET    | accountid=   |            |
+| /api/administrator/account-profiles-count         | GET    | accountid=   |            |
+| /api/administrator/account-reset-codes            | GET    | accountid=   |            |
+| /api/administrator/account-reset-codes-count      | GET    | accountid=   |            |
+| /api/administrator/account-sessions               | GET    | accountid=   |            |
+| /api/administrator/account-sessions-count         | GET    | accountid=   |            |
+| /api/administrator/accounts                       | GET    |              |            |
+| /api/administrator/accounts-count                 | GET    |              |            |
+| /api/administrator/administrator-accounts         | GET    |              |            |
+| /api/administrator/administrator-accounts-count   | GET    |              |            |
+| /api/administrator/create-reset-code              | POST   | accountid=   |            |
+| /api/administrator/delete-account                 | DELETE | accountid=   |            |
+| /api/administrator/deleted-accounts               | GET    |              |            |
+| /api/administrator/deleted-accounts-count         | GET    |              |            |
+| /api/administrator/profile                        | GET    | profileid=   |            |
+| /api/administrator/profiles                       | GET    |              |            |
+| /api/administrator/profiles-count                 | GET    |              |            |
+| /api/administrator/reset-account-administrator    | PATCH  | accountid=   |            |
+| /api/administrator/reset-code                     | GET    | codeid=      |            |
+| /api/administrator/reset-codes                    | GET    |              |            |
+| /api/administrator/reset-codes-count              | GET    |              |            |
+| /api/administrator/reset-session-key              | PATCH  | accountid=   |            |
+| /api/administrator/session                        | GET    | sessionid=   |            |
+| /api/administrator/sessions                       | GET    |              |            |
+| /api/administrator/sessions-count                 | GET    |              |            |
+| /api/administrator/set-account-administrator      | PATCH  | accountid=   |            |
+| /api/administrator/set-account-deleted            | PATCH  | accountid=   |            |
+| /api/administrator/set-owner-account              | PATCH  | accountid=   |            |
+| /api/user/account                                 | GET    | accountid=   |            |
+| /api/user/create-account                          | POST   |              |            |
+| /api/user/create-profile                          | POST   | accountid=   |            |
+| /api/user/create-reset-code                       | POST   | accountid=   |            |
+| /api/user/create-session                          | POST   | accountid=   |            |
+| /api/user/delete-profile                          | DELETE | profileid=   |            |
+| /api/user/delete-reset-code                       | DELETE | codeid=      |            |
+| /api/user/profile                                 | GET    | profileid=   |            |
+| /api/user/profiles                                | GET    | accountid=   |            |
+| /api/user/profiles-count                          | GET    | accountid=   |            |
+| /api/user/reset-account-deleted                   | PATCH  | accountid=   |            |
+| /api/user/reset-account-password                  | PATCH  | accountid=   |            |
+| /api/user/reset-code                              | GET    | codeid=      |            |
+| /api/user/reset-codes                             | GET    | accountid=   |            |
+| /api/user/reset-codes-count                       | GET    | accountid=   |            |
+| /api/user/reset-session-key                       | PATCH  | sessionid=   |            |
+| /api/user/reset-session-unlocked                  | PATCH  | sessionid=   |            |
+| /api/user/session                                 | GET    | sessionid=   |            |
+| /api/user/sessions                                | GET    | accountid=   |            |
+| /api/user/sessions-count                          | GET    | accountid=   |            |
+| /api/user/set-account-deleted                     | PATCH  | accountid=   |            |
+| /api/user/set-account-password                    | PATCH  | accountid=   |            |
+| /api/user/set-account-profile                     | PATCH  | accountid=   |            |
+| /api/user/set-account-username                    | PATCH  | accountid=   |            |
+| /api/user/set-session-ended                       | PATCH  | sessionid=   |            |
+| /api/user/set-session-unlocked                    | PATCH  | sessionid=   |            |
+| /api/user/update-profile                          | PATCH  | profileid=   |            |
+
+## Access geoip information from the dashboard server
+
+| Method                                             | Querystring  | POST data  |
+|----------------------------------------------------|--------------|------------|
+| global.api.Administrator.Account.get(req)                      | accountid=   |            |
+| global.api.Administrator.AccountProfiles.get(req)              | accountid=   |            |
+| global.api.Administrator.AccountProfilesCount.get(req)         | accountid=   |            |
+| global.api.Administrator.AccountResetCodes.get(req)            | accountid=   |            |
+| global.api.Administrator.AccountResetCodesCount.get(req)       | accountid=   |            |
+| global.api.Administrator.AccountSessions.get(req)              | accountid=   |            |
+| global.api.Administrator.AccountSessionsCount.get(req)         | accountid=   |            |
+| global.api.Administrator.Accounts.get(req)                     |              |            |
+| global.api.Administrator.AccountsCount.get(req)                |              |            |
+| global.api.Administrator.AdministratorAccounts.get(req)        |              |            |
+| global.api.Administrator.AdministratorAccountsCount.get(req)   |              |            |
+| global.api.Administrator.CreateResetCode.post(req)             | accountid=   |            |
+| global.api.Administrator.DeleteAccount.delete(req)             | accountid=   |            |
+| global.api.Administrator.DeletedAccounts.get(req)              |              |            |
+| global.api.Administrator.DeletedAccountsCount.get(req)         |              |            |
+| global.api.Administrator.Profile.get(req)                      | profileid=   |            |
+| global.api.Administrator.Profiles.get(req)                     |              |            |
+| global.api.Administrator.ProfilesCount.get(req)                |              |            |
+| global.api.Administrator.ResetAccountAdministrator.patch(req)  | accountid=   |            |
+| global.api.Administrator.ResetCode.get(req)                    | codeid=      |            |
+| global.api.Administrator.ResetCodes.get(req)                   |              |            |
+| global.api.Administrator.ResetCodesCount.get(req)              |              |            |
+| global.api.Administrator.ResetSessionKey.patch(req)            | accountid=   |            |
+| global.api.Administrator.Session.get(req)                      | sessionid=   |            |
+| global.api.Administrator.Sessions.get(req)                     |              |            |
+| global.api.Administrator.SessionsCount.get(req)                |              |            |
+| global.api.Administrator.SetAccountAdministrator.patch(req)    | accountid=   |            |
+| global.api.Administrator.SetAccountDeleted.patch(req)          | accountid=   |            |
+| global.api.Administrator.SetOwnerAccount.patch(req)            | accountid=   |            |
+| global.api.user.Account.get(req)                               | accountid=   |            |
+| global.api.user.CreateAccount.post(req)                        |              |            |
+| global.api.user.CreateProfile.post(req)                        | accountid=   |            |
+| global.api.user.CreateResetCode.post(req)                      | accountid=   |            |
+| global.api.user.CreateSession.post(req)                        | accountid=   |            |
+| global.api.user.DeleteProfile.delete(req)                      | profileid=   |            |
+| global.api.user.DeleteResetCode.delete(req)                    | codeid=      |            |
+| global.api.user.Profile.get(req)                               | profileid=   |            |
+| global.api.user.Profiles.get(req)                              | accountid=   |            |
+| global.api.user.ProfilesCount.get(req)                         | accountid=   |            |
+| global.api.user.ResetAccountDeleted.patch(req)                 | accountid=   |            |
+| global.api.user.ResetAccountPassword.patch(req)                | accountid=   |            |
+| global.api.user.ResetCode.get(req)                             | codeid=      |            |
+| global.api.user.ResetCodes.get(req)                            | accountid=   |            |
+| global.api.user.ResetCodesCount.get(req)                       | accountid=   |            |
+| global.api.user.ResetSessionKey.patch(req)                     | sessionid=   |            |
+| global.api.user.ResetSessionUnlocked.patch(req)                | sessionid=   |            |
+| global.api.user.Session.get(req)                               | sessionid=   |            |
+| global.api.user.Sessions.get(req)                              | accountid=   |            |
+| global.api.user.SessionsCount.get(req)                         | accountid=   |            |
+| global.api.user.SetAccountDeleted.patch(req)                   | accountid=   |            |
+| global.api.user.SetAccountPassword.patch(req)                  | accountid=   |            |
+| global.api.user.SetAccountProfile.patch(req)                   | accountid=   |            |
+| global.api.user.SetAccountUsername.patch(req)                  | accountid=   |            |
+| global.api.user.SetSessionEnded.patch(req)                     | sessionid=   |            |
+| global.api.user.SetSessionUnlocked.patch(req)                  | sessionid=   |            |
+| global.api.user.UpdateProfile.patch(req)                       | profileid=   |            |
+
 ## Dashboard storage
 
 You can use Dashboard with your local file system or other storage backends with various pros and cons.  The storage may encrypts data with AES-256 encryption by specifying a 32-character encryption secret:
