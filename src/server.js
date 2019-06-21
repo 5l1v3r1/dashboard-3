@@ -184,7 +184,7 @@ async function receiveRequest(req, res) {
     return Response.throw500(req, res)
   }
   // public access to the API must be enabled otherwise only the application server can
-  if (req.urlPath.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer) {
+  if (req.urlPath.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer && !req.allowAPIRequest) {
     return Response.throw404(req, res)
   }
   // routes with APIs must support the method being requested
