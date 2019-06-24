@@ -100,6 +100,13 @@ async function pass(req, res) {
           if (proxyRes.headers['content-type']) {
             res.setHeader('content-type', proxyRes.headers['content-type'])
           }
+          if (proxyRes.headers['content-disposition']) {
+            res.setHeader('content-disposition', proxyRes.headers['content-disposition'])
+          }
+          if (proxyRes.headers['content-length']) {
+            res.setHeader('content-length', proxyRes.headers['content-length'])
+          }
+          res.statusCode = 200
           return res.end(body)
         case 302:
           return Response.redirect(req, res, proxyRes.headers['location'])
