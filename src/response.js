@@ -35,7 +35,7 @@ async function end (req, res, doc, blob) {
   const mimeType = mimeTypes[req.extension === 'jpeg' ? 'jpg' : req.extension] || mimeTypes.html
   res.setHeader('content-type', mimeType)
   if (blob) {
-    const tag = eTagCache[req.urlPath] = eTagCache[req.urlPath] || eTag(blob, req.urlPath)
+    const tag = eTagCache[req.urlPath] = eTagCache[req.urlPath] || req.eTag || eTag(blob)
     res.setHeader('expires', new Date(Date.now() + eightDays).toUTCString())
     res.setHeader('etag', tag)
     res.setHeader('vary', 'accept-encoding')

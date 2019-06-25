@@ -379,6 +379,12 @@ async function staticFile(req, res) {
       return Response.throw404(req, res)
     }
     fileCache[filePath] = fileCache[filePath] || fs.readFileSync(filePath)
+    const browserCached = req.headers['if-none-match']
+    req.eTag = Response.eTag(fileCache[filePath])
+    if (browserCached && browserCached === req.eTag) {
+      res.statusCode = 304
+      return res.end()
+    }
     return Response.end(req, res, null, fileCache[filePath])
   }
   if (global.applicationServer) {
