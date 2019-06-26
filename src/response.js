@@ -24,7 +24,8 @@ module.exports = {
   throwError,
   compress,
   wrapTemplateWithSrcDoc,
-  eTag
+  eTag,
+  sri
 }
 
 async function end (req, res, doc, blob) {
@@ -140,6 +141,11 @@ function eTag (buffer) {
   }
   const hash = crypto.createHash('sha1').update(buffer, 'utf-8').digest('base64').replace(/=+$/, '')
   return '"' + buffer.length.toString(16) + '-' + hash + '"'
+}
+
+function sri (buffer) {
+  const hash = crypto.createHash('sha384').update(buffer, 'binary').digest('base64').replace(/=+$/, '')
+  return 'sha384-'  + hash 
 }
 
 async function wrapTemplateWithSrcDoc (req, res, doc) {
