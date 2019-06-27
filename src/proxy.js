@@ -31,7 +31,7 @@ async function pass(req, res) {
     }
   }
   if (req.method === 'GET' && req.headers['if-none-match']) {
-    requestOptions.header['if-none-match'] = req.headers['if-none-match']
+    requestOptions.headers['if-none-match'] = req.headers['if-none-match']
   }
   if (req.account) {
     const token = `${global.applicationServerToken}/${req.account.accountid}/${req.session.sessionid}`
