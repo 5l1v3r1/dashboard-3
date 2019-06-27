@@ -3,7 +3,6 @@ const http = require('http')
 const https = require('https')
 const HTML = require('./html.js')
 const Response = require('./response.js')
-const querystring = require('querystring')
 
 module.exports = { pass }
 
@@ -30,6 +29,9 @@ async function pass(req, res) {
       'referer': `${global.dashboardServer}${req.url}`,
       'x-dashboard-server': global.dashboardServer
     }
+  }
+  if (req.method === 'GET' && req.headers['if-none-match']) {
+    requestOptions.header['if-none-match'] = req.headers['if-none-match']
   }
   if (req.account) {
     const token = `${global.applicationServerToken}/${req.account.accountid}/${req.session.sessionid}`
@@ -110,6 +112,9 @@ async function pass(req, res) {
           return res.end(body)
         case 302:
           return Response.redirect(req, res, proxyRes.headers['location'])
+        case 304:
+          res.statusCode = 304
+          return res.end()
         case 404:
           if (req.urlPath.startsWith('/api/')) {
             res.setHeader('content-type', 'application/json')
