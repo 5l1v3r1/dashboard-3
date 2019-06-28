@@ -27,7 +27,7 @@ async function pass(req, res) {
     port,
     headers: {
       'referer': `${global.dashboardServer}${req.url}`,
-      'x-dashboard-server': global.dashboardServer
+      'x-dashboard-server': global.dashboardServer.split('://')[1]
     }
   }
   if (req.method === 'GET' && req.headers['if-none-match']) {
