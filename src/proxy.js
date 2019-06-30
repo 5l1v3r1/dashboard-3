@@ -83,18 +83,14 @@ async function pass(req, res) {
         case 200:
           if (proxyRes.headers['content-type'] && proxyRes.headers['content-type'].indexOf('text/html') === 0) {
             body = body.toString('utf-8')
-            if (body.indexOf('<html') > -1) {
-              let doc
-              try {
-                doc = HTML.parse(body)
-              } catch (error) {
-              }
-              const htmlTags = doc.getElementsByTagName('html')
-              if (htmlTags && htmlTags.length) {
-                const htmlTag = htmlTags[0]
-                if (htmlTag.attr && (htmlTag.attr.template === false || htmlTag.attr.template === 'false')) {
-                  return res.end(body)
-                }
+            const htmlTagIndex = body.indexOf('<html')
+            if (htmlTagIndex > -1) {
+              let htmlTag = body.substring(htmlTagIndex)
+              htmlTag = htmlTag.substring(0, htmlTag.indexOf('>'))
+              if (htmlTag.indexOf(' template="false"') > -1 ||
+                htmlTag.indexOf(" template='false'") > -1 ||
+                htmlTag.indexOf(' template=false')) {
+                return res.end(body)
               }
               return Response.end(req, res, doc)
             }
