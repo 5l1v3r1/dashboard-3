@@ -92,7 +92,7 @@ async function pass(req, res) {
                 htmlTag.indexOf(' template=false')) {
                 return res.end(body)
               }
-           }
+            }
           }
           if (proxyRes.headers['content-type']) {
             res.setHeader('content-type', proxyRes.headers['content-type'])
