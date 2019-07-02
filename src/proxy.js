@@ -89,9 +89,11 @@ async function pass(req, res) {
               htmlTag = htmlTag.substring(0, htmlTag.indexOf('>'))
               if (htmlTag.indexOf(' template="false"') > -1 ||
                 htmlTag.indexOf(" template='false'") > -1 ||
-                htmlTag.indexOf(' template=false')) {
+                htmlTag.indexOf(' template=false') > -1) {
                 return res.end(body)
               }
+              const doc = HTML.parse(body)
+              return Response.end(req, res, doc)
             }
           }
           if (proxyRes.headers['content-type']) {
