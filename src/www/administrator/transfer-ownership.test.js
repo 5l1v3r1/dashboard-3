@@ -42,7 +42,7 @@ describe(`/administrator/transfer-ownership`, () => {
   })
 
   describe('TransferOwnership#POST', () => {
-    it('should apply after authorization', async () => {
+    it('should change ownership', async () => {
       const owner = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/transfer-ownership?accountid=${user.account.accountid}`)

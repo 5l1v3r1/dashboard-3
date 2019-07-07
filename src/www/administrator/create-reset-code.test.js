@@ -42,7 +42,7 @@ describe(`/administrator/create-reset-code`, () => {
   })
 
   describe('CreateResetCode#POST', () => {
-    it('should apply after authorization', async () => {
+    it('should create reset code', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/create-reset-code?accountid=${user.account.accountid}`)

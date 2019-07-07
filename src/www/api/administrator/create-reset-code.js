@@ -1,13 +1,9 @@
 const dashboard = require('../../../../index.js')
 
 module.exports = {
-  lock: true,
-  before: async (req) => {
+  post: async (req) => {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
-    }
-    if (req.body && req.body.codeHash) {
-      return
     }
     if (!req.body || !req.body.code || !req.body.code.length) {
       throw new Error('invalid-reset-code')
@@ -22,22 +18,19 @@ module.exports = {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
       bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
-    req.body.codeHash = await dashboard.Hash.fixedSaltHash(req.body.code, bcryptFixedSalt, dashboardEncryptionKey)
-    delete (req.body.code)
-  },
-  post: async (req) => {
+    const codeHash = await dashboard.Hash.fixedSaltHash(req.body.code, bcryptFixedSalt, dashboardEncryptionKey)
     const codeid = `code_${await dashboard.UUID.generateID()}`
     await dashboard.Storage.write(`${req.appid}/resetCode/${codeid}`, {
         object: 'resetCode',
         accountid: req.query.accountid,
-        codeid: codeid,
-        codeHash: req.body.codeHash,
+        codeid,
+        codeHash,
         created: dashboard.Timestamp.now
       })
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.account.accountid}`, 'resetCodeLastCreated', dashboard.Timestamp.now)
     await dashboard.StorageList.add(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.add(`${req.appid}/account/resetCodes/${req.query.accountid}`, codeid)
-    await dashboard.Storage.write(`${req.appid}/map/account/resetCodes/${req.query.accountid}/${req.body.codeHash}`, codeid)
+    await dashboard.Storage.write(`${req.appid}/map/account/resetCodes/${req.query.accountid}/${codeHash}`, codeid)
     req.success = true
     req.query.codeid = codeid
     return global.api.administrator.ResetCode._get(req)

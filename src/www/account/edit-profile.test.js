@@ -144,7 +144,7 @@ describe(`/account/edit-profile`, () => {
 
     })
 
-    it('should apply after authorization', async () => {
+    it('should update profile', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/edit-profile?profileid=${user.profile.profileid}`)
       req.account = user.account

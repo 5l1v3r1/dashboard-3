@@ -1,8 +1,7 @@
 const dashboard = require('../../../../index.js')
 
 module.exports = {
-  lock: true,
-  before: async (req) => {
+  patch: async (req) => {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
@@ -23,14 +22,11 @@ module.exports = {
     if (req.account.profileid === profile.profileid) {
       throw new Error('invalid-profile')
     }
-    req.data = { profile }
-  },
-  patch: async (req) => {
     await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, {
-      profileid: req.data.profile.profileid,
-      firstName: req.data.profile.firstName,
-      lastName: req.data.profile.lastName,
-      email: req.data.profile.email
+      profileid: profile.profileid,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email
     })
     req.success = true
     return global.api.user.Account._get(req)

@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/administrator/reset-session-key`, () => {
-  describe('ResetSessionKey#BEFORE', () => {
+  describe('ResetSessionKey#PATCH', () => {
     it('should reject invalid account', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -12,7 +12,7 @@ describe(`/api/administrator/reset-session-key`, () => {
       req.session = administrator.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -28,15 +28,13 @@ describe(`/api/administrator/reset-session-key`, () => {
       req.session = administrator.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-account')
     })
-  })
 
-  describe('ResetSessionKey#PATCH', () => {
     it('should increase sessionKeyNumber', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

@@ -42,7 +42,7 @@ describe(`/administrator/reset-session-key`, () => {
   })
 
   describe('ResetSessionKey#POST', () => {
-    it('should apply after authorization', async () => {
+    it('should reset session key', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/reset-session-key?accountid=${user.account.accountid}`)

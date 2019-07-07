@@ -10,13 +10,6 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
     throw new Error('invalid-accountid')
   }
-  if (req.session.lockURL === req.url && req.session.unlocked) {
-    try { 
-      await global.api.administrator.SetOwnerAccount._patch(req)
-    } catch (error) {
-      req.error = error.message
-    }
-  }
   const account = await global.api.administrator.Account._get(req)
   account.createdFormatted = dashboard.Timestamp.date(account.created)
   account.lastSignedInFormatted = dashboard.Timestamp.date(account.lastSignedIn)
@@ -49,7 +42,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return dashboard.Response.redirect(req, res, '/account/authorize')
+    return renderPage(req, res, 'unknown-error')
   } catch (error) {
     return renderPage(req, res, error.message)
   }

@@ -9,13 +9,6 @@ module.exports = {
 async function beforeRequest (req) {
   req.query = req.query || {}
   req.query.accountid = req.account.accountid
-  if (req.session.lockURL === req.url && req.session.unlocked) {
-    try {
-      await global.api.user.SetAccountProfile._patch(req)
-    } catch (error) {
-      req.error = error.message
-    }
-  }
   req.query.all = true
   const profiles = await global.api.user.Profiles._get(req)
   req.query.profileid = req.body && req.body.profileid ? req.body.profileid : req.query.profileid || req.account.profileid
@@ -68,7 +61,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return dashboard.Response.redirect(req, res, '/account/authorize')
+    return renderPage(req, res, 'unknown-error')
   } catch (error) {
     return renderPage(req, res, error.message)
   }

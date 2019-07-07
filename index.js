@@ -105,7 +105,6 @@ function outputConfiguration () {
   let widestJS = 0
   let widestAuth = 0
   let widestTemplate = 0
-  let widestLock = 'LOCK    '.length
   let widestVerbs = 0
   const siteMap = global.sitemap
   const httpVerbs = [ 'DELETE', 'HEAD', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT' ]
@@ -123,11 +122,6 @@ function outputConfiguration () {
     route.templateDescription = route.template === false ? 'FULLSCREEN' : ''
     route.verbs = ''
     if (url.startsWith('/api/')) {
-      if (route.api.lock) {
-        route.lockDescription = 'LOCK'
-      } else {
-        route.lockDescription = ''
-      }
       route.authDescription = route.api.auth === false ? 'GUEST' : ''
       const verbs = []
       for (const verb of httpVerbs) {
@@ -140,7 +134,6 @@ function outputConfiguration () {
         widestVerbs = route.verbs.length
       }
     } else {
-      route.lockDescription = ''
       route.authDescription = route.auth === false ? 'GUEST' : ''
       const verbs = []
       if (route.jsFilePath === 'static-page') {
@@ -241,18 +234,16 @@ function outputConfiguration () {
     const routeJS = padRight(trimNodeModulePath(route.jsFilePath), widestJS)
     const routeVerbs = padRight(route.verbs, widestVerbs)
     const routeAuth = padRight(route.authDescription, widestAuth)
-    const routeLock = padRight(route.lockDescription, widestLock)
     const routeTemplate = padRight(route.templateDescription, widestTemplate)
-    output.push(`${routeURL} ${routeAuth} ${routeLock} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
+    output.push(`${routeURL} ${routeAuth} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
   }
   const routeURL = underlineRight('URL ', widestURL)
   const routeAuth = underlineRight('AUTH ', widestAuth)
   const routeTemplate = underlineRight('TEMPLATE ', widestTemplate)
   const routeVerbs = underlineRight('HTTP REQUESTS ', widestVerbs)
-  const routeLock = underlineRight('LOCK ', widestLock)
   const routeJS = underlineRight('NODEJS ', widestJS)
   const routeHTML = underlineRight('HTML ', widestHTML)
-  output.splice(output.length - sortedURLs.length, 0, `\n${routeURL} ${routeAuth} ${routeLock} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
+  output.splice(output.length - sortedURLs.length, 0, `\n${routeURL} ${routeAuth} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
   fs.writeFileSync('./sitemap.txt', output.join('\n'))
   return output.join('\n')
 }

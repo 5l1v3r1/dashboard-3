@@ -1,16 +1,12 @@
 const dashboard = require('../../../../index.js')
 
 module.exports = {
-  lock: true,
-  before: async (req) => {
+  patch: async (req) => {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
     if (req.account.accountid !== req.query.accountid) {
       throw new Error('invalid-account')
-    }
-    if (req.body && req.body.passwordHash) {
-      return
     }
     if (!req.body || !req.body.password) {
       throw new Error('invalid-password')
@@ -23,14 +19,10 @@ module.exports = {
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
     }
-    req.body.passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, dashboardEncryptionKey)
-    delete (req.body.password)
-  },
-  patch: async (req) => {
-    req.account.passwordLastChanged = dashboard.Timestamp.now
-    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash', req.body.passwordHash)
+    const passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, dashboardEncryptionKey)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash', passwordHash)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordLastChanged', dashboard.Timestamp.now)
     req.success = true
-    return req.account
+    return global.api.user.Account._get(req)
   }
 }

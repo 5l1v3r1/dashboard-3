@@ -1,8 +1,7 @@
 const dashboard = require('../../../../index.js')
 
 module.exports = {
-  lock: true,
-  before: async (req) => {
+  patch: async (req) => {
     if (!req.query || !req.query.profileid) {
       throw new Error('invalid-profileid')
     }
@@ -17,19 +16,16 @@ module.exports = {
       throw new Error('invalid-profile-first-name')
     }
     if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
-        global.maximumProfileFirstNameLength < req.body['first-name'].length) {
+      global.maximumProfileFirstNameLength < req.body['first-name'].length) {
       throw new Error('invalid-profile-first-name-length')
     }
     if (!req.body['last-name'] || !req.body['last-name'].length) {
       throw new Error('invalid-profile-last-name')
     }
     if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
-        global.maximumProfileLastNameLength < req.body['last-name'].length) {
+      global.maximumProfileLastNameLength < req.body['last-name'].length) {
       throw new Error('invalid-profile-last-name-length')
     }
-    req.data = { profile }
-  },
-  patch: async (req) => {
     await dashboard.StorageObject.setProperties(`${req.appid}/profile/${req.query.profileid}`, {
       firstName: req.body['first-name'],
       lastName: req.body['last-name'],
@@ -43,9 +39,9 @@ module.exports = {
       })
     }
     req.success = true
-    req.data.profile.firstName = req.body['first-name']
-    req.data.profile.lastName = req.body['last-name']
-    req.data.profile.email = req.body.email
-    return req.data.profile
+    profile.firstName = req.body['first-name']
+    profile.lastName = req.body['last-name']
+    profile.email = req.body.email
+    return profile
   }
 }

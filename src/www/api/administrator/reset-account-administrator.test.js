@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/administrator/reset-account-administrator`, () => {
-  describe('ResetAccountAdministrator#BEFORE', () => {
+  describe('ResetAccountAdministrator#PATCH', () => {
     it('should require an administrator accountid', async () => {
       const owner = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -12,15 +12,12 @@ describe(`/api/administrator/reset-account-administrator`, () => {
       req.session = owner.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-account')
     })
-  })
-
-  describe('ResetAccountAdministrator#PATCH', () => {
     it('should apply authorized revocation', async () => {
       const owner = await TestHelper.createOwner()
       const administrator2 = await TestHelper.createAdministrator(owner)

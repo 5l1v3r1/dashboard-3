@@ -1,8 +1,7 @@
 const dashboard = require('../../../../index.js')
 
 module.exports = {
-  lock: true,
-  before: async (req) => {
+  post: async (req) => {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
@@ -16,18 +15,16 @@ module.exports = {
       throw new Error('invalid-profile-first-name')
     }
     if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
-        global.maximumProfileFirstNameLength < req.body['first-name'].length) {
+      global.maximumProfileFirstNameLength < req.body['first-name'].length) {
       throw new Error('invalid-profile-first-name-length')
     }
     if (!req.body['last-name'] || !req.body['last-name'].length) {
       throw new Error('invalid-profile-last-name')
     }
     if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
-        global.maximumProfileLastNameLength < req.body['last-name'].length) {
+      global.maximumProfileLastNameLength < req.body['last-name'].length) {
       throw new Error('invalid-profile-last-name-length')
     }
-  },
-  post: async (req) => {
     const profileid = `profile_${await dashboard.UUID.generateID()}`
     const profileInfo = {
       object: 'profile',

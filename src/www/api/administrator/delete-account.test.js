@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/delete-account', () => {
-  describe('DeleteAccount#BEFORE', () => {
+  describe('DeleteAccount#DELETE', () => {
     it('should allow account not scheduled for delete', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -12,7 +12,7 @@ describe('/api/administrator/delete-account', () => {
       req.session = administrator.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.delete(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -29,15 +29,12 @@ describe('/api/administrator/delete-account', () => {
       req.session = administrator.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.delete(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(undefined, errorMessage)
     })
-  })
-
-  describe('DeleteAccount#DELETE', () => {
     it('should delete account', async () => {
       global.deleteDelay = -1
       const administrator = await TestHelper.createOwner()

@@ -42,7 +42,7 @@ describe(`/administrator/schedule-account-delete`, () => {
   })
 
   describe('ScheduleAccountDelete#POST', () => {
-    it('should apply after authorization', async () => {
+    it('should schedule account for deletion', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/schedule-account-delete?accountid=${user.account.accountid}`)

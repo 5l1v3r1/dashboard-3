@@ -6,8 +6,7 @@ module.exports = {
    * completing an authorization and PATCHing again to apply
    * the queued change
    */
-  lock: true,
-  before: async (req) => {
+  patch: async (req) => {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
@@ -21,8 +20,6 @@ module.exports = {
     if (account.deleted) {
       throw new Error('invalid-account')
     }
-  },
-  patch: async (req) => {
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'owner', dashboard.Timestamp.now)
     await dashboard.StorageObject.removeProperty(`${req.appid}/account/${req.account.accountid}`, 'owner')
     req.success = true

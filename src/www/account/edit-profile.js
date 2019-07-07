@@ -10,13 +10,6 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.profileid) {
     throw new Error('invalid-profileid')
   }
-  if (req.session.lockURL === req.url && req.session.unlocked) {
-    try {
-      await global.api.user.UpdateProfile._patch(req)
-    } catch (error) {
-      req.error = error.message
-    }
-  }
   const profile = await global.api.user.Profile._get(req)
   req.data = { profile }
 }
@@ -77,7 +70,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return dashboard.Response.redirect(req, res, `/account/authorize`)
+    return renderPage(req, res, 'unknown-error')
   } catch (error) {
     return renderPage(req, res, error.message)
   }

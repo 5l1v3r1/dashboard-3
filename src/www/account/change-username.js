@@ -1,21 +1,8 @@
 const dashboard = require('../../../index.js')
 
 module.exports = {
-  before: beforeRequest,
   get: renderPage,
   post: submitForm
-}
-
-async function beforeRequest (req) {
-  if (req.session.lockURL === req.url && req.session.unlocked) {
-    req.query = req.query || {}
-    req.query.accountid = req.account.accountid
-    try {
-      await global.api.user.SetAccountUsername._patch(req)
-    } catch (error) {
-      req.error = error.message
-    }
-  }
 }
 
 function renderPage (req, res, messageTemplate) {
@@ -57,7 +44,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return dashboard.Response.redirect(req, res, `/account/authorize`)
+    return renderPage(req, res, 'unknown-error')
   } catch (error) {
     return renderPage(req, res, error.message)
   }

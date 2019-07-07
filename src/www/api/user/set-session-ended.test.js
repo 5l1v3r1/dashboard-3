@@ -5,7 +5,7 @@ const TestHelper = require('../../../../test-helper.js')
 
 /* eslint-env mocha */
 describe(`/api/user/set-session-ended`, () => {
-  describe('SetSessionEnded#BEFORE', () => {
+  describe('SetSessionEnded#PATCH', () => {
     it('should reject invalid sessionid', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/api/user/set-session-ended?sessionid=invalid')
@@ -13,7 +13,7 @@ describe(`/api/user/set-session-ended`, () => {
       req.session = user.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -28,24 +28,11 @@ describe(`/api/user/set-session-ended`, () => {
       await req.patch()
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-session')
-    })
-  })
-
-  describe('SetSessionEnded#PATCH', () => {
-    it('should accept locked session', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.lockSession(user)
-      const req = TestHelper.createRequest(`/api/user/set-session-ended?sessionid=${user.session.sessionid}`)
-      req.account = user.account
-      req.session = user.session
-      const sessionNow = await req.patch()
-      assert.notStrictEqual(sessionNow.ended, undefined)
-      assert.notStrictEqual(sessionNow.ended, null)
     })
 
     it('should end the session', async () => {

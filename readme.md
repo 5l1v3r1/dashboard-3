@@ -144,7 +144,6 @@ Requests can be verified via the APPLICATION_SERVER_TOKEN.  This is a shared sec
 | /api/user/reset-codes                             | GET    | accountid=   |            |
 | /api/user/reset-codes-count                       | GET    | accountid=   |            |
 | /api/user/reset-session-key                       | PATCH  | sessionid=   |            |
-| /api/user/reset-session-unlocked                  | PATCH  | sessionid=   |            |
 | /api/user/session                                 | GET    | sessionid=   |            |
 | /api/user/sessions                                | GET    | accountid=   |            |
 | /api/user/sessions-count                          | GET    | accountid=   |            |
@@ -153,7 +152,6 @@ Requests can be verified via the APPLICATION_SERVER_TOKEN.  This is a shared sec
 | /api/user/set-account-profile                     | PATCH  | accountid=   |            |
 | /api/user/set-account-username                    | PATCH  | accountid=   |            |
 | /api/user/set-session-ended                       | PATCH  | sessionid=   |            |
-| /api/user/set-session-unlocked                    | PATCH  | sessionid=   |            |
 | /api/user/update-profile                          | PATCH  | profileid=   |            |
 
 ## Access user information from the dashboard server
@@ -205,7 +203,6 @@ Requests can be verified via the APPLICATION_SERVER_TOKEN.  This is a shared sec
 | global.api.user.ResetCodes.get(req)                            | accountid=   |            |
 | global.api.user.ResetCodesCount.get(req)                       | accountid=   |            |
 | global.api.user.ResetSessionKey.patch(req)                     | sessionid=   |            |
-| global.api.user.ResetSessionUnlocked.patch(req)                | sessionid=   |            |
 | global.api.user.Session.get(req)                               | sessionid=   |            |
 | global.api.user.Sessions.get(req)                              | accountid=   |            |
 | global.api.user.SessionsCount.get(req)                         | accountid=   |            |
@@ -214,7 +211,6 @@ Requests can be verified via the APPLICATION_SERVER_TOKEN.  This is a shared sec
 | global.api.user.SetAccountProfile.patch(req)                   | accountid=   |            |
 | global.api.user.SetAccountUsername.patch(req)                  | accountid=   |            |
 | global.api.user.SetSessionEnded.patch(req)                     | sessionid=   |            |
-| global.api.user.SetSessionUnlocked.patch(req)                  | sessionid=   |            |
 | global.api.user.UpdateProfile.patch(req)                       | profileid=   |            |
 
 ## Privacy

@@ -1,7 +1,7 @@
 const dashboard = require('../../../../index.js')
 
 module.exports = {
-  before: async (req) => {
+  patch: async (req) => {
     if (!req.query || !req.query.sessionid) {
       throw new Error('invalid-sessionid')
     }
@@ -15,8 +15,6 @@ module.exports = {
     if (session.accountid !== req.account.accountid) {
       throw new Error('invalid-account')
     }
-  },
-  patch: async (req) => {
     await dashboard.StorageObject.setProperty(`${req.appid}/session/${req.query.sessionid}`, 'ended', dashboard.Timestamp.now)
     req.success = true
     return global.api.user.Session._get(req)

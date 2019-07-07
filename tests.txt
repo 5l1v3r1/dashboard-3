@@ -87,8 +87,6 @@
         ✓ should include nested modules
 
   internal-api/response
-    Response#wrapTemplateWithSrcDoc
-      ✓ should add session unlocked message to header
     Response#throw404()
       ✓ should set 404 status
       ✓ should contain 404 code
@@ -187,21 +185,6 @@
     #v4()
       ✓ should be a v4 uuid
 
-  /account/authorize
-    Authorize#BEFORE
-      ✓ should require locked session
-    Authorize#GET
-      ✓ should present the form
-    Authorize#POST
-      ✓ should reject missing username
-      ✓ should enforce username length
-      ✓ should reject missing password
-      ✓ should enforce password length
-      ✓ should reject invalid password
-      ✓ should reject different account credentials
-      ✓ should unlock session
-      ✓ should remove lock from session
-
   /account/change-password
     ChangePassword#GET
       ✓ should present the form
@@ -209,7 +192,7 @@
       ✓ should reject missing password
       ✓ should reject short password
       ✓ should reject mismatched passwords
-      ✓ should apply after authorization
+      ✓ should apply new password
 
   /account/change-username
     ChangeUsername#GET
@@ -217,7 +200,7 @@
     ChangeUsername#POST
       ✓ should reject missing username
       ✓ should reject short username
-      ✓ should apply after authorization
+      ✓ should apply new username
 
   /account/create-profile
     CreateProfile#GET
@@ -249,7 +232,7 @@
     DeleteAccount#GET
       ✓ should present the form
     DeleteAccount#POST
-      ✓ should apply after authorization
+      ✓ should mark account deleted
 
   /account/delete-profile
     DeleteProfile#BEFORE
@@ -283,7 +266,7 @@
       ✓ should reject missing last name
       ✓ should enforce last name length
       ✓ should reject missing email
-      ✓ should apply after authorization
+      ✓ should update profile
 
   /account/end-all-sessions
     EndAllSessions#GET
@@ -300,11 +283,6 @@
       ✓ should present the session table
     EndSession#POST
       ✓ should end the session
-
-  /account/lock-session
-    LockSession#GET
-      ✓ should reject invalid session
-      ✓ should remove unlocked status
 
   /account/profile
     Profile#BEFORE
@@ -499,7 +477,7 @@
       ✓ should present the form
       ✓ should present the account table
     AssignAdministrator#POST
-      ✓ should apply after authorization
+      ✓ should apply account update
 
   /administrator/create-reset-code
     CreateResetCode#BEFORE
@@ -508,7 +486,7 @@
       ✓ should present the form
       ✓ should present the account table
     CreateResetCode#POST
-      ✓ should apply after authorization
+      ✓ should create reset code
 
   /administrator/delete-account
     DeleteAccount#BEFORE
@@ -567,7 +545,7 @@
       ✓ should present the form
       ✓ should present the account table
     ResetSessionKey#POST
-      ✓ should apply after authorization
+      ✓ should reset session key
 
   /administrator/revoke-administrator
     RevokeAdministrator#BEFORE
@@ -575,7 +553,7 @@
     RevokeAdministrator#GET
       ✓ should present the form
     RevokeAdministrator#POST
-      ✓ should apply after authorization
+      ✓ should revoke administrator status
 
   /administrator/schedule-account-delete
     ScheduleAccountDelete#BEFORE
@@ -584,7 +562,7 @@
       ✓ should present the form
       ✓ should present the account table
     ScheduleAccountDelete#POST
-      ✓ should apply after authorization
+      ✓ should schedule account for deletion
 
   /administrator/session
     Session#BEFORE
@@ -608,7 +586,7 @@
       ✓ should present the form
       ✓ should present the account table
     TransferOwnership#POST
-      ✓ should apply after authorization
+      ✓ should change ownership
 
   /api/administrator/account-profiles-count
     AccountProfilesCount#GET
@@ -675,16 +653,14 @@
       ✓ should return all records
 
   /api/administrator/create-reset-code
-    CreateResetCode#BEFORE
-      ✓ should enforce code length
     CreateResetCode#POST
+      ✓ should enforce code length
       ✓ should create a code
 
   /api/administrator/delete-account
-    DeleteAccount#BEFORE
+    DeleteAccount#DELETE
       ✓ should allow account not scheduled for delete
       ✓ should allow account not ready to delete
-    DeleteAccount#DELETE
       ✓ should delete account
 
   /api/administrator/deleted-accounts-count
@@ -714,9 +690,8 @@
       ✓ should return all records
 
   /api/administrator/reset-account-administrator
-    ResetAccountAdministrator#BEFORE
-      ✓ should require an administrator accountid
     ResetAccountAdministrator#PATCH
+      ✓ should require an administrator accountid
       ✓ should apply authorized revocation
 
   /api/administrator/reset-code
@@ -737,10 +712,9 @@
       ✓ should return all records
 
   /api/administrator/reset-session-key
-    ResetSessionKey#BEFORE
+    ResetSessionKey#PATCH
       ✓ should reject invalid account
       ✓ should reject account scheduled for deletion
-    ResetSessionKey#PATCH
       ✓ should increase sessionKeyNumber
       ✓ should update sessionKeyLastReset
 
@@ -762,27 +736,24 @@
       ✓ should return all records
 
   /api/administrator/set-account-administrator
-    SetAccountAdministrator#BEFORE
+    SetAccountAdministrator#PATCH
       ✓ should reject invalid accountid
       ✓ should reject own accountid
       ✓ should require a non-administrator accountid
-    SetAccountAdministrator#PATCH
-      ✓ should apply authorized new administrator
+      ✓ should assign administrator status
 
   /api/administrator/set-account-deleted
-    SetAccountDeleted#BEFORE
+    SetAccountDeleted#PATCH
       ✓ should reject invalid accountid
       ✓ should reject own accountid
-    SetAccountDeleted#PATCH
       ✓ should schedule for immediate deletion
       ✓ should schedule for future deletion
 
   /api/administrator/set-owner-account
-    SetOwnerAccount#BEFORE
+    SetOwnerAccount#PATCH
       ✓ should reject invalid accountid
       ✓ should reject non-owner administrators
       ✓ should reject transferring to self accountid
-    SetOwnerAccount#PATCH
       ✓ should apply authorized new ownership
       ✓ should revoke own ownership
 
@@ -804,21 +775,18 @@
       ✓ should create account
 
   /api/user/create-profile
-    CreateProfile#BEFORE
+    CreateProfile#POST
       ✓ should reject missing first name
       ✓ should enforce first name length
       ✓ should reject missing last name
       ✓ should enforce last name length
       ✓ should reject missing email
-    CreateProfile#POST
       ✓ should create authorized new profile
       ✓ should create authorized new profile and set as default
 
   /api/user/create-reset-code
-    CreateResetCode#BEFORE
-      ✓ should enforce code length
-      ✓ should hash reset code and remove plain text
     CreateResetCode#POST
+      ✓ should enforce code length
       ✓ should create a code after authorization
 
   /api/user/create-session
@@ -832,16 +800,14 @@
       ✓ should create session expiring in 30 days
 
   /api/user/delete-profile
-    DeleteProfile#BEFORE
+    DeleteProfile#DELETE
       ✓ should require valid profile
       ✓ should reject default profile
-    DeleteProfile#DELETE
       ✓ should delete the profile
 
   /api/user/delete-reset-code
-    DeleteResetCode#BEFORE
-      ✓ should require valid reset code
     DeleteResetCode#DELETE
+      ✓ should require valid reset code
       ✓ should delete the code
 
   /api/user/profile
@@ -904,17 +870,6 @@
       ✓ should end current session
       ✓ should update account sessionKeyLastReset
 
-  /api/user/reset-session-locked
-    ResetSessionLocked#PATCH
-      ✓ should reject not-locked session
-      ✓ should reject unlocked session
-      ✓ should remove lock from the session
-
-  /api/user/reset-session-unlocked
-    ResetSessionUnlocked#PATCH
-      ✓ should reject not-unlocked session
-      ✓ should remove unlocked status from the session
-
   /api/user/session
     Session#GET
       ✓ should reject invalid sessionid
@@ -934,61 +889,43 @@
       ✓ should return all records
 
   /api/user/set-account-deleted
-    SetAccountDeleted#BEFORE
+    SetAccountDeleted#DELETE
       ✓ should reject invalid accountid
       ✓ should reject other account's accountid
-    SetAccountDeleted#DELETE
       ✓ should schedule deletion in 7 days
       ✓ should schedule deletion in 3 days
       ✓ should schedule immediate deletion
 
   /api/user/set-account-password
-    SetAccountPassword#BEFORE
-      ✓ should enforce password length
-      ✓ should hash new password and remove plain text
     SetAccountPassword#PATCH
+      ✓ should enforce password length
       ✓ should apply authorized new password
 
   /api/user/set-account-profile
-    SetAccountProfile#BEFORE
-      ✓ should reject default profile
     SetAccountProfile#PATCH
+      ✓ should reject default profile
       ✓ should apply authorized new default
 
   /api/user/set-account-username
-    SetAccountUsername#BEFORE
-      ✓ should enforce username length
-      ✓ should hash new username and remove plain text
     SetAccountUsername#PATCH
+      ✓ should enforce username length
       ✓ should apply authorized new username
 
   /api/user/set-session-ended
-    SetSessionEnded#BEFORE
+    SetSessionEnded#PATCH
       ✓ should reject invalid sessionid
       ✓ should reject ended session
-    SetSessionEnded#PATCH
-      ✓ should accept locked session
       ✓ should end the session
 
-  /api/user/set-session-unlocked
-    SetSessionUnlocked#POST
-      ✓ should require a locked session
-      ✓ should require a username
-      ✓ should require a password
-      ✓ should require a valid username and password
-      ✓ should reject other account username and password
-      ✓ should unlock locked session for user
-
   /api/user/update-profile
-    UpdateProfile#BEFORE
+    UpdateProfile#PATCH
       ✓ should reject missing first name
       ✓ should enforce first name length
       ✓ should reject missing last name
       ✓ should enforce last name length
       ✓ should reject missing email
-    UpdateProfile#PATCH
       ✓ should apply authorized new values
 
 
-  541 passing (2m)
+  513 passing (1m)
 

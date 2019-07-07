@@ -17,7 +17,7 @@ describe('/account/delete-account', () => {
   })
 
   describe('DeleteAccount#POST', () => {
-    it('should apply after authorization', async () => {
+    it('should mark account deleted', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/delete-account')

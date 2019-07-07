@@ -92,8 +92,6 @@ module.exports = {
   deleteResetCode,
   createUser,
   setDeleted,
-  lockSession,
-  unlockSession,
   useResetCode,
   extractDoc,
   extractRedirectURL,
@@ -128,44 +126,6 @@ function createRequest(rawURL) {
         return result
       }
       await wait()
-      let redirectURL
-      // check if it requires authorization
-      if (result && result.node === 'element') {
-        redirectURL = extractRedirectURL(result)
-      } else if (result && result.message === 'Authorization required') {
-        redirectURL = '/account/authorize'
-      }
-      if (redirectURL === '/account/authorize') {
-        const bodyWas = req.body
-        req.body = {
-          username: req.account.username,
-          password: req.account.password
-        }
-        if (process.env.UNLOCK_SESSION) {
-          req.body.remember = 'minutes'
-        }
-        try {
-          if (rawURL.startsWith('/api/')) {
-            await proxy('PATCH', `/api/user/set-session-unlocked?sessionid=${req.session.sessionid}`, req)
-          } else {
-            await proxy('POST', '/account/authorize', req)
-          }
-        } catch (error) {
-          return error
-        }
-        let result3
-        req.body = bodyWas
-        try {
-          if (rawURL.startsWith('/api/')) {
-            result3 = await proxy(verb.toUpperCase(), rawURL, req)
-          } else {
-            result3 = await proxy('GET', rawURL, req)
-          }
-        } catch (error) {
-          return error
-        }
-        return result3
-      }
       return result
     }
   }
@@ -285,37 +245,6 @@ async function createSession(user, expires) {
     expires: expires || ''
   }
   user.session = await req.post()
-  return user.session
-}
-
-async function lockSession(user) {
-  const req = createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
-  req.account = user.account
-  req.session = user.session
-  req.body = {
-    password: 'new-password',
-    confirm: 'new-password'
-  }
-  req.authorize = false
-  await req.patch()
-  user.password = 'new-password'
-  const req2 = createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)
-  user.session = await req2.route.api._get(req2)
-  user.session.token = req.session.token
-  return user.session
-}
-
-async function unlockSession(user, long) {
-  const req = createRequest(`/api/user/set-session-unlocked?sessionid=${user.session.sessionid}`)
-  req.account = user.account
-  req.session = user.session
-  req.body = {
-    username: user.account.username,
-    password: user.account.password,
-    remember: long ? 'minutes' : ''
-  }
-  user.session = await req.patch()
-  user.session.token = req.session.token
   return user.session
 }
 

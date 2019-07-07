@@ -1,8 +1,7 @@
 const dashboard = require('../../../../index.js')
 
 module.exports = {
-  lock: true,
-  before: async (req) => {
+  delete: async (req) => {
     if (!req.query || !req.query.codeid) {
       throw new Error('invalid-codeid')
     }
@@ -10,8 +9,6 @@ module.exports = {
     if (code.accountid !== req.account.accountid) {
       throw new Error('invalid-account')
     }
-  },
-  delete: async (req) => {
     const codeHash = await dashboard.StorageObject.getProperty(`${req.appid}/resetCode/${req.query.codeid}`, 'codeHash')
     await dashboard.Storage.deleteFile(`${req.appid}/resetCode/${req.query.codeid}`)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.account.accountid}`, 'resetCodeLastDeleted', dashboard.Timestamp.now)

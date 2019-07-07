@@ -248,35 +248,6 @@ async function receiveRequest(req, res) {
   if (user) {
     req.session = user.session
     req.account = user.account
-    // clearing old sessions
-    if (req.session) {
-      if (req.session.unlocked > 1 && req.session.unlocked < Timestamp.now) {
-        await StorageObject.removeProperties(`${req.appid}/session/${user.session.sessionid}`, ['lockData', 'lockURL', 'lock', 'unlocked'])
-        delete (req.session.lockData)
-        delete (req.session.lockURL)
-        delete (req.session.lock)
-        delete (req.session.unlocked)
-      }
-      // restoring locked session data
-      if (req.url === req.session.lockURL && req.session.unlocked && req.session.lockData) {
-        req.body = JSON.parse(req.session.lockData)
-        await StorageObject.removeProperty(`${req.appid}/session/${req.session.sessionid}`, 'lockData')
-        delete (req.session.lockData)
-      }
-      // restricting locked session URLs
-      if (req.session.lock && !req.session.unlocked) {
-        if (req.urlPath.startsWith('/api/')) {
-          if (req.urlPath !== '/api/user/set-session-unlocked' &&
-            req.urlPath !== '/api/user/set-session-ended') {
-            res.statusCode = 511
-            res.setHeader('content-type', 'application/json')
-            return res.end(`{ "object": "lock", "message": "Authorization required" }`)
-          }
-        } else if (req.urlPath !== '/account/authorize' && req.urlPath !== '/account/signout') {
-          return Response.redirect(req, res, '/account/authorize')
-        }
-      }
-    }
   }
   // require signing in to continue
   if (!req.account && req.route && req.route.auth !== false) {

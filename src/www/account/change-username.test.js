@@ -46,7 +46,7 @@ describe('/account/change-username', () => {
       assert.strictEqual(message.attr.template, 'invalid-username-length')
     })
 
-    it('should apply after authorization', async () => {
+    it('should apply new username', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/change-username')
       req.account = user.account

@@ -1,8 +1,7 @@
 const dashboard = require('../../../../index.js')
 
 module.exports = {
-  lock: true,
-  before: async (req) => {
+  patch: async (req) => {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
@@ -13,8 +12,6 @@ module.exports = {
     if (account.deleted) {
       throw new Error('invalid-account')
     }
-  },
-  patch: async (req) => {
     const delay = global.deleteDelay < 1 ? 0 : global.deleteDelay * 24 * 60 * 60
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'deleted', dashboard.Timestamp.now + delay - 1)
     await dashboard.StorageList.add(`${req.appid}/deleted/accounts`, req.query.accountid)

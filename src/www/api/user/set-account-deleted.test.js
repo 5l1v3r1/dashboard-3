@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/set-account-deleted`, () => {
-  describe('SetAccountDeleted#BEFORE', () => {
+  describe('SetAccountDeleted#DELETE', () => {
     it('should reject invalid accountid', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=invalid`)
@@ -11,7 +11,7 @@ describe(`/api/user/set-account-deleted`, () => {
       req.session = user.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -26,15 +26,13 @@ describe(`/api/user/set-account-deleted`, () => {
       req.session = user2.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-account')
     })
-  })
-
-  describe('SetAccountDeleted#DELETE', () => {
+    
     it('should schedule deletion in 7 days', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)

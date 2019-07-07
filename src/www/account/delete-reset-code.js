@@ -10,13 +10,6 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.codeid) {
     throw new Error('invalid-codeid')
   }
-  if (req.session.lockURL === req.url && req.session.unlocked) {
-    try {
-      await global.api.user.DeleteResetCode._delete(req)
-    } catch (error) {
-      req.error = error.message
-    }
-  }
   const resetCode = await global.api.user.ResetCode._get(req)
   if (!resetCode) {
     throw new Error('invalid-codeid')
@@ -59,7 +52,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return dashboard.Response.redirect(req, res, '/account/authorize')
+    return renderPage(req, res, 'unknown-error')
   } catch (error) {
     return renderPage(req, res, error.message)
   }

@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/set-owner-account', () => {
-  describe('SetOwnerAccount#BEFORE', () => {
+  describe('SetOwnerAccount#PATCH', () => {
     it('should reject invalid accountid', async () => {
       const owner = await TestHelper.createOwner()
       const req = TestHelper.createRequest(`/api/administrator/set-owner-account?accountid=invalid`)
@@ -11,7 +11,7 @@ describe('/api/administrator/set-owner-account', () => {
       req.session = owner.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -27,7 +27,7 @@ describe('/api/administrator/set-owner-account', () => {
       req.session = administrator.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -41,15 +41,13 @@ describe('/api/administrator/set-owner-account', () => {
       req.session = owner.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-account')
     })
-  })
-
-  describe('SetOwnerAccount#PATCH', () => {
+    
     it('should apply authorized new ownership', async () => {
       const owner = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

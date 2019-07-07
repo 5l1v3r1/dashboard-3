@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/administrator/create-reset-code`, () => {
-  describe('CreateResetCode#BEFORE', async () => {
+  describe('CreateResetCode#POST', async () => {
     it('should enforce code length', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -16,15 +16,12 @@ describe(`/api/administrator/create-reset-code`, () => {
       global.minimumResetCodeLength = 100
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-reset-code-length')
     })
-  })
-
-  describe('CreateResetCode#POST', async () => {
     it('should create a code', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

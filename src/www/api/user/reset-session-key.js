@@ -1,7 +1,6 @@
 const dashboard = require('../../../../index.js')
 
 module.exports = {
-  lock: true,
   patch: async (req) => {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')

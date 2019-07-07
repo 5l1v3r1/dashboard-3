@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/create-profile`, () => {
-  describe('CreateProfile#BEFORE', () => {
+  describe('CreateProfile#POST', () => {
     it('should reject missing first name', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
@@ -16,7 +16,7 @@ describe(`/api/user/create-profile`, () => {
       }
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -37,7 +37,7 @@ describe(`/api/user/create-profile`, () => {
       global.maximumProfileFirstNameLength = 100
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -51,7 +51,7 @@ describe(`/api/user/create-profile`, () => {
       }
       errorMessage = null
       try {
-        await req.route.api.before(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -70,7 +70,7 @@ describe(`/api/user/create-profile`, () => {
       }
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -91,7 +91,7 @@ describe(`/api/user/create-profile`, () => {
       global.maximumProfileLastNameLength = 100
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -105,7 +105,7 @@ describe(`/api/user/create-profile`, () => {
       }
       errorMessage = null
       try {
-        await req.route.api.before(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -124,15 +124,13 @@ describe(`/api/user/create-profile`, () => {
       }
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-profile-email')
     })
-  })
-
-  describe('CreateProfile#POST', () => {
+    
     it('should create authorized new profile', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)

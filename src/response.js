@@ -153,10 +153,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   if (!templateDoc) {
     throw new Error()
   }
-  // display the session unlocked header
-  if (req.session && req.session.unlocked) {
-    HTML.renderTemplate(templateDoc, req.session, 'session-unlocked', 'notifications-container')
-  }
   // embed additional CSS, JS etc by placing the code within
   // your own HTML in a <template id="head" />
   const embedTemplate = doc.getElementById('head')

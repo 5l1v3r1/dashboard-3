@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/delete-profile`, () => {
-  describe('DeleteProfile#BEFORE', () => {
+  describe('DeleteProfile#DELETE', () => {
     it('should require valid profile', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/api/user/delete-profile?profileid=invalid')
@@ -11,7 +11,7 @@ describe(`/api/user/delete-profile`, () => {
       req.session = user.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.delete(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -25,15 +25,13 @@ describe(`/api/user/delete-profile`, () => {
       req.session = user.session
       let errorMessage
       try {
-        await req.route.api.before(req)
+        await req.route.api.delete(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-profile')
     })
-  })
-
-  describe('DeleteProfile#DELETE', () => {
+    
     it('should delete the profile', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
