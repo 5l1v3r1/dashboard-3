@@ -60,8 +60,44 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   if (!raw) {
     throw new Error('invalid-html')
   }
+  // remove premable
+  raw = raw.substring(raw.indexOf('<'))
+  if (raw.indexOf('<!--') === 0) {
+    raw = raw.substring(raw.indexOf('-->') + 3)
+  }
+  // remove doctype because it won't parse
   if (raw.toLowerCase().startsWith('<!doctype')) {
     raw = raw.substring(raw.indexOf('>') + 1)
+  }
+  // extract HTML tag to check for a navbar insertion
+  let htmlTag = raw.substring(0, raw.indexOf('>') + 1)
+  htmlTag = htmlTag.substring(htmlTag.indexOf('<'))
+  if (htmlTag.indexOf('<html') === 0) {
+    if (htmlTag.indexOf(' navbar="') > -1) {
+      let navbar = htmlTag.split(' navbar="')[1]
+      navbar = navbar.substring(0, navbar.indexOf('"'))
+      let navbarPath = path.join(global.rootPath, navbar)
+      // the dashboard /public folder
+      if (!fs.existsSync(navbarPath)) {
+        navbarPath = path.join(global.applicationPath, `node_modules/@userappstore/dashboard/src/www${navbar}`)
+        // a module /public folder
+        if (!fs.existsSync(navbarPath)) {
+          for (const moduleName of global.packageJSON.dashboard.moduleNames) {
+            navbarPath = `${global.applicationPath}/node_modules/${moduleName}/src/www${navbar}`
+            if (fs.existsSync(navbarPath)) {
+              break
+            }
+            navbarPath = null
+          }
+        }
+      }
+      if (navbarPath) {
+        const navbarHTML = fs.readFileSync(navbarPath).toString('utf-8')
+        if (navbarHTML) {
+          raw = raw.replace('</head>', `<div id='navbar______'>${navbarHTML}</template></div>`)
+        }
+      }
+    }
   }
   let doc = ServerHTML.parse(raw)
   if (!doc) {
@@ -73,41 +109,10 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   if (doc.child[0].tag === 'html') {
     doc = doc.child[0]
   }
-  const htmlTag = doc.tag === 'html' ? doc : null
-  if (htmlTag && htmlTag.attr && htmlTag.attr.navbar) {
-    let navbarPath = path.join(global.rootPath, htmlTag.attr.navbar)
-    // the dashboard /public folder
-    if (!fs.existsSync(navbarPath)) {
-      navbarPath = path.join(global.applicationPath, `node_modules/@userappstore/dashboard/src/www${htmlTag.attr.navbar}`)
-      // a module /public folder
-      if (!fs.existsSync(navbarPath)) {
-        for (const moduleName of global.packageJSON.dashboard.moduleNames) {
-          navbarPath = `${global.applicationPath}/node_modules/${moduleName}/src/www${htmlTag.attr.navbar}`
-          if (fs.existsSync(navbarPath)) {
-            break
-          }
-          navbarPath = null
-        }
-      }
-    }
-    if (navbarPath) {
-      const navbarHTML = fs.readFileSync(navbarPath).toString('utf-8')
-      if (navbarHTML) {
-        let template = doc.getElementById('navbar') || doc.createElement('template')
-        template.attr = template.attr || {}
-        template.attr.id = 'navbar'
-        template.child = [{
-          node: 'text',
-          text: navbarHTML
-        }]
-        if (dataObject) {
-          const newTemplate = createCopy(dataObject, dataObjectName, template)
-          htmlTag.appendChild(newTemplate.child[0])
-        } else {
-          htmlTag.appendChild(template)
-        }
-      }
-    }
+  const navbar = doc.getElementById('navbar______')
+  if (navbar) {
+    navbar.attr.id = 'navbar'
+    navbar.tag = 'template'
   }
   return minify(doc)
 }
