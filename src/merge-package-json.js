@@ -9,7 +9,7 @@ module.exports = mergePackageJSON
  */
 function mergePackageJSON (applicationJSON, dashboardJSON) {
   applicationJSON = applicationJSON || loadApplicationJSON(applicationJSON)
-  if (applicationJSON && applicationJSON.name === '@userappstore/dashboard') {
+  if (applicationJSON && applicationJSON.name === '@userdashboard/dashboard') {
     dashboardJSON = applicationJSON
     applicationJSON = null
   } else {
@@ -38,13 +38,13 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   if (applicationJSON) {
     for (const i in dashboardJSON.dashboard.server) {
       const relativePath = dashboardJSON.dashboard.server[i]
-      const filePath = `${global.applicationPath}/node_modules/@userappstore/dashboard/${relativePath}`
+      const filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/${relativePath}`
       packageJSON.dashboard.server[i] = relativePath
       packageJSON.dashboard.serverFilePaths[i] = filePath
     }
     for (const i in dashboardJSON.dashboard.content) {
       const relativePath = dashboardJSON.dashboard.content[i]
-      const filePath = `${global.applicationPath}/node_modules/@userappstore/dashboard/${relativePath}`
+      const filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/${relativePath}`
       packageJSON.dashboard.content[i] = relativePath
       packageJSON.dashboard.contentFilePaths[i] = filePath
     }
@@ -68,7 +68,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
       packageJSON.dashboard.modules = [].concat(applicationJSON.dashboard.modules)
       for (const i in packageJSON.dashboard.modules) {
         const moduleName = packageJSON.dashboard.modules[i]
-        if (moduleName === '@userappstore/dashboard') {
+        if (moduleName === '@userdashboard/dashboard') {
           continue
         }
         const moduleJSON = loadModuleJSON(moduleName)
@@ -151,9 +151,9 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   const applicationErrorHTMLPath = `${global.applicationPath}/src/error.html`
   const applicationRedirectHTMLPath = `${global.applicationPath}/src/redirect.html`
   const applicationTemplateHTMLPath = `${global.applicationPath}/src/template.html`
-  const dashboardErrorHTMLPath = `${global.applicationPath}/node_modules/@userappstore/dashboard/src/error.html`
-  const dashboardRedirectHTMLPath = `${global.applicationPath}/node_modules/@userappstore/dashboard/src/redirect.html`
-  const dashboardTemplateHTMLPath = `${global.applicationPath}/node_modules/@userappstore/dashboard/src/template.html`
+  const dashboardErrorHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/error.html`
+  const dashboardRedirectHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/redirect.html`
+  const dashboardTemplateHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/template.html`
   if (applicationJSONErrorHTMLPath && fs.existsSync(applicationJSONErrorHTMLPath)) {
     packageJSON.errorHTMLPath = applicationJSONErrorHTMLPath
   } else {
@@ -225,7 +225,7 @@ function mergeModuleJSON (baseJSON, moduleJSON, nested) {
   if (moduleJSON.dashboard.modules) {
     for (const i in moduleJSON.dashboard.modules) {
       const moduleName = moduleJSON.dashboard.modules[i]
-      if (moduleName === '@userappstore/dashboard') {
+      if (moduleName === '@userdashboard/dashboard') {
         continue
       }
       if (baseJSON.dashboard.modules.indexOf(moduleName) > -1) {
@@ -251,7 +251,7 @@ function loadApplicationJSON () {
 }
 
 function loadDashboardJSON () {
-  const filePath = `${global.applicationPath}/node_modules/@userappstore/dashboard/package.json`
+  const filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/package.json`
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath))
   }

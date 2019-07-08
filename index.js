@@ -182,7 +182,7 @@ function outputConfiguration () {
     url += global.applicationServer + ' (application)'
   }
   const output = [
-    `@userappstore/dashboard ` + global.packageJSON.version,
+    `@userdashboard/dashboard ` + global.packageJSON.version,
     url
   ]
   output.push('\nAdministrator menu:')

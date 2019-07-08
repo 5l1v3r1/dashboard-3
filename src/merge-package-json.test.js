@@ -22,7 +22,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             menus: {
               administrator: [{
@@ -65,7 +65,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             menus: {
               administrator: [{
@@ -129,7 +129,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             menus: {
               administrator: [{
@@ -214,7 +214,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             menus: {
               administrator: [{
@@ -255,7 +255,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             content: ['content-1', 'content-2']
           }
@@ -272,7 +272,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             content: ['content-1', 'content-2']
           }
@@ -292,7 +292,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             content: ['content-1', 'content-2']
           }
@@ -322,7 +322,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             content: ['content-1', 'content-2']
           }
@@ -361,7 +361,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             server: ['server-1', 'server-2']
           }
@@ -378,7 +378,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             server: ['server-1', 'server-2']
           }
@@ -398,7 +398,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             server: ['server-1', 'server-2']
           }
@@ -428,7 +428,7 @@ describe('internal-api/merge-package-json', () => {
         }
         const dashboardJSON = {
           version: 'test',
-          name: '@userappstore/dashboard',
+          name: '@userdashboard/dashboard',
           dashboard: {
             server: ['server-1', 'server-2']
           }

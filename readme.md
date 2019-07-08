@@ -6,12 +6,21 @@ Dashboard proxies your application server to create a single website where pages
 
 Using modules you can expand Dashboard to include organizations, subscriptions powered by Stripe, or a Stripe Connect platform.
 
-Application servers written for Dashboard can be published on websites running our [app store](https://github.com/userappstore/app-store-dashboard-server) software like [UserAppStore](https://userappstore.com).
+Application servers written for Dashboard can be published on websites running [app store software](https://github.com/userdashboard/app-store-dashboard-server) like [UserAppStore](https://userappstore.com).
 
-- [Introduction](https://github.com/userappstore/dashboard/wiki)
-- [Configuring Dashboard](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
-- [Dashboard code structure](https://github.com/userappstore/dashboard/wiki/Dashboard-code-structure)
-- [Server request lifecycle](https://github.com/userappstore/dashboard/wiki/Server-Request-Lifecycle)
+- [Introduction](https://github.com/userdashboard/dashboard/wiki)
+- [Configuring Dashboard](https://github.com/userdashboard/dashboard/wiki/Configuring-Dashboard)
+- [Dashboard code structure](https://github.com/userdashboard/dashboard/wiki/Dashboard-code-structure)
+- [Server request lifecycle](https://github.com/userdashboard/dashboard/wiki/Server-Request-Lifecycle)
+
+### Case studies 
+`Hastebin` is an open source pastebin web application.  It started as a service for anonymous guests only, and was transformed with Dashboard and modules into a web application for registered users with support for organizations and paid subscriptions.
+
+- [Hastebin: free web application]()
+- [Hastebin: subscription web application]()
+
+ `Hastebin` is an anonymous pastebin web application for sharing code and text.  Read how it was tra
+
 
 ### Demonstrations
 
@@ -28,15 +37,15 @@ You can use Dashboard with your local file system or other storage backends with
 
 | Name | Description | Package   | Repository |
 |------|-------------|-----------|------------|
-| Redis | Very fast but expensive to scale | @dashboard/storage-redis | [github](https://github.com/userappstore/storage-edis) |
-| Amazon S3 | Slow but cheap to scale | @dashboard/storage-s3 | [github](https://github.com/userappstore/storage-s3) |
-| PostgreSQL | Fast but not cheap to scale | @dashboard/storage-postgreqsl | [github](https://github.com/userappstore/storage-postgresql) |
+| Redis | Very fast but expensive to scale | @userdashboard/storage-redis | [github](https://github.com/userdashboard/storage-edis) |
+| Amazon S3 | Slow but cheap to scale | @userdashboard/storage-s3 | [github](https://github.com/userdashboard/storage-s3) |
+| PostgreSQL | Fast but not cheap to scale | @userdashboard/storage-postgreqsl | [github](https://github.com/userdashboard/storage-postgresql) |
 
 You can code your own alternatives for other databases by mimicking the Storage API's basic operations to read, write and list data.
 
 ## Dashboard modules
 
-Additional APIs, content and functionality can be added by `npm install` and nominating Dashboard modules in your `package.json`.  You can read more about this on the [Dashboard configuration wiki page](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
+Additional APIs, content and functionality can be added by `npm install` and nominating Dashboard modules in your `package.json`.  You can read more about this on the [Dashboard configuration wiki page](https://github.com/userdashboard/dashboard/wiki/Configuring-Dashboard)
 
     "dashboard": {
       "modules": [ "package", "package2" ]
@@ -46,19 +55,19 @@ Modules can supplement the global.sitemap with additional routes which automatic
 
 | Name | Description | Package   | Repository |
 |------|-------------|-----------|------------|
-| MaxMind GeoIP | IP address-based geolocation | @dashboard/maxmind-geoip | [github](https://github.com/userappstore/maxmind-geoip) |
-| Organizations | User created groups | @dashboard/organizations | [github](https://github.com/userappstore/organizations) |
-| Stripe Subscriptions | SaaS functionality | @dashboard/stripe-subscriptions | [github](https://github.com/userappstore/stripe-subscriptions) |
-| Stripe Connect | Marketplace functionality | @dashboard/stripe-connect | [github](https://github.com/userappstore/stripe-connect)
+| MaxMind GeoIP | IP address-based geolocation | @userdashboard/maxmind-geoip | [github](https://github.com/userdashboard/maxmind-geoip) |
+| Organizations | User created groups | @userdashboard/organizations | [github](https://github.com/userdashboard/organizations) |
+| Stripe Subscriptions | SaaS functionality | @userdashboard/stripe-subscriptions | [github](https://github.com/userdashboard/stripe-subscriptions) |
+| Stripe Connect | Marketplace functionality | @userdashboard/stripe-connect | [github](https://github.com/userdashboard/stripe-connect)
 
 ### Setting up the dashboard server
 
-You must install [NodeJS](https://nodejs.org) 8.12.0+ prior to these steps.  Dashboard is installed via NPM which is bundled with NodeJS.  It is installed within the `node_modules/@userappstore/dashboard` folder.  You can configure Dashboard within your package.json and start script.
+You must install [NodeJS](https://nodejs.org) 8.12.0+ prior to these steps.  Dashboard is installed via NPM which is bundled with NodeJS.  It is installed within the `node_modules/@userdashboard/dashboard` folder.  You can configure Dashboard within your package.json and start script.
 
     $ mkdir project
     $ cd project
     $ npm init
-    $ npm install @userappstore/dashboard --only=production
+    $ npm install @userdashboard/dashboard --only=production
     # create a main.js
     # create a src/www/index.html to override home page
     # create a src/www/account/register.html to override register page
@@ -71,7 +80,7 @@ You must install [NodeJS](https://nodejs.org) 8.12.0+ prior to these steps.  Das
 
 Your `main.js` should contain the code to start Dashboard:
     
-    const dashboard = require('@userappstore/dashboard')
+    const dashboard = require('@userdashboard/dashboard')
     dashboard.start(__dirname)
 
 Your sitemap will output the server address, by default you can access it at:
@@ -219,7 +228,7 @@ Dashboard accounts optionally support anonymous registration and irreversibly en
 
 #### Development
 
-Development takes place on [Github](https://github.com/userappstore).  Releases, documentation and issues are hosted on [Github](https://github.com/userappstore) and [NPM](https://www.npmjs.com/package/@userappstore/dashboard).
+Development takes place on [Github](https://github.com/userdashboard/dashboard) with releases on [NPM](https://www.npmjs.com/package/@userdashboard/dashboard).
 
 #### License
 

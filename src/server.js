@@ -333,7 +333,7 @@ async function staticFile(req, res) {
   let filePath = `${global.rootPath}${req.urlPath}`
   if (!fs.existsSync(filePath)) {
     // dashboard /public folder
-    filePath = `${global.applicationPath}/node_modules/@userappstore/dashboard/src/www${req.urlPath}`
+    filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/www${req.urlPath}`
     // module /public folder
     if (!fs.existsSync(filePath)) {
       for (const moduleName of global.packageJSON.dashboard.moduleNames) {

@@ -79,7 +79,7 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
       let navbarPath = path.join(global.rootPath, navbar)
       // the dashboard /public folder
       if (!fs.existsSync(navbarPath)) {
-        navbarPath = path.join(global.applicationPath, `node_modules/@userappstore/dashboard/src/www${navbar}`)
+        navbarPath = path.join(global.applicationPath, `node_modules/@userdashboard/dashboard/src/www${navbar}`)
         // a module /public folder
         if (!fs.existsSync(navbarPath)) {
           for (const moduleName of global.packageJSON.dashboard.moduleNames) {

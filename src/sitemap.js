@@ -11,7 +11,7 @@ function generate () {
   let routes = {}
   // Dashboard defaults, if the server is a module then these are
   // files located within node_modules otherwise they are the root app
-  const dashboardModulePath = `${global.applicationPath}/node_modules/@userappstore/dashboard/src/www`
+  const dashboardModulePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/www`
   let dashboardIsModule = false
   if (fs.existsSync(dashboardModulePath)) {
     attachRoutes(routes, dashboardModulePath)

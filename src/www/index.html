@@ -61,16 +61,16 @@
           <h3>Deploying Dashboard</h3>
           <p>Dashboard runs separately to your application server and proxies the content from it.  NodeJS apps can also be built directly on Dashboard's server.  You must install <a href="https://redis.io">Redis</a> and <a href="https://nodejs.org">NodeJS</a> 8.12.0+ prior to these steps.</p>
           <div class="code application"><textarea># Dashboard with an application server          
-$ git clone https://github.com/userappstore/dashboard
+$ git clone https://github.com/userdashboard/dashboard
 $ cd dashboard
 $ npm install --only=production
 $ APPLICATION_SERVER=http://localhost:3000 \
   DASHBOARD_SERVER=http://localhost:8000 \
   node main.js</textarea></div>
           <div class="code module"><textarea># Dashboard as a module in a NodeJS app
-$ npm install @userappstore/dashboard --only=production</textarea></div>
+$ npm install @userdashboard/dashboard --only=production</textarea></div>
           <div class="code main"><textarea>// start dashboard server
-const dashboard = require('@userappstore/dashboard')
+const dashboard = require('@userdashboard/dashboard')
 dashboard.start(__dirname)</textarea></div>
         </div>
       </div>
@@ -83,10 +83,10 @@ dashboard.start(__dirname)</textarea></div>
                 <h3>Dashboard</h3>
                 <p>User account management, authentication and sessions.</p>
                 <div>
-                  <a href="https://github.com/userappstore/dashboard">current release</a>
-                  <a href="https://github.com/userappstore/dashboard/wiki">documentation</a>
-                  <a href="https://github.com/userappstore/dashboard/blob/master/sitemap.txt">sitemap.txt</a>
-                  <a href="https://github.com/userappstore/dashboard/blob/master/tests.txt">tests.txt</a>
+                  <a href="https://github.com/userdashboard/dashboard">current release</a>
+                  <a href="https://github.com/userdashboard/dashboard/wiki">documentation</a>
+                  <a href="https://github.com/userdashboard/dashboard/blob/master/sitemap.txt">sitemap.txt</a>
+                  <a href="https://github.com/userdashboard/dashboard/blob/master/tests.txt">tests.txt</a>
                 </div>
               </td>
             </tr>
@@ -96,10 +96,10 @@ dashboard.start(__dirname)</textarea></div>
                 <h3>Organizations module</h3>
                 <p>User-managed groups of users for sharing access.</p>
                 <div>
-                    <a href="https://github.com/userappstore/organizations">current release</a>
-                    <a href="https://github.com/userappstore/organizations/wiki">documentation</a>
-                    <a href="https://github.com/userappstore/organizations/blob/master/sitemap.txt">sitemap.txt</a>
-                    <a href="https://github.com/userappstore/organizations/blob/master/tests.txt">tests.txt</a>
+                    <a href="https://github.com/userdashboard/organizations">current release</a>
+                    <a href="https://github.com/userdashboard/organizations/wiki">documentation</a>
+                    <a href="https://github.com/userdashboard/organizations/blob/master/sitemap.txt">sitemap.txt</a>
+                    <a href="https://github.com/userdashboard/organizations/blob/master/tests.txt">tests.txt</a>
                 </div>
               </td>
             </tr>
@@ -109,10 +109,10 @@ dashboard.start(__dirname)</textarea></div>
                 <h3>Stripe Subscriptions module</h3>
                 <p>Subscription and payment processing by <a href="https://stripe.com">Stripe</a>.</p>
                 <div>
-                    <a href="https://github.com/userappstore/stripe-subscriptions">current release</a>
-                    <a href="https://github.com/userappstore/stripe-subscriptions/wiki">documentation</a>
-                    <a href="https://github.com/userappstore/stripe-subscriptions/blob/master/sitemap.txt">sitemap.txt</a>
-                    <a href="https://github.com/userappstore/stripe-subscriptions/blob/master/tests.txt">tests.txt</a>
+                    <a href="https://github.com/userdashboard/stripe-subscriptions">current release</a>
+                    <a href="https://github.com/userdashboard/stripe-subscriptions/wiki">documentation</a>
+                    <a href="https://github.com/userdashboard/stripe-subscriptions/blob/master/sitemap.txt">sitemap.txt</a>
+                    <a href="https://github.com/userdashboard/stripe-subscriptions/blob/master/tests.txt">tests.txt</a>
                 </div>
               </td>
             </tr>
@@ -122,10 +122,10 @@ dashboard.start(__dirname)</textarea></div>
                 <h3>Stripe Connect module</h3>
                 <p>Platform registration and payments by <a href="https://stripe.com">Stripe</a>.</p>
                 <div>
-                    <a href="https://github.com/userappstore/stripe-connect">current release</a>
-                    <a href="https://github.com/userappstore/stripe-connect/wiki">documentation</a>
-                    <a href="https://github.com/userappstore/stripe-connect/blob/master/sitemap.txt">sitemap.txt</a>
-                    <a href="https://github.com/userappstore/stripe-connect/blob/master/tests.txt">tests.txt</a>
+                    <a href="https://github.com/userdashboard/stripe-connect">current release</a>
+                    <a href="https://github.com/userdashboard/stripe-connect/wiki">documentation</a>
+                    <a href="https://github.com/userdashboard/stripe-connect/blob/master/sitemap.txt">sitemap.txt</a>
+                    <a href="https://github.com/userdashboard/stripe-connect/blob/master/tests.txt">tests.txt</a>
                 </div>
               </td>
             </tr>
@@ -135,10 +135,10 @@ dashboard.start(__dirname)</textarea></div>
                 <h3>MaxMind GeoIP module</h3>
                 <p>Determines the user's country powered by <a href="https://maxmind.com">MaxMind</a>.</p>
                 <div>
-                  <a href="https://github.com/userappstore/maxmind-geoip">current release</a>
-                  <a href="https://github.com/userappstore/maxmind-geoip/wiki">documentation</a>
-                  <a href="https://github.com/userappstore/maxmind-geoip/blob/master/sitemap.txt">sitemap.txt</a>
-                  <a href="https://github.com/userappstore/maxmind-geoip/blob/master/tests.txt">tests.txt</a>
+                  <a href="https://github.com/userdashboard/maxmind-geoip">current release</a>
+                  <a href="https://github.com/userdashboard/maxmind-geoip/wiki">documentation</a>
+                  <a href="https://github.com/userdashboard/maxmind-geoip/blob/master/sitemap.txt">sitemap.txt</a>
+                  <a href="https://github.com/userdashboard/maxmind-geoip/blob/master/tests.txt">tests.txt</a>
                 </div>
               </td>
             </tr>
