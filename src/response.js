@@ -202,6 +202,8 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   if (!req.account) {
     const accountMenuContainer = templateDoc.getElementById('account-menu-container')
     accountMenuContainer.parentNode.removeChild(accountMenuContainer)
+    const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
+    administratorMenuContainer.removeChild(administratorMenuContainer)
   } else {
     if (global.packageJSON.dashboard.menus.account && global.packageJSON.dashboard.menus.account.length) {
       HTML.renderList(templateDoc, global.packageJSON.dashboard.menus.account, 'menu-link', 'account-menu')
@@ -209,17 +211,17 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       const accountMenuContainer = templateDoc.getElementById('account-menu-container')
       accountMenuContainer.parentNode.removeChild(accountMenuContainer)
     }
-  }
-  // administrator menu for owner and administrators
-  if (!req.account.administrator || req.session.administratorid) {
-    const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
-    administratorMenuContainer.setAttribute('style', 'display: none')
-  } else {
-    if (global.packageJSON.dashboard.menus.administrator && global.packageJSON.dashboard.menus.administrator.length) {
-      HTML.renderList(templateDoc, global.packageJSON.dashboard.menus.administrator, 'menu-link', 'administrator-menu')
-    } else {
+    // administrator menu for owner and administrators
+    if (!req.account.administrator) {
       const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
       administratorMenuContainer.setAttribute('style', 'display: none')
+    } else {
+      if (global.packageJSON.dashboard.menus.administrator && global.packageJSON.dashboard.menus.administrator.length) {
+        HTML.renderList(templateDoc, global.packageJSON.dashboard.menus.administrator, 'menu-link', 'administrator-menu')
+      } else {
+        const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
+        administratorMenuContainer.setAttribute('style', 'display: none')
+      }
     }
   }
   // forms in the page content need to have an action mapped to
