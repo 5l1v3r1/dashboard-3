@@ -6,21 +6,10 @@ Dashboard proxies your application server to create a single website where pages
 
 Using modules you can expand Dashboard to include organizations, subscriptions powered by Stripe, or a Stripe Connect platform.
 
-Application servers written for Dashboard can be published on websites running [app store software](https://github.com/userdashboard/app-store-dashboard-server) like [UserAppStore](https://userappstore.com).
-
 - [Introduction](https://github.com/userdashboard/dashboard/wiki)
 - [Configuring Dashboard](https://github.com/userdashboard/dashboard/wiki/Configuring-Dashboard)
 - [Dashboard code structure](https://github.com/userdashboard/dashboard/wiki/Dashboard-code-structure)
 - [Server request lifecycle](https://github.com/userdashboard/dashboard/wiki/Server-Request-Lifecycle)
-
-### Case studies 
-`Hastebin` is an open source pastebin web application.  It started as a service for anonymous guests only, and was transformed with Dashboard and modules into a web application for registered users with support for organizations and paid subscriptions.
-
-- [Hastebin: free web application]()
-- [Hastebin: subscription web application]()
-
- `Hastebin` is an anonymous pastebin web application for sharing code and text.  Read how it was tra
-
 
 ### Demonstrations
 
@@ -29,9 +18,16 @@ Application servers written for Dashboard can be published on websites running [
 - [Dashboard + Stripe Subscriptions module](https://stripe-subscriptions-5701.herokuapp.com)
 - [Dashboard + Stripe Connect module](https://stripe-connect-8509.herokuapp.com)
 
+### Case studies 
+
+`Hastebin` is an open source pastebin web application.  It started as a service for anonymous guests only, and was transformed with Dashboard and modules into a web application for registered users, with support for sharing posts with organizations and paid subscriptions.
+
+- [Hastebin - free web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin-saas-free.md)
+- [Hastebin - subscription web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin-saas-subscription.md)
+
 ## Dashboard storage
 
-You can use Dashboard with your local file system or other storage backends with various pros and cons.  The storage may encrypts data with AES-256 encryption by specifying a 32-character encryption secret:
+You can use Dashboard with your local file system or other storage backends with various pros and cons.  The storage may apply AES-256 encryption by specifying a 32-character encryption secret:
 
     ENCRYPTION_KEY="abcdefghijklmnopqrstuvwxyz123456"
 
@@ -41,7 +37,7 @@ You can use Dashboard with your local file system or other storage backends with
 | Amazon S3 | Slow but cheap to scale | @userdashboard/storage-s3 | [github](https://github.com/userdashboard/storage-s3) |
 | PostgreSQL | Fast but not cheap to scale | @userdashboard/storage-postgreqsl | [github](https://github.com/userdashboard/storage-postgresql) |
 
-You can code your own alternatives for other databases by mimicking the Storage API's basic operations to read, write and list data.
+You can code your own alternatives for other databases by copying the Storage API's basic operations to read, write and list data.
 
 ## Dashboard modules
 
@@ -67,7 +63,7 @@ You must install [NodeJS](https://nodejs.org) 8.12.0+ prior to these steps.  Das
     $ mkdir project
     $ cd project
     $ npm init
-    $ npm install @userdashboard/dashboard --only=production
+    $ npm install @userdashboard/dashboard
     # create a main.js
     # create a src/www/index.html to override home page
     # create a src/www/account/register.html to override register page
@@ -103,6 +99,8 @@ Requests can be verified via the APPLICATION_SERVER_TOKEN.  This is a shared sec
         }
       }
     }
+
+If you are using NodeJS and Express or Connect for your web server the [Express Application Server middleware]() will do this for you.
 
 ## Access user information from your application server
 
