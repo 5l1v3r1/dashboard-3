@@ -22,8 +22,8 @@ Using modules you can expand Dashboard to include organizations, subscriptions p
 
 `Hastebin` is an open source pastebin web application.  It started as a service for anonymous guests only, and was transformed with Dashboard and modules into a web application for registered users, with support for sharing posts with organizations and paid subscriptions.
 
-- [Hastebin - free web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin-saas-free.md)
-- [Hastebin - subscription web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin-saas-subscription.md)
+- [Hastebin - free web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin/hastebin-saas-free.md)
+- [Hastebin - subscription web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin/hastebin-saas-subscription.md)
 
 ## Dashboard storage
 
