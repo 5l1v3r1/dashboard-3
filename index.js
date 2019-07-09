@@ -41,7 +41,7 @@ global.appid = process.env.APPID || process.env.DOMAIN || 'dashboard'
 global.allowPublicAPI = process.env.ALLOW_PUBLIC_API === 'true'
 global.dashboardServer = process.env.DASHBOARD_SERVER
 global.domain = process.env.DOMAIN || ''
-global.idLength = parseInt(process.env.MINIMUM_USERNAME_LENGTH || '16', 10)
+global.idLength = parseInt(process.env.ID_LENGTH || '8', 10)
 global.minimumUsernameLength = parseInt(process.env.MINIMUM_USERNAME_LENGTH || '1', 10)
 global.maximumUsernameLength = parseInt(process.env.MAXIMUM_USERNAME_LENGTH || '50', 10)
 global.minimumPasswordLength = parseInt(process.env.MINIMUM_PASSWORD_LENGTH || '1', 10)
