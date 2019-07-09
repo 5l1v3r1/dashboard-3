@@ -8,7 +8,6 @@ const Timestamp = require('./src/timestamp.js')
 // servers
 global.host = process.env.IP || 'localhost'
 global.port = parseInt(process.env.PORT || '8000', 10)
-global.redisURL = process.env.REDIS_URL || 'redis://localhost:6379'
 
 // sensitive configuration variables
 global.applicationServer = process.env.APPLICATION_SERVER
