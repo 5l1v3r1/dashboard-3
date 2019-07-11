@@ -83,7 +83,7 @@ STORAGE_PATH=/tmp/test-data \
 
 # MAXIMUM_PROFILE_FIRST_NAME_LENGTH=50 
 # number default 50
-# minumum length for first name
+# maximum length for first name
 
 # MINIMUM_PROFILE_LAST_NAME_LENGTH=1 
 # number default 1
@@ -91,4 +91,4 @@ STORAGE_PATH=/tmp/test-data \
 
 # MAXIMUM_PROFILE_LAST_NAME_LENGTH=50 
 # number default 50
-# minumum length for last name
+# maximum length for last name
