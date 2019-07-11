@@ -46,9 +46,9 @@ You can use Dashboard with your local file system or other storage backends with
 
 | Name | Description | Package   | Repository |
 |------|-------------|-----------|------------|
-| Redis | Very fast but expensive to scale | @userdashboard/storage-redis | [github](https://github.com/userdashboard/storage-edis) |
-| Amazon S3 | Slow but cheap to scale | @userdashboard/storage-s3 | [github](https://github.com/userdashboard/storage-s3) |
-| PostgreSQL | Fast but not cheap to scale | @userdashboard/storage-postgreqsl | [github](https://github.com/userdashboard/storage-postgresql) |
+| Redis | Very fast but expensive to scale | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
+| Amazon S3 | Slow but cheap to scale | [@userdashboard/storage-s3](https://npmjs.com/package/@userdashboard/storage-s3) | [github](https://github.com/userdashboard/storage-s3) |
+| PostgreSQL | Fast but not cheap to scale | [@userdashboard/storage-postgresql](https://npmjs.com/package/@userdashboard/storage-postgresql) | [github](https://github.com/userdashboard/storage-postgresql) |
 
 You can code your own alternatives for other databases by copying the Storage API's basic operations to read, write and list data.
 
@@ -64,10 +64,10 @@ Modules can supplement the global.sitemap with additional routes which automatic
 
 | Name | Description | Package   | Repository |
 |------|-------------|-----------|------------|
-| MaxMind GeoIP | IP address-based geolocation | @userdashboard/maxmind-geoip | [github](https://github.com/userdashboard/maxmind-geoip) |
-| Organizations | User created groups | @userdashboard/organizations | [github](https://github.com/userdashboard/organizations) |
-| Stripe Subscriptions | SaaS functionality | @userdashboard/stripe-subscriptions | [github](https://github.com/userdashboard/stripe-subscriptions) |
-| Stripe Connect | Marketplace functionality | @userdashboard/stripe-connect | [github](https://github.com/userdashboard/stripe-connect)
+| MaxMind GeoIP | IP address-based geolocation | [@userdashboard/maxmind-geoip](https://npmjs.com/package/userdashboard/maxmind-geoip)| [github](https://github.com/userdashboard/maxmind-geoip) |
+| Organizations | User created groups | [@userdashboard/organizations](https://npmjs.com/package/userdashboard/organizations) | [github](https://github.com/userdashboard/organizations) |
+| Stripe Subscriptions | SaaS functionality | [@userdashboard/stripe-subscriptions](https://npmjs.com/package/userdashboard/stripe-subscriptions) | [github](https://github.com/userdashboard/stripe-subscriptions) |
+| Stripe Connect | Marketplace functionality | [@userdashboard/stripe-connect](https://npmjs.com/package/userdashboard/stripe-connect) | [github](https://github.com/userdashboard/stripe-connect)
 
 ### Setting up the dashboard server
 
