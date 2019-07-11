@@ -24,6 +24,20 @@ Using modules you can expand Dashboard to include organizations, subscriptions p
 - [Hastebin - free web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin/hastebin-saas-free.md)
 - [Hastebin - subscription web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin/hastebin-saas-subscription.md)
 
+## Screenshots of Dashboard
+
+| ![Guest landing page](./src/www/public/1-dashboard-landing-page.png?raw=true) | 
+|:---------------------------------------------------------------------------------------------------------------:|
+| Guest landing page that you replace with your own `/` route on your application server |
+
+| ![Signed in home page](./src/www/public/2-dashboard-signed-in.png?raw=true) |
+|:---------------------------------------------------------------------------------------------------------------:|
+| Signed in home page that you replace with your own `/home` route on your application server |
+
+| ![Dashboard administration ](./src/www/public/3-dashboard-administration.png?raw=true) |
+|:---------------------------------------------------------------------------------------------------------------:|
+| Dashboard administration |
+
 ## Dashboard storage
 
 You can use Dashboard with your local file system or other storage backends with various pros and cons.  The storage may apply AES-256 encryption by specifying a 32-character encryption secret:
