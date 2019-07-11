@@ -55,7 +55,6 @@ global.maximumProfileFirstNameLength = parseInt(process.env.MAXIMUM_PROFILE_FIRS
 global.minimumProfileLastNameLength = parseInt(process.env.MINIMUM_PROFILE_LAST_NAME_LENGTH || '1', 10)
 global.maximumProfileLastNameLength = parseInt(process.env.MAXIMUM_PROFILE_LAST_NAME_LENGTH || '50', 10)
 global.deleteDelay = parseInt(process.env.DELETE_DELAY || '7', 10)
-global.maximumProfileFieldLength = parseInt(process.env.MAXIMUM_PROFILE_FIELD_LENGTH || '50', 10)
 global.pageSize = parseInt(process.env.PAGE_SIZE || '10', 10)
 
 module.exports = {
