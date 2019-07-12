@@ -3,6 +3,7 @@ PAGE_SIZE=3 \
 DASHBOARD_SERVER="http://localhost:8001" \
 PORT=8001 \
 STORAGE_PATH=/tmp/test-data \
+node main.js
 
 # Dashboard startup parameters
 # These ENV variables let you tweak certain parts of Dashboard to your preference.
