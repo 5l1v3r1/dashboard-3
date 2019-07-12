@@ -8,7 +8,6 @@ const Proxy = require('./proxy.js')
 const qs = require('querystring')
 const Response = require('./response.js')
 let StorageObject
-const Timestamp = require('./timestamp.js')
 const url = require('url')
 const util = require('util')
 
