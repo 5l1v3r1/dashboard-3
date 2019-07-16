@@ -44,5 +44,5 @@ async function submitForm (req, res) {
     return renderPage(req, res, error.message)
   }
   req.route = global.sitemap['/account/signin']
-  return req.route.api._post(req)
+  return req.route.api.post(req, res)
 }
