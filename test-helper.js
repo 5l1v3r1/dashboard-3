@@ -245,6 +245,7 @@ async function createSession(user, expires) {
     expires: expires || ''
   }
   user.session = await req.post()
+  await wait(100)
   return user.session
 }
 
@@ -266,6 +267,7 @@ async function createResetCode(user) {
   req.body = { code }
   user.resetCode = await req.post()
   user.resetCode.code = code
+  await wait(100)
   return user.resetCode
 }
 
@@ -307,6 +309,7 @@ async function createProfile(user) {
     testDataIndex = 0
   }
   user.profile = await req.post()
+  await wait(100)
   return user.profile
 }
 
