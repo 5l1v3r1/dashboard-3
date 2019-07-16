@@ -237,12 +237,12 @@ async function createUser(username) {
   return user
 }
 
-async function createSession(user, expires) {
+async function createSession(user, remember) {
   const req = createRequest(`/api/user/create-session?accountid=${user.account.accountid}`)
   req.body = {
     username: user.account.username,
     password: user.account.password,
-    expires: expires || ''
+    remember: remember || ''
   }
   user.session = await req.post()
   await wait(100)
