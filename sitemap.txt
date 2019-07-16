@@ -40,6 +40,7 @@ URL ------------------------------------------- AUTH ---- TEMPLATE ----- HTTP RE
 /account/signin                                 GUEST     FULLSCREEN     GET POST        /src/www     /src/www    
 /account/signout                                          FULLSCREEN     GET             /src/www     /src/www    
 /account/signout-complete                       GUEST     FULLSCREEN     GET                          /src/www    
+/account/verify                                 GUEST     FULLSCREEN     GET POST        /src/www     /src/www    
 /administrator                                                           GET                          /src/www    
 /administrator/account                                                   GET             /src/www     /src/www    
 /administrator/account-profiles                                          GET             /src/www     /src/www    
@@ -114,5 +115,6 @@ URL ------------------------------------------- AUTH ---- TEMPLATE ----- HTTP RE
 /api/user/set-account-profile                                            PATCH           /src/www                 
 /api/user/set-account-username                                           PATCH           /src/www                 
 /api/user/set-session-ended                                              PATCH           /src/www                 
+/api/user/set-session-verified                                           PATCH           /src/www                 
 /api/user/update-profile                                                 PATCH           /src/www                 
 /home                                                                    GET                          /src/www    
