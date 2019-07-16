@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.0 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.1 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --timeout 420000 --slow 420000
 
 
@@ -112,6 +112,7 @@
       ✓ should bind query data of URL to req
       ✓ should not bind route for unknown url
       ✓ should bind route to req
+      ✓ should redirect user to verification
 
   internal-api/storage-list
     StorageList#add
@@ -409,6 +410,17 @@
     Signout#GET
       ✓ should end the session
       ✓ should redirect to signout complete page
+
+  /account/verify
+    Verify#GET
+      ✓ should present the form
+    Verify#POST
+      ✓ should reject missing username
+      ✓ should enforce username length
+      ✓ should reject missing password
+      ✓ should reject invalid password
+      ✓ should enforce password length
+      ✓ should mark session as verified
 
   /administrator/account-profiles
     AccountProfiles#BEFORE
@@ -917,6 +929,12 @@
       ✓ should reject ended session
       ✓ should end the session
 
+  /api/user/set-session-verified
+    SetSessionVerified#PATCH
+      ✓ should reject invalid sessionid
+      ✓ should reject other account credentials
+      ✓ should mark the session as verified
+
   /api/user/update-profile
     UpdateProfile#PATCH
       ✓ should reject missing first name
@@ -927,5 +945,5 @@
       ✓ should apply authorized new values
 
 
-  513 passing (1m)
+  524 passing (2m)
 

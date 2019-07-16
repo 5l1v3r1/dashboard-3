@@ -8,6 +8,7 @@ const Proxy = require('./proxy.js')
 const qs = require('querystring')
 const Response = require('./response.js')
 let StorageObject
+const Timestamp = require('./timestamp.js')
 const url = require('url')
 const util = require('util')
 
@@ -280,6 +281,39 @@ async function receiveRequest(req, res) {
     if (!req.account.administrator) {
       return Response.throw500(req, res)
     }
+  }
+  // verify the user session with their credentials if 
+  // they are accessing account/administration pages
+  if (req.session) {
+    // limit how long previous verifications are valid
+    req.session.lastVerified = req.session.lastVerified || req.session.created
+    if (Timestamp.now - req.session.lastVerified > 86400) {
+      delete (req.session.lastVerified)
+    }
+    if (req.session.lastSeen && Timestamp.now - req.session.lastSeen > 3600) {
+      delete (req.session.lastVerified)
+    }
+    // first page view of a session
+    if (!req.session.lastSeen) {
+      if (Timestamp.now - req.session.created > 3600) {
+        delete (req.session.lastVerified)
+      }
+    }
+    if (!req.session.lastVerified) {
+      await StorageObject.removeProperty(`${req.appid}/session/${req.session.sessionid}`, 'lastVerified')
+    }
+    await StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, 'lastSeen', Timestamp.now)
+    // everything within /account and /administrator requires the user to have entered
+    // their password either creating the session, or resuming it after 1+ hours absence
+    if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') ||
+        req.urlPath === '/account' || req.urlPath.startsWith('/account/')) {
+      if (!req.session.lastVerified &&
+          req.urlPath !== '/account/signout' && 
+          req.urlPath !== '/account/end-all-sessions' &&
+          req.urlPath !== '/account/verify') {
+        return Response.redirectToVerify(req, res)
+      }
+    }    
   }
   // if there's no route the request is passed to the application server
   if (!req.route) {

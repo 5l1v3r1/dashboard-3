@@ -18,6 +18,7 @@ module.exports = {
   end,
   redirect,
   redirectToSignIn,
+  redirectToVerify,
   throw404,
   throw500,
   throw511,
@@ -285,4 +286,21 @@ function redirectToSignIn (req, res) {
     }
   }
   return redirect(req, res, `/account/signin?returnURL=${returnURL}`)
+}
+
+function redirectToVerify(req, res) {
+  let returnURL = req.urlPath
+  if (req.query) {
+    const variables = []
+    for (const field in req.query) {
+      if (field !== 'returnURL') {
+        const value = encodeURI(req.query[field])
+        variables.push(`${field}=${value}`)
+      }
+    }
+    if (variables.length) {
+      returnURL = `${req.urlPath}%3F${variables.join('&')}`
+    }
+  }
+  return redirect(req, res, `/account/verify?returnURL=${returnURL}`)
 }

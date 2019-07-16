@@ -1,0 +1,42 @@
+<!doctype html>
+  <html auth="false" template="false">
+  <head>
+    <title>Verify your account</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+  </head>
+  <body>
+    <form id="submit-form" method="POST" class="pure-form pure-form-stacked entry-form" action="/account/signin">
+      <fieldset>
+        <h1>Verify your account</h1>
+        <div id="message-container"></div>
+        <div class="pure-control-group">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" maxlength="1000" />
+        </div>
+        <div class="pure-control-group">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" maxlength="1000" />
+        </div>
+        <div class="pure-controls">
+          <button id="submit-button" type="submit" class="pure-button pure-button-primary">Verify account</button>
+        </div>
+      </fieldset>
+    </form>
+  </body>
+  <template id="invalid-username">
+    <div class="error message">Error! Invalid username.</div>
+  </template>
+  <template id="invalid-password">
+    <div class="error message">Error! Invalid password.</div>
+  </template>
+  <template id="invalid-username-length">
+    <div class="error message">Error! Invalid username length.</div>
+  </template>
+  <template id="invalid-password-length">
+    <div class="error message">Error! Invalid password length.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message">Error! An unknown error ocurred.</div>
+  </template>
+</html>
