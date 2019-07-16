@@ -1,8 +1,6 @@
 module.exports = {
   wrapAPIRequest,
   generate: () => {
-    StorageObject = require('./storage-object.js')
-    StorageList = require('./storage-list.js')
     const api = {}
     for (const url in global.sitemap) {
       if (url.indexOf('/api/') !== 0) {
