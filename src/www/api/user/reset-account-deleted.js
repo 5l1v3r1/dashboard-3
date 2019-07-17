@@ -40,8 +40,7 @@ module.exports = {
     const query = req.query
     req.query = { accountid }
     const account = await global.api.administrator.Account._get(req)
-    req.query = query
-    if (!account) {
+        if (!account) {
       throw new Error('invalid-account')
     }
     if (!account.deleted) {
@@ -53,6 +52,9 @@ module.exports = {
     await dashboard.StorageObject.removeProperty(`${req.appid}/account/${account.accountid}`, 'deleted')
     await dashboard.StorageList.remove(`${req.appid}/deleted/accounts`, account.accountid)
     req.success = true
-    return global.api.administrator.Account._get(req)
+    req.account = account
+    const accountNow = await global.api.user.Account._get(req)
+    req.query = query
+    return accountNow
   }
 }

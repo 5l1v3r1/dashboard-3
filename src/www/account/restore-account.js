@@ -32,8 +32,9 @@ async function submitForm (req, res) {
   try {
     await global.api.user.ResetAccountDeleted._patch(req)
   } catch (error) {
+    console.log(error)
     return renderPage(req, res, error.message)
   }
   req.route = global.sitemap['/account/signin']
-  return req.route.api._post(req, res)
+  return req.route.api.post(req, res)
 }
