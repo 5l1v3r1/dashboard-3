@@ -39,6 +39,8 @@ async function renderPage (req, res, messageTemplate) {
     if (messageTemplate === 'success') {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
+      const accountsTable = doc.getElementById('accounts-table')
+      accountsTable.parentNode.removeChild(accountsTable)
       return dashboard.Response.end(req, res, doc)
     }
   }
