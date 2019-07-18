@@ -20,8 +20,12 @@ module.exports = {
     if (account.deleted) {
       throw new Error('invalid-account')
     }
-    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'owner', dashboard.Timestamp.now)
+    await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`,  {
+      owner: dashboard.Timestamp.now,
+      administrator: account.administrator || dashboard.Timestamp.now
+    })
     await dashboard.StorageObject.removeProperty(`${req.appid}/account/${req.account.accountid}`, 'owner')
+    await dashboard.StorageList.add(`${req.appid}/administrator/accounts`, accountid)
     req.success = true
     return global.api.administrator.Account._get(req)
   }
