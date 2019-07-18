@@ -25,7 +25,7 @@ module.exports = {
       administrator: account.administrator || dashboard.Timestamp.now
     })
     await dashboard.StorageObject.removeProperty(`${req.appid}/account/${req.account.accountid}`, 'owner')
-    await dashboard.StorageList.add(`${req.appid}/administrator/accounts`, accountid)
+    await dashboard.StorageList.add(`${req.appid}/administrator/accounts`, req.query.accountid)
     req.success = true
     return global.api.administrator.Account._get(req)
   }
