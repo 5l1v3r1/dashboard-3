@@ -28,7 +28,7 @@
         <td>${account.lastSignedInFormatted}</td>
       </tr>
     </table>
-    <form id="submit-form" method="POST" class="pure-form" action="/administrator/create-reset-code?accountid=${account.accountid}">
+    <form id="submit-form" method="POST" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}">
       <fieldset>
         <div class="pure-control-group">
           <label for="code">Reset code</label>
@@ -45,5 +45,11 @@
   </template>
   <template id="unknown-error">
     <div class="error message">Error! An unknown error occurred.</div>
+  </template>
+  <template id="invalid-reset-code">
+    <div class="error message">Error! Invalid reset code.</div>
+  </template>
+  <template id="invalid-reset-code-length">
+    <div class="error message">Error! Invalid reset code length.</div>
   </template>
 </html>

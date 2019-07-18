@@ -32,7 +32,7 @@
   </template>
   <template id="session-row">
     <tr id="${session.sessionid}">
-      <td><a href="session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
+      <td><a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
       <td>${session.firstName} ${session.lastName}</td>
       <td><a href="mailto:${session.email}">${session.email}</a></td>
       <td>${session.createdFormatted}</td>

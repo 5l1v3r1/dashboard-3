@@ -9,9 +9,15 @@ async function beforeRequest (req) {
   const total = await global.api.administrator.SessionsCount._get(req)
   const sessions = await global.api.administrator.Sessions._get(req)
   if (sessions && sessions.length) {
+    req.query = req.query || {}
     for (const session of sessions) {
       session.createdFormatted = dashboard.Timestamp.date(session.created)
       session.expiresFormatted = dashboard.Timestamp.date(session.expires)
+      req.query.accountid = session.accountid
+      const account = await global.api.administrator.Account._get(req)
+      session.firstName = account.firstName
+      session.lastName = account.lastName
+      session.email = account.email
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

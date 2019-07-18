@@ -37,6 +37,10 @@ function renderPage (req, res, messageTemplate) {
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
+      const accountsTable = doc.getElementById('accounts-table')
+      accountsTable.parentNode.removeChild(accountsTable)
       return dashboard.Response.end(req, res, doc)
     }
   }
