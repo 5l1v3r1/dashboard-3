@@ -72,9 +72,6 @@ async function list(path, offset, pageSize) {
   if (offset < 0) {
     throw new Error('invalid-offset')
   }
-  if (offset && offset >= pageSize) {
-    throw new Error('invalid-offset')
-  }
   const itemids = await storageList.list(path, offset, pageSize)
   if (!itemids || !itemids.length) {
     return null
