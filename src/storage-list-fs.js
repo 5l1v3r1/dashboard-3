@@ -92,9 +92,6 @@ function list(path, offset, pageSize, callback) {
   if (offset < 0) {
     throw new Error('invalid-offset')
   }
-  if (offset && offset >= pageSize) {
-    throw new Error('invalid-offset')
-  }
   return fs.exists(`${storagePath}/${path}`, (exists) => {
     if (!exists) {
       return callback()
