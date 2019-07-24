@@ -13,7 +13,6 @@ async function beforeRequest (req) {
   if (profiles && profiles.length) {
     for (const profile of profiles) {
       profile.createdFormatted = dashboard.Timestamp.date(profile.created)
-      console.log(profile)
     }
   }
   const offset = req.query ? parseInt(req.query.offset, 10) || 0 : 0

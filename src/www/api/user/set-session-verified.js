@@ -9,7 +9,6 @@ module.exports = {
       throw new Error('invalid-session')
     }
     if (!req || !req.body) {
-      console.log(req.body, req.account.accountid)
       throw new Error('invalid-username')
     }
     if (!req.body.username || !req.body.username.length) {
