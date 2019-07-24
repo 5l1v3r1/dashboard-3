@@ -6,23 +6,16 @@ Dashboard proxies your application server to create a single website where pages
 
 Using modules you can expand Dashboard to include organizations, subscriptions powered by Stripe, or a Stripe Connect platform.
 
-- [Dashboard Wiki](https://github.com/userdashboard/dashboard/wiki)
-- [Configuring Dashboard](https://github.com/userdashboard/dashboard/wiki/Configuring-Dashboard)
-- [Dashboard code structure](https://github.com/userdashboard/dashboard/wiki/Dashboard-code-structure)
-- [Server request lifecycle](https://github.com/userdashboard/dashboard/wiki/Server-Request-Lifecycle)
-- [API access from application server](https://github.com/userdashboard/dashboard/wiki/API-access-from-application-server)
-- [API access from module](https://github.com/userdashboard/dashboard/wiki/API-access-from-module)
-- [API access from web browser](https://github.com/userdashboard/dashboard/wiki/API-access-from-web-browser)
-- [Creating web applications with Dashboard](https://github.com/userdashboard/dashboard/wiki/Creating-web-applications-with-Dashboard)
-- [Integrating Dashboard with existing web applications](https://github.com/userdashboard/dashboard/wiki/Integrating-Dashboard-with-existing-web-applications)
-- [Creating modules for Dashboard](https://github.com/userdashboard/dashboard/wiki/Creating-modules-for-Dashboard)
+- [Developer documentation home](https://userdashboard.github.io/developers/)
+- [Administrator documentation home](https://userdashboard.github.io/administrators/)
+- [User documentation home](https://userdashboard.github.io/users/)
 
 ### Case studies 
 
 `Hastebin` is an open source pastebin web application.  It started as a service for anonymous guests only, and was transformed with Dashboard and modules into a web application for registered users, with support for sharing posts with organizations and paid subscriptions.
 
-- [Hastebin - free web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin/hastebin-saas-free.md)
-- [Hastebin - subscription web application](https://github.com/userdashboard/integration-examples/blob/master/hastebin/hastebin-saas-subscription.md)
+- [Hastebin - free web application](https://userdashboard.github.io/integrations/hastebin-free-saas.html)
+- [Hastebin - subscription web application](https://userdashboard.github.io/integrations/hastebin-saas-subscription.html)
 
 ## Screenshots of Dashboard
 
@@ -54,7 +47,7 @@ You can code your own alternatives for other databases by copying the Storage AP
 
 ## Dashboard modules
 
-Additional APIs, content and functionality can be added by `npm install` and nominating Dashboard modules in your `package.json`.  You can read more about this on the [Dashboard configuration wiki page](https://github.com/userdashboard/dashboard/wiki/Configuring-Dashboard)
+Additional APIs, content and functionality can be added by `npm install` and nominating Dashboard modules in your `package.json`.  You can read more about this on the [Dashboard package.json documentation](https://userdashboard.github.io/developers/dashboard-package-json.html)
 
     "dashboard": {
       "modules": [ "package", "package2" ]
@@ -113,7 +106,7 @@ Requests can be verified via the APPLICATION_SERVER_TOKEN.  This is a shared sec
       }
     }
 
-If you are using NodeJS and Express or Connect for your web server the [Express Application Server middleware]() will do this for you.
+If you are using NodeJS and Express or Connect for your web server the [Express Application Server middleware](https://github.com/userdashboard/express-application-server) will do this for you.
 
 ## Privacy
 
