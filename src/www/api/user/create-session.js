@@ -39,7 +39,7 @@ module.exports = {
     }
     const query = req.query
     req.query = { accountid }
-    const account = await global.api.administrator.Account._get(req)
+    const account = await global.api.administrator.Account.get(req)
     req.query = query
     let expireSeconds
     switch (req.body.remember) {

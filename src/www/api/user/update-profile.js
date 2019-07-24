@@ -5,7 +5,7 @@ module.exports = {
     if (!req.query || !req.query.profileid) {
       throw new Error('invalid-profileid')
     }
-    const profile = await global.api.user.Profile._get(req)
+    const profile = await global.api.user.Profile.get(req)
     if (!profile) {
       throw new Error('invalid-profileid')
     }

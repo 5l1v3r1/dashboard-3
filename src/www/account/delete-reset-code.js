@@ -10,7 +10,7 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.codeid) {
     throw new Error('invalid-codeid')
   }
-  const resetCode = await global.api.user.ResetCode._get(req)
+  const resetCode = await global.api.user.ResetCode.get(req)
   if (!resetCode) {
     throw new Error('invalid-codeid')
   }
@@ -48,7 +48,7 @@ function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.user.DeleteResetCode._delete(req)
+    await global.api.user.DeleteResetCode.delete(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

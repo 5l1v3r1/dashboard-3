@@ -6,8 +6,8 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const total = await global.api.administrator.AdministratorAccountsCount._get(req)
-  const administrators = await global.api.administrator.AdministratorAccounts._get(req)
+  const total = await global.api.administrator.AdministratorAccountsCount.get(req)
+  const administrators = await global.api.administrator.AdministratorAccounts.get(req)
   if (administrators && administrators.length) {
     for (const administrator of administrators) {
       administrator.createdFormatted = dashboard.Timestamp.date(administrator.created)

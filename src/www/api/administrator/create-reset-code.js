@@ -33,6 +33,6 @@ module.exports = {
     await dashboard.Storage.write(`${req.appid}/map/account/resetCodes/${req.query.accountid}/${codeHash}`, codeid)
     req.success = true
     req.query.codeid = codeid
-    return global.api.administrator.ResetCode._get(req)
+    return global.api.administrator.ResetCode.get(req)
   }
 }

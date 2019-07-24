@@ -39,7 +39,7 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-confirm')
   }
   try {
-    await global.api.user.ResetAccountPassword._patch(req)
+    await global.api.user.ResetAccountPassword.patch(req)
   } catch (error) {
     return renderPage(req, res, error.message)
   }

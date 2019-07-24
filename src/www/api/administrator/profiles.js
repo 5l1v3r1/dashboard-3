@@ -17,7 +17,7 @@ module.exports = {
     const profiles = []
     for (const profileid of profileids) {
       req.query.profileid = profileid
-      const profile = await global.api.administrator.Profile._get(req)
+      const profile = await global.api.administrator.Profile.get(req)
       profiles.push(profile)
     }
     return profiles

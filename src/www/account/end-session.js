@@ -10,7 +10,7 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.sessionid) {
     throw new Error('invalid-sessionid')
   }
-  const session = await global.api.user.Session._get(req)
+  const session = await global.api.user.Session.get(req)
   session.createdFormatted = dashboard.Timestamp.date(session.created)
   session.expiresFormatted = dashboard.Timestamp.date(session.expires)
   req.data = { session }
@@ -32,7 +32,7 @@ async function submitForm (req, res) {
   try {
     req.query = req.query || {}
     req.query.sessionid = req.session.sessionid
-    req.session = await global.api.user.SetSessionEnded._patch(req)
+    req.session = await global.api.user.SetSessionEnded.patch(req)
     return renderPage(req, res, 'success')
   } catch (error) {
     return renderPage(req, res, 'unknown-error')

@@ -6,8 +6,8 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const total = await global.api.administrator.ResetCodesCount._get(req)
-  const resetCodes = await global.api.administrator.ResetCodes._get(req)
+  const total = await global.api.administrator.ResetCodesCount.get(req)
+  const resetCodes = await global.api.administrator.ResetCodes.get(req)
   if (resetCodes && resetCodes.length) {
     for (const resetCode of resetCodes) {
       resetCode.createdFormatted = dashboard.Timestamp.date(resetCode.created)

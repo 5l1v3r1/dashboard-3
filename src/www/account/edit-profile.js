@@ -10,7 +10,7 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.profileid) {
     throw new Error('invalid-profileid')
   }
-  const profile = await global.api.user.Profile._get(req)
+  const profile = await global.api.user.Profile.get(req)
   req.data = { profile }
 }
 
@@ -66,7 +66,7 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-profile-email')
   }
   try {
-    await global.api.user.UpdateProfile._patch(req)
+    await global.api.user.UpdateProfile.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

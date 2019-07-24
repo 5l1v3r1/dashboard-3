@@ -38,7 +38,7 @@ async function submitForm (req, res) {
   try {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid
-    await global.api.user.SetAccountDeleted._patch(req)
+    await global.api.user.SetAccountDeleted.patch(req)
     if (req.success) {
       return renderPage(req, res)
     }

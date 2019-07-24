@@ -49,7 +49,7 @@ async function submitForm (req, res) {
   try {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid
-    await global.api.user.CreateResetCode._post(req)
+    await global.api.user.CreateResetCode.post(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

@@ -25,7 +25,7 @@ module.exports = {
     if (!session.ended) {
       const query = req.query
       req.query.accountid = session.accountid
-      const account = await global.api.administrator.Account._get(req)
+      const account = await global.api.administrator.Account.get(req)
       req.query = query
       if (session.sessionKeyNumber < account.sessionKeyNumber) {
         session.ended = account.sessionKeyLastReset

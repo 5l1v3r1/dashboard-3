@@ -13,7 +13,7 @@ module.exports = {
     if (!req.account.owner || req.query.accountid === req.account.accountid) {
       throw new Error('invalid-account')
     }
-    const account = await global.api.administrator.Account._get(req)
+    const account = await global.api.administrator.Account.get(req)
     if (!account) {
       throw new Error('invalid-accountid')
     }
@@ -27,6 +27,6 @@ module.exports = {
     await dashboard.StorageObject.removeProperty(`${req.appid}/account/${req.account.accountid}`, 'owner')
     await dashboard.StorageList.add(`${req.appid}/administrator/accounts`, req.query.accountid)
     req.success = true
-    return global.api.administrator.Account._get(req)
+    return global.api.administrator.Account.get(req)
   }
 }

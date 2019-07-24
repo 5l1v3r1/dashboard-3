@@ -10,7 +10,7 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
     throw new Error('invalid-accountid')
   }
-  const account = await global.api.administrator.Account._get(req)
+  const account = await global.api.administrator.Account.get(req)
   account.created = dashboard.Timestamp.date(account.created)
   account.lastSignedInFormatted = dashboard.Timestamp.date(account.lastSignedIn)
   req.data = { account }
@@ -45,7 +45,7 @@ async function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.administrator.ResetAccountAdministrator._patch(req)
+    await global.api.administrator.ResetAccountAdministrator.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

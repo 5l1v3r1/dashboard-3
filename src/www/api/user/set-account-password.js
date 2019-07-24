@@ -23,6 +23,6 @@ module.exports = {
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash', passwordHash)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordLastChanged', dashboard.Timestamp.now)
     req.success = true
-    return global.api.user.Account._get(req)
+    return global.api.user.Account.get(req)
   }
 }

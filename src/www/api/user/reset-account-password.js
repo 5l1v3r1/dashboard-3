@@ -39,7 +39,7 @@ module.exports = {
     }
     const query = req.query
     req.query = { accountid }
-    const account = await global.api.administrator.Account._get(req)
+    const account = await global.api.administrator.Account.get(req)
     if (!account) {
       throw new Error('invalid-username')
     }
@@ -55,7 +55,7 @@ module.exports = {
       throw new Error('invalid-reset-code')
     }
     req.query.codeid = codeid
-    const code = await global.api.administrator.ResetCode._get(req)
+    const code = await global.api.administrator.ResetCode.get(req)
     req.query = query
     if (!code || code.accountid !== accountid) {
       throw new Error('invalid-reset-code')

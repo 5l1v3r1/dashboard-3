@@ -10,9 +10,9 @@ async function beforeRequest (req) {
   req.query = req.query || {}
   req.query.accountid = req.account.accountid
   req.query.all = true
-  const profiles = await global.api.user.Profiles._get(req)
+  const profiles = await global.api.user.Profiles.get(req)
   req.query.profileid = req.body && req.body.profileid ? req.body.profileid : req.query.profileid || req.account.profileid
-  const profile = await global.api.user.Profile._get(req)
+  const profile = await global.api.user.Profile.get(req)
   profile.createdFormatted = dashboard.Timestamp.date(profile.created)
   req.data = { profile, profiles }
 }
@@ -57,7 +57,7 @@ async function submitForm (req, res) {
   try {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid
-    await global.api.user.SetAccountProfile._patch(req)
+    await global.api.user.SetAccountProfile.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

@@ -9,24 +9,24 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
     throw new Error('invalid-accountid')
   }
-  const account = await global.api.administrator.Account._get(req)
+  const account = await global.api.administrator.Account.get(req)
   account.createdFormatted = dashboard.Timestamp.date(account.created)
   account.lastSignedInFormatted = dashboard.Timestamp.date(account.lastSignedIn)
   req.query.profileid = account.profileid
-  const profiles = await global.api.administrator.AccountProfiles._get(req)
+  const profiles = await global.api.administrator.AccountProfiles.get(req)
   if (profiles && profiles.length) {
     for (const profile of profiles) {
       profile.createdFormatted = dashboard.Timestamp.date(profile.created)
     }
   }
-  const sessions = await global.api.administrator.AccountSessions._get(req)
+  const sessions = await global.api.administrator.AccountSessions.get(req)
   if (sessions && sessions.length) {
     for (const session of sessions) {
       session.createdFormatted = dashboard.Timestamp.date(session.created)
       session.expiresFormatted = dashboard.Timestamp.date(session.expires)
     }
   }
-  const resetCodes = await global.api.administrator.AccountResetCodes._get(req)
+  const resetCodes = await global.api.administrator.AccountResetCodes.get(req)
   if (resetCodes && resetCodes.length) {
     for (const resetCode of resetCodes) {
       resetCode.created = dashboard.Timestamp.date(resetCode.created)

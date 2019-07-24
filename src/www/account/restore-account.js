@@ -30,7 +30,7 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-password-length')
   }
   try {
-    await global.api.user.ResetAccountDeleted._patch(req)
+    await global.api.user.ResetAccountDeleted.patch(req)
   } catch (error) {
     console.log(error)
     return renderPage(req, res, error.message)

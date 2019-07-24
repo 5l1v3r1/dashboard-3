@@ -9,7 +9,7 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.profileid) {
     throw new Error('invalid-profileid')
   }
-  const profile = await global.api.administrator.Profile._get(req)
+  const profile = await global.api.administrator.Profile.get(req)
   if (!profile) {
     throw new Error('invalid-profile')
   }

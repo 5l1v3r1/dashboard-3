@@ -10,7 +10,7 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.profileid) {
     throw new Error('invalid-profileid')
   }
-  const profile = await global.api.user.Profile._get(req)
+  const profile = await global.api.user.Profile.get(req)
   if (!profile) {
     throw new Error('invalid-profileid')
   }
@@ -52,7 +52,7 @@ function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.user.DeleteProfile._delete(req)
+    await global.api.user.DeleteProfile.delete(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

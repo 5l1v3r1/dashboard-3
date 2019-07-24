@@ -12,6 +12,6 @@ module.exports = {
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'sessionKeyLastReset', dashboard.Timestamp.now)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'sessionKeyNumber', req.account.sessionKeyNumber + 1)
     req.success = true
-    return global.api.user.Account._get(req)
+    return global.api.user.Account.get(req)
   }
 }

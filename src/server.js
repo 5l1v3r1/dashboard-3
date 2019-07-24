@@ -202,7 +202,7 @@ async function receiveRequest(req, res) {
       req.query = { accountid: req.headers['x-accountid'] }
       let account
       try {
-        account = await global.api.administrator.Account._get(req)
+        account = await global.api.administrator.Account.get(req)
       } catch (error) {
       }
       if (!account) {
@@ -211,7 +211,7 @@ async function receiveRequest(req, res) {
       req.query.sessionid = req.headers['x-sessionid']
       let session
       try {
-        session = await global.api.administrator.Session._get(req)
+        session = await global.api.administrator.Session.get(req)
       } catch (error) {
       }
       if (!session) {
@@ -419,7 +419,7 @@ async function authenticateRequest(req) {
   req.query = { sessionid: cookie.sessionid }
   let session
   try {
-    session = await global.api.administrator.Session._get(req)
+    session = await global.api.administrator.Session.get(req)
   } catch (error) {
   }
   if (!session || session.ended) {
@@ -428,7 +428,7 @@ async function authenticateRequest(req) {
   req.query.accountid = session.accountid
   let account
   try {
-    account = await global.api.administrator.Account._get(req)
+    account = await global.api.administrator.Account.get(req)
   } catch (error) {
   }
   req.query = query

@@ -12,7 +12,7 @@ module.exports = {
       throw new Error('invalid-profileid')
     }
     req.query.profileid = req.body.profileid
-    const profile = await global.api.user.Profile._get(req)
+    const profile = await global.api.user.Profile.get(req)
     if (!profile) {
       throw new Error('invalid-profileid')
     }
@@ -29,6 +29,6 @@ module.exports = {
       email: profile.email
     })
     req.success = true
-    return global.api.user.Account._get(req)
+    return global.api.user.Account.get(req)
   }
 }

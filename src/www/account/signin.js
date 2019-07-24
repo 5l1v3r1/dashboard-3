@@ -38,7 +38,7 @@ async function submitForm (req, res) {
   let session
   // create session
   try {
-    session = await global.api.user.CreateSession._post(req)
+    session = await global.api.user.CreateSession.post(req)
   } catch (error) {
     return renderPage(req, res, error.message)
   }
@@ -49,7 +49,7 @@ async function submitForm (req, res) {
   if (!req.account) {
     const query = req.query
     req.query = { accountid: session.accountid }
-    req.account = await global.api.administrator.Account._get(req)
+    req.account = await global.api.administrator.Account.get(req)
     req.query = query
   }
   req.session = session

@@ -12,7 +12,7 @@ module.exports = {
     const accounts = []
     for (const accountid of accountids) {
       req.query.accountid = accountid
-      const account = await global.api.administrator.Account._get(req)
+      const account = await global.api.administrator.Account.get(req)
       accounts.push(account)
     }
     return accounts

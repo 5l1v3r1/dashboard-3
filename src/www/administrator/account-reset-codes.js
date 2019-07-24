@@ -9,14 +9,14 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
     throw new Error('invalid-accountid')
   }
-  const total = await global.api.administrator.AccountResetCodesCount._get(req)
-  const resetCodes = await global.api.administrator.AccountResetCodes._get(req)
+  const total = await global.api.administrator.AccountResetCodesCount.get(req)
+  const resetCodes = await global.api.administrator.AccountResetCodes.get(req)
   if (resetCodes && resetCodes.length) {
     for (const resetCode of resetCodes) {
       resetCode.createdFormatted = dashboard.Timestamp.date(resetCode.created)
     }
   }
-  const account = await global.api.administrator.Account._get(req)
+  const account = await global.api.administrator.Account.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   req.data = { resetCodes, account, total, offset }
 }

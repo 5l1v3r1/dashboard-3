@@ -40,7 +40,7 @@ async function submitForm (req, res) {
   try {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid
-    await global.api.user.SetAccountUsername._patch(req)
+    await global.api.user.SetAccountUsername.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

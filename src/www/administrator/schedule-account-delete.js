@@ -10,7 +10,7 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
     throw new Error('invalid-accountid')
   }
-  const account = await global.api.administrator.Account._get(req)
+  const account = await global.api.administrator.Account.get(req)
   if (account.deleted && !req.success) {
     throw new Error('invalid-account')
   }
@@ -53,7 +53,7 @@ async function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.administrator.SetAccountDeleted._patch(req)
+    await global.api.administrator.SetAccountDeleted.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

@@ -8,8 +8,8 @@ module.exports = {
 async function beforeRequest (req) {
   req.query = req.query || {}
   req.query.accountid = req.account.accountid
-  const total = await global.api.user.SessionsCount._get(req)
-  const sessions = await global.api.user.Sessions._get(req)
+  const total = await global.api.user.SessionsCount.get(req)
+  const sessions = await global.api.user.Sessions.get(req)
   for (const session of sessions) {
     session.createdFormatted = dashboard.Timestamp.date(session.created)
     session.expiresFormatted = dashboard.Timestamp.date(session.expires)

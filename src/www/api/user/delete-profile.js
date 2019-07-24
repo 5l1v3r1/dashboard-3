@@ -8,7 +8,7 @@ module.exports = {
     if (req.query.profileid === req.account.profileid) {
       throw new Error('invalid-profile')
     }
-    const profile = await global.api.user.Profile._get(req)
+    const profile = await global.api.user.Profile.get(req)
     if (profile.accountid !== req.account.accountid) {
       throw new Error('invalid-account')
     }
@@ -18,6 +18,6 @@ module.exports = {
     await dashboard.StorageList.remove(`${req.appid}/account/profiles/${req.account.accountid}`, req.query.profileid)
     req.success = true
     req.query.accountid = req.account.accountid
-    return global.api.user.Account._get(req)
+    return global.api.user.Account.get(req)
   }
 }
