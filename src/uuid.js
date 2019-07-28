@@ -34,7 +34,7 @@ function random (length) {
   for (const byte of buffer) {
     str += byteToHex[byte]
   }
-  return str
+  return str.substring(0, length)
 }
 
 function encode (string) { 
@@ -51,5 +51,6 @@ function encode (string) {
 
 // via https://coligo.io/create-url-shortener-with-node-express-mongo/
 function generateID () {
+  console.log('generating id', global.idLength, process.env.ID_LENGTH)
   return random(global.idLength || 16)
 }

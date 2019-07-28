@@ -30,8 +30,8 @@
     <table id="profiles-table" class="pure-table pure-table-striped list-table">
       <thead>
         <tr>
-          <th>First name</th>
-          <th>Last name</th>
+          <th>ID</th>
+          <th>Name</th>
           <th>Email</th>
         </tr>
       </thead>
@@ -60,7 +60,7 @@
   </body>
   <template id="profile-row">
     <tr id="${profile.profileid}">
-      <td><a href="/administrator/rofile?profileid=${profile.profileid}">${profile.profileid}</a></td>
+      <td><a href="/administrator/profile?profileid=${profile.profileid}">${profile.profileid}</a></td>
       <td>${profile.firstName} ${profile.lastName}</td>
       <td><a href="mailto:${profile.email}">${profile.email}</a></td>
     </tr>

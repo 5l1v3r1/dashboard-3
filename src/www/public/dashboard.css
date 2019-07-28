@@ -28,12 +28,12 @@ div { outline: 0 }
 .notifications a { text-decoration: underline; color: #FFF }
 
 /* header */
-.header { display: flex; justify-content: space-between; flex-direction: row; flex-wrap: nowrap; align-content: stretch; height: 4rem;  }
+.header { color: #FFF; background-color: #036; display: flex; justify-content: space-between; flex-direction: row; flex-wrap: nowrap; align-content: stretch; height: 4rem }
 .header .heading { flex-direction: row; align-self: flex-start; font-size: 1.2rem; letter-spacing: 0; margin: 0; padding: 0 0 0 1.5rem; color: inherit; font-weight: normal; line-height: 4rem }
 .header .heading a { color: inherit; opacity: 0.8 }
 .menus { flex-direction: row; align-self: flex-end; line-height: 4rem; margin-right: 1rem }
-.menu { display: inline-block; position: relative; margin: 0 0 0 1rem; padding: 0 0 0 1rem; cursor: pointer; 
-  font-size: 0.8rem; color: inherit; font-size: 0.8rem; color: #666 }
+.menu { display: inline-block; position: relative; margin: 0 0 0 1rem; padding: 0 0 0 1rem; cursor: pointer; font-size: 0.8rem; color: inherit; font-size: 0.8rem; color: #FFF }
+.menus .menu:first-of-type { margin-left: 0; padding-left: 0 }
 .menu:hover menu,
 .menu:hover ol { display: block }
 .menu menu,
@@ -55,8 +55,8 @@ div { outline: 0 }
 .menu menu a.current-page { color: #999 }
 
 /* navigation bar */
-.navigation { height: 3rem; line-height: 3rem; padding: 0; margin: 0; background-color:#EEE; color: #666; width: 100%; }
-.navigation ul, .navigation li, .navigation a { color: inherit }
+.navigation { border-bottom: 1px solid #CCC; height: 3rem; line-height: 3rem; padding: 0; margin: 0 0 1rem 0; background-color:#EEE; color: #333; width: 100%; overflow: hidden }
+.navigation ul, .navigation li, .navigation a { color: inherit }  
 .navigation ul { margin: 0 0 0 1rem }
 .navigation ul,
 .navigation li,
@@ -68,3 +68,11 @@ div { outline: 0 }
 .navigation span { display: inline-block }
 .navigation a:hover,
 .navigation a:focus { opacity: 1 }
+
+@media (max-width: 600px) {
+  .header .heading { padding-left: 0.5rem }
+  .menus { margin-right: 0.5rem }
+  .menus .menu:last-of-type { margin-left: 0.5rem; padding-left: 0.5rem }
+  .navigation a:first-of-type { margin-left: 0.5rem }
+  .navigation { margin-bottom: 0.5rem }
+}
