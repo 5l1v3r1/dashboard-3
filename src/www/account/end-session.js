@@ -22,7 +22,9 @@ function renderPage (req, res, messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
       const submitForm = doc.getElementById('submit-form')
-			submitForm.parentNode.removeChild(submitForm)
+      submitForm.parentNode.removeChild(submitForm)
+      const sessionTable = doc.getElementById('sessions-table')
+      sessionTable.parentNode.removeChild(sessionTable)
     }
   }
   return dashboard.Response.end(req, res, doc)
