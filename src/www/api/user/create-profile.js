@@ -39,7 +39,8 @@ module.exports = {
     await dashboard.StorageList.add(`${req.appid}/profiles`, profileid)
     await dashboard.StorageList.add(`${req.appid}/account/profiles/${req.query.accountid}`, profileid)
     if (req.body.default === 'true') {
-      await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'profileid', profileid)
+      req.body.profileid = profileid
+      await global.api.user.SetAccountProfile.patch(req)
     }
     req.success = true
     return profileInfo

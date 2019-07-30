@@ -25,9 +25,11 @@
     <div id="message-container"></div>
     <form id="submit-form" method="POST" class="pure-form" action="/account/set-default-profile">
       <fieldset>
-        <select id="profileid" name="profileid">
-          <option value="">Select profile</option>
-        </select>
+        <div class="pure-control-group">
+          <select id="profileid" name="profileid">
+            <option value="">Select profile</option>
+          </select>
+        </div>
         <button id="submit-button" type="submit" class="pure-button pure-button-primary">Set default profile</button>
       </fieldset>
     </form>

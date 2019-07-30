@@ -37,6 +37,9 @@ module.exports = {
         lastName: req.body['last-name'],
         email: req.body.email
       })
+    } else if (req.body.default === 'true') {
+      req.body.profileid = profileid
+      await global.api.user.SetAccountProfile.patch(req)
     }
     req.success = true
     profile.firstName = req.body['first-name']
