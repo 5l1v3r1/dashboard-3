@@ -23,13 +23,19 @@
         <label for="last-name">Last name</label>
         <input require id="last-name" name="last-name" type="text" maxlength="1000" />
       </div>
+      <div class="pure-checkbox">
+        <label for="default">
+          <input require id="default" name="default" value="true" type="checkbox" />
+          Make my default
+        </label>
+      </div>
       <div id="submit-container" class="pure-controls">
-        <button id="submit-button" class="pure-button pure-button-primary">Update profile</button>
+        <button id="submit-button" class="pure-button pure-button-primary">Create profile</button>
       </div>
     </form>
   </body>
   <template id="success">
-    <div class="success message">Success! Your profile information has been updated.</div>
+    <div class="success message">Success! Your new profile information has been saved.</div>
   </template>
   <template id="unknown-error">
     <div class="error message">Error! An unknown error ocurred.</div>
