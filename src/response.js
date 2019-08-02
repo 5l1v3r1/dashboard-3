@@ -179,6 +179,22 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     } else {
       navigation.child = navbarTemplate.child
     }
+    const spillage = templateDoc.getElementById('spillage')
+    const children = HTML.parse(navigation.toString()).child
+    const links = []
+    for (const child of children) {
+      if (child.tag === 'a') {
+        links.push(child)
+        if (child.child.length > 1) {
+          for (const element of child.child) {
+            if (element.tag !== 'text') {
+              child.child.splice(child.child.indexOf(element), 1)
+            }
+          }
+        }
+      }
+    }
+    spillage.child = links
   } else {
     navigation.setAttribute('style', 'display: none')
   }
@@ -251,6 +267,9 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   // it must be formatted for compatibility with srcdoc="..."
   const iframe = templateDoc.getElementById('application-iframe')
   iframe.attr.srcdoc = doc.toString().split("'").join('&#39;').split('"').join("'")
+  if (pageTitles && pageTitles.length) {
+    iframe.attr.title = pageTitles[0].child[0].text
+  }
   return templateDoc.toString()
 }
 

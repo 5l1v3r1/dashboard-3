@@ -15,19 +15,28 @@
           <h1 id="heading" class="heading"></h1>
           <section class="menus">
             <div id="administrator-menu-container" class="menu">
-              <img src="/public/administrator.svg" />
+              <img title="Administrator" src="/public/administrator.svg" />
               <span>Administrator</span>
               <menu id="administrator-menu"></menu>
             </div>
             <div id="account-menu-container" class="menu">
-              <img src="/public/account.svg" />        
+              <img title="Account" src="/public/account.svg" />        
               <span>Account</span>
               <menu id="account-menu"></menu>
             </div>
           </section>
         </header>
-        <section id="navigation" class="navigation">
-          <nav id="nav-links"></nav>
+        <section class="navigation">
+          <nav id="navigation"></nav>
+          <div>
+            <img title="Extended menu" src="/public/extended.svg" />
+            <menu id="spillage">
+              <a href="#">Links...</a>
+              <a href="#">Links...</a>
+              <a href="#">Links...</a>
+              <a href="#">Links...</a>
+            </menu>
+          </div>
         </section>
       </div>
       <iframe id="application-iframe" class="application" sandbox="allow-top-navigation allow-scripts allow-forms allow-same-origin allow-popups" />
@@ -38,9 +47,5 @@
   </template>
   <template id="menu-link">
     <li><a href="${link.href}">${link.text}</a></li>
-  </template>
-  <template id="home-icon">
-    <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgNTEwIDUxMCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEwIDUxMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Zz4KCTxnIGlkPSJob21lIj4KCQk8cG9seWdvbiBwb2ludHM9IjIwNCw0NzEuNzUgMjA0LDMxOC43NSAzMDYsMzE4Ljc1IDMwNiw0NzEuNzUgNDMzLjUsNDcxLjc1IDQzMy41LDI2Ny43NSA1MTAsMjY3Ljc1IDI1NSwzOC4yNSAwLDI2Ny43NSAgICAgNzYuNSwyNjcuNzUgNzYuNSw0NzEuNzUgICAiIGZpbGw9IiMwMDAwMDAiLz4KCTwvZz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" />
-    https://www.flaticon.com/free-icon/home-button_60817 by Google: https://www.flaticon.com/authors/google
   </template>
 </html>
