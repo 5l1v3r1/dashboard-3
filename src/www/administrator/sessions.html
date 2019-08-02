@@ -17,11 +17,11 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Account</th>
           <th>Name</th>
           <th>Email</th>
           <th>Created</th>
           <th>Expires</th>
-          <th></th>
         </tr>
       </thead>
     </table>
@@ -33,13 +33,11 @@
   <template id="session-row">
     <tr id="${session.sessionid}">
       <td><a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
+      <td><a href="/administrator/account?accountid=${session.accountid}">${session.accountid}</a></td>
       <td>${session.firstName} ${session.lastName}</td>
       <td><a href="mailto:${session.email}">${session.email}</a></td>
       <td>${session.createdFormatted}</td>
       <td>${session.expiresFormatted}</td>
-      <td class="pure-button-group">
-        <a class="pure-button" href="/administrator/account?accountid=${session.accountid}">Account</a>
-      </td>
     </tr>
   </template>
 </html>

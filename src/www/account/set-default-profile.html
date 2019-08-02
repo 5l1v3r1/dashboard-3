@@ -9,19 +9,6 @@
   <body>
     <h1>Set default profile</h1>
     <p>Your default profile serves as the primary point of contact for your account.</p>
-    <table id="profiles-table" class="pure-table object-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Created</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tr id="${profile.profileid}">
-        <td>${profile.profileid}</td>
-        <td>${profile.createdFormatted}</td>
-      </tr>
-    </table>
     <div id="message-container"></div>
     <form id="submit-form" method="POST" class="pure-form" action="/account/set-default-profile">
       <fieldset>

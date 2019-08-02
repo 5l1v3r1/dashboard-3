@@ -19,17 +19,19 @@ Using modules you can expand Dashboard to include organizations, subscriptions p
 
 ## Screenshots of Dashboard
 
-| ![Guest landing page](./src/www/public/1-dashboard-landing-page.png?raw=true) | 
-|:---------------------------------------------------------------------------------------------------------------:|
-| Guest landing page that you replace with your own `/` route on your application server |
+The user and administration documentation contain screenshots demonstrating Dashboard and its modules in use. 
 
-| ![Signed in home page](./src/www/public/2-dashboard-signed-in.png?raw=true) |
+| ![Guest landing page](https://userdashboard.github.io/developers/integrations/hastebin-subscription-saas/1-index-page.png?raw=true) | 
 |:---------------------------------------------------------------------------------------------------------------:|
-| Signed in home page that you replace with your own `/home` route on your application server |
+| Example app integrating Dashboard with `/` served by its application server |
 
-| ![Dashboard administration ](./src/www/public/3-dashboard-administration.png?raw=true) |
+| ![Administration page](https://userdashboard.github.io/developers/integrations/hastebin-subscription-saas/3-owner-views-subscription-administration.png?raw=true) |
 |:---------------------------------------------------------------------------------------------------------------:|
-| Dashboard administration |
+| Administration page provided by Dashboard |
+
+| ![Example app integrating Dashboard ](https://userdashboard.github.io/developers/integrations/hastebin-subscription-saas/14-second-user-creates-shared-post.png?raw=true) |
+|:---------------------------------------------------------------------------------------------------------------:|
+| Example app integrating Dashboard with `/home` served by its application server |
 
 ## Dashboard storage
 

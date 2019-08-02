@@ -5,6 +5,7 @@ const TestHelper = require('../../../test-helper.js')
 describe('/account/delete-account', () => {
   describe('DeleteAccount#GET', () => {
     it('should present the form', async () => {
+      await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/delete-account')
       req.account = user.account

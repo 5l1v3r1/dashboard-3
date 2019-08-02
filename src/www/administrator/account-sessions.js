@@ -1,4 +1,5 @@
 const dashboard = require('../../../index.js')
+const navbar = require('./navbar-account.js')
 
 module.exports = {
   before: beforeRequest,
@@ -13,8 +14,8 @@ async function beforeRequest (req) {
   const sessions = await global.api.administrator.AccountSessions.get(req)
   if (sessions && sessions.length) {
     for (const session of sessions) {
-      session.createdFormatted = dashboard.Timestamp.date(session.created)
-      session.expiresFormatted = dashboard.Timestamp.date(session.expires)
+      session.createdFormatted = dashboard.Format.date(session.created)
+      session.expiresFormatted = dashboard.Format.date(session.expires)
     }
   }
   const account = await global.api.administrator.Account.get(req)
@@ -24,6 +25,7 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html, req.data.account, 'account')
+  await navbar.setup(doc, req.data.account)
   if (req.data.sessions && req.data.sessions.length) {
     dashboard.HTML.renderTable(doc, req.data.sessions, 'session-row', 'sessions-table')
     if (req.data.total <= global.pageSize) {

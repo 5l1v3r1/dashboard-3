@@ -15,6 +15,13 @@ async function renderPage (req, res, messageTemplate) {
     messageTemplate = req.error
   }
   const doc = dashboard.HTML.parse(req.route.html)
+  if (req.account.ownerid) {
+    req.error = true
+    messageTemplate = 'owner-account'
+  } else if (req.account.administrator) {
+    req.error = true
+    messageTemplate = 'administrator-account'
+  }
   if (!messageTemplate && req.method === 'GET' && req.query && req.query.returnURL) {
     const submitForm = doc.getElementById('submit-form')
     const divider = submitForm.attr.action.indexOf('?') > -1 ? '&' : '?'
@@ -22,6 +29,11 @@ async function renderPage (req, res, messageTemplate) {
   }
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.error) {
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
+      return dashboard.Response.end(req, res, doc)
+    }
   }
   if (global.deleteDelay) {
     const data = {

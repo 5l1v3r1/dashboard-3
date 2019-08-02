@@ -20,7 +20,6 @@
           <th>ID</th>
           <th>Created</th>
           <th>Expires</th>
-          <th></th>
         </tr>
       </thead>
     </table>
@@ -34,9 +33,6 @@
       <td><a href="/account/session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
       <td>${session.createdFormatted}</td>
       <td>${session.expiresFormatted}</td>
-      <td class="pure-button-group" role="group">
-        <a class="pure-button" href="/account/end-session?sessionid=${session.sessionid}">End session</a>
-      </td>
     </tr>
   </template>
   <template id="important-item">

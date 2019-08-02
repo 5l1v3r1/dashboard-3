@@ -55,7 +55,7 @@ function parseDate (obj) {
  * @param {*} obj the date string or date
  */
 function date (date) {
-  const d = parseDate(date)
+  const d = date > 0 ? new Date(date * 1000) : parseDate(date)
   if (!d) {
     return null
   }

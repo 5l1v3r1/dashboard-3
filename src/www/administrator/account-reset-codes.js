@@ -1,4 +1,5 @@
 const dashboard = require('../../../index.js')
+const navbar = require('./navbar-account.js')
 
 module.exports = {
   before: beforeRequest,
@@ -13,7 +14,7 @@ async function beforeRequest (req) {
   const resetCodes = await global.api.administrator.AccountResetCodes.get(req)
   if (resetCodes && resetCodes.length) {
     for (const resetCode of resetCodes) {
-      resetCode.createdFormatted = dashboard.Timestamp.date(resetCode.created)
+      resetCode.createdFormatted = dashboard.Format.date(resetCode.created)
     }
   }
   const account = await global.api.administrator.Account.get(req)
@@ -23,6 +24,7 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html, req.data.account, 'account')
+  await navbar.setup(doc, req.data.account)
   if (req.data.resetCodes && req.data.resetCodes.length) {
     dashboard.HTML.renderTable(doc, req.data.resetCodes, 'reset-code-row', 'reset-codes-table')
     if (req.data.total <= global.pageSize) {

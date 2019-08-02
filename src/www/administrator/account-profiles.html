@@ -29,11 +29,9 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Name</th>
           <th>Created</th>
-          <th>First name</th>
-          <th>Last name</th>
           <th>Email</th>
-          <th></th>
         </tr>
       </thead>
     </table>
@@ -45,11 +43,9 @@
   <template id="profile-row">
     <tr id="${profile.profileid}">
       <td><a href="/administrator/profile?profileid=${profile.profileid}">${profile.profileid}</a></td>
-      <td>${profile.createdFormatted}</td>
-      <td>${profile.firstName}</td>
-      <td>${profile.lastName}</td>
+      <td>${profile.firstName} ${profile.lastName}</td>
       <td><a href="mailto:${profile.email}">${profile.email}</a></td>
-      <td></td>
+      <td>${profile.createdFormatted}</td>
     </tr>
   </template>
 </html>

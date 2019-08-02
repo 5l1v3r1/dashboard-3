@@ -1,4 +1,5 @@
 const dashboard = require('../../../index.js')
+const navbar = require('./navbar-account.js')
 
 module.exports = {
   before: beforeRequest,
@@ -13,7 +14,7 @@ async function beforeRequest (req) {
   const profiles = await global.api.administrator.AccountProfiles.get(req)
   if (profiles && profiles.length) {
     for (const profile of profiles) {
-      profile.createdFormatted = dashboard.Timestamp.date(profile.created)
+      profile.createdFormatted = dashboard.Format.date(profile.created)
     }
   }
   const account = await global.api.administrator.Account.get(req)
@@ -23,6 +24,7 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html, req.data.account, 'account')
+  await navbar.setup(doc, req.data.account)
   if (req.data.profiles && req.data.profiles.length) {
     dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
     if (req.data.total <= global.pageSize) {

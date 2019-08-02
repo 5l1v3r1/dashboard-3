@@ -51,23 +51,6 @@ describe('/account/set-default-profile', () => {
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
-
-    it('should present the profile table', async () => {
-      const user = await TestHelper.createUser()
-      const profile1 = user.profile
-      await TestHelper.createProfile(user)
-      const req = TestHelper.createRequest(`/account/set-default-profile`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        profileid: profile1.profileid
-      }
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
-      const table = doc.getElementById('profiles-table')
-      const row = table.getElementById(profile1.profileid)
-      assert.strictEqual(row.tag, 'tr')
-    })
   })
 
   describe('SetDefaultProfile#POST', () => {

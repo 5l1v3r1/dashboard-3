@@ -11,8 +11,8 @@ async function beforeRequest (req) {
   const total = await global.api.user.SessionsCount.get(req)
   const sessions = await global.api.user.Sessions.get(req)
   for (const session of sessions) {
-    session.createdFormatted = dashboard.Timestamp.date(session.created)
-    session.expiresFormatted = dashboard.Timestamp.date(session.expires)
+    session.createdFormatted = dashboard.Format.date(session.created)
+    session.expiresFormatted = dashboard.Format.date(session.expires)
   }
   const important = []
   if (req.account.lastSignedIn) {

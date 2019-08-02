@@ -10,9 +10,9 @@ async function beforeRequest (req) {
   const administrators = await global.api.administrator.AdministratorAccounts.get(req)
   if (administrators && administrators.length) {
     for (const administrator of administrators) {
-      administrator.createdFormatted = dashboard.Timestamp.date(administrator.created)
-      administrator.administratorFormatted = dashboard.Timestamp.date(administrator.administrator)
-      administrator.lastSignedInFormatted = dashboard.Timestamp.date(administrator.lastSignedIn)
+      administrator.createdFormatted = dashboard.Format.date(administrator.created)
+      administrator.administratorFormatted = dashboard.Format.date(administrator.administrator)
+      administrator.lastSignedInFormatted = dashboard.Format.date(administrator.lastSignedIn)
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

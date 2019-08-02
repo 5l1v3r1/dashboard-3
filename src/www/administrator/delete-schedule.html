@@ -19,7 +19,6 @@
           <th>Created</th>
           <th>Last signed in</th>
           <th>Delete date</th>
-          <th></th>
         </tr>
       </thead>
     </table>
@@ -36,9 +35,6 @@
       <td>${account.createdFormatted}</td>
       <td>${account.lastSignedInFormatted}</td>
       <td>${account.deletedFormatted}</td>
-      <td class="pure-button-group">
-        <a class="pure-button" href="/administrator/delete-account?accountid=${account.accountid}">Delete</a>
-      </td>
     </tr>
   </template>
 </html>

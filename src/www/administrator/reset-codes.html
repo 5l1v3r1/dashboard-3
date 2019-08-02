@@ -17,8 +17,10 @@
       <tr>
         <thead>
           <th>ID</th>
+          <th>Account</th>
+          <th>Name</th>
+          <th>Email</th>
           <th>Created</th>
-          <th></th>
         </thead>
       </tr>
     </table>
@@ -30,9 +32,10 @@
   <template id="reset-code-row">
     <tr id="${resetCode.codeid}">
       <td>${resetCode.codeid}</td>
+      <td><a href="/administrator/account?accountid=${resetCode.accountid}">${resetCode.accountid}</a></td>
+      <td>${resetCode.firstName} ${resetCode.lastName}</td>
+      <td><a href="mailto:${resetCode.email}">${resetCode.email}</a></td>
       <td>${resetCode.createdFormatted}</td>
-      <td>
-      </td>
     </tr>
   </template>
 </html>

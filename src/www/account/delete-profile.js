@@ -1,4 +1,5 @@
 const dashboard = require('../../../index.js')
+const navbar = require('./navbar-profile.js')
 
 module.exports = {
   before: beforeRequest,
@@ -20,11 +21,12 @@ async function beforeRequest (req) {
   if (profile.profileid === req.account.profileid) {
     throw new Error('invalid-profile')
   }
-  profile.createdFormatted = dashboard.Timestamp.date(profile.created)
+  profile.createdFormatted = dashboard.Format.date(profile.created)
+  profile.default = req.account.profileid === profile.profileid
   req.data = { profile }
 }
 
-function renderPage (req, res, messageTemplate) {
+async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     if (req.query && req.query.returnURL && req.query.returnURL.indexOf('/') === 0) {
       return dashboard.Response.redirect(req, res, decodeURI(req.query.returnURL))
@@ -35,6 +37,7 @@ function renderPage (req, res, messageTemplate) {
     messageTemplate = req.error
   }
   const doc = dashboard.HTML.parse(req.route.html, req.data.profile, 'profile')
+  await navbar.setup(doc, req.data.profile)
   if (!messageTemplate && req.method === 'GET' && req.query && req.query.returnURL) {
     const submitForm = doc.getElementById('submit-form')
     const divider = submitForm.attr.action.indexOf('?') > -1 ? '&' : '?'

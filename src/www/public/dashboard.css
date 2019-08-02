@@ -31,17 +31,24 @@ div { outline: 0 }
 .header { color: #FFF; background-color: #036; display: flex; justify-content: space-between; flex-direction: row; flex-wrap: nowrap; align-content: stretch; height: 4rem }
 .header .heading { flex-direction: row; align-self: flex-start; font-size: 1.2rem; letter-spacing: 0; margin: 0; padding: 0 0 0 1.5rem; color: inherit; font-weight: normal; line-height: 4rem }
 .header .heading a { color: inherit; opacity: 0.8 }
-.menus { flex-direction: row; align-self: flex-end; line-height: 4rem; margin-right: 1rem }
-.menu { display: inline-block; position: relative; margin: 0 0 0 1rem; padding: 0 0 0 1rem; cursor: pointer; font-size: 0.8rem; color: inherit; font-size: 0.8rem; color: #FFF }
+.menus { background-color: inherit; flex-direction: row; align-self: flex-end; line-height: 4rem; margin-right: 1rem }
+.menu { display: inline-block; position: relative; margin: 0 0 0 1rem; padding: 0 0 0 1rem; min-height: 4rem; cursor: pointer; font-size: 0.8rem; color: inherit; font-size: 0.8rem; color: #FFF }
+.menu img { position: absolute; right: 1rem; top: 1rem; height: 2rem; width: 2rem; opacity: 0.75}
+.menu span { padding-right: 4rem } 
 .menus .menu:first-of-type { margin-left: 0; padding-left: 0 }
 .menu:hover menu,
-.menu:hover ol { display: block }
+.menu:hover ol,
+.menu:focus menu,
+.menu:focus ol,
+.menu:active menu,
+.menu:active ol { display: block }
 .menu menu,
 .menu ol { position: absolute; padding: 0; margin: 0; border-radius: 0.5rem; background-color: #FFF; 
   list-style-type: none; min-width: 15rem; text-align: right; z-index: 1; top: 3.5rem; right: 0.5rem;
   filter: drop-shadow(0 0 1rem rgba(33, 66, 99, 0.75)); display: none }
 .menu menu li { margin: 0; height: auto; line-height: 2rem } 
-.menu menu li:first-child a:hover:after { border-bottom-color: #FFF }
+.menu menu li:first-child a:hover:after,
+.menu menu li:first-child a:active:after { border-bottom-color: #FFF }
 .menu menu li:first-child a { border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; border-top-color: transparent }
 .menu menu li:last-child a { border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem; border-bottom-color: transparent }
 .menu menu li:first-child a:after, 
@@ -50,7 +57,9 @@ div { outline: 0 }
 .menu menu li:first-child a:before { margin-left: -2rem; border-bottom-color: #FFF }
 .menu menu a,
 .menu menu a:visited { font-size: 1rem; color: #369; display: block; padding: 0.75rem; background-color: #FFF; text-decoration: none }
-.menu menu a:hover { color: #07C; background-color: #FFF }
+.menu menu a:hover,
+.menu menu a:focus,
+.menu menu a:active { color: #07C; background-color: #FFF }
 .menu menu a:focus { background-color: #EEE; color: #000 }
 .menu menu a.current-page { color: #999 }
 
@@ -67,12 +76,15 @@ div { outline: 0 }
 .navigation a,
 .navigation span { display: inline-block }
 .navigation a:hover,
-.navigation a:focus { opacity: 1 }
+.navigation a:active { opacity: 1 }
 
-@media (max-width: 600px) {
-  .header .heading { padding-left: 0.5rem }
-  .menus { margin-right: 0.5rem }
+@media (max-width: 960px) {
+  .header .heading { padding-left: 0.5rem; font-size: 1rem }
+  .menus { margin-right: 0.5rem; min-height: 4rem }
   .menus .menu:last-of-type { margin-left: 0.5rem; padding-left: 0.5rem }
+  .menu span { display: none !important }
+  .menu img { position: unset; margin-top: 1rem }
+  .menu menu { right: -0.5rem } 
   .navigation a:first-of-type { margin-left: 0.5rem }
   .navigation { margin-bottom: 0.5rem }
 }

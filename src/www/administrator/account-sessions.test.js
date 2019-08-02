@@ -7,15 +7,18 @@ describe('/administrator/account-sessions', () => {
     it('should bind sessions to req', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
+      const firstSession = user.session
+      await TestHelper.createSession(user)
+      const secondSession = user.session
       const user2 = await TestHelper.createUser()
-      await TestHelper.createResetCode(user2)
+      await TestHelper.createSession(user2)
       const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
       await req.route.api.before(req)
-      assert.strictEqual(req.data.sessions.length, 1)
-      assert.strictEqual(req.data.sessions[0].accountid, user.account.accountid)
+      assert.strictEqual(req.data.sessions.length, 2)
+      assert.strictEqual(req.data.sessions[0].sessionid, secondSession.sessionid)
+      assert.strictEqual(req.data.sessions[1].sessionid, firstSession.sessionid)
     })
   })
 
@@ -23,7 +26,7 @@ describe('/administrator/account-sessions', () => {
     it('should present the sessions table', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
+      await TestHelper.createSession(user)
       const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
@@ -31,7 +34,7 @@ describe('/administrator/account-sessions', () => {
       const doc = TestHelper.extractDoc(page)
       const table = doc.getElementById('sessions-table')
       const tableString = table.toString()
-      assert.strictEqual(tableString.indexOf(user.session.accountid) > -1, true)
+      assert.strictEqual(tableString.indexOf(user.session.sessionid) > -1, true)
     })
 
     it('should present the account table', async () => {

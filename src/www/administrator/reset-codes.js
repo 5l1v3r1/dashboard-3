@@ -10,7 +10,12 @@ async function beforeRequest (req) {
   const resetCodes = await global.api.administrator.ResetCodes.get(req)
   if (resetCodes && resetCodes.length) {
     for (const resetCode of resetCodes) {
-      resetCode.createdFormatted = dashboard.Timestamp.date(resetCode.created)
+      resetCode.createdFormatted = dashboard.Format.date(resetCode.created)
+      req.query.accountid = resetCode.accountid
+      const account = await global.api.administrator.ResetCode.get(req)
+      resetCode.firstName = account.firstName
+      resetCode.lastName = account.lastName
+      resetCode.email = account.email
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

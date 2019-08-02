@@ -1,4 +1,5 @@
 const dashboard = require('../../../index.js')
+const navbar = require('./navbar-account.js')
 
 module.exports = {
   before: beforeRequest,
@@ -14,8 +15,11 @@ async function beforeRequest (req) {
   if (!account) {
     throw new Error('invalid-accountid')
   }
-  account.created = dashboard.Timestamp.date(account.created)
-  account.lastSignedInFormatted = dashboard.Timestamp.date(account.lastSignedIn)
+  if (account.ownerid || account.administrator) {
+    throw new Error('invalid-account')
+  }
+  account.createdFormatted = dashboard.Format.date(account.created)
+  account.lastSignedInFormatted = dashboard.Format.date(account.lastSignedIn)
   req.data = { account }
 }
 
@@ -29,6 +33,7 @@ async function renderPage (req, res, messageTemplate) {
     messageTemplate = req.error
   }
   const doc = dashboard.HTML.parse(req.route.html, req.data.account, 'account')
+  await navbar.setup(doc, req.data.account)
   if (!messageTemplate && req.method === 'GET' && req.query && req.query.returnURL) {
     const submitForm = doc.getElementById('submit-form')
     const divider = submitForm.attr.action.indexOf('?') > -1 ? '&' : '?'

@@ -32,7 +32,6 @@
           <th>ID</th>
           <th>Created</th>
           <th>Expires</th>
-          <th></th>
         </tr>
       </thead>
     </table>
@@ -46,9 +45,6 @@
       <td><a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a></td>
       <td>${session.createdFormatted}</td>
       <td>${session.expiresFormatted}</td>
-      <td class="pure-button-group">
-        <a class="pure-button" href="/administrator/account?accountid=${session.accountid}">Account</a>
-      </td>
     </tr>
   </template>
 </html>

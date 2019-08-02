@@ -15,10 +15,6 @@
           <td>${profile.profileid}</td>
         </tr>
         <tr>
-          <th>Created</th>
-          <td>${profile.createdFormatted}</td>
-        </tr>
-        <tr>
           <th>First name</th>
           <td>${profile.firstName}</td>
         </tr>
@@ -29,6 +25,15 @@
         <tr>
           <th>Email</th>
           <td><a href="mailto:${profile.email}">${profile.email}</a></td>
+        </tr>
+        <tr>
+          <th>Default</th>
+          <td id="is-default">Yes</td>
+          <td id="is-not-default">No</td>
+        </tr>
+        <tr>
+          <th>Created</th>
+          <td>${profile.createdFormatted}</td>
         </tr>
       </tbody>
     </table>

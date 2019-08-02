@@ -1,4 +1,5 @@
 const dashboard = require('../../../index.js')
+const navbar = require('./navbar-profile.js')
 
 module.exports = {
   before: beforeRequest,
@@ -16,11 +17,19 @@ async function beforeRequest (req) {
   if (profile.accountid !== req.account.accountid) {
     throw new Error('invalid-account')
   }
-  profile.createdFormatted = dashboard.Timestamp.date(profile.created)
+  profile.createdFormatted = dashboard.Format.date(profile.created)
   req.data = { profile }
 }
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html, req.data.profile, 'profile')
+  await navbar.setup(doc, req.data.profile)
+  if (req.account.profileid === req.query.profileid) {
+    const notDefault = doc.getElementById('is-not-default')
+    notDefault.parentNode.removeChild(notDefault)
+  } else {
+    const isDefault = doc.getElementById('is-default')
+    isDefault.parentNode.removeChild(isDefault)
+  }
   return dashboard.Response.end(req, res, doc)
 }

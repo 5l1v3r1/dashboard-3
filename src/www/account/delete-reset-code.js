@@ -17,7 +17,7 @@ async function beforeRequest (req) {
   if (resetCode.accountid !== req.account.accountid) {
     throw new Error('invalid-account')
   }
-  resetCode.createdFormatted = dashboard.Timestamp.date(resetCode.created)
+  resetCode.createdFormatted = dashboard.Format.date(resetCode.created)
   req.data = { resetCode }
 }
 

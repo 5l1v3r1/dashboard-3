@@ -13,7 +13,7 @@ async function beforeRequest (req) {
   if (!profile) {
     throw new Error('invalid-profile')
   }
-  profile.createdFormatted = dashboard.Timestamp.date(profile.created)
+  profile.createdFormatted = dashboard.Format.date(profile.created)
   req.data = { profile }
 }
 

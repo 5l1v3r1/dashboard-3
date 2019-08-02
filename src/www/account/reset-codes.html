@@ -19,7 +19,6 @@
         <thead>
           <th>ID</th>
           <th>Created</th>
-          <th></th>
         </thead>
       </tr>
     </table>
@@ -32,9 +31,6 @@
     <tr id="${resetCode.codeid}">
       <td><a href="/account/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a></td>
       <td>${resetCode.createdFormatted}</td>
-      <td>
-        <a class="pure-button" href="/account/delete-reset-code?codeid=${resetCode.codeid}">Delete</a>
-      </td>
     </tr>
   </template>
   <template id="important-item">

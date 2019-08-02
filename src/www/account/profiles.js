@@ -12,7 +12,7 @@ async function beforeRequest (req) {
   const profiles = await global.api.user.Profiles.get(req)
   if (profiles && profiles.length) {
     for (const profile of profiles) {
-      profile.createdFormatted = dashboard.Timestamp.date(profile.created)
+      profile.createdFormatted = dashboard.Format.date(profile.created)
     }
   }
   const offset = req.query ? parseInt(req.query.offset, 10) || 0 : 0
@@ -23,6 +23,15 @@ async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.profiles && req.data.profiles.length) {
     dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
+    for (const profile of req.data.profiles) {
+      if (req.account.profileid === profile.profileid) {
+        const notDefault = doc.getElementById(`is-not-default-${profile.profileid}`)
+        notDefault.parentNode.removeChild(notDefault)
+      } else {
+        const isDefault = doc.getElementById(`is-default-${profile.profileid}`)
+        isDefault.parentNode.removeChild(isDefault)
+      }
+    }
     if (req.data.total <= global.pageSize) {
       const pageLinks = doc.getElementById('page-links')
       pageLinks.parentNode.removeChild(pageLinks)

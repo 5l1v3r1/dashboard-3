@@ -10,8 +10,8 @@ async function beforeRequest (req) {
     throw new Error('invalid-sessionid')
   }
   const session = await global.api.administrator.Session.get(req)
-  session.createdFormatted = dashboard.Timestamp.date(session.created)
-  session.expiresFormatted = dashboard.Timestamp.date(session.expires)
+  session.createdFormatted = dashboard.Format.date(session.created)
+  session.expiresFormatted = dashboard.Format.date(session.expires)
   req.data = { session }
 }
 

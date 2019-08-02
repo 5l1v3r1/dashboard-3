@@ -11,8 +11,8 @@ async function beforeRequest (req) {
   if (sessions && sessions.length) {
     req.query = req.query || {}
     for (const session of sessions) {
-      session.createdFormatted = dashboard.Timestamp.date(session.created)
-      session.expiresFormatted = dashboard.Timestamp.date(session.expires)
+      session.createdFormatted = dashboard.Format.date(session.created)
+      session.expiresFormatted = dashboard.Format.date(session.expires)
       req.query.accountid = session.accountid
       const account = await global.api.administrator.Account.get(req)
       session.firstName = account.firstName

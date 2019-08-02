@@ -1,4 +1,5 @@
 const dashboard = require('../../../index.js')
+const navbar = require('./navbar-session.js')
 
 module.exports = {
   before: beforeRequest,
@@ -10,12 +11,13 @@ async function beforeRequest (req) {
     throw new Error('invalid-sessionid')
   }
   const session = await global.api.user.Session.get(req)
-  session.createdFormatted = dashboard.Timestamp.date(session.created)
-  session.expiresFormatted = dashboard.Timestamp.date(session.expires)
+  session.createdFormatted = dashboard.Format.date(session.created)
+  session.expiresFormatted = dashboard.Format.date(session.expires)
   req.data = { session }
 }
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html, req.data.session, 'session')
+  await navbar.setup(doc, req.data.session)
   return dashboard.Response.end(req, res, doc)
 }

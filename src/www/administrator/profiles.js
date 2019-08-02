@@ -10,7 +10,7 @@ async function beforeRequest (req) {
   const profiles = await global.api.administrator.Profiles.get(req)
   if (profiles && profiles.length) {
     for (const profile of profiles) {
-      profile.createdFormatted = dashboard.Timestamp.date(profile.created)
+      profile.createdFormatted = dashboard.Format.date(profile.created)
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0

@@ -20,7 +20,6 @@
           <th>Email</th>
           <th>Created</th>
           <th>Last signed in</th>
-          <th></th>
         </tr>
       </thead>
     </table>
@@ -36,9 +35,6 @@
       <td><a href="mailto:${account.email}">${account.email}</a></td>
       <td>${account.createdFormatted}</td>
       <td>${account.lastSignedInFormatted}</td>
-      <td class="pure-button-group">
-        <a class="pure-button" href="/administrator/account?accountid=${account.accountid}">Account</a>
-      </td>
     </tr>
   </template>
 </html>
