@@ -17,49 +17,6 @@ describe('/account/sessions', () => {
   })
 
   describe('Sessions#GET', () => {
-    it('should show never reset date', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/sessions')
-      req.account = user.account
-      req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
-      const lastReset = doc.getElementById('last-reset-1')
-      assert.strictEqual(lastReset.child.length, 1)
-    })
-
-    it('should update last reset date', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      await TestHelper.useResetCode(user)
-      await TestHelper.createSession(user)
-      const req = TestHelper.createRequest(`/account/sessions?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
-      const lastReset = doc.getElementById('last-reset-1')
-      const date = dashboard.Format.date(new Date())
-      assert.strictEqual(lastReset.parentNode.toString().indexOf(date) > -1, true)
-    })
-
-    it('should update last signed in date', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createSession(user)
-      const req = TestHelper.createRequest('/account/sessions')
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        username: user.account.username,
-        password: user.account.password
-      }
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
-      const lastSignin = doc.getElementById('last-signin-2')
-      const date = dashboard.Format.date(new Date())
-      assert.strictEqual(lastSignin.parentNode.toString().indexOf(date) > -1, true)
-    })
-
     it('should exclude ended sessions', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/signout')

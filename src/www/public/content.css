@@ -38,10 +38,14 @@ a.pure-button:hover { text-decoration: none }
 .pure-control-group input:focus { border-color: #0078e7; box-shadow: inset 0 0 3px #FFF }
 .pure-checkbox input { margin-right: 0.5rem }
 .pure-checkbox label { font-size: 0.8rem; color: #333;  text-transform: none; font-size: 1rem }
-.pure-button { background-color: #369; color: rgba(255, 255, 255, 0.9); border-radius: 0.25rem }
+button.pure-button,
+button.pure-button-primary,
+a.pure-button,
+a.pure-button-primary { background-color: #369; color: rgba(255, 255, 255, 0.9); border-radius: 0.25rem }
 .pure-button:hover,
-.pure-button:focus { background-color: #19F; color: #FFF }
-.pure-button-primary:active { color: rgba(255,255,255,0.75) }
+.pure-button:focus,
+.pure-button-primary:hover,
+.pure-button-primary:focus { background-color: #036; color: #FFF }
 
 .pure-button-group .pure-button { border-right: 1px solid rgba(255, 255, 255, 0.5) }
 .pure-button-group .pure-button:first-child { border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem }
@@ -55,11 +59,7 @@ a.pure-button:hover { text-decoration: none }
 
 .object-table { width: auto }
 .object-table th:first-child,
-.object-table th { background-color: #036; border-color: #FFF; color: #FFF }
-.object-table td:first-child,
-.object-table td { border-color: #FFF }
-.object-table th:first-of-type { border-radius: 0.5rem 0 0 0 }
-.object-table th:last-of-type { border-radius: 0 0.5rem 0 0 }
+.object-table th { background-color: #333; border-color: #333; color: #FFF }
 .object-table th,
 .object-table td { padding: 0.5rem 4rem 0.5rem 0.5rem; text-align: left; font-size: 0.9rem }
 
@@ -101,14 +101,6 @@ a.pure-button:hover { text-decoration: none }
   .pure-table th,
   .pure-table td { padding-right: 0.5rem }
 }
-
-/* important dates and stats */
-.important-items { list-style-type: none; margin: 1rem 0; padding: 0 }
-.important-items li { list-style-type: none; display: inline-block; font-size: 1.2rem; 
-  border-right: 1px dotted #666; padding-right: 1rem; padding: 0 1rem }
-.important-items li span { line-height: 2rem; display: block; font-size: 0.8rem; color: #666 }
-.important-items li:first-of-type { padding-left: 0 }
-.important-items li:last-of-type { border-right: none; padding-right: 0 }
 
 /* pagination */
 .pagination { list-style-type: none; margin: 1rem 0; padding: 0 }

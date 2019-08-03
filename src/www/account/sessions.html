@@ -9,7 +9,6 @@
   <body>
     <h1>Sessions</h1>
     <p>Each time you sign in a new session is created.</p>
-    <ul id="important-items-list" class="important-items"></ul>
     <div id="message-container"></div>
     <div id="no-sessions">
       <p>You do not have any sessions yet.</p>
@@ -35,11 +34,5 @@
       <td>${session.expiresFormatted}</td>
     </tr>
   </template>
-  <template id="important-item">
-    <li>
-      ${important.date}
-      <span id="last-reset-${important.itemid}">Last reset</span>
-      <span id="last-signin-${important.itemid}">Last sign in</span>
-    </li>
-  </template>
+
 </html>
