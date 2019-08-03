@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.5 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.7 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --timeout 420000 --slow 420000
 
 
@@ -342,12 +342,6 @@
     ResetCodes#BEFORE
       ✓ should bind reset codes to req
     ResetCodes#GET
-      ✓ should show never created
-      ✓ should update created date
-      ✓ should show never deleted
-      ✓ should update deleted date
-      ✓ should show never used
-      ✓ should update used date
       ✓ should limit reset codes to one page
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -374,9 +368,6 @@
     Sessions#BEFORE
       ✓ should bind sessions to req
     Sessions#GET
-      ✓ should show never reset date
-      ✓ should update last reset date
-      ✓ should update last signed in date
       ✓ should exclude ended sessions
       ✓ should limit sessions to one page
       ✓ should enforce page size
@@ -944,5 +935,5 @@
       ✓ should apply authorized new values
 
 
-  523 passing (2m)
+  514 passing (2m)
 
