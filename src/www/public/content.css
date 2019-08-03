@@ -6,12 +6,16 @@ h2 { font-weight: 400; margin-top: 0; margin-bottom: 0.5rem; font-size: 1.2rem }
 h3 { font-weight: normal; margin-top: 0; margin-bottom: 0.5rem; font-size: 1rem }
 h1, 
 h2, 
-h3 { color: #036 }
+h3,
+a { color: #036 }
 p, 
 form, 
 table { margin-bottom: 2rem }
 label { color: #369 }
 a, input, select, textarea, button { outline: 0 }
+a { text-decoration: none }
+a:focus,
+a:hover { color: #19F; text-decoration: underline }
 input[type="submit"] { position: absolute; left: -10000px; top: -10000px; z-index: 100000 }
 
 /* pure overrides */
@@ -34,7 +38,8 @@ input[type="submit"] { position: absolute; left: -10000px; top: -10000px; z-inde
 .pure-checkbox label { font-size: 0.8rem; color: #333;  text-transform: none; font-size: 1rem }
 .pure-button { border-radius: 0.2rem; background-image: linear-gradient(rgba(255,255,255,0.25), rgba(255, 255,255, 0) 100%, rgba(0, 0, 0, .1)) }
 .pure-button:active { color: rgba(33,33,33,0.75)}
-.pure-button:focus { background-color: #036; color: rgba(255,255,255,0.5)}
+.pure-button:hover,
+.pure-button:focus { background-color: #19F; color: #FFF }
 .pure-button-primary:active { color: rgba(255,255,255,0.75) }
 
 .pure-table { width: 100%; border: none; border-collapse: collapse }

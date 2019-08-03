@@ -31,7 +31,7 @@ div { outline: 0 }
 .header { color: #FFF; background-color: #036; display: flex; justify-content: space-between; flex-direction: row; flex-wrap: nowrap; align-content: stretch; height: 4rem }
 .header .heading { flex-direction: row; align-self: flex-start; font-size: 1.2rem; letter-spacing: 0; margin: 0; padding: 0 0 0 1.5rem; color: inherit; font-weight: normal; line-height: 4rem }
 .header .heading a { color: inherit; opacity: 0.8 }
-.menus { background-color: inherit; flex-direction: row; align-self: flex-end; line-height: 4rem; margin-right: 1rem }
+.menus { background-color: inherit; flex-direction: row; align-self: flex-end; line-height: 4rem; margin-right: 0.5rem }
 .menu { display: inline-block; position: relative; margin: 0 0 0 1rem; padding: 0 0 0 1rem; min-height: 4rem; cursor: pointer; font-size: 0.8rem; color: inherit; font-size: 0.8rem; color: #FFF }
 .menu img { position: absolute; right: 0.5rem; top: 1rem; height: 2rem; width: 2rem; opacity: 0.75 }
 .menu span { padding-right: 4rem } 
@@ -56,20 +56,18 @@ div { outline: 0 }
 .menu menu li:first-child a:after { border-bottom-color: #FFF }
 .menu menu li:first-child a:before { margin-left: -2rem; border-bottom-color: #FFF }
 .menu menu a,
-.menu menu a:visited { font-size: 1rem; color: #369; display: block; padding: 0.75rem; background-color: #FFF; text-decoration: none }
+.menu menu a:visited { font-size: 1rem; color: #369; display: block; padding: 0.75rem; text-decoration: none }
 .menu menu a:hover,
-.menu menu a:focus,
-.menu menu a:active { color: #07C; background-color: #FFF }
-.menu menu a:focus { background-color: #EEE; color: #000 }
+.menu menu a:focus { color: #19F !important; text-decoration: underline }
 .menu menu a.current-page { color: #999 }
 
 /* navigation bar */
 .navigation { display: flex; margin: 0 0 1rem 0; border-bottom: 1px solid #CCC; background-color:#EEE; position: relative; width: 100%; height: 3rem }
 .navigation div { flex-direction: column; background-color: #EEE; height: 3rem; padding: 0 0.5rem; cursor: pointer; overflow: hidden }
-.navigation div img { width: 1rem; height: 1rem; margin-top: 1rem; margin-right: 1.5rem }
+.navigation div img { width: 1rem; height: 1rem; margin-top: 1rem; margin-right: 1rem }
 .navigation div menu { display: none; margin: 0; padding: 0; background-color: #CCC; border: 1px solid #CCC; position: absolute; top: 3rem; right: 0; max-width: 100%; text-align: right; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem }
 .navigation div menu a { display: block; margin: 0.5rem 0.5rem 0.5rem 4rem; padding: 0.5rem 0.25rem; color: #036 }
-.navigation div menu a:hover { color: #666 }
+.navigation div menu a:hover { color: #07C }
 .navigation div:hover,
 .navigation div:focus,
 .navigation div:active { background-color: #CCC; border-top-left-radius: 0.5rem } 
@@ -78,15 +76,16 @@ div { outline: 0 }
 .navigation div:active menu { display: block }
 .navigation nav { flex-direction: column; white-space: nowrap; height: 3rem; line-height: 3rem; color: #333; overflow: hidden; width: 100% }
 .navigation nav ul { margin: 0 0 0 1rem }
-.navigation nav a { display: inline-block; white-space: nowrap; color: inherit; margin: 0 0 0 1rem; height: 3rem; line-height: 3rem; padding: 0 0.25rem; opacity: 0.8; font-size: 0.9rem; cursor: pointer; overflow: hidden }
+.navigation nav a { display: block; float: left; white-space: nowrap; color: inherit; margin: 0 1rem 0 1rem; height: 3rem; line-height: 3rem; padding: 0 0.25rem; opacity: 0.8; font-size: 0.9rem; cursor: pointer }
 .navigation nav a:hover,
-.navigation nav a:active { opacity: 1 }
+.navigation nav a:active { opacity: 1; color: #19F; text-decoration: underline }
 .navigation nav span { height: 3rem; display: block; float: left }
-.navigation nav img { height: 1rem; width: 1rem; margin: 1rem 1rem 0 0; display: block; float: left }
+.navigation nav img { height: 1rem; width: 1rem; margin: 0.9rem 1rem 0 0; display: block; float: left }
 
 @media (max-width: 960px) {
   .header .heading { padding-left: 0.5rem; font-size: 1rem }
-  .menus { margin-right: 0.5rem; min-height: 4rem }
+  .menus { margin-right: 0; min-height: 4rem }
+  .menu menu:first-of-type { right: 0 }
   .menus .menu:last-of-type { margin-left: 0.5rem; padding-left: 0.5rem }
   .menu span { display: none !important }
   .menu img { position: unset; margin-top: 1rem; margin-right: 0.5rem }
@@ -96,5 +95,6 @@ div { outline: 0 }
   .navigation nav a,
   .navigation menu a { font-size: 0.8rem }
   .navigation nav span { display: none }
+  .navigation div { padding-right: 0 }
   .navigation div img { margin-right: 1.25rem }
 }
