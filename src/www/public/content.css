@@ -16,6 +16,8 @@ a, input, select, textarea, button { outline: 0 }
 a { text-decoration: none }
 a:focus,
 a:hover { color: #19F; text-decoration: underline }
+.pure-button:focus,
+.pure-button:hover { text-decoration: none }
 input[type="submit"] { position: absolute; left: -10000px; top: -10000px; z-index: 100000 }
 
 /* pure overrides */
