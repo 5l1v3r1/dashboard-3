@@ -2,9 +2,9 @@ module.exports = {
   setup: (doc, account) => {
     const removeElements = []
     if (account.owner) {
-      removeElements.push('navbar-make-administrator-link', 'navbar-revoke-administrator-link', 'navbar-transfer-ownership-link', 'navbar-delete-account-link')
+      removeElements.push('navbar-assign-administrator-link', 'navbar-revoke-administrator-link', 'navbar-transfer-ownership-link', 'navbar-delete-account-link')
     } else if (account.administrator) {
-      removeElements.push('navbar-make-administrator-link', 'navbar-delete-account-link')
+      removeElements.push('navbar-assign-administrator-link', 'navbar-delete-account-link')
     } else {
       removeElements.push('navbar-revoke-administrator-link')
     }
