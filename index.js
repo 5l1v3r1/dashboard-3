@@ -64,8 +64,8 @@ module.exports = {
   Response: require('./src/response.js'),
   Timestamp: require('./src/timestamp.js'),
   UUID: require('./src/uuid.js'),
-  start: async (applicationPath) => {
-    await module.exports.setup(applicationPath)
+  start: (applicationPath) => {
+    module.exports.setup(applicationPath)
     module.exports.Storage = require('./src/storage.js')
     module.exports.StorageList = require('./src/storage-list.js')
     module.exports.StorageObject = require('./src/storage-object.js')
@@ -75,12 +75,12 @@ module.exports = {
     }
     return Server.start()
   },
-  stop: async () => {
+  stop: () => {
     clearInterval(Timestamp.interval)
     delete (Timestamp.interval)
     return Server.stop()
   },
-  setup: async (applicationPath) => {
+  setup: (applicationPath) => {
     global.applicationPath = applicationPath
     global.rootPath = `${applicationPath}/src/www`
     // the package.json is combined from your application and any
