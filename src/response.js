@@ -78,6 +78,10 @@ async function redirect (req, res, url) {
 }
 
 function throw404 (req, res) {
+  if (req.route === '/public/content-additional.css' || req.route === '/public/template-additional.css') {
+    res.setHeader('content-type', mimeTypes.css)
+    return res.end()
+  }
   return throwError(req, res, 404, 'Unknown URL or page')
 }
 
@@ -154,14 +158,24 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   if (!templateDoc) {
     throw new Error()
   }
-  // embed additional CSS, JS etc by placing the code within
-  // your own HTML in a <template id="head" />
-  const embedTemplate = doc.getElementById('head')
-  if (embedTemplate && embedTemplate.child && embedTemplate.child.length) {
+  // embed additional CSS, JS etc in the template from
+  // page HTML in a <template id="head" />
+  const headTemplate = doc.getElementById('head')
+  if (headTemplate && headTemplate.child && headTemplate.child.length) {
     const head = templateDoc.getElementsByTagName('head')[0]
     if (head) {
       head.child = head.child || []
-      head.child = head.child.concat(embedTemplate.child)
+      head.child = head.child.concat(headTemplate.child)
+    }
+  }
+  // embed additional CSS, JS etc in the page from
+  // template HTML in a <template id="page" />
+  const pageTemplate = doc.getElementById('page')
+  if (pageTemplate && pageTemplate.child && pageTemplate.child.length) {
+    const head = doc.getElementsByTagName('head')[0]
+    if (head) {
+      head.child = head.child || []
+      head.child = head.child.concat(pageTemplate.child)
     }
   }
   // navbar can be set by making <template id="navbar" />
