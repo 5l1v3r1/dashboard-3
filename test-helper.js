@@ -376,11 +376,11 @@ const proxy = util.promisify((method, path, req, callback) => {
       }
       if (proxyResponse.headers['content-type']) {
         if (proxyResponse.headers['content-type'].startsWith('text/html')) {
-          const doc = dashboard.HTML.parse(body)
+          const doc = dashboard.HTML.parse(body.toString('utf-8'))
           return callback(null, doc)
         }
         if (proxyResponse.headers['content-type'].startsWith('application/json')) {
-          body = JSON.parse(body)
+          body = JSON.parse(body.toString('utf-8'))
           return callback(null, body)
         }
       }
