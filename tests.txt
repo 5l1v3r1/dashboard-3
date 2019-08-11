@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.12 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.13 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --timeout 420000 --slow 420000
 
 
@@ -935,5 +935,5 @@
       ✓ should apply authorized new values
 
 
-  514 passing (1m)
+  514 passing (2m)
 
