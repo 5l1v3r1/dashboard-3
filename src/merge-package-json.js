@@ -72,6 +72,12 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
         if (moduleName === '@userdashboard/dashboard') {
           continue
         }
+        if (moduleName === applicationJSON.name) {
+          packageJSON.dashboard.modules.push(false)
+          packageJSON.dashboard.moduleNames.push(moduleName)
+          packageJSON.dashboard.moduleVersions.push(applicationJSON.version)
+          continue
+        }
         const moduleJSON = loadModuleJSON(moduleName)
         if (!moduleJSON) {
           throw new Error('invalid-module')
@@ -119,6 +125,9 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   // load the complete module list
   for (const i in packageJSON.dashboard.modules) {
     const moduleName = packageJSON.dashboard.modules[i]
+    if (!moduleName) {
+      continue
+    }
     packageJSON.dashboard.moduleNames[i] = moduleName
     if (fs.existsSync(`${global.applicationPath}/node_modules/${moduleName}/package.json`)) {
       packageJSON.dashboard.modules[i] = require(moduleName)
