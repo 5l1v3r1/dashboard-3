@@ -14,7 +14,7 @@ module.exports = {
  * @param {string} objectid - the object
  * @param {string} array - array of properties
  */
-async function getProperties(objectid, array) {
+async function getProperties (objectid, array) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
@@ -41,7 +41,7 @@ async function getProperties(objectid, array) {
  * @param {string} objectid - the object
  * @param {string} property - name of property
  */
-async function getProperty(objectid, property) {
+async function getProperty (objectid, property) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
@@ -65,7 +65,7 @@ async function getProperty(objectid, property) {
  * @param {string} objectid - the object
  * @param {string} hash - hash of properties
  */
-async function setProperties(objectid, properties) {
+async function setProperties (objectid, properties) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
@@ -75,7 +75,7 @@ async function setProperties(objectid, properties) {
   const keys = Object.keys(properties)
   if (!keys.length) {
     throw new Error('invalid-properties')
-  } 
+  }
   let data = await Storage.read(objectid) || '{}'
   data = JSON.parse(data)
   for (const property in properties) {
@@ -84,7 +84,7 @@ async function setProperties(objectid, properties) {
     } else {
       data[property] = properties[property]
     }
-  }  
+  }
   return Storage.write(objectid, data)
 }
 
@@ -94,7 +94,7 @@ async function setProperties(objectid, properties) {
  * @param {string} property - the field
  * @param {string} value - the value
  */
-async function setProperty(objectid, property, value) {
+async function setProperty (objectid, property, value) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
@@ -115,7 +115,7 @@ async function setProperty(objectid, property, value) {
  * @param {string} objectid - the object
  * @param {string} array - array of properties
  */
-async function removeProperties(objectid, array) {
+async function removeProperties (objectid, array) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
@@ -138,7 +138,7 @@ async function removeProperties(objectid, array) {
  * @param {string} objectid - the object
  * @param {string} property - the field
  */
-async function removeProperty(objectid, property) {
+async function removeProperty (objectid, property) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }

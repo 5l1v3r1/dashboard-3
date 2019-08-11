@@ -167,4 +167,3 @@ describe('internal-api/storage-object', () => {
     })
   })
 })
-

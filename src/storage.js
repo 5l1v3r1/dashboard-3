@@ -25,7 +25,7 @@ module.exports = {
       const cached = await cache.get(file)
       if (cached) {
         return cached
-      } 
+      }
     }
     const exists = await module.exports.exists(file)
     if (!exists) {

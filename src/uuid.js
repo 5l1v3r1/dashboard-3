@@ -37,7 +37,7 @@ function random (length) {
   return str.substring(0, length)
 }
 
-function encode (string) { 
+function encode (string) {
   if (!string || !string.length) {
     return null
   }

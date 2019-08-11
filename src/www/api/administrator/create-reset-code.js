@@ -21,12 +21,12 @@ module.exports = {
     const codeHash = await dashboard.Hash.fixedSaltHash(req.body.code, bcryptFixedSalt, dashboardEncryptionKey)
     const codeid = `code_${await dashboard.UUID.generateID()}`
     await dashboard.Storage.write(`${req.appid}/resetCode/${codeid}`, {
-        object: 'resetCode',
-        accountid: req.query.accountid,
-        codeid,
-        codeHash,
-        created: dashboard.Timestamp.now
-      })
+      object: 'resetCode',
+      accountid: req.query.accountid,
+      codeid,
+      codeHash,
+      created: dashboard.Timestamp.now
+    })
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.account.accountid}`, 'resetCodeLastCreated', dashboard.Timestamp.now)
     await dashboard.StorageList.add(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.add(`${req.appid}/account/resetCodes/${req.query.accountid}`, codeid)

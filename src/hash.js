@@ -9,7 +9,7 @@ module.exports = {
   randomSaltHash: util.promisify(randomSaltHash)
 }
 
-function fixedSaltCompare(text, hash, alternativeFixedSalt, alternativeDashboardEncryptionKey, callback) {
+function fixedSaltCompare (text, hash, alternativeFixedSalt, alternativeDashboardEncryptionKey, callback) {
   if (!callback) {
     callback = alternativeFixedSalt
     alternativeFixedSalt = null
@@ -25,7 +25,7 @@ function fixedSaltCompare(text, hash, alternativeFixedSalt, alternativeDashboard
 const fixedCache = {}
 const fixedCacheItems = []
 
-function fixedSaltHash(text, alternativeFixedSalt, alternativeDashboardEncryptionKey, callback) {
+function fixedSaltHash (text, alternativeFixedSalt, alternativeDashboardEncryptionKey, callback) {
   if (!callback) {
     callback = alternativeFixedSalt
     alternativeFixedSalt = null
@@ -42,7 +42,7 @@ function fixedSaltHash(text, alternativeFixedSalt, alternativeDashboardEncryptio
       return callback(error)
     }
     const hashed = full.substring(salt.length)
-    // if the user is ucallbacking 'fs' or 's3' these hashes are used in filenames 
+    // if the user is ucallbacking 'fs' or 's3' these hashes are used in filenames
     // so they get hex-callbackncoded for compatibility
     const fileFriendlyFormat = UUID.encode(hashed)
     fixedCache[cacheKey] = fileFriendlyFormat
@@ -58,7 +58,7 @@ function fixedSaltHash(text, alternativeFixedSalt, alternativeDashboardEncryptio
 const randomCache = {}
 const randomCacheItems = []
 
-function randomSaltCompare(text, hash, alternativeDashboardEncryptionKey, callback) {
+function randomSaltCompare (text, hash, alternativeDashboardEncryptionKey, callback) {
   if (!callback) {
     callback = alternativeDashboardEncryptionKey
     alternativeDashboardEncryptionKey = null
@@ -83,7 +83,7 @@ function randomSaltCompare(text, hash, alternativeDashboardEncryptionKey, callba
   })
 }
 
-function randomSaltHash(text, alternativeDashboardEncryptionKey, callback) {
+function randomSaltHash (text, alternativeDashboardEncryptionKey, callback) {
   if (!callback) {
     callback = alternativeDashboardEncryptionKey
     alternativeDashboardEncryptionKey = null

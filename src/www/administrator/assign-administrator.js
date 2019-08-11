@@ -26,7 +26,7 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.redirect(req, res, decodeURI(req.query.returnURL))
     }
     messageTemplate = 'success'
-  } else if(req.error) {
+  } else if (req.error) {
     messageTemplate = req.error
   }
   const doc = dashboard.HTML.parse(req.route.html, req.data.account, 'account')

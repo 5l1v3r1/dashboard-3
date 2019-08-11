@@ -6,7 +6,7 @@ const Response = require('./response.js')
 
 module.exports = { pass }
 
-async function pass(req, res) {
+async function pass (req, res) {
   let baseURL = global.applicationServer.split('://')[1]
   const baseSlash = baseURL.indexOf('/')
   if (baseSlash > -1) {

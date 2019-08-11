@@ -32,7 +32,7 @@ describe(`/api/user/set-account-deleted`, () => {
       }
       assert.strictEqual(errorMessage, 'invalid-account')
     })
-    
+
     it('should schedule deletion in 7 days', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)

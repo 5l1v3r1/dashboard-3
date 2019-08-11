@@ -16,8 +16,8 @@ const parsePostData = util.promisify((req, callback) => {
   if (req.headers &&
       req.headers['content-type'] &&
       req.headers['content-type'].indexOf('multipart/form-data') > -1) {
-        return callback()
-      }
+    return callback()
+  }
   let body = ''
   req.on('data', (data) => {
     body += data
@@ -71,20 +71,20 @@ module.exports = {
   staticFile
 }
 
-function start() {
+function start () {
   StorageObject = require('./storage-object.js')
   server = http.createServer(receiveRequest)
   server.listen(global.port, global.host)
   return server
 }
 
-function stop() {
+function stop () {
   if (server) {
     server.close()
   }
 }
 
-async function receiveRequest(req, res) {
+async function receiveRequest (req, res) {
   if (process.env.DEBUG_REQUESTS) {
     console.log('server.receive', req.url)
   }
@@ -282,7 +282,7 @@ async function receiveRequest(req, res) {
       return Response.throw500(req, res)
     }
   }
-  // verify the user session with their credentials if 
+  // verify the user session with their credentials if
   // they are accessing account/administration pages
   if (req.session) {
     // limit how long previous verifications are valid
@@ -308,12 +308,12 @@ async function receiveRequest(req, res) {
     if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') ||
         req.urlPath === '/account' || req.urlPath.startsWith('/account/')) {
       if (!req.session.lastVerified &&
-          req.urlPath !== '/account/signout' && 
+          req.urlPath !== '/account/signout' &&
           req.urlPath !== '/account/end-all-sessions' &&
           req.urlPath !== '/account/verify') {
         return Response.redirectToVerify(req, res)
       }
-    }    
+    }
   }
   // if there's no route the request is passed to the application server
   if (!req.route) {
@@ -349,7 +349,7 @@ async function receiveRequest(req, res) {
   }
 }
 
-async function executeHandlers(req, res, method, handlers) {
+async function executeHandlers (req, res, method, handlers) {
   if (!handlers || !handlers.length) {
     return
   }
@@ -364,7 +364,7 @@ async function executeHandlers(req, res, method, handlers) {
   }
 }
 
-async function staticFile(req, res) {
+async function staticFile (req, res) {
   // root /public folder
   let filePath = `${global.rootPath}${req.urlPath}`
   if (!fs.existsSync(filePath)) {
@@ -404,7 +404,7 @@ async function staticFile(req, res) {
   return Response.throw404(req, res)
 }
 
-async function authenticateRequest(req) {
+async function authenticateRequest (req) {
   if (!req.headers.cookie || !req.headers.cookie.length) {
     return
   }

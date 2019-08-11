@@ -5,7 +5,7 @@ module.exports = {
   post: submitForm
 }
 
-function renderPage(req, res, messageTemplate) {
+function renderPage (req, res, messageTemplate) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
@@ -17,7 +17,7 @@ function renderPage(req, res, messageTemplate) {
   return dashboard.Response.end(req, res, doc)
 }
 
-async function submitForm(req, res) {
+async function submitForm (req, res) {
   if (!req || !req.body) {
     return renderPage(req, res, 'invalid-username')
   }

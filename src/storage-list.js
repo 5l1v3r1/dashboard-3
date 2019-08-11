@@ -64,7 +64,7 @@ async function listAll (path) {
   return itemids
 }
 
-async function list(path, offset, pageSize) {
+async function list (path, offset, pageSize) {
   offset = offset || 0
   if (pageSize === null || pageSize === undefined) {
     pageSize = global.pageSize

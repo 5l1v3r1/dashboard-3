@@ -23,8 +23,8 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['first-name']: null,
-        ['last-name']: 'test',
+        'first-name': null,
+        'last-name': 'test',
         email: 'test@test.com'
       }
       const page = await req.post()
@@ -39,8 +39,8 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['first-name']: '1',
-        ['last-name']: 'test',
+        'first-name': '1',
+        'last-name': 'test',
         email: 'test@test.com'
       }
       global.minimumProfileFirstNameLength = 2
@@ -54,8 +54,8 @@ describe(`/account/create-profile`, () => {
       req2.account = user.account
       req2.session = user.session
       req2.body = {
-        ['first-name']: '1234567890',
-        ['last-name']: 'test',
+        'first-name': '1234567890',
+        'last-name': 'test',
         email: 'test@test.com'
       }
       global.minimumProfileFirstNameLength = 1
@@ -72,8 +72,8 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['first-name']: 'First',
-        ['last-name']: null,
+        'first-name': 'First',
+        'last-name': null,
         email: 'test@test.com'
       }
       const page = await req.post()
@@ -88,8 +88,8 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['first-name']: 'test',
-        ['last-name']: '1',
+        'first-name': 'test',
+        'last-name': '1',
         email: 'test@test.com'
       }
       global.minimumProfileLastNameLength = 2
@@ -105,8 +105,8 @@ describe(`/account/create-profile`, () => {
       req2.account = user.account
       req2.session = user.session
       req2.body = {
-        ['first-name']: 'test',
-        ['last-name']: '1234567890',
+        'first-name': 'test',
+        'last-name': '1234567890',
         email: 'test@test.com'
       }
       const page2 = await req2.post()
@@ -121,8 +121,8 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['first-name']: 'First',
-        ['last-name']: 'Last',
+        'first-name': 'First',
+        'last-name': 'Last',
         email: null
       }
       global.minimumUsernameLength = 100
@@ -138,8 +138,8 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['first-name']: 'Test',
-        ['last-name']: 'Person',
+        'first-name': 'Test',
+        'last-name': 'Person',
         email: 'email@address.com'
       }
       const page = await req.post()
@@ -155,8 +155,8 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['first-name']: 'Test',
-        ['last-name']: 'Person',
+        'first-name': 'Test',
+        'last-name': 'Person',
         email: 'email@address.com',
         default: 'true'
       }

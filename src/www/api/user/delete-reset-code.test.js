@@ -17,7 +17,7 @@ describe(`/api/user/delete-reset-code`, () => {
       }
       assert.strictEqual(errorMessage, 'invalid-codeid')
     })
-    
+
     it('should delete the code', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)

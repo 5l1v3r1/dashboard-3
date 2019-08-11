@@ -61,7 +61,7 @@ function count (path, callback) {
   })
 }
 
-function listAll(path, callback) {
+function listAll (path, callback) {
   return fs.exists(`${storagePath}/${path}`, (exists) => {
     if (!exists) {
       return callback()
@@ -84,7 +84,7 @@ function listAll(path, callback) {
   })
 }
 
-function list(path, offset, pageSize, callback) {
+function list (path, offset, pageSize, callback) {
   offset = offset || 0
   if (pageSize === null || pageSize === undefined) {
     pageSize = global.pageSize
@@ -133,15 +133,15 @@ function sortByCachedItemStats (path, items) {
   })
 }
 
-function cacheItemStats(path, itemids, callback) {
+function cacheItemStats (path, itemids, callback) {
   let index = 0
-  function nextItem() {
+  function nextItem () {
     const item = itemids[index]
     const fullPath = `${storagePath}/${path}/${item}`
     const cached = statCache[fullPath]
     if (cached) {
       index++
-      if(index < itemids.length) {
+      if (index < itemids.length) {
         return nextItem()
       }
       return callback(null, itemids)
@@ -165,8 +165,8 @@ function cacheItemStats(path, itemids, callback) {
   return nextItem()
 }
 
-function remove(path, itemid, callback) {
-  return exists (path, itemid, (_, exists) => {
+function remove (path, itemid, callback) {
+  return exists(path, itemid, (_, exists) => {
     if (!exists) {
       return callback()
     }
@@ -176,7 +176,7 @@ function remove(path, itemid, callback) {
   })
 }
 
-function createFolder(path) {
+function createFolder (path) {
   const nestedParts = path.split('/')
   let nestedPath = ''
   for (const part of nestedParts) {

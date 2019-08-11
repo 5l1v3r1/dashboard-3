@@ -33,7 +33,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   if (applicationJSON && applicationJSON.dashboard) {
     packageJSON.dashboard.title = applicationJSON.dashboard.title
   }
-  packageJSON.dashboard.title = packageJSON.dashboard.title || "Dashboard"
+  packageJSON.dashboard.title = packageJSON.dashboard.title || 'Dashboard'
   // remap server and content handlers to the Dashboard as a module
   if (applicationJSON) {
     for (const i in dashboardJSON.dashboard.server) {

@@ -76,10 +76,6 @@ describe('/account/register', () => {
       assert.strictEqual(message.attr.template, 'invalid-confirm')
     })
 
-
-
-
-
     it('should reject missing first name', async () => {
       global.requireProfileName = true
       const req = TestHelper.createRequest('/account/register')
@@ -87,8 +83,8 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        ['first-name']: null,
-        ['last-name']: 'test',
+        'first-name': null,
+        'last-name': 'test',
         email: 'test@test.com'
       }
       const page = await req.post()
@@ -104,8 +100,8 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        ['first-name']: '1',
-        ['last-name']: 'test',
+        'first-name': '1',
+        'last-name': 'test',
         email: 'test@test.com'
       }
       global.minimumProfileFirstNameLength = 2
@@ -120,8 +116,8 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        ['first-name']: '1234567890',
-        ['last-name']: 'test',
+        'first-name': '1234567890',
+        'last-name': 'test',
         email: 'test@test.com'
       }
       global.minimumProfileFirstNameLength = 1
@@ -139,8 +135,8 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        ['first-name']: 'First',
-        ['last-name']: null,
+        'first-name': 'First',
+        'last-name': null,
         email: 'test@test.com'
       }
       const page = await req.post()
@@ -156,8 +152,8 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        ['first-name']: 'test',
-        ['last-name']: '1',
+        'first-name': 'test',
+        'last-name': '1',
         email: 'test@test.com'
       }
       global.minimumProfileLastNameLength = 2
@@ -174,8 +170,8 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        ['first-name']: 'test',
-        ['last-name']: '1234567890',
+        'first-name': 'test',
+        'last-name': '1234567890',
         email: 'test@test.com'
       }
       const page2 = await req2.post()
@@ -191,8 +187,8 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        ['first-name']: 'First',
-        ['last-name']: 'Last',
+        'first-name': 'First',
+        'last-name': 'Last',
         email: null
       }
       const page = await req.post()
@@ -232,8 +228,8 @@ describe('/account/register', () => {
         password: 'a-user-password',
         confirm: 'a-user-password',
         email: 'person@example.com',
-        ['first-name']: 'Test',
-        ['last-name']: 'Person'
+        'first-name': 'Test',
+        'last-name': 'Person'
       }
       await req.post()
       const req2 = TestHelper.createRequest(`/api/user/create-session`)

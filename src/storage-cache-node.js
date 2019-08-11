@@ -17,7 +17,7 @@ module.exports = {
     if (cacheList.length > 100000) {
       const remove = cacheList.pop()
       delete (cache[remove])
-    }    
+    }
   },
   remove: async (key) => {
     delete cache[key]

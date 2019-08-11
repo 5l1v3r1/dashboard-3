@@ -20,7 +20,7 @@ module.exports = {
     if (account.deleted) {
       throw new Error('invalid-account')
     }
-    await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`,  {
+    await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, {
       owner: dashboard.Timestamp.now,
       administrator: account.administrator || dashboard.Timestamp.now
     })

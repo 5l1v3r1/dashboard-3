@@ -21,7 +21,7 @@ describe('/api/user/create-reset-code', () => {
       }
       assert.strictEqual(errorMessage, 'invalid-reset-code-length')
     })
-    
+
     it('should create a code after authorization', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
@@ -29,7 +29,7 @@ describe('/api/user/create-reset-code', () => {
       req.session = user.session
       req.body = {
         code: 'this-is-the-code'
-       }
+      }
       const code = await req.post()
       assert.strictEqual(code.object, 'resetCode')
     })

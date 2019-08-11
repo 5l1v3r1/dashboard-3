@@ -150,7 +150,7 @@ function eTag (buffer) {
 
 function sri (buffer) {
   const hash = crypto.createHash('sha384').update(buffer, 'binary').digest('base64').replace(/=+$/, '')
-  return 'sha384-'  + hash 
+  return 'sha384-' + hash
 }
 
 async function wrapTemplateWithSrcDoc (req, res, doc) {
@@ -321,7 +321,7 @@ function redirectToSignIn (req, res) {
   return redirect(req, res, `/account/signin?returnURL=${returnURL}`)
 }
 
-function redirectToVerify(req, res) {
+function redirectToVerify (req, res) {
   let returnURL = req.urlPath
   if (req.query) {
     const variables = []

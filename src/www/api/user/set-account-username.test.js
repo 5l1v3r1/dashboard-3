@@ -21,7 +21,7 @@ describe(`/api/user/set-account-username`, () => {
       }
       assert.strictEqual(errorMessage, 'invalid-username-length')
     })
-    
+
     it('should apply authorized new username', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-username?accountid=${user.account.accountid}`)

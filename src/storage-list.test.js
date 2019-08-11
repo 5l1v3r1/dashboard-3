@@ -124,4 +124,3 @@ describe('internal-api/storage-list', async () => {
     })
   })
 })
-

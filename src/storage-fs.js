@@ -25,7 +25,7 @@ function exists (file, callback) {
   })
 }
 
-function deleteFile(path, callback) {
+function deleteFile (path, callback) {
   if (!path) {
     return callback(new Error('invalid-file'))
   }
@@ -81,7 +81,7 @@ function writeImage (file, buffer, callback) {
       })
     }
     return fs.writeFile(`${storagePath}/${file}`, buffer, callback)
-  })  
+  })
 }
 
 function read (file, callback) {
@@ -104,14 +104,14 @@ function read (file, callback) {
   })
 }
 
-function readMany(prefix, files, callback) {
+function readMany (prefix, files, callback) {
   if (!files || !files.length) {
     return callback(new Error('invalid-files'))
   }
   const data = {}
   let index = 0
-  function nextFile() {
-    const file = files[index]    
+  function nextFile () {
+    const file = files[index]
     return fs.exists(`${storagePath}/${prefix}/${file}`, (exists) => {
       if (!exists) {
         index++
@@ -133,7 +133,7 @@ function readMany(prefix, files, callback) {
         }
         return callback(null, data)
       })
-    })    
+    })
   }
   return nextFile()
 }
@@ -162,20 +162,20 @@ function createFolderSync (path) {
   }
 }
 
-function createFolder(path, callback) {
+function createFolder (path, callback) {
   const nested = path.substring(storagePath.length + 1)
   const nestedParts = nested.split('/')
   let nestedPath = storagePath
   let index = 0
-  function nextPart() {
-    const part = nestedParts[index]    
+  function nextPart () {
+    const part = nestedParts[index]
     nestedPath += `/${part}`
     return fs.exists(nestedPath, (exists) => {
       if (exists) {
         index++
         if (index < nestedParts.length) {
           return nextPart()
-        } 
+        }
         return callback()
       }
       return fs.mkdir(nestedPath, (error) => {

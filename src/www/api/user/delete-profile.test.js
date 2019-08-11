@@ -31,7 +31,7 @@ describe(`/api/user/delete-profile`, () => {
       }
       assert.strictEqual(errorMessage, 'invalid-profile')
     })
-    
+
     it('should delete the profile', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile

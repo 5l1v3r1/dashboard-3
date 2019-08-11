@@ -40,7 +40,7 @@ module.exports = {
     const query = req.query
     req.query = { accountid }
     const account = await global.api.administrator.Account.get(req)
-        if (!account) {
+    if (!account) {
       throw new Error('invalid-account')
     }
     if (!account.deleted) {

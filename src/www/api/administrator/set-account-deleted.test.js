@@ -31,7 +31,7 @@ describe('/api/administrator/set-account-deleted', () => {
       }
       assert.strictEqual(errorMessage, 'invalid-account')
     })
-    
+
     it('should schedule for immediate deletion', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

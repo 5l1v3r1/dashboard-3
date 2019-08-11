@@ -23,7 +23,6 @@ describe('/account/signin', () => {
       const page = await req.post()
       const message = page.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-username')
-
     })
 
     it('should enforce username length', async () => {
@@ -36,7 +35,6 @@ describe('/account/signin', () => {
       const page = await req.post()
       const message = page.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-username-length')
-
     })
 
     it('should reject missing password', async () => {
