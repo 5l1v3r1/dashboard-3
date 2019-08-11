@@ -38,15 +38,12 @@ a.pure-button:hover { text-decoration: none }
 .pure-control-group input:focus { border-color: #0078e7; box-shadow: inset 0 0 3px #FFF }
 .pure-checkbox input { margin-right: 0.5rem }
 .pure-checkbox label { font-size: 0.8rem; color: #333;  text-transform: none; font-size: 1rem }
-button.pure-button,
-button.pure-button-primary,
-a.pure-button,
-a.pure-button-primary { background-color: #369; color: rgba(255, 255, 255, 0.9); border-radius: 0.25rem }
+.pure-button { background-color: #FFF; color: #666; border: 1px solid #CCC; border-radius: 0.5rem }
 .pure-button:hover,
-.pure-button:focus,
+.pure-button:focus { background-color: #CCC; color: rgba(0, 0, 0, 0.5) }
+.pure-button-primary { background-image: linear-gradient(#07C, #369); color: rgba(255, 255, 255, 0.9); border-color: #07C }
 .pure-button-primary:hover,
-.pure-button-primary:focus { background-color: #036; color: #FFF }
-
+.pure-button-primary:focus { background-image: linear-gradient(#369, #036); color: rgba(255, 255, 255, 0.5) }
 .pure-button-group .pure-button { border-right: 1px solid rgba(255, 255, 255, 0.5) }
 .pure-button-group .pure-button:first-child { border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem }
 .pure-button-group .pure-button:last-child { border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem }
@@ -81,7 +78,8 @@ a.pure-button-primary { background-color: #369; color: rgba(255, 255, 255, 0.9);
 .info.message { color: #666 }
 
 /* entry forms for signing in, registration */
-.entry-form { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 20rem; padding: 1rem; text-align: center; box-shadow: 0 0 2rem #CCC }
+body.entry { background-color: #036 }
+.entry-form { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 20rem; padding: 1rem; text-align: center }
 .entry-form h1 { font-size: 1.2rem }
 .entry-form ul { margin: 1rem 0 0 0 }
 .entry-form li { margin-top: 0.5rem }
@@ -90,9 +88,6 @@ a.pure-button-primary { background-color: #369; color: rgba(255, 255, 255, 0.9);
 .entry-form input[type="text"], 
 .entry-form input[type="password"],
 .entry-form input[type="email"]{ width: 100%; border-color: #DDD; box-shadow: none; border-radius: 0 }
-.entry-form .pure-button { background-color: #369; background-image: none; text-shadow: 0 -1px #036 }
-.entry-form .pure-button:hover,
-.entry-form .pure-button:focus { background-color: #07C }
 
 @media (max-width: 600px) {
   .entry-form { width: unset; box-shadow: none; transform: none; position: unset }
