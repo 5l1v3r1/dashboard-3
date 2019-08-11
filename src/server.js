@@ -323,6 +323,9 @@ async function receiveRequest(req, res) {
       return Response.throw404(req, res)
     }
   }
+  if (process.env.HOT_RELOAD && req.route.reload) {
+    req.route.reload()
+  }
   // static html pages
   if (req.route.api === 'static-page') {
     const doc = HTML.parse(req.route.html)
@@ -382,14 +385,18 @@ async function staticFile(req, res) {
     if (stat.isDirectory()) {
       return Response.throw404(req, res)
     }
-    fileCache[filePath] = fileCache[filePath] || fs.readFileSync(filePath)
+    if (process.env.HOT_RELOAD) {
+      delete (fileCache[filePath])
+    }
+    const blob = fileCache[filePath] || fs.readFileSync(filePath)
+    fileCache[filePath] = fileCache[filePath] || blob
     const browserCached = req.headers['if-none-match']
-    req.eTag = Response.eTag(fileCache[filePath])
+    req.eTag = Response.eTag(blob)
     if (browserCached && browserCached === req.eTag) {
       res.statusCode = 304
       return res.end()
     }
-    return Response.end(req, res, null, fileCache[filePath])
+    return Response.end(req, res, null, blob)
   }
   if (global.applicationServer) {
     return Proxy.pass(req, res)
