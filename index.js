@@ -188,7 +188,7 @@ function outputConfiguration () {
     if (item.module) {
       output.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
     } else {
-      output.push(item.href + ' "' + item.text + '"')
+      output.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
     }
   }
   output.push('\nAccount menu:')
@@ -196,7 +196,7 @@ function outputConfiguration () {
     if (item.module) {
       output.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
     } else {
-      output.push(item.href + ' "' + item.text + '"')
+      output.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
     }
   }
   output.push('\nSpecial HTML files:',
