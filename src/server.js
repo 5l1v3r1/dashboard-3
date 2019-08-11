@@ -85,7 +85,7 @@ function stop() {
 }
 
 async function receiveRequest(req, res) {
-  if (process.env.DEBUG_ERRORS) {
+  if (process.env.DEBUG_REQUESTS) {
     console.log('server.receive', req.url)
   }
   const question = req.url.indexOf('?')
@@ -224,7 +224,7 @@ async function receiveRequest(req, res) {
   } else {
     try {
       user = await authenticateRequest(req)
-      if (process.env.DEBUG_ERRORS) {
+      if (process.env.DEBUG_MESSAGES) {
         if (user) {
           if (user.account.administrator) {
             if (user.account.ownerid) {
@@ -240,7 +240,7 @@ async function receiveRequest(req, res) {
         }
       }
     } catch (error) {
-      if (process.env.DEBUG_ERRORS) {
+      if (process.env.DEBUG_MESSAGES) {
         console.log('server.authenticate', error)
       }
     }
