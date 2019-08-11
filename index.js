@@ -186,7 +186,7 @@ function outputConfiguration () {
   output.push('\nAdministrator menu:')
   for (const item of global.packageJSON.dashboard.menus.administrator) {
     if (item.module) {
-      output.push(item.module + '/src/www' + item.href + ' "' + item.text + '"')
+      output.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
     } else {
       output.push(item.href + ' "' + item.text + '"')
     }
@@ -194,7 +194,7 @@ function outputConfiguration () {
   output.push('\nAccount menu:')
   for (const item of global.packageJSON.dashboard.menus.account) {
     if (item.module) {
-      output.push(item.module + '/src/www' + item.href + ' "' + item.text + '"')
+      output.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
     } else {
       output.push(item.href + ' "' + item.text + '"')
     }
