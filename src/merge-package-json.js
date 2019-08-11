@@ -25,6 +25,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   packageJSON.dashboard.contentFilePaths = []
   packageJSON.dashboard.modules = []
   packageJSON.dashboard.moduleNames = []
+  packageJSON.dashboard.moduleVersions = []
   packageJSON.dashboard.menus = {
     account: [],
     administrator: []
@@ -121,6 +122,8 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     packageJSON.dashboard.moduleNames[i] = moduleName
     if (fs.existsSync(`${global.applicationPath}/node_modules/${moduleName}/package.json`)) {
       packageJSON.dashboard.modules[i] = require(moduleName)
+      const modulePackageJSON = require(`${global.applicationPath}/node_modules/${moduleName}/package.json`)
+      packageJSON.dashboard.moduleVersions[i] = modulePackageJSON.version
     }
   }
   // load the complete server handler list

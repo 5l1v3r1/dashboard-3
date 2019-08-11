@@ -206,7 +206,13 @@ function outputConfiguration () {
 
   if (global.packageJSON.dashboard.moduleNames.length) {
     output.push('\nDashboard modules:')
-    output.push(global.packageJSON.dashboard.moduleNames.join('\n'))
+    const formatted = []
+    for (const i in global.packageJSON.dashboard.moduleNames) {
+      const name = global.packageJSON.dashboard.moduleNames[i]
+      const version = global.packageJSON.dashboard.modules[i].version
+      formatted.push(`${name} (${version})`)
+    }
+    output.push(formatted.join('\n'))
   }
   if (global.packageJSON.dashboard.contentFilePaths.length) {
     output.push('\nContent handlers:')
