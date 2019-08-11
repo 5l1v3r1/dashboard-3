@@ -133,11 +133,12 @@ function attachRoutes (routes, folderPath) {
     }
     if (process.env.HOT_RELOAD) {
       routes[urlKey].reload = () => {
-        if (routes[urlKey].html && routes[urlKey].htmlFileExists) {
-          routes[urlKey].html = fs.readFileSync(routes[urlKey].htmlFilePathFull).toString('utf-8')
+        if (routes[urlKey].htmlFileExists) {
+          global.sitemap[urlKey].html = fs.readFileSync(routes[urlKey].htmlFilePathFull).toString('utf-8')
         }
-        if (routes[urlKey].jsFilePathFull && routes[urlKey].jsFileExists) {
-          routes[urlKey].api = require(routes[urlKey].jsFilePathFull)
+        if (routes[urlKey].jsFileExists) {
+          delete (require.cache[routes[urlKey].jsFilePathFull])
+          global.sitemap[urlKey].api = require(routes[urlKey].jsFilePathFull)
         }
         if (routes[urlKey].api.before && !apiOnly) {
           wrapBeforeFunction(routes[urlKey].api)
@@ -174,7 +175,7 @@ async function wrapBeforeFunction (nodejsHandler) {
       continue
     }
     nodejsHandler[verb] = async (req, res) => {
-      try{ 
+      try {
         await nodejsHandler.before(req)
       } catch (error) {
         if (process.env.DEBUG_ERRORS) {
