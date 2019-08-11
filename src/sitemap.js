@@ -119,9 +119,11 @@ function attachRoutes (routes, folderPath) {
       navbar = settings.navbar
     }
     routes[urlKey] = {
+      htmlFileExists,
       htmlFilePathFull: htmlFilePath,
       htmlFilePath: htmlFileExists ? htmlFilePath.substring(global.applicationPath.length) : null,
       html,
+      jsFileExists,
       jsFilePathFull: jsFilePath,
       jsFilePath: jsFileExists ? jsFilePath.substring(global.applicationPath.length) : 'static-page',
       template,
@@ -131,10 +133,10 @@ function attachRoutes (routes, folderPath) {
     }
     if (process.env.HOT_RELOAD) {
       routes[urlKey].reload = () => {
-        if (routes[urlKey].html) {
+        if (routes[urlKey].html && routes[urlKey].htmlFileExists) {
           routes[urlKey].html = fs.readFileSync(routes[urlKey].htmlFilePathFull).toString('utf-8')
         }
-        if (routes[urlKey].jsFilePathFull) {
+        if (routes[urlKey].jsFilePathFull && routes[urlKey].jsFileExists) {
           routes[urlKey].api = require(routes[urlKey].jsFilePathFull)
         }
         if (routes[urlKey].api.before && !apiOnly) {
