@@ -209,7 +209,7 @@ function outputConfiguration () {
     const formatted = []
     for (const i in global.packageJSON.dashboard.moduleNames) {
       const name = global.packageJSON.dashboard.moduleNames[i]
-      const version = global.packageJSON.dashboard.moduleVersions[i].version
+      const version = global.packageJSON.dashboard.moduleVersions[i]
       formatted.push(`${name} (${version})`)
     }
     output.push(formatted.join('\n'))
