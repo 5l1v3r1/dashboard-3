@@ -212,8 +212,8 @@
       ✓ should reject missing last name
       ✓ should enforce last name length
       ✓ should reject missing email
-      ✓ should create after authorization
-      ✓ should create and set default after authorization
+      ✓ should create
+      ✓ should create and set default
 
   /account/create-reset-code
     CreateResetCode#GET
@@ -221,7 +221,7 @@
     CreateResetCode#POST
       ✓ should reject missing code
       ✓ should reject short code
-      ✓ should create after authorization
+      ✓ should create
 
   /account/delete-account-complete
     DeleteAccountComplete#GET
@@ -244,7 +244,7 @@
       ✓ should present the form
       ✓ should present the profile table
     DeleteProfile#POST
-      ✓ should delete after authorization
+      ✓ should delete
 
   /account/delete-reset-code
     DeleteResetCode#BEFORE
@@ -254,7 +254,7 @@
       ✓ should present the form
       ✓ should present the reset code table
     DeleteResetCode#POST
-      ✓ should delete after authorization
+      ✓ should delete
 
   /account/edit-profile
     EditProfile#BEFORE
@@ -500,7 +500,7 @@
       ✓ should present the form
       ✓ should present the account table
     DeleteAccount#POST
-      ✓ should immediately delete after authorization
+      ✓ should immediately delete
 
   /administrator/delete-schedule
     DeleteSchedule#BEFORE
@@ -789,7 +789,7 @@
   /api/user/create-reset-code
     CreateResetCode#POST
       ✓ should enforce code length
-      ✓ should create a code after authorization
+      ✓ should create a code
 
   /api/user/create-session
     CreateSession#POST

@@ -46,7 +46,7 @@ describe('/account/create-reset-code', () => {
       assert.strictEqual(message.attr.template, 'invalid-reset-code-length')
     })
 
-    it('should create after authorization', async () => {
+    it('should create', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/create-reset-code')
       req.account = user.account

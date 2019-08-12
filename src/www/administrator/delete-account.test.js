@@ -94,7 +94,7 @@ describe(`/administrator/delete-account`, () => {
   })
 
   describe('DeleteAccount#POST', () => {
-    it('should immediately delete after authorization', async () => {
+    it('should immediately delete', async () => {
       global.deleteDelay = -1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

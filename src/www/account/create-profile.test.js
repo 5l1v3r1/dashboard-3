@@ -132,7 +132,7 @@ describe(`/account/create-profile`, () => {
       assert.strictEqual(message.attr.template, 'invalid-profile-email')
     })
 
-    it('should create after authorization', async () => {
+    it('should create', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/create-profile`)
       req.account = user.account
@@ -149,7 +149,7 @@ describe(`/account/create-profile`, () => {
       assert.strictEqual(message.attr.template, 'success')
     })
 
-    it('should create and set default after authorization', async () => {
+    it('should create and set default', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/create-profile`)
       req.account = user.account
