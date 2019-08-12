@@ -45,8 +45,8 @@ a.pure-button:hover { text-decoration: none }
 .pure-button-primary:hover,
 .pure-button-primary:focus { background-image: linear-gradient(#369, #036); color: rgba(255, 255, 255, 0.5) }
 .pure-button-group .pure-button { border-right: 1px solid rgba(255, 255, 255, 0.5) }
-.pure-button-group .pure-button:first-child { border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem }
-.pure-button-group .pure-button:last-child { border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem }
+.pure-button-group .pure-button:first-child { border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem }
+.pure-button-group .pure-button:last-child { border-top-right-radius: 0.5rem; border-bottom-right-radius: 0.5rem }
 
 .pure-table { width: 100%; border: none; border-collapse: collapse }
 .pure-table td:first-child,
