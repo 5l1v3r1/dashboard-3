@@ -41,14 +41,14 @@ const parseMultiPartData = util.promisify((req, callback) => {
       req.body[field] = fields[field][0]
     }
     req.uploads = {}
-    for (const filename in files) {
-      const file = files[filename][0]
+    for (const field in files) {
+      const file = files[field][0]
       const extension = file.originalFilename.toLowerCase().split('.').pop()
       const type = extension === 'png' ? 'image/png' : 'image/jpeg'
-      req.uploads[filename + '.' + extension] = {
+      req.uploads[field] = {
         type,
         buffer: fs.readFileSync(file.path),
-        name: file.name
+        name: file.originalFilename
       }
       fs.unlinkSync(file.path)
     }
