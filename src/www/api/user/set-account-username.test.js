@@ -30,7 +30,7 @@ describe(`/api/user/set-account-username`, () => {
       req.body = {
         username: 'new-username'
       }
-      const x = await req.patch()
+      await req.patch()
       user.account.username = 'new-username'
       const firstSession = user.session
       const newSession = await TestHelper.createSession(user)

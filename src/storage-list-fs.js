@@ -29,8 +29,8 @@ const statCache = {}
 const statCacheItems = []
 
 function exists (path, itemid, callback) {
-  return fs.exists(`${storagePath}/${path}/${itemid}`, (exists) => {
-    return callback(null, exists)
+  return fs.access(`${storagePath}/${path}/${itemid}`, fs.constants.F_OK | fs.constants.W_OK, (error) => {
+    return callback(null, error === null || error === undefined)
   })
 }
 
@@ -45,8 +45,8 @@ function add (path, itemid, callback) {
 }
 
 function count (path, callback) {
-  return fs.exists(`${storagePath}/${path}`, (exists) => {
-    if (!exists) {
+  return fs.access(`${storagePath}/${path}`, fs.constants.F_OK | fs.constants.W_OK, (error) => {
+    if (error) {
       return callback(null, 0)
     }
     return fs.readdir(`${storagePath}/${path}`, (error, itemids) => {
@@ -62,8 +62,8 @@ function count (path, callback) {
 }
 
 function listAll (path, callback) {
-  return fs.exists(`${storagePath}/${path}`, (exists) => {
-    if (!exists) {
+  return fs.access(`${storagePath}/${path}`, fs.constants.F_OK | fs.constants.W_OK, (error) => {
+    if (error) {
       return callback()
     }
     return fs.readdir(`${storagePath}/${path}`, (error, itemids) => {
@@ -92,8 +92,8 @@ function list (path, offset, pageSize, callback) {
   if (offset < 0) {
     throw new Error('invalid-offset')
   }
-  return fs.exists(`${storagePath}/${path}`, (exists) => {
-    if (!exists) {
+  return fs.access(`${storagePath}/${path}`, fs.constants.F_OK | fs.constants.W_OK, (error) => {
+    if (error) {
       return callback()
     }
     return fs.readdir(`${storagePath}/${path}`, (error, itemids) => {

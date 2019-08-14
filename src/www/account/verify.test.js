@@ -1,6 +1,5 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const dashboard = require('../../../index.js')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/verify', () => {

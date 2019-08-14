@@ -6,7 +6,6 @@ describe(`/api/administrator/reset-session-key`, () => {
   describe('ResetSessionKey#PATCH', () => {
     it('should reject invalid account', async () => {
       const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=invalid`)
       req.account = administrator.account
       req.session = administrator.session

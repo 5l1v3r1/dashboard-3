@@ -38,7 +38,7 @@ module.exports = {
         email: req.body.email
       })
     } else if (req.body.default === 'true') {
-      req.body.profileid = profileid
+      req.body.profileid = req.query.profileid
       await global.api.user.SetAccountProfile.patch(req)
     }
     req.success = true

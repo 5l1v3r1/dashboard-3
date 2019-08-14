@@ -39,7 +39,7 @@ describe(`/api/user/delete-profile`, () => {
       const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${profile1.profileid}`)
       req.account = user.account
       req.session = user.session
-      const del = await req.delete()
+      await req.delete()
       const req2 = TestHelper.createRequest(`/api/user/profile?profileid=${profile1.profileid}`)
       req2.account = user.account
       req2.session = user.session

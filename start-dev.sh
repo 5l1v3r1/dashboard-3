@@ -35,6 +35,10 @@ node main.js
 # string
 # 32-character secret encryption key for data at rest
 
+# ENCRYPTION_SECRET_IV
+# string
+# 16-character string to randomize the encryption
+
 # PAGE_SIZE=3 
 # number
 # the number of rows of data on object list pages

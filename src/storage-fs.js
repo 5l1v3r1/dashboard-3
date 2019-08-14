@@ -20,8 +20,8 @@ if (!process.env.STORAGE_ENGINE) {
 }
 
 function exists (file, callback) {
-  return fs.exists(`${storagePath}/${file}`, (exists) => {
-    return callback(null, exists)
+  return fs.access(`${storagePath}/${file}`, fs.constants.F_OK | fs.constants.W_OK, (error) => {
+    return callback(null, error === null || error === undefined)
   })
 }
 
@@ -29,7 +29,7 @@ function deleteFile (path, callback) {
   if (!path) {
     return callback(new Error('invalid-file'))
   }
-  return fs.exists(`${storagePath}/${path}`, (exists) => {
+  return exists(path, (_, exists) => {
     if (!exists) {
       return callback(new Error(`invalid-file`))
     }
@@ -50,7 +50,7 @@ function write (file, contents, callback) {
     contents = JSON.stringify(contents)
   }
   const pathPart = file.substring(0, file.lastIndexOf('/'))
-  return fs.exists(`${storagePath}/${pathPart}`, (exists) => {
+  return exists(pathPart, (_, exists) => {
     if (!exists) {
       return createFolder(`${storagePath}/${pathPart}`, (error) => {
         if (error) {
@@ -71,7 +71,7 @@ function writeImage (file, buffer, callback) {
     throw new Error('invalid-buffer')
   }
   const pathPart = file.substring(0, file.lastIndexOf('/'))
-  return fs.exists(`${storagePath}/${pathPart}`, (exists) => {
+  return exists(pathPart, (_, exists) => {
     if (!exists) {
       return createFolder(`${storagePath}/${pathPart}`, (error) => {
         if (error) {
@@ -88,7 +88,7 @@ function read (file, callback) {
   if (!file) {
     throw new Error('invalid-file')
   }
-  return fs.exists(`${storagePath}/${file}`, (exists) => {
+  return exists(file, (_, exists) => {
     if (!exists) {
       return undefined
     }
@@ -112,7 +112,7 @@ function readMany (prefix, files, callback) {
   let index = 0
   function nextFile () {
     const file = files[index]
-    return fs.exists(`${storagePath}/${prefix}/${file}`, (exists) => {
+    return exists(`${prefix}/${file}`, (_, exists) => {
       if (!exists) {
         index++
         if (index < files.length) {
@@ -142,7 +142,7 @@ function readImage (file, callback) {
   if (!file) {
     throw new Error('invalid-file')
   }
-  return fs.exists(`${storagePath}/${file}`, (exists) => {
+  return exists(file, (_, exists) => {
     if (!exists) {
       return callback()
     }
@@ -170,8 +170,8 @@ function createFolder (path, callback) {
   function nextPart () {
     const part = nestedParts[index]
     nestedPath += `/${part}`
-    return fs.exists(nestedPath, (exists) => {
-      if (exists) {
+    return fs.access(nestedPath, fs.constants.F_OK | fs.constants.W_OK, (error) => {
+      if (!error) {
         index++
         if (index < nestedParts.length) {
           return nextPart()

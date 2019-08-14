@@ -112,7 +112,7 @@ describe('/account/restore-account', () => {
         username: user.account.username,
         password: user.account.password
       }
-      const reuslt = await req.post()
+      await req.post()
       const req2 = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
       req2.account = administrator.account
       req2.session = administrator.session

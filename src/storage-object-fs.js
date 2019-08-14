@@ -31,7 +31,7 @@ async function getProperties (objectid, array) {
     if (array.indexOf(key) === -1) {
       continue
     }
-    object[key] = value
+    object[key] = data[key]
   }
   return object
 }

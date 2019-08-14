@@ -24,11 +24,9 @@ module.exports = {
       throw new Error('invalid-password-length')
     }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
-    let dashboardSessionKey = global.dashboardSessionKey
     let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
-      dashboardSessionKey = req.server.dashboardSessionKey || dashboardSessionKey
       bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
     const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)

@@ -35,6 +35,11 @@ if (process.env.ENCRYPTION_SECRET &&
   process.env.ENCRYPTION_SECRET.length !== 32) {
   throw new Error('Invalid ENCRYPTION_SECRET length (32)')
 }
+if (process.env.ENCRYPTION_SECRET && 
+   (!process.env.ENCRYPTION_SECRET_IV ||
+  process.env.ENCRYPTION_SECRET_IV.length !== 16)) {
+  throw new Error('Invalid ENCRYPTION_SECRET_IV length (16)')
+}
 
 // optional configuration variables with safe defaults
 global.appid = process.env.APPID || process.env.DOMAIN || 'dashboard'

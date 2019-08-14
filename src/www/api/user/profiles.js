@@ -8,6 +8,7 @@ module.exports = {
     if (req.query.accountid !== req.account.accountid) {
       throw new Error('invalid-account')
     }
+    let profileids
     if (req.query.all) {
       profileids = await dashboard.StorageList.listAll(`${req.appid}/account/profiles/${req.query.accountid}`)
     } else {
