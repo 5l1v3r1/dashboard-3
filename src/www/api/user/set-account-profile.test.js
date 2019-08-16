@@ -21,7 +21,7 @@ describe(`/api/user/set-account-profile`, () => {
       assert.strictEqual(errorMessage, 'invalid-profile')
     })
 
-    it('should apply authorized new default', async () => {
+    it('should apply new default', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       await TestHelper.createProfile(user)

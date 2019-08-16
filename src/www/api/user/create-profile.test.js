@@ -131,7 +131,7 @@ describe(`/api/user/create-profile`, () => {
       assert.strictEqual(errorMessage, 'invalid-profile-email')
     })
 
-    it('should create authorized new profile', async () => {
+    it('should create new profile', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -147,7 +147,7 @@ describe(`/api/user/create-profile`, () => {
       assert.strictEqual(profile.email, 'test@test.com')
     })
 
-    it('should create authorized new profile and set as default', async () => {
+    it('should create new profile and set as default', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account

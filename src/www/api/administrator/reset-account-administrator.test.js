@@ -18,7 +18,7 @@ describe(`/api/administrator/reset-account-administrator`, () => {
       }
       assert.strictEqual(errorMessage, 'invalid-account')
     })
-    it('should apply authorized revocation', async () => {
+    it('should apply revocation', async () => {
       const owner = await TestHelper.createOwner()
       const administrator2 = await TestHelper.createAdministrator(owner)
       const req = TestHelper.createRequest(`/api/administrator/reset-account-administrator?accountid=${administrator2.account.accountid}`)

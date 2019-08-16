@@ -131,7 +131,7 @@ describe(`/api/user/update-profile`, () => {
       assert.strictEqual(errorMessage, 'invalid-profile-email')
     })
 
-    it('should apply authorized new values', async () => {
+    it('should apply new values', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
       req.account = user.account

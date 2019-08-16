@@ -48,7 +48,7 @@ describe('/api/administrator/set-owner-account', () => {
       assert.strictEqual(errorMessage, 'invalid-account')
     })
 
-    it('should apply authorized new ownership', async () => {
+    it('should apply new ownership', async () => {
       const owner = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/set-owner-account?accountid=${user.account.accountid}`)

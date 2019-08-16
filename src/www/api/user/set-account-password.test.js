@@ -23,7 +23,7 @@ describe(`/api/user/set-account-password`, () => {
       assert.strictEqual(errorMessage, 'invalid-password-length')
     })
 
-    it('should apply authorized new password', async () => {
+    it('should apply new password', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
       req.account = user.account
