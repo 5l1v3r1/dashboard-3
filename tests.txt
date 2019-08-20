@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.18 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.19 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --timeout 420000 --slow 420000
 
 
@@ -380,7 +380,7 @@
     SetDefaultProfile#GET
       ✓ should present the form
     SetDefaultProfile#POST
-      ✓ should set the authorized profile as default
+      ✓ should set the profile as default
 
   /account/signin
     Signin#GET
@@ -694,7 +694,7 @@
   /api/administrator/reset-account-administrator
     ResetAccountAdministrator#PATCH
       ✓ should require an administrator accountid
-      ✓ should apply authorized revocation
+      ✓ should apply revocation
 
   /api/administrator/reset-code
     ResetCode#GET
@@ -756,7 +756,7 @@
       ✓ should reject invalid accountid
       ✓ should reject non-owner administrators
       ✓ should reject transferring to self accountid
-      ✓ should apply authorized new ownership
+      ✓ should apply new ownership
       ✓ should revoke own ownership
 
   /api/user/account
@@ -783,8 +783,8 @@
       ✓ should reject missing last name
       ✓ should enforce last name length
       ✓ should reject missing email
-      ✓ should create authorized new profile
-      ✓ should create authorized new profile and set as default
+      ✓ should create new profile
+      ✓ should create new profile and set as default
 
   /api/user/create-reset-code
     CreateResetCode#POST
@@ -901,17 +901,17 @@
   /api/user/set-account-password
     SetAccountPassword#PATCH
       ✓ should enforce password length
-      ✓ should apply authorized new password
+      ✓ should apply new password
 
   /api/user/set-account-profile
     SetAccountProfile#PATCH
       ✓ should reject default profile
-      ✓ should apply authorized new default
+      ✓ should apply new default
 
   /api/user/set-account-username
     SetAccountUsername#PATCH
       ✓ should enforce username length
-      ✓ should apply authorized new username
+      ✓ should apply new username
 
   /api/user/set-session-ended
     SetSessionEnded#PATCH
@@ -932,7 +932,7 @@
       ✓ should reject missing last name
       ✓ should enforce last name length
       ✓ should reject missing email
-      ✓ should apply authorized new values
+      ✓ should apply new values
 
 
   514 passing (2m)
