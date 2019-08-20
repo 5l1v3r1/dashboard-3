@@ -23,7 +23,7 @@ The user and administration documentation contain screenshots demonstrating Dash
 
 | ![Guest landing page](https://userdashboard.github.io/outline.png?raw=true) | 
 |:---------------------------------------------------------------------------------------------------------------:|
-| Example app integrating Dashboard with `/` served by its application server |
+| How content is separated between dashboard and application servers |
 
 | ![Administration page](https://userdashboard.github.io/integrations/convert-hastebin-subscription-saas/12-owner-views-customers-subscriptions.png?raw=true) |
 |:---------------------------------------------------------------------------------------------------------------:|
