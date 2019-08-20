@@ -31,7 +31,7 @@ The user and administration documentation contain screenshots demonstrating Dash
 
 | ![Example app integrating Dashboard ](https://userdashboard.github.io/integrations/convert-hastebin-subscription-saas/9-second-customer-creating-post-shared-with-organization.png?raw=true) |
 |:---------------------------------------------------------------------------------------------------------------:|
-| Example app integrating Dashboard with `/home` served by its application server |
+| Dashboard's header with content served by application server |
 
 ## Dashboard storage
 
