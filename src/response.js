@@ -4,14 +4,14 @@ const zlib = require('zlib')
 const eightDays = 8 * 24 * 60 * 60 * 1000
 const eTagCache = {}
 const mimeTypes = {
-  js: 'text/javascript',
-  css: 'text/css',
-  txt: 'text/plain',
-  html: 'text/html',
+  js: 'text/javascript; charset=utf-8',
+  css: 'text/css; charset=utf-8',
+  txt: 'text/plain; charset=utf-8',
+  html: 'text/html; charset=utf-8',
   jpg: 'image/jpeg',
   png: 'image/png',
   ico: 'image/x-icon',
-  svg: 'image/svg+xml'
+  svg: 'image/svg+xml; charset=utf-8'
 }
 
 module.exports = {

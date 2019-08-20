@@ -73,14 +73,14 @@ function wrapResponseHandling (method) {
       }
       if (res) {
         res.statusCode = 500
-        res.setHeader('content-type', 'application/json')
+        res.setHeader('content-type', 'application/json; charset=utf-8')
         return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
       }
       throw error
     }
     if (res) {
       res.statusCode = 200
-      res.setHeader('content-type', 'application/json')
+      res.setHeader('content-type', 'application/json; charset=utf-8')
       return res.end(result ? JSON.stringify(result) : '')
     }
     return result
