@@ -83,7 +83,7 @@ function attachRoutes (routes, folderPath) {
     if (api.before && !apiOnly) {
       wrapBeforeFunction(api)
     }
-    const html = htmlFileExists ? fs.readFileSync(htmlFilePath).toString('utf-8') : null
+    const html = htmlFileExists ? fs.readFileSync(htmlFilePath).toString() : null
     const extension = apiOnly ? '.js' : '.html'
     const index = `index${extension}`
     let folderStem = folderPath.substring(global.rootPath.length)
@@ -101,7 +101,7 @@ function attachRoutes (routes, folderPath) {
       }
       if (htmlFileExists) {
         routes[urlKey].htmlFilePath = htmlFilePath.substring(global.applicationPath.length)
-        routes[urlKey].html = fs.readFileSync(htmlFilePath).toString('utf-8')
+        routes[urlKey].html = fs.readFileSync(htmlFilePath).toString()
       }
       continue
     }
@@ -134,7 +134,7 @@ function attachRoutes (routes, folderPath) {
     if (process.env.HOT_RELOAD) {
       routes[urlKey].reload = () => {
         if (routes[urlKey].htmlFileExists) {
-          global.sitemap[urlKey].html = fs.readFileSync(routes[urlKey].htmlFilePathFull).toString('utf-8')
+          global.sitemap[urlKey].html = fs.readFileSync(routes[urlKey].htmlFilePathFull).toString()
         }
         if (routes[urlKey].jsFileExists) {
           delete (require.cache[routes[urlKey].jsFilePathFull])

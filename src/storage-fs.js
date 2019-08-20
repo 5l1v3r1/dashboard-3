@@ -56,10 +56,10 @@ function write (file, contents, callback) {
         if (error) {
           return callback(error)
         }
-        return fs.writeFile(`${storagePath}/${file}`, contents.toString('utf-8'), callback)
+        return fs.writeFile(`${storagePath}/${file}`, contents.toString(), callback)
       })
     }
-    return fs.writeFile(`${storagePath}/${file}`, contents.toString('utf-8'), callback)
+    return fs.writeFile(`${storagePath}/${file}`, contents.toString(), callback)
   })
 }
 
@@ -97,7 +97,7 @@ function read (file, callback) {
         return callback(error)
       }
       if (contents) {
-        return callback(null, contents.toString('utf-8'))
+        return callback(null, contents.toString())
       }
       return callback()
     })
@@ -125,7 +125,7 @@ function readMany (prefix, files, callback) {
           return callback(error)
         }
         if (contents) {
-          data[file] = contents.toString('utf-8')
+          data[file] = contents.toString()
         }
         index++
         if (index < files.length) {

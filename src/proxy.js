@@ -82,7 +82,7 @@ async function pass (req, res) {
       switch (proxyRes.statusCode) {
         case 200:
           if (proxyRes.headers['content-type'] && proxyRes.headers['content-type'].indexOf('text/html') === 0) {
-            body = body.toString('utf-8')
+            body = body.toString()
             const htmlTagIndex = body.indexOf('<html')
             if (htmlTagIndex > -1) {
               let htmlTag = body.substring(htmlTagIndex)

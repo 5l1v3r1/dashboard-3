@@ -52,7 +52,7 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   if (fileOrHTML.indexOf('/') === 0) {
     const filePath = path.join(global.rootPath, fileOrHTML)
     if (fs.existsSync(filePath)) {
-      raw = fs.readFileSync(filePath).toString('utf-8')
+      raw = fs.readFileSync(filePath).toString()
     }
   } else {
     raw = fileOrHTML
@@ -92,7 +92,7 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
         }
       }
       if (navbarPath) {
-        const navbarHTML = fs.readFileSync(navbarPath).toString('utf-8')
+        const navbarHTML = fs.readFileSync(navbarPath).toString()
         if (navbarHTML) {
           raw = raw.replace('</head>', `<div id='navbar______'>${navbarHTML}</template></div>`)
         }

@@ -181,9 +181,9 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   } else {
     packageJSON.templateHTMLPath = fs.existsSync(applicationTemplateHTMLPath) ? applicationTemplateHTMLPath : dashboardTemplateHTMLPath
   }
-  packageJSON.errorHTML = fs.readFileSync(packageJSON.errorHTMLPath).toString('utf-8')
-  packageJSON.redirectHTML = fs.readFileSync(packageJSON.redirectHTMLPath).toString('utf-8')
-  packageJSON.templateHTML = fs.readFileSync(packageJSON.templateHTMLPath).toString('utf-8')
+  packageJSON.errorHTML = fs.readFileSync(packageJSON.errorHTMLPath).toString()
+  packageJSON.redirectHTML = fs.readFileSync(packageJSON.redirectHTMLPath).toString()
+  packageJSON.templateHTML = fs.readFileSync(packageJSON.templateHTMLPath).toString()
   return packageJSON
 }
 
