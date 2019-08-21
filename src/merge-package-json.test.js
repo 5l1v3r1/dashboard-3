@@ -3,7 +3,7 @@ const assert = require('assert')
 const mergePackageJSON = require('./merge-package-json.js')
 
 describe('internal-api/merge-package-json', () => {
-  describe('MergePackageJSON#loadRootJSON()', () => {
+  describe('MergePackageJSON#loadRootJSON', () => {
     describe('Merged menu order', () => {
       it('should put application menus first', async () => {
         const applicationJSON = {

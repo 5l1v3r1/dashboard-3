@@ -3,7 +3,7 @@ const assert = require('assert')
 const HTML = require('./html.js')
 
 describe('internal-api/html', () => {
-  describe('HTML#parseHTML()', () => {
+  describe('HTML#parseHTML', () => {
     it('should reject invalid strings', async () => {
       let errorMessage
       try {
@@ -43,7 +43,7 @@ describe('internal-api/html', () => {
     })
   })
 
-  describe('HTML#findOrCreateTableBody()', () => {
+  describe('HTML#findOrCreateTableBody', () => {
     it('should require a document', async () => {
       let errorMessage
       try {
@@ -87,7 +87,7 @@ describe('internal-api/html', () => {
     })
   })
 
-  describe('HTML#renderTable()', () => {
+  describe('HTML#renderTable', () => {
     it('should require a document', async () => {
       let errorMessage
       try {
@@ -233,7 +233,7 @@ describe('internal-api/html', () => {
     })
   })
 
-  describe('HTML#renderList()', () => {
+  describe('HTML#renderList', () => {
     it('should require a document', async () => {
       let errorMessage
       try {
@@ -331,7 +331,7 @@ describe('internal-api/html', () => {
     })
   })
 
-  describe('HTML#renderTemplate()', () => {
+  describe('HTML#renderTemplate', () => {
     it('should require a document', async () => {
       let errorMessage
       try {
@@ -428,7 +428,7 @@ describe('internal-api/html', () => {
     })
   })
 
-  describe('HTML#renderPagination()', () => {
+  describe('HTML#renderPagination', () => {
     it('should require a document', async () => {
       let errorMessage
       try {

@@ -9,7 +9,7 @@ describe('internal-api/uuid', () => {
     })
   })
 
-  describe('#v4()', () => {
+  describe('#v4', () => {
     it('should be a v4 uuid', async () => {
       const v4 = UUID.v4()
       assert.strictEqual(v4.length, '45db52e1-f95c-4b5f-99a2-8b8d978c99b4'.length)

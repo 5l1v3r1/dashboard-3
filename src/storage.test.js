@@ -50,7 +50,7 @@ describe('internal-api/storage', async () => {
     })
   })
 
-  describe('Storage#write()', async () => {
+  describe('Storage#write', async () => {
     it('should require file', async () => {
       let errorMessage
       try {
@@ -90,7 +90,7 @@ describe('internal-api/storage', async () => {
     })
   })
 
-  describe('Storage#deleteFile()', async () => {
+  describe('Storage#deleteFile', async () => {
     it('should require file', async () => {
       let errorMessage
       try {

@@ -3,7 +3,7 @@ const assert = require('assert')
 const Hash = require('./hash.js')
 
 describe('internal-api/hash', () => {
-  describe('Hash#fixedSaltHash()', () => {
+  describe('Hash#fixedSaltHash', () => {
     it('should produce the same hash each time', async () => {
       const raw = 'this is a string'
       const hashed = await Hash.fixedSaltHash(raw)
@@ -13,7 +13,7 @@ describe('internal-api/hash', () => {
     })
   })
 
-  describe('Hash#fixedSaltCompare()', () => {
+  describe('Hash#fixedSaltCompare', () => {
     it('should match text with hash', async () => {
       const raw = 'this is a string'
       const hashed = await Hash.fixedSaltHash(raw)
@@ -22,7 +22,7 @@ describe('internal-api/hash', () => {
     })
   })
 
-  describe('Hash#randomSaltHash()', () => {
+  describe('Hash#randomSaltHash', () => {
     it('should hash differently each time', async () => {
       const raw = 'this is another string'
       const hashed = await Hash.randomSaltHash(raw)
@@ -32,7 +32,7 @@ describe('internal-api/hash', () => {
     })
   })
 
-  describe('Hash#randomSaltCompare()', () => {
+  describe('Hash#randomSaltCompare', () => {
     it('should match passwords', async () => {
       const raw = 'this is another string'
       const hashed = await Hash.randomSaltHash(raw)

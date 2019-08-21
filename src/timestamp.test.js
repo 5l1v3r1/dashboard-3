@@ -3,7 +3,7 @@ const assert = require('assert')
 const Timestamp = require('./timestamp.js')
 
 describe('internal-api/timestamp', () => {
-  describe('#create()', () => {
+  describe('#create', () => {
     it('should reject null date', async () => {
       assert.strictEqual(Timestamp.create(), null)
     })

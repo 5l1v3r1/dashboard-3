@@ -4,7 +4,7 @@ const TestHelper = require('../test-helper.js')
 
 /* eslint-env mocha */
 describe('internal-api/api', () => {
-  describe('API#wrapAPIRequest()', () => {
+  describe('API#wrapAPIRequest', () => {
     it('should allow guest access', async () => {
       const handler = API.wrapAPIRequest({
         auth: false,

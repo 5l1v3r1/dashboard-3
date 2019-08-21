@@ -3,7 +3,7 @@ const assert = require('assert')
 const Format = require('./format.js')
 
 describe('internal-api/format', () => {
-  describe('Format#parseDate()', () => {
+  describe('Format#parseDate', () => {
     it('should throw error for missing date', async () => {
       let errorMessage
       try {
@@ -25,7 +25,7 @@ describe('internal-api/format', () => {
     })
   })
 
-  describe('Format#date()', () => {
+  describe('Format#date', () => {
     it('should zero pad days', async () => {
       assert.strictEqual(Format.date('2017-12-1'), '2017-12-01')
     })

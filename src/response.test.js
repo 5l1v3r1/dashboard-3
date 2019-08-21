@@ -3,7 +3,7 @@ const assert = require('assert')
 const Response = require('./response.js')
 
 describe('internal-api/response', () => {
-  describe('Response#throw404()', () => {
+  describe('Response#throw404', () => {
     it('should set 404 status', async () => {
       const res = {
         setHeader: () => {
@@ -38,7 +38,7 @@ describe('internal-api/response', () => {
     })
   })
 
-  describe('Response#throw500()', () => {
+  describe('Response#throw500', () => {
     it('should set 500 status', async () => {
       const res = {
         setHeader: () => {
@@ -73,7 +73,7 @@ describe('internal-api/response', () => {
     })
   })
 
-  describe('Response#throw511()', () => {
+  describe('Response#throw511', () => {
     it('should set 511 status', async () => {
       const res = {
         setHeader: () => {

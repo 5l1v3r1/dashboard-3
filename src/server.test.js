@@ -7,7 +7,7 @@ const TestHelper = require('../test-helper.js')
 
 /* eslint-env mocha */
 describe('internal-api/server', () => {
-  describe('Server#authenticateRequest()', () => {
+  describe('Server#authenticateRequest', () => {
     it('should reject missing token', async () => {
       const req = TestHelper.createRequest(`/account/change-username`)
       req.headers = {}
@@ -41,7 +41,7 @@ describe('internal-api/server', () => {
     })
   })
 
-  describe('Server#parsePostData()', () => {
+  describe('Server#parsePostData', () => {
     it('should ignore file uploads', async () => {
       const req = TestHelper.createRequest(`/account/change-username`)
       req.headers = {
@@ -105,7 +105,7 @@ describe('internal-api/server', () => {
     })
   })
 
-  describe('Server#receiveRequest()', () => {
+  describe('Server#receiveRequest', () => {
     it('should bind query data of URL to req', async () => {
       const req = TestHelper.createRequest(`/account/change-username?param1=1&param2=this`)
       req.headers = {}
