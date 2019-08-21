@@ -66,9 +66,10 @@ async function redirect (req, res, url) {
     throw new Error('invalid-url')
   }
   res.setHeader('content-type', mimeTypes.html)
-  const doc = HTML.parse(global.packageJSON.redirectHTML.split('{url}').join(url))
-  if (global.packageJSON.dashboard.content.length) {
-    for (const contentHandler of global.packageJSON.dashboard.content) {
+  const packageJSON = req.packageJSON || global.packageJSON
+  const doc = HTML.parse(packageJSON.redirectHTML.split('{url}').join(url))
+  if (packageJSON.dashboard.content.length) {
+    for (const contentHandler of packageJSON.dashboard.content) {
       if (contentHandler.page) {
         await contentHandler.page(req, res, doc)
       }
@@ -95,7 +96,8 @@ function throw511 (req, res) {
 }
 
 async function throwError (req, res, code, error) {
-  const doc = HTML.parse(global.packageJSON.errorHTML)
+  const packageJSON = req.packageJSON || global.packageJSON
+  const doc = HTML.parse(packageJSON.errorHTML)
   const heading = doc.getElementById('error-title')
   heading.child = [{
     node: 'text',
@@ -155,7 +157,8 @@ function sri (buffer) {
 }
 
 async function wrapTemplateWithSrcDoc (req, res, doc) {
-  const templateDoc = HTML.parse(global.packageJSON.templateHTML)
+  const packageJSON = req.packageJSON || global.packageJSON
+  const templateDoc = HTML.parse(packageJSON.templateHTML)
   if (!templateDoc) {
     throw new Error()
   }
@@ -171,7 +174,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   }
   // embed additional CSS, JS etc in the page from
   // template HTML in a <template id="page" />
-  const pageTemplate = doc.getElementById('page')
+  const pageTemplate = templateDoc.getElementById('page')
   if (pageTemplate && pageTemplate.child && pageTemplate.child.length) {
     const head = doc.getElementsByTagName('head')[0]
     if (head) {
@@ -220,7 +223,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     templateTitles[0].child = pageTitles[0].child
   }
   // heading title link
-  let newTitle = global.packageJSON.dashboard.title
+  let newTitle = packageJSON.dashboard.title
   if (newTitle.indexOf(' ') > -1) {
     newTitle = newTitle.split(' ').join('&nbsp;')
   }
@@ -237,8 +240,9 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
     administratorMenuContainer.removeChild(administratorMenuContainer)
   } else {
-    if (global.packageJSON.dashboard.menus.account && global.packageJSON.dashboard.menus.account.length) {
-      HTML.renderList(templateDoc, global.packageJSON.dashboard.menus.account, 'menu-link', 'account-menu')
+    
+    if (packageJSON.dashboard.menus.account && packageJSON.dashboard.menus.account.length) {
+      HTML.renderList(templateDoc, packageJSON.dashboard.menus.account, 'menu-link', 'account-menu')
     } else {
       const accountMenuContainer = templateDoc.getElementById('account-menu-container')
       accountMenuContainer.parentNode.removeChild(accountMenuContainer)
@@ -248,8 +252,8 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
       administratorMenuContainer.setAttribute('style', 'display: none')
     } else {
-      if (global.packageJSON.dashboard.menus.administrator && global.packageJSON.dashboard.menus.administrator.length) {
-        HTML.renderList(templateDoc, global.packageJSON.dashboard.menus.administrator, 'menu-link', 'administrator-menu')
+      if (packageJSON.dashboard.menus.administrator && packageJSON.dashboard.menus.administrator.length) {
+        HTML.renderList(templateDoc, packageJSON.dashboard.menus.administrator, 'menu-link', 'administrator-menu')
       } else {
         const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
         administratorMenuContainer.setAttribute('style', 'display: none')
@@ -266,8 +270,8 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   }
   // configured template and page content handlers can perform
   // modifications upon the completed docs
-  if (global.packageJSON.dashboard.content.length) {
-    for (const contentHandler of global.packageJSON.dashboard.content) {
+  if (packageJSON.dashboard.content.length) {
+    for (const contentHandler of packageJSON.dashboard.content) {
       if (contentHandler.page) {
         await contentHandler.page(req, res, doc)
       }

@@ -7,7 +7,7 @@ const Response = require('./response.js')
 module.exports = { pass }
 
 async function pass (req, res) {
-  let baseURL = global.applicationServer.split('://')[1]
+  let baseURL = (req.applicationServer || global.applicationServer).split('://')[1]
   const baseSlash = baseURL.indexOf('/')
   if (baseSlash > -1) {
     baseURL = baseURL.substring(0, baseSlash)
@@ -34,14 +34,14 @@ async function pass (req, res) {
     requestOptions.headers['if-none-match'] = req.headers['if-none-match']
   }
   if (req.account) {
-    const token = `${global.applicationServerToken}/${req.account.accountid}/${req.session.sessionid}`
+    const token = `${req.applicationServerToken || global.applicationServerToken}/${req.account.accountid}/${req.session.sessionid}`
     const salt = bcrypt.genSaltSync(4)
     const tokenHash = bcrypt.hashSync(token, salt)
     requestOptions.headers['x-accountid'] = req.account.accountid
     requestOptions.headers['x-sessionid'] = req.session.sessionid
     requestOptions.headers['x-dashboard-token'] = tokenHash
   } else {
-    const token = global.applicationServerToken
+    const token = req.applicationServerToken || global.applicationServerToken
     const salt = bcrypt.genSaltSync(4)
     const tokenHash = bcrypt.hashSync(token, salt)
     requestOptions.headers['x-dashboard-token'] = tokenHash
@@ -72,7 +72,7 @@ async function pass (req, res) {
     requestOptions.headers['content-length'] = Buffer.byteLength(req.body)
     requestOptions.headers['content-type'] = 'multipart/form-data; boundary=' + boundary
   }
-  const protocol = global.applicationServer.startsWith('https') ? https : http
+  const protocol = (req.applicationServerToken || global.applicationServer).startsWith('https') ? https : http
   const proxyReq = protocol.request(requestOptions, (proxyRes) => {
     let body
     proxyRes.on('data', (chunk) => {

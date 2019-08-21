@@ -22,11 +22,14 @@ if (process.env.STORAGE_CACHE) {
   require(`${process.env.STORAGE_CACHE}/test-helper.js`)
 }
 
+let packageJSON
 before(async () => {
   await dashboard.start(global.applicationPath || __dirname)
+  packageJSON = global.packageJSON
 })
 
 beforeEach(async () => {
+  global.packageJSON = packageJSON
   global.appid = `tests_${dashboard.Timestamp.now}`
   global.allowPublicAPI = true
   global.testNumber = dashboard.Timestamp.now
