@@ -120,7 +120,7 @@ function decrypt (value) {
     return value
   }
   try {
-    return crypto.createDecipheriv('aes-256-ctr', process.env.ENCRYPTION_KEY, new Buffer('vectorvector1234')).update(value.toString('hex'), 'hex', 'utf-8')
+    return crypto.createDecipheriv('aes-256-ctr', process.env.ENCRYPTION_KEY, new Buffer(process.env.ENCRYPTION_SECRET_IV)).update(value.toString('hex'), 'hex', 'utf-8')
   } catch (error) {
   }
   return value
@@ -133,5 +133,5 @@ function encrypt (value) {
   if (!value.substring) {
     value = value.toString()
   }
-  return crypto.createCipheriv('aes-256-ctr', process.env.ENCRYPTION_KEY, new Buffer('vectorvector1234')).update(value, 'utf-8', 'hex')
+  return crypto.createCipheriv('aes-256-ctr', process.env.ENCRYPTION_KEY, new Buffer(process.env.ENCRYPTION_SECRET_IV)).update(value, 'utf-8', 'hex')
 }
