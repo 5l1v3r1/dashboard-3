@@ -1,45 +1,45 @@
 
-> @userdashboard/dashboard@1.0.21 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.22 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --timeout 420000 --slow 420000
 
 
 
   internal-api/api
-    API#wrapAPIRequest()
+    API#wrapAPIRequest
       ✓ should allow guest access
       ✓ should return object
       ✓ should end response with JSON
 
   internal-api/format
-    Format#parseDate()
+    Format#parseDate
       ✓ should throw error for missing date
       ✓ should throw error for invalid date
-    Format#date()
+    Format#date
       ✓ should zero pad days
       ✓ should zero pad months
 
   internal-api/hash
-    Hash#fixedSaltHash()
+    Hash#fixedSaltHash
       ✓ should produce the same hash each time
-    Hash#fixedSaltCompare()
+    Hash#fixedSaltCompare
       ✓ should match text with hash
-    Hash#randomSaltHash()
+    Hash#randomSaltHash
       ✓ should hash differently each time
-    Hash#randomSaltCompare()
+    Hash#randomSaltCompare
       ✓ should match passwords
       ✓ should not match invalid passwords
 
   internal-api/html
-    HTML#parseHTML()
+    HTML#parseHTML
       ✓ should reject invalid strings
       ✓ should return expected contents
-    HTML#findOrCreateTableBody()
+    HTML#findOrCreateTableBody
       ✓ should require a document
       ✓ should require a table
       ✓ should accept table ids
       ✓ should return existing TBODY
       ✓ should create new TBODY as last child of table
-    HTML#renderTable()
+    HTML#renderTable
       ✓ should require a document
       ✓ should require a table
       ✓ should require a template
@@ -47,20 +47,20 @@
       ✓ should create TR for each item
       ✓ should alternate TR class
       ✓ should contain expected data
-    HTML#renderList()
+    HTML#renderList
       ✓ should require a document
       ✓ should require a list
       ✓ should require a template
       ✓ should require a dataset
       ✓ should create LI for each item
       ✓ should contain expected data
-    HTML#renderTemplate()
+    HTML#renderTemplate
       ✓ should require a document
       ✓ should not require a data object
       ✓ should require a template
       ✓ should require a parent element
       ✓ should append contents to parent element
-    HTML#renderPagination()
+    HTML#renderPagination
       ✓ should require a document
       ✓ should require a total greater than 0
       ✓ should require an offset less than total
@@ -69,7 +69,7 @@
       ✓ should override global page size
 
   internal-api/merge-package-json
-    MergePackageJSON#loadRootJSON()
+    MergePackageJSON#loadRootJSON
       Merged menu order
         ✓ should put application menus first
         ✓ should put dashboard menus last
@@ -87,28 +87,46 @@
         ✓ should include nested modules
 
   internal-api/response
-    Response#throw404()
+    Response#wrapTemplateWithSrcDoc (global setting)
+      ✓ should transfer head content from page to template
+      ✓ should transfer head content from template to page
+      ✓ should transfer navigation to template from page
+      ✓ should transfer title to page from template
+      ✓ should remove menus for guests
+      ✓ should disable administrator menu for normal user
+      ✓ should add account menu links from package.json
+      ✓ should add administrator menu links from package.json
+    Response#wrapTemplateWithSrcDoc (config override)
+      ✓ should transfer head content from page to template
+      ✓ should transfer head content from template to page
+      ✓ should transfer navigation to template from page
+      ✓ should transfer title to page from template
+      ✓ should remove menus for guests
+      ✓ should disable administrator menu for normal user
+      ✓ should add account menu links from package.json
+      ✓ should add administrator menu links from package.json
+    Response#throw404
       ✓ should set 404 status
       ✓ should contain 404 code
       ✓ should contain 404 error
-    Response#throw500()
+    Response#throw500
       ✓ should set 500 status
       ✓ should contain 500 code
       ✓ should contain error message
-    Response#throw511()
+    Response#throw511
       ✓ should set 511 status
       ✓ should contain 511 code
 
   internal-api/server
-    Server#authenticateRequest()
+    Server#authenticateRequest
       ✓ should reject missing token
       ✓ should reject invalid token
       ✓ should identify user from token
-    Server#parsePostData()
+    Server#parsePostData
       ✓ should ignore file uploads
       ✓ should ignore no-content uploads
       ✓ should parse post data
-    Server#receiveRequest()
+    Server#receiveRequest
       ✓ should bind query data of URL to req
       ✓ should not bind route for unknown url
       ✓ should bind route to req
@@ -164,18 +182,18 @@
     Storage#readMany
       ✓ should require files array
       ✓ should return files contents
-    Storage#write()
+    Storage#write
       ✓ should require file
       ✓ should require contents
       ✓ should accept content object
       ✓ should accept content string
       ✓ should write file contents
-    Storage#deleteFile()
+    Storage#deleteFile
       ✓ should require file
       ✓ should delete file
 
   internal-api/timestamp
-    #create()
+    #create
       ✓ should reject null date
       ✓ should accept date
       ✓ should accept string
@@ -183,7 +201,7 @@
   internal-api/uuid
     #random
       ✓ should reject null length
-    #v4()
+    #v4
       ✓ should be a v4 uuid
 
   /account/change-password
@@ -935,5 +953,5 @@
       ✓ should apply new values
 
 
-  514 passing (1m)
+  530 passing (2m)
 
