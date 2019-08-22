@@ -35,7 +35,7 @@ if (process.env.ENCRYPTION_SECRET &&
   process.env.ENCRYPTION_SECRET.length !== 32) {
   throw new Error('Invalid ENCRYPTION_SECRET length (32)')
 }
-if (process.env.ENCRYPTION_SECRET && 
+if (process.env.ENCRYPTION_SECRET &&
    (!process.env.ENCRYPTION_SECRET_IV ||
   process.env.ENCRYPTION_SECRET_IV.length !== 16)) {
   throw new Error('Invalid ENCRYPTION_SECRET_IV length (16)')

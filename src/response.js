@@ -240,7 +240,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
     administratorMenuContainer.removeChild(administratorMenuContainer)
   } else {
-    
     if (packageJSON.dashboard.menus.account && packageJSON.dashboard.menus.account.length) {
       HTML.renderList(templateDoc, packageJSON.dashboard.menus.account, 'menu-link', 'account-menu')
     } else {
