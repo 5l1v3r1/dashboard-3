@@ -8,7 +8,7 @@ describe('/api/user/reset-account-password', () => {
       const req = TestHelper.createRequest('/api/user/reset-account-password')
       req.body = {
         username: '',
-        password: 'password',
+        ['new-password']: 'password',
         code: 'code'
       }
       const account = await req.patch()
@@ -19,7 +19,7 @@ describe('/api/user/reset-account-password', () => {
       const req = TestHelper.createRequest('/api/user/reset-account-password')
       req.body = {
         username: 'username',
-        password: '',
+        ['new-password']: '',
         code: 'code'
       }
       const account = await req.patch()
@@ -30,7 +30,7 @@ describe('/api/user/reset-account-password', () => {
       const req = TestHelper.createRequest('/api/user/reset-account-password')
       req.body = {
         username: 'username',
-        password: 'short',
+        ['new-password']: 'short',
         code: 'code'
       }
       global.minimumPasswordLength = 100
@@ -42,7 +42,7 @@ describe('/api/user/reset-account-password', () => {
       const req = TestHelper.createRequest('/api/user/reset-account-password')
       req.body = {
         username: 'username',
-        password: 'password'
+        ['new-password']: 'password'
       }
       const account = await req.patch()
       assert.strictEqual(account.message, 'invalid-reset-code')
@@ -53,7 +53,7 @@ describe('/api/user/reset-account-password', () => {
       const req = TestHelper.createRequest('/api/user/reset-account-password')
       req.body = {
         username: user.account.username,
-        password: user.account.password,
+        ['new-password']: user.account.password,
         code: 'invalid'
       }
       const account = await req.patch()
@@ -66,7 +66,7 @@ describe('/api/user/reset-account-password', () => {
       const req = TestHelper.createRequest(`/api/user/reset-account-password`)
       req.body = {
         username: user.account.username,
-        password: `new-password`,
+        ['new-password']: `new-password`,
         code: code.code
       }
       const accountNow = await req.patch()

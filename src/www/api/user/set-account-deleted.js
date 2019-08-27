@@ -12,7 +12,7 @@ module.exports = {
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
     }
-    if (!req.body.password || !req.body.password.length) {
+    if (!req.body || !req.body.password || !req.body.password.length) {
       throw new Error('invalid-password')
     }
     const realPasswordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash')

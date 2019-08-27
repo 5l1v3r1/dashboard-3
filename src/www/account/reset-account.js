@@ -26,17 +26,17 @@ async function submitForm (req, res) {
   if (!req.body.username || !req.body.username.length) {
     return renderPage(req, res, 'invalid-username')
   }
-  if (global.minimumUsernameLength > req.body.username.length) {
+  if (global.minimumUsernameLength > req.body['username'].length) {
     return renderPage(req, res, 'invalid-username-length')
   }
-  if (!req.body.password || !req.body.password.length) {
-    return renderPage(req, res, 'invalid-password')
+  if (!req.body['new-password'] || !req.body['new-password'].length) {
+    return renderPage(req, res, 'invalid-new-password')
   }
-  if (global.minimumPasswordLength > req.body.password.length) {
-    return renderPage(req, res, 'invalid-password-length')
+  if (global.minimumPasswordLength > req.body['new-password'].length) {
+    return renderPage(req, res, 'invalid-new-password-length')
   }
-  if (req.body.password !== req.body.confirm) {
-    return renderPage(req, res, 'invalid-confirm')
+  if (req.body['new-password'] !== req.body['confirm-password']) {
+    return renderPage(req, res, 'invalid-confirm-password')
   }
   try {
     await global.api.user.ResetAccountPassword.patch(req)

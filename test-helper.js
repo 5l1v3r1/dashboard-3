@@ -256,6 +256,9 @@ async function setDeleted (user) {
   const req = createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
+  req.body = {
+    password: user.account.password
+  }
   user.account = await req.patch()
   user.account.username = req.account.username
   user.account.password = req.account.password

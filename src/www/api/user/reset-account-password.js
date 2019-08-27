@@ -13,10 +13,10 @@ module.exports = {
       global.minimumUsernameLength > req.body.username.length) {
       throw new Error('invalid-username')
     }
-    if (!req.body.password || !req.body.password.length) {
+    if (!req.body['new-password'] || !req.body['new-password'].length) {
       throw new Error('invalid-password')
     }
-    if (global.minimumPasswordLength > req.body.password.length) {
+    if (global.minimumPasswordLength > req.body['new-password'].length) {
       throw new Error('invalid-password-length')
     }
     if (!req.body.code || !req.body.code.length) {
@@ -60,7 +60,7 @@ module.exports = {
     if (!code || code.accountid !== accountid) {
       throw new Error('invalid-reset-code')
     }
-    const passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, dashboardEncryptionKey)
+    const passwordHash = await dashboard.Hash.randomSaltHash(req.body['new-password'], dashboardEncryptionKey)
     await dashboard.StorageObject.setProperties(`${req.appid}/account/${accountid}`, {
       passwordHash,
       resetCodeLastUsed: dashboard.Timestamp.now,
