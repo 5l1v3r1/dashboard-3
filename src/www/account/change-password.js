@@ -28,20 +28,19 @@ function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   if (!req.body) {
-    return renderPage(req, res, 'invalid-password')
+    return renderPage(req, res, 'invalid-new-password')
+  }
+  if (!req.body['new-password'] || !req.body['new-password'].length) {
+    return renderPage(req, res, 'invalid-new-password')
+  }
+  if (global.minimumPasswordLength > req.body['new-password'].length) {
+    return renderPage(req, res, 'invalid-new-password-length')
+  }
+  if (req.body['new-password'] !== req.body['confirm-password']) {
+    return renderPage(req, res, 'invalid-confirm-password')
   }
   if (!req.body.password || !req.body.password.length) {
     return renderPage(req, res, 'invalid-password')
-  }
-  if (global.minimumPasswordLength > req.body.password.length) {
-    return renderPage(req, res, 'invalid-password-length')
-  }
-  if (req.body.password !== req.body.confirm) {
-    return renderPage(req, res, 'invalid-confirm')
-  }
-  req.body = {
-    password: req.body.password,
-    passwordHash: 'random'
   }
   try {
     req.query = req.query || {}

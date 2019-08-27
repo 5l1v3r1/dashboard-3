@@ -17,6 +17,10 @@
           <label for="username">New username</label>
           <input id="username" name="username" type="text" maxlength="1000" />
         </div>
+        <div class="pure-control-group">
+          <label for="password">Current password</label>
+          <input required="required" id="password" name="password" type="password" maxlength="1000" />
+        </div>
         <div class="pure-controls">
           <button id="submit-button" type="submit" class="pure-button pure-button-primary">Set new username</button>
         </div>
@@ -24,18 +28,18 @@
     </form>
   </body>
   <template id="success">
-    <div class="success message">Success! Your new username must be used from now on.</div>
+    <div class="success message">Success! Your new username must be used from now on</div>
   </template>
   <template id="invalid-username">
-    <div class="error message">Error! Invalid or duplicate new username.</div>
+    <div class="error message">Error! Invalid or duplicate new username</div>
   </template>
   <template id="unknown-error">
-    <div class="error message">Error! An unknown error occurred.</div>
+    <div class="error message">Error! An unknown error occurred</div>
   </template>
   <template id="invalid-username-length">
-    <div class="error message">Error! Invalid new username length.</div>
+    <div class="error message">Error! Invalid new username length</div>
   </template>
   <template id="duplicate-username">
-    <div class="error message">Error! Somebody else is using that username.</div>
+    <div class="error message">Error! Somebody else is using that username</div>
   </template>
 </html>

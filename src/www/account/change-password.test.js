@@ -23,13 +23,14 @@ describe('/account/change-password', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        password: '',
-        confirm: ''
+        'new-password': '',
+        'confirm-password': '',
+        password: user.account.password
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-password')
+      assert.strictEqual(message.attr.template, 'invalid-new-password')
     })
 
     it('should reject short password', async () => {
@@ -38,14 +39,15 @@ describe('/account/change-password', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        password: '1',
-        confirm: '1'
+        'new-password': '1',
+        'confirm-password': '1',
+        password: user.account.password
       }
       global.minimumPasswordLength = 100
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-password-length')
+      assert.strictEqual(message.attr.template, 'invalid-new-password-length')
     })
 
     it('should reject mismatched passwords', async () => {
@@ -54,13 +56,31 @@ describe('/account/change-password', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        password: '123',
-        confirm: '456'
+        'new-password': '123456789',
+        'confirm-password': '4567890123',
+        password: user.account.password
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-confirm')
+      assert.strictEqual(message.attr.template, 'invalid-confirm-password')
+    })
+
+    it('should reject invalid current password', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/change-password')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'new-password': '123456789',
+        'confirm-password': '123456789',
+        password: 'invalid'
+      }
+      const page = await req.post()
+      const doc = TestHelper.extractDoc(page)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-password')
     })
 
     it('should apply new password', async () => {
@@ -69,8 +89,9 @@ describe('/account/change-password', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        password: '123456890',
-        confirm: '123456890'
+        'new-password': '123456789',
+        'confirm-password': '123456789',
+        password: user.account.password
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)

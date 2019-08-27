@@ -8,19 +8,27 @@ module.exports = {
     if (req.account.accountid !== req.query.accountid) {
       throw new Error('invalid-account')
     }
-    if (!req.body || !req.body.password) {
-      throw new Error('invalid-password')
+    if (!req.body || !req.body['new-password']) {
+      throw new Error('invalid-new-password')
     }
-    if (global.minimumPasswordLength > req.body.password.length ||
-      global.maximumPasswordLength < req.body.password.length) {
-      throw new Error('invalid-password-length')
+    if (global.minimumPasswordLength > req.body['new-password'].length ||
+      global.maximumPasswordLength < req.body['new-password'].length) {
+      throw new Error('invalid-new-password-length')
+    }
+    if (!req.body.password || !req.body.password.length) {
+      throw new Error('invalid-password')
     }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
     }
-    const passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, dashboardEncryptionKey)
-    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash', passwordHash)
+    const realPasswordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash')
+    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, realPasswordHash, dashboardEncryptionKey)
+    if (!validPassword) {
+      throw new Error('invalid-password')
+    }
+    const newPasswordHash = await dashboard.Hash.randomSaltHash(req.body['new-password'], dashboardEncryptionKey)
+    await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash', newPasswordHash)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordLastChanged', dashboard.Timestamp.now)
     req.success = true
     return global.api.user.Account.get(req)
