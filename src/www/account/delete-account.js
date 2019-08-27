@@ -47,6 +47,9 @@ async function renderPage (req, res, messageTemplate) {
 }
 
 async function submitForm (req, res) {
+  if (!req.body || !req.body.password || !req.body.password.length) {
+    return renderPage(req, res, 'invalid-password')
+  }
   try {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid

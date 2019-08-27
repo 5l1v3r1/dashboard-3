@@ -18,12 +18,31 @@ describe('/account/delete-account', () => {
   })
 
   describe('DeleteAccount#POST', () => {
+    it('should reject invalid password', async () => {
+      await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/delete-account')
+      req.account = user.account
+      req.session = user.session
+      req.body=  {
+        password: 'invalid'
+      }
+      const page = await req.post()
+      const doc = TestHelper.extractDoc(page)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-password')
+    })
+
     it('should mark account deleted', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/delete-account')
       req.account = user.account
       req.session = user.session
+      req.body = {
+        password: user.account.password
+      }
       await req.post()
       const req2 = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
       req2.account = administrator.account

@@ -9,6 +9,9 @@ describe(`/api/user/set-account-deleted`, () => {
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=invalid`)
       req.account = user.account
       req.session = user.session
+      req.body = {
+        password: user.account.password
+      }
       let errorMessage
       try {
         await req.route.api.patch(req)
@@ -24,6 +27,9 @@ describe(`/api/user/set-account-deleted`, () => {
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
       req.account = user2.account
       req.session = user2.session
+      req.body = {
+        password: user.account.password
+      }
       let errorMessage
       try {
         await req.route.api.patch(req)
@@ -33,11 +39,31 @@ describe(`/api/user/set-account-deleted`, () => {
       assert.strictEqual(errorMessage, 'invalid-account')
     })
 
+    it('should reject invalid password', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        password: 'invalid'
+      }
+      let errorMessage
+      try {
+        await req.route.api.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password')
+    })
+
     it('should schedule deletion in 7 days', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
+      req.body = {
+        password: user.account.password
+      }
       global.deleteDelay = 7
       const accountNow = await req.patch()
       const now = Math.floor(new Date().getTime() / 1000)
@@ -50,6 +76,9 @@ describe(`/api/user/set-account-deleted`, () => {
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
+      req.body = {
+        password: user.account.password
+      }
       global.deleteDelay = 3
       const accountNow = await req.patch()
       const now = Math.floor(new Date().getTime() / 1000)
@@ -62,6 +91,9 @@ describe(`/api/user/set-account-deleted`, () => {
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
+      req.body = {
+        password: user.account.password
+      }
       global.deleteDelay = 0
       const accountNow = await req.patch()
       const now = Math.floor(new Date().getTime() / 1000)
