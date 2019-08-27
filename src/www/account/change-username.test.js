@@ -23,12 +23,13 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        username: null
+        ['new-username']: null,
+        password: user.account.password
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-username')
+      assert.strictEqual(message.attr.template, 'invalid-new-username')
     })
 
     it('should reject short username', async () => {
@@ -37,13 +38,30 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        username: '1'
+        ['new-username']: '1',
+        password: user.account.password
       }
       global.minimumUsernameLength = 100
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-username-length')
+      assert.strictEqual(message.attr.template, 'invalid-new-username-length')
+    })
+
+    it('should reject invalid password', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/change-username')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        ['new-username']: 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
+        password: 'invalid'
+      }
+      const page = await req.post()
+      const doc = TestHelper.extractDoc(page)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-password')
     })
 
     it('should apply new username', async () => {
@@ -52,7 +70,8 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        username: 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000)
+        ['new-username']: 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
+        password: user.account.password
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)

@@ -30,12 +30,15 @@ async function submitForm (req, res) {
   if (!req.body) {
     return renderPage(req, res)
   }
-  if (!req.body.username || !req.body.username.length) {
-    return renderPage(req, res, 'invalid-username')
+  if (!req.body['new-username'] || !req.body['new-username'].length) {
+    return renderPage(req, res, 'invalid-new-username')
   }
-  if (global.minimumUsernameLength > req.body.username.length ||
-    global.maximumUsernameLength < req.body.username.length) {
-    return renderPage(req, res, 'invalid-username-length')
+  if (global.minimumUsernameLength > req.body['new-username'].length ||
+    global.maximumUsernameLength < req.body['new-username'].length) {
+    return renderPage(req, res, 'invalid-new-username-length')
+  }
+  if (!req.body.password || !req.body.password.length) {
+    return renderPage(req, res, 'invalid-password')
   }
   try {
     req.query = req.query || {}

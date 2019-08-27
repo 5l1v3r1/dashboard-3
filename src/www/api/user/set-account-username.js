@@ -8,12 +8,15 @@ module.exports = {
     if (req.account.accountid !== req.query.accountid) {
       throw new Error('invalid-account')
     }
-    if (!req.body || !req.body.username) {
-      throw new Error('invalid-username')
+    if (!req.body || !req.body['new-username']) {
+      throw new Error('invalid-new-username')
     }
-    if (global.minimumUsernameLength > req.body.username.length ||
-      global.maximumUsernameLength < req.body.username.length) {
-      throw new Error('invalid-username-length')
+    if (global.minimumUsernameLength > req.body['new-username'].length ||
+      global.maximumUsernameLength < req.body['new-username'].length) {
+      throw new Error('invalid-new-username-length')
+    }
+    if (!req.body.password || !req.body.password.length) {
+      throw new Error('invalid-password')
     }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
     let bcryptFixedSalt = global.bcryptFixedSalt
@@ -21,7 +24,12 @@ module.exports = {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
       bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
-    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)
+    const realPasswordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash')
+    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, realPasswordHash, dashboardEncryptionKey)
+    if (!validPassword) {
+      throw new Error('invalid-password')
+    }
+    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body['new-username'], bcryptFixedSalt, dashboardEncryptionKey)
     const oldUsernameHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'usernameHash')
     await dashboard.Storage.deleteFile(`${req.appid}/map/usernames/${oldUsernameHash}`)
     await dashboard.Storage.write(`${req.appid}/map/usernames/${usernameHash}`, req.query.accountid)
