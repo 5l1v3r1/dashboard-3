@@ -35,7 +35,12 @@ describe(`/api/user/delete-profile`, () => {
     it('should delete the profile', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
-      await TestHelper.createProfile(user)
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
       const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${profile1.profileid}`)
       req.account = user.account
       req.session = user.session

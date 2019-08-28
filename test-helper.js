@@ -290,26 +290,17 @@ async function deleteResetCode (user) {
   await req.delete()
 }
 
-async function createProfile (user) {
+async function createProfile (user, properties) {
   testDataIndex++
-  const profileFieldsWere = global.userProfileFields
-  global.requireProfile = true
-  global.userProfileFields = ['full-name', 'contact-email']
   const req = createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
-  req.body = {
-    'first-name': user.profile.firstName,
-    'last-name': user.profile.lastName,
-    'contact-email': testData[testDataIndex].email,
-    default: 'true'
-  }
+  req.body = properties
   testDataIndex++
   if (testDataIndex === testData.length) {
     testDataIndex = 0
   }
   user.profile = await req.post()
-  global.userProfileFields = profileFieldsWere
   return user.profile
 }
 

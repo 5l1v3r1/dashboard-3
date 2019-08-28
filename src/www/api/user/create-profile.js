@@ -83,7 +83,7 @@ module.exports = {
               displayName = displayName[0]
             } else if (displayName.length === 2) {
               displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1)
-            } else if(displayName.length === 3) {
+            } else if (displayName.length === 3) {
               displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1) + displayName[2].substring(0, 1).toUpperCase() + displayName[2].substring(1)
             }
           }
@@ -97,9 +97,9 @@ module.exports = {
     if (req.body.default === 'true') {
       await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, {
         profileid,
-        firstName: profileInfo.firstName,
-        lastName: profileInfo.lastName,
-        email: profileInfo.contactEmail
+        firstName: profileInfo.firstName || '',
+        lastName: profileInfo.lastName || '',
+        email: profileInfo.contactEmail || ''
       })
     }
     req.success = true

@@ -358,7 +358,12 @@ describe(`/api/user/update-profile`, () => {
       global.userProfileFields = ['full-name', 'contact-email']
       const user = await TestHelper.createUser()
       const profile1 = user.profile
-      await TestHelper.createProfile(user)
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
       global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${profile1.profileid}`)
       req.account = user.account
@@ -387,6 +392,52 @@ describe(`/api/user/update-profile`, () => {
       assert.strictEqual(profile.occupation, req.body['occupation'])
       assert.strictEqual(profile.location, req.body['location'])
       assert.strictEqual(profile.phone, req.body['phone'])
+      const req2 = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
+      req2.account = user.account
+      req2.session = user.session
+      const account = await req2.get(req2)
+      assert.strictEqual(account.profileid, profile1.profileid)
+    })
+
+    it('should update profile with overridden settings', async () => {
+      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+      const user = await TestHelper.createUser()
+      const profile1 = user.profile
+      await TestHelper.createProfile(user, {
+        'first-name': profile1.firstName,
+        'last-name': profile1.lastName,
+        'contact-email': profile1.contactEmail,
+        default: 'true'
+      })
+      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${profile1.profileid}`)
+      req.profileFields = ['full-name', 'contact-email']
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'first-name': 'Test',
+        'last-name': 'Person',
+        'contact-email': 'test1@test.com',
+        'display-email': 'test2@test.com',
+        'display-name': 'Person',
+        dob: '2000-01-01',
+        phone: '456-789-0123',
+        occupation: 'Programmer',
+        location: 'USA',
+        'company-name': profile1.contactEmail.split('@')[1].split('.')[0],
+        website: 'https://' + profile1.contactEmail.split('@')[1],
+        default: 'true'
+      }
+      const profile = await req.route.api.patch(req)
+      assert.strictEqual(profile.firstName, req.body['first-name'])
+      assert.strictEqual(profile.lastName, req.body['last-name'])
+      assert.strictEqual(profile.contactEmail, req.body['contact-email'])
+      assert.strictEqual(profile.displayEmail, undefined)
+      assert.strictEqual(profile.companyName, undefined)
+      assert.strictEqual(profile.website, undefined)
+      assert.strictEqual(profile.occupation, undefined)
+      assert.strictEqual(profile.location, undefined)
+      assert.strictEqual(profile.phone, undefined)
       const req2 = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
       req2.account = user.account
       req2.session = user.session

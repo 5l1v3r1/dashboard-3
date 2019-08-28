@@ -15,7 +15,7 @@ function renderPage (req, res, messageTemplate) {
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }
-  const removeFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+  const removeFields = [].concat(global.profileFields)
   if (!global.requireProfile) {
     for (const id of removeFields) {
       const element = doc.getElementById(`${id}-container`)

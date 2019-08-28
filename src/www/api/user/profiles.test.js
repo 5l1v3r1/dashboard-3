@@ -6,7 +6,12 @@ describe(`/api/user/profiles`, () => {
   describe('Profiles#GET', () => {
     it('should limit profiles to one page', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createProfile(user)
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
       const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
@@ -17,7 +22,12 @@ describe(`/api/user/profiles`, () => {
     it('should redact profile hash', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
-      await TestHelper.createProfile(user)
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
       const profile2 = user.profile
       const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -32,7 +42,12 @@ describe(`/api/user/profiles`, () => {
       global.pageSize = 3
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user)
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
       }
       const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -46,7 +61,12 @@ describe(`/api/user/profiles`, () => {
       const user = await TestHelper.createUser()
       const profiles = [ user.profile ]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user)
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
         profiles.unshift(user.profile)
       }
       const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&offset=${offset}`)
@@ -62,7 +82,12 @@ describe(`/api/user/profiles`, () => {
       const user = await TestHelper.createUser()
       const profiles = [user.profile]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user)
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
         profiles.unshift(user.profile)
       }
       const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&all=true`)

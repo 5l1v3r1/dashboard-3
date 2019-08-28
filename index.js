@@ -43,6 +43,7 @@ if (process.env.ENCRYPTION_SECRET &&
 
 // profile fields
 global.requireProfile = process.env.REQUIRE_PROFILE === 'true'
+global.profileFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
 if (!process.env.USER_PROFILE_FIELDS) {
   global.userProfileFields = [
     'contact-email',

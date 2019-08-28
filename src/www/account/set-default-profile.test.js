@@ -7,7 +7,12 @@ describe('/account/set-default-profile', () => {
     it('should bind posted profile to req', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
-      await TestHelper.createProfile(user)
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
       const req = TestHelper.createRequest(`/account/set-default-profile`)
       req.account = user.account
       req.session = user.session
@@ -22,8 +27,18 @@ describe('/account/set-default-profile', () => {
       global.pageSize = 1
       const user = await TestHelper.createUser()
       const profile1 = user.profile
-      const profile2 = await TestHelper.createProfile(user)
-      const profile3 = await TestHelper.createProfile(user)
+      const profile2 = await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
+      const profile3 = await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
       const req = TestHelper.createRequest(`/account/set-default-profile`)
       req.account = user.account
       req.session = user.session
@@ -39,7 +54,12 @@ describe('/account/set-default-profile', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
-      await TestHelper.createProfile(user)
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
       const req = TestHelper.createRequest(`/account/set-default-profile`)
       req.account = user.account
       req.session = user.session
@@ -57,7 +77,12 @@ describe('/account/set-default-profile', () => {
     it('should set the profile as default', async () => {
       const user = await TestHelper.createUser()
       const profile1id = user.profile.profileid
-      await TestHelper.createProfile(user)
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
       const req = TestHelper.createRequest(`/account/set-default-profile`)
       req.account = user.account
       req.session = user.session

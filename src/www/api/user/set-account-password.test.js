@@ -23,7 +23,6 @@ describe(`/api/user/set-account-password`, () => {
       assert.strictEqual(errorMessage, 'invalid-new-password')
     })
 
-
     it('should enforce password length', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
@@ -42,7 +41,7 @@ describe(`/api/user/set-account-password`, () => {
       }
       assert.strictEqual(errorMessage, 'invalid-new-password-length')
     })
-    
+
     it('should apply new password', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)

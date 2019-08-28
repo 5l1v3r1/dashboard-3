@@ -19,7 +19,12 @@ describe('/account/profiles', () => {
     it('should limit profiles to one page', async () => {
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user)
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
       }
       const req = TestHelper.createRequest('/account/profiles')
       req.account = user.account
@@ -35,7 +40,12 @@ describe('/account/profiles', () => {
       global.pageSize = 3
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user)
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
       }
       const req = TestHelper.createRequest('/account/profiles')
       req.account = user.account
@@ -52,7 +62,12 @@ describe('/account/profiles', () => {
       const user = await TestHelper.createUser()
       const profiles = [ user.profile ]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user)
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
         profiles.unshift(user.profile)
       }
       const req = TestHelper.createRequest(`/account/profiles?offset=${offset}`)
@@ -62,6 +77,44 @@ describe('/account/profiles', () => {
       const doc = TestHelper.extractDoc(page)
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(profiles[offset + i].profileid).tag, 'tr')
+      }
+    })
+
+    it('should show fields if data exists', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/profiles`)
+      req.account = user.account
+      req.session = user.session
+      const page = await req.get()
+      const doc = TestHelper.extractDoc(page)
+      assert.strictEqual(doc.getElementById(`full-name-${user.profile.profileid}`).tag, 'td')
+      assert.strictEqual(doc.getElementById(`contact-email-${user.profile.profileid}`).tag, 'td')
+      const fields = {
+        'display-email': 'test2@test.com',
+        dob: '2000-01-01',
+        'display-name': 'tester',
+        phone: '456-789-0123',
+        occupation: 'Programmer',
+        location: 'USA',
+        'company-name': user.profile.contactEmail.split('@')[1].split('.')[0],
+        website: 'https://' + user.profile.contactEmail.split('@')[1]
+      }
+      for (const field in fields) {
+        assert.strictEqual(doc.getElementById(field), undefined)
+      }
+      for (const field in fields) {
+        global.userProfileFields = ['full-name', 'contact-email', field]
+        await TestHelper.createProfile(user, {
+          'first-name': 'Test',
+          'last-name': 'Person',
+          'contact-email': 'test1@test.com',
+          [field]: fields[field]
+        })
+        const page2 = await req.get()
+        const doc2 = TestHelper.extractDoc(page2)
+        assert.strictEqual(doc2.getElementById(`${field}-${user.profile.profileid}`).tag, 'td')
+        assert.strictEqual(doc2.getElementById(`contact-email-${user.profile.profileid}`).tag, 'td')
+        assert.strictEqual(doc2.getElementById(`full-name-${user.profile.profileid}`).tag, 'td')
       }
     })
   })

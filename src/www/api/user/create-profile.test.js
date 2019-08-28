@@ -292,7 +292,7 @@ describe(`/api/user/create-profile`, () => {
       const profile = await req.post()
       assert.strictEqual(profile.dob, req.body.dob)
     })
-    
+
     it('should accept dob in MM-DD-YYYY', async () => {
       global.userProfileFields = ['dob']
       const user = await TestHelper.createUser()
@@ -367,10 +367,10 @@ describe(`/api/user/create-profile`, () => {
         'display-email': 'test2@test.com',
         dob: '2000-01-01',
         'display-name': 'tester',
-        phone: '456-789-0123', 
-        occupation: 'Programmer', 
-        location: 'USA', 
-        'company-name': user.profile.contactEmail.split('@')[1].split('.')[0], 
+        phone: '456-789-0123',
+        occupation: 'Programmer',
+        location: 'USA',
+        'company-name': user.profile.contactEmail.split('@')[1].split('.')[0],
         website: 'https://' + user.profile.contactEmail.split('@')[1],
         default: 'true'
       }
@@ -384,6 +384,45 @@ describe(`/api/user/create-profile`, () => {
       assert.strictEqual(profile.occupation, req.body['occupation'])
       assert.strictEqual(profile.location, req.body['location'])
       assert.strictEqual(profile.phone, req.body['phone'])
+      const req2 = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
+      req2.account = user.account
+      req2.session = user.session
+      const account = await req2.get(req2)
+      assert.strictEqual(account.profileid, profile.profileid)
+    })
+
+    it('should override global requirements with other settings', async () => {
+      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      req.profileFields = ['display-name', 'display-email']
+      req.body = {
+        'first-name': 'Test',
+        'last-name': 'Person',
+        'contact-email': 'test1@test.com',
+        'display-email': 'test2@test.com',
+        dob: '2000-01-01',
+        'display-name': 'tester',
+        phone: '456-789-0123',
+        occupation: 'Programmer',
+        location: 'USA',
+        'company-name': user.profile.contactEmail.split('@')[1].split('.')[0],
+        website: 'https://' + user.profile.contactEmail.split('@')[1],
+        default: 'true'
+      }
+      const profile = await req.route.api.post(req)
+      assert.strictEqual(profile.firstName, undefined)
+      assert.strictEqual(profile.lastName, undefined)
+      assert.strictEqual(profile.contactEmail, undefined)
+      assert.strictEqual(profile.displayEmail, req.body['display-email'])
+      assert.strictEqual(profile.displayName, req.body['display-name'])
+      assert.strictEqual(profile.companyName, undefined)
+      assert.strictEqual(profile.website, undefined)
+      assert.strictEqual(profile.occupation, undefined)
+      assert.strictEqual(profile.location, undefined)
+      assert.strictEqual(profile.phone, undefined)
       const req2 = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
       req2.account = user.account
       req2.session = user.session

@@ -24,7 +24,7 @@ describe('/account/delete-account', () => {
       const req = TestHelper.createRequest('/account/delete-account')
       req.account = user.account
       req.session = user.session
-      req.body=  {
+      req.body = {
         password: 'invalid'
       }
       const page = await req.post()

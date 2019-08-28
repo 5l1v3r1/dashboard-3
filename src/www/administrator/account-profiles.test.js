@@ -33,7 +33,12 @@ describe('/administrator/account-profiles', () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user)
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
       }
       const req = TestHelper.createRequest(`/administrator/account-profiles?accountid=${user.account.accountid}`)
       req.account = administrator.account
@@ -50,7 +55,12 @@ describe('/administrator/account-profiles', () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user)
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
       }
       const req = TestHelper.createRequest(`/administrator/account-profiles?accountid=${user.account.accountid}`)
       req.account = administrator.account
@@ -68,7 +78,12 @@ describe('/administrator/account-profiles', () => {
       const user = await TestHelper.createUser()
       const profiles = [ user.profile ]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user)
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
         profiles.unshift(user.profile)
       }
       const req = TestHelper.createRequest(`/administrator/account-profiles?accountid=${user.account.accountid}&offset=${offset}`)

@@ -91,7 +91,7 @@ module.exports = {
       }
     }
     const accountid = `account_${await dashboard.UUID.generateID()}`
-    let dashboardEncryptionKey = global.dashboardEncryptionKey    
+    let dashboardEncryptionKey = global.dashboardEncryptionKey
     let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
