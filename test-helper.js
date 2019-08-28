@@ -301,6 +301,7 @@ async function createProfile (user, properties) {
     testDataIndex = 0
   }
   user.profile = await req.post()
+  await wait(100)
   return user.profile
 }
 
