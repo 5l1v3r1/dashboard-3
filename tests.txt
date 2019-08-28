@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.24 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.25 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --timeout 420000 --slow 420000
 
 
@@ -336,6 +336,7 @@
       ✓ should bind profile to req
     Profile#GET
       ✓ should present the profile table
+      ✓ should show fields if data exists
 
   /account/profiles
     Profiles#BEFORE
@@ -344,6 +345,7 @@
       ✓ should limit profiles to one page
       ✓ should enforce page size
       ✓ should enforce specified offset
+      ✓ should show fields if data exists
 
   /account/register
     Register#GET
@@ -575,6 +577,7 @@
       ✓ should bind profile to req
     Profile#GET
       ✓ should present the profile table
+      ✓ should show fields if data exists
 
   /administrator/profiles
     Profiles#BEFORE
@@ -583,6 +586,7 @@
       ✓ should limit profiles to one page
       ✓ should enforce page size
       ✓ should enforce specified offset
+      ✓ should show fields if data exists
 
   /administrator/reset-code
     ResetCode#BEFORE
@@ -857,6 +861,7 @@
       ✓ should require unvalidated fields
       ✓ should save unvalidated fields
       ✓ should create new profile and set as default
+      ✓ should override global requirements with other settings
 
   /api/user/create-reset-code
     CreateResetCode#POST
@@ -1021,7 +1026,8 @@
       ✓ should require unvalidated fields
       ✓ should save unvalidated fields
       ✓ should update profile and set as default
+      ✓ should update profile with overridden settings
 
 
-  600 passing (1m)
+  606 passing (2m)
 
