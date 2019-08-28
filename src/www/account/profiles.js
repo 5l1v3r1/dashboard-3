@@ -21,28 +21,38 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
+  const removeElements = []
   if (req.data.profiles && req.data.profiles.length) {
     dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
+    const removeFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+    for (const field of global.userProfileFields) {
+      removeFields.splice(removeFields.indexOf(field), 1)
+    }
+    for (const field of removeFields) {
+      removeElements.push(field)
+    }
     for (const profile of req.data.profiles) {
       if (req.account.profileid === profile.profileid) {
-        const notDefault = doc.getElementById(`is-not-default-${profile.profileid}`)
-        notDefault.parentNode.removeChild(notDefault)
+        removeElements.push(`is-not-default-${profile.profileid}`)
       } else {
-        const isDefault = doc.getElementById(`is-default-${profile.profileid}`)
-        isDefault.parentNode.removeChild(isDefault)
+        removeElements.push(`is-default-${profile.profileid}`)
+      }
+      for (const field of removeFields) {
+        removeElements.push(`${field}-${profile.profileid}`)
       }
     }
     if (req.data.total <= global.pageSize) {
-      const pageLinks = doc.getElementById('page-links')
-      pageLinks.parentNode.removeChild(pageLinks)
+      removeElements.push('page-links')
     } else {
       dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
     }
-    const noProfiles = doc.getElementById('no-profiles')
-    noProfiles.parentNode.removeChild(noProfiles)
+    removeElements.push('no-profiles')
   } else {
-    const profilesTable = doc.getElementById('profiles-table')
-    profilesTable.parentNode.removeChild(profilesTable)
+    removeElements.push('profiles-table')
+  }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

@@ -25,19 +25,33 @@ async function beforeRequest (req) {
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html, req.data.account, 'account')
   await navbar.setup(doc, req.data.account)
+  const removeElements = []
   if (req.data.profiles && req.data.profiles.length) {
     dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
+    const removeFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+    for (const field of global.userProfileFields) {
+      removeFields.splice(removeFields.indexOf(field), 1)
+    }
+    for (const field of removeFields) {
+      removeElements.push(field)
+    }
+    for (const profile of req.data.profiles) {
+      for (const field of removeFields) {
+        removeElements.push(`${field}-${profile.profileid}`)
+      }
+    }
     if (req.data.total <= global.pageSize) {
-      const pageLinks = doc.getElementById('page-links')
-      pageLinks.parentNode.removeChild(pageLinks)
+      removeElements.push('page-links')
     } else {
       dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
     }
-    const noProfiles = doc.getElementById('no-profiles')
-    noProfiles.parentNode.removeChild(noProfiles)
+    removeElements.push('no-profiles')
   } else {
-    const profilesTable = doc.getElementById('profiles-table')
-    profilesTable.parentNode.removeChild(profilesTable)
+    removeElements.push('profiles-table')
+  }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }
