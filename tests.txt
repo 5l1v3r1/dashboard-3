@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.22 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.23 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --timeout 420000 --slow 420000
 
 
@@ -211,6 +211,7 @@
       ✓ should reject missing password
       ✓ should reject short password
       ✓ should reject mismatched passwords
+      ✓ should reject invalid current password
       ✓ should apply new password
 
   /account/change-username
@@ -219,19 +220,32 @@
     ChangeUsername#POST
       ✓ should reject missing username
       ✓ should reject short username
+      ✓ should reject invalid password
       ✓ should apply new username
 
   /account/create-profile
     CreateProfile#GET
       ✓ should present the form
     CreateProfile#POST
-      ✓ should reject missing first name
-      ✓ should enforce first name length
-      ✓ should reject missing last name
-      ✓ should enforce last name length
-      ✓ should reject missing email
-      ✓ should create
-      ✓ should create and set default
+      ✓ should require full name
+      ✓ should enforce name field lengths
+      ✓ should create new profile with full name
+      ✓ should reject missing contact email
+      ✓ should require "@" in contact email
+      ✓ should create new profile with contact email
+      ✓ should reject missing display email
+      ✓ should require "@" in display email
+      ✓ should create new profile with display email
+      ✓ should require display name
+      ✓ should enforce display name lengths
+      ✓ should create new profile with display name
+      ✓ should require date of birth
+      ✓ should require valid date of birth
+      ✓ should accept dob in YYYY-MM-DD
+      ✓ should accept dob in MM-DD-YYYY
+      ✓ should require unvalidated fields
+      ✓ should save unvalidated fields
+      ✓ should create new profile and set as default
 
   /account/create-reset-code
     CreateResetCode#GET
@@ -251,6 +265,7 @@
     DeleteAccount#GET
       ✓ should present the form
     DeleteAccount#POST
+      ✓ should reject invalid password
       ✓ should mark account deleted
 
   /account/delete-profile
@@ -280,12 +295,25 @@
     EditProfile#GET
       ✓ should present the form
     EditProfile#POST
-      ✓ should reject missing first name
-      ✓ should enforce first name length
-      ✓ should reject missing last name
-      ✓ should enforce last name length
-      ✓ should reject missing email
-      ✓ should update profile
+      ✓ should require full name
+      ✓ should enforce name field lengths
+      ✓ should create new profile with full name
+      ✓ should reject missing contact email
+      ✓ should require "@" in contact email
+      ✓ should create new profile with contact email
+      ✓ should reject missing display email
+      ✓ should require "@" in display email
+      ✓ should create new profile with display email
+      ✓ should require display name
+      ✓ should enforce display name lengths
+      ✓ should create new profile with display name
+      ✓ should require date of birth
+      ✓ should require valid date of birth
+      ✓ should accept dob in YYYY-MM-DD
+      ✓ should accept dob in MM-DD-YYYY
+      ✓ should require unvalidated fields
+      ✓ should save unvalidated fields
+      ✓ should create new profile and set as default
 
   /account/end-all-sessions
     EndAllSessions#GET
@@ -326,13 +354,26 @@
       ✓ should reject missing password
       ✓ should enforce password length
       ✓ should reject invalid confirm
-      ✓ should reject missing first name
-      ✓ should enforce first name length
-      ✓ should reject missing last name
-      ✓ should enforce last name length
-      ✓ should reject missing email
+      ✓ should require full name
+      ✓ should enforce name field lengths
+      ✓ should create new account with full name
+      ✓ should reject missing contact email
+      ✓ should require "@" in contact email
+      ✓ should create new profile with contact email
+      ✓ should reject missing display email
+      ✓ should require "@" in display email
+      ✓ should create new profile with display email
+      ✓ should require display name
+      ✓ should enforce display name lengths
+      ✓ should create new profile with display name
+      ✓ should require date of birth
+      ✓ should require valid date of birth
+      ✓ should accept dob in YYYY-MM-DD
+      ✓ should accept dob in MM-DD-YYYY
+      ✓ should require unvalidated fields
+      ✓ should save unvalidated fields
+      ✓ should create new profile and set as default
       ✓ should create account and 20-minute session
-      ✓ should create account with profile information
 
   /account/reset-account
     ResetAccount#GET
@@ -793,15 +834,28 @@
       ✓ should enforce minimum password length
       ✓ should enforce maximum password length
       ✓ should create account
+      ✓ should create account with profile
 
   /api/user/create-profile
     CreateProfile#POST
-      ✓ should reject missing first name
-      ✓ should enforce first name length
-      ✓ should reject missing last name
-      ✓ should enforce last name length
-      ✓ should reject missing email
-      ✓ should create new profile
+      ✓ should require full name
+      ✓ should enforce name field lengths
+      ✓ should create new profile with full name
+      ✓ should reject missing contact email
+      ✓ should require "@" in contact email
+      ✓ should create new profile with contact email
+      ✓ should reject missing display email
+      ✓ should require "@" in display email
+      ✓ should create new profile with display email
+      ✓ should require display name
+      ✓ should enforce display name lengths
+      ✓ should create new profile with display name
+      ✓ should require date of birth
+      ✓ should require valid date of birth
+      ✓ should accept dob in YYYY-MM-DD
+      ✓ should accept dob in MM-DD-YYYY
+      ✓ should require unvalidated fields
+      ✓ should save unvalidated fields
       ✓ should create new profile and set as default
 
   /api/user/create-reset-code
@@ -912,23 +966,26 @@
     SetAccountDeleted#DELETE
       ✓ should reject invalid accountid
       ✓ should reject other account's accountid
+      ✓ should reject invalid password
       ✓ should schedule deletion in 7 days
       ✓ should schedule deletion in 3 days
       ✓ should schedule immediate deletion
 
   /api/user/set-account-password
     SetAccountPassword#PATCH
+      ✓ should require new password
       ✓ should enforce password length
       ✓ should apply new password
 
   /api/user/set-account-profile
     SetAccountProfile#PATCH
-      ✓ should reject default profile
       ✓ should apply new default
 
   /api/user/set-account-username
     SetAccountUsername#PATCH
+      ✓ should require new username
       ✓ should enforce username length
+      ✓ should reject invalid password
       ✓ should apply new username
 
   /api/user/set-session-ended
@@ -944,14 +1001,27 @@
       ✓ should mark the session as verified
 
   /api/user/update-profile
-    UpdateProfile#PATCH
-      ✓ should reject missing first name
-      ✓ should enforce first name length
-      ✓ should reject missing last name
-      ✓ should enforce last name length
-      ✓ should reject missing email
-      ✓ should apply new values
+    UpdateProfile#POST
+      ✓ should require full name
+      ✓ should enforce name field lengths
+      ✓ should update full name
+      ✓ should reject missing contact email
+      ✓ should require "@" in contact email
+      ✓ should update contact email
+      ✓ should reject missing display email
+      ✓ should require "@" in display email
+      ✓ should update display email
+      ✓ should require display name
+      ✓ should enforce display name lengths
+      ✓ should update display name
+      ✓ should require date of birth
+      ✓ should require valid date of birth
+      ✓ should accept dob in YYYY-MM-DD
+      ✓ should accept dob in MM-DD-YYYY
+      ✓ should require unvalidated fields
+      ✓ should save unvalidated fields
+      ✓ should update profile and set as default
 
 
-  530 passing (2m)
+  600 passing (1m)
 
