@@ -37,17 +37,28 @@ function parseDate (obj) {
   if (obj.getFullYear) {
     return obj
   }
-  try {
-    const d = new Date(obj)
-    if (d.toString() === 'Invalid Date') {
-      throw new Error('invalid-date')
+  if (obj.substring) {
+    try {
+      const i = Date.parse(obj)
+      if (!i) {
+        throw new Error('invalid-date')
+      }
+      const d = new Date(i)
+      if (d.getTime) {
+        return d
+      }
+    } catch (error) {
     }
-    if (Object.prototype.toString.call(d) === '[object Date]' && d.getTime() > 0) {
-      return d
+  } else {
+    try {
+      const d = new Date(obj)
+      if (d.getTime && d.getTime() > 0) {
+        return d
+      }
+    } catch (error) {
     }
-  } catch (e) {
-    throw new Error('invalid-date')
   }
+  throw new Error('invalid-date')
 }
 
 /**
@@ -55,16 +66,16 @@ function parseDate (obj) {
  * @param {*} obj the date string or date
  */
 function date (date) {
-  const d = date > 0 ? new Date(date * 1000) : parseDate(date)
+  const d = date.getTime ? date : (date > 0 ? new Date(date * 1000) : parseDate(date))
   if (!d) {
     return null
   }
-  const year = d.getFullYear()
-  let month = d.getMonth() + 1
+  const year = d.getUTCFullYear()
+  let month = d.getUTCMonth() + 1
   if (month < 10) {
     month = '0' + month
   }
-  let day = d.getDate()
+  let day = d.getUTCDate()
   if (day < 10) {
     day = '0' + day
   }
