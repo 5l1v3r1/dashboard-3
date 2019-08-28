@@ -34,20 +34,23 @@ beforeEach(async () => {
   global.allowPublicAPI = true
   global.testNumber = dashboard.Timestamp.now
   global.testModuleJSON = null
+  global.requireProfile = true
+  global.userProfileFields = ['full-name', 'contact-email']
   global.minimumUsernameLength = 1
   global.maximumUsernameLength = 100
   global.minimumPasswordLength = 1
   global.maximumPasswordLength = 100
   global.minimumResetCodeLength = 1
   global.maximumResetCodeLength = 100
-  global.requireProfileEmail = false
-  global.requireProfileName = false
-  global.minimumProfileFirstNameLength = 1
-  global.maximumProfileFirstNameLength = 100
-  global.minimumProfileLastNameLength = 1
-  global.maximumProfileLastNameLength = 100
+  global.requireProfile = false
+  global.minimumFirstNameLength = 1
+  global.maximumFirstNameLength = 100
+  global.minimumLastNameLength = 1
+  global.maximumLastNameLength = 100
+  global.minimumDisplayNameLength = 1
+  global.maximumDisplayNameLength = 100
   global.deleteDelay = 7
-  global.maximumProfileFieldLength = 50
+  global.maximumFieldLength = 50
   global.pageSize = 2
   global.allowPublicAPI = true
   global.bcryptFixedSalt = bcrypt.genSaltSync(4)
@@ -95,7 +98,6 @@ module.exports = {
   deleteResetCode,
   createUser,
   setDeleted,
-  useResetCode,
   extractDoc,
   extractRedirectURL,
   wait
@@ -200,12 +202,15 @@ async function createUser (username) {
   username = username || 'user-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000)
   const password = username
   const req = createRequest('/api/user/create-account')
+  const profileFieldsWere = global.userProfileFields
+  global.requireProfile = true
+  global.userProfileFields = ['full-name', 'contact-email']
   req.body = {
     username,
     password,
-    [`first-name`]: testData[testDataIndex].firstName,
-    [`last-name`]: testData[testDataIndex].lastName,
-    email: testData[testDataIndex].email
+    'first-name': testData[testDataIndex].firstName,
+    'last-name': testData[testDataIndex].lastName,
+    'contact-email': testData[testDataIndex].email
   }
   testDataIndex++
   if (testDataIndex === testData.length) {
@@ -220,14 +225,14 @@ async function createUser (username) {
     password
   }
   let session = await req2.post()
-  const req3 = createRequest(`/api/user/profile?profileid=${account.profileid}`)
-  req3.account = account
-  req3.session = session
-  const profile = await req3.get()
   const req4 = createRequest(`/api/user/account?accountid=${account.accountid}`)
   req4.account = account
   req4.session = session
   account = await req4.get()
+  const req3 = createRequest(`/api/user/profile?profileid=${account.profileid}`)
+  req3.account = account
+  req3.session = session
+  const profile = await req3.get()
   const req5 = createRequest(`/api/user/session?sessionid=${session.sessionid}`)
   req5.account = account
   req5.session = session
@@ -237,6 +242,7 @@ async function createUser (username) {
   user.session.token = token
   user.account.username = username
   user.account.password = password
+  global.userProfileFields = profileFieldsWere
   return user
 }
 
@@ -284,30 +290,18 @@ async function deleteResetCode (user) {
   await req.delete()
 }
 
-async function useResetCode (user) {
-  const req = createRequest(`/api/user/reset-account-password?accountid=${user.account.accountid}`)
-  req.account = user.account
-  req.session = user.session
-  req.body = {
-    username: user.account.username,
-    password: 'new password',
-    confirm: 'new password',
-    code: user.resetCode.code
-  }
-  user.account = await req.patch()
-  user.account.username = req.body.username
-  user.account.password = req.body.password
-  return user.account
-}
-
 async function createProfile (user) {
+  testDataIndex++
+  const profileFieldsWere = global.userProfileFields
+  global.requireProfile = true
+  global.userProfileFields = ['full-name', 'contact-email']
   const req = createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
   req.body = {
     'first-name': user.profile.firstName,
     'last-name': user.profile.lastName,
-    email: testData[testDataIndex].email,
+    'contact-email': testData[testDataIndex].email,
     default: 'true'
   }
   testDataIndex++
@@ -315,7 +309,7 @@ async function createProfile (user) {
     testDataIndex = 0
   }
   user.profile = await req.post()
-  await wait(100)
+  global.userProfileFields = profileFieldsWere
   return user.profile
 }
 

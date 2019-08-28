@@ -16,17 +16,11 @@ module.exports = {
     if (!profile) {
       throw new Error('invalid-profileid')
     }
-    if (profile.accountid !== req.account.accountid) {
-      throw new Error('invalid-account')
-    }
-    if (req.account.profileid === profile.profileid) {
-      throw new Error('invalid-profile')
-    }
     await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, {
       profileid: profile.profileid,
       firstName: profile.firstName,
       lastName: profile.lastName,
-      email: profile.email
+      email: profile.contactEmail
     })
     req.success = true
     return global.api.user.Account.get(req)

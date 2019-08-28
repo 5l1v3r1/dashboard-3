@@ -10,7 +10,7 @@ describe(`/api/user/set-account-username`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['new-username']: '',
+        'new-username': '',
         password: user.account.password
       }
       global.minimumUsernameLength = 100
@@ -29,7 +29,7 @@ describe(`/api/user/set-account-username`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['new-username']: '1',
+        'new-username': '1',
         password: user.account.password
       }
       global.minimumUsernameLength = 100
@@ -48,7 +48,7 @@ describe(`/api/user/set-account-username`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['new-username']: 'new-username',
+        'new-username': 'new-username',
         password: 'invalid'
       }
       let errorMessage
@@ -66,7 +66,7 @@ describe(`/api/user/set-account-username`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['new-username']: 'new-username',
+        'new-username': 'new-username',
         password: user.account.password
       }
       await req.patch()

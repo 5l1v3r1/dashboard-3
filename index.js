@@ -41,24 +41,35 @@ if (process.env.ENCRYPTION_SECRET &&
   throw new Error('Invalid ENCRYPTION_SECRET_IV length (16)')
 }
 
+// profile fields
+global.requireProfile = process.env.REQUIRE_PROFILE === 'true'
+if (!process.env.USER_PROFILE_FIELDS) {
+  global.userProfileFields = [
+    'contact-email',
+    'full-name'
+  ]
+} else {
+  global.userProfileFields = process.env.USER_PROFILE_FIELDS.split(',')
+}
+
 // optional configuration variables with safe defaults
 global.appid = process.env.APPID || process.env.DOMAIN || 'dashboard'
 global.allowPublicAPI = process.env.ALLOW_PUBLIC_API === 'true'
 global.dashboardServer = process.env.DASHBOARD_SERVER
 global.domain = process.env.DOMAIN || ''
 global.idLength = parseInt(process.env.ID_LENGTH || '8', 10)
-global.minimumUsernameLength = parseInt(process.env.MINIMUM_USERNAME_LENGTH || '1', 10)
+global.minimumUsernameLength = parseInt(process.env.MINIMUM_USERNAME_LENGTH || '1', 6)
 global.maximumUsernameLength = parseInt(process.env.MAXIMUM_USERNAME_LENGTH || '50', 10)
-global.minimumPasswordLength = parseInt(process.env.MINIMUM_PASSWORD_LENGTH || '1', 10)
+global.minimumPasswordLength = parseInt(process.env.MINIMUM_PASSWORD_LENGTH || '1', 6)
 global.maximumPasswordLength = parseInt(process.env.MAXIMUM_PASSWORD_LENGTH || '50', 10)
-global.minimumResetCodeLength = parseInt(process.env.MINIMUM_RESET_CODE_LENGTH || '10', 10)
+global.minimumResetCodeLength = parseInt(process.env.MINIMUM_RESET_CODE_LENGTH || '10', 6)
 global.maximumResetCodeLength = parseInt(process.env.MAXIMUM_RESET_CODE_LENGTH || '50', 10)
-global.requireProfileEmail = process.env.REQUIRE_PROFILE_EMAIL === 'true'
-global.requireProfileName = process.env.REQUIRE_PROFILE_NAME === 'true'
-global.minimumProfileFirstNameLength = parseInt(process.env.MINIMUM_PROFILE_FIRST_NAME_LENGTH || '1', 10)
-global.maximumProfileFirstNameLength = parseInt(process.env.MAXIMUM_PROFILE_FIRST_NAME_LENGTH || '50', 10)
-global.minimumProfileLastNameLength = parseInt(process.env.MINIMUM_PROFILE_LAST_NAME_LENGTH || '1', 10)
-global.maximumProfileLastNameLength = parseInt(process.env.MAXIMUM_PROFILE_LAST_NAME_LENGTH || '50', 10)
+global.minimumFirstNameLength = parseInt(process.env.MINIMUM_PROFILE_FIRST_NAME_LENGTH || '1', 10)
+global.maximumFirstNameLength = parseInt(process.env.MAXIMUM_PROFILE_FIRST_NAME_LENGTH || '50', 10)
+global.minimumLastNameLength = parseInt(process.env.MINIMUM_PROFILE_LAST_NAME_LENGTH || '1', 10)
+global.maximumLastNameLength = parseInt(process.env.MAXIMUM_PROFILE_LAST_NAME_LENGTH || '50', 10)
+global.minimumDisplayNameLength = parseInt(process.env.MINIMUM_PROFILE_DISPLAY_NAME_LENGTH || '1', 1)
+global.maximumDisplayNameLength = parseInt(process.env.MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH || '50', 10)
 global.deleteDelay = parseInt(process.env.DELETE_DELAY || '7', 10)
 global.pageSize = parseInt(process.env.PAGE_SIZE || '10', 10)
 

@@ -15,15 +15,23 @@ function renderPage (req, res, messageTemplate) {
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }
-  if (!global.requireProfileEmail) {
-    const emailContainer = doc.getElementById('email-container')
-    emailContainer.parentNode.removeChild(emailContainer)
-  }
-  if (!global.requireProfileName) {
-    const firstNameContainer = doc.getElementById('first-name-container')
-    firstNameContainer.parentNode.removeChild(firstNameContainer)
-    const lastNameContainer = doc.getElementById('last-name-container')
-    lastNameContainer.parentNode.removeChild(lastNameContainer)
+  const removeFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website', 'address-line1', 'address-line2', 'address-city', 'address-state', 'address-postal-code', 'address-country']
+  if (!global.requireProfile) {
+    for (const id of removeFields) {
+      const element = doc.getElementById(`${id}-container`)
+      element.parentNode.removeChild(element)
+    }
+  } else {
+    for (const field of global.userProfileFields) {
+      removeFields.splice(removeFields.indexOf(`${field}-container`))
+    }
+    for (const id of removeFields) {
+      const element = doc.getElementById(`${id}-container`)
+      if (!element || !element.parentNode) {
+        continue
+      }
+      element.parentNode.removeChild(element)
+    }
   }
   return dashboard.Response.end(req, res, doc)
 }
@@ -48,25 +56,63 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-confirm')
   }
   // optional profile fields
-  if (global.requireProfileEmail) {
-    if (!req.body.email || !req.body.email.length || !req.body.email.indexOf('@') > 0) {
-      return renderPage(req, res, 'invalid-profile-email')
-    }
-  }
-  if (global.requireProfileName) {
-    if (!req.body['first-name'] || !req.body['first-name'].length) {
-      return renderPage(req, res, 'invalid-profile-first-name')
-    }
-    if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
-      global.maximumProfileFirstNameLength < req.body['first-name'].length) {
-      return renderPage(req, res, 'invalid-profile-first-name-length')
-    }
-    if (!req.body['last-name'] || !req.body['last-name'].length) {
-      return renderPage(req, res, 'invalid-profile-last-name')
-    }
-    if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
-      global.maximumProfileLastNameLength < req.body['last-name'].length) {
-      return renderPage(req, res, 'invalid-profile-last-name-length')
+  if (global.requireProfile) {
+    for (const field of global.userProfileFields) {
+      switch (field) {
+        case 'full-name':
+          if (!req.body['first-name'] || !req.body['first-name'].length) {
+            return renderPage(req, res, 'invalid-first-name')
+          }
+          if (global.minimumFirstNameLength > req.body['first-name'].length ||
+            global.maximumFirstNameLength < req.body['first-name'].length) {
+            return renderPage(req, res, 'invalid-first-name-length')
+          }
+          if (!req.body['last-name'] || !req.body['last-name'].length) {
+            return renderPage(req, res, 'invalid-last-name')
+          }
+          if (global.minimumLastNameLength > req.body['last-name'].length ||
+            global.maximumLastNameLength < req.body['last-name'].length) {
+            return renderPage(req, res, 'invalid-last-name-length')
+          }
+          continue
+        case 'contact-email':
+          if (!req.body[field] || req.body[field].indexOf('@') === -1) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          continue
+        case 'display-email':
+          if (!req.body[field] || req.body[field].indexOf('@') === -1) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          continue
+        case 'display-name':
+          if (!req.body[field] || !req.body[field].length) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          if (global.minimumDisplayNameLength > req.body[field].length ||
+            global.maximumDisplayNameLength < req.body[field].length) {
+            return renderPage(req, res, 'invalid-display-name-length')
+          }
+          continue
+        case 'dob':
+          if (!req.body[field] || !req.body[field].length) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          let date
+          try {
+            date = dashboard.Format.parseDate(req.body[field])
+          } catch (error) {
+          }
+          if (!date || !date.getFullYear) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          continue
+        default:
+          if (!req.body || !req.body[field]) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          continue
+      }
     }
   }
   try {

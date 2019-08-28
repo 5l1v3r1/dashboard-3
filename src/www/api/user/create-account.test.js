@@ -69,11 +69,28 @@ describe('/api/user/create-account', () => {
     })
 
     it('should create account', async () => {
+      global.requireProfile = false
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username-' + new Date().getTime(),
         password: 'password1234',
         confirm: 'password1234'
+      }
+      const account = await req.post()
+      assert.strictEqual(account.object, 'account')
+    })
+
+    it('should create account with profile', async () => {
+      global.requireProfile = true
+      global.userProfileFields = ['full-name', 'contact-email']
+      const req = TestHelper.createRequest('/api/user/create-account')
+      req.body = {
+        username: 'username-' + new Date().getTime(),
+        password: 'password1234',
+        confirm: 'password1234',
+        'first-name': 'Tester',
+        'last-name': 'Person',
+        'contact-email': 'tester@person.com'
       }
       const account = await req.post()
       assert.strictEqual(account.object, 'account')

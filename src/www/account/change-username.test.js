@@ -23,7 +23,7 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['new-username']: null,
+        'new-username': null,
         password: user.account.password
       }
       const page = await req.post()
@@ -38,7 +38,7 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['new-username']: '1',
+        'new-username': '1',
         password: user.account.password
       }
       global.minimumUsernameLength = 100
@@ -54,7 +54,7 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['new-username']: 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
+        'new-username': 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
         password: 'invalid'
       }
       const page = await req.post()
@@ -70,7 +70,7 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        ['new-username']: 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
+        'new-username': 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
         password: user.account.password
       }
       const page = await req.post()

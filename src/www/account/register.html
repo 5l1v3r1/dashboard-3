@@ -24,17 +24,77 @@
           <label for="confirm">Confirm your password</label>
           <input name="confirm" id="confirm" type="password" maxlength="1000" />
         </div>
-        <div id="email-container" class="pure-control-group">
-          <label for="email">Email address</label>
-          <input name="email" id="email" type="text" maxlength="100" />
+        <div id="display-name-container" class="pure-control-group">
+          <label for="display-name">Display name</label>
+          <input require id="display-name" name="display-name" type="text" maxlength="1000" />
         </div>
-        <div id="first-name-container" class="pure-control-group">
-          <label for="first-name">First name</label>
-          <input name="first-name" id="first-name" type="text" maxlength="30" />
+        <div id="display-email-container" class="pure-control-group">
+          <label for="display-email">Display email</label>
+          <input require id="display-email" name="email" type="text" maxlength="1000" size="50" />
         </div>
-        <div id="last-name-container" class="pure-control-group">
-          <label for="last-name">Last name</label>
-          <input name="last-name" id="last-name" type="text" maxlength="30" />
+        <div id="contact-email-container" class="pure-control-group">
+          <label for="contact-email">Contact email</label>
+          <input require id="contact-email" name="email" type="text" maxlength="1000" size="50" />
+        </div>
+        <div id="full-name-container">
+          <div class="pure-control-group">
+            <label for="first-name">First name</label>
+            <input require id="first-name" name="first-name" type="text" maxlength="1000" />
+          </div>
+          <div class="pure-control-group">
+            <label for="last-name">Last name</label>
+            <input require id="last-name" name="last-name" type="text" maxlength="1000" />
+          </div>
+        </div>
+        <div id="dob-container">
+          <div class="pure-control-group">
+            <label for="dob">Date of birth</label>
+            <input require id="dob" name="dob" type="text" maxlength="11" />
+          </div>
+        </div>
+        <div id="phone-container" class="pure-control-group">
+          <label for="phone">Telephone</label>
+          <input require id="phone" name="phone" type="text" maxlength="1000" />
+        </div>
+        <div id="occupation-container" class="pure-control-group">
+          <label for="occupation">Occupation</label>
+          <input require id="occupation" name="occupation" type="text" maxlength="1000" />
+        </div>
+        <div id="location-container" class="pure-control-group">
+          <label for="location">Location</label>
+          <input require id="location" name="location" type="text" maxlength="1000" />
+        </div>
+        <div id="company-name-container" class="pure-control-group">
+          <label for="company-name">Company name</label>
+          <input require id="company-name" name="display-name" type="text" maxlength="1000" />
+        </div>
+        <div id="website-container" class="pure-control-group">
+          <label for="website">Website</label>
+          <input require id="website" name="website" type="text" maxlength="1000" />
+        </div>
+        <div id="address-line1-container" class="pure-control-group">
+          <label for="address-line1">Address line 1</label>
+          <input require id="address-line1" name="address-line1" type="text" maxlength="1000" />
+        </div>
+        <div id="address-line2-container" class="pure-control-group">
+          <label for="address-line2">Address line 2</label>
+          <input require id="address-line2" name="address-line2" type="text" maxlength="1000" />
+        </div>
+        <div id="address-city-container" class="pure-control-group">
+          <label for="address-city">Address city</label>
+          <input require id="address-city" name="address-city" type="text" maxlength="1000" />
+        </div>
+        <div id="address-state-container" class="pure-control-group">
+          <label for="address-state">State/province</label>
+          <input require id="address-state" name="address-state" type="text" maxlength="1000" />
+        </div>
+        <div id="address-postal-code-container" class="pure-control-group">
+          <label for="address-postal-code">Postal code</label>
+          <input require id="address-postal-code" name="address-postal-code" type="text" maxlength="1000" />
+        </div>
+        <div id="address-country-container" class="pure-control-group">
+          <label for="address-country">Country</label>
+          <input require id="address-country" name="address-country" type="text" maxlength="1000" />
         </div>
         <div class="pure-controls">
           <button id="submit-button" type="submit" class="pure-button pure-button-primary">Register</button>
@@ -66,19 +126,64 @@
   <template id="unknown-error">
     <div class="error message">Error! Invalid username or password</div>
   </template>
-  <template id="invalid-profile-first-name">
+  <template id="invalid-first-name">
     <div class="error message">Error! A missing or invalid first name provided</div>
   </template>
-  <template id="invalid-profile-first-name-length">
+  <template id="invalid-first-name-length">
     <div class="error message">Error! An invalid first name was provided</div>
   </template>
-  <template id="invalid-profile-last-name">
+  <template id="invalid-last-name">
     <div class="error message">Error! A missing or invalid last name was provided</div>
   </template>
-  <template id="invalid-profile-last-name-length">
+  <template id="invalid-last-name-length">
     <div class="error message">Error! An invalid last name was provided</div>
   </template>
-  <template id="invalid-profile-email">
-    <div class="error message">Error! Invalid email address</div>
+  <template id="invalid-contact-email">
+    <div class="error message">Error! Invalid contact email address</div>
   </template>
+  <template id="invalid-display-email">
+    <div class="error message">Error! Invalid display email address</div>
+  </template>
+  <template id="invalid-display-name">
+    <div class="error message">Error! A missing or invalid display name was provided</div>
+  </template>
+  <template id="invalid-dob">
+    <div class="error message">Error! A missing or invalid date of birth was provided</div>
+  </template>
+  <template id="invalid-phone">
+    <div class="error message">Error! A missing or invalid phone was provided.</div>
+  </template>
+  <template id="invalid-occupation">
+    <div class="error message">Error! A missing or invalid occupation was provided.</div>
+  </template>
+  <template id="invalid-location">
+    <div class="error message">Error! A missing or invalid location was provided.</div>
+  </template>
+  <template id="invalid-company-name">
+    <div class="error message">Error! A missing or invalid company name was provided.</div>
+  </template>
+  <template id="invalid-website">
+    <div class="error message">Error! A missing or invalid website was provided.</div>
+  </template>
+  <template id="invalid-address-line1">
+    <div class="error message">Error! A missing or invalid address line 1 was provided.</div>
+  </template>
+  <template id="invalid-address-line2">
+    <div class="error message">Error! A missing or invalid address line 2 was provided.</div>
+  </template>
+  <template id="invalid-address-city">
+    <div class="error message">Error! A missing or invalid address city was provided.</div>
+  </template>
+  <template id="invalid-address-state">
+    <div class="error message">Error! A missing or invalid address state was provided.</div>
+  </template>
+  <template id="invalid-address-country">
+    <div class="error message">Error! A missing or invalid address country was provided.</div>
+  </template>
+  <template id="invalid-address-postal-code">
+    <div class="error message">Error! A missing or invalid address postal code was provided.</div>
+  </template>
+  <template id="invalid-display-name-length">
+    <div class="error message">Error! A missing or invalid display name was provided</div>
+  </template>  
 </html>

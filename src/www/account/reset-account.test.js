@@ -17,8 +17,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: null,
-        ['new-password']: 'new-password',
-        ['confirm-password']: 'new-password',
+        'new-password': 'new-password',
+        'confirm-password': 'new-password',
         code: 'reset-code'
       }
       const page = await req.post()
@@ -30,8 +30,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: '1',
-        ['new-password']: 'new-password',
-        ['confirm-password']: 'new-password',
+        'new-password': 'new-password',
+        'confirm-password': 'new-password',
         code: 'reset-code'
       }
       global.minimumUsernameLength = 100
@@ -44,8 +44,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: 'username',
-        ['new-password']: 'new-password',
-        ['confirm-password']: 'new-password',
+        'new-password': 'new-password',
+        'confirm-password': 'new-password',
         code: null
       }
       const page = await req.post()
@@ -57,8 +57,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: 'username',
-        ['new-password']: 'new-password',
-        ['confirm-password']: 'new-password',
+        'new-password': 'new-password',
+        'confirm-password': 'new-password',
         code: '1'
       }
       global.minimumResetCodeLength = 100
@@ -71,8 +71,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: 'username',
-        ['new-password']: '',
-        ['confirm-password']: 'new-password',
+        'new-password': '',
+        'confirm-password': 'new-password',
         code: 'reset-code'
       }
       const page = await req.post()
@@ -84,8 +84,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: 'username',
-        ['new-password']: '1',
-        ['confirm-password']: '1',
+        'new-password': '1',
+        'confirm-password': '1',
         code: 'reset-code'
       }
       global.minimumPasswordLength = 100
@@ -98,8 +98,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: 'username',
-        ['new-password']: 'new-password',
-        ['confirm-password']: '',
+        'new-password': 'new-password',
+        'confirm-password': '',
         code: 'reset-code'
       }
       const page = await req.post()
@@ -115,8 +115,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: user.account.username,
-        ['new-password']: 'my-new-password',
-        ['confirm-password']: 'my-new-password',
+        'new-password': 'my-new-password',
+        'confirm-password': 'my-new-password',
         code: user.resetCode.code
       }
       const page = await req.post()
@@ -131,8 +131,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: user.account.username,
-        ['new-password']: 'my-new-password',
-        ['confirm-password']: 'my-new-password',
+        'new-password': 'my-new-password',
+        'confirm-password': 'my-new-password',
         code: user.resetCode.code
       }
       await req.post()
@@ -153,8 +153,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: user.account.username,
-        ['new-password']: 'my-new-password',
-        ['confirm-password']: 'my-new-password',
+        'new-password': 'my-new-password',
+        'confirm-password': 'my-new-password',
         code: user.resetCode.code
       }
       await req.post()
@@ -172,8 +172,8 @@ describe('/account/reset-account', () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
         username: user.account.username,
-        ['new-password']: 'my-new-password',
-        ['confirm-password']: 'my-new-password',
+        'new-password': 'my-new-password',
+        'confirm-password': 'my-new-password',
         code: user.resetCode.code
       }
       const res = {

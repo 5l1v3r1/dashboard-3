@@ -20,47 +20,78 @@ module.exports = {
         global.maximumPasswordLength < req.body.password.length) {
       throw new Error('invalid-password-length')
     }
-    // profile requirements
-    if (global.requireProfileEmail) {
-      if (!req.body.email || !req.body.email.length || !req.body.email.indexOf('@') > 0) {
-        throw new Error('invalid-profile-email')
+    if (global.requireProfile) {
+      for (const field of global.userProfileFields) {
+        switch (field) {
+          case 'full-name':
+            if (!req.body['first-name'] || !req.body['first-name'].length) {
+              throw new Error('invalid-first-name')
+            }
+            if (global.minimumFirstNameLength > req.body['first-name'].length ||
+              global.maximumFirstNameLength < req.body['first-name'].length) {
+              throw new Error('invalid-first-name-length')
+            }
+            if (!req.body['last-name'] || !req.body['last-name'].length) {
+              throw new Error('invalid-last-name')
+            }
+            if (global.minimumLastNameLength > req.body['last-name'].length ||
+              global.maximumLastNameLength < req.body['last-name'].length) {
+              throw new Error('invalid-last-name-length')
+            }
+            continue
+          case 'contact-email':
+            if (!req.body[field] || req.body[field].indexOf('@') === -1) {
+              throw new Error(`invalid-${field}`)
+            }
+            continue
+          case 'display-email':
+            if (!req.body[field] || req.body[field].indexOf('@') === -1) {
+              throw new Error(`invalid-${field}`)
+            }
+            continue
+          case 'display-name':
+            if (!req.body[field] || !req.body[field].length) {
+              throw new Error(`invalid-${field}`)
+            }
+            if (global.minimumDisplayNameLength > req.body[field].length ||
+              global.maximumDisplayNameLength < req.body[field].length) {
+              throw new Error('invalid-display-name-length')
+            }
+            continue
+          case 'dob':
+            if (!req.body[field] || !req.body[field].length) {
+              throw new Error(`invalid-${field}`)
+            }
+            let date
+            try {
+              date = dashboard.Format.parseDate(req.body[field])
+            } catch (error) {
+            }
+            if (!date || !date.getFullYear) {
+              throw new Error(`invalid-${field}`)
+            }
+            continue
+          default:
+            if (!req.body || !req.body[field]) {
+              throw new Error(`invalid-${field}`)
+            }
+            let displayName = field
+            if (displayName.indexOf('-') > -1) {
+              displayName = displayName.split('-')
+              if (displayName.length === 1) {
+                displayName = displayName[0]
+              } else if (displayName.length === 2) {
+                displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1)
+              } else if (displayName.length === 3) {
+                displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1) + displayName[2].substring(0, 1).toUpperCase() + displayName[2].substring(1)
+              }
+            }
+            continue
+        }
       }
     }
-    if (global.requireProfileName) {
-      if (!req.body['first-name'] || !req.body['first-name'].length) {
-        throw new Error('invalid-profile-first-name')
-      }
-      if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
-        global.maximumProfileFirstNameLength < req.body['first-name'].length) {
-        throw new Error('invalid-profile-first-name-length')
-      }
-      if (!req.body['last-name'] || !req.body['last-name'].length) {
-        throw new Error('invalid-profile-last-name')
-      }
-      if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
-        global.maximumProfileLastNameLength < req.body['last-name'].length) {
-        throw new Error('invalid-profile-last-name-length')
-      }
-    }
-    // create account and default profile
     const accountid = `account_${await dashboard.UUID.generateID()}`
-    const profileid = `profile_${await dashboard.UUID.generateID()}`
-    const profileInfo = {
-      object: 'profile',
-      accountid: accountid,
-      profileid: profileid,
-      created: dashboard.Timestamp.now
-    }
-    if (req.body.email) {
-      profileInfo.email = req.body.email
-    }
-    if (req.body['first-name']) {
-      profileInfo.firstName = req.body['first-name']
-    }
-    if (req.body['last-name']) {
-      profileInfo.lastName = req.body['last-name']
-    }
-    let dashboardEncryptionKey = global.dashboardEncryptionKey
+    let dashboardEncryptionKey = global.dashboardEncryptionKey    
     let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
@@ -71,10 +102,6 @@ module.exports = {
     const accountInfo = {
       object: 'account',
       accountid: accountid,
-      profileid: profileid,
-      firstName: profileInfo.firstName,
-      lastName: profileInfo.lastName,
-      email: profileInfo.email,
       usernameHash: usernameHash,
       passwordHash: passwordHash,
       sessionKey: dashboard.UUID.random(64),
@@ -88,12 +115,16 @@ module.exports = {
     }
     await dashboard.Storage.write(`${req.appid}/map/usernames/${usernameHash}`, accountid)
     await dashboard.Storage.write(`${req.appid}/account/${accountid}`, accountInfo)
-    await dashboard.Storage.write(`${req.appid}/profile/${profileid}`, profileInfo)
     await dashboard.StorageList.add(`${req.appid}/accounts`, accountid)
-    await dashboard.StorageList.add(`${req.appid}/profiles`, profileid)
-    await dashboard.StorageList.add(`${req.appid}/account/profiles/${accountid}`, profileid)
     if (!otherUsersExist) {
       await dashboard.StorageList.add(`${req.appid}/administrator/accounts`, accountid)
+    }
+    req.query = req.query || {}
+    req.query.accountid = accountid
+    req.body.default = 'true'
+    req.account = accountInfo
+    if (global.requireProfile) {
+      await global.api.user.CreateProfile.post(req)
     }
     req.success = true
     return accountInfo
