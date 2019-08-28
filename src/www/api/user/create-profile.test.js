@@ -307,7 +307,7 @@ describe(`/api/user/create-profile`, () => {
     })
 
     it('should require unvalidated fields', async () => {
-      const fields = ['phone', 'occupation', 'location', 'company-name', 'website', 'address-line1', 'address-line2', 'address-city', 'address-state', 'address-postal-code', 'address-country']
+      const fields = ['phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -328,7 +328,7 @@ describe(`/api/user/create-profile`, () => {
     })
 
     it('should save unvalidated fields', async () => {
-      const fields = ['phone', 'occupation', 'location', 'company-name', 'website', 'address-line1', 'address-line2', 'address-city', 'address-state', 'address-postal-code', 'address-country']
+      const fields = ['phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -355,7 +355,7 @@ describe(`/api/user/create-profile`, () => {
     })
 
     it('should create new profile and set as default', async () => {
-      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website', 'address-line1', 'address-line2', 'address-city', 'address-state', 'address-postal-code', 'address-country']
+      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -365,19 +365,13 @@ describe(`/api/user/create-profile`, () => {
         'last-name': 'Person',
         'contact-email': 'test1@test.com',
         'display-email': 'test2@test.com',
-        'dob': '2000-01-01',
+        dob: '2000-01-01',
         'display-name': 'tester',
-        'phone': '456-789-0123', 
-        'occupation': 'Programmer', 
-        'location': 'USA', 
+        phone: '456-789-0123', 
+        occupation: 'Programmer', 
+        location: 'USA', 
         'company-name': user.profile.contactEmail.split('@')[1].split('.')[0], 
-        'website': 'https://' + user.profile.contactEmail.split('@')[1], 
-        'address-line1': '285 Fulton St',
-        'address-line2': 'Apt 893',
-        'address-city': 'New York',
-        'address-state': 'NY',
-        'address-postal-code': '10007',
-        'address-country': 'US',
+        website: 'https://' + user.profile.contactEmail.split('@')[1],
         default: 'true'
       }
       const profile = await req.post()
@@ -390,12 +384,6 @@ describe(`/api/user/create-profile`, () => {
       assert.strictEqual(profile.occupation, req.body['occupation'])
       assert.strictEqual(profile.location, req.body['location'])
       assert.strictEqual(profile.phone, req.body['phone'])
-      assert.strictEqual(profile.addressLine1, req.body['address-line1'])
-      assert.strictEqual(profile.addressLine2, req.body['address-line2'])
-      assert.strictEqual(profile.addressCity, req.body['address-city'])
-      assert.strictEqual(profile.addressState, req.body['address-state'])
-      assert.strictEqual(profile.addressCountry, req.body['address-country'])
-      assert.strictEqual(profile.addressPostalCode, req.body['address-postal-code'])
       const req2 = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
       req2.account = user.account
       req2.session = user.session

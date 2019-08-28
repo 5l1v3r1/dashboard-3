@@ -20,7 +20,7 @@ function renderPage (req, res, messageTemplate) {
     const divider = submitForm.attr.action.indexOf('?') > -1 ? '&' : '?'
     submitForm.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
   }
-  const removeFields = [ 'display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website', 'address-line1', 'address-line2', 'address-city', 'address-state', 'address-postal-code', 'address-country' ]
+  const removeFields = [ 'display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website' ]
   for (const field of global.userProfileFields) {
     removeFields.splice(removeFields.indexOf(`${field}-container`))
   }

@@ -422,7 +422,7 @@ describe('/account/register', () => {
     })
 
     it('should require unvalidated fields', async () => {
-      const fields = ['phone', 'occupation', 'location', 'company-name', 'website', 'address-line1', 'address-line2', 'address-city', 'address-state', 'address-postal-code', 'address-country']
+      const fields = ['phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/register`)
       req.account = user.account
@@ -444,7 +444,7 @@ describe('/account/register', () => {
     })
 
     it('should save unvalidated fields', async () => {
-      const fields = ['phone', 'occupation', 'location', 'company-name', 'website', 'address-line1', 'address-line2', 'address-city', 'address-state', 'address-postal-code', 'address-country']
+      const fields = ['phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/register`)
       req.account = user.account
@@ -476,7 +476,7 @@ describe('/account/register', () => {
     })
 
     it('should create new profile and set as default', async () => {
-      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website', 'address-line1', 'address-line2', 'address-city', 'address-state', 'address-postal-code', 'address-country']
+      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/register`)
       req.account = user.account
@@ -489,19 +489,13 @@ describe('/account/register', () => {
         'last-name': 'Person',
         'contact-email': 'test1@test.com',
         'display-email': 'test2@test.com',
-        'dob': '2000-01-01',
+        dob: '2000-01-01',
         'display-name': 'tester',
-        'phone': '456-789-0123',
-        'occupation': 'Programmer',
-        'location': 'USA',
+        phone: '456-789-0123',
+        occupation: 'Programmer',
+        location: 'USA',
         'company-name': user.profile.contactEmail.split('@')[1].split('.')[0],
-        'website': 'https://' + user.profile.contactEmail.split('@')[1],
-        'address-line1': '285 Fulton St',
-        'address-line2': 'Apt 893',
-        'address-city': 'New York',
-        'address-state': 'NY',
-        'address-postal-code': '10007',
-        'address-country': 'US'
+        website: 'https://' + user.profile.contactEmail.split('@')[1]
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)

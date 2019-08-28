@@ -39,7 +39,7 @@ function renderPage (req, res, messageTemplate) {
     }
     return dashboard.Response.end(req, res, doc)
   }
-  const removeFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website', 'address-line1', 'address-line2', 'address-city', 'address-state', 'address-postal-code', 'address-country']
+  const removeFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
   for (const field of global.userProfileFields) {
     removeFields.splice(removeFields.indexOf(`${field}-container`))
   }
