@@ -22,7 +22,8 @@ function renderPage (req, res, messageTemplate) {
       element.parentNode.removeChild(element)
     }
   } else {
-    for (const field of global.userProfileFields) {
+    const profileFields = req.profileFields || global.userProfileFields
+    for (const field of profileFields) {
       removeFields.splice(removeFields.indexOf(`${field}-container`))
     }
     for (const id of removeFields) {
@@ -57,7 +58,8 @@ async function submitForm (req, res) {
   }
   // optional profile fields
   if (global.requireProfile) {
-    for (const field of global.userProfileFields) {
+    const profileFields = req.profileFields || global.userProfileFields
+    for (const field of profileFields) {
       switch (field) {
         case 'full-name':
           if (!req.body['first-name'] || !req.body['first-name'].length) {

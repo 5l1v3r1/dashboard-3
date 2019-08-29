@@ -40,7 +40,8 @@ function renderPage (req, res, messageTemplate) {
     return dashboard.Response.end(req, res, doc)
   }
   const removeFields = [].concat(global.profileFields)
-  for (const field of global.userProfileFields) {
+  const profileFields = req.profileFields || global.userProfileFields
+  for (const field of profileFields) {
     removeFields.splice(removeFields.indexOf(`${field}-container`))
   }
   if (messageTemplate) {
@@ -69,7 +70,8 @@ function renderPage (req, res, messageTemplate) {
 }
 
 async function submitForm (req, res) {
-  for (const field of global.userProfileFields) {
+  const profileFields = req.profileFields || global.userProfileFields
+  for (const field of profileFields) {
     switch (field) {
       case 'full-name':
         if (!req.body['first-name'] || !req.body['first-name'].length) {

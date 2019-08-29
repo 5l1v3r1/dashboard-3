@@ -62,7 +62,9 @@ async function renderPage (req, res) {
     dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
     for (const profile of req.data.profiles) {
       for (const field of removeFields) {
-        removeElements.push(`${field}-${profile.profileid}`)
+        if (usedFields.indexOf(field) === -1) {
+          removeElements.push(`${field}-${profile.profileid}`)
+        }
       }
     }
     if (req.data.total <= global.pageSize) {

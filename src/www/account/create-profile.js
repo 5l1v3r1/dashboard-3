@@ -21,7 +21,8 @@ function renderPage (req, res, messageTemplate) {
     submitForm.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
   }
   const removeFields = [ 'display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website' ]
-  for (const field of global.userProfileFields) {
+  const profileFields = req.profileFields || global.userProfileFields
+  for (const field of profileFields) {
     removeFields.splice(removeFields.indexOf(`${field}-container`))
   }
   if (messageTemplate) {
@@ -44,7 +45,8 @@ async function submitForm (req, res) {
   if (!req || !req.body) {
     return renderPage(req, res)
   }
-  for (const field of global.userProfileFields) {
+  const profileFields = req.profileFields || global.userProfileFields
+  for (const field of profileFields) {
     switch (field) {
       case 'full-name':
         if (!req.body['first-name'] || !req.body['first-name'].length) {

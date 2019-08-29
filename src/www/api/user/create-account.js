@@ -21,7 +21,8 @@ module.exports = {
       throw new Error('invalid-password-length')
     }
     if (global.requireProfile) {
-      for (const field of global.userProfileFields) {
+      const profileFields = req.profileFields || global.userProfileFields
+      for (const field of profileFields) {
         switch (field) {
           case 'full-name':
             if (!req.body['first-name'] || !req.body['first-name'].length) {
