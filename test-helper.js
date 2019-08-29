@@ -97,13 +97,14 @@ module.exports = {
   createResetCode,
   deleteResetCode,
   createUser,
+  nextIdentity,
   setDeleted,
   extractDoc,
   extractRedirectURL,
   wait
 }
 
-function createRequest (rawURL) {
+function createRequest(rawURL) {
   const req = {
     appid: global.appid,
     url: rawURL,
@@ -137,7 +138,7 @@ function createRequest (rawURL) {
   return req
 }
 
-function extractDoc (str) {
+function extractDoc(str) {
   let doc
   const templateDoc = str.node ? str : dashboard.HTML.parse(str)
   const applicationIframe = templateDoc.getElementById('application-iframe')
@@ -150,7 +151,7 @@ function extractDoc (str) {
   return doc
 }
 
-function extractRedirectURL (doc) {
+function extractRedirectURL(doc) {
   const metaTags = doc.getElementsByTagName('meta')
   if (metaTags && metaTags.length) {
     for (const metaTag of metaTags) {
@@ -163,7 +164,15 @@ function extractRedirectURL (doc) {
   return null
 }
 
-async function createAdministrator (owner) {
+function nextIdentity() {
+  testDataIndex++
+  if (testDataIndex >= testData.length) {
+    testDataIndex = 0
+  }
+  return testData[testDataIndex]
+}
+
+async function createAdministrator(owner) {
   const administrator = await createUser('administrator-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000))
   if (!administrator.account.administrator) {
     if (!owner) {
@@ -180,7 +189,7 @@ async function createAdministrator (owner) {
   return administrator
 }
 
-async function createOwner () {
+async function createOwner() {
   const owner = await createUser('owner-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000))
   // only the first account created is the owner and only
   // the owner can transfer to a different account so the
@@ -198,7 +207,10 @@ async function createOwner () {
   return owner
 }
 
-async function createUser (username) {
+async function createUser(username) {
+  if (testDataIndex >= testData.length) {
+    testDataIndex = 0
+  }
   username = username || 'user-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000)
   const password = username
   const req = createRequest('/api/user/create-account')
@@ -213,9 +225,6 @@ async function createUser (username) {
     'contact-email': testData[testDataIndex].email
   }
   testDataIndex++
-  if (testDataIndex === testData.length) {
-    testDataIndex = 0
-  }
   let account = await req.post()
   account.username = username
   account.password = password
@@ -246,7 +255,7 @@ async function createUser (username) {
   return user
 }
 
-async function createSession (user, remember) {
+async function createSession(user, remember) {
   const req = createRequest(`/api/user/create-session?accountid=${user.account.accountid}`)
   req.body = {
     username: user.account.username,
@@ -258,7 +267,7 @@ async function createSession (user, remember) {
   return user.session
 }
 
-async function setDeleted (user) {
+async function setDeleted(user) {
   const req = createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
@@ -271,7 +280,7 @@ async function setDeleted (user) {
   return user.account
 }
 
-async function createResetCode (user) {
+async function createResetCode(user) {
   const code = 'resetCode-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000)
   const req = createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
   req.account = user.account
@@ -283,23 +292,23 @@ async function createResetCode (user) {
   return user.resetCode
 }
 
-async function deleteResetCode (user) {
+async function deleteResetCode(user) {
   const req = createRequest(`/api/user/delete-reset-code?codeid=${user.resetCode.codeid}`)
   req.account = user.account
   req.session = user.session
   await req.delete()
 }
 
-async function createProfile (user, properties) {
+async function createProfile(user, properties) {
   testDataIndex++
+  if (testDataIndex >= testData.length) {
+    testDataIndex = 0
+  }
   const req = createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
   req.body = properties
   testDataIndex++
-  if (testDataIndex === testData.length) {
-    testDataIndex = 0
-  }
   user.profile = await req.post()
   await wait(100)
   return user.profile
@@ -389,7 +398,7 @@ const proxy = util.promisify((method, path, req, callback) => {
 })
 
 // via https://stackoverflow.com/questions/18052762/remove-directory-which-is-not-empty
-function deleteLocalData (currentPath) {
+function deleteLocalData(currentPath) {
   if (!fs.existsSync(currentPath)) {
     return
   }
