@@ -70,13 +70,13 @@ node main.js
 # false | true default false
 # permits public access to the browser API
 
-# REQUIRE_PROFILE_EMAIL=false 
+# REQUIRE_PROFILE=false 
 # false | true default false
-# requires email address when registering
+# requires a profile be created when registering
 
-# REQUIRE_PROFILE_NAME=false 
-# false |true default false
-# requires name when registering
+# USER_PROFILE_FIELDS=full-name,contact-email
+# list of profile properties default full-name,contact-email
+# required fields for user profiles
 
 # DELETE_DELAY=7 # number
 # accounts are flagged for deletion after this many days
