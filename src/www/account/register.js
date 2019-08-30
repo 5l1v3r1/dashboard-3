@@ -24,7 +24,7 @@ function renderPage (req, res, messageTemplate) {
   } else {
     const profileFields = req.profileFields || global.userProfileFields
     for (const field of profileFields) {
-      removeFields.splice(removeFields.indexOf(`${field}-container`))
+      removeFields.splice(removeFields.indexOf(field), 1)
     }
     for (const id of removeFields) {
       const element = doc.getElementById(`${id}-container`)

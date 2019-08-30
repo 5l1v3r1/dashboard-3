@@ -23,7 +23,7 @@ function renderPage (req, res, messageTemplate) {
   const removeFields = [ 'display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website' ]
   const profileFields = req.profileFields || global.userProfileFields
   for (const field of profileFields) {
-    removeFields.splice(removeFields.indexOf(`${field}-container`))
+    removeFields.splice(removeFields.indexOf(field), 1)
   }
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
