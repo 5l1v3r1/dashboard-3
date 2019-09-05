@@ -40,6 +40,7 @@ async function submitForm (req, res) {
   if (!req.body) {
     return renderPage(req, res)
   }
+  req.body.code = req.body.code.trim ? req.body.code.trim() : req.body.code
   if (!req.body.code || !req.body.code.length) {
     return renderPage(req, res, 'invalid-reset-code')
   }

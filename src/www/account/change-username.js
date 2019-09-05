@@ -30,6 +30,7 @@ async function submitForm (req, res) {
   if (!req.body) {
     return renderPage(req, res)
   }
+  req.body['new-password'] = req.body['new-username'].trim ? req.body['new-username'].trim() : req.body['new-username']
   if (!req.body['new-username'] || !req.body['new-username'].length) {
     return renderPage(req, res, 'invalid-new-username')
   }
