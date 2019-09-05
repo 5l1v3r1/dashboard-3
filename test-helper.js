@@ -24,10 +24,16 @@ if (process.env.STORAGE_CACHE) {
   require(`${process.env.STORAGE_CACHE}/test-helper.js`)
 }
 
+let browser
 let packageJSON
 before(async () => {
   await dashboard.start(global.applicationPath || __dirname)
   packageJSON = global.packageJSON
+  browser = await puppeteer.launch({
+    headless: !(process.env.SHOW_BROWSERS === 'true'),
+    args: ['--window-size=1920,1080', '--incognito'],
+    slowMo: 0
+  })
 })
 
 beforeEach(async () => {
@@ -76,6 +82,10 @@ afterEach(() => {
 after((callback) => {
   dashboard.stop()
   global.testEnded = true
+  if (browser && browser.close) {
+    browser.close()
+    browser = null
+  }
   return callback()
 })
 
@@ -134,7 +144,8 @@ function createRequest (rawURL) {
       // open in puppeteer and return HTML
       let result
       try {
-        result = await fetchWithPuppeteer(req.method, req)
+        // result = await fetchWithPuppeteer(req.method, req)
+        result = await proxy(verb, rawURL, req)
       } catch (error) {
         return error
       }
@@ -424,15 +435,8 @@ function deleteLocalData (currentPath) {
 }
 
 async function fetchWithPuppeteer (method, req) {
-  const browser = await puppeteer.launch({
-    headless: !(process.env.SHOW_BROWSERS === 'true'),
-    args: ['--window-size=1920,1080', '--incognito'],
-    slowMo: 20
-  })
-  const pages = await browser.pages()
-  const page = pages[0]
-  page.on('error', (error) => {
-  })
+  const page = await browser.newPage()
+  page.on('error', (error) => {})
   await page.emulate({
     name: 'Desktop',
     userAgent: 'Desktop browser',
@@ -459,6 +463,5 @@ async function fetchWithPuppeteer (method, req) {
   const htmls = await page.$$('html')
   const html = await page.evaluate(el => el.outerHTML, htmls[0])
   await page.close()
-  await browser.close()
   return html
 }
