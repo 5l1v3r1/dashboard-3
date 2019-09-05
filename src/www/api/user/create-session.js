@@ -12,12 +12,6 @@ module.exports = {
     if (!req.body.password || !req.body.password.length) {
       throw new Error('invalid-password')
     }
-    if (global.minimumUsernameLength > req.body.username.length) {
-      throw new Error('invalid-username-length')
-    }
-    if (global.minimumPasswordLength > req.body.password.length) {
-      throw new Error('invalid-password-length')
-    }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
     let dashboardSessionKey = global.dashboardSessionKey
     let bcryptFixedSalt = global.bcryptFixedSalt
