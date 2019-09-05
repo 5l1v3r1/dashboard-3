@@ -6,8 +6,10 @@ const dashboard = require('./index.js')
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
+const puppeteer = require('puppeteer')
 const querystring = require('querystring')
 const testData = require('./test-data.json')
+const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
 const url = require('url')
 const util = require('util')
 
@@ -104,7 +106,7 @@ module.exports = {
   wait
 }
 
-function createRequest(rawURL) {
+function createRequest (rawURL) {
   const req = {
     appid: global.appid,
     url: rawURL,
@@ -120,25 +122,32 @@ function createRequest(rawURL) {
   for (const verb of ['get', 'post', 'patch', 'delete', 'put']) {
     req[verb] = async () => {
       req.method = verb.toUpperCase()
-      await wait()
-      // perform the operation
+      if (req.url.startsWith('/api/')) {
+        let result
+        try {
+          result = await proxy(verb, rawURL, req)
+        } catch (error) {
+          return error
+        }
+        return result
+      }
+      // open in puppeteer and return HTML
       let result
       try {
-        result = await proxy(verb, rawURL, req)
+        result = await fetchWithPuppeteer(req.method, req)
       } catch (error) {
         return error
       }
-      if (req.authorize === false) {
-        return result
-      }
-      await wait()
       return result
     }
   }
   return req
 }
 
-function extractDoc(str) {
+function extractDoc (str) {
+  if (!str) {
+    return null
+  }
   let doc
   const templateDoc = str.node ? str : dashboard.HTML.parse(str)
   const applicationIframe = templateDoc.getElementById('application-iframe')
@@ -151,7 +160,7 @@ function extractDoc(str) {
   return doc
 }
 
-function extractRedirectURL(doc) {
+function extractRedirectURL (doc) {
   const metaTags = doc.getElementsByTagName('meta')
   if (metaTags && metaTags.length) {
     for (const metaTag of metaTags) {
@@ -164,7 +173,7 @@ function extractRedirectURL(doc) {
   return null
 }
 
-function nextIdentity() {
+function nextIdentity () {
   testDataIndex++
   if (testDataIndex >= testData.length) {
     testDataIndex = 0
@@ -172,7 +181,7 @@ function nextIdentity() {
   return testData[testDataIndex]
 }
 
-async function createAdministrator(owner) {
+async function createAdministrator (owner) {
   const administrator = await createUser('administrator-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000))
   if (!administrator.account.administrator) {
     if (!owner) {
@@ -189,7 +198,7 @@ async function createAdministrator(owner) {
   return administrator
 }
 
-async function createOwner() {
+async function createOwner () {
   const owner = await createUser('owner-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000))
   // only the first account created is the owner and only
   // the owner can transfer to a different account so the
@@ -207,7 +216,7 @@ async function createOwner() {
   return owner
 }
 
-async function createUser(username) {
+async function createUser (username) {
   if (testDataIndex >= testData.length) {
     testDataIndex = 0
   }
@@ -255,7 +264,7 @@ async function createUser(username) {
   return user
 }
 
-async function createSession(user, remember) {
+async function createSession (user, remember) {
   const req = createRequest(`/api/user/create-session?accountid=${user.account.accountid}`)
   req.body = {
     username: user.account.username,
@@ -267,7 +276,7 @@ async function createSession(user, remember) {
   return user.session
 }
 
-async function setDeleted(user) {
+async function setDeleted (user) {
   const req = createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
@@ -280,7 +289,7 @@ async function setDeleted(user) {
   return user.account
 }
 
-async function createResetCode(user) {
+async function createResetCode (user) {
   const code = 'resetCode-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000)
   const req = createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
   req.account = user.account
@@ -292,14 +301,14 @@ async function createResetCode(user) {
   return user.resetCode
 }
 
-async function deleteResetCode(user) {
+async function deleteResetCode (user) {
   const req = createRequest(`/api/user/delete-reset-code?codeid=${user.resetCode.codeid}`)
   req.account = user.account
   req.session = user.session
   await req.delete()
 }
 
-async function createProfile(user, properties) {
+async function createProfile (user, properties) {
   testDataIndex++
   if (testDataIndex >= testData.length) {
     testDataIndex = 0
@@ -397,8 +406,7 @@ const proxy = util.promisify((method, path, req, callback) => {
   return proxyRequest.end()
 })
 
-// via https://stackoverflow.com/questions/18052762/remove-directory-which-is-not-empty
-function deleteLocalData(currentPath) {
+function deleteLocalData (currentPath) {
   if (!fs.existsSync(currentPath)) {
     return
   }
@@ -413,4 +421,44 @@ function deleteLocalData(currentPath) {
     }
   }
   fs.rmdirSync(currentPath)
+}
+
+async function fetchWithPuppeteer (method, req) {
+  const browser = await puppeteer.launch({
+    headless: !(process.env.SHOW_BROWSERS === 'true'),
+    args: ['--window-size=1920,1080', '--incognito'],
+    slowMo: 20
+  })
+  const pages = await browser.pages()
+  const page = pages[0]
+  page.on('error', (error) => {
+  })
+  await page.emulate({
+    name: 'Desktop',
+    userAgent: 'Desktop browser',
+    viewport: {
+      width: 1920,
+      height: 1080,
+      deviceScaleFactor: 1,
+      isMobile: false,
+      hasTouch: false,
+      isLandscape: false
+    }
+  })
+  await page.goto(`${process.env.DASHBOARD_SERVER}/account/signin`, { waitLoad: true, waitNetworkIdle: true })
+  await TestHelperPuppeteer.fill(page, {
+    username: req.account.username,
+    password: req.account.password
+  })
+  await TestHelperPuppeteer.click(page, 'Sign in')
+  await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
+  if (method === 'POST') {
+    await TestHelperPuppeteer.fill(page, req.body)
+    await TestHelperPuppeteer.click(page, '#submit-button')
+  }
+  const htmls = await page.$$('html')
+  const html = await page.evaluate(el => el.outerHTML, htmls[0])
+  await page.close()
+  await browser.close()
+  return html
 }
