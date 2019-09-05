@@ -20,10 +20,17 @@ module.exports = {
       dashboardSessionKey = req.server.dashboardSessionKey || dashboardSessionKey
       bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
-
     const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
+      if (global.minimumUsernameLength > req.body.username.length || 
+          global.maximumUsernameLength < req.body.username.length) {
+        throw new Error('invalid-username-length')
+      }
+      if (global.minimumPasswordLength > req.body.password.length ||
+          global.maximumUsernameLength < req.body.password.length) {
+        throw new Error('invalid-password-length')
+      }
       throw new Error('invalid-username')
     }
     const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${accountid}`, 'passwordHash')

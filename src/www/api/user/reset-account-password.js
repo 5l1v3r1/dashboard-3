@@ -22,10 +22,6 @@ module.exports = {
     if (!req.body.code || !req.body.code.length) {
       throw new Error('invalid-reset-code')
     }
-    if (global.minimumResetCodeLength > req.body.code.length) {
-      throw new Error('invalid-reset-code-length')
-    }
-
     let dashboardEncryptionKey = global.dashboardEncryptionKey
     let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
@@ -52,6 +48,11 @@ module.exports = {
     const codeHash = await dashboard.Hash.fixedSaltHash(req.body.code, bcryptFixedSalt, dashboardEncryptionKey)
     const codeid = await dashboard.Storage.read(`${req.appid}/map/account/resetCodes/${account.accountid}/${codeHash}`)
     if (!codeid) {
+      if (global.minimumResetCodeLength > req.body.code.length ||
+          global.maximumResetCodeLength < req.body.code.length) {
+        throw new Error('invalid-reset-code-length')
+      }
+
       throw new Error('invalid-reset-code')
     }
     req.query.codeid = codeid
