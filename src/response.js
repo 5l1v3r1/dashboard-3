@@ -79,7 +79,7 @@ async function redirect (req, res, url) {
 }
 
 function throw404 (req, res) {
-  if (req.route === '/public/content-additional.css' || req.route === '/public/template-additional.css') {
+  if (req.urlPath === '/public/content-additional.css' || req.urlPath === '/public/template-additional.css') {
     res.setHeader('content-type', mimeTypes.css)
     res.statusCode = 200
     return res.end()
