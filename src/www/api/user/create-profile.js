@@ -22,15 +22,15 @@ module.exports = {
           if (!req.body['first-name'] || !req.body['first-name'].length) {
             throw new Error('invalid-first-name')
           }
-          if (global.minimumFirstNameLength > req.body['first-name'].length ||
-            global.maximumFirstNameLength < req.body['first-name'].length) {
+          if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
+            global.maximumProfileFirstNameLength < req.body['first-name'].length) {
             throw new Error('invalid-first-name-length')
           }
           if (!req.body['last-name'] || !req.body['last-name'].length) {
             throw new Error('invalid-last-name')
           }
-          if (global.minimumLastNameLength > req.body['last-name'].length ||
-            global.maximumLastNameLength < req.body['last-name'].length) {
+          if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
+            global.maximumProfileLastNameLength < req.body['last-name'].length) {
             throw new Error('invalid-last-name-length')
           }
           profileInfo.firstName = req.body['first-name']
@@ -52,11 +52,21 @@ module.exports = {
           if (!req.body[field] || !req.body[field].length) {
             throw new Error(`invalid-${field}`)
           }
-          if (global.minimumDisplayNameLength > req.body[field].length ||
-            global.maximumDisplayNameLength < req.body[field].length) {
+          if (global.minimumProfileDisplayNameLength > req.body[field].length ||
+            global.maximumProfileDisplayNameLength < req.body[field].length) {
             throw new Error('invalid-display-name-length')
           }
           profileInfo.displayName = req.body[field]
+          continue
+        case 'company-name':
+          if (!req.body[field] || !req.body[field].length) {
+            throw new Error(`invalid-${field}`)
+          }
+          if (global.minimumProfileCompanyNameLength > req.body[field].length ||
+            global.maximumProfileCompanyNameLength < req.body[field].length) {
+            throw new Error('invalid-company-name-length')
+          }
+          profileInfo.companyName = req.body[field]
           continue
         case 'dob':
           if (!req.body[field] || !req.body[field].length) {

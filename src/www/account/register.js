@@ -47,10 +47,14 @@ async function submitForm (req, res) {
   if (!req.body.password || !req.body.password.length) {
     return renderPage(req, res, 'invalid-password')
   }
-  if (global.minimumUsernameLength > req.body.username.length) {
+  req.body.username = req.body.username.trim ? req.body.username.trim() : req.body.username
+  if (global.minimumUsernameLength > req.body.username.length ||
+      global.maximumUsernameLength < req.body.username.length) {
     return renderPage(req, res, 'invalid-username-length')
   }
-  if (global.minimumPasswordLength > req.body.password.length) {
+  req.body.password = req.body.password.trim ? req.body.password.trim() : req.body.password
+  if (global.minimumPasswordLength > req.body.password.length ||
+      global.maximumPasswordLength < req.body.password.length) {
     return renderPage(req, res, 'invalid-password-length')
   }
   if (req.body.confirm !== req.body.password) {
@@ -65,15 +69,17 @@ async function submitForm (req, res) {
           if (!req.body['first-name'] || !req.body['first-name'].length) {
             return renderPage(req, res, 'invalid-first-name')
           }
-          if (global.minimumFirstNameLength > req.body['first-name'].length ||
-            global.maximumFirstNameLength < req.body['first-name'].length) {
+          req.body['first-name'] = req.body['first-name'].trim ? req.body['first-name'].trim() : req.body['first-name']
+          if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
+            global.maximumProfileFirstNameLength < req.body['first-name'].length) {
             return renderPage(req, res, 'invalid-first-name-length')
           }
           if (!req.body['last-name'] || !req.body['last-name'].length) {
             return renderPage(req, res, 'invalid-last-name')
           }
-          if (global.minimumLastNameLength > req.body['last-name'].length ||
-            global.maximumLastNameLength < req.body['last-name'].length) {
+          req.body['last-name'] = req.body['last-name'].trim ? req.body['last-name'].trim() : req.body['last-name']
+          if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
+            global.maximumProfileLastNameLength < req.body['last-name'].length) {
             return renderPage(req, res, 'invalid-last-name-length')
           }
           continue
@@ -91,9 +97,20 @@ async function submitForm (req, res) {
           if (!req.body[field] || !req.body[field].length) {
             return renderPage(req, res, `invalid-${field}`)
           }
-          if (global.minimumDisplayNameLength > req.body[field].length ||
-            global.maximumDisplayNameLength < req.body[field].length) {
+          req.body['display-name'] = req.body['display-name'].trim ? req.body['display-name'].trim() : req.body['display-name']
+          if (global.minimumProfileDisplayNameLength > req.body[field].length ||
+            global.maximumProfileDisplayNameLength < req.body[field].length) {
             return renderPage(req, res, 'invalid-display-name-length')
+          }
+          continue
+        case 'company-name':
+          if (!req.body[field] || !req.body[field].length) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          req.body['company-name'] = req.body['company-name'].trim ? req.body['company-name'].trim() : req.body['company-name']
+          if (global.minimumProfileCompanyNameLength > req.body[field].length ||
+            global.maximumProfileCompanyNameLength < req.body[field].length) {
+            return renderPage(req, res, 'invalid-company-name-length')
           }
           continue
         case 'dob':
