@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.29 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.30 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --timeout 420000 --slow 420000
 
 
@@ -313,7 +313,7 @@
       ✓ should accept dob in MM-DD-YYYY
       ✓ should require unvalidated fields
       ✓ should save unvalidated fields
-      ✓ should create new profile and set as default
+      ✓ should update profile and set as default
 
   /account/end-all-sessions
     EndAllSessions#GET
@@ -357,7 +357,7 @@
       ✓ should enforce password length
       ✓ should reject invalid confirm
       ✓ should require full name
-      ✓ should enforce name field lengths
+      ✓ should enforce full name lengths
       ✓ should create new account with full name
       ✓ should reject missing contact email
       ✓ should require "@" in contact email
@@ -374,7 +374,6 @@
       ✓ should accept dob in MM-DD-YYYY
       ✓ should require unvalidated fields
       ✓ should save unvalidated fields
-      ✓ should create new profile and set as default
       ✓ should create account and 20-minute session
 
   /account/reset-account
@@ -1029,5 +1028,5 @@
       ✓ should update profile with overridden settings
 
 
-  606 passing (2m)
+  605 passing (3m)
 
