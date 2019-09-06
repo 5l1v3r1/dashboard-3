@@ -43,8 +43,8 @@ describe(`/api/user/create-profile`, () => {
         'first-name': '1',
         'last-name': 'Test'
       }
-      global.minimumFirstNameLength = 10
-      global.maximumFirstNameLength = 100
+      global.minimumProfileFirstNameLength = 10
+      global.maximumProfileFirstNameLength = 100
       let errorMessage
       try {
         await req.route.api.post(req)
@@ -52,8 +52,8 @@ describe(`/api/user/create-profile`, () => {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-first-name-length')
-      global.minimumFirstNameLength = 1
-      global.maximumFirstNameLength = 1
+      global.minimumProfileFirstNameLength = 1
+      global.maximumProfileFirstNameLength = 1
       req.body = {
         'first-name': '123456789',
         'last-name': 'Test',
@@ -90,7 +90,7 @@ describe(`/api/user/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'contact-email': null
+        'contact-email': ' '
       }
       let errorMessage
       try {
@@ -139,7 +139,7 @@ describe(`/api/user/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'display-email': null
+        'display-email': ' '
       }
       let errorMessage
       try {
@@ -208,8 +208,8 @@ describe(`/api/user/create-profile`, () => {
       req.body = {
         'display-name': '1'
       }
-      global.minimumDisplayNameLength = 10
-      global.maximumDisplayNameLength = 100
+      global.minimumProfileDisplayNameLength = 10
+      global.maximumProfileDisplayNameLength = 100
       let errorMessage
       try {
         await req.route.api.post(req)
@@ -217,8 +217,8 @@ describe(`/api/user/create-profile`, () => {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-display-name-length')
-      global.minimumDisplayNameLength = 1
-      global.maximumDisplayNameLength = 1
+      global.minimumProfileDisplayNameLength = 1
+      global.maximumProfileDisplayNameLength = 1
       req.body = {
         'display-name': '123456789'
       }
@@ -370,8 +370,8 @@ describe(`/api/user/create-profile`, () => {
         phone: '456-789-0123',
         occupation: 'Programmer',
         location: 'USA',
-        'company-name': user.profile.contactEmail.split('@')[1].split('.')[0],
-        website: 'https://' + user.profile.contactEmail.split('@')[1],
+        'company-name': 'Test company',
+        website: 'https://example.com',
         default: 'true'
       }
       const profile = await req.post()
@@ -408,8 +408,8 @@ describe(`/api/user/create-profile`, () => {
         phone: '456-789-0123',
         occupation: 'Programmer',
         location: 'USA',
-        'company-name': user.profile.contactEmail.split('@')[1].split('.')[0],
-        website: 'https://' + user.profile.contactEmail.split('@')[1],
+        'company-name': 'Test company',
+        website: 'https://example.com',
         default: 'true'
       }
       const profile = await req.route.api.post(req)

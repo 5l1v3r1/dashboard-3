@@ -102,9 +102,6 @@ describe(`/administrator/delete-account`, () => {
       const req = TestHelper.createRequest(`/administrator/delete-account?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
-      req.body = {
-        code: 'code-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000)
-      }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')

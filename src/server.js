@@ -86,7 +86,7 @@ function stop () {
 
 async function receiveRequest (req, res) {
   if (process.env.DEBUG_REQUESTS) {
-    console.log('server.receive', req.url)
+    console.log('server.receive', req.method, req.url)
   }
   const question = req.url.indexOf('?')
   req.appid = global.appid

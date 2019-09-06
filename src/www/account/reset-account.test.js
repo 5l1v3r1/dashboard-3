@@ -46,7 +46,7 @@ describe('/account/reset-account', () => {
         username: 'username',
         'new-password': 'new-password',
         'confirm-password': 'new-password',
-        code: null
+        code: ''
       }
       const page = await req.post()
       const message = page.getElementById('message-container').child[0]

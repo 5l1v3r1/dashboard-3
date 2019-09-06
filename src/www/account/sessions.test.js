@@ -75,6 +75,7 @@ describe('/account/sessions', () => {
       req.account = user.account
       req.session = user.session
       const page = await req.get()
+      sessions.unshift({})
       const doc = TestHelper.extractDoc(page)
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(sessions[offset + i].sessionid).tag, 'tr')
