@@ -41,18 +41,15 @@ describe('/account/end-session', () => {
 
   describe('EndSession#POST', () => {
     it('should end the session', async () => {
-      const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
       req.account = user.account
       req.session = user.session
-      await req.post()
-      const req2 = TestHelper.createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)
-      req2.account = administrator.account
-      req2.session = administrator.session
-      const sessionNow = await req2.get(req2)
-      assert.notStrictEqual(sessionNow.ended, null)
-      assert.notStrictEqual(sessionNow.ended, undefined)
+      const page = await req.post()
+      const doc = TestHelper.extractDoc(page)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'success')
     })
   })
 })

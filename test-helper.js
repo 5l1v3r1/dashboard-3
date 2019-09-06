@@ -39,10 +39,9 @@ before(async () => {
 beforeEach(async () => {
   global.packageJSON = packageJSON
   global.appid = `tests_${dashboard.Timestamp.now}`
-  global.allowPublicAPI = true
   global.testNumber = dashboard.Timestamp.now
   global.testModuleJSON = null
-  global.requireProfile = true
+  global.requireProfile = false
   global.userProfileFields = ['full-name', 'contact-email']
   global.minimumUsernameLength = 1
   global.maximumUsernameLength = 100
@@ -50,13 +49,14 @@ beforeEach(async () => {
   global.maximumPasswordLength = 100
   global.minimumResetCodeLength = 1
   global.maximumResetCodeLength = 100
-  global.requireProfile = false
-  global.minimumFirstNameLength = 1
-  global.maximumFirstNameLength = 100
-  global.minimumLastNameLength = 1
-  global.maximumLastNameLength = 100
-  global.minimumDisplayNameLength = 1
-  global.maximumDisplayNameLength = 100
+  global.minimumProfileFirstNameLength = 1
+  global.maximumProfileFirstNameLength = 100
+  global.minimumProfileLastNameLength = 1
+  global.maximumProfileLastNameLength = 100
+  global.minimumProfileDisplayNameLength = 1
+  global.maximumProfileDisplayNameLength = 100
+  global.minimumProfileCompanyNameLength = 1
+  global.maximumProfileCompanyNameLength = 100
   global.deleteDelay = 7
   global.maximumFieldLength = 50
   global.pageSize = 2
@@ -144,10 +144,14 @@ function createRequest (rawURL) {
       // open in puppeteer and return HTML
       let result
       try {
-        // result = await fetchWithPuppeteer(req.method, req)
-        result = await proxy(verb, rawURL, req)
+        result = await fetchWithPuppeteer(req.method, req)
+        // result = await proxy(verb, rawURL, req)
       } catch (error) {
         return error
+      }
+      try {
+        result = dashboard.HTML.parse(result)
+      } catch (error) {
       }
       return result
     }
@@ -234,6 +238,7 @@ async function createUser (username) {
   username = username || 'user-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000)
   const password = username
   const req = createRequest('/api/user/create-account')
+  const requireProfileWas = global.requireProfile
   const profileFieldsWere = global.userProfileFields
   global.requireProfile = true
   global.userProfileFields = ['full-name', 'contact-email']
@@ -271,6 +276,7 @@ async function createUser (username) {
   user.session.token = token
   user.account.username = username
   user.account.password = password
+  global.requireProfile = requireProfileWas
   global.userProfileFields = profileFieldsWere
   return user
 }
@@ -449,12 +455,14 @@ async function fetchWithPuppeteer (method, req) {
       isLandscape: false
     }
   })
-  await page.goto(`${process.env.DASHBOARD_SERVER}/account/signin`, { waitLoad: true, waitNetworkIdle: true })
-  await TestHelperPuppeteer.fill(page, {
-    username: req.account.username,
-    password: req.account.password
-  })
-  await TestHelperPuppeteer.click(page, 'Sign in')
+  if (req.account) {
+    await page.goto(`${process.env.DASHBOARD_SERVER}/account/signin`, { waitLoad: true, waitNetworkIdle: true })
+    await TestHelperPuppeteer.fill(page, {
+      username: req.account.username,
+      password: req.account.password
+    })
+    await TestHelperPuppeteer.click(page, 'Sign in')
+  }
   await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
   if (method === 'POST') {
     await TestHelperPuppeteer.fill(page, req.body)

@@ -36,7 +36,7 @@ describe('/account/profile', () => {
         phone: '456-789-0123',
         occupation: 'Programmer',
         location: 'USA',
-        'company-name': user.profile.contactEmail.split('@')[1].split('.')[0],
+        'company-name': 'Test company',
         website: 'https://' + user.profile.contactEmail.split('@')[1]
       }
       const req = TestHelper.createRequest(`/account/profile?profileid=${user.profile.profileid}`)

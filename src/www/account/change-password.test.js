@@ -23,8 +23,8 @@ describe('/account/change-password', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'new-password': '',
-        'confirm-password': '',
+        'new-password': ' ',
+        'confirm-password': ' ',
         password: user.account.password
       }
       const page = await req.post()

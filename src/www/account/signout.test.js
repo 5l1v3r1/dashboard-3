@@ -15,10 +15,11 @@ describe('/account/signout', () => {
         password: user.account.password
       }
       await req.get()
-      const req2 = TestHelper.createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)
+      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
       req2.account = administrator.account
       req2.session = administrator.session
-      const session = await req2.get(req2)
+      const sessions = await req2.get()
+      const session = sessions[0]
       assert.notStrictEqual(session.ended, undefined)
       assert.notStrictEqual(session.ended, null)
     })
