@@ -157,22 +157,24 @@ async function fill (tab, body, uploads) {
     }
     active = active || tab
     let completed = true
-    for (const field in uploads) {
-      let element
-      try {
-        element = await active.$(`#${field}`)
-      } catch (error) {
-      }
-      if (!element) {
+    if (uploads) {
+      for (const field in uploads) {
+        let element
+        try {
+          element = await active.$(`#${field}`)
+        } catch (error) {
+        }
+        if (!element) {
+          continue
+        }
+        try {
+          await element.uploadFile(uploads[field].path)
+        } catch (error) {
+          completed = false
+          break
+        }
         continue
       }
-      try {
-        await element.uploadFile(req.uploads[field].path)
-      } catch (error) {
-        completed = false
-        break
-      }
-      continue
     }
     if (!completed) {
       continue
