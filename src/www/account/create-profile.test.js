@@ -24,7 +24,7 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'first-name': null,
+        'first-name': ' ',
         'last-name': 'Test'
       }
       const page = await req.post()
@@ -34,7 +34,7 @@ describe(`/account/create-profile`, () => {
       assert.strictEqual(message.attr.template, 'invalid-first-name')
       req.body = {
         'first-name': 'Test',
-        'last-name': null
+        'last-name': ' '
       }
       const page2 = await req.post()
       const doc2 = TestHelper.extractDoc(page2)
@@ -53,19 +53,18 @@ describe(`/account/create-profile`, () => {
         'first-name': '1',
         'last-name': 'Test'
       }
-      global.minimumFirstNameLength = 10
-      global.maximumFirstNameLength = 100
+      global.minimumProfileFirstNameLength = 10
+      global.maximumProfileFirstNameLength = 100
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-first-name-length')
-      global.minimumFirstNameLength = 1
-      global.maximumFirstNameLength = 1
+      global.minimumProfileFirstNameLength = 1
+      global.maximumProfileFirstNameLength = 1
       req.body = {
         'first-name': '123456789',
-        'last-name': 'Test',
-        'contact-email': 'test@email.com'
+        'last-name': 'Test'
       }
       const page2 = await req.post()
       const doc2 = TestHelper.extractDoc(page2)
@@ -98,7 +97,7 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'contact-email': null
+        'contact-email': ' '
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -146,7 +145,7 @@ describe(`/account/create-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'display-email': null
+        'display-email': ' '
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -212,15 +211,15 @@ describe(`/account/create-profile`, () => {
       req.body = {
         'display-name': '1'
       }
-      global.minimumDisplayNameLength = 10
-      global.maximumDisplayNameLength = 100
+      global.minimumProfileDisplayNameLength = 10
+      global.maximumProfileDisplayNameLength = 100
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-name-length')
-      global.minimumDisplayNameLength = 1
-      global.maximumDisplayNameLength = 1
+      global.minimumProfileDisplayNameLength = 1
+      global.maximumProfileDisplayNameLength = 1
       req.body = {
         'display-name': '123456789'
       }
@@ -376,8 +375,8 @@ describe(`/account/create-profile`, () => {
         phone: '456-789-0123',
         occupation: 'Programmer',
         location: 'USA',
-        'company-name': user.profile.contactEmail.split('@')[1].split('.')[0],
-        website: 'https://' + user.profile.contactEmail.split('@')[1],
+        'company-name': 'Test company',
+        website: 'https://example.com',
         default: 'true'
       }
       const page = await req.post()

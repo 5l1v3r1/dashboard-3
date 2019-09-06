@@ -64,19 +64,18 @@ describe(`/account/edit-profile`, () => {
         'first-name': '1',
         'last-name': 'Test'
       }
-      global.minimumFirstNameLength = 10
-      global.maximumFirstNameLength = 100
+      global.minimumProfileFirstNameLength = 10
+      global.maximumProfileFirstNameLength = 100
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-first-name-length')
-      global.minimumFirstNameLength = 1
-      global.maximumFirstNameLength = 1
+      global.minimumProfileFirstNameLength = 1
+      global.maximumProfileFirstNameLength = 1
       req.body = {
         'first-name': '123456789',
-        'last-name': 'Test',
-        'contact-email': 'test@email.com'
+        'last-name': 'Test'
       }
       const page2 = await req.post()
       const doc2 = TestHelper.extractDoc(page2)
@@ -109,7 +108,7 @@ describe(`/account/edit-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'contact-email': null
+        'contact-email': ' '
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -157,7 +156,7 @@ describe(`/account/edit-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'display-email': null
+        'display-email': ' '
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -223,15 +222,15 @@ describe(`/account/edit-profile`, () => {
       req.body = {
         'display-name': '1'
       }
-      global.minimumDisplayNameLength = 10
-      global.maximumDisplayNameLength = 100
+      global.minimumProfileDisplayNameLength = 10
+      global.maximumProfileDisplayNameLength = 100
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-name-length')
-      global.minimumDisplayNameLength = 1
-      global.maximumDisplayNameLength = 1
+      global.minimumProfileDisplayNameLength = 1
+      global.maximumProfileDisplayNameLength = 1
       req.body = {
         'display-name': '123456789'
       }
@@ -344,24 +343,13 @@ describe(`/account/edit-profile`, () => {
     it('should save unvalidated fields', async () => {
       const fields = ['phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/edit-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
       for (const field of fields) {
         global.userProfileFields = [field]
+        const req = TestHelper.createRequest(`/account/edit-profile?profileid=${user.profile.profileid}`)
+        req.account = user.account
+        req.session = user.session
         req.body = {
           [field]: 'test value ' + Math.random()
-        }
-        let displayName = field
-        if (displayName.indexOf('-') > -1) {
-          displayName = displayName.split('-')
-          if (displayName.length === 1) {
-            displayName = displayName[0]
-          } else if (displayName.length === 2) {
-            displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1)
-          } else if (displayName.length === 3) {
-            displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1) + displayName[2].substring(0, 1).toUpperCase() + displayName[2].substring(1)
-          }
         }
         const page = await req.post()
         const doc = TestHelper.extractDoc(page)
@@ -371,7 +359,7 @@ describe(`/account/edit-profile`, () => {
       }
     })
 
-    it('should create new profile and set as default', async () => {
+    it('should update profile and set as default', async () => {
       global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/edit-profile?profileid=${user.profile.profileid}`)
@@ -387,8 +375,8 @@ describe(`/account/edit-profile`, () => {
         phone: '456-789-0123',
         occupation: 'Programmer',
         location: 'USA',
-        'company-name': user.profile.contactEmail.split('@')[1].split('.')[0],
-        website: 'https://' + user.profile.contactEmail.split('@')[1],
+        'company-name': 'Test company',
+        website: 'https://example.com',
         default: 'true'
       }
       const page = await req.post()

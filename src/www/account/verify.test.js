@@ -89,6 +89,7 @@ describe('/account/verify', () => {
     })
 
     it('should mark session as verified', async () => {
+      const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/verify?returnURL=/redirecting')
       req.account = user.account
@@ -100,10 +101,13 @@ describe('/account/verify', () => {
       const page = await req.post()
       const redirectURL = await TestHelper.extractRedirectURL(page)
       assert.strictEqual(redirectURL, '/redirecting')
-      req.query = { sessionid: user.session.sessionid }
-      const sessionNow = await global.api.user.Session.get(req)
-      assert.notStrictEqual(sessionNow.lastVerified, undefined)
-      assert.notStrictEqual(sessionNow.lastVerified, null)
+      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      req2.account = administrator.account
+      req2.session = administrator.session
+      const sessions = await req2.get()
+      const session = sessions[0]
+      assert.notStrictEqual(session.lastVerified, undefined)
+      assert.notStrictEqual(session.lastVerified, null)
     })
   })
 })

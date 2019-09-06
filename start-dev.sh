@@ -120,3 +120,11 @@ node main.js
 # MAXIMUM_PROFILE_LAST_NAME_LENGTH=50 
 # number default 50
 # maximum length for last name
+
+# MINIMUM_PROFILE_COMPANY_NAME_LENGTH=1 
+# number default 1
+# minumum length for company name
+
+# MAXIMUM_PROFILE_COMPANY_NAME_LENGTH=50 
+# number default 50
+# maximum length for company name

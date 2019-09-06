@@ -80,7 +80,7 @@ describe('/account/set-default-profile', () => {
       await TestHelper.createProfile(user, {
         'first-name': user.profile.firstName,
         'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
+        'contact-email': TestHelper.nextIdentity().email,
         default: 'true'
       })
       const req = TestHelper.createRequest(`/account/set-default-profile`)

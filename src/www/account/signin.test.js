@@ -17,7 +17,7 @@ describe('/account/signin', () => {
     it('should reject missing username', async () => {
       const req = TestHelper.createRequest('/account/signin')
       req.body = {
-        username: '',
+        username: ' ',
         password: 'password'
       }
       const page = await req.post()
@@ -73,6 +73,7 @@ describe('/account/signin', () => {
     })
 
     it('should create session expiring in 20 minutes as default', async () => {
+      const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/signin')
       req.body = {
@@ -80,11 +81,17 @@ describe('/account/signin', () => {
         password: user.account.password
       }
       await req.post()
-      const minutes = Math.ceil((req.session.expires - dashboard.Timestamp.now) / 60)
+      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      req2.account = administrator.account
+      req2.session = administrator.session
+      const sessions = await req2.get()
+      const session = sessions[0]
+      const minutes = Math.ceil((session.expires - dashboard.Timestamp.now) / 60)
       assert.strictEqual(minutes, 20)
     })
 
     it('should create session expiring in 20 minutes', async () => {
+      const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/signin')
       req.body = {
@@ -93,11 +100,17 @@ describe('/account/signin', () => {
         remember: 'minutes'
       }
       await req.post()
-      const minutes = Math.ceil((req.session.expires - dashboard.Timestamp.now) / 60)
+      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      req2.account = administrator.account
+      req2.session = administrator.session
+      const sessions = await req2.get()
+      const session = sessions[0]
+      const minutes = Math.ceil((session.expires - dashboard.Timestamp.now) / 60)
       assert.strictEqual(minutes, 20)
     })
 
     it('should create session expiring in 8 hours', async () => {
+      const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/signin')
       req.body = {
@@ -106,11 +119,18 @@ describe('/account/signin', () => {
         remember: 'hours'
       }
       await req.post()
-      const hours = Math.ceil((req.session.expires - dashboard.Timestamp.now) / 60 / 60)
+      await req.post()
+      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      req2.account = administrator.account
+      req2.session = administrator.session
+      const sessions = await req2.get()
+      const session = sessions[0]
+      const hours = Math.ceil((session.expires - dashboard.Timestamp.now) / 60 / 60)
       assert.strictEqual(hours, 8)
     })
 
     it('should create session expiring in 30 days', async () => {
+      const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/signin')
       req.body = {
@@ -119,7 +139,12 @@ describe('/account/signin', () => {
         remember: 'days'
       }
       await req.post()
-      const days = Math.ceil((req.session.expires - dashboard.Timestamp.now) / 60 / 60 / 24)
+      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      req2.account = administrator.account
+      req2.session = administrator.session
+      const sessions = await req2.get()
+      const session = sessions[0]
+      const days = Math.ceil((session.expires - dashboard.Timestamp.now) / 60 / 60 / 24)
       assert.strictEqual(days, 30)
     })
   })
