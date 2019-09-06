@@ -142,7 +142,7 @@ async function click (tab, identifier) {
   }
 }
 
-async function fill (tab, body) {
+async function fill (tab, body, uploads) {
   while (true) {
     // console.log('fill')
     await tab.waitFor(10)
@@ -157,6 +157,26 @@ async function fill (tab, body) {
     }
     active = active || tab
     let completed = true
+    for (const field in uploads) {
+      let element
+      try {
+        element = await active.$(`#${field}`)
+      } catch (error) {
+      }
+      if (!element) {
+        continue
+      }
+      try {
+        await element.uploadFile(req.uploads[field].path)
+      } catch (error) {
+        completed = false
+        break
+      }
+      continue
+    }
+    if (!completed) {
+      continue
+    }
     for (const field in body) {
       if (!body[field]) {
         continue

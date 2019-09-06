@@ -465,7 +465,7 @@ async function fetchWithPuppeteer (method, req) {
   }
   await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
   if (method === 'POST') {
-    await TestHelperPuppeteer.fill(page, req.body)
+    await TestHelperPuppeteer.fill(page, req.body, req.uploads)
     await TestHelperPuppeteer.click(page, '#submit-button')
   }
   const htmls = await page.$$('html')
