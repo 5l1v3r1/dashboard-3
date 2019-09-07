@@ -83,7 +83,10 @@ module.exports = {
       const configuration = outputConfiguration()
       console.log(configuration)
     }
-    return Server.start()
+    if (process.env.NODE_ENV === 'sitemap') {
+      return
+    }
+    Server.start()
   },
   stop: () => {
     clearInterval(Timestamp.interval)
