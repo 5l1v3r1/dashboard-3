@@ -5,23 +5,19 @@ const Server = require('./src/server.js')
 const Sitemap = require('./src/sitemap.js')
 const Timestamp = require('./src/timestamp.js')
 
-// servers
-global.host = process.env.IP || 'localhost'
-global.port = parseInt(process.env.PORT || '8000', 10)
-
-// sensitive configuration variables
-global.applicationServer = process.env.APPLICATION_SERVER
-global.applicationServerToken = process.env.APPLICATION_SERVER_TOKEN
-if (global.applicationServer && !global.applicationServerToken) {
-  throw new Error('Invalid APPLICATION_SERVER_TOKEN')
-}
-
 let defaultFixedSalt, defaultSessionKey
 if (process.env.NODE_ENV !== 'production') {
   defaultFixedSalt = '$2a$10$uyrNLHlx/gxwbdSowtRP7u'
   defaultSessionKey = 'dashboard-session-key'
 }
 
+global.host = process.env.IP || 'localhost'
+global.port = parseInt(process.env.PORT || '8000', 10)
+global.applicationServer = process.env.APPLICATION_SERVER
+global.applicationServerToken = process.env.APPLICATION_SERVER_TOKEN
+if (global.applicationServer && !global.applicationServerToken) {
+  throw new Error('Invalid APPLICATION_SERVER_TOKEN')
+}
 global.dashboardSessionKey = process.env.DASHBOARD_SESSION_KEY || defaultSessionKey
 global.bcryptFixedSalt = process.env.BCRYPT_FIXED_SALT || defaultFixedSalt
 if (!global.bcryptFixedSalt) {
@@ -30,7 +26,6 @@ if (!global.bcryptFixedSalt) {
 if (!global.dashboardSessionKey) {
   throw new Error('Invalid DASHBOARD_SESSION_KEY')
 }
-
 if (process.env.ENCRYPTION_SECRET &&
   process.env.ENCRYPTION_SECRET.length !== 32) {
   throw new Error('Invalid ENCRYPTION_SECRET length (32)')
@@ -40,8 +35,6 @@ if (process.env.ENCRYPTION_SECRET &&
   process.env.ENCRYPTION_SECRET_IV.length !== 16)) {
   throw new Error('Invalid ENCRYPTION_SECRET_IV length (16)')
 }
-
-// profile fields
 global.requireProfile = process.env.REQUIRE_PROFILE === 'true'
 global.profileFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
 if (!process.env.USER_PROFILE_FIELDS) {
@@ -52,8 +45,6 @@ if (!process.env.USER_PROFILE_FIELDS) {
 } else {
   global.userProfileFields = process.env.USER_PROFILE_FIELDS.split(',')
 }
-
-// optional configuration variables with safe defaults
 global.appid = process.env.APPID || process.env.DOMAIN || 'dashboard'
 global.allowPublicAPI = process.env.ALLOW_PUBLIC_API === 'true'
 global.dashboardServer = process.env.DASHBOARD_SERVER
@@ -102,16 +93,8 @@ module.exports = {
   setup: (applicationPath) => {
     global.applicationPath = applicationPath
     global.rootPath = `${applicationPath}/src/www`
-    // the package.json is combined from your application and any
-    // modules to define the account and administrator menus and
-    // server before/after authentication handlers
     global.packageJSON = mergePackageJSON()
-    // the sitemap is a url index of all pages and API endpoints
-    // from the combined dashboard, modules you specify and your
-    // own application
     global.sitemap = Sitemap.generate()
-    // the api is an object structured from sitemap API endpoints
-    // global.api.user.UpdateUsername -> global.sitemap['/api/user/update-username']
     global.api = API.generate()
   }
 }

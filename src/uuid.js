@@ -7,7 +7,6 @@ module.exports = {
   v4
 }
 
-// this is the 'uuid' module v4 function abbreviated from https://github.com/kelektiv/node-uuid/
 const byteToHex = []
 for (let i = 0; i < 256; ++i) {
   byteToHex[i] = (i + 0x100).toString(16).substring(1)
@@ -49,7 +48,6 @@ function encode (string) {
   return str
 }
 
-// via https://coligo.io/create-url-shortener-with-node-express-mongo/
 function generateID () {
   return random(global.idLength || 16)
 }

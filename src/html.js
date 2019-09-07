@@ -60,16 +60,13 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   if (!raw) {
     throw new Error('invalid-html')
   }
-  // remove premable
   raw = raw.substring(raw.indexOf('<'))
   if (raw.indexOf('<!--') === 0) {
     raw = raw.substring(raw.indexOf('-->') + 3)
   }
-  // remove doctype because it won't parse
   if (raw.toLowerCase().startsWith('<!doctype')) {
     raw = raw.substring(raw.indexOf('>') + 1)
   }
-  // extract HTML tag to check for a navbar insertion
   let htmlTag = raw.substring(0, raw.indexOf('>') + 1)
   htmlTag = htmlTag.substring(htmlTag.indexOf('<'))
   if (htmlTag.indexOf('<html') === 0) {
@@ -77,10 +74,8 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
       let navbar = htmlTag.split(' navbar="')[1]
       navbar = navbar.substring(0, navbar.indexOf('"'))
       let navbarPath = path.join(global.rootPath, navbar)
-      // the dashboard /public folder
       if (!fs.existsSync(navbarPath)) {
         navbarPath = path.join(global.applicationPath, `node_modules/@userdashboard/dashboard/src/www${navbar}`)
-        // a module /public folder
         if (!fs.existsSync(navbarPath)) {
           for (const moduleName of global.packageJSON.dashboard.moduleNames) {
             navbarPath = `${global.applicationPath}/node_modules/${moduleName}/src/www${navbar}`
@@ -303,14 +298,12 @@ function renderPagination (doc, offset, total, pageSize) {
     pageLinks.push({ object: 'page', offset: (i * pageSize), pageNumber: i + 1 })
   }
   renderList(doc, pageLinks, 'page-link', 'page-links')
-  // remove ?offset=0
   const first = doc.getElementById(`page-link-1`)
   if (first) {
     first.attr.href = first.attr.href.substring(0, first.attr.href.indexOf('?offset=0'))
   } else {
     return
   }
-  // set current page
   let currentPage = Math.ceil(offset / pageSize) + 1
   if (currentPage === 1) {
     return first.classList.add('current-page')

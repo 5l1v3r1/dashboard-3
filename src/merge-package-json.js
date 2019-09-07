@@ -2,11 +2,6 @@ const fs = require('fs')
 
 module.exports = mergePackageJSON
 
-/**
- * mergePackageJSON combines the dashboard, module and project
- * account and administration menus in package.json files into
- * a single JSON object
- */
 function mergePackageJSON (applicationJSON, dashboardJSON) {
   applicationJSON = applicationJSON || loadApplicationJSON(applicationJSON)
   if (applicationJSON && applicationJSON.name === '@userdashboard/dashboard') {
@@ -15,7 +10,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   } else {
     dashboardJSON = dashboardJSON || loadDashboardJSON(dashboardJSON)
   }
-  // compose a single {} from each relevant file
   const packageJSON = {}
   packageJSON.version = dashboardJSON.version
   packageJSON.dashboard = {}
@@ -30,12 +24,10 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     account: [],
     administrator: []
   }
-  // title comes from application or dashboard
   if (applicationJSON && applicationJSON.dashboard) {
     packageJSON.dashboard.title = applicationJSON.dashboard.title
   }
   packageJSON.dashboard.title = packageJSON.dashboard.title || 'Dashboard'
-  // remap server and content handlers to the Dashboard as a module
   if (applicationJSON) {
     for (const i in dashboardJSON.dashboard.server) {
       const relativePath = dashboardJSON.dashboard.server[i]
@@ -63,7 +55,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
       packageJSON.dashboard.contentFilePaths[i] = filePath
     }
   }
-  // apply any modules imported by the application
   if (applicationJSON && applicationJSON.dashboard) {
     if (applicationJSON.dashboard.modules && applicationJSON.dashboard.modules.length) {
       packageJSON.dashboard.modules = [].concat(applicationJSON.dashboard.modules)
@@ -85,7 +76,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
         mergeModuleJSON(packageJSON, moduleJSON)
       }
     }
-    // add the application server handlers to the end
     if (applicationJSON.dashboard.server && applicationJSON.dashboard.server.length) {
       for (const i in applicationJSON.dashboard.server) {
         const relativePath = applicationJSON.dashboard.server[i]
@@ -94,7 +84,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
         packageJSON.dashboard.serverFilePaths.push(filePath)
       }
     }
-    // add the application content handlers to the end
     if (applicationJSON.dashboard.content && applicationJSON.dashboard.content.length) {
       for (const i in applicationJSON.dashboard.content) {
         const relativePath = applicationJSON.dashboard.content[i]
@@ -103,7 +92,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
         packageJSON.dashboard.contentFilePaths.push(filePath)
       }
     }
-    // add the application menus to the start
     if (applicationJSON.dashboard.menus) {
       if (applicationJSON.dashboard.menus.administrator && applicationJSON.dashboard.menus.administrator.length) {
         packageJSON.dashboard.menus.administrator = applicationJSON.dashboard.menus.administrator.concat(packageJSON.dashboard.menus.administrator)
@@ -113,7 +101,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
       }
     }
   }
-  // add the dashboard menus to the end
   if (dashboardJSON.dashboard.menus) {
     if (dashboardJSON.dashboard.menus.administrator && dashboardJSON.dashboard.menus.administrator.length) {
       packageJSON.dashboard.menus.administrator = packageJSON.dashboard.menus.administrator.concat(dashboardJSON.dashboard.menus.administrator)
@@ -122,7 +109,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
       packageJSON.dashboard.menus.account = packageJSON.dashboard.menus.account.concat(dashboardJSON.dashboard.menus.account)
     }
   }
-  // load the complete module list
   for (const i in packageJSON.dashboard.modules) {
     const moduleName = packageJSON.dashboard.modules[i]
     if (!moduleName) {
@@ -135,7 +121,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
       packageJSON.dashboard.moduleVersions[i] = modulePackageJSON.version
     }
   }
-  // load the complete server handler list
   for (const i in packageJSON.dashboard.serverFilePaths) {
     const filePath = packageJSON.dashboard.serverFilePaths[i]
     if (fs.existsSync(filePath)) {
@@ -146,7 +131,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
       packageJSON.dashboard.serverFilePaths[i] = filePath
     }
   }
-  // load the complete content handler list
   for (const i in packageJSON.dashboard.contentFilePaths) {
     const filePath = packageJSON.dashboard.contentFilePaths[i]
     if (fs.existsSync(filePath)) {
@@ -155,7 +139,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     const moduleName = trimModuleName(filePath)
     packageJSON.dashboard.contentFilePaths[i] = moduleName + trimPath(filePath)
   }
-  // load the special HTML files
   const firstJSON = (applicationJSON || packageJSON)
   const applicationJSONErrorHTMLPath = firstJSON.dashboard && firstJSON.dashboard['error.html'] ? `${global.applicationPath}${firstJSON.dashboard['error.html']}` : null
   const applicationJSONRedirectHTMLPath = firstJSON.dashboard && firstJSON.dashboard['redirect.html'] ? `${global.applicationPath}${firstJSON.dashboard['redirect.html']}` : null
@@ -188,8 +171,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
 }
 
 function mergeModuleJSON (baseJSON, moduleJSON, nested) {
-  // prepend account and administrator menu links, when nested they go underneath the prior
-  // when not nested they go at the top
   if (moduleJSON.dashboard.menus && moduleJSON.dashboard.menus.account.length) {
     if (nested) {
       baseJSON.dashboard.menus.account = baseJSON.dashboard.menus.account.concat(moduleJSON.dashboard.menus.account)
@@ -204,7 +185,6 @@ function mergeModuleJSON (baseJSON, moduleJSON, nested) {
       baseJSON.dashboard.menus.administrator = moduleJSON.dashboard.menus.administrator.concat(baseJSON.dashboard.menus.administrator)
     }
   }
-  // remap server handlers
   if (moduleJSON.dashboard.server && moduleJSON.dashboard.server.length) {
     for (const i in moduleJSON.dashboard.server) {
       const relativePath = moduleJSON.dashboard.server[i]
@@ -221,7 +201,6 @@ function mergeModuleJSON (baseJSON, moduleJSON, nested) {
       baseJSON.dashboard.serverFilePaths.push(filePath)
     }
   }
-  // remap content handlers
   if (moduleJSON.dashboard.content && moduleJSON.dashboard.content.length) {
     for (const i in moduleJSON.dashboard.content) {
       const relativePath = moduleJSON.dashboard.content[i]
@@ -233,7 +212,6 @@ function mergeModuleJSON (baseJSON, moduleJSON, nested) {
       baseJSON.dashboard.contentFilePaths.push(filePath)
     }
   }
-  // add nested module dependencies
   if (moduleJSON.dashboard.modules) {
     for (const i in moduleJSON.dashboard.modules) {
       const moduleName = moduleJSON.dashboard.modules[i]

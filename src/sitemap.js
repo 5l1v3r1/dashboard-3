@@ -1,4 +1,3 @@
-// const Account = require('./account.js')
 const fs = require('fs')
 const HTML = require('./html.js')
 const Response = require('./response.js')
@@ -9,8 +8,6 @@ module.exports = {
 
 function generate () {
   let routes = {}
-  // Dashboard defaults, if the server is a module then these are
-  // files located within node_modules otherwise they are the root app
   const dashboardModulePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/www`
   let dashboardIsModule = false
   if (fs.existsSync(dashboardModulePath)) {
@@ -19,21 +16,13 @@ function generate () {
   } else {
     attachRoutes(routes, global.rootPath)
   }
-  // node modules overriding the defaults
   for (const moduleName of global.packageJSON.dashboard.moduleNames) {
     const modulePath = `${global.applicationPath}/node_modules/${moduleName}`
     attachRoutes(routes, `${modulePath}/src/www`)
   }
-  // When the dashboard is a module the root application may
-  // contain routes that may override any URLs
   if (dashboardIsModule) {
     attachRoutes(routes, global.rootPath)
   }
-  // When an application server is configured the default / and /home
-  // routes are deleted unless a local copy exists.  If you are
-  // using the Dashboard project directly you can delete the
-  // /src/www/home.html and /src/www/index.html files to proxy
-  // your application server.
   if (global.applicationServer) {
     const rootIndexPageExists = fs.existsSync(`${global.applicationPath}/src/www/index.html`)
     const rootHomePageExists = fs.existsSync(`${global.applicationPath}/src/www/home.html`)

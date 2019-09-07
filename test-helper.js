@@ -141,11 +141,9 @@ function createRequest (rawURL) {
         }
         return result
       }
-      // open in puppeteer and return HTML
       let result
       try {
         result = await fetchWithPuppeteer(req.method, req)
-        // result = await proxy(verb, rawURL, req)
       } catch (error) {
         return error
       }
@@ -215,10 +213,6 @@ async function createAdministrator (owner) {
 
 async function createOwner () {
   const owner = await createUser('owner-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000))
-  // only the first account created is the owner and only
-  // the owner can transfer to a different account so the
-  // API cannot assign the permission needed and the
-  // storage must be written to directly
   if (!owner.account.administrator) {
     await dashboard.StorageObject.setProperty(`${global.appid}/account/${owner.account.accountid}`, `administrator`, dashboard.Timestamp.now)
     await dashboard.StorageList.add(`${global.appid}/administrator/accounts`, owner.account.accountid)
@@ -365,13 +359,11 @@ const proxy = util.promisify((method, path, req, callback) => {
   }
   let postData
   if (req.body) {
-    // multipart payloads where req.body is a buffer
     if (req.body.write) {
       postData = req.body
       requestOptions.headers = req.headers
       requestOptions.headers['user-agent'] = 'integration tests'
     } else {
-      // req.body = { key: value }
       postData = querystring.stringify(req.body)
       requestOptions.headers['content-length'] = postData.length
     }
@@ -456,14 +448,14 @@ async function fetchWithPuppeteer (method, req) {
     }
   })
   if (req.account) {
-    await page.goto(`${process.env.DASHBOARD_SERVER}/account/signin`, { waitLoad: true, waitNetworkIdle: true })
+    await TestHelperPuppeteer.open(page, `${process.env.DASHBOARD_SERVER}/account/signin`)
     await TestHelperPuppeteer.fill(page, {
       username: req.account.username,
       password: req.account.password
     })
     await TestHelperPuppeteer.click(page, 'Sign in')
   }
-  await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
+  await TestHelperPuppeteer.open(page, `${process.env.DASHBOARD_SERVER}${req.url}`)
   if (method === 'POST') {
     await TestHelperPuppeteer.fill(page, req.body, req.uploads)
     await TestHelperPuppeteer.click(page, '#submit-button')

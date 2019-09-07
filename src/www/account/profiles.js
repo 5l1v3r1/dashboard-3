@@ -83,7 +83,7 @@ async function renderPage (req, res) {
   } else {
     removeElements.push('profiles-table')
   }
-  
+
   for (const id of removeElements) {
     const element = doc.getElementById(id)
     element.parentNode.removeChild(element)

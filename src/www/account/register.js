@@ -60,7 +60,6 @@ async function submitForm (req, res) {
   if (req.body.confirm !== req.body.password) {
     return renderPage(req, res, 'invalid-confirm')
   }
-  // optional profile fields
   if (global.requireProfile) {
     const profileFields = req.profileFields || global.userProfileFields
     for (const field of profileFields) {

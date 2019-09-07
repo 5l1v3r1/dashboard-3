@@ -1,9 +1,6 @@
 const fs = require('fs')
 const util = require('util')
 
-// The main Storage class will add the storagePath prefix automatically
-// for 'add' and 'remove' as they directly proxy read and write, but for
-// other commands the storagePath needs to be included
 let storagePath
 if (!process.env.STORAGE_ENGINE) {
   storagePath = process.env.STORAGE_PATH || `${global.applicationPath}/data`

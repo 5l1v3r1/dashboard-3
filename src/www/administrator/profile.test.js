@@ -47,7 +47,7 @@ describe('/administrator/profile', () => {
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
       for (const field in fields) {
-        assert.strictEqual(doc.getElementById(field), undefined)       
+        assert.strictEqual(doc.getElementById(field), undefined)
       }
       for (const field in fields) {
         global.userProfileFields = ['full-name', 'contact-email', field]

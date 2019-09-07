@@ -28,7 +28,6 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-password')
   }
   let session
-  // create session
   try {
     session = await global.api.user.CreateSession.post(req)
   } catch (error) {
@@ -37,7 +36,6 @@ async function submitForm (req, res) {
   if (!session) {
     return renderPage(req, res, 'invalid-username')
   }
-  // load account unless coming via registration
   if (!req.account) {
     const query = req.query
     req.query = { accountid: session.accountid }
@@ -45,7 +43,6 @@ async function submitForm (req, res) {
     req.query = query
   }
   req.session = session
-  // session cookie
   let cookieStr = 'httponly; path=/'
   if (req.secure) {
     cookieStr += '; secure'

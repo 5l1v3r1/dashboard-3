@@ -125,7 +125,6 @@ async function receiveRequest (req, res) {
       }
     }
   }
-  // public static files are served without authentication
   if (req.urlPath.startsWith('/public/') || req.urlPath === '/favicon.ico') {
     if (req.method === 'GET') {
       return staticFile(req, res)
@@ -133,7 +132,6 @@ async function receiveRequest (req, res) {
       return Response.throw404(req, res)
     }
   }
-  // before handlers
   try {
     await executeHandlers(req, res, 'before', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
   } catch (error) {
@@ -148,7 +146,6 @@ async function receiveRequest (req, res) {
   if (res.ended) {
     return
   }
-  // if it is an application server making the request verify the token
   let applicationServer = global.applicationServer
   if (req.server) {
     applicationServer = req.server.applicationServer || applicationServer
@@ -186,11 +183,9 @@ async function receiveRequest (req, res) {
   if (!req.applicationServer && req.headers['x-application-server']) {
     return Response.throw500(req, res)
   }
-  // public access to the API must be enabled otherwise only the application server can
   if (req.urlPath.startsWith('/api/') && !global.allowPublicAPI && !req.applicationServer && !req.allowAPIRequest) {
     return Response.throw404(req, res)
   }
-  // routes with APIs must support the method being requested
   if (req.route && req.route.api !== 'static-page') {
     const methodHandler = req.route.api[req.method.toLowerCase()]
     if (!methodHandler) {
@@ -198,7 +193,6 @@ async function receiveRequest (req, res) {
     }
   }
   let user
-  // the application server specifies the account holder
   if (req.applicationServer) {
     if (req.headers['x-accountid']) {
       const query = req.query
@@ -223,7 +217,6 @@ async function receiveRequest (req, res) {
       req.query = query
       user = { account, session }
     }
-    // otherwise use cookie-based authentiation
   } else {
     try {
       user = await authenticateRequest(req)
@@ -252,7 +245,6 @@ async function receiveRequest (req, res) {
     req.session = user.session
     req.account = user.account
   }
-  // require signing in to continue
   if (!req.account && req.route && req.route.auth !== false) {
     if (req.urlPath.startsWith('/api/')) {
       res.statusCode = 511
@@ -261,7 +253,6 @@ async function receiveRequest (req, res) {
     }
     return Response.redirectToSignIn(req, res)
   }
-  // the 'after' handlers can see signed in users
   try {
     await executeHandlers(req, res, 'after', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
   } catch (error) {
@@ -276,7 +267,6 @@ async function receiveRequest (req, res) {
   if (res.ended) {
     return
   }
-  // everything within these paths requires an administrator to access
   if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') || req.urlPath.startsWith('/api/administrator/')) {
     if (!req.account) {
       return Response.redirectToSignIn(req, res)
@@ -285,10 +275,7 @@ async function receiveRequest (req, res) {
       return Response.throw500(req, res)
     }
   }
-  // verify the user session with their credentials if
-  // they are accessing account/administration pages
   if (req.session) {
-    // limit how long previous verifications are valid
     req.session.lastVerified = req.session.lastVerified || req.session.created
     if (Timestamp.now - req.session.lastVerified > 86400) {
       delete (req.session.lastVerified)
@@ -296,7 +283,6 @@ async function receiveRequest (req, res) {
     if (req.session.lastSeen && Timestamp.now - req.session.lastSeen > 3600) {
       delete (req.session.lastVerified)
     }
-    // first page view of a session
     if (!req.session.lastSeen) {
       if (Timestamp.now - req.session.created > 3600) {
         delete (req.session.lastVerified)
@@ -306,8 +292,6 @@ async function receiveRequest (req, res) {
       await StorageObject.removeProperty(`${req.appid}/session/${req.session.sessionid}`, 'lastVerified')
     }
     await StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, 'lastSeen', Timestamp.now)
-    // everything within /account and /administrator requires the user to have entered
-    // their password either creating the session, or resuming it after 1+ hours absence
     if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') ||
         req.urlPath === '/account' || req.urlPath.startsWith('/account/')) {
       if (!req.session.lastVerified &&
@@ -318,7 +302,6 @@ async function receiveRequest (req, res) {
       }
     }
   }
-  // if there's no route the request is passed to the application server
   if (!req.route) {
     if (global.applicationServer) {
       return Proxy.pass(req, res)
@@ -329,16 +312,13 @@ async function receiveRequest (req, res) {
   if (process.env.HOT_RELOAD && req.route.reload) {
     req.route.reload()
   }
-  // static html pages
   if (req.route.api === 'static-page') {
     const doc = HTML.parse(req.route.html)
     return Response.end(req, res, doc)
   }
-  // iframe of a URL
   if (req.route.iframe) {
     return Response.end(req, res)
   }
-  // nodejs handler for the route
   if (req.urlPath.startsWith('/api/')) {
     return req.route.api[req.method.toLowerCase()](req, res)
   }
@@ -368,12 +348,9 @@ async function executeHandlers (req, res, method, handlers) {
 }
 
 async function staticFile (req, res) {
-  // root /public folder
   let filePath = `${global.rootPath}${req.urlPath}`
   if (!fs.existsSync(filePath)) {
-    // dashboard /public folder
     filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/www${req.urlPath}`
-    // module /public folder
     if (!fs.existsSync(filePath)) {
       for (const moduleName of global.packageJSON.dashboard.moduleNames) {
         filePath = `${global.applicationPath}/node_modules/${moduleName}/src/www${req.urlPath}`

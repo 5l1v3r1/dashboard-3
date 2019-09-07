@@ -162,8 +162,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   if (!templateDoc) {
     throw new Error()
   }
-  // embed additional CSS, JS etc in the template from
-  // page HTML in a <template id="head" />
   const headTemplate = doc.getElementById('head')
   if (headTemplate && headTemplate.child && headTemplate.child.length) {
     const head = templateDoc.getElementsByTagName('head')[0]
@@ -172,8 +170,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       head.child = head.child.concat(headTemplate.child)
     }
   }
-  // embed additional CSS, JS etc in the page from
-  // template HTML in a <template id="page" />
   const pageTemplate = templateDoc.getElementById('page')
   if (pageTemplate && pageTemplate.child && pageTemplate.child.length) {
     const head = doc.getElementsByTagName('head')[0]
@@ -182,13 +178,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       head.child = head.child.concat(pageTemplate.child)
     }
   }
-  // navbar can be set by making <template id="navbar" />
-  // in your own HTML and putting the links you desire in it.
-  //
-  // it may have to be parsed as HTML because it is stored as
-  // text, that way it isn't preemptively parsed with broken
-  // string ${} templates in the HTML waiting for
-  // querystring variables in many cases
   const navbarTemplate = doc.getElementById('navbar')
   const navigation = templateDoc.getElementById('navigation')
   if (navbarTemplate && navbarTemplate.child && navbarTemplate.child.length) {
@@ -216,13 +205,11 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   } else {
     navigation.setAttribute('style', 'display: none')
   }
-  // <title> is copied from the page to the template <title>
   const pageTitles = doc.getElementsByTagName('title')
   const templateTitles = templateDoc.getElementsByTagName('title')
   if (pageTitles && pageTitles.length && templateTitles && templateTitles.length) {
     templateTitles[0].child = pageTitles[0].child
   }
-  // heading title link
   let newTitle = packageJSON.dashboard.title
   if (newTitle.indexOf(' ') > -1) {
     newTitle = newTitle.split(' ').join('&nbsp;')
@@ -233,7 +220,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     text: newTitle
   }
   HTML.renderTemplate(templateDoc, headingLink, 'heading-link', 'heading')
-  // account menu for users
   if (!req.account) {
     const accountMenuContainer = templateDoc.getElementById('account-menu-container')
     accountMenuContainer.parentNode.removeChild(accountMenuContainer)
@@ -246,7 +232,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       const accountMenuContainer = templateDoc.getElementById('account-menu-container')
       accountMenuContainer.parentNode.removeChild(accountMenuContainer)
     }
-    // administrator menu for owner and administrators
     if (!req.account.administrator) {
       const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
       administratorMenuContainer.setAttribute('style', 'display: none')
@@ -259,16 +244,12 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       }
     }
   }
-  // forms in the page content need to have an action mapped to
-  // their URL and a method of POST
   const forms = doc.getElementsByTagName('form')
   for (const form of forms) {
     form.attr = form.attr || {}
     form.attr.method = form.attr.method || 'POST'
     form.attr.action = form.attr.action || req.url
   }
-  // configured template and page content handlers can perform
-  // modifications upon the completed docs
   if (packageJSON.dashboard.content.length) {
     for (const contentHandler of packageJSON.dashboard.content) {
       if (contentHandler.page) {
@@ -280,9 +261,6 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     }
   }
   highlightCurrentPage(req.urlPath, templateDoc)
-  // page content is injected into the template using a srcdoc
-  // so the user does not need an additional HTTP request, that means
-  // it must be formatted for compatibility with srcdoc="..."
   const iframe = templateDoc.getElementById('application-iframe')
   iframe.attr.srcdoc = doc.toString().split("'").join('&#39;').split('"').join("'")
   if (pageTitles && pageTitles.length) {

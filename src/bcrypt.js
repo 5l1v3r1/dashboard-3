@@ -1,6 +1,3 @@
-// bcrypt only uses the first 72 characters in a string
-// so hash and compare are wrapped to transparently convert
-// to SHA hashes first ensuring bcrypt uses the entire string
 const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 

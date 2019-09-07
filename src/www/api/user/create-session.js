@@ -23,7 +23,7 @@ module.exports = {
     const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
-      if (global.minimumUsernameLength > req.body.username.length || 
+      if (global.minimumUsernameLength > req.body.username.length ||
           global.maximumUsernameLength < req.body.username.length) {
         throw new Error('invalid-username-length')
       }

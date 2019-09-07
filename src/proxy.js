@@ -50,7 +50,6 @@ async function pass (req, res) {
     requestOptions.headers['content-length'] = req.headers['content-length'] || req.bodyRaw.length
     requestOptions.headers['content-type'] = req.headers['content-type'] || 'application/x-www-form-urlencoded'
   } else if (req.body) {
-    // post data with file uploads
     const boundary = '--------------------------' + (Math.random() + '').split('.')[1]
     const body = []
     for (const field in req.body) {

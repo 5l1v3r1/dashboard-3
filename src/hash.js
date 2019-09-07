@@ -42,8 +42,6 @@ function fixedSaltHash (text, alternativeFixedSalt, alternativeDashboardEncrypti
       return callback(error)
     }
     const hashed = full.substring(salt.length)
-    // if the user is ucallbacking 'fs' or 's3' these hashes are used in filenames
-    // so they get hex-callbackncoded for compatibility
     const fileFriendlyFormat = UUID.encode(hashed)
     fixedCache[cacheKey] = fileFriendlyFormat
     fixedCacheItems.unshift(cacheKey)
