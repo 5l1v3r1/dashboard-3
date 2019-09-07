@@ -207,7 +207,6 @@ describe('/account/register', () => {
         'contact-email': TestHelper.nextIdentity().email
       }
       const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
       const redirectURL = TestHelper.extractRedirectURL(page)
       assert.strictEqual(redirectURL, '/home')
     })
@@ -257,7 +256,6 @@ describe('/account/register', () => {
         'display-email': TestHelper.nextIdentity().email
       }
       const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
       const redirectURL = TestHelper.extractRedirectURL(page)
       assert.strictEqual(redirectURL, '/home')
     })
@@ -322,7 +320,6 @@ describe('/account/register', () => {
         'display-name': '@user'
       }
       const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
       const redirectURL = TestHelper.extractRedirectURL(page)
       assert.strictEqual(redirectURL, '/home')
     })
@@ -387,7 +384,6 @@ describe('/account/register', () => {
         'dob': '12-13-1968'
       }
       const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
       const redirectURL = TestHelper.extractRedirectURL(page)
       assert.strictEqual(redirectURL, '/home')
     })

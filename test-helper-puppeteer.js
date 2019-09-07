@@ -210,11 +210,11 @@ async function fill (page, body, uploads) {
             }
             const value = await active.evaluate(el => el.value, checkbox)
             if (value === body[field]) {
-              await active.evaluate(el => el.checked = true, checkbox)
+              await active.evaluate((el) => { el.checked = true }, checkbox)
               finished = true
               break
             }
-          }        
+          }
         }
         if (finished) {
           continue
@@ -228,7 +228,7 @@ async function fill (page, body, uploads) {
             }
             const value = await active.evaluate(el => el.value, radio)
             if (value === body[field]) {
-              await active.evaluate(el => el.checked = true, radio)
+              await active.evaluate((el) => { el.checked = true }, radio)
               finished = true
               break
             }
@@ -255,27 +255,29 @@ async function fill (page, body, uploads) {
         await element.focus()
       } catch (error) {
       }
-      console.log('filling element', field, body[field])
       if (type === 'TEXTAREA') {
         try {
-          await active.evaluate((el) => el.value = '', element)
+          await active.evaluate((el) => { el.value = '' }, element)
         } catch (error) {
         }
         await element.type(body[field])
       } else if (type === 'SELECT') {
         await active.evaluate((el, value) => {
           for (var i = 0, len = el.options.length; i < len; i++) {
-            if (el.options[i].text.indexOf(value) === 0 || 
-                el.options[i].value === value) {
+            if (el.options[i].text.indexOf(value) === 0 ||
+              el.options[i].value === value) {
               el.selectedIndex = i
               return
             }
           }
         }, element, body[field])
       } else if (type === 'INPUT') {
-        await active.evaluate((el, value) => {
-          el.value = value
-        }, element, body[field])
+        const inputType = await active.evaluate((el) => el.type, element)
+        if (inputType === 'radio' || inputType === 'checkbox') {
+          await active.evaluate((el) => { el.checked = true }, element)
+        } else {
+          await active.evaluate((el, value) => { el.value = value }, element, body[field])
+        }
       }
     }
     if (completed) {
