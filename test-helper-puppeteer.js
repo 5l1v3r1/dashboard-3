@@ -192,7 +192,6 @@ async function fill (page, body, uploads) {
     if (!completed) {
       continue
     }
-    const fields = Object.keys(body)
     for (const field in body) {
       let element
       try {
