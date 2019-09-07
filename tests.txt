@@ -1,6 +1,6 @@
 
-> @userdashboard/dashboard@1.0.33 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
-> mocha src --recursive --timeout 420000 --slow 420000
+> @userdashboard/dashboard@1.0.34 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> mocha src --recursive --no-colors --retries 3 --timeout 120000 --slow 120000
 
 
 

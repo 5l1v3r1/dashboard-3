@@ -399,7 +399,6 @@ describe('/account/register', () => {
       }
       for (const field of fields) {
         global.userProfileFields = [field]
-        req.body[field] = null
         const page = await req.post()
         const doc = TestHelper.extractDoc(page)
         const messageContainer = doc.getElementById('message-container')
