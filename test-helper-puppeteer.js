@@ -1,22 +1,36 @@
 module.exports = {
+  open,
   hover,
   click,
   fill
 }
 
-async function hover (tab, identifier) {
+async function open (page, url) {
+  const bodyWas = await page.evaluate(() => document.innerHTML)
+  while (true) {
+    await page.waitFor(10)
+    try {
+      await page.goto(url, { waitLoad: true, waitNetworkIdle: true })
+      await completeRequest(page, bodyWas)
+      break
+    } catch (error) {
+    }
+  }
+}
+
+async function hover (page, identifier) {
   const tags = ['a', 'button', 'input', 'select', 'textarea', 'img']
   while (true) {
-    await tab.waitFor(10)
+    await page.waitFor(10)
     let active = null
     try {
-      const frame = await tab.frames().find(f => f.name() === 'application-iframe')
+      const frame = await page.frames().find(f => f.name() === 'application-iframe')
       if (frame && frame.evaluate) {
         active = frame
       }
     } catch (error) {
     }
-    active = active || tab
+    active = active || page
     if (!active.evaluate) {
       continue
     }
@@ -70,21 +84,21 @@ async function hover (tab, identifier) {
   }
 }
 
-async function click (tab, identifier) {
+async function click (page, identifier) {
   const tags = ['a', 'button', 'input', 'select', 'textarea', 'img']
-  const bodyWas = await tab.evaluate(() => document.innerHTML)
+  const bodyWas = await page.evaluate(() => document.innerHTML)
   while (true) {
-    await tab.waitFor(10)
+    await page.waitFor(10)
     let active = null
     try {
-      const frame = await tab.frames().find(f => f.name() === 'application-iframe')
+      const frame = await page.frames().find(f => f.name() === 'application-iframe')
       if (frame && frame.evaluate) {
         active = frame
       }
     } catch (error) {
       continue
     }
-    active = active || tab
+    active = active || page
     if (!active.evaluate) {
       continue
     }
@@ -105,7 +119,7 @@ async function click (tab, identifier) {
         }
         try {
           await element.click()
-          return completeRequest(tab, bodyWas)
+          return completeRequest(page, bodyWas)
         } catch (error) {
           break
         }
@@ -135,27 +149,26 @@ async function click (tab, identifier) {
           } catch (error) {
             continue
           }
-          return completeRequest(tab, bodyWas)
+          return completeRequest(page, bodyWas)
         }
       }
     }
   }
 }
 
-async function fill (tab, body, uploads) {
+async function fill (page, body, uploads) {
   while (true) {
-    // console.log('fill')
-    await tab.waitFor(10)
+    await page.waitFor(10)
     let active = null
     try {
-      const frame = await tab.frames().find(f => f.name() === 'application-iframe')
+      const frame = await page.frames().find(f => f.name() === 'application-iframe')
       if (frame && frame.evaluate) {
         active = frame
       }
     } catch (error) {
       continue
     }
-    active = active || tab
+    active = active || page
     let completed = true
     if (uploads) {
       for (const field in uploads) {
@@ -170,7 +183,7 @@ async function fill (tab, body, uploads) {
         try {
           await element.uploadFile(uploads[field].path)
         } catch (error) {
-          completed = false
+          completed = -3
           break
         }
         continue
@@ -180,9 +193,6 @@ async function fill (tab, body, uploads) {
       continue
     }
     for (const field in body) {
-      if (!body[field]) {
-        continue
-      }
       let element
       try {
         element = await active.$(`#${field}`)
@@ -191,28 +201,45 @@ async function fill (tab, body, uploads) {
       if (!element) {
         // check for radio and checkboxes
         const checkboxes = await active.$$('input[type=checkbox]')
+        let finished = false
         if (checkboxes && checkboxes.length) {
           for (const checkbox of checkboxes) {
+            const name = await active.evaluate(el => el.name, checkbox)
+            if (name !== field) {
+              continue
+            }
             const value = await active.evaluate(el => el.value, checkbox)
             if (value === body[field]) {
               await active.evaluate(el => el.checked = true, checkbox)
-              return
+              finished = true
+              break
             }
           }        
+        }
+        if (finished) {
+          continue
         }
         const radios = await active.$$('input[type=radio]')
         if (radios && radios.length) {
           for (const radio of radios) {
+            const name = await active.evaluate(el => el.name, radio)
+            if (name !== field) {
+              continue
+            }
             const value = await active.evaluate(el => el.value, radio)
             if (value === body[field]) {
               await active.evaluate(el => el.checked = true, radio)
-              return
+              finished = true
+              break
             }
           }
         }
+        if (finished) {
+          continue
+        }
       }
       if (!element) {
-        completed = false
+        completed = -2
         break
       }
       let type
@@ -221,13 +248,14 @@ async function fill (tab, body, uploads) {
       } catch (error) {
       }
       if (!type) {
-        completed = false
+        completed = -1
         break
       }
       try {
         await element.focus()
       } catch (error) {
       }
+      console.log('filling element', field, body[field])
       if (type === 'TEXTAREA') {
         try {
           await active.evaluate((el) => el.value = '', element)
@@ -256,26 +284,18 @@ async function fill (tab, body, uploads) {
   }
 }
 
-async function completeRequest (tab, previousContents) {
-  // await tab.waitForNavigation({
-  //   waitUntil: ['load', 'domcontentloaded', 'networkidle0']
-  // })
+async function completeRequest (page, previousContents) {
   while (true) {
-    await tab.waitFor(10)
+    await page.waitFor(10)
     let bodyNow
     try {
-      bodyNow = await tab.evaluate(() => document.body.innerHTML)
+      bodyNow = await page.evaluate(() => document.body.innerHTML)
     } catch (error) {
       continue
     }
     if (!bodyNow || bodyNow === previousContents) {
       continue
     }
-    // if (bodyNow.indexOf('Redirecting') > -1) {
-    //   await tab.waitForNavigation({
-    //     waitUntil: ['load']
-    //   })
-    // }
     return
   }
 }
