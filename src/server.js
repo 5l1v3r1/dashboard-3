@@ -43,6 +43,9 @@ const parseMultiPartData = util.promisify((req, callback) => {
     req.uploads = {}
     for (const field in files) {
       const file = files[field][0]
+      if (!file.size) {
+        continue
+      }
       const extension = file.originalFilename.toLowerCase().split('.').pop()
       const type = extension === 'png' ? 'image/png' : 'image/jpeg'
       req.uploads[field] = {
