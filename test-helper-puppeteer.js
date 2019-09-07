@@ -183,7 +183,7 @@ async function fill (page, body, uploads) {
         try {
           await element.uploadFile(uploads[field].path)
         } catch (error) {
-          completed = -3
+          completed = false
           break
         }
         continue
@@ -192,6 +192,7 @@ async function fill (page, body, uploads) {
     if (!completed) {
       continue
     }
+    const fields = Object.keys(body)
     for (const field in body) {
       let element
       try {
@@ -199,7 +200,6 @@ async function fill (page, body, uploads) {
       } catch (error) {
       }
       if (!element) {
-        // check for radio and checkboxes
         const checkboxes = await active.$$('input[type=checkbox]')
         let finished = false
         if (checkboxes && checkboxes.length) {
@@ -213,6 +213,10 @@ async function fill (page, body, uploads) {
               await active.evaluate((el) => { el.checked = true }, checkbox)
               finished = true
               break
+            }
+            if (!body[field]) {
+              finished = true
+              await active.evaluate((el) => { el.checked = false }, checkbox)
             }
           }
         }
@@ -232,6 +236,10 @@ async function fill (page, body, uploads) {
               finished = true
               break
             }
+            if (!body[field]) {
+              finished = true
+              await active.evaluate((el) => { el.checked = false }, checkbox)
+            }
           }
         }
         if (finished) {
@@ -239,7 +247,7 @@ async function fill (page, body, uploads) {
         }
       }
       if (!element) {
-        completed = -2
+        completed = false
         break
       }
       let type
@@ -248,7 +256,7 @@ async function fill (page, body, uploads) {
       } catch (error) {
       }
       if (!type) {
-        completed = -1
+        completed = false
         break
       }
       try {
@@ -274,9 +282,19 @@ async function fill (page, body, uploads) {
       } else if (type === 'INPUT') {
         const inputType = await active.evaluate((el) => el.type, element)
         if (inputType === 'radio' || inputType === 'checkbox') {
-          await active.evaluate((el) => { el.checked = true }, element)
+          try {
+            if (body[field]) {
+              await active.evaluate((el) => { el.checked = true }, element)
+            } else {
+              await active.evaluate((el) => { el.checked = false }, element)
+            }
+          } catch(error) {
+          }
         } else {
-          await active.evaluate((el, value) => { el.value = value }, element, body[field])
+          try {
+            await active.evaluate((el, value) => { el.value = value }, element, body[field])
+          } catch (error) {
+          }
         }
       }
     }
