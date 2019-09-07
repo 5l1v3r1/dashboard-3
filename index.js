@@ -84,7 +84,7 @@ module.exports = {
       console.log(configuration)
     }
     if (process.env.NODE_ENV === 'sitemap') {
-      return
+      return process.exit(0)
     }
     Server.start()
   },
