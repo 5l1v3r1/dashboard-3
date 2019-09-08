@@ -237,7 +237,7 @@ async function fill (page, body, uploads) {
             }
             if (!body[field]) {
               finished = true
-              await active.evaluate((el) => { el.checked = false }, checkbox)
+              await active.evaluate((el) => { el.checked = false }, radio)
             }
           }
         }
