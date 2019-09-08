@@ -32,17 +32,11 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.redirect(req, res, decodeURI(req.query.returnURL))
     }
     messageTemplate = 'success'
-    return dashboard.Response.redirect(req, res, `/account/profiles`)
   } else if (req.error) {
     messageTemplate = req.error
   }
   const doc = dashboard.HTML.parse(req.route.html, req.data.profile, 'profile')
   await navbar.setup(doc, req.data.profile)
-  if (req.query && req.query.returnURL) {
-    const submitForm = doc.getElementById('submit-form')
-    const divider = submitForm.attr.action.indexOf('?') > -1 ? '&' : '?'
-    submitForm.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
-  }
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {

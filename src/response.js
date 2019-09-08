@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const HTML = require('./html.js')
+const url = require('url')
 const zlib = require('zlib')
 const eightDays = 8 * 24 * 60 * 60 * 1000
 const eTagCache = {}
@@ -57,6 +58,26 @@ async function end (req, res, doc, blob) {
     const framedPage = await wrapTemplateWithSrcDoc(req, res, doc)
     return compress(req, res, framedPage)
   } else {
+    const forms = doc.getElementsByTagName('form')
+    for (const form of forms) {
+      form.attr = form.attr || {}
+      form.attr.method = form.attr.method || 'POST'
+      form.attr.action = form.attr.action || req.url
+      if (global.testNumber) {
+        form.attr.novalidation = 'novalidation'
+      }
+      if (req.query && req.query.returnURL && req.query.returnURL.startsWith('/')) {
+        form.attr.action = form.attr.action || req.url
+        if (form.attr.action) {
+          const action = url.parse(form.attr.action, true)
+          if (action.returnURL) {
+            continue
+          }
+        }
+        const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
+        form.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
+      }
+    }
     return compress(req, res, doc.toString())
   }
 }
@@ -249,6 +270,20 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     form.attr = form.attr || {}
     form.attr.method = form.attr.method || 'POST'
     form.attr.action = form.attr.action || req.url
+    if (global.testNumber) {
+      form.attr.novalidation = 'novalidation'
+    }
+    if (req.query && req.query.returnURL && req.query.returnURL.startsWith('/')) {
+      form.attr.action = form.attr.action || req.url
+      if (form.attr.action) {
+        const action = url.parse(form.attr.action, true)
+        if (action.returnURL) {
+          continue
+        }
+      }
+      const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
+      form.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
+    }
   }
   if (packageJSON.dashboard.content.length) {
     for (const contentHandler of packageJSON.dashboard.content) {

@@ -10,11 +10,6 @@ function renderPage (req, res, messageTemplate) {
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }
-  if (req.query && req.query.returnURL) {
-    const submitForm = doc.getElementById('submit-form')
-    const divider = submitForm.attr.action.indexOf('?') > -1 ? '&' : '?'
-    submitForm.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
-  }
   if (req.body) {
     const usernameField = doc.getElementById('username')
     usernameField.setAttribute('value', req.body.username || '')
@@ -23,6 +18,7 @@ function renderPage (req, res, messageTemplate) {
 }
 
 async function submitForm (req, res) {
+  console.log('subimt', req.url, req.body, req.query)
   if (!req || !req.body) {
     return renderPage(req, res, 'invalid-username')
   }

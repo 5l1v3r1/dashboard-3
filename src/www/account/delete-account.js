@@ -22,11 +22,6 @@ async function renderPage (req, res, messageTemplate) {
     req.error = true
     messageTemplate = 'administrator-account'
   }
-  if (req.query && req.query.returnURL) {
-    const submitForm = doc.getElementById('submit-form')
-    const divider = submitForm.attr.action.indexOf('?') > -1 ? '&' : '?'
-    submitForm.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
-  }
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (req.error) {

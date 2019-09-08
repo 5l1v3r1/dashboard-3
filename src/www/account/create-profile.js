@@ -15,11 +15,6 @@ function renderPage (req, res, messageTemplate) {
     messageTemplate = req.error
   }
   const doc = dashboard.HTML.parse(req.route.html)
-  if (req.query && req.query.returnURL) {
-    const submitForm = doc.getElementById('submit-form')
-    const divider = submitForm.attr.action.indexOf('?') > -1 ? '&' : '?'
-    submitForm.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
-  }
   const removeFields = [ 'display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website' ]
   const profileFields = req.profileFields || global.userProfileFields
   for (const field of profileFields) {
