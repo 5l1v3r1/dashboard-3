@@ -58,7 +58,6 @@ beforeEach(async () => {
   global.minimumProfileCompanyNameLength = 1
   global.maximumProfileCompanyNameLength = 100
   global.deleteDelay = 7
-  global.maximumFieldLength = 50
   global.pageSize = 2
   global.allowPublicAPI = true
   global.bcryptFixedSalt = bcrypt.genSaltSync(4)
@@ -458,7 +457,7 @@ async function fetchWithPuppeteer (method, req) {
   await TestHelperPuppeteer.open(page, `${process.env.DASHBOARD_SERVER}${req.url}`)
   if (method === 'POST') {
     await TestHelperPuppeteer.fill(page, req.body, req.uploads)
-    await TestHelperPuppeteer.click(page, '#submit-button')
+    await TestHelperPuppeteer.click(page, req.button || '#submit-button')
   }
   const htmls = await page.$$('html')
   const html = await page.evaluate(el => el.outerHTML, htmls[0])
