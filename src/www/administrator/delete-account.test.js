@@ -30,7 +30,7 @@ describe(`/administrator/delete-account`, () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(undefined, errorMessage)
+      assert.strictEqual(errorMessage, undefined)
     })
 
     it('should allow account not ready for deletion', async () => {
@@ -47,7 +47,7 @@ describe(`/administrator/delete-account`, () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(undefined, errorMessage)
+      assert.strictEqual(errorMessage, undefined)
     })
 
     it('should bind account to req', async () => {

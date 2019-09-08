@@ -9,8 +9,13 @@ describe(`/api/user/account`, () => {
       const req = TestHelper.createRequest(`/api/user/account?accountid=invalid`)
       req.account = user.account
       req.session = user.session
-      const account = await req.get(req)
-      assert.strictEqual(account.message, 'invalid-accountid')
+      let errorMessage
+      try {
+        await req.get(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-accountid')
     })
 
     it('should reject other accountid', async () => {
@@ -19,8 +24,13 @@ describe(`/api/user/account`, () => {
       const req = TestHelper.createRequest(`/api/user/account?accountid=${user2.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      const account = await req.get()
-      assert.strictEqual(account.message, 'invalid-account')
+      let errorMessage
+      try {
+        await req.get(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
 
     it('should return account data', async () => {

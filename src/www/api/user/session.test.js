@@ -9,8 +9,13 @@ describe(`/api/user/session`, () => {
       const req = TestHelper.createRequest(`/api/user/session?sessionid=invalid`)
       req.account = user.account
       req.session = user.session
-      const session = await req.get()
-      assert.strictEqual(session.message, 'invalid-sessionid')
+      let errorMessage
+      try {
+        await req.get(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-sessionid')
     })
 
     it('should require own sessionid', async () => {
@@ -19,8 +24,13 @@ describe(`/api/user/session`, () => {
       const req = TestHelper.createRequest(`/api/user/session?sessionid=${user2.session.sessionid}`)
       req.account = user.account
       req.session = user.session
-      const session = await req.get()
-      assert.strictEqual(session.message, 'invalid-account')
+      let errorMessage
+      try {
+        await req.get(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
 
     it('should return session data', async () => {

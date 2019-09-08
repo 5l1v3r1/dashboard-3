@@ -28,8 +28,13 @@ describe(`/api/user/delete-reset-code`, () => {
       const req2 = TestHelper.createRequest(`/api/user/reset-code?codeid=${user.resetCode.codeid}`)
       req2.account = user.account
       req2.session = user.session
-      const code = await req2.get()
-      assert.strictEqual(code.message, 'invalid-codeid')
+      let errorMessage
+      try {
+        await req2.get(req2)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-codeid')
     })
   })
 })

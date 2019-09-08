@@ -400,7 +400,6 @@ describe(`/api/user/update-profile`, () => {
     })
 
     it('should update profile with overridden settings', async () => {
-      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       await TestHelper.createProfile(user, {

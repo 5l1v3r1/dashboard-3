@@ -48,8 +48,13 @@ describe(`/api/user/delete-profile`, () => {
       const req2 = TestHelper.createRequest(`/api/user/profile?profileid=${profile1.profileid}`)
       req2.account = user.account
       req2.session = user.session
-      const profile = await req2.get()
-      assert.strictEqual(profile.message, 'invalid-profileid')
+      let errorMessage
+      try {
+        await req2.get(req2)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-profileid')
     })
   })
 })

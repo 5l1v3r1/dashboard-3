@@ -9,10 +9,15 @@ describe('/api/user/create-session', () => {
       const req = TestHelper.createRequest('/api/user/create-session')
       req.body = {
         username: '',
-        password: ''
+        password: 'password'
       }
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-username')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-username')
     })
 
     it('should require a username length', async () => {
@@ -22,8 +27,13 @@ describe('/api/user/create-session', () => {
         password: 'password'
       }
       global.minimumUsernameLength = 100
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-username-length')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-username-length')
     })
 
     it('should require a password', async () => {
@@ -32,8 +42,13 @@ describe('/api/user/create-session', () => {
         username: 'username',
         password: ''
       }
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-password')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password')
     })
 
     it('should require a username length', async () => {
@@ -43,8 +58,13 @@ describe('/api/user/create-session', () => {
         password: '1'
       }
       global.minimumPasswordLength = 100
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-password-length')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password-length')
     })
 
     it('should create session expiring in 20 minutes', async () => {

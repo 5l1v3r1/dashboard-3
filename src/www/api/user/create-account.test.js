@@ -8,10 +8,15 @@ describe('/api/user/create-account', () => {
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: '',
-        password: ''
+        password: 'password'
       }
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-username')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-username')
     })
 
     it('should enforce minimum username length', async () => {
@@ -21,8 +26,13 @@ describe('/api/user/create-account', () => {
         password: 'password'
       }
       global.minimumUsernameLength = 100
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-username-length')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-username-length')
     })
 
     it('should enforce maximum username length', async () => {
@@ -32,8 +42,13 @@ describe('/api/user/create-account', () => {
         password: 'password'
       }
       global.maximumUsernameLength = 1
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-username-length')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-username-length')
     })
 
     it('should require a password', async () => {
@@ -42,8 +57,13 @@ describe('/api/user/create-account', () => {
         username: 'username',
         password: ''
       }
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-password')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password')
     })
 
     it('should enforce minimum password length', async () => {
@@ -53,8 +73,13 @@ describe('/api/user/create-account', () => {
         password: '1'
       }
       global.minimumPasswordLength = 100
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-password-length')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password-length')
     })
 
     it('should enforce maximum password length', async () => {
@@ -64,8 +89,13 @@ describe('/api/user/create-account', () => {
         password: '12345'
       }
       global.maximumPasswordLength = 1
-      const account = await req.post()
-      assert.strictEqual(account.message, 'invalid-password-length')
+      let errorMessage
+      try {
+        await req.post(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password-length')
     })
 
     it('should create account', async () => {

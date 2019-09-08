@@ -9,8 +9,13 @@ describe(`/api/user/reset-code`, () => {
       const req = TestHelper.createRequest('/api/user/reset-code?codeid=invalid')
       req.account = user.account
       req.session = user.session
-      const resetCode = await req.get()
-      assert.strictEqual(resetCode.message, 'invalid-codeid')
+      let errorMessage
+      try {
+        await req.get(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-codeid')
     })
 
     it('should require own codeid', async () => {
@@ -20,8 +25,13 @@ describe(`/api/user/reset-code`, () => {
       const req = TestHelper.createRequest(`/api/user/reset-code?codeid=${user2.resetCode.codeid}`)
       req.account = user.account
       req.session = user.session
-      const resetCode = await req.get()
-      assert.strictEqual(resetCode.message, 'invalid-account')
+      let errorMessage
+      try {
+        await req.get(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
 
     it('should return reset code data', async () => {

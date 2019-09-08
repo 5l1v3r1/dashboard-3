@@ -29,10 +29,9 @@ describe(`/api/user/set-session-verified`, () => {
         username: user2.account.username,
         password: user2.account.password
       }
-      await req.patch()
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.patch()
       } catch (error) {
         errorMessage = error.message
       }

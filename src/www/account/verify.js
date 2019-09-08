@@ -18,7 +18,6 @@ function renderPage (req, res, messageTemplate) {
 }
 
 async function submitForm (req, res) {
-  console.log('subimt', req.url, req.body, req.query)
   if (!req || !req.body) {
     return renderPage(req, res, 'invalid-username')
   }

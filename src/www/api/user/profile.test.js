@@ -9,8 +9,13 @@ describe('/api/user/profile', () => {
       const req = TestHelper.createRequest(`/api/user/profile?profileid=invalid`)
       req.account = user.account
       req.session = user.session
-      const profile = await req.get()
-      assert.strictEqual(profile.message, 'invalid-profileid')
+      let errorMessage
+      try {
+        await req.get(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-profileid')
     })
 
     it('should reject other account', async () => {
@@ -19,8 +24,13 @@ describe('/api/user/profile', () => {
       const req = TestHelper.createRequest(`/api/user/profile?profileid=${user2.profile.profileid}`)
       req.account = user.account
       req.session = user.session
-      const profile = await req.get()
-      assert.strictEqual(profile.message, 'invalid-account')
+      let errorMessage
+      try {
+        await req.get(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
 
     it('should return profile data', async () => {

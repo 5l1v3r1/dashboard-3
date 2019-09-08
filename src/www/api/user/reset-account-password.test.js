@@ -11,8 +11,13 @@ describe('/api/user/reset-account-password', () => {
         'new-password': 'password',
         code: 'code'
       }
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-username')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-username')
     })
 
     it('should require new password', async () => {
@@ -22,8 +27,13 @@ describe('/api/user/reset-account-password', () => {
         'new-password': '',
         code: 'code'
       }
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-password')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password')
     })
 
     it('should require enforce password requirements', async () => {
@@ -34,8 +44,13 @@ describe('/api/user/reset-account-password', () => {
         code: 'code'
       }
       global.minimumPasswordLength = 100
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-password-length')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password-length')
     })
 
     it('should require reset code', async () => {
@@ -44,8 +59,13 @@ describe('/api/user/reset-account-password', () => {
         username: 'username',
         'new-password': 'password'
       }
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-reset-code')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-reset-code')
     })
 
     it('should require valid reset code', async () => {
@@ -56,8 +76,13 @@ describe('/api/user/reset-account-password', () => {
         'new-password': user.account.password,
         code: 'invalid'
       }
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-reset-code')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-reset-code')
     })
 
     it('should set new account password', async () => {

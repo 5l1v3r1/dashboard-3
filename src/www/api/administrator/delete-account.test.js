@@ -16,7 +16,7 @@ describe('/api/administrator/delete-account', () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(undefined, errorMessage)
+      assert.strictEqual(errorMessage, undefined)
     })
 
     it('should allow account not ready to delete', async () => {
@@ -33,7 +33,7 @@ describe('/api/administrator/delete-account', () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(undefined, errorMessage)
+      assert.strictEqual(errorMessage, undefined)
     })
     it('should delete account', async () => {
       global.deleteDelay = -1
@@ -47,8 +47,13 @@ describe('/api/administrator/delete-account', () => {
       const req2 = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
       req2.account = administrator.account
       req2.session = administrator.session
-      const account = await req2.get()
-      assert.strictEqual(account.message, 'invalid-accountid')
+      let errorMessage
+      try {
+        await req2.get(req2)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-accountid')
     })
   })
 })

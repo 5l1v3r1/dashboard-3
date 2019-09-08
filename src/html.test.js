@@ -361,7 +361,7 @@ describe('internal-api/html', () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(undefined, errorMessage)
+      assert.strictEqual(errorMessage, undefined)
     })
 
     it('should require a template', async () => {
@@ -502,13 +502,13 @@ describe('internal-api/html', () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(undefined, errorMessage)
+      assert.strictEqual(errorMessage, undefined)
       try {
         HTML.renderPagination(doc, '0', 100)
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(undefined, errorMessage)
+      assert.strictEqual(errorMessage, undefined)
     })
 
     it('should enforce global page size', async () => {

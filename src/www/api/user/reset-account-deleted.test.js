@@ -9,11 +9,16 @@ describe(`/api/user/reset-account-deleted`, () => {
       await TestHelper.setDeleted(user)
       const req = TestHelper.createRequest(`/api/user/reset-account-deleted?accountid=${user.account.accountid}`)
       req.body = {
-        username: 'username',
+        username: '',
         password: 'password'
       }
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-username')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-username')
     })
 
     it('should enforce username length', async () => {
@@ -25,8 +30,13 @@ describe(`/api/user/reset-account-deleted`, () => {
         password: 'password'
       }
       global.minimumUsernameLength = 100
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-username-length')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-username-length')
     })
 
     it('should require a password', async () => {
@@ -37,8 +47,13 @@ describe(`/api/user/reset-account-deleted`, () => {
         username: 'username',
         password: ''
       }
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-password')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password')
     })
 
     it('should enforce password length', async () => {
@@ -50,8 +65,13 @@ describe(`/api/user/reset-account-deleted`, () => {
         password: '1'
       }
       global.minimumPasswordLength = 100
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-password-length')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password-length')
     })
 
     it('should require account be scheduled for deletion', async () => {
@@ -63,8 +83,13 @@ describe(`/api/user/reset-account-deleted`, () => {
         username: user.account.username,
         password: user.account.password
       }
-      const account = await req.patch()
-      assert.strictEqual(account.message, 'invalid-account')
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
 
     it('should restore account', async () => {
