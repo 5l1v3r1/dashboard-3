@@ -43,6 +43,7 @@ beforeEach(async () => {
   global.testModuleJSON = null
   global.requireProfile = false
   global.userProfileFields = ['full-name', 'contact-email']
+  global.apiDependencies = []
   global.minimumUsernameLength = 1
   global.maximumUsernameLength = 100
   global.minimumPasswordLength = 1
@@ -81,6 +82,7 @@ afterEach(() => {
 after((callback) => {
   dashboard.stop()
   global.testEnded = true
+  delete (global.apiDependencies)
   if (browser && browser.close) {
     browser.close()
     browser = null
@@ -132,13 +134,15 @@ function createRequest (rawURL) {
     req[verb] = async () => {
       req.method = verb.toUpperCase()
       if (req.url.startsWith('/api/')) {
-        let result
+        delete (global.apiResponse)
+        global.apiDependencies = []
         try {
-          result = await proxy(verb, rawURL, req)
+          const result = await proxy(verb, rawURL, req)
+          global.apiResponse = result
+          return result
         } catch (error) {
-          return error
+          throw error
         }
-        return result
       }
       let result
       try {

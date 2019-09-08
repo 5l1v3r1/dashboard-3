@@ -57,20 +57,25 @@ function wrapAPIRequest (nodejsHandler, filePath) {
       continue
     }
     nodejsHandler[`_${functionName}`] = originalFunction
-    nodejsHandler[functionName] = wrapResponseHandling(nodejsHandler[`_${functionName}`])
+    nodejsHandler[functionName] = wrapResponseHandling(nodejsHandler[`_${functionName}`], filePath)
   }
   return nodejsHandler
 }
 
-function wrapResponseHandling (method) {
+function wrapResponseHandling(method, filePath) {
   return async (req, res) => {
+    if (process.env.NODE_ENV === 'testing' && 
+        req.urlPath !== filePath && 
+        !res) {
+      const urlPath = filePath
+      if (global.apiDependencies.indexOf(urlPath) === -1) {
+        global.apiDependencies.push(urlPath)
+      }
+    }
     let result
     try {
       result = await method(req)
     } catch (error) {
-      if (process.env.DEBUG_ERRORS) {
-        console.log('api.method', error)
-      }
       if (res) {
         res.statusCode = 500
         res.setHeader('content-type', 'application/json; charset=utf-8')
