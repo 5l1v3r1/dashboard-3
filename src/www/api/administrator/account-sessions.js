@@ -5,6 +5,10 @@ module.exports = {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
+    const account = await global.api.administrator.Account.get(req)
+    if (!account) {
+      throw new Error('invalid-account')
+    }
     let sessionids
     if (req.query.all) {
       sessionids = await dashboard.StorageList.listAll(`${req.appid}/account/sessions/${req.query.accountid}`)
