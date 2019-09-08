@@ -157,6 +157,9 @@ async function click (page, identifier) {
 }
 
 async function fill (page, body, uploads) {
+  if (!body && !uploads) {
+    return
+  }
   while (true) {
     await page.waitFor(10)
     let active = null
@@ -191,6 +194,9 @@ async function fill (page, body, uploads) {
     }
     if (!completed) {
       continue
+    }
+    if (!body) {
+      return
     }
     for (const field in body) {
       let element
