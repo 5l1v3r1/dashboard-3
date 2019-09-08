@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.36 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.37 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --no-colors --retries 3 --timeout 120000 --slow 120000
 
 
@@ -653,19 +653,38 @@
       ✓ should change ownership
 
   /api/administrator/account-profiles-count
-    AccountProfilesCount#GET
-      ✓ should count account's profiles
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+    receives
+      ✓ querystring accountid
+    returns
+      ✓ integer
 
   /api/administrator/account-profiles
-    AccountProfiles#GET
-      ✓ should limit profiles to one page
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    exceptions
+      invalid-accountid
+        ✓ unspecified querystring accountid
+        ✓ invalid querystring accountid
+    recieves
+      ✓ required querystring accountid
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/administrator/account-reset-codes-count
-    AccountResetCodesCount#GET
-      ✓ should count account's reset codes
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+    receives
+      ✓ querystring accountid
+    returns
+      ✓ integer
 
   /api/administrator/account-reset-codes
     AccountResetCodes#GET
@@ -1028,5 +1047,5 @@
       ✓ should update profile with overridden settings
 
 
-  605 passing (3m)
+  614 passing (4m)
 
