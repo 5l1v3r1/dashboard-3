@@ -117,7 +117,7 @@ describe('/api/administrator/account-profiles', () => {
     })
   })
 
-  describe('configuration', () =>{ 
+  describe('configuration', () => {
     it('environment PAGE_SIZE', async () => {
       global.pageSize = 3
       const administrator = await TestHelper.createOwner()

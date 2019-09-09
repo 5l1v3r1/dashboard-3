@@ -12,6 +12,9 @@ module.exports = {
     if (account.deleted || !account.administrator) {
       throw new Error('invalid-account')
     }
+    if (account.owner) {
+      throw new Error('invalid-account')
+    }
     await dashboard.StorageObject.removeProperty(`${req.appid}/account/${req.query.accountid}`, `administrator`)
     await dashboard.StorageList.remove(`${req.appid}/administrator/accounts`, req.query.accountid)
     req.success = true

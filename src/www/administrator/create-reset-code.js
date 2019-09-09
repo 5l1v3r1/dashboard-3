@@ -41,9 +41,9 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
-  const codeField = doc.getElementById('code')
-  if (req.body && req.body.code) {
-    codeField.setAttribute('value', req.body.code)
+  const codeField = doc.getElementById('secret-code')
+  if (req.body && req.body['secret-code']) {
+    codeField.setAttribute('value', req.body['secret-code'])
   } else {
     codeField.setAttribute('value', dashboard.UUID.random(10))
   }
@@ -54,11 +54,11 @@ async function submitForm (req, res) {
   if (!req.body) {
     return renderPage(req, res)
   }
-  if (!req.body.code || !req.body.code.length) {
-    return renderPage(req, res, 'invalid-reset-code')
+  if (!req.body['secret-code'] || !req.body['secret-code'].length) {
+    return renderPage(req, res, 'invalid-secret-code')
   }
-  if (global.minimumResetCodeLength > req.body.code.length) {
-    return renderPage(req, res, 'invalid-reset-code-length')
+  if (global.minimumResetCodeLength > req.body['secret-code'].length) {
+    return renderPage(req, res, 'invalid-secret-code-length')
   }
   try {
     await global.api.administrator.CreateResetCode.post(req)

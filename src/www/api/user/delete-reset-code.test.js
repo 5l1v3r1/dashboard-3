@@ -3,38 +3,101 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/delete-reset-code`, () => {
-  describe('DeleteResetCode#DELETE', () => {
-    it('should require valid reset code', async () => {
+  describe('exceptions', () => {
+    describe('invalid-reset-codeid', () => {
+      it('missing querystring codeid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest('/api/user/delete-reset-code')
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.delete()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-reset-codeid')
+      })
+
+      it('invalid querystring codeid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest('/api/user/delete-reset-code?codeid=invalid')
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.delete()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-reset-codeid')
+      })
+    })
+
+    describe('invalid-account', () => {
+      it('ineligible querystring codeid', async () => {
+        const user = await TestHelper.createUser()
+        const user2 = await TestHelper.createUser()
+        await TestHelper.createResetCode(user2)
+        const req = TestHelper.createRequest(`/api/user/delete-reset-code?codeid=${user2.resetCode.codeid}`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.delete()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
+    })
+  })
+
+  describe('requirements', () => {
+    it('querystring codeid owned by accessing account', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/api/user/delete-reset-code?codeid=invalid')
+      const user2 = await TestHelper.createUser()
+      await TestHelper.createResetCode(user2)
+      const req = TestHelper.createRequest(`/api/user/delete-reset-code?codeid=${user2.resetCode.codeid}`)
       req.account = user.account
       req.session = user.session
       let errorMessage
       try {
-        await req.route.api.delete(req)
+        await req.delete()
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(errorMessage, 'invalid-codeid')
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
+  })
 
-    it('should delete the code', async () => {
+  describe('receives', () => {
+    it('requires querystring codeid', async () => {
+      const user = await TestHelper.createUser()
+      const user2 = await TestHelper.createUser()
+      await TestHelper.createResetCode(user2)
+      const req = TestHelper.createRequest(`/api/user/delete-reset-code?codeid=${user2.resetCode.codeid}`)
+      req.account = user.account
+      req.session = user.session
+      let errorMessage
+      try {
+        await req.delete()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
+    })
+  })
+
+  describe('returns', () => {
+    it('boolean', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest(`/api/user/delete-reset-code?codeid=${user.resetCode.codeid}`)
       req.account = user.account
       req.session = user.session
-      await req.delete()
-      const req2 = TestHelper.createRequest(`/api/user/reset-code?codeid=${user.resetCode.codeid}`)
-      req2.account = user.account
-      req2.session = user.session
-      let errorMessage
-      try {
-        await req2.get(req2)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-codeid')
+      const deleted = await req.delete()
+      assert.strictEqual(deleted, true)
     })
   })
 })

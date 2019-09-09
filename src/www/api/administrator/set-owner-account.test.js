@@ -35,7 +35,7 @@ describe('/api/administrator/set-owner-account', () => {
     })
 
     describe('invalid-account', () => {
-      it('ineligible account access (non-owner)', async () => {
+      it('ineligible accessing account', async () => {
         const owner = await TestHelper.createOwner()
         const administrator = await TestHelper.createAdministrator(owner)
         const user = await TestHelper.createUser()
@@ -44,26 +44,74 @@ describe('/api/administrator/set-owner-account', () => {
         req.session = administrator.session
         let errorMessage
         try {
-          await req.route.api.patch(req)
+          await req.patch(req)
         } catch (error) {
           errorMessage = error.message
         }
         assert.strictEqual(errorMessage, 'invalid-account')
       })
 
-      it('ineligible querystring accountid (owner)', async () => {
+      it('ineligible querystring accountid', async () => {
         const owner = await TestHelper.createOwner()
         const req = TestHelper.createRequest(`/api/administrator/set-owner-account?accountid=${owner.account.accountid}`)
         req.account = owner.account
         req.session = owner.session
         let errorMessage
         try {
-          await req.route.api.patch(req)
+          await req.patch(req)
         } catch (error) {
           errorMessage = error.message
         }
         assert.strictEqual(errorMessage, 'invalid-account')
       })
+    })
+  })
+
+  describe('requires', () => {
+    it('accessing account is owner', async () => {
+      const owner = await TestHelper.createOwner()
+      const administrator = await TestHelper.createAdministrator(owner)
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/administrator/set-owner-account?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
+    })
+
+    it('querystring account is not owner', async () => {
+      const owner = await TestHelper.createOwner()
+      const req = TestHelper.createRequest(`/api/administrator/set-owner-account?accountid=${owner.account.accountid}`)
+      req.account = owner.account
+      req.session = owner.session
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
+    })
+
+    it('querystring account is not deleted', async () => {
+      const owner = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest(`/api/administrator/set-owner-account?accountid=${user.account.accountid}`)
+      req.account = owner.account
+      req.session = owner.session
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
   })
 

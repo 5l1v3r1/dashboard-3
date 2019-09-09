@@ -8,14 +8,11 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.codeid) {
-    throw new Error('invalid-codeid')
+    throw new Error('invalid-reset-codeid')
   }
   const resetCode = await global.api.user.ResetCode.get(req)
   if (!resetCode) {
-    throw new Error('invalid-codeid')
-  }
-  if (resetCode.accountid !== req.account.accountid) {
-    throw new Error('invalid-account')
+    throw new Error('invalid-reset-codeid')
   }
   resetCode.createdFormatted = dashboard.Format.date(resetCode.created)
   req.data = { resetCode }

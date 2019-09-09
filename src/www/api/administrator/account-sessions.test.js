@@ -81,7 +81,7 @@ describe('/api/administrator/account-sessions', () => {
         assert.strictEqual(sessionsNow[i].sessionid, sessions[i].sessionid)
       }
     })
-  }) 
+  })
 
   describe('returns', () => {
     it('array', async () => {
@@ -93,8 +93,10 @@ describe('/api/administrator/account-sessions', () => {
       const sessions = await req.get()
       assert.strictEqual(sessions.length, 1)
     })
+  })
 
-    it('redacted each session token', async () => {
+  describe('redacts', () => {
+    it('session tokens', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)

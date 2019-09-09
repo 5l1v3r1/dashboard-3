@@ -3,43 +3,122 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/set-account-deleted`, () => {
-  describe('SetAccountDeleted#DELETE', () => {
-    it('should reject invalid accountid', async () => {
+  describe('exceptions', () => {
+    describe('invalid-accountid', () => {
+      it('missing querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-deleted`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
+
+      it('invalid querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=invalid`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
+    })
+
+    describe('invalid-account', () => {
+      it('ineligible querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const user2 = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user2.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
+    })
+
+    describe('invalid-password', () => {
+      it('missing posted password', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          password: ''
+        }
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-password')
+      })
+
+      it('invalid posted password', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          password: 'invalid'
+        }
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-password')
+      })
+    })
+  })
+
+  describe('requirements', () => {
+    it('querystring accountid matches accessing account', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=invalid`)
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user2.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
+    })
+  })
+
+  describe('receives', () => {
+    it('requires querystring accountid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
         password: user.account.password
       }
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
+      const account = await req.patch()
+      assert.strictEqual(account.accountid, user.account.accountid)
     })
 
-    it('should reject other account\'s accountid', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
-      req.account = user2.account
-      req.session = user2.session
-      req.body = {
-        password: user.account.password
-      }
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-
-    it('should reject invalid password', async () => {
+    it('requires posted password', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -49,14 +128,16 @@ describe(`/api/user/set-account-deleted`, () => {
       }
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-password')
     })
+  })
 
-    it('should schedule deletion in 7 days', async () => {
+  describe('response', () => {
+    it('object', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -64,14 +145,13 @@ describe(`/api/user/set-account-deleted`, () => {
       req.body = {
         password: user.account.password
       }
-      global.deleteDelay = 7
-      const accountNow = await req.patch()
-      const now = Math.floor(new Date().getTime() / 1000)
-      const days = Math.ceil((accountNow.deleted - now) / 60 / 60 / 24)
-      assert.strictEqual(days, 7)
+      const account = await req.patch()
+      assert.strictEqual(account.object, 'account')
     })
+  })
 
-    it('should schedule deletion in 3 days', async () => {
+  describe('configuration', () => {
+    it('environment DELETE_DELAY', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -84,21 +164,6 @@ describe(`/api/user/set-account-deleted`, () => {
       const now = Math.floor(new Date().getTime() / 1000)
       const days = Math.ceil((accountNow.deleted - now) / 60 / 60 / 24)
       assert.strictEqual(days, 3)
-    })
-
-    it('should schedule immediate deletion', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        password: user.account.password
-      }
-      global.deleteDelay = 0
-      const accountNow = await req.patch()
-      const now = Math.floor(new Date().getTime() / 1000)
-      const days = Math.ceil((accountNow.deleted - now) / 60 / 60 / 24)
-      assert.strictEqual(days, 0)
     })
   })
 })

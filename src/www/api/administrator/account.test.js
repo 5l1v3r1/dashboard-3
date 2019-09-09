@@ -57,8 +57,20 @@ describe(`/api/administrator/account`, () => {
       const account = await req.get()
       assert.strictEqual(account.accountid, user.account.accountid)
     })
+  })
 
-    it('redacted username, password, session key', async () => {
+  describe('redacts', () => {
+    it('username hash', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const account = await req.get()
+      assert.strictEqual(undefined, account.usernameHash)
+    })
+
+    it('password hash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
@@ -66,8 +78,16 @@ describe(`/api/administrator/account`, () => {
       req.session = administrator.session
       const account = await req.get()
       assert.strictEqual(account.accountid, user.account.accountid)
-      assert.strictEqual(undefined, account.usernameHash)
       assert.strictEqual(undefined, account.passwordHash)
+    })
+
+    it('session key', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const account = await req.get()
       assert.strictEqual(undefined, account.sessionKey)
     })
   })

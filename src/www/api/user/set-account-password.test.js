@@ -3,45 +3,222 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/set-account-password`, () => {
-  describe('SetAccountPassword#PATCH', () => {
-    it('should require new password', async () => {
+  describe('exceptions', () => {
+    describe('invalid-accountid', () => {
+      it('missing querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-password`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
+
+      it('invalid querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=invalid`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
+    })
+
+    describe('invalid-account', () => {
+      it('ineligible querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const user2 = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user2.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
+    })
+
+    describe('invalid-password', () => {
+      it('missing posted password', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'new-password': '1234567890',
+          password: ''
+        }
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-password')
+      })
+
+      it('invalid posted password', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'new-password': '1234567890',
+          password: 'invalid'
+        }
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-password')
+      })
+    })
+
+    describe('invalid-new-password', () => {
+      it('missing posted new-password', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'new-password': '',
+          password: '1234567890'
+        }
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-new-password')
+      })
+    })
+
+    describe('invalid-new-password-length', () => {
+      it('posted new-password too short', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'new-password': '1',
+          password: user.account.password
+        }
+        global.minimumPasswordLength = 100
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-new-password-length')
+      })
+
+      it('posted new-password too long', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'new-password': '12345678',
+          password: user.account.password
+        }
+        global.maximumPasswordLength = 1
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-new-password-length')
+      })
+    })
+  })
+
+  describe('requirements', () => {
+    it('querystring accountid matches accessing account', async () => {
+      const user = await TestHelper.createUser()
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user2.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
+    })
+  })
+
+  describe('receives', () => {
+    it('requires querystring accountid', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'new-password': '1234567890',
+        password: user.account.password
+      }
+      const account = await req.patch()
+      assert.strictEqual(account.accountid, user.account.accountid)
+    })
+
+    it('requires posted password', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'new-password': '1234567890',
+        password: 'invalid'
+      }
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-password')
+    })
+
+    it('requires posted new-password', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
         'new-password': '',
-        password: user.account.password
+        password: 'invalid'
       }
-      global.minimumPasswordLength = 100
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-new-password')
     })
+  })
 
-    it('should enforce password length', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'new-password': '1',
-        password: user.account.password
-      }
-      global.minimumPasswordLength = 100
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-new-password-length')
-    })
-
+  describe('returns', () => {
     it('should apply new password', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
@@ -49,15 +226,10 @@ describe(`/api/user/set-account-password`, () => {
       req.session = user.session
       req.body = {
         'new-password': '1234567890',
-        'confirm-password': '1234567890',
         password: user.account.password
       }
-      await req.patch()
-      user.account.password = '1234567890'
-      const firstSession = user.session.sessionid
-      await TestHelper.createSession(user)
-      assert.strictEqual(user.session.object, 'session')
-      assert.notStrictEqual(user.session.sessionid, firstSession)
+      const account = await req.patch()
+      assert.strictEqual(account.object, 'account')
     })
   })
 })

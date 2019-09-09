@@ -26,6 +26,8 @@ if (process.env.STORAGE_CACHE) {
 
 let browser
 let packageJSON
+let lastURL
+
 before(async () => {
   await dashboard.start(global.applicationPath || __dirname)
   packageJSON = global.packageJSON
@@ -108,8 +110,9 @@ module.exports = {
   createRequest,
   createSession,
   createResetCode,
-  deleteResetCode,
   createUser,
+  deleteResetCode,
+  endSession,
   nextIdentity,
   setDeleted,
   extractDoc,
@@ -133,6 +136,7 @@ function createRequest (rawURL) {
   for (const verb of ['get', 'post', 'patch', 'delete', 'put']) {
     req[verb] = async () => {
       req.method = verb.toUpperCase()
+      lastURL = req.urlPath
       if (req.url.startsWith('/api/')) {
         delete (global.apiResponse)
         global.apiDependencies = []
@@ -290,6 +294,13 @@ async function createSession (user, remember) {
   return user.session
 }
 
+async function endSession(user) {
+  const req = createRequest(`/api/user/end-session?sessionid=${user.session.sessionid}`)
+  user.session = await req.patch()
+  await wait(100)
+  return user.session
+}
+
 async function setDeleted (user) {
   const req = createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
   req.account = user.account
@@ -308,7 +319,9 @@ async function createResetCode (user) {
   const req = createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
-  req.body = { code }
+  req.body = { 
+    'secret-code': code 
+  }
   user.resetCode = await req.post()
   user.resetCode.code = code
   await wait(100)

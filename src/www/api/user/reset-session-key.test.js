@@ -4,30 +4,80 @@ const TestHelper = require('../../../../test-helper.js')
 
 /* eslint-env mocha */
 describe('/api/user/reset-session-key', async () => {
-  describe('ResetSessionKey#PATCH', () => {
-    it('should end current session', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/reset-session-key?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      await req.patch()
-      const req2 = TestHelper.createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)
-      req2.account = administrator.account
-      req2.session = administrator.session
-      const session = await req2.get(req2)
-      assert.notStrictEqual(session.ended, undefined)
-      assert.notStrictEqual(session.ended, null)
+  describe('exceptions', () => {
+    describe('invalid-accountid', () => {
+      it('missing querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/reset-session-key`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
+
+      it('invalid querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/reset-session-key?accountid=invalid`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
     })
 
-    it('should update account sessionKeyLastReset', async () => {
+    describe('invalid-account', () => {
+      it('ineligible querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const user2 = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/reset-session-key?accountid=${user2.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
+    })
+  })
+
+  describe('requirements', () => {
+    it('querystring accountid matches accessing account', async () => {
+      const user = await TestHelper.createUser()
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/reset-session-key?accountid=${user2.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
+    })
+  })
+  
+  describe('returns', () => {
+    it('boolean', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/reset-session-key?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      const account = await req.patch()
-      assert.notStrictEqual(account.sessionKeyLastReset, undefined)
-      assert.notStrictEqual(account.sessionKeyLastReset, null)
+      const resetted = await req.patch()
+      assert.strictEqual(resetted, true)
     })
   })
 })

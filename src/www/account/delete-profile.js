@@ -15,9 +15,6 @@ async function beforeRequest (req) {
   if (!profile) {
     throw new Error('invalid-profileid')
   }
-  if (profile.accountid !== req.account.accountid) {
-    throw new Error('invalid-account')
-  }
   if (profile.profileid === req.account.profileid) {
     throw new Error('invalid-profile')
   }

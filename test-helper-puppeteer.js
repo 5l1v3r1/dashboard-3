@@ -293,7 +293,7 @@ async function fill (page, body, uploads) {
             } else {
               await active.evaluate((el) => { el.checked = false }, element)
             }
-          } catch(error) {
+          } catch (error) {
           }
         } else {
           try {

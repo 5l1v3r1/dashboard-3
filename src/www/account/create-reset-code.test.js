@@ -17,33 +17,48 @@ describe('/account/create-reset-code', () => {
   })
 
   describe('CreateResetCode#POST', () => {
-    it('should reject missing code', async () => {
+    it('should reject missing secret-code', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/create-reset-code')
       req.account = user.account
       req.session = user.session
       req.body = {
-        code: ' '
+        'secret-code': ' '
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-reset-code')
+      assert.strictEqual(message.attr.template, 'invalid-secret-code')
     })
 
-    it('should reject short code', async () => {
+    it('should reject short secret-code', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/create-reset-code')
       req.account = user.account
       req.session = user.session
       req.body = {
-        code: '1'
+        'secret-code': '1'
       }
       global.minimumResetCodeLength = 100
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-reset-code-length')
+      assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
+    })
+
+    it('should reject long secret-code', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/create-reset-code')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'secret-code': '1000000'
+      }
+      global.maximumResetCodeLength = 1
+      const page = await req.post()
+      const doc = TestHelper.extractDoc(page)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
     })
 
     it('should create', async () => {
@@ -52,7 +67,7 @@ describe('/account/create-reset-code', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        code: '123456890'
+        'secret-code': '123456890'
       }
       global.minimumResetCodeLength = 1
       const page = await req.post()

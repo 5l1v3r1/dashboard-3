@@ -35,7 +35,7 @@ function renderPage (req, res, messageTemplate) {
     return dashboard.Response.end(req, res, doc)
   }
   const removeFields = [].concat(global.profileFields)
-  const profileFields = req.profileFields || global.userProfileFields
+  const profileFields = req.userProfileFields || global.userProfileFields
   for (const field of profileFields) {
     removeFields.splice(removeFields.indexOf(field), 1)
   }
@@ -65,7 +65,7 @@ function renderPage (req, res, messageTemplate) {
 }
 
 async function submitForm (req, res) {
-  const profileFields = req.profileFields || global.userProfileFields
+  const profileFields = req.userProfileFields || global.userProfileFields
   for (const field of profileFields) {
     switch (field) {
       case 'full-name':

@@ -37,6 +37,27 @@ if (process.env.ENCRYPTION_SECRET &&
 }
 global.requireProfile = process.env.REQUIRE_PROFILE === 'true'
 global.profileFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+global.profileFieldMap = {}
+for (const field of global.profileFields) {
+  if (field === 'full-name') {
+    global.profileFieldMap['first-name'] = 'firstName'
+    global.profileFieldMap['last-name'] = 'lastName'
+    continue
+  }
+  let displayName = field
+  if (displayName.indexOf('-') > -1) {
+    displayName = displayName.split('-')
+    if (displayName.length === 1) {
+      displayName = displayName[0]
+    } else if (displayName.length === 2) {
+      displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1)
+    } else if (displayName.length === 3) {
+      displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1) + displayName[2].substring(0, 1).toUpperCase() + displayName[2].substring(1)
+    }
+  }
+  global.profileFieldMap[field] = displayName
+}
+
 if (!process.env.USER_PROFILE_FIELDS) {
   global.userProfileFields = [
     'contact-email',

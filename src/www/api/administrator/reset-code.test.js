@@ -4,7 +4,7 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/administrator/reset-code`, () => {
   describe('exceptions', () => {
-    describe('invalid-codeid', async () => {
+    describe('invalid-reset-codeid', async () => {
       it('missing querystring codeid value', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest(`/api/administrator/reset-code`)
@@ -16,7 +16,7 @@ describe(`/api/administrator/reset-code`, () => {
         } catch (error) {
           errorMessage = error.message
         }
-        assert.strictEqual(errorMessage, 'invalid-codeid')
+        assert.strictEqual(errorMessage, 'invalid-reset-codeid')
       })
 
       it('invalid querystring codeid value', async () => {
@@ -30,12 +30,12 @@ describe(`/api/administrator/reset-code`, () => {
         } catch (error) {
           errorMessage = error.message
         }
-        assert.strictEqual(errorMessage, 'invalid-codeid')
+        assert.strictEqual(errorMessage, 'invalid-reset-codeid')
       })
     })
   })
 
-  describe('receives', () => { 
+  describe('receives', () => {
     it('requires querystring codeid', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -59,8 +59,10 @@ describe(`/api/administrator/reset-code`, () => {
       const codeNow = await req.get()
       assert.strictEqual(codeNow.accountid, user.account.accountid)
     })
+  })
 
-    it('redacted code hash', async () => {
+  describe('redacts', () => {
+    it('secret code hash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
@@ -69,7 +71,7 @@ describe(`/api/administrator/reset-code`, () => {
       req.session = administrator.session
       const codeNow = await req.get()
       assert.strictEqual(codeNow.accountid, user.account.accountid)
-      assert.strictEqual(undefined, codeNow.code)
+      assert.strictEqual(undefined, codeNow.secretCodeHash)
     })
   })
 })

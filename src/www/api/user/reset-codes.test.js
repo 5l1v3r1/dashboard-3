@@ -3,42 +3,73 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/reset-codes`, () => {
-  describe('ResetCodes#GET', () => {
-    it('should limit codes to one page', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      const codesNow = await req.get()
-      assert.strictEqual(codesNow.length, global.pageSize)
+  describe('exceptions', () => {
+    describe('invalid-accountid', () => {
+      it('missing querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/reset-codes`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
+
+      it('invalid querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=invalid`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
     })
 
-    it('redacted code hash', async () => {
+    describe('invalid-account', () => {
+      it('ineligible querystring accountid', async () => {
+        const user = await TestHelper.createUser()
+        const user2 = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user2.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
+    })
+  })
+
+  describe('requirements', () => {
+    it('querystring accountid matches accessing account', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user.account.accountid}`)
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user2.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      const codesNow = await req.get()
-      assert.strictEqual(codesNow.length, 1)
-      assert.strictEqual(undefined, codesNow[0].code)
-    })
-
-    it('environment PAGE_SIZE', async () => {
-      global.pageSize = 3
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
+      let errorMessage
+      try {
+        await req.get()
+      } catch (error) {
+        errorMessage = error.message
       }
-      const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      const codesNow = await req.get()
-      assert.strictEqual(codesNow.length, global.pageSize)
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
+  })
 
+  describe('receives', () => {
     it('optional querystring offset (integer)', async () => {
       const offset = 1
       const user = await TestHelper.createUser()
@@ -71,6 +102,47 @@ describe(`/api/user/reset-codes`, () => {
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         assert.strictEqual(codesNow[i].codeid, codes[i].codeid)
       }
+    })
+  })
+
+  describe('returns', () => {
+    it('array', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      await TestHelper.createResetCode(user)
+      const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      const codesNow = await req.get()
+      assert.strictEqual(codesNow.length, global.pageSize)
+    })
+  })
+
+  describe('redacts', () => {
+    it('secret code hash', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      const codesNow = await req.get()
+      assert.strictEqual(codesNow.length, 1)
+      assert.strictEqual(undefined, codesNow[0].secretCodeHash)
+    })
+  })
+
+  describe('configuration', () => {
+    it('environment PAGE_SIZE', async () => {
+      global.pageSize = 3
+      const user = await TestHelper.createUser()
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createResetCode(user)
+      }
+      const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      const codesNow = await req.get()
+      assert.strictEqual(codesNow.length, global.pageSize)
     })
   })
 })

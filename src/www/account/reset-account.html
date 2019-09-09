@@ -18,8 +18,8 @@
           <input id="username" name="username" type="text" maxlength="1000" />
         </div>
         <div class="pure-control-group">
-          <label for="code">Reset code</label>
-          <input id="code" name="code" type="text" maxlength="1000" />
+          <label for="secret-code">Reset code</label>
+          <input id="secret-code" name="secret-code" type="text" maxlength="1000" />
         </div>
         <div class="pure-control-group">
           <label for="new-password">New password</label>
@@ -39,11 +39,11 @@
       </fieldset>
     </form>
   </body>
-  <template id="invalid-reset-code">
-    <div class="error message">Error! Invalid reset code</div>
+  <template id="invalid-secret-code">
+    <div class="error message">Error! Invalid secret code</div>
   </template>
-  <template id="invalid-reset-code-length">
-    <div class="error message">Error! Invalid reset code length</div>
+  <template id="invalid-secret-code-length">
+    <div class="error message">Error! Invalid secret code length</div>
   </template>
   <template id="invalid-username">
     <div class="error message">Error! Invalid username</div>

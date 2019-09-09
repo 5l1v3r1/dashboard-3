@@ -11,7 +11,7 @@ describe('internal-api/api', () => {
         get: async () => {
           return true
         }
-      })
+      }, '/api/user/delete-account')
       const req = TestHelper.createRequest('/api/user/delete-account')
       const result = await handler.get(req)
       assert.strictEqual(result, true)
@@ -22,7 +22,7 @@ describe('internal-api/api', () => {
         get: async (req) => {
           return req.account
         }
-      })
+      }, '/api/user/account')
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -36,7 +36,7 @@ describe('internal-api/api', () => {
         get: async () => {
           return { this: 'thing' }
         }
-      })
+      }, '/api/user/account')
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
       req.account = user.account

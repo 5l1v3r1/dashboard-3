@@ -29,7 +29,7 @@ describe('/administrator/administrators', () => {
       assert.strictEqual(row.tag, 'tr')
     })
 
-    it('array', async () => {
+    it('should return one page by default', async () => {
       const owner = await TestHelper.createOwner()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createAdministrator(owner)

@@ -45,7 +45,7 @@ describe('/administrator/account-reset-codes', () => {
       assert.strictEqual(row.tag, 'tr')
     })
 
-    it('array', async () => {
+    it('should return one page by default', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {

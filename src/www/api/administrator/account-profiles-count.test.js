@@ -13,12 +13,12 @@ describe('/api/administrator/account-profiles-count', () => {
         let errorMessage
         try {
           await req.get()
-        } catch(error) {
+        } catch (error) {
           errorMessage = error.message
-        }       
+        }
         assert.strictEqual(errorMessage, 'invalid-accountid')
       })
-      
+
       it('invalid querystring accountid value', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest(`/api/administrator/account-profiles-count?accountid=invalid`)

@@ -49,34 +49,49 @@ describe('/api/administrator/administrator-accounts', () => {
       assert.strictEqual(administrators[0].accountid, administrator2.account.accountid)
       assert.strictEqual(administrators[1].accountid, owner.account.accountid)
     })
+  })
 
-    it('redacted username, password, session key', async () => {
+  describe('redacts', () => {
+    it('username hash', async () => {
       const owner = await TestHelper.createOwner()
       const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
       req.account = owner.account
       req.session = owner.session
       const administrators = await req.get()
-      assert.strictEqual(administrators[0].accountid, owner.account.accountid)
-      assert.strictEqual(undefined, administrators[0].username)
-      assert.strictEqual(undefined, administrators[0].password)
+      assert.strictEqual(undefined, administrators[0].usernameHash)
+    })
+
+    it('password hash', async () => {
+      const owner = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
+      req.account = owner.account
+      req.session = owner.session
+      const administrators = await req.get()
+      assert.strictEqual(undefined, administrators[0].passwordHash)
+    })
+
+    it('session key', async () => {
+      const owner = await TestHelper.createOwner()
+      const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
+      req.account = owner.account
+      req.session = owner.session
+      const administrators = await req.get()
       assert.strictEqual(undefined, administrators[0].sessionKey)
     })
-
   })
 
-    describe('configuration', () => {
-      it('environment PAGE_SIZE', async () => {
-        global.pageSize = 3
-        const owner = await TestHelper.createOwner()
-        for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-          await TestHelper.createAdministrator(owner)
-        }
-        const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
-        req.account = owner.account
-        req.session = owner.session
-        const accountsNow = await req.get()
-        assert.strictEqual(accountsNow.length, global.pageSize)
-      })
+  describe('configuration', () => {
+    it('environment PAGE_SIZE', async () => {
+      global.pageSize = 3
+      const owner = await TestHelper.createOwner()
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createAdministrator(owner)
+      }
+      const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
+      req.account = owner.account
+      req.session = owner.session
+      const accountsNow = await req.get()
+      assert.strictEqual(accountsNow.length, global.pageSize)
     })
-
+  })
 })

@@ -5,8 +5,9 @@ module.exports = {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
-    if (req.account.accountid !== req.query.accountid) {
-      throw new Error('invalid-account')
+    const account = await global.api.user.Account.get(req)
+    if (!account) {
+      throw new Error('invalid-accountid')
     }
     if (!req.body || !req.body['new-username']) {
       throw new Error('invalid-new-username')

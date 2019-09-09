@@ -3,8 +3,8 @@ const dashboard = require('../../../../index.js')
 module.exports = {
   auth: false,
   patch: async (req) => {
-    if (!req.body || !req.body.code) {
-      throw new Error('invalid-reset-code')
+    if (!req.body || !req.body['secret-code']) {
+      throw new Error('invalid-secret-code')
     }
     if (!req.body.username) {
       throw new Error('invalid-username')
@@ -19,8 +19,8 @@ module.exports = {
     if (global.minimumPasswordLength > req.body['new-password'].length) {
       throw new Error('invalid-password-length')
     }
-    if (!req.body.code || !req.body.code.length) {
-      throw new Error('invalid-reset-code')
+    if (!req.body['secret-code'] || !req.body['secret-code'].length) {
+      throw new Error('invalid-secret-code')
     }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
     let bcryptFixedSalt = global.bcryptFixedSalt
@@ -45,12 +45,12 @@ module.exports = {
     if (account.deleted < dashboard.Timestamp.now) {
       throw new Error('invalid-account')
     }
-    const codeHash = await dashboard.Hash.fixedSaltHash(req.body.code, bcryptFixedSalt, dashboardEncryptionKey)
-    const codeid = await dashboard.Storage.read(`${req.appid}/map/account/resetCodes/${account.accountid}/${codeHash}`)
+    const secretCodeHash = await dashboard.Hash.fixedSaltHash(req.body['secret-code'], bcryptFixedSalt, dashboardEncryptionKey)
+    const codeid = await dashboard.Storage.read(`${req.appid}/map/account/resetCodes/${account.accountid}/${secretCodeHash}`)
     if (!codeid) {
-      if (global.minimumResetCodeLength > req.body.code.length ||
-          global.maximumResetCodeLength < req.body.code.length) {
-        throw new Error('invalid-reset-code-length')
+      if (global.minimumResetCodeLength > req.body['secret-code'].length ||
+          global.maximumResetCodeLength < req.body['secret-code'].length) {
+        throw new Error('invalid-secret-code-length')
       }
 
       throw new Error('invalid-reset-code')
@@ -73,10 +73,8 @@ module.exports = {
     await dashboard.Storage.deleteFile(`${req.appid}/resetCode/${code.codeid}`)
     await dashboard.StorageList.remove(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.remove(`${req.appid}/account/resetCodes/${accountid}`, codeid)
-    await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${accountid}/${codeHash}`)
+    await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${accountid}/${secretCodeHash}`)
     req.success = true
-    account.sessionKeyLastReset = dashboard.Timestamp.now
-    account.passwordLastChanged = dashboard.Timestamp.now
-    return account
+    return true
   }
 }

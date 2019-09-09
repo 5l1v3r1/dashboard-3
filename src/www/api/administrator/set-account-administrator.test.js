@@ -35,19 +35,35 @@ describe(`/api/administrator/set-account-administrator`, () => {
     })
 
     describe('invalid-account', () => {
-      it('ineligible querystring accountid (administrator)', async () => {
+      it('ineligible querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest(`/api/administrator/set-account-administrator?accountid=${administrator.account.accountid}`)
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage
         try {
-          await req.route.api.patch(req)
+          await req.patch(req)
         } catch (error) {
           errorMessage = error.message
         }
         assert.strictEqual(errorMessage, 'invalid-account')
       })
+    })
+  })
+
+  describe('requires', () => {
+    it('querystring accountid is not administrator', async () => {
+      const administrator = await TestHelper.createOwner()
+      const req = TestHelper.createRequest(`/api/administrator/set-account-administrator?accountid=${administrator.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
   })
 

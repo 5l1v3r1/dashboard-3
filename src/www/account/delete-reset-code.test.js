@@ -15,7 +15,7 @@ describe('/account/delete-reset-code', () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(errorMessage, 'invalid-codeid')
+      assert.strictEqual(errorMessage, 'invalid-reset-codeid')
     })
 
     it('should reject other account\'s code', async () => {
@@ -76,7 +76,7 @@ describe('/account/delete-reset-code', () => {
       let page = await req2.get()
       const doc = TestHelper.extractDoc(page)
       const errorTitle = doc.getElementById('error-title')
-      assert.strictEqual(errorTitle.attr.error, 'invalid-codeid')
+      assert.strictEqual(errorTitle.attr.error, 'invalid-reset-codeid')
     })
   })
 })

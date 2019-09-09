@@ -32,8 +32,8 @@
     <form id="submit-form" method="POST" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}">
       <fieldset>
         <div class="pure-control-group">
-          <label for="code">Reset code</label>
-          <input id="code" name="code" type="text" maxlength="1000" />
+          <label for="secret-code">Reset code</label>
+          <input id="secret-code" name="secret-code" type="text" maxlength="1000" />
         </div>
         <div id="form-buttons" class="pure-controls spaced-buttons">
           <button id="submit-button" type="submit" class="pure-button pure-button-primary">Create reset code</button>
@@ -47,10 +47,10 @@
   <template id="unknown-error">
     <div class="error message">Error! An unknown error occurred</div>
   </template>
-  <template id="invalid-reset-code">
+  <template id="invalid-secret-code">
     <div class="error message">Error! Invalid reset code</div>
   </template>
-  <template id="invalid-reset-code-length">
+  <template id="invalid-secret-code-length">
     <div class="error message">Error! Invalid reset code length</div>
   </template>
 </html>

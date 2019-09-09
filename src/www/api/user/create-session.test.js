@@ -4,8 +4,44 @@ const assert = require('assert')
 const dashboard = require('../../../../index.js')
 
 describe('/api/user/create-session', () => {
-  describe('CreateSession#POST', () => {
-    it('should require a username', async () => {
+  describe('exceptions', () => {
+    describe('invalid-username', () => {
+      it('missing posted username', async () => {
+        const req = TestHelper.createRequest('/api/user/create-session')
+        req.body = {
+          username: '',
+          password: 'password'
+        }
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-username')
+      })
+    })
+
+    describe('invalid-password', () => {
+      it('missing posted password', async () => {
+        const req = TestHelper.createRequest('/api/user/create-session')
+        req.body = {
+          username: 'username',
+          password: ''
+        }
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-password')
+      })
+    })
+  })
+
+  describe('receives', () => {
+    it('requires posted username', async () => {
       const req = TestHelper.createRequest('/api/user/create-session')
       req.body = {
         username: '',
@@ -13,30 +49,14 @@ describe('/api/user/create-session', () => {
       }
       let errorMessage
       try {
-        await req.post(req)
+        await req.post()
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-username')
     })
 
-    it('should require a username length', async () => {
-      const req = TestHelper.createRequest('/api/user/create-session')
-      req.body = {
-        username: '1',
-        password: 'password'
-      }
-      global.minimumUsernameLength = 100
-      let errorMessage
-      try {
-        await req.post(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-username-length')
-    })
-
-    it('should require a password', async () => {
+    it('requires posted password', async () => {
       const req = TestHelper.createRequest('/api/user/create-session')
       req.body = {
         username: 'username',
@@ -44,42 +64,14 @@ describe('/api/user/create-session', () => {
       }
       let errorMessage
       try {
-        await req.post(req)
+        await req.post()
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-password')
     })
 
-    it('should require a username length', async () => {
-      const req = TestHelper.createRequest('/api/user/create-session')
-      req.body = {
-        username: 'username',
-        password: '1'
-      }
-      global.minimumPasswordLength = 100
-      let errorMessage
-      try {
-        await req.post(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-password-length')
-    })
-
-    it('should create session expiring in 20 minutes', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/api/user/create-session')
-      req.body = {
-        username: user.account.username,
-        password: user.account.password
-      }
-      const session = await req.post()
-      const minutes = Math.ceil((session.expires - dashboard.Timestamp.now) / 60)
-      assert.strictEqual(minutes, 20)
-    })
-
-    it('should create session expiring in 8 hours', async () => {
+    it('optional posted remember (hours|days)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/api/user/create-session')
       req.body = {
@@ -90,19 +82,28 @@ describe('/api/user/create-session', () => {
       const session = await req.post()
       const hours = Math.ceil((session.expires - dashboard.Timestamp.now) / 60 / 60)
       assert.strictEqual(hours, 8)
-    })
-
-    it('should create session expiring in 30 days', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/api/user/create-session')
       req.body = {
         username: user.account.username,
         password: user.account.password,
         remember: 'days'
       }
-      const session = await req.post()
-      const days = Math.ceil((session.expires - dashboard.Timestamp.now) / 60 / 60 / 24)
+      const session2 = await req.post()
+      const days = Math.ceil((session2.expires - dashboard.Timestamp.now) / 60 / 60 / 24)
       assert.strictEqual(days, 30)
+    })
+  })
+
+  describe('returns', () => {
+    it('object', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/api/user/create-session')
+      req.body = {
+        username: user.account.username,
+        password: user.account.password,
+      }
+      const session = await req.post()
+      const minutes = Math.ceil((session.expires - dashboard.Timestamp.now) / 60)
+      assert.strictEqual(minutes, 20)
     })
   })
 })

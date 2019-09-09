@@ -3,445 +3,823 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/update-profile`, () => {
-  describe('UpdateProfile#POST', () => {
-    it('should require full name', async () => {
+  describe('exceptions', () => {
+    describe('invalid-profileid', () => {
+      it('missing querystring profileid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-profileid')
+      })
+
+      it('invalid querystring profileid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=invalid`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-profileid')
+      })
+    })
+
+    describe('invalid-profileid', () => {
+      it('ineligible querystring profileid', async () => {
+        const user = await TestHelper.createUser()
+        const user2 = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user2.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
+    })
+
+    describe('invalid-first-name', () => {
+      it('missing posted first-name', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['full-name']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'last-name': 'Person'
+        }
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-first-name')
+      })
+    })
+
+    describe('invalid-first-name-length', () => {
+      it('posted first-name too short', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'first-name': 'Test',
+          'last-name': 'Person'
+        }
+        global.requireProfile = true
+        global.userProfileFields = ['full-name']
+        global.minimumProfileFirstNameLength = 100
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-first-name-length')
+      })
+
+      it('posted first-name too long', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'first-name': 'Test',
+          'last-name': 'Person'
+        }
+        global.requireProfile = true
+        global.userProfileFields = ['full-name']
+        global.maximumProfileFirstNameLength = 1
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-first-name-length')
+      })
+    })
+
+    describe('invalid-last-name', () => {
+      it('missing posted last-name', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['full-name']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'first-name': 'Test'
+        }
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-last-name')
+      })
+    })
+
+    describe('invalid-last-name-length', () => {
+      it('posted last-name too short', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'first-name': 'Test',
+          'last-name': 'Person'
+        }
+        global.requireProfile = true
+        global.userProfileFields = ['full-name']
+        global.minimumProfileLastNameLength = 100
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-last-name-length')
+      })
+
+      it('posted last-name too long', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'first-name': 'Test',
+          'last-name': 'Person'
+        }
+        global.requireProfile = true
+        global.userProfileFields = ['full-name']
+        global.maximumProfileLastNameLength = 1
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-last-name-length')
+      })
+    })
+
+    describe('invalid-display-name', () => {
+      it('missing posted display-name', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['display-name']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {}
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-display-name')
+      })
+    })
+
+    describe('invalid-display-name-length', () => {
+      it('posted display-name too short', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'display-name': 'Test'
+        }
+        global.requireProfile = true
+        global.userProfileFields = ['display-name']
+        global.minimumProfileDisplayNameLength = 100
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-display-name-length')
+      })
+
+      it('posted display-name too long', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'display-name': 'Test'
+        }
+        global.requireProfile = true
+        global.userProfileFields = ['display-name']
+        global.maximumProfileDisplayNameLength = 1
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-display-name-length')
+      })
+    })
+
+    describe('invalid-company-name', () => {
+      it('missing posted company-name', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['company-name']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {}
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-company-name')
+      })
+    })
+
+    describe('invalid-company-name-length', async () => {
+      it('posted company-name too short', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'company-name': 'Test'
+        }
+        global.requireProfile = true
+        global.userProfileFields = ['company-name']
+        global.minimumProfileCompanyNameLength = 100
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-company-name-length')
+      })
+
+      it('posted company-name too long', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'company-name': 'Test'
+        }
+        global.requireProfile = true
+        global.userProfileFields = ['company-name']
+        global.maximumProfileCompanyNameLength = 1
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-company-name-length')
+      })
+    })
+
+    describe('invalid-contact-email', () => {
+      it('missing posted contact-email', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['contact-email']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {}
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-contact-email')
+      })
+    })
+
+    describe('invalid-display-email', () => {
+      it('missing posted display-email', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['display-email']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {}
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-display-email')
+      })
+    })
+
+    describe('invalid-location', () => {
+      it('missing posted location', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['location']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {}
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-location')
+      })
+    })
+
+    describe('invalid-occupation', () => {
+      it('missing posted occupation', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['occupation']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {}
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-occupation')
+      })
+    })
+
+    describe('invalid-phone', () => {
+      it('missing posted phone', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['phone']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {}
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-phone')
+      })
+    })
+
+    describe('invalid-dob', () => {
+      it('missing posted dob', async () => {
+        global.requireProfile = true
+        global.userProfileFields = ['dob']
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {}
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-dob')
+      })
+    })
+  })
+  describe('receives', () => {
+    it('optional posted first-name', async () => {
+      global.requireProfile = true
       global.userProfileFields = ['full-name']
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
-        'first-name': null,
-        'last-name': 'Test'
+        'last-name': 'Person'
       }
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.patch()
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-first-name')
+    })
+
+    it('optional posted last-name', async () => {
+      global.requireProfile = true
+      global.userProfileFields = ['full-name']
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
       req.body = {
-        'first-name': 'Test',
-        'last-name': null
+        'first-name': 'Test'
       }
+      let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.patch()
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-last-name')
     })
 
-    it('should enforce name field lengths', async () => {
-      global.userProfileFields = ['full-name']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'first-name': '1',
-        'last-name': 'Test'
-      }
-      global.minimumProfileFirstNameLength = 10
-      global.maximumProfileFirstNameLength = 100
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-first-name-length')
-      global.minimumProfileFirstNameLength = 1
-      global.maximumProfileFirstNameLength = 1
-      req.body = {
-        'first-name': '123456789',
-        'last-name': 'Test',
-        'contact-email': 'test@email.com'
-      }
-      errorMessage = null
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-first-name-length')
-    })
-
-    it('should update full name', async () => {
-      global.userProfileFields = ['full-name']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'first-name': 'Test',
-        'last-name': 'Person'
-      }
-      const profile = await req.patch()
-      assert.strictEqual(profile.firstName, req.body['first-name'])
-      assert.strictEqual(profile.lastName, req.body['last-name'])
-    })
-
-    it('should reject missing contact email', async () => {
-      global.userProfileFields = ['contact-email']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'contact-email': ' '
-      }
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-contact-email')
-    })
-
-    it('should require "@" in contact email', async () => {
-      global.userProfileFields = ['contact-email']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'contact-email': 'invalid'
-      }
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-contact-email')
-    })
-
-    it('should update contact email', async () => {
-      global.userProfileFields = ['contact-email']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'contact-email': user.profile.contactEmail
-      }
-      const profile = await req.patch()
-      assert.strictEqual(profile.contactEmail, req.body['contact-email'])
-    })
-
-    it('should reject missing display email', async () => {
-      global.userProfileFields = ['display-email']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'display-email': ' '
-      }
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-display-email')
-    })
-
-    it('should require "@" in display email', async () => {
-      global.userProfileFields = ['display-email']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'display-email': 'invalid'
-      }
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-display-email')
-    })
-
-    it('should update display email', async () => {
-      global.userProfileFields = ['display-email']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'display-email': user.profile.contactEmail
-      }
-      const profile = await req.patch()
-      assert.strictEqual(profile.displayEmail, req.body['display-email'])
-    })
-
-    it('should require display name', async () => {
+    it('optional posted display-name', async () => {
+      global.requireProfile = true
       global.userProfileFields = ['display-name']
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {
-        'display-name': null
-      }
+      req.body = {}
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.patch()
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-display-name')
     })
 
-    it('should enforce display name lengths', async () => {
-      global.userProfileFields = ['display-name']
+    it('optional posted company-name', async () => {
+      global.requireProfile = true
+      global.userProfileFields = ['company-name']
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {}
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-company-name')
+    })
+
+    it('optional posted contact-email', async () => {
+      global.requireProfile = true
+      global.userProfileFields = ['contact-email']
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {}
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-contact-email')
+    })
+
+    it('optional posted display-email', async () => {
+      global.requireProfile = true
+      global.userProfileFields = ['display-email']
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {}
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-display-email')
+    })
+
+    it('optional posted location', async () => {
+      global.requireProfile = true
+      global.userProfileFields = ['location']
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {}
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-location')
+    })
+
+    it('optional posted occupation', async () => {
+      global.requireProfile = true
+      global.userProfileFields = ['occupation']
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {}
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-occupation')
+    })
+
+    it('optional posted phone', async () => {
+      global.requireProfile = true
+      global.userProfileFields = ['phone']
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {}
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-phone')
+    })
+
+    it('optional posted dob', async () => {
+      global.requireProfile = true
+      global.userProfileFields = ['dob']
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {}
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-dob')
+    })
+  })
+
+  describe('configuration', () => {
+    it('environment USER_PROFILE_FIELDS', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      const fields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+      const body = {
+        'first-name': 'Test',
+        'last-name': 'Person',
+        'contact-email': 'test1@test.com',
+        'display-email': 'test2@test.com',
+        dob: '2000-01-01',
+        'display-name': 'tester',
+        phone: '456-789-0123',
+        occupation: 'Programmer',
+        location: 'USA',
+        'company-name': 'Test company',
+        website: 'https://example.com'
+      }
+      for (const field of fields) {
+        req.body = {
+          confirm: 'password1234',
+        }
+        if (field === 'full-name') {
+          req.body['first-name'] = body['first-name']
+          req.body['last-name'] = body['last-name']
+        } else {
+          req.body[field] = body[field]
+        }
+        global.userProfileFields = [field]
+        const displayName = global.profileFieldMap[field]
+        const account = await req.patch()
+        assert.strictEqual(account[displayName], body[field])
+      }
+    })
+
+    it('environment MINIMUM_PROFILE_FIRST_NAME_LENGTH', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'first-name': 'Test',
+        'last-name': 'Person'
+      }
+      global.userProfileFields = ['full-name']
+      global.minimumProfileFirstNameLength = 100
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-first-name-length')
+    })
+
+    it('environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'first-name': 'Test',
+        'last-name': 'Person'
+      }
+      global.userProfileFields = ['full-name']
+      global.maximumProfileFirstNameLength = 1
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-first-name-length')
+    })
+
+    it('environment MINIMUM_PROFILE_LAST_NAME_LENGTH', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'first-name': 'Test',
+        'last-name': 'Person'
+      }
+      global.userProfileFields = ['full-name']
+      global.minimumProfileLastNameLength = 100
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-last-name-length')
+    })
+
+    it('environment MAXIMUM_PROFILE_LAST_NAME_LENGTH', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'first-name': 'Test',
+        'last-name': 'Person'
+      }
+      global.userProfileFields = ['full-name']
+      global.maximumProfileLastNameLength = 1
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-last-name-length')
+    })
+
+    it('environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
         'display-name': '1'
       }
-      global.minimumProfileDisplayNameLength = 10
-      global.maximumProfileDisplayNameLength = 100
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-display-name-length')
-      global.minimumProfileDisplayNameLength = 1
-      global.maximumProfileDisplayNameLength = 1
-      req.body = {
-        'display-name': '123456789'
-      }
-      errorMessage = null
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-display-name-length')
-    })
-
-    it('should update display name', async () => {
       global.userProfileFields = ['display-name']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'display-name': user.profile.firstName + ' ' + user.profile.lastName.substring(0, 1)
-      }
-      const profile = await req.patch()
-      assert.strictEqual(profile.displayName, req.body['display-name'])
-    })
-
-    it('should require date of birth', async () => {
-      global.userProfileFields = ['dob']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'dob': null
-      }
+      global.minimumProfileDisplayNameLength = 100
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.patch()
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(errorMessage, 'invalid-dob')
+      assert.strictEqual(errorMessage, 'invalid-display-name-length')
     })
 
-    it('should require valid date of birth', async () => {
-      global.userProfileFields = ['dob']
+    it('environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
-        'dob': '2017-13-52'
+        'display-name': 'meeeee123'
       }
+      global.userProfileFields = ['display-name']
+      global.maximumProfileDisplayNameLength = 1
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.patch()
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(errorMessage, 'invalid-dob')
+      assert.strictEqual(errorMessage, 'invalid-display-name-length')
     })
 
-    it('should accept dob in YYYY-MM-DD', async () => {
-      global.userProfileFields = ['dob']
+    it('environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
-        'dob': '2017-11-01'
+        'company-name': '1'
       }
-      const profile = await req.patch()
-      assert.strictEqual(profile.dob, req.body.dob)
+      global.userProfileFields = ['company-name']
+      global.minimumProfileCompanyNameLength = 100
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-company-name-length')
     })
 
-    it('should accept dob in MM-DD-YYYY', async () => {
-      global.userProfileFields = ['dob']
+    it('environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
-        'dob': '12-13-1968'
+        'company-name': 'acme inc'
       }
-      const profile = await req.patch()
-      assert.strictEqual(profile.dob, '1968-12-13')
-    })
-
-    it('should require unvalidated fields', async () => {
-      const fields = ['phone', 'occupation', 'location', 'company-name', 'website']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      for (const field of fields) {
-        global.userProfileFields = [field]
-        req.body = {
-          [field]: null
-        }
-        let errorMessage
-        try {
-          await req.route.api.patch(req)
-        } catch (error) {
-          errorMessage = error.message
-        }
-        assert.strictEqual(errorMessage, `invalid-${field}`)
+      global.userProfileFields = ['company-name']
+      global.maximumProfileCompanyNameLength = 1
+      let errorMessage
+      try {
+        await req.patch()
+      } catch (error) {
+        errorMessage = error.message
       }
+      assert.strictEqual(errorMessage, 'invalid-company-name-length')
     })
+  })
 
-    it('should save unvalidated fields', async () => {
-      const fields = ['phone', 'occupation', 'location', 'company-name', 'website']
+  describe('override', () => {
+    it('request specifies required fields', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      for (const field of fields) {
-        global.userProfileFields = [field]
-        req.body = {
-          [field]: 'test value ' + Math.random()
-        }
-        let displayName = field
-        if (displayName.indexOf('-') > -1) {
-          displayName = displayName.split('-')
-          if (displayName.length === 1) {
-            displayName = displayName[0]
-          } else if (displayName.length === 2) {
-            displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1)
-          } else if (displayName.length === 3) {
-            displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1) + displayName[2].substring(0, 1).toUpperCase() + displayName[2].substring(1)
-          }
-        }
-        const profile = await req.patch()
-        assert.strictEqual(profile[displayName], req.body[field])
-      }
-    })
-
-    it('should update profile and set as default', async () => {
-      global.userProfileFields = ['full-name', 'contact-email']
-      const user = await TestHelper.createUser()
-      const profile1 = user.profile
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
-        default: 'true'
-      })
       global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${profile1.profileid}`)
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {
+      const body = {
         'first-name': 'Test',
         'last-name': 'Person',
         'contact-email': 'test1@test.com',
         'display-email': 'test2@test.com',
-        'display-name': 'Person',
         dob: '2000-01-01',
+        'display-name': 'tester',
         phone: '456-789-0123',
         occupation: 'Programmer',
         location: 'USA',
         'company-name': 'Test company',
-        website: 'https://example.com',
-        default: 'true'
+        website: 'https://example.com'
       }
-      const profile = await req.patch()
-      assert.strictEqual(profile.firstName, req.body['first-name'])
-      assert.strictEqual(profile.lastName, req.body['last-name'])
-      assert.strictEqual(profile.contactEmail, req.body['contact-email'])
-      assert.strictEqual(profile.displayEmail, req.body['display-email'])
-      assert.strictEqual(profile.companyName, req.body['company-name'])
-      assert.strictEqual(profile.website, req.body['website'])
-      assert.strictEqual(profile.occupation, req.body['occupation'])
-      assert.strictEqual(profile.location, req.body['location'])
-      assert.strictEqual(profile.phone, req.body['phone'])
-      const req2 = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
-      req2.account = user.account
-      req2.session = user.session
-      const account = await req2.get(req2)
-      assert.strictEqual(account.profileid, profile1.profileid)
-    })
-
-    it('should update profile with overridden settings', async () => {
-      const user = await TestHelper.createUser()
-      const profile1 = user.profile
-      await TestHelper.createProfile(user, {
-        'first-name': profile1.firstName,
-        'last-name': profile1.lastName,
-        'contact-email': profile1.contactEmail,
-        default: 'true'
-      })
-      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
-      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${profile1.profileid}`)
-      req.profileFields = ['full-name', 'contact-email']
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'first-name': 'Test',
-        'last-name': 'Person',
-        'contact-email': 'test1@test.com',
-        'display-email': 'test2@test.com',
-        'display-name': 'Person',
-        dob: '2000-01-01',
-        phone: '456-789-0123',
-        occupation: 'Programmer',
-        location: 'USA',
-        'company-name': profile1.contactEmail.split('@')[1].split('.')[0],
-        website: 'https://' + profile1.contactEmail.split('@')[1],
-        default: 'true'
+      for (const field of global.userProfileFields) {
+        req.userProfileFields = [field]
+        req.body = {}
+        if (field === 'full-name') {
+          req.body['first-name'] = body['first-name']
+          req.body['last-name'] = body['last-name']
+        } else {
+          req.body[field] = body[field]
+        }
+        const displayName = global.profileFieldMap[field]
+        const account = await req.route.api.patch(req)
+        assert.strictEqual(account[displayName], body[field])
       }
-      const profile = await req.route.api.patch(req)
-      assert.strictEqual(profile.firstName, req.body['first-name'])
-      assert.strictEqual(profile.lastName, req.body['last-name'])
-      assert.strictEqual(profile.contactEmail, req.body['contact-email'])
-      assert.strictEqual(profile.displayEmail, undefined)
-      assert.strictEqual(profile.companyName, undefined)
-      assert.strictEqual(profile.website, undefined)
-      assert.strictEqual(profile.occupation, undefined)
-      assert.strictEqual(profile.location, undefined)
-      assert.strictEqual(profile.phone, undefined)
-      const req2 = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
-      req2.account = user.account
-      req2.session = user.session
-      const account = await req2.get(req2)
-      assert.strictEqual(account.profileid, profile1.profileid)
     })
   })
 })

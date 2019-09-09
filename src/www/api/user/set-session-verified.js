@@ -5,7 +5,11 @@ module.exports = {
     if (!req.query || !req.query.sessionid) {
       throw new Error('invalid-sessionid')
     }
-    if (req.query.sessionid !== req.session.sessionid) {
+    const session = await global.api.user.Session.get(req)
+    if (!session) {
+      throw new Error('invalid-sessionid')
+    }
+    if (session.sessionid !== req.query.sessionid) {
       throw new Error('invalid-session')
     }
     if (!req || !req.body) {

@@ -29,7 +29,7 @@ async function renderPage (req, res) {
   if (req.data.profiles && req.data.profiles.length) {
     dashboard.HTML.renderTable(doc, req.data.profiles, 'profile-row', 'profiles-table')
     const removeFields = [].concat(global.profileFields)
-    const profileFields = req.profileFields || global.userProfileFields
+    const profileFields = req.userProfileFields || global.userProfileFields
     for (const field of profileFields) {
       removeFields.splice(removeFields.indexOf(field), 1)
     }

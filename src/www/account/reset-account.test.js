@@ -19,7 +19,7 @@ describe('/account/reset-account', () => {
         username: null,
         'new-password': 'new-password',
         'confirm-password': 'new-password',
-        code: 'reset-code'
+        'secret-code': 'reset-code'
       }
       const page = await req.post()
       const message = page.getElementById('message-container').child[0]
@@ -32,7 +32,7 @@ describe('/account/reset-account', () => {
         username: '1',
         'new-password': 'new-password',
         'confirm-password': 'new-password',
-        code: 'reset-code'
+        'secret-code': 'reset-code'
       }
       global.minimumUsernameLength = 100
       const page = await req.post()
@@ -46,11 +46,11 @@ describe('/account/reset-account', () => {
         username: 'username',
         'new-password': 'new-password',
         'confirm-password': 'new-password',
-        code: ''
+        'secret-code': ''
       }
       const page = await req.post()
       const message = page.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-reset-code')
+      assert.strictEqual(message.attr.template, 'invalid-secret-code')
     })
 
     it('should enforce reset code length', async () => {
@@ -59,12 +59,12 @@ describe('/account/reset-account', () => {
         username: 'username',
         'new-password': 'new-password',
         'confirm-password': 'new-password',
-        code: '1'
+        'secret-code': '1'
       }
       global.minimumResetCodeLength = 100
       const page = await req.post()
       const message = page.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-reset-code-length')
+      assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
     })
 
     it('should reject missing password', async () => {
@@ -73,7 +73,7 @@ describe('/account/reset-account', () => {
         username: 'username',
         'new-password': '',
         'confirm-password': 'new-password',
-        code: 'reset-code'
+        'secret-code': 'reset-code'
       }
       const page = await req.post()
       const message = page.getElementById('message-container').child[0]
@@ -86,7 +86,7 @@ describe('/account/reset-account', () => {
         username: 'username',
         'new-password': '1',
         'confirm-password': '1',
-        code: 'reset-code'
+        'secret-code': 'reset-code'
       }
       global.minimumPasswordLength = 100
       const page = await req.post()
@@ -100,7 +100,7 @@ describe('/account/reset-account', () => {
         username: 'username',
         'new-password': 'new-password',
         'confirm-password': '',
-        code: 'reset-code'
+        'secret-code': 'reset-code'
       }
       const page = await req.post()
       const message = page.getElementById('message-container').child[0]
@@ -117,7 +117,7 @@ describe('/account/reset-account', () => {
         username: user.account.username,
         'new-password': 'my-new-password',
         'confirm-password': 'my-new-password',
-        code: user.resetCode.code
+        'secret-code': user.resetCode.code
       }
       const page = await req.post()
       const message = page.getElementById('message-container').child[0]
@@ -133,7 +133,7 @@ describe('/account/reset-account', () => {
         username: user.account.username,
         'new-password': 'my-new-password',
         'confirm-password': 'my-new-password',
-        code: user.resetCode.code
+        'secret-code': user.resetCode.code
       }
       await req.post()
       const req2 = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
@@ -155,7 +155,7 @@ describe('/account/reset-account', () => {
         username: user.account.username,
         'new-password': 'my-new-password',
         'confirm-password': 'my-new-password',
-        code: user.resetCode.code
+        'secret-code': user.resetCode.code
       }
       await req.post()
       const req2 = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
@@ -174,7 +174,7 @@ describe('/account/reset-account', () => {
         username: user.account.username,
         'new-password': 'my-new-password',
         'confirm-password': 'my-new-password',
-        code: user.resetCode.code
+        'secret-code': user.resetCode.code
       }
       const res = {
         setHeader: () => {

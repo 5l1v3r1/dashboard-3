@@ -62,10 +62,10 @@ function wrapAPIRequest (nodejsHandler, filePath) {
   return nodejsHandler
 }
 
-function wrapResponseHandling(method, filePath) {
+function wrapResponseHandling (method, filePath) {
   return async (req, res) => {
-    if (process.env.NODE_ENV === 'testing' && 
-        req.urlPath !== filePath && 
+    if (process.env.NODE_ENV === 'testing' &&
+        req.urlPath !== filePath &&
         !res) {
       const urlPath = filePath
       if (global.apiDependencies.indexOf(urlPath) === -1) {

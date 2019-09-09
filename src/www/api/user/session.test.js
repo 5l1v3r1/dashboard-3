@@ -3,22 +3,57 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/session`, () => {
-  describe('Session#GET', () => {
-    it('should reject invalid sessionid', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/session?sessionid=invalid`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.get(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-sessionid')
+  describe('exceptions', () => {
+    describe('invalid-sessionid', () => {
+      it('missing querystring sessionid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/session`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-sessionid')
+      })
+
+      it('invalid querystring sessionid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/session?sessionid=invalid`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-sessionid')
+      })
     })
 
-    it('should require own sessionid', async () => {
+    describe('invalid-account', () => {
+      it('ineligible querystring sessionid', async () => {
+        const user = await TestHelper.createUser()
+        const user2 = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/session?sessionid=${user2.session.sessionid}`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
+    })
+  })
+
+  describe('requirements', () => {
+    it('querystring sessionid owned by accessing account', async () => {
       const user = await TestHelper.createUser()
       const user2 = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/session?sessionid=${user2.session.sessionid}`)
@@ -26,30 +61,33 @@ describe(`/api/user/session`, () => {
       req.session = user.session
       let errorMessage
       try {
-        await req.get(req)
+        await req.get()
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-account')
     })
+  })
 
-    it('should return session data', async () => {
+  describe('returns', () => {
+    it('object', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/session?sessionid=${user.session.sessionid}`)
       req.account = user.account
       req.session = user.session
       const session = await req.get()
-      assert.strictEqual(session.accountid, user.account.accountid)
+      assert.strictEqual(session.object, 'session')
     })
+  })
 
-    it('redacted token', async () => {
+  describe('redacts', () => {
+    it('token hash', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/session?sessionid=${user.session.sessionid}`)
       req.account = user.account
       req.session = user.session
       const session = await req.get()
-      assert.strictEqual(session.accountid, user.account.accountid)
-      assert.strictEqual(session.token, undefined)
+      assert.strictEqual(session.tokenHash, undefined)
     })
   })
 })

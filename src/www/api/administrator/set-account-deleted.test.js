@@ -35,21 +35,39 @@ describe('/api/administrator/set-account-deleted', () => {
     })
 
     describe('invalid-account', () => {
-      it('ineligible querystring accountid (deleted)', async () => {
+      it('ineligible querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
-        const req = TestHelper.createRequest(`/api/administrator/set-account-administrator?accountid=${administrator.account.accountid}`)
+        const req = TestHelper.createRequest(`/api/administrator/set-account-deleted?accountid=${user.account.accountid}`)
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage
         try {
-          await req.route.api.patch(req)
+          await req.patch(req)
         } catch (error) {
           errorMessage = error.message
         }
         assert.strictEqual(errorMessage, 'invalid-account')
       })
+    })
+  })
+
+  describe('invalid-account', () => {
+    it('querystring accountid is deleted', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest(`/api/administrator/set-account-deleted?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      let errorMessage
+      try {
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
   })
 

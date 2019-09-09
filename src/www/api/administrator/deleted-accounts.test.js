@@ -55,8 +55,10 @@ describe('/api/administrator/deleted-accounts', () => {
       assert.strictEqual(accounts[0].accountid, user2.account.accountid)
       assert.strictEqual(accounts[1].accountid, user.account.accountid)
     })
+  })
 
-    it('redacted username, password, session key', async () => {
+  describe('redacts', () => {
+    it('username hash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -64,14 +66,33 @@ describe('/api/administrator/deleted-accounts', () => {
       req.account = administrator.account
       req.session = administrator.session
       const accounts = await req.get()
-      assert.strictEqual(accounts.length, 1)
-      assert.strictEqual(undefined, accounts[0].username)
-      assert.strictEqual(undefined, accounts[0].password)
+      assert.strictEqual(undefined, accounts[0].usernameHash)
+    })
+
+    it('password hash', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest('/api/administrator/deleted-accounts')
+      req.account = administrator.account
+      req.session = administrator.session
+      const accounts = await req.get()
+      assert.strictEqual(undefined, accounts[0].passwordHash)
+    })
+
+    it('session key', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest('/api/administrator/deleted-accounts')
+      req.account = administrator.account
+      req.session = administrator.session
+      const accounts = await req.get()
       assert.strictEqual(undefined, accounts[0].sessionKey)
     })
   })
 
-  describe('configuration', () =>{ 
+  describe('configuration', () => {
     it('environment PAGE_SIZE', async () => {
       global.pageSize = 3
       const administrator = await TestHelper.createOwner()

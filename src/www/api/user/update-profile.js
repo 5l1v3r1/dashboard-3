@@ -5,15 +5,14 @@ module.exports = {
     if (!req.query || !req.query.profileid) {
       throw new Error('invalid-profileid')
     }
-    if (!req.body) {
-      throw new Error('invalid-request')
-    }
     const profile = await global.api.user.Profile.get(req)
     if (!profile) {
       throw new Error('invalid-profileid')
     }
+    req.body = req.body || {}
     const profileInfo = {}
-    const profileFields = req.profileFields || global.userProfileFields
+    const profileFields = req.userProfileFields || global.userProfileFields
+    const accountProperties = {}
     for (const field of profileFields) {
       switch (field) {
         case 'full-name':
@@ -31,20 +30,20 @@ module.exports = {
             global.maximumProfileLastNameLength < req.body['last-name'].length) {
             throw new Error('invalid-last-name-length')
           }
-          profileInfo.firstName = req.body['first-name']
-          profileInfo.lastName = req.body['last-name']
+          profileInfo.firstName = accountProperties.firstName = req.body['first-name']
+          profileInfo.lastName = accountProperties.lastName = req.body['last-name']
           continue
         case 'contact-email':
           if (!req.body[field] || req.body[field].indexOf('@') === -1) {
             throw new Error(`invalid-${field}`)
           }
-          profileInfo.contactEmail = req.body[field]
+          profileInfo.contactEmail = accountProperties.contactEmail = req.body[field]
           continue
         case 'display-email':
           if (!req.body[field] || req.body[field].indexOf('@') === -1) {
             throw new Error(`invalid-${field}`)
           }
-          profileInfo.displayEmail = req.body[field]
+          profileInfo.displayEmail = accountProperties.displayName = req.body[field]
           continue
         case 'display-name':
           if (!req.body[field] || !req.body[field].length) {
@@ -54,7 +53,7 @@ module.exports = {
             global.maximumProfileDisplayNameLength < req.body[field].length) {
             throw new Error('invalid-display-name-length')
           }
-          profileInfo.displayName = req.body[field]
+          profileInfo.displayName = accountProperties.displayName = req.body[field]
           continue
         case 'company-name':
           if (!req.body[field] || !req.body[field].length) {
@@ -64,7 +63,7 @@ module.exports = {
             global.maximumProfileCompanyNameLength < req.body[field].length) {
             throw new Error('invalid-company-name-length')
           }
-          profileInfo.companyName = req.body[field]
+          profileInfo.companyName = accountProperties.companyName = req.body[field]
           continue
         case 'dob':
           if (!req.body[field] || !req.body[field].length) {
@@ -78,35 +77,20 @@ module.exports = {
           if (!date || !date.getFullYear) {
             throw new Error(`invalid-${field}`)
           }
-          profileInfo.dob = dashboard.Format.date(date)
+          profileInfo.dob = accountProperties.dob = dashboard.Format.date(date)
           continue
         default:
           if (!req.body[field]) {
             throw new Error(`invalid-${field}`)
           }
-          let displayName = field
-          if (displayName.indexOf('-') > -1) {
-            displayName = displayName.split('-')
-            if (displayName.length === 1) {
-              displayName = displayName[0]
-            } else if (displayName.length === 2) {
-              displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1)
-            } else if (displayName.length === 3) {
-              displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1) + displayName[2].substring(0, 1).toUpperCase() + displayName[2].substring(1)
-            }
-          }
-          profileInfo[displayName] = req.body[field]
+          const displayName = global.profileFieldMap[field]
+          profileInfo[displayName] = accountProperties[displayName] = req.body[field]
           continue
       }
     }
     await dashboard.StorageObject.setProperties(`${req.appid}/profile/${req.query.profileid}`, profileInfo)
     if (req.query.profileid === req.account.profileid || req.body.default === 'true') {
-      await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.account.accountid}`, {
-        profileid: req.query.profileid,
-        firstName: profileInfo.firstName,
-        lastName: profileInfo.lastName,
-        email: profileInfo.contactEmail
-      })
+      await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.account.accountid}`, accountProperties)
     }
     req.success = true
     for (const field in profileInfo) {

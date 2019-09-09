@@ -52,8 +52,10 @@ describe('/api/administrator/sessions', () => {
       assert.strictEqual(sessions[0].sessionid, user.session.sessionid)
       assert.strictEqual(sessions[1].sessionid, administrator.session.sessionid)
     })
+  })
 
-    it('redacted session token', async () => {
+  describe('redacts', () => {
+    it('session token', async () => {
       const administrator = await TestHelper.createOwner()
       await TestHelper.createUser()
       const req = TestHelper.createRequest('/api/administrator/sessions')

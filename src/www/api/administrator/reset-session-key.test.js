@@ -36,7 +36,7 @@ describe(`/api/administrator/reset-session-key`, () => {
   })
 
   describe('invalid-account', () => {
-    it('ineligible querystring accountid value (deleted)', async () => {
+    it('ineligible querystring accountid', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -45,7 +45,25 @@ describe(`/api/administrator/reset-session-key`, () => {
       req.session = administrator.session
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.strictEqual(errorMessage, 'invalid-account')
+    })
+  })
+
+  describe('requires', () => {
+    it('querystring accountid is not deleted', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      let errorMessage
+      try {
+        await req.patch(req)
       } catch (error) {
         errorMessage = error.message
       }

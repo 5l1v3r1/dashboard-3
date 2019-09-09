@@ -251,8 +251,9 @@
     CreateResetCode#GET
       ✓ should present the form
     CreateResetCode#POST
-      ✓ should reject missing code
-      ✓ should reject short code
+      ✓ should reject missing secret-code
+      ✓ should reject short secret-code
+      ✓ should reject long secret-code
       ✓ should create
 
   /account/delete-account-complete
@@ -477,7 +478,7 @@
       ✓ should bind profiles to req
     Profiles#GET
       ✓ should present the account table
-      ✓ should limit profiles to one page
+      ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -487,7 +488,7 @@
     AccountResetCodes#GET
       ✓ should present the reset codes table
       ✓ should present the account table
-      ✓ should limit reset codes to one page
+      ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -497,7 +498,7 @@
     AccountSessions#GET
       ✓ should present the sessions table
       ✓ should present the account table
-      ✓ should limit sessions to one page
+      ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -519,7 +520,7 @@
       ✓ should bind accounts to req
     Accounts#GET
       ✓ should present the accounts table
-      ✓ should limit accounts to one page
+      ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -528,7 +529,7 @@
       ✓ should bind administrators to req
     Administrators#GET
       ✓ should present the administrators table
-      ✓ should limit accounts to one page
+      ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -567,7 +568,7 @@
       ✓ should bind deleted accounts to req
     DeleteSchedule#GET
       ✓ should present the deleted accounts table
-      ✓ should limit accounts to one page
+      ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -582,7 +583,7 @@
     Profiles#BEFORE
       ✓ should bind profiles to req
     Profiles#GET
-      ✓ should limit profiles to one page
+      ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
       ✓ should show fields if data exists
@@ -598,7 +599,7 @@
       ✓ should bind reset codes to req
     ResetCodes#GET
       ✓ should present the reset codes table
-      ✓ should limit reset codes to one page
+      ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -639,7 +640,7 @@
       ✓ should bind sessions to req
     Sessions#GET
       ✓ should present the sessions table
-      ✓ should limit sessions to one page
+      ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -655,8 +656,8 @@
   /api/administrator/account-profiles-count
     exceptions
       invalid-accountid
-        ✓ missing querystring accountid
-        ✓ invalid querystring accountid
+        ✓ missing querystring accountid value
+        ✓ invalid querystring accountid value
     receives
       ✓ querystring accountid
     returns
@@ -666,9 +667,9 @@
     exceptions
       invalid-accountid
         ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid
-    recieves
-      ✓ required querystring accountid
+        ✓ invalid querystring accountid value
+    receives
+      ✓ requires querystring accountid
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -679,373 +680,868 @@
   /api/administrator/account-reset-codes-count
     exceptions
       invalid-accountid
-        ✓ missing querystring accountid
-        ✓ invalid querystring accountid
+        ✓ missing querystring accountid value
+        ✓ invalid querystring accountid value
     receives
       ✓ querystring accountid
     returns
       ✓ integer
 
   /api/administrator/account-reset-codes
-    AccountResetCodes#GET
-      ✓ should return reset codes
-      ✓ should redact code hash
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    exceptions
+      invalid-accountid
+        ✓ unspecified querystring accountid
+        ✓ invalid querystring accountid value
+    receives
+      ✓ requires querystring accountid
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    redacts
+      ✓ secret code hash
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/administrator/account-sessions-count
-    AccountSessionsCount#GET
-      ✓ should count account's sessions
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid value
+        ✓ invalid querystring accountid value
+    receives
+      ✓ querystring accountid
+    returns
+      ✓ integer
 
   /api/administrator/account-sessions
-    AccountSessions#GET
-      ✓ should return sessions
-      ✓ should redact each session token
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    exceptions
+      invalid-accountid
+        ✓ unspecified querystring accountid
+        ✓ invalid querystring accountid value
+    receives
+      ✓ requires querystring accountid
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    redacts
+      ✓ session tokens
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/administrator/account
-    Account#GET
-      ✓ should return specified user data
-      ✓ should redact username, password, session key
+    exceptions
+      invalid-accountid
+        ✓ unspecified querystring accountid
+        ✓ invalid querystring accountid value
+    receives
+      ✓ requires querystring accountid
+    returns
+      ✓ object
+    redacts
+      ✓ username hash
+      ✓ password hash
+      ✓ session key
 
   /api/administrator/accounts-count
-    AccountCount#GET
-      ✓ should count all accounts
+    returns
+      ✓ integer
 
   /api/administrator/accounts
-    Accounts#GET
-      ✓ should return accounts
-      ✓ should redact username, password, sessionKey
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    returns
+      ✓ array
+    receives
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    redacts
+      ✓ username hash
+      ✓ password hash
+      ✓ sessionKey
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/administrator/administrator-accounts-count
-    AdministratorAccountsCount#GET
-      ✓ should count all administrators' accounts
+    returns
+      ✓ integer
 
   /api/administrator/administrator-accounts
-    AdministratorAccounts#GET
-      ✓ should return administrators' accounts
-      ✓ should redact username, password, session key
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    receives
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    redacts
+      ✓ username hash
+      ✓ password hash
+      ✓ session key
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/administrator/create-reset-code
-    CreateResetCode#POST
-      ✓ should enforce code length
-      ✓ should create a code
+    exceptions
+      invalid-accountid
+        ✓ unspecified querystring accountid
+        ✓ invalid querystring accountid value
+      invalid-secret-code
+        ✓ missing posted secret-code
+      invalid-secret-code-length
+        ✓ invalid posted secret-code length
+    receives
+      ✓ querystring accountid
+    returns
+      ✓ object
+    configuration
+      ✓ environment MINIMUM_RESET_CODE_LENGTH
+      ✓ environment MAXIMUM_RESET_CODE_LENGTH
 
   /api/administrator/delete-account
-    DeleteAccount#DELETE
-      ✓ should allow account not scheduled for delete
-      ✓ should allow account not ready to delete
-      ✓ should delete account
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid value
+        ✓ invalid querystring accountid value
+    receieves
+      ✓ querystring accountid
+    returns
+      ✓ boolean
 
   /api/administrator/deleted-accounts-count
-    DeletedAccountsCount#GET
-      ✓ should count all profiles
+    returns
+      ✓ querystring accountid
 
   /api/administrator/deleted-accounts
-    DeletedAccounts#GET
-      ✓ should return deleted accounts
-      ✓ should redact username, password, session key
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+    receives
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    redacts
+      ✓ username hash
+      ✓ password hash
+      ✓ session key
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/administrator/profile
-    Profile#GET
-      ✓ should return specified profile data
+    exceptions
+      invalid-profileid
+        ✓ missing querystring profileid value
+        ✓ invalid querystring profileid value
+    returns
+      ✓ object
 
   /api/administrator/profiles-count
-    ProfilesCount#GET
-      ✓ should count all profiles
+    returns
+      ✓ integer
 
   /api/administrator/profiles
-    Profiles#GET
-      ✓ should limit profiles to one page
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    receives
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/administrator/reset-account-administrator
-    ResetAccountAdministrator#PATCH
-      ✓ should require an administrator accountid
-      ✓ should apply revocation
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid value
+        ✓ invalid querystring accountid value
+      invalid-account
+        ✓ ineligible querystring accountid
+    requires
+      ✓ querystring accountid is administrator
+      ✓ querystring accountid is not owner
+    receives
+      ✓ requires querystring accountid
+    returns
+      ✓ object
 
   /api/administrator/reset-code
-    ResetCode#GET
-      ✓ should return reset code data
-      ✓ should redact code hash
+    exceptions
+      invalid-reset-codeid
+        ✓ missing querystring codeid value
+        ✓ invalid querystring codeid value
+    receives
+      ✓ requires querystring codeid
+    returns
+      ✓ object
+    redacts
+      ✓ secret code hash
 
   /api/administrator/reset-codes-count
-    ResetCodesCount#GET
-      ✓ should count all reset codes
+    returns
+      ✓ integer
 
   /api/administrator/reset-codes
-    ResetCodes#GET
+    receives
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
       ✓ should return reset codes
-      ✓ should redact code hash
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    redacts
+      ✓ secret code hash
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/administrator/reset-session-key
-    ResetSessionKey#PATCH
-      ✓ should reject invalid account
-      ✓ should reject account scheduled for deletion
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid value
+        ✓ invalid querystring accountid value
+    invalid-account
+      ✓ ineligible querystring accountid
+    requires
+      ✓ querystring accountid is not deleted
+    receives
+      ✓ requires querystring accountid
+    returns
+      ✓ object
       ✓ should increase sessionKeyNumber
       ✓ should update sessionKeyLastReset
 
   /api/administrator/session
-    Session#GET
-      ✓ should return user session
-      ✓ should redact token
+    exceptions
+      invalid-sessionid
+        ✓ unspecified querystring accountid
+        ✓ invalid querystring sessionid value
+    receives
+      ✓ requires querystring sessionid
+    returns
+      ✓ object
+    redacts
+      ✓ token hash
 
   /api/administrator/sessions-count
-    SessionsCount#GET
-      ✓ should count all sessions
+    returns
+      ✓ integer
 
   /api/administrator/sessions
-    Sessions#GET
-      ✓ should return sessions
-      ✓ should redact each session token
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    receives
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    redacts
+      ✓ session token
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/administrator/set-account-administrator
-    SetAccountAdministrator#PATCH
-      ✓ should reject invalid accountid
-      ✓ should reject own accountid
-      ✓ should require a non-administrator accountid
-      ✓ should assign administrator status
+    exceptions
+      invalid-accountid
+        ✓ unspecified querystring accountid
+        ✓ invalid querystring accountid value
+      invalid-account
+        ✓ ineligible querystring accountid
+    requires
+      ✓ querystring accountid is not administrator
+    receives
+      ✓ requires querystring accountid
+    returns
+      ✓ object
 
   /api/administrator/set-account-deleted
-    SetAccountDeleted#PATCH
-      ✓ should reject invalid accountid
-      ✓ should reject own accountid
-      ✓ should schedule for immediate deletion
-      ✓ should schedule for future deletion
+    exceptions
+      invalid-accountid
+        ✓ unspecified querystring accountid
+        ✓ invalid querystring accountid value
+      invalid-account
+        ✓ ineligible querystring accountid
+    invalid-account
+      ✓ querystring accountid is deleted
+    receives
+      ✓ requires querystring accountid
+    returns
+      ✓ object
+    configuration
+      ✓ environment DELETE_DELAY
 
   /api/administrator/set-owner-account
-    SetOwnerAccount#PATCH
-      ✓ should reject invalid accountid
-      ✓ should reject non-owner administrators
-      ✓ should reject transferring to self accountid
-      ✓ should apply new ownership
-      ✓ should revoke own ownership
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid value
+        ✓ invalid querystring accountid value
+      invalid-account
+        ✓ ineligible accessing account
+        ✓ ineligible querystring accountid
+    requires
+      ✓ accessing account is owner
+      ✓ querystring account is not owner
+      ✓ querystring account is not deleted
+    returns
+      ✓ object
 
   /api/user/account
-    Account#GET
-      ✓ should reject invalid accountid
-      ✓ should reject other accountid
-      ✓ should return account data
-      ✓ should redact username, password, sessionKey
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+    requirements
+      ✓ querystring accountid matches accessing account
+    returns
+      ✓ object
+    redacts
+      ✓ username hash
+      ✓ password hash
+      ✓ sessionKey
 
   /api/user/create-account
-    CreateAccount#POST
-      ✓ should require a username
-      ✓ should enforce minimum username length
-      ✓ should enforce maximum username length
-      ✓ should require a password
-      ✓ should enforce minimum password length
-      ✓ should enforce maximum password length
-      ✓ should create account
-      ✓ should create account with profile
+    exceptions
+      invalid-username
+        ✓ missing posted username
+      invalid-username-length
+        ✓ posted username too short
+        ✓ posted username too long
+      invalid-password
+        ✓ missing posted password
+      invalid-password-length
+        ✓ posted password too short
+        ✓ posted password too long
+      invalid-first-name
+        ✓ missing posted first-name
+      invalid-first-name-length
+        ✓ posted first-name too short
+        ✓ posted first-name too long
+      invalid-last-name
+        ✓ missing posted last-name
+      invalid-last-name-length
+        ✓ posted last-name too short
+        ✓ posted last-name too long
+      invalid-display-name
+        ✓ missing posted display-name
+      invalid-display-name-length
+        ✓ posted display-name too short
+        ✓ posted display-name too long
+      invalid-company-name
+        ✓ missing posted company-name
+      invalid-contact-email
+        ✓ missing posted contact-email
+      invalid-display-email
+        ✓ missing posted display-email
+      invalid-location
+        ✓ missing posted location
+      invalid-occupation
+        ✓ missing posted occupation
+      invalid-phone
+        ✓ missing posted phone
+      invalid-dob
+        ✓ missing posted dob
+    receives
+      ✓ requires posted username
+      ✓ requires posted password
+      ✓ optional posted first-name
+      ✓ optional posted last-name
+      ✓ optional posted display-name
+      ✓ optional posted company-name
+      ✓ optional posted contact-email
+      ✓ optional posted display-email
+      ✓ optional posted location
+      ✓ optional posted occupation
+      ✓ optional posted phone
+      ✓ optional posted dob
+    returns
+      ✓ object
+    configuration
+      ✓ environment MINIMUM_USERNAME_LENGTH
+      ✓ environment MAXIMUM_USERNAME_LENGTH
+      ✓ environment MINIMUM_PASSWORD_LENGTH
+      ✓ environment MAXIMUM_PASSWORD_LENGTH
+      ✓ environment REQUIRE_PROFILE
+      ✓ environment USER_PROFILE_FIELDS
+      ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
+      ✓ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
+      ✓ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
+      ✓ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH
+    override
+      ✓ request specifies required fields
 
   /api/user/create-profile
-    CreateProfile#POST
-      ✓ should require full name
-      ✓ should enforce name field lengths
-      ✓ should create new profile with full name
-      ✓ should reject missing contact email
-      ✓ should require "@" in contact email
-      ✓ should create new profile with contact email
-      ✓ should reject missing display email
-      ✓ should require "@" in display email
-      ✓ should create new profile with display email
-      ✓ should require display name
-      ✓ should enforce display name lengths
-      ✓ should create new profile with display name
-      ✓ should require date of birth
-      ✓ should require valid date of birth
-      ✓ should accept dob in YYYY-MM-DD
-      ✓ should accept dob in MM-DD-YYYY
-      ✓ should require unvalidated fields
-      ✓ should save unvalidated fields
-      ✓ should create new profile and set as default
-      ✓ should override global requirements with other settings
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-accountid
+        ✓ ineligible querystring accountid
+      invalid-first-name
+        ✓ missing posted first-name
+      invalid-first-name-length
+        ✓ posted first-name too short
+        ✓ posted first-name too long
+      invalid-last-name
+        ✓ missing posted last-name
+      invalid-last-name-length
+        ✓ posted last-name too short
+        ✓ posted last-name too long
+      invalid-display-name
+        ✓ missing posted display-name
+      invalid-display-name-length
+        ✓ posted display-name too short
+        ✓ posted display-name too long
+      invalid-company-name-length
+        ✓ posted company-name too short
+        ✓ posted company-name too long
+      invalid-company-name-length
+        ✓ invalid-company-name-length
+      invalid-contact-email
+        ✓ missing posted contact-email
+      invalid-display-email
+        ✓ missing posted display-email
+      invalid-location
+        ✓ missing posted location
+      invalid-occupation
+        ✓ missing posted occupation
+      invalid-phone
+        ✓ missing posted phone
+      invalid-dob
+        ✓ missing posted dob
+    requirements
+      ✓ querystring accountid matches accessing account
+    receives
+      ✓ required querystring accountid
+      ✓ optional posted first-name
+      ✓ optional posted last-name
+      ✓ optional posted display-name
+      ✓ optional posted company-name
+      ✓ optional posted contact-email
+      ✓ optional posted display-email
+      ✓ optional posted location
+      ✓ optional posted occupation
+      ✓ optional posted phone
+      ✓ optional posted dob
+    configuration
+      ✓ environment USER_PROFILE_FIELDS
+      ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
+      ✓ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
+      ✓ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
+      ✓ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH
+    override
+      ✓ request specifies required fields
 
   /api/user/create-reset-code
-    CreateResetCode#POST
-      ✓ should enforce code length
-      ✓ should create a code
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-accountid
+        ✓ ineligible querystring accountid
+      invalid-secret-code
+        ✓ missing posted secret-code
+      invalid-secret-code-length
+        ✓ posted secret code too short
+        ✓ posted secret code too long
+    requirements
+      ✓ querystring accountid matches accessing account
+    receives
+      ✓ requires posted secret-code
+    returns
+      ✓ object
 
   /api/user/create-session
-    CreateSession#POST
-      ✓ should require a username
-      ✓ should require a username length
-      ✓ should require a password
-      ✓ should require a username length
-      ✓ should create session expiring in 20 minutes
-      ✓ should create session expiring in 8 hours
-      ✓ should create session expiring in 30 days
+    exceptions
+      invalid-username
+        ✓ missing posted username
+      invalid-password
+        ✓ missing posted password
+    receives
+      ✓ requires posted username
+      ✓ requires posted password
+      ✓ optional posted remember (hours|days)
+    returns
+      ✓ object
 
   /api/user/delete-profile
-    DeleteProfile#DELETE
-      ✓ should require valid profile
-      ✓ should reject default profile
-      ✓ should delete the profile
+    exceptions
+      invalid-profileid
+        ✓ missing querystring profileid
+        ✓ invalid querystring profileid
+      invalid-account
+        ✓ ineligible querystring profileid
+    requirements
+      ✓ querystring profileid owned by accessing account
+      ✓ querystring profileid not default contact profile
+    receives
+      ✓ requires querystring profileid
+    returns
+      ✓ boolean
 
   /api/user/delete-reset-code
-    DeleteResetCode#DELETE
-      ✓ should require valid reset code
-      ✓ should delete the code
+    exceptions
+      invalid-reset-codeid
+        ✓ missing querystring codeid
+        ✓ invalid querystring codeid
+      invalid-account
+        ✓ ineligible querystring codeid
+    requirements
+      ✓ querystring codeid owned by accessing account
+    receives
+      ✓ requires querystring codeid
+    returns
+      ✓ boolean
 
   /api/user/profile
-    Profile#GET
-      ✓ should reject invalid profileid
-      ✓ should reject other account
-      ✓ should return profile data
+    exceptions
+      invalid-profileid
+        ✓ missing querystring profileid
+        ✓ invalid querystring profileid
+      invalid-account
+        ✓ ineligible querystring profileid
+    requirements
+      ✓ querystring profileid owned by accessing account
+    receives
+      ✓ requires querystring profileid
+    returns
+      ✓ object
 
   /api/user/profiles-count
-    ProfilesCount#GET
-      ✓ should count profiles
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+    requirements
+      ✓ querystring accountid matches accessing account
+    returns
+      ✓ integer
 
   /api/user/profiles
-    Profiles#GET
-      ✓ should limit profiles to one page
-      ✓ should redact profile hash
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+    requirements
+      ✓ querystring accountid matches accessing account
+    receives
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    redacts
+      ✓ profile hash
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/user/reset-account-deleted
-    ResetAccountDeleted#PATCH
-      ✓ should require a username
-      ✓ should enforce username length
-      ✓ should require a password
-      ✓ should enforce password length
-      ✓ should require account be scheduled for deletion
-      ✓ should restore account
+    exceptions
+      invalid-username
+        ✓ missing posted username
+        ✓ invalid posted username
+      invalid-password
+        ✓ missing posted password
+        ✓ invalid posted password
+    requirements
+      ✓ account is scheduled for deletion
+    receives
+      ✓ requires posted username
+      ✓ requires posted password
+    returns
+      ✓ object
 
   /api/user/reset-account-password
-    ResetAccountPassword#PATCH
-      ✓ should require username
-      ✓ should require new password
-      ✓ should require enforce password requirements
-      ✓ should require reset code
-      ✓ should require valid reset code
-      ✓ should set new account password
+    exceptions
+      invalid-username
+        ✓ missing posted username
+        ✓ invalid posted username
+      invalid-password
+        ✓ missing posted new-password
+      invalid-secret-code
+        ✓ missing posted secret-code
+      invalid-reset-code
+        ✓ invalid posted secret-code
+    receives
+      ✓ requires posted username
+      ✓ requires posted password
+      ✓ requires posted secret-code
+    returns
+      ✓ boolean
 
   /api/user/reset-code
-    ResetCode#GET
-      ✓ should require valid reset code
-      ✓ should require own codeid
-      ✓ should return reset code data
-      ✓ should redact code hash
+    exceptions
+      invalid-reset-codeid
+        ✓ missing querystring codeid
+        ✓ invalid querystring codeid
+      invalid-account
+        ✓ ineligible querystring codeid
+    requirements
+      ✓ querystring codeid owned by accessing account
+    returns
+      ✓ object
+    redacts
+      ✓ secret code hash
 
   /api/user/reset-codes-count
-    ResetCodesCount#GET
-      ✓ should count reset codes
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+    requirements
+      ✓ querystring accountid matches accessing account
+    returns
+      ✓ integer
 
   /api/user/reset-codes
-    ResetCodes#GET
-      ✓ should limit codes to one page
-      ✓ should redact code hash
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+    requirements
+      ✓ querystring accountid matches accessing account
+    receives
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    redacts
+      ✓ secret code hash
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/user/reset-session-key
-    ResetSessionKey#PATCH
-      ✓ should end current session
-      ✓ should update account sessionKeyLastReset
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+    requirements
+      ✓ querystring accountid matches accessing account
+    returns
+      ✓ boolean
 
   /api/user/session
-    Session#GET
-      ✓ should reject invalid sessionid
-      ✓ should require own sessionid
-      ✓ should return session data
-      ✓ should redact token
+    exceptions
+      invalid-sessionid
+        ✓ missing querystring sessionid
+        ✓ invalid querystring sessionid
+      invalid-account
+        ✓ ineligible querystring sessionid
+    requirements
+      ✓ querystring sessionid owned by accessing account
+    returns
+      ✓ object
+    redacts
+      ✓ token hash
 
   /api/user/session-count
-    SessionsCount#GET
-      ✓ should count sessions
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+    returns
+      ✓ integer
 
   /api/user/sessions
-    Sessions#GET
-      ✓ should limit session list to one page
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-      ✓ should return all records
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+    requirements
+      ✓ querystring accountid matches accessing account
+    receives
+      ✓ optional querystring offset (integer)
+      ✓ optional querystring all (boolean)
+    returns
+      ✓ array
+    configuration
+      ✓ environment PAGE_SIZE
 
   /api/user/set-account-deleted
-    SetAccountDeleted#DELETE
-      ✓ should reject invalid accountid
-      ✓ should reject other account's accountid
-      ✓ should reject invalid password
-      ✓ should schedule deletion in 7 days
-      ✓ should schedule deletion in 3 days
-      ✓ should schedule immediate deletion
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+      invalid-password
+        ✓ missing posted password
+        ✓ invalid posted password
+    requirements
+      ✓ querystring accountid matches accessing account
+    receives
+      ✓ requires querystring accountid
+      ✓ requires posted password
+    response
+      ✓ object
+    configuration
+      ✓ environment DELETE_DELAY
 
   /api/user/set-account-password
-    SetAccountPassword#PATCH
-      ✓ should require new password
-      ✓ should enforce password length
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+      invalid-password
+        ✓ missing posted password
+        ✓ invalid posted password
+      invalid-new-password
+        ✓ missing posted new-password
+      invalid-new-password-length
+        ✓ posted new-password too short
+        ✓ posted new-password too long
+    requirements
+      ✓ querystring accountid matches accessing account
+    receives
+      ✓ requires querystring accountid
+      ✓ requires posted password
+      ✓ requires posted new-password
+    returns
       ✓ should apply new password
 
   /api/user/set-account-profile
-    SetAccountProfile#PATCH
-      ✓ should apply new default
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+      invalid-profileid
+        ✓ missing posted profileid
+        ✓ invalid posted profileid
+    requirements
+      ✓ querystring accountid matches accessing account
+    receives
+      ✓ requires querystring accountid
+      ✓ requires posted profileid
+    returns
+      ✓ object
 
   /api/user/set-account-username
-    SetAccountUsername#PATCH
-      ✓ should require new username
-      ✓ should enforce username length
-      ✓ should reject invalid password
-      ✓ should apply new username
+    exceptions
+      invalid-accountid
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
+      invalid-account
+        ✓ ineligible querystring accountid
+      invalid-password
+        ✓ missing posted password
+        ✓ invalid posted password
+      invalid-new-username
+        ✓ missing posted new-username
+      invalid-new-username-length
+        ✓ posted new-username too short
+        ✓ posted new-username too long
+    requirements
+      ✓ querystring accountid matches accessing account
+    receives
+      ✓ requires querystring accountid
+      ✓ requires posted password
+      ✓ requires posted new-username
+    returns
+      ✓ object
 
   /api/user/set-session-ended
-    SetSessionEnded#PATCH
-      ✓ should reject invalid sessionid
-      ✓ should reject ended session
-      ✓ should end the session
+    exceptions
+      invalid-sessionid
+        ✓ missing querystring sessionid
+        ✓ invalid querystring sessionid
+      invalid-account
+        ✓ ineligible querystring sessionid
+    requirements
+      ✓ querystring sessionid owned by accessing account
+      ✓ querystring sessionid is active session
+    returns
+      ✓ object
 
   /api/user/set-session-verified
-    SetSessionVerified#PATCH
-      ✓ should reject invalid sessionid
-      ✓ should reject other account credentials
-      ✓ should mark the session as verified
+    exceptions
+      invalid-sessionid
+        ✓ missing querystring sessionid
+        ✓ invalid querystring sessionid
+      invalid-account
+        ✓ ineligible querystring sessionid
+    requirements
+      ✓ querystring sessionid owned by accessing account
+    returns
+      ✓ object
 
   /api/user/update-profile
-    UpdateProfile#POST
-      ✓ should require full name
-      ✓ should enforce name field lengths
-      ✓ should update full name
-      ✓ should reject missing contact email
-      ✓ should require "@" in contact email
-      ✓ should update contact email
-      ✓ should reject missing display email
-      ✓ should require "@" in display email
-      ✓ should update display email
-      ✓ should require display name
-      ✓ should enforce display name lengths
-      ✓ should update display name
-      ✓ should require date of birth
-      ✓ should require valid date of birth
-      ✓ should accept dob in YYYY-MM-DD
-      ✓ should accept dob in MM-DD-YYYY
-      ✓ should require unvalidated fields
-      ✓ should save unvalidated fields
-      ✓ should update profile and set as default
-      ✓ should update profile with overridden settings
+    exceptions
+      invalid-profileid
+        ✓ missing querystring profileid
+        ✓ invalid querystring profileid
+      invalid-profileid
+        ✓ ineligible querystring profileid
+      invalid-first-name
+        ✓ missing posted first-name
+      invalid-first-name-length
+        ✓ posted first-name too short
+        ✓ posted first-name too long
+      invalid-last-name
+        ✓ missing posted last-name
+      invalid-last-name-length
+        ✓ posted last-name too short
+        ✓ posted last-name too long
+      invalid-display-name
+        ✓ missing posted display-name
+      invalid-display-name-length
+        ✓ posted display-name too short
+        ✓ posted display-name too long
+      invalid-company-name
+        ✓ missing posted company-name
+      invalid-company-name-length
+        ✓ posted company-name too short
+        ✓ posted company-name too long
+      invalid-contact-email
+        ✓ missing posted contact-email
+      invalid-display-email
+        ✓ missing posted display-email
+      invalid-location
+        ✓ missing posted location
+      invalid-occupation
+        ✓ missing posted occupation
+      invalid-phone
+        ✓ missing posted phone
+      invalid-dob
+        ✓ missing posted dob
+    receives
+      ✓ optional posted first-name
+      ✓ optional posted last-name
+      ✓ optional posted display-name
+      ✓ optional posted company-name
+      ✓ optional posted contact-email
+      ✓ optional posted display-email
+      ✓ optional posted location
+      ✓ optional posted occupation
+      ✓ optional posted phone
+      ✓ optional posted dob
+    configuration
+      ✓ environment USER_PROFILE_FIELDS
+      ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
+      ✓ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
+      ✓ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
+      ✓ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
+      ✓ environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH
+    override
+      ✓ request specifies required fields
 
 
-  614 passing (4m)
+  847 passing (3m)
 

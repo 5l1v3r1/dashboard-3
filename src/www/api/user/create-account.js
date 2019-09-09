@@ -21,7 +21,7 @@ module.exports = {
       throw new Error('invalid-password-length')
     }
     if (global.requireProfile) {
-      const profileFields = req.profileFields || global.userProfileFields
+      const profileFields = req.userProfileFields || global.userProfileFields
       for (const field of profileFields) {
         switch (field) {
           case 'full-name':
@@ -76,17 +76,6 @@ module.exports = {
             if (!req.body || !req.body[field]) {
               throw new Error(`invalid-${field}`)
             }
-            let displayName = field
-            if (displayName.indexOf('-') > -1) {
-              displayName = displayName.split('-')
-              if (displayName.length === 1) {
-                displayName = displayName[0]
-              } else if (displayName.length === 2) {
-                displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1)
-              } else if (displayName.length === 3) {
-                displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1) + displayName[2].substring(0, 1).toUpperCase() + displayName[2].substring(1)
-              }
-            }
             continue
         }
       }
@@ -127,7 +116,9 @@ module.exports = {
     if (global.requireProfile) {
       await global.api.user.CreateProfile.post(req)
     }
+    req.account = accountInfo
     req.success = true
-    return accountInfo
+    const account = await global.api.user.Account.get(req)
+    return account
   }
 }

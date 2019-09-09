@@ -3,36 +3,88 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/user/delete-profile`, () => {
-  describe('DeleteProfile#DELETE', () => {
-    it('should require valid profile', async () => {
+  describe('exceptions', () => {
+    describe('invalid-profileid', () => {
+      it('missing querystring profileid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/delete-profile`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.delete()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-profileid')
+      })
+
+      it('invalid querystring profileid', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=invalid`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.delete()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-profileid')
+      })
+    })
+
+    describe('invalid-account', () => {
+      it('ineligible querystring profileid', async () => {
+        const user = await TestHelper.createUser()
+        const user2 = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${user2.account.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.delete()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
+    })
+  })
+
+  describe('requirements', () => {
+    it('querystring profileid owned by accessing account', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/api/user/delete-profile?profileid=invalid')
+      const user2 = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${user2.account.profileid}`)
       req.account = user.account
       req.session = user.session
       let errorMessage
       try {
-        await req.route.api.delete(req)
+        await req.delete()
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(errorMessage, 'invalid-profileid')
+      assert.strictEqual(errorMessage, 'invalid-account')
     })
 
-    it('should reject default profile', async () => {
+    it('querystring profileid not default contact profile', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${user.profile.profileid}`)
       req.account = user.account
       req.session = user.session
       let errorMessage
       try {
-        await req.route.api.delete(req)
+        await req.delete()
       } catch (error) {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-profile')
     })
+  })
 
-    it('should delete the profile', async () => {
+  describe('receives', () => {
+    it('requires querystring profileid', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       await TestHelper.createProfile(user, {
@@ -55,6 +107,24 @@ describe(`/api/user/delete-profile`, () => {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-profileid')
+    })
+  })
+
+  describe('returns', () => {
+    it('boolean', async () => {
+      const user = await TestHelper.createUser()
+      const profile1 = user.profile
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
+      const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${profile1.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      const deleted = await req.delete()
+      assert.strictEqual(deleted, true)
     })
   })
 })

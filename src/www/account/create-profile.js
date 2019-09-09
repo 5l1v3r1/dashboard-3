@@ -16,7 +16,7 @@ function renderPage (req, res, messageTemplate) {
   }
   const doc = dashboard.HTML.parse(req.route.html)
   const removeFields = [ 'display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website' ]
-  const profileFields = req.profileFields || global.userProfileFields
+  const profileFields = req.userProfileFields || global.userProfileFields
   for (const field of profileFields) {
     removeFields.splice(removeFields.indexOf(field), 1)
   }
@@ -40,7 +40,7 @@ async function submitForm (req, res) {
   if (!req || !req.body) {
     return renderPage(req, res)
   }
-  const profileFields = req.profileFields || global.userProfileFields
+  const profileFields = req.userProfileFields || global.userProfileFields
   for (const field of profileFields) {
     if (req.body[field] && req.body[field].trim) {
       req.body[field] = req.body[field].trim()

@@ -340,17 +340,6 @@ describe(`/account/create-profile`, () => {
         req.body = {
           [field]: 'test value ' + Math.random()
         }
-        let displayName = field
-        if (displayName.indexOf('-') > -1) {
-          displayName = displayName.split('-')
-          if (displayName.length === 1) {
-            displayName = displayName[0]
-          } else if (displayName.length === 2) {
-            displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1)
-          } else if (displayName.length === 3) {
-            displayName = displayName[0] + displayName[1].substring(0, 1).toUpperCase() + displayName[1].substring(1) + displayName[2].substring(0, 1).toUpperCase() + displayName[2].substring(1)
-          }
-        }
         const page = await req.post()
         const doc = TestHelper.extractDoc(page)
         const messageContainer = doc.getElementById('message-container')

@@ -11,7 +11,7 @@ describe(`/api/administrator/create-reset-code`, () => {
         req.account = administrator.account
         req.session = administrator.session
         req.body = {
-          code: '1'
+          'secret-code': '1'
         }
         let errorMessage
         try {
@@ -28,7 +28,7 @@ describe(`/api/administrator/create-reset-code`, () => {
         req.account = administrator.account
         req.session = administrator.session
         req.body = {
-          code: '1'
+          'secret-code': '1'
         }
         let errorMessage
         try {
@@ -40,45 +40,45 @@ describe(`/api/administrator/create-reset-code`, () => {
       })
     })
 
-    describe('invalid-reset-code', () => {
-      it('unspecified posted code', async () => {
+    describe('invalid-secret-code', () => {
+      it('missing posted secret-code', async () => {
         const administrator = await TestHelper.createOwner()
         const user = await TestHelper.createUser()
         const req = TestHelper.createRequest(`/api/administrator/create-reset-code?accountid=${user.account.accountid}`)
         req.account = administrator.account
         req.session = administrator.session
         req.body = {
-          code: ''
+          'secret-code': ''
         }
         global.minimumResetCodeLength = 100
         let errorMessage
         try {
-          await req.route.api.post(req)
+          await req.post()
         } catch (error) {
           errorMessage = error.message
         }
-        assert.strictEqual(errorMessage, 'invalid-reset-code')
+        assert.strictEqual(errorMessage, 'invalid-secret-code')
       })
     })
 
-    describe('invalid-reset-code-length', () => {
-      it('invalid posted code length', async () => {
+    describe('invalid-secret-code-length', () => {
+      it('invalid posted secret-code length', async () => {
         const administrator = await TestHelper.createOwner()
         const user = await TestHelper.createUser()
         const req = TestHelper.createRequest(`/api/administrator/create-reset-code?accountid=${user.account.accountid}`)
         req.account = administrator.account
         req.session = administrator.session
         req.body = {
-          code: '1'
+          'secret-code': '1'
         }
         global.minimumResetCodeLength = 100
         let errorMessage
         try {
-          await req.route.api.post(req)
+          await req.post()
         } catch (error) {
           errorMessage = error.message
         }
-        assert.strictEqual(errorMessage, 'invalid-reset-code-length')
+        assert.strictEqual(errorMessage, 'invalid-secret-code-length')
       })
     })
   })
@@ -91,7 +91,7 @@ describe(`/api/administrator/create-reset-code`, () => {
       req.account = administrator.account
       req.session = administrator.session
       req.body = {
-        code: '12345678'
+        'secret-code': '12345678'
       }
       const resetCode = await req.post()
       assert.strictEqual(resetCode.object, 'resetCode')
@@ -106,7 +106,7 @@ describe(`/api/administrator/create-reset-code`, () => {
       req.account = administrator.account
       req.session = administrator.session
       req.body = {
-        code: '12345678'
+        'secret-code': '12345678'
       }
       const resetCode = await req.post()
       assert.strictEqual(resetCode.object, 'resetCode')
@@ -121,35 +121,35 @@ describe(`/api/administrator/create-reset-code`, () => {
       req.account = administrator.account
       req.session = administrator.session
       req.body = {
-        code: '1'
+        'secret-code': '1'
       }
       global.minimumResetCodeLength = 100
       let errorMessage
       try {
-        await req.route.api.post(req)
+        await req.post()
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(errorMessage, 'invalid-reset-code-length')
+      assert.strictEqual(errorMessage, 'invalid-secret-code-length')
     })
 
-    it('environment MaxIMUM_RESET_CODE_LENGTH', async () => {
+    it('environment MAXIMUM_RESET_CODE_LENGTH', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/create-reset-code?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
       req.body = {
-        code: '10000000'
+        'secret-code': '10000000'
       }
       global.maximumResetCodeLength = 3
       let errorMessage
       try {
-        await req.route.api.post(req)
+        await req.post()
       } catch (error) {
         errorMessage = error.message
       }
-      assert.strictEqual(errorMessage, 'invalid-reset-code-length')
+      assert.strictEqual(errorMessage, 'invalid-secret-code-length')
     })
   })
 })

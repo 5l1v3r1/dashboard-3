@@ -55,8 +55,10 @@ describe('/api/administrator/reset-codes', () => {
       assert.strictEqual(resetCodes[0].accountid, user2.account.accountid)
       assert.strictEqual(resetCodes[1].accountid, user.account.accountid)
     })
+  })
 
-    it('redacted code hash', async () => {
+  describe('redacts', () => {
+    it('secret code hash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
@@ -65,7 +67,7 @@ describe('/api/administrator/reset-codes', () => {
       req.session = administrator.session
       const resetCodes = await req.get()
       assert.strictEqual(resetCodes.length, 1)
-      assert.strictEqual(undefined, resetCodes[0].code)
+      assert.strictEqual(undefined, resetCodes[0].secretCodeHash)
     })
   })
 

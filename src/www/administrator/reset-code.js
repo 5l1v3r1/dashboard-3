@@ -7,7 +7,7 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.codeid) {
-    throw new Error('invalid-codeid')
+    throw new Error('invalid-reset-codeid')
   }
   const resetCode = await global.api.administrator.ResetCode.get(req)
   resetCode.createdFormatted = dashboard.Format.date(resetCode.created)
