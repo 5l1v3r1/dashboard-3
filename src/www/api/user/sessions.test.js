@@ -14,7 +14,7 @@ describe(`/api/user/sessions`, () => {
       assert.strictEqual(sessions[0].sessionid, req.session.sessionid)
     })
 
-    it('should enforce page size', async () => {
+    it('environment PAGE_SIZE', async () => {
       global.pageSize = 3
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
@@ -27,7 +27,7 @@ describe(`/api/user/sessions`, () => {
       assert.strictEqual(sessionsNow.length, global.pageSize)
     })
 
-    it('should enforce specified offset', async () => {
+    it('optional querystring offset (integer)', async () => {
       const offset = 1
       const user = await TestHelper.createUser()
       const sessions = [ user.session ]
@@ -44,7 +44,7 @@ describe(`/api/user/sessions`, () => {
       }
     })
 
-    it('should return all records', async () => {
+    it('optional querystring all (boolean)', async () => {
       const user = await TestHelper.createUser()
       const sessions = [user.session]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {

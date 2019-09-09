@@ -7,31 +7,36 @@ describe('/api/administrator/account-profiles', () => {
     describe('invalid-accountid', async () => {
       it('unspecified querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
-        const user = await TestHelper.createUser()
-        await TestHelper.createUser()
-        await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/administrator/account-profiles-count?accountid=${user.account.accountid}`)
+        const req = TestHelper.createRequest(`/api/administrator/account-profiles`)
         req.account = administrator.account
         req.session = administrator.session
-        const result = await req.get()
-        assert.strictEqual(result, 1)
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
       })
-      it('invalid querystring accountid', async () => {
+
+      it('invalid querystring accountid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const user = await TestHelper.createUser()
-        await TestHelper.createUser()
-        await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/administrator/account-profiles-count?accountid=${user.account.accountid}`)
+        const req = TestHelper.createRequest(`/api/administrator/account-profiles?accountid=invalid`)
         req.account = administrator.account
         req.session = administrator.session
-        const result = await req.get()
-        assert.strictEqual(result, 1)
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
       })
     })
   })
 
-  describe('recieves', () => {
-    it('required querystring accountid', async () => {
+  describe('receives', () => {
+    it('requires querystring accountid', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/account-profiles?accountid=${user.account.accountid}`)

@@ -5,6 +5,10 @@ module.exports = {
     if (!req.query || !req.query.accountid) {
       throw new Error('invalid-accountid')
     }
+    const account = await global.api.administrator.Account.get(req)
+    if (!account) {
+      throw new Error('invalid-account')
+    }
     if (!req.body || !req.body.code || !req.body.code.length) {
       throw new Error('invalid-reset-code')
     }

@@ -3,40 +3,40 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/delete-account', () => {
-  describe('DeleteAccount#DELETE', () => {
-    it('should allow account not scheduled for delete', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/delete-account?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      let errorMessage
-      try {
-        await req.route.api.delete(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, undefined)
-    })
+  describe('exceptions', () => {
+    describe('invalid-accountid', async () => {
+      it('missing querystring accountid value', async () => {
+        const administrator = await TestHelper.createOwner()
+        const req = TestHelper.createRequest(`/api/administrator/delete-account`)
+        req.account = administrator.account
+        req.session = administrator.session
+        let errorMessage
+        try {
+          await req.delete()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
 
-    it('should allow account not ready to delete', async () => {
-      global.deleteDelay = 7
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.setDeleted(user)
-      const req = TestHelper.createRequest(`/api/administrator/delete-account?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      let errorMessage
-      try {
-        await req.route.api.delete(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, undefined)
+      it('invalid querystring accountid value', async () => {
+        const administrator = await TestHelper.createOwner()
+        const req = TestHelper.createRequest(`/api/administrator/delete-account?accountid=invalid`)
+        req.account = administrator.account
+        req.session = administrator.session
+        let errorMessage
+        try {
+          await req.delete()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
     })
-    it('should delete account', async () => {
-      global.deleteDelay = -1
+  })
+
+  describe('receieves', () => {
+    it('querystring accountid', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -54,6 +54,19 @@ describe('/api/administrator/delete-account', () => {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-accountid')
+    })
+  })
+
+  describe('returns', () => {
+    it('boolean', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest(`/api/administrator/delete-account?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const deleted = await req.delete()
+      assert.strictEqual(deleted, true)
     })
   })
 })

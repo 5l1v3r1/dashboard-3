@@ -3,8 +3,53 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/session', () => {
-  describe('Session#GET', () => {
-    it('should return user session', async () => {
+  describe('exceptions', () => {
+    describe('invalid-sessionid', async () => {
+      it('unspecified querystring accountid', async () => {
+        const administrator = await TestHelper.createOwner()
+        const req = TestHelper.createRequest(`/api/administrator/session`)
+        req.account = administrator.account
+        req.session = administrator.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-sessionid')
+      })
+
+      it('invalid querystring sessionid value', async () => {
+        const administrator = await TestHelper.createOwner()
+        const req = TestHelper.createRequest(`/api/administrator/session?sessionid=invalid`)
+        req.account = administrator.account
+        req.session = administrator.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-sessionid')
+      })
+    })
+  })
+
+  describe('receives', () => {
+    it('requires querystring sessionid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const session = await req.get()
+      assert.strictEqual(session.sessionid, user.session.sessionid)
+      assert.strictEqual(session.accountid, user.session.accountid)
+    })
+  })
+
+  describe('returns', () => {
+    it('object', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)
@@ -15,7 +60,7 @@ describe('/api/administrator/session', () => {
       assert.strictEqual(session.accountid, user.session.accountid)
     })
 
-    it('should redact token', async () => {
+    it('redacted token', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)

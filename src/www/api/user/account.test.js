@@ -42,7 +42,7 @@ describe(`/api/user/account`, () => {
       assert.strictEqual(account.accountid, user.account.accountid)
     })
 
-    it('should redact username, password, sessionKey', async () => {
+    it('redacted username, password, sessionKey', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
       req.account = user.account

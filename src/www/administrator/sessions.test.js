@@ -33,7 +33,7 @@ describe('/administrator/sessions', () => {
       assert.strictEqual(tableString.indexOf(user.session.accountid) > -1, true)
     })
 
-    it('should limit sessions to one page', async () => {
+    it('array', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {

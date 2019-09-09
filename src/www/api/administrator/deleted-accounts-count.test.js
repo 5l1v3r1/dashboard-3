@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/deleted-accounts-count', () => {
-  describe('DeletedAccountsCount#GET', () => {
-    it('should count all profiles', async () => {
+  describe('returns', () => {
+    it('querystring accountid', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)

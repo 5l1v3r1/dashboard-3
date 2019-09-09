@@ -3,22 +3,40 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/api/administrator/reset-session-key`, () => {
-  describe('ResetSessionKey#PATCH', () => {
-    it('should reject invalid account', async () => {
-      const administrator = await TestHelper.createOwner()
-      const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=invalid`)
-      req.account = administrator.account
-      req.session = administrator.session
-      let errorMessage
-      try {
-        await req.route.api.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-accountid')
-    })
+  describe('exceptions', () => {
+    describe('invalid-accountid', () => {
+      it('missing querystring accountid value', async () => {
+        const administrator = await TestHelper.createOwner()
+        const req = TestHelper.createRequest(`/api/administrator/reset-session-key`)
+        req.account = administrator.account
+        req.session = administrator.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
 
-    it('should reject account scheduled for deletion', async () => {
+      it('invalid querystring accountid value', async () => {
+        const administrator = await TestHelper.createOwner()
+        const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=invalid`)
+        req.account = administrator.account
+        req.session = administrator.session
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-accountid')
+      })
+    })
+  })
+
+  describe('invalid-account', () => {
+    it('ineligible querystring accountid value (deleted)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -32,6 +50,30 @@ describe(`/api/administrator/reset-session-key`, () => {
         errorMessage = error.message
       }
       assert.strictEqual(errorMessage, 'invalid-account')
+    })
+  })
+
+  describe('receives', () => {
+    it('requires querystring accountid', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const accountNow = await req.patch()
+      assert.strictEqual(accountNow.object, 'account')
+    })
+  })
+
+  describe('returns', () => {
+    it('object', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=${user.account.accountid}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const accountNow = await req.patch()
+      assert.strictEqual(accountNow.object, 'account')
     })
 
     it('should increase sessionKeyNumber', async () => {

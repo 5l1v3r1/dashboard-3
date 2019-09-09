@@ -3,8 +3,45 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/deleted-accounts', () => {
-  describe('DeletedAccounts#GET', () => {
-    it('should return deleted accounts', async () => {
+  describe('receives', () => {
+    it('optional querystring offset (integer)', async () => {
+      const offset = 1
+      const administrator = await TestHelper.createOwner()
+      const accounts = []
+      for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
+        const user = await TestHelper.createUser()
+        await TestHelper.setDeleted(user)
+        accounts.unshift(user.account)
+      }
+      const req = TestHelper.createRequest(`/api/administrator/deleted-accounts?offset=${offset}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const accountsNow = await req.get()
+      for (let i = 0, len = global.pageSize; i < len; i++) {
+        assert.strictEqual(accountsNow[i].accountid, accounts[offset + i].accountid)
+      }
+    })
+
+    it('optional querystring all (boolean)', async () => {
+      const administrator = await TestHelper.createOwner()
+      const accounts = []
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        const user = await TestHelper.createUser()
+        await TestHelper.setDeleted(user)
+        accounts.unshift(user.account)
+      }
+      const req = TestHelper.createRequest(`/api/administrator/deleted-accounts?all=true`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const accountsNow = await req.get()
+      for (let i = 0, len = global.pageSize; i < len; i++) {
+        assert.strictEqual(accountsNow[i].accountid, accounts[i].accountid)
+      }
+    })
+  })
+
+  describe('returns', () => {
+    it('array', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -19,7 +56,7 @@ describe('/api/administrator/deleted-accounts', () => {
       assert.strictEqual(accounts[1].accountid, user.account.accountid)
     })
 
-    it('should redact username, password, session key', async () => {
+    it('redacted username, password, session key', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -32,8 +69,10 @@ describe('/api/administrator/deleted-accounts', () => {
       assert.strictEqual(undefined, accounts[0].password)
       assert.strictEqual(undefined, accounts[0].sessionKey)
     })
+  })
 
-    it('should enforce page size', async () => {
+  describe('configuration', () =>{ 
+    it('environment PAGE_SIZE', async () => {
       global.pageSize = 3
       const administrator = await TestHelper.createOwner()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
@@ -45,24 +84,6 @@ describe('/api/administrator/deleted-accounts', () => {
       req.session = administrator.session
       const accountsNow = await req.get()
       assert.strictEqual(accountsNow.length, global.pageSize)
-    })
-
-    it('should enforce specified offset', async () => {
-      const offset = 1
-      const administrator = await TestHelper.createOwner()
-      const accounts = [ ]
-      for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
-        const user = await TestHelper.createUser()
-        await TestHelper.setDeleted(user)
-        accounts.unshift(user.account)
-      }
-      const req = TestHelper.createRequest(`/api/administrator/deleted-accounts?offset=${offset}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const accountsNow = await req.get()
-      for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(accountsNow[i].accountid, accounts[offset + i].accountid)
-      }
     })
   })
 })

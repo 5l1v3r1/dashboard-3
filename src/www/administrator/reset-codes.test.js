@@ -34,7 +34,7 @@ describe('/administrator/reset-codes', () => {
       assert.strictEqual(row.tag, 'tr')
     })
 
-    it('should limit reset codes to one page', async () => {
+    it('array', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {

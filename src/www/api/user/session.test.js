@@ -42,7 +42,7 @@ describe(`/api/user/session`, () => {
       assert.strictEqual(session.accountid, user.account.accountid)
     })
 
-    it('should redact token', async () => {
+    it('redacted token', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/session?sessionid=${user.session.sessionid}`)
       req.account = user.account

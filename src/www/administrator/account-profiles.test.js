@@ -29,7 +29,7 @@ describe('/administrator/account-profiles', () => {
       assert.strictEqual(row.tag, 'tr')
     })
 
-    it('should limit profiles to one page', async () => {
+    it('array', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {

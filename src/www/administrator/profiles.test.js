@@ -18,7 +18,7 @@ describe('/administrator/profiles', () => {
   })
 
   describe('Profiles#GET', () => {
-    it('should limit profiles to one page', async () => {
+    it('array', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {

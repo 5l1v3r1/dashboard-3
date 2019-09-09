@@ -44,7 +44,7 @@ describe(`/api/user/reset-code`, () => {
       assert.strictEqual(codeNow.accountid, user.account.accountid)
     })
 
-    it('should redact code hash', async () => {
+    it('redacted code hash', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest(`/api/user/reset-code?codeid=${user.resetCode.codeid}`)

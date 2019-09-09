@@ -33,7 +33,7 @@ describe('/administrator/accounts', () => {
       assert.strictEqual(row2.tag, 'tr')
     })
 
-    it('should limit accounts to one page', async () => {
+    it('array', async () => {
       const administrator = await TestHelper.createOwner()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createUser()

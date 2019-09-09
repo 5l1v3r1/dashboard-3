@@ -19,7 +19,7 @@ describe(`/api/user/profiles`, () => {
       assert.strictEqual(profilesNow.length, global.pageSize)
     })
 
-    it('should redact profile hash', async () => {
+    it('redacted profile hash', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       await TestHelper.createProfile(user, {
@@ -38,7 +38,7 @@ describe(`/api/user/profiles`, () => {
       assert.strictEqual(profilesNow[1].profileid, profile1.profileid)
     })
 
-    it('should enforce page size', async () => {
+    it('environment PAGE_SIZE', async () => {
       global.pageSize = 3
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
@@ -56,7 +56,7 @@ describe(`/api/user/profiles`, () => {
       assert.strictEqual(profilesNow.length, global.pageSize)
     })
 
-    it('should enforce specified offset', async () => {
+    it('optional querystring offset (integer)', async () => {
       const offset = 1
       const user = await TestHelper.createUser()
       const profiles = [ user.profile ]
@@ -78,7 +78,7 @@ describe(`/api/user/profiles`, () => {
       }
     })
 
-    it('should return all records', async () => {
+    it('optional querystring all (boolean)', async () => {
       const user = await TestHelper.createUser()
       const profiles = [user.profile]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {

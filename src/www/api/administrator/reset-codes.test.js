@@ -3,49 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/reset-codes', () => {
-  describe('ResetCodes#GET', () => {
-    it('should return reset codes', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const user2 = await TestHelper.createUser()
-      await TestHelper.createResetCode(user2)
-      const req = TestHelper.createRequest('/api/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      const resetCodes = await req.get()
-      assert.strictEqual(resetCodes.length, global.pageSize)
-      assert.strictEqual(resetCodes[0].accountid, user2.account.accountid)
-      assert.strictEqual(resetCodes[1].accountid, user.account.accountid)
-    })
-
-    it('should redact code hash', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest('/api/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      const resetCodes = await req.get()
-      assert.strictEqual(resetCodes.length, 1)
-      assert.strictEqual(undefined, resetCodes[0].code)
-    })
-
-    it('should enforce page size', async () => {
-      global.pageSize = 3
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-      }
-      const req = TestHelper.createRequest('/api/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      const codesNow = await req.get()
-      assert.strictEqual(codesNow.length, global.pageSize)
-    })
-
-    it('should enforce specified offset', async () => {
+  describe('receives', () => {
+    it('optional querystring offset (integer)', async () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -63,7 +22,7 @@ describe('/api/administrator/reset-codes', () => {
       }
     })
 
-    it('should return all records', async () => {
+    it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const codes = []
@@ -78,6 +37,51 @@ describe('/api/administrator/reset-codes', () => {
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         assert.strictEqual(codesNow[i].codeid, codes[i].codeid)
       }
+    })
+  })
+
+  describe('returns', () => {
+    it('should return reset codes', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      const user2 = await TestHelper.createUser()
+      await TestHelper.createResetCode(user2)
+      const req = TestHelper.createRequest('/api/administrator/reset-codes')
+      req.account = administrator.account
+      req.session = administrator.session
+      const resetCodes = await req.get()
+      assert.strictEqual(resetCodes.length, global.pageSize)
+      assert.strictEqual(resetCodes[0].accountid, user2.account.accountid)
+      assert.strictEqual(resetCodes[1].accountid, user.account.accountid)
+    })
+
+    it('redacted code hash', async () => {
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      const req = TestHelper.createRequest('/api/administrator/reset-codes')
+      req.account = administrator.account
+      req.session = administrator.session
+      const resetCodes = await req.get()
+      assert.strictEqual(resetCodes.length, 1)
+      assert.strictEqual(undefined, resetCodes[0].code)
+    })
+  })
+
+  describe('configuration', () => {
+    it('environment PAGE_SIZE', async () => {
+      global.pageSize = 3
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createResetCode(user)
+      }
+      const req = TestHelper.createRequest('/api/administrator/reset-codes')
+      req.account = administrator.account
+      req.session = administrator.session
+      const codesNow = await req.get()
+      assert.strictEqual(codesNow.length, global.pageSize)
     })
   })
 })

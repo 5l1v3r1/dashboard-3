@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/reset-codes-count', () => {
-  describe('ResetCodesCount#GET', () => {
-    it('should count all reset codes', async () => {
+  describe('returns', () => {
+    it('integer', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)

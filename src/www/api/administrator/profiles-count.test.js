@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/profiles-count', () => {
-  describe('ProfilesCount#GET', () => {
-    it('should count all profiles', async () => {
+  describe('returns', () => {
+    it('integer', async () => {
       const administrator = await TestHelper.createOwner()
       await TestHelper.createUser()
       await TestHelper.createUser()
