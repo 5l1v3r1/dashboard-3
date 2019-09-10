@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.38 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.39 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --no-colors --retries 3 --timeout 120000 --slow 120000
 
 
@@ -658,8 +658,6 @@
       invalid-accountid
         ✓ missing querystring accountid value
         ✓ invalid querystring accountid value
-    receives
-      ✓ querystring accountid
     returns
       ✓ integer
 
@@ -669,7 +667,6 @@
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid value
     receives
-      ✓ requires querystring accountid
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -682,8 +679,6 @@
       invalid-accountid
         ✓ missing querystring accountid value
         ✓ invalid querystring accountid value
-    receives
-      ✓ querystring accountid
     returns
       ✓ integer
 
@@ -693,7 +688,6 @@
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid value
     receives
-      ✓ requires querystring accountid
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -708,8 +702,6 @@
       invalid-accountid
         ✓ missing querystring accountid value
         ✓ invalid querystring accountid value
-    receives
-      ✓ querystring accountid
     returns
       ✓ integer
 
@@ -719,7 +711,6 @@
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid value
     receives
-      ✓ requires querystring accountid
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -734,8 +725,6 @@
       invalid-accountid
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid value
-    receives
-      ✓ requires querystring accountid
     returns
       ✓ object
     redacts
@@ -788,8 +777,6 @@
         ✓ missing posted secret-code
       invalid-secret-code-length
         ✓ invalid posted secret-code length
-    receives
-      ✓ querystring accountid
     returns
       ✓ object
     configuration
@@ -854,8 +841,6 @@
     requires
       ✓ querystring accountid is administrator
       ✓ querystring accountid is not owner
-    receives
-      ✓ requires querystring accountid
     returns
       ✓ object
 
@@ -864,8 +849,6 @@
       invalid-reset-codeid
         ✓ missing querystring codeid value
         ✓ invalid querystring codeid value
-    receives
-      ✓ requires querystring codeid
     returns
       ✓ object
     redacts
@@ -895,8 +878,6 @@
       ✓ ineligible querystring accountid
     requires
       ✓ querystring accountid is not deleted
-    receives
-      ✓ requires querystring accountid
     returns
       ✓ object
       ✓ should increase sessionKeyNumber
@@ -907,8 +888,6 @@
       invalid-sessionid
         ✓ unspecified querystring accountid
         ✓ invalid querystring sessionid value
-    receives
-      ✓ requires querystring sessionid
     returns
       ✓ object
     redacts
@@ -938,8 +917,6 @@
         ✓ ineligible querystring accountid
     requires
       ✓ querystring accountid is not administrator
-    receives
-      ✓ requires querystring accountid
     returns
       ✓ object
 
@@ -952,8 +929,6 @@
         ✓ ineligible querystring accountid
     invalid-account
       ✓ querystring accountid is deleted
-    receives
-      ✓ requires querystring accountid
     returns
       ✓ object
     configuration
@@ -1172,8 +1147,6 @@
     requirements
       ✓ querystring profileid owned by accessing account
       ✓ querystring profileid not default contact profile
-    receives
-      ✓ requires querystring profileid
     returns
       ✓ boolean
 
@@ -1186,8 +1159,6 @@
         ✓ ineligible querystring codeid
     requirements
       ✓ querystring codeid owned by accessing account
-    receives
-      ✓ requires querystring codeid
     returns
       ✓ boolean
 
@@ -1200,8 +1171,6 @@
         ✓ ineligible querystring profileid
     requirements
       ✓ querystring profileid owned by accessing account
-    receives
-      ✓ requires querystring profileid
     returns
       ✓ object
 
@@ -1381,7 +1350,6 @@
     requirements
       ✓ querystring accountid matches accessing account
     receives
-      ✓ requires querystring accountid
       ✓ requires posted password
     response
       ✓ object
@@ -1406,7 +1374,6 @@
     requirements
       ✓ querystring accountid matches accessing account
     receives
-      ✓ requires querystring accountid
       ✓ requires posted password
       ✓ requires posted new-password
     returns
@@ -1425,7 +1392,6 @@
     requirements
       ✓ querystring accountid matches accessing account
     receives
-      ✓ requires querystring accountid
       ✓ requires posted profileid
     returns
       ✓ object
@@ -1448,7 +1414,6 @@
     requirements
       ✓ querystring accountid matches accessing account
     receives
-      ✓ requires querystring accountid
       ✓ requires posted password
       ✓ requires posted new-username
     returns
@@ -1543,5 +1508,5 @@
       ✓ request specifies required fields
 
 
-  847 passing (3m)
+  826 passing (3m)
 
