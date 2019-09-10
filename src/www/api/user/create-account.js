@@ -41,12 +41,12 @@ module.exports = {
             }
             continue
           case 'contact-email':
-            if (!req.body[field] || req.body[field].indexOf('@') === -1) {
+            if (!req.body[field] || req.body[field].indexOf('@') < 1) {
               throw new Error(`invalid-${field}`)
             }
             continue
           case 'display-email':
-            if (!req.body[field] || req.body[field].indexOf('@') === -1) {
+            if (!req.body[field] || req.body[field].indexOf('@') < 1) {
               throw new Error(`invalid-${field}`)
             }
             continue

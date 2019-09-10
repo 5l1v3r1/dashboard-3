@@ -69,12 +69,12 @@ async function submitForm (req, res) {
         }
         continue
       case 'contact-email':
-        if (!req.body[field] || req.body[field].indexOf('@') === -1) {
+        if (!req.body[field] || req.body[field].indexOf('@') < 1) {
           return renderPage(req, res, `invalid-${field}`)
         }
         continue
       case 'display-email':
-        if (!req.body[field] || req.body[field].indexOf('@') === -1) {
+        if (!req.body[field] || req.body[field].indexOf('@') < 1) {
           return renderPage(req, res, `invalid-${field}`)
         }
         continue
