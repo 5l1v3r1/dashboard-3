@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.39 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.40 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --no-colors --retries 3 --timeout 120000 --slow 120000
 
 
@@ -956,8 +956,6 @@
         ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible querystring accountid
-    requirements
-      ✓ querystring accountid matches accessing account
     returns
       ✓ object
     redacts
@@ -1007,8 +1005,6 @@
       invalid-dob
         ✓ missing posted dob
     receives
-      ✓ requires posted username
-      ✓ requires posted password
       ✓ optional posted first-name
       ✓ optional posted last-name
       ✓ optional posted display-name
@@ -1078,10 +1074,7 @@
         ✓ missing posted phone
       invalid-dob
         ✓ missing posted dob
-    requirements
-      ✓ querystring accountid matches accessing account
     receives
-      ✓ required querystring accountid
       ✓ optional posted first-name
       ✓ optional posted last-name
       ✓ optional posted display-name
@@ -1117,10 +1110,6 @@
       invalid-secret-code-length
         ✓ posted secret code too short
         ✓ posted secret code too long
-    requirements
-      ✓ querystring accountid matches accessing account
-    receives
-      ✓ requires posted secret-code
     returns
       ✓ object
 
@@ -1131,8 +1120,6 @@
       invalid-password
         ✓ missing posted password
     receives
-      ✓ requires posted username
-      ✓ requires posted password
       ✓ optional posted remember (hours|days)
     returns
       ✓ object
@@ -1142,11 +1129,10 @@
       invalid-profileid
         ✓ missing querystring profileid
         ✓ invalid querystring profileid
+      invalid-profile
+        ✓ querystring profileid is default contact profile
       invalid-account
         ✓ ineligible querystring profileid
-    requirements
-      ✓ querystring profileid owned by accessing account
-      ✓ querystring profileid not default contact profile
     returns
       ✓ boolean
 
@@ -1157,8 +1143,6 @@
         ✓ invalid querystring codeid
       invalid-account
         ✓ ineligible querystring codeid
-    requirements
-      ✓ querystring codeid owned by accessing account
     returns
       ✓ boolean
 
@@ -1169,8 +1153,6 @@
         ✓ invalid querystring profileid
       invalid-account
         ✓ ineligible querystring profileid
-    requirements
-      ✓ querystring profileid owned by accessing account
     returns
       ✓ object
 
@@ -1181,8 +1163,6 @@
         ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible querystring accountid
-    requirements
-      ✓ querystring accountid matches accessing account
     returns
       ✓ integer
 
@@ -1193,8 +1173,6 @@
         ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible querystring accountid
-    requirements
-      ✓ querystring accountid matches accessing account
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
@@ -1213,11 +1191,8 @@
       invalid-password
         ✓ missing posted password
         ✓ invalid posted password
-    requirements
-      ✓ account is scheduled for deletion
-    receives
-      ✓ requires posted username
-      ✓ requires posted password
+      invalid-account
+        ✓ credentialed account is not scheduled for deletion
     returns
       ✓ object
 
@@ -1232,10 +1207,6 @@
         ✓ missing posted secret-code
       invalid-reset-code
         ✓ invalid posted secret-code
-    receives
-      ✓ requires posted username
-      ✓ requires posted password
-      ✓ requires posted secret-code
     returns
       ✓ boolean
 
@@ -1246,8 +1217,6 @@
         ✓ invalid querystring codeid
       invalid-account
         ✓ ineligible querystring codeid
-    requirements
-      ✓ querystring codeid owned by accessing account
     returns
       ✓ object
     redacts
@@ -1260,8 +1229,6 @@
         ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible querystring accountid
-    requirements
-      ✓ querystring accountid matches accessing account
     returns
       ✓ integer
 
@@ -1272,8 +1239,6 @@
         ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible querystring accountid
-    requirements
-      ✓ querystring accountid matches accessing account
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
@@ -1291,8 +1256,6 @@
         ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible querystring accountid
-    requirements
-      ✓ querystring accountid matches accessing account
     returns
       ✓ boolean
 
@@ -1303,8 +1266,6 @@
         ✓ invalid querystring sessionid
       invalid-account
         ✓ ineligible querystring sessionid
-    requirements
-      ✓ querystring sessionid owned by accessing account
     returns
       ✓ object
     redacts
@@ -1327,8 +1288,6 @@
         ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible querystring accountid
-    requirements
-      ✓ querystring accountid matches accessing account
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
@@ -1347,10 +1306,6 @@
       invalid-password
         ✓ missing posted password
         ✓ invalid posted password
-    requirements
-      ✓ querystring accountid matches accessing account
-    receives
-      ✓ requires posted password
     response
       ✓ object
     configuration
@@ -1371,11 +1326,6 @@
       invalid-new-password-length
         ✓ posted new-password too short
         ✓ posted new-password too long
-    requirements
-      ✓ querystring accountid matches accessing account
-    receives
-      ✓ requires posted password
-      ✓ requires posted new-password
     returns
       ✓ should apply new password
 
@@ -1389,10 +1339,6 @@
       invalid-profileid
         ✓ missing posted profileid
         ✓ invalid posted profileid
-    requirements
-      ✓ querystring accountid matches accessing account
-    receives
-      ✓ requires posted profileid
     returns
       ✓ object
 
@@ -1411,11 +1357,6 @@
       invalid-new-username-length
         ✓ posted new-username too short
         ✓ posted new-username too long
-    requirements
-      ✓ querystring accountid matches accessing account
-    receives
-      ✓ requires posted password
-      ✓ requires posted new-username
     returns
       ✓ object
 
@@ -1424,11 +1365,10 @@
       invalid-sessionid
         ✓ missing querystring sessionid
         ✓ invalid querystring sessionid
+      invalid-session
+        ✓ querystring sessionid is not active session
       invalid-account
         ✓ ineligible querystring sessionid
-    requirements
-      ✓ querystring sessionid owned by accessing account
-      ✓ querystring sessionid is active session
     returns
       ✓ object
 
@@ -1439,8 +1379,6 @@
         ✓ invalid querystring sessionid
       invalid-account
         ✓ ineligible querystring sessionid
-    requirements
-      ✓ querystring sessionid owned by accessing account
     returns
       ✓ object
 
@@ -1508,5 +1446,5 @@
       ✓ request specifies required fields
 
 
-  826 passing (3m)
+  789 passing (3m)
 
