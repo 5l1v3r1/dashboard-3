@@ -106,18 +106,6 @@ describe(`/api/user/set-account-deleted`, () => {
   })
 
   describe('receives', () => {
-    it('requires querystring accountid', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        password: user.account.password
-      }
-      const account = await req.patch()
-      assert.strictEqual(account.accountid, user.account.accountid)
-    })
-
     it('requires posted password', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)

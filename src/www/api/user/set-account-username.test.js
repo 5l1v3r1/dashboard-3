@@ -168,19 +168,6 @@ describe(`/api/user/set-account-username`, () => {
   })
 
   describe('receives', () => {
-    it('requires querystring accountid', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-username?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'new-username': '1234567890',
-        password: user.account.password
-      }
-      const account = await req.patch()
-      assert.strictEqual(account.accountid, user.account.accountid)
-    })
-
     it('requires posted password', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-username?accountid=${user.account.accountid}`)

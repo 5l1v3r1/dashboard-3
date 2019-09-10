@@ -36,17 +36,6 @@ describe('/api/administrator/account-sessions', () => {
   })
 
   describe('receives', () => {
-    it('requires querystring accountid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const sessions = await req.get()
-      assert.strictEqual(sessions.length, 1)
-      assert.strictEqual(sessions[0].sessionid, user.session.sessionid)
-    })
-
     it('optional querystring offset (integer)', async () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()

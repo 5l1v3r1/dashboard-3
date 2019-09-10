@@ -36,17 +36,6 @@ describe('/api/administrator/account-profiles', () => {
   })
 
   describe('receives', () => {
-    it('requires querystring accountid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/account-profiles?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const profilesNow = await req.get()
-      assert.strictEqual(profilesNow.length, 1)
-      assert.strictEqual(profilesNow[0].profileid, user.profile.profileid)
-    })
-
     it('optional querystring offset (integer)', async () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()

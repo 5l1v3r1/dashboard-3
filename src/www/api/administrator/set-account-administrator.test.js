@@ -67,19 +67,6 @@ describe(`/api/administrator/set-account-administrator`, () => {
     })
   })
 
-  describe('receives', () => {
-    it('requires querystring accountid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/set-account-administrator?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const accountNow = await req.patch()
-      assert.notStrictEqual(accountNow.administrator, undefined)
-      assert.notStrictEqual(accountNow.administrator, null)
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const administrator = await TestHelper.createOwner()

@@ -35,18 +35,6 @@ describe(`/api/administrator/account`, () => {
     })
   })
 
-  describe('receives', () => {
-    it('requires querystring accountid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const account = await req.get()
-      assert.strictEqual(account.accountid, user.account.accountid)
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const administrator = await TestHelper.createOwner()

@@ -83,22 +83,7 @@ describe(`/api/administrator/create-reset-code`, () => {
     })
   })
 
-  describe('receives', () => {
-    it('querystring accountid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/create-reset-code?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      req.body = {
-        'secret-code': '12345678'
-      }
-      const resetCode = await req.post()
-      assert.strictEqual(resetCode.object, 'resetCode')
-    })
-  })
-
-  describe('returns', () => {
+ describe('returns', () => {
     it('object', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

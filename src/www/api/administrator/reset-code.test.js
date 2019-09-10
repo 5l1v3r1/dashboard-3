@@ -35,19 +35,6 @@ describe(`/api/administrator/reset-code`, () => {
     })
   })
 
-  describe('receives', () => {
-    it('requires querystring codeid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest(`/api/administrator/reset-code?codeid=${user.resetCode.codeid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const codeNow = await req.get()
-      assert.strictEqual(codeNow.accountid, user.account.accountid)
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const administrator = await TestHelper.createOwner()

@@ -35,19 +35,6 @@ describe('/api/administrator/account-profiles-count', () => {
     })
   })
 
-  describe('receives', () => {
-    it('querystring accountid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      global.apiDependencies = []
-      const req = TestHelper.createRequest(`/api/administrator/account-profiles-count?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
-      assert.strictEqual(result, 1)
-    })
-  })
-
   describe('returns', () => {
     it('integer', async () => {
       const administrator = await TestHelper.createOwner()

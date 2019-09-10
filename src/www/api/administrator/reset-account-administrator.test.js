@@ -83,23 +83,6 @@ describe(`/api/administrator/reset-account-administrator`, () => {
     })
   })
 
-  describe('receives', () => {
-    it('requires querystring accountid', async () => {
-      const owner = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/reset-account-administrator?accountid=${user.account.accountid}`)
-      req.account = owner.account
-      req.session = owner.session
-      let errorMessage
-      try {
-        await req.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const owner = await TestHelper.createOwner()

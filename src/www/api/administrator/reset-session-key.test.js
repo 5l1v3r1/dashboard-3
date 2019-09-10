@@ -71,18 +71,6 @@ describe(`/api/administrator/reset-session-key`, () => {
     })
   })
 
-  describe('receives', () => {
-    it('requires querystring accountid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const accountNow = await req.patch()
-      assert.strictEqual(accountNow.object, 'account')
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const administrator = await TestHelper.createOwner()

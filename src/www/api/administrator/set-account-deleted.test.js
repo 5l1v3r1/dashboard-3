@@ -71,21 +71,6 @@ describe('/api/administrator/set-account-deleted', () => {
     })
   })
 
-  describe('receives', () => {
-    it('requires querystring accountid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/set-account-deleted?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      global.deleteDelay = 3
-      const accountNow = await req.patch()
-      const now = Math.floor(new Date().getTime() / 1000)
-      const days = Math.ceil((accountNow.deleted - now) / 60 / 60 / 24)
-      assert.strictEqual(days, 3)
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const administrator = await TestHelper.createOwner()

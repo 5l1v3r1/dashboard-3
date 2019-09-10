@@ -69,17 +69,6 @@ describe('/api/user/profile', () => {
     })
   })
 
-  describe('receives', () => {
-    it('requires querystring profileid', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      const profile = await req.get()
-      assert.strictEqual(user.account.profileid, profile.profileid)
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const user = await TestHelper.createUser()

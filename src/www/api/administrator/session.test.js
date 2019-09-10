@@ -35,19 +35,6 @@ describe('/api/administrator/session', () => {
     })
   })
 
-  describe('receives', () => {
-    it('requires querystring sessionid', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const session = await req.get()
-      assert.strictEqual(session.sessionid, user.session.sessionid)
-      assert.strictEqual(session.accountid, user.session.accountid)
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const administrator = await TestHelper.createOwner()

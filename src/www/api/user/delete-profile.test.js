@@ -83,33 +83,6 @@ describe(`/api/user/delete-profile`, () => {
     })
   })
 
-  describe('receives', () => {
-    it('requires querystring profileid', async () => {
-      const user = await TestHelper.createUser()
-      const profile1 = user.profile
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
-        default: 'true'
-      })
-      const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${profile1.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      await req.delete()
-      const req2 = TestHelper.createRequest(`/api/user/profile?profileid=${profile1.profileid}`)
-      req2.account = user.account
-      req2.session = user.session
-      let errorMessage
-      try {
-        await req2.get(req2)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-profileid')
-    })
-  })
-
   describe('returns', () => {
     it('boolean', async () => {
       const user = await TestHelper.createUser()
