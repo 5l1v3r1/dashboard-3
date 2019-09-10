@@ -52,23 +52,6 @@ describe(`/api/user/profiles`, () => {
     })
   })
 
-  describe('requirements', () => {
-    it('querystring accountid matches accessing account', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user2.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.get()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
   describe('receives', () => {
     it('optional querystring offset (integer)', async () => {
       const offset = 1

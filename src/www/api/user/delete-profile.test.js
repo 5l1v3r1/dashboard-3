@@ -34,6 +34,22 @@ describe(`/api/user/delete-profile`, () => {
       })
     })
 
+    describe('invalid-profile', () => {
+      it('querystring profileid is default contact profile', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${user.profile.profileid}`)
+        req.account = user.account
+        req.session = user.session
+        let errorMessage
+        try {
+          await req.delete()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-profile')
+      })
+    })
+
     describe('invalid-account', () => {
       it('ineligible querystring profileid', async () => {
         const user = await TestHelper.createUser()
@@ -49,37 +65,6 @@ describe(`/api/user/delete-profile`, () => {
         }
         assert.strictEqual(errorMessage, 'invalid-account')
       })
-    })
-  })
-
-  describe('requirements', () => {
-    it('querystring profileid owned by accessing account', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${user2.account.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.delete()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-
-    it('querystring profileid not default contact profile', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${user.profile.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.delete()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-profile')
     })
   })
 

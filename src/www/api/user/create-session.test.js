@@ -41,36 +41,6 @@ describe('/api/user/create-session', () => {
   })
 
   describe('receives', () => {
-    it('requires posted username', async () => {
-      const req = TestHelper.createRequest('/api/user/create-session')
-      req.body = {
-        username: '',
-        password: 'password'
-      }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-username')
-    })
-
-    it('requires posted password', async () => {
-      const req = TestHelper.createRequest('/api/user/create-session')
-      req.body = {
-        username: 'username',
-        password: ''
-      }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-password')
-    })
-
     it('optional posted remember (hours|days)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/api/user/create-session')

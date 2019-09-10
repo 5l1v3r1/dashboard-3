@@ -108,41 +108,6 @@ describe('/api/user/create-reset-code', () => {
     })
   })
 
-  describe('requirements', () => {
-    it('querystring accountid matches accessing account', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/create-reset-code?accountid=${user2.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
-  describe('receives', () => {
-    it('requires posted secret-code', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-      }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-secret-code')
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const user = await TestHelper.createUser()

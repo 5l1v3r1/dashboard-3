@@ -53,23 +53,6 @@ describe(`/api/user/set-session-verified`, () => {
     })
   })
 
-  describe('requirements', () => {
-    it('querystring sessionid owned by accessing account', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-session-verified?sessionid=${user2.session.sessionid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const user = await TestHelper.createUser()

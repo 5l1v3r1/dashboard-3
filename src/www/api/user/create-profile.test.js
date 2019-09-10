@@ -421,39 +421,7 @@ describe(`/api/user/create-profile`, () => {
     })
   })
 
-  describe('requirements', () => {
-    it('querystring accountid matches accessing account', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user2.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
   describe('receives', () => {
-    it('required querystring accountid', async () => {
-      global.requireProfile = true
-      global.userProfileFields = ['full-name']
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'first-name': 'Person',
-        'last-name': 'Person'
-      }
-      const profile = await req.post()
-      assert.strictEqual(profile.object, 'profile')
-    })
-
     it('optional posted first-name', async () => {
       global.requireProfile = true
       global.userProfileFields = ['full-name']

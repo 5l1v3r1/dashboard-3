@@ -150,61 +150,6 @@ describe(`/api/user/set-account-username`, () => {
     })
   })
 
-  describe('requirements', () => {
-    it('querystring accountid matches accessing account', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-username?accountid=${user2.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
-  describe('receives', () => {
-    it('requires posted password', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-username?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'new-username': '1234567890',
-        password: 'invalid'
-      }
-      let errorMessage
-      try {
-        await req.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-password')
-    })
-
-    it('requires posted new-username', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-username?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'new-username': '',
-        password: 'invalid'
-      }
-      let errorMessage
-      try {
-        await req.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-new-username')
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const user = await TestHelper.createUser()

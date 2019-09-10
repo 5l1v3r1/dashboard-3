@@ -75,62 +75,25 @@ describe(`/api/user/reset-account-deleted`, () => {
         assert.strictEqual(errorMessage, 'invalid-password')
       })
     })
-  })
 
-  describe('requirements', () => {
-    it('account is scheduled for deletion', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        username: user.account.username,
-        password: user.account.password
-      }
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
-
-  describe('receives', () => {
-    it('requires posted username', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.setDeleted(user)
-      const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
-      req.body = {
-        username: '',
-        password: 'password'
-      }
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-username')
-    })
-
-    it('requires posted password', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.setDeleted(user)
-      const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
-      req.body = {
-        username: 'username',
-        password: ''
-      }
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-password')
+    describe('invalid-account', () => {
+      it('credentialed account is not scheduled for deletion', async () => {
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          username: user.account.username,
+          password: user.account.password
+        }
+        let errorMessage
+        try {
+          await req.patch()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
     })
   })
 

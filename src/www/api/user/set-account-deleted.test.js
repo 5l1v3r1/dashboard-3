@@ -88,42 +88,6 @@ describe(`/api/user/set-account-deleted`, () => {
     })
   })
 
-  describe('requirements', () => {
-    it('querystring accountid matches accessing account', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user2.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
-  describe('receives', () => {
-    it('requires posted password', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        password: 'invalid'
-      }
-      let errorMessage
-      try {
-        await req.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-password')
-    })
-  })
-
   describe('response', () => {
     it('object', async () => {
       const user = await TestHelper.createUser()

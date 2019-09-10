@@ -92,63 +92,7 @@ describe('/api/user/reset-account-password', () => {
       })
     })
   })
-
-  describe('requirements', () => {
-  })
-
-  describe('receives', () => {
-    it('requires posted username', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/api/user/reset-account-password')
-      req.body = {
-        username: user.account.username,
-        'new-password': 'password',
-        'secret-code': 'invalid'
-      }
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-reset-code')
-    })
-
-    it('requires posted password', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/api/user/reset-account-password')
-      req.body = {
-        username: user.account.username,
-        'new-password': 'password',
-        'secret-code': 'invalid'
-      }
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-reset-code')
-    })
-
-    it('requires posted secret-code', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/api/user/reset-account-password')
-      req.body = {
-        username: user.account.username,
-        'new-password': 'password',
-        'secret-code': ''
-      }
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-secret-code')
-    })
-  })
-
+  
   describe('returns', () => {
     it('boolean', async () => {
       const user = await TestHelper.createUser()

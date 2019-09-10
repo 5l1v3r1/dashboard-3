@@ -53,24 +53,6 @@ describe(`/api/user/delete-reset-code`, () => {
     })
   })
 
-  describe('requirements', () => {
-    it('querystring codeid owned by accessing account', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      await TestHelper.createResetCode(user2)
-      const req = TestHelper.createRequest(`/api/user/delete-reset-code?codeid=${user2.resetCode.codeid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.delete()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
   describe('returns', () => {
     it('boolean', async () => {
       const user = await TestHelper.createUser()

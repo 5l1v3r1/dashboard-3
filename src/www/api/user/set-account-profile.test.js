@@ -88,42 +88,6 @@ describe(`/api/user/set-account-profile`, () => {
     })
   })
 
-  describe('requirements', () => {
-    it('querystring accountid matches accessing account', async () => {
-      const user = await TestHelper.createUser()
-      const user2 = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-profile?accountid=${user2.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
-  describe('receives', () => {
-    it('requires posted profileid', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/set-account-profile?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        profileid: 'invalid'
-      }
-      let errorMessage
-      try {
-        await req.patch()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-profileid')
-    })
-  })
-
   describe('returns', () => {
     it('object', async () => {
       const user = await TestHelper.createUser()
