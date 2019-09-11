@@ -104,8 +104,10 @@ module.exports = {
       const configuration = parseDashboardConfiguration()
       writeSitemap(configuration)
     }
-    const apiStructure = parseAPIConfiguration()
-    writeAPI(apiStructure)
+    if (process.env.NODE_ENV !== 'testing') {
+      const apiStructure = parseAPIConfiguration()
+      writeAPI(apiStructure)
+    }
     if (process.env.NODE_ENV === 'sitemap') {
       return process.exit(0)
     }
@@ -158,8 +160,14 @@ function parseAPIConfiguration () {
     let exception
     for (let line of lines) {
       line = line.trim()
+      if (!line) {
+        continue
+      }
       if (!done.length) {
         item.url = line
+        if (!global.sitemap[line]) {
+          throw new Error('invalid something ' + line)
+        }
         item.auth = global.sitemap[item.url].auth === false ? false : true
         for (const verb of verbs) {
           if (global.sitemap[line].api[verb]) {

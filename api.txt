@@ -69,7 +69,7 @@ http://localhost:8001
 |----------------------------------------|----------|----------------|------------------------|
 | RECEIVES                               | RETURNS  | REDACTS        | CONFIGURATION          |
 | optional querystring offset (integer)  | array    | username hash  | environment PAGE_SIZE  |
-| optional querystring all (boolean)     | array    | password hash  |                        |
+| optional querystring all (boolean)     |          | password hash  |                        |
 |                                        |          | sessionKey     |                        |
 |----------------------------------------|----------|----------------|------------------------|
 
@@ -160,19 +160,17 @@ http://localhost:8001
 | integer                            |
 |------------------------------------|
 
-------------------------------------------------------------------------------------------------|
-| /api/administrator/reset-account-administrator                                                |
-|---------------------------------------|----------|--------------------------------------------|
-| RECEIVES                              | RETURNS  | EXCEPTIONS                                 |
-| required querystring accountid value  | object   | invalid-accountid                          |
-|                                       |          |  * missing querystring accountid value     |
-|                                       |          |  * invalid querystring accountid value     |
-|                                       |          | invalid-account                            |
-|                                       |          |  * ineligible querystring accountid        |
-|                                       |          | requires                                   |
-|                                       |          |  * querystring accountid is administrator  |
-|                                       |          |  * querystring accountid is not owner      |
-|---------------------------------------|----------|--------------------------------------------|
+----------------------------------------------------------------------------------------------------|
+| /api/administrator/reset-account-administrator                                                    |
+|---------------------------------------|----------|------------------------------------------------|
+| RECEIVES                              | RETURNS  | EXCEPTIONS                                     |
+| required querystring accountid value  | object   | invalid-accountid                              |
+|                                       |          |  * missing querystring accountid value         |
+|                                       |          |  * invalid querystring accountid value         |
+|                                       |          | invalid-account                                |
+|                                       |          |  * accessing account is not owner              |
+|                                       |          |  * querystring accountid is not administrator  |
+|---------------------------------------|----------|------------------------------------------------|
 
 -----------------------------------------------------------------------------------------------------------|
 | /api/administrator/reset-code                                                                            |
@@ -183,13 +181,13 @@ http://localhost:8001
 |                                    |          |                   |  * invalid querystring codeid value  |
 |------------------------------------|----------|-------------------|--------------------------------------|
 
--------------------------------------------------------------------------------------------------------------------|
-| /api/administrator/reset-codes                                                                                   |
-|----------------------------------------|----------------------------|-------------------|------------------------|
-| RECEIVES                               | RETURNS                    | REDACTS           | CONFIGURATION          |
-| optional querystring offset (integer)  | should return reset codes  | secret code hash  | environment PAGE_SIZE  |
-| optional querystring all (boolean)     |                            |                   |                        |
-|----------------------------------------|----------------------------|-------------------|------------------------|
+-------------------------------------------------------------------------------------------------|
+| /api/administrator/reset-codes                                                                 |
+|----------------------------------------|----------|-------------------|------------------------|
+| RECEIVES                               | RETURNS  | REDACTS           | CONFIGURATION          |
+| optional querystring offset (integer)  | array    | secret code hash  | environment PAGE_SIZE  |
+| optional querystring all (boolean)     |          |                   |                        |
+|----------------------------------------|----------|-------------------|------------------------|
 
 ----------------------------------------|
 | /api/administrator/reset-codes-count  |
@@ -203,8 +201,8 @@ http://localhost:8001
 |---------------------------------------|------------------------------------|------------------------------------------|
 | RECEIVES                              | RETURNS                            | EXCEPTIONS                               |
 | required querystring accountid value  | object                             | invalid-accountid                        |
-|                                       | should increase sessionKeyNumber   |  * missing querystring accountid value   |
-|                                       | should update sessionKeyLastReset  |  * invalid querystring accountid value   |
+|                                       |                                    |  * missing querystring accountid value   |
+|                                       |                                    |  * invalid querystring accountid value   |
 |                                       |                                    | invalid-account                          |
 |                                       |                                    |  * ineligible querystring accountid      |
 |                                       |                                    | requires                                 |

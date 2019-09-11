@@ -80,25 +80,7 @@ describe(`/api/administrator/reset-session-key`, () => {
       req.session = administrator.session
       const accountNow = await req.patch()
       assert.strictEqual(accountNow.object, 'account')
-    })
-
-    it('should increase sessionKeyNumber', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const accountNow = await req.patch()
       assert.notStrictEqual(accountNow.sessionKeyNumber, user.sessionKeyNumber)
-    })
-
-    it('should update sessionKeyLastReset', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const accountNow = await req.patch()
       assert.notStrictEqual(accountNow.sessionKeyLastReset, undefined)
       assert.notStrictEqual(accountNow.sessionKeyLastReset, null)
     })
