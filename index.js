@@ -104,7 +104,7 @@ module.exports = {
       const configuration = parseDashboardConfiguration()
       writeSitemap(configuration)
     }
-    if (process.env.NODE_ENV !== 'testing') {
+    if (process.env.NODE_ENV === 'sitemap') {
       const apiStructure = parseAPIConfiguration()
       writeAPI(apiStructure)
     }

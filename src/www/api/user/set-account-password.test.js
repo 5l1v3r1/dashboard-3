@@ -151,7 +151,7 @@ describe(`/api/user/set-account-password`, () => {
   })
 
   describe('returns', () => {
-    it('should apply new password', async () => {
+    it('object', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-password?accountid=${user.account.accountid}`)
       req.account = user.account

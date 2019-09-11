@@ -88,7 +88,7 @@ describe(`/api/user/set-account-deleted`, () => {
     })
   })
 
-  describe('response', () => {
+  describe('returns', () => {
     it('object', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/set-account-deleted?accountid=${user.account.accountid}`)

@@ -579,7 +579,7 @@ http://localhost:8001
 | /api/user/set-account-password                                                                      |
 |---------------------------------|----------------------------|--------------------------------------|
 | RECEIVES                        | RETURNS                    | EXCEPTIONS                           |
-| required posted new-password    | should apply new password  | invalid-accountid                    |
+| required posted new-password    | object                     | invalid-accountid                    |
 | required posted password        |                            |  * missing querystring accountid     |
 | required querystring accountid  |                            |  * invalid querystring accountid     |
 |                                 |                            | invalid-account                      |

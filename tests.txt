@@ -876,8 +876,6 @@
       ✓ querystring accountid is not deleted
     returns
       ✓ object
-      ✓ should increase sessionKeyNumber
-      ✓ should update sessionKeyLastReset
 
   /api/administrator/session
     exceptions
@@ -1302,7 +1300,7 @@
       invalid-password
         ✓ missing posted password
         ✓ invalid posted password
-    response
+    returns
       ✓ object
     configuration
       ✓ environment DELETE_DELAY
@@ -1323,7 +1321,7 @@
         ✓ posted new-password too short
         ✓ posted new-password too long
     returns
-      ✓ should apply new password
+      ✓ object
 
   /api/user/set-account-profile
     exceptions
@@ -1444,5 +1442,5 @@
       ✓ request specifies required fields
 
 
-  788 passing (3m)
+  786 passing (3m)
 
