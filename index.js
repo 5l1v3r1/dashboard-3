@@ -101,9 +101,11 @@ module.exports = {
     module.exports.StorageList = require('./src/storage-list.js')
     module.exports.StorageObject = require('./src/storage-object.js')
     if (!process.env.SILENT_START) {
-      const configuration = outputConfiguration()
-      console.log(configuration)
+      const configuration = parseDashboardConfiguration()
+      writeSitemap(configuration)
     }
+    const apiStructure = parseAPIConfiguration()
+    writeAPI(apiStructure)
     if (process.env.NODE_ENV === 'sitemap') {
       return process.exit(0)
     }
@@ -123,65 +125,228 @@ module.exports = {
   }
 }
 
-function outputConfiguration () {
+function parseAPIConfiguration () {
+  let tests = fs.readFileSync('./tests.txt').toString()
+  tests = tests.substring(tests.indexOf('/api/'))
+  while (true) {
+    const lastTick = tests.lastIndexOf('✓')
+    const lastLineBreak = tests.lastIndexOf('\n')
+    if (lastLineBreak > lastTick) {
+      tests = tests.substring(0, lastLineBreak)
+    } else {
+      break
+    }
+  }
+  tests = tests.split('\n\n')
+  const api = {}
+  const categories = ['exceptions', 'receives', 'configuration', 'returns', 'redacts', 'override']
+  const verbs = ['get', 'post', 'patch', 'pull', 'delete', 'options', 'head']
+  for (const test of tests) {
+    const item = {
+      url: '',
+      verb: '',
+      auth: '',
+      receives: [],
+      exceptions: {},
+      redacts: [],
+      returns: [],
+      configuration: [],
+      override: []
+    }
+    const lines = test.split('\n')
+    const done = []
+    let exception
+    for (let line of lines) {
+      line = line.trim()
+      if (!done.length) {
+        item.url = line
+        item.auth = global.sitemap[item.url].auth === false ? false : true
+        for (const verb of verbs) {
+          if (global.sitemap[line].api[verb]) {
+            item.verb = verb
+            break
+          }
+        }
+        done.push('url')
+        continue
+      }
+      const type = done[done.length - 1]
+      if (!line.startsWith('✓')) {
+        if (categories.indexOf(line) > -1) {
+          done.push(line)
+          continue
+        } 
+        exception = line
+        continue
+      } else {
+        line = line.substring(2)
+      }
+      if (type === 'exceptions') {
+        item.exceptions[exception] = item.exceptions[exception] || []
+        item.exceptions[exception].push(line)
+        continue
+      }
+      item[type].push(line)
+    }    
+    api[item.url] = item
+  }
+  return api
+}
+
+function writeAPI(configuration) {
+  const sortedURLs = []
+  for (const url in configuration) {
+    sortedURLs.push(url)
+  }
+  sortedURLs.sort()
+  let url = global.dashboardServer
+  if (global.applicationServer) {
+    url += ' (dashboard)\n'
+    url += global.applicationServer + ' (application)'
+  }
+  const output = [
+    `@userdashboard/dashboard ` + global.packageJSON.version,
+    '\n',
+    url,
+    '\n'
+  ]
+  const groups = ['receives', 'returns', 'redacts', 'exceptions', 'configuration', 'override']
+  for (const url of sortedURLs) {
+    const columns = {}
+    const route = configuration[url]
+    if (route.exceptions) {
+      const exceptions = []
+      for (const key in route.exceptions) {
+        exceptions.push(key)
+        for (const i in route.exceptions[key]) {
+          const reason = route.exceptions[key][i]
+          exceptions.push(` * ${reason}`)
+          if (reason.startsWith('missing')) {
+            const receives = reason.replace('missing', 'required')
+            const optional = reason.replace('missing', 'optional')
+            if (route.receives.indexOf(optional) === -1) {
+              route.receives.unshift(receives)
+            }
+          }
+        }
+      }
+      route.exceptions = exceptions
+    }
+    for (category of groups) {
+      if (!route[category] || !route[category].length) {
+        continue
+      }
+      columns[category] = category.length + 4
+      for (const entry of route[category]) {
+        if (entry.length + 4 > columns[category]) {
+          columns[category] = entry.length + 4
+        }
+      }
+    }
+    const groupData = {}
+    let totalWidth = 0
+    for (const key of groups) {
+      if (!route[key] || !route[key].length) {
+        continue
+      }
+      groupData[key] = route[key]
+      totalWidth += columns[key]
+    }
+    if (url.length > totalWidth) {
+      for (const key of groups) {
+        if (!columns[key]) {
+          continue
+        }
+        columns[key] = totalWidth = url.length + 4
+        break
+      }
+    }
+    let largestGroup = 0
+    for (const key in groupData) {
+      if (groupData[key].length > largestGroup) {
+        largestGroup = groupData[key].length
+      }
+    }
+    let precursor = ''
+    while (precursor.length < totalWidth) {
+      precursor += '-'
+    }
+    let after = url
+    while (after.length < totalWidth - 2) {
+      after += ' '
+    }
+    output.push('\n' + precursor + '|\n| ' + after + '|\n')
+    for (const key in groupData) {
+      let segment = '|'
+      while (segment.length < columns[key]) {
+        segment += '-'
+      }
+      output.push(segment)
+    }
+    output.push('|\n')
+    for (const key in groupData) {
+      let title = '| ' + key.toUpperCase()
+      while (title.length < columns[key]) {
+        title += ' '
+      }
+      output.push(title)
+    }
+    output.push('|\n')
+    for (let i = 0, len = largestGroup; i < len; i++) {
+      const line = []
+      for (const key in groupData) {
+        const groupData = route[key]
+        if (!groupData || !groupData.length || groupData.length < i || !groupData[i]) {
+          let segment = '|'
+          while (segment.length < columns[key]) {
+            segment += ' '
+          }
+          line.push(segment)
+          continue
+        }
+        let title = '| ' + groupData[i]
+        while (title.length < columns[key]) {
+          title += ' '
+        }
+        line.push(title)
+      }
+      output.push(line.join('') + '|\n')
+    }
+    for (const key in groupData) {
+      let segment = '|'
+      while (segment.length < columns[key]) {
+        segment += '-'
+      }
+      output.push(segment)
+    }
+    output.push('|\n')
+  } 
+  fs.writeFileSync('./api.txt', output.join(''))
+}
+
+
+function writeSitemap (configuration) {
   let widestURL = 0
   let widestHTML = 0
   let widestJS = 0
   let widestAuth = 0
   let widestTemplate = 0
   let widestVerbs = 0
-  const siteMap = global.sitemap
-  const httpVerbs = [ 'DELETE', 'HEAD', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT' ]
-  for (const url in siteMap) {
+  const sortedURLs = []
+  for (const url in configuration.urls) {
+    sortedURLs.push(url)
     if (url.length > widestURL) {
       widestURL = url.length
     }
-    const route = siteMap[url]
+    const route = configuration.urls[url]
     if (route.htmlFilePath && trimNodeModulePath(route.htmlFilePath).length + 4 > widestHTML) {
       widestHTML = trimNodeModulePath(route.htmlFilePath).length + 4
     }
     if (route.jsFilePath && trimNodeModulePath(route.jsFilePath).length + 4 > widestJS) {
       widestJS = trimNodeModulePath(route.jsFilePath).length + 4
     }
-    route.templateDescription = route.template === false ? 'FULLSCREEN' : ''
-    route.verbs = ''
-    if (url.startsWith('/api/')) {
-      route.authDescription = route.api.auth === false ? 'GUEST' : ''
-      const verbs = []
-      for (const verb of httpVerbs) {
-        if (route.api[verb.toLowerCase()]) {
-          verbs.push(verb)
-        }
-      }
-      route.verbs = verbs.join(' ')
-      if (route.verbs.length > widestVerbs) {
-        widestVerbs = route.verbs.length
-      }
-    } else {
-      route.authDescription = route.auth === false ? 'GUEST' : ''
-      const verbs = []
-      if (route.jsFilePath === 'static-page') {
-        verbs.push('GET')
-      } else {
-        const pageFile = route.api
-        for (const verb of httpVerbs) {
-          if (pageFile[verb.toLowerCase()]) {
-            verbs.push(verb)
-          }
-        }
-      }
-      route.verbs = verbs.join(' ')
-      if (route.verbs.length + 4 > widestVerbs) {
-        widestVerbs = route.verbs.length + 4
-      }
-      if (route.templateDescription.length + 4 > widestTemplate) {
-        widestTemplate = route.templateDescription.length + 4
-      }
-      if (route.authDescription.length + 4 > widestAuth) {
-        widestAuth = route.authDescription.length + 4
-      }
-    }
   }
+  sortedURLs.sort()
   if ('URL  '.length > widestURL) {
     widestURL = 'URL  '.length
   }
@@ -210,55 +375,40 @@ function outputConfiguration () {
     url
   ]
   output.push('\nAdministrator menu:')
-  for (const item of global.packageJSON.dashboard.menus.administrator) {
-    if (item.module) {
-      output.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
-    } else {
-      output.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
-    }
+  for (const item of configuration.administrator) {
+    output.push(item)
   }
   output.push('\nAccount menu:')
-  for (const item of global.packageJSON.dashboard.menus.account) {
-    if (item.module) {
-      output.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
-    } else {
-      output.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
-    }
+  for (const item of configuration.account) {
+    output.push(item)
   }
   output.push('\nSpecial HTML files:',
-    trimApplicationPath(global.packageJSON.templateHTMLPath),
-    trimApplicationPath(global.packageJSON.errorHTMLPath),
-    trimApplicationPath(global.packageJSON.redirectHTMLPath))
+    trimApplicationPath(configuration.templateHTMLPath),
+    trimApplicationPath(configuration.errorHTMLPath),
+    trimApplicationPath(configuration.redirectHTMLPath))
 
-  if (global.packageJSON.dashboard.moduleNames.length) {
+  if (configuration.modules.length) {
     output.push('\nDashboard modules:')
     const formatted = []
-    for (const i in global.packageJSON.dashboard.moduleNames) {
-      const name = global.packageJSON.dashboard.moduleNames[i]
-      const version = global.packageJSON.dashboard.moduleVersions[i]
-      formatted.push(`${name} (${version})`)
+    for (const item of configuration.modules) {
+      formatted.push(`${item.name} (${item.version})`)
     }
     output.push(formatted.join('\n'))
   }
-  if (global.packageJSON.dashboard.contentFilePaths.length) {
+  if (configuration.content.length) {
     output.push('\nContent handlers:')
-    for (const item of global.packageJSON.dashboard.contentFilePaths) {
-      output.push(item[0] === '@' ? item : trimApplicationPath(item))
+    for (const item of configuration.content) {
+      output.push(item)
     }
   }
-  if (global.packageJSON.dashboard.serverFilePaths.length) {
+  if (configuration.server.length) {
     output.push('\nServer handlers:')
-    for (const item of global.packageJSON.dashboard.serverFilePaths) {
-      output.push(item[0] === '@' ? item : trimApplicationPath(item))
+    for (const item of configuration.server) {
+      output.push(item)
     }
   }
-  const sortedURLs = []
-  for (const url in siteMap) {
-    sortedURLs.push(url)
-  }
-  sortedURLs.sort()
   for (const url of sortedURLs) {
-    const route = siteMap[url]
+    const route = configuration.urls[url]
     const routeURL = padRight(url, widestURL)
     const routeHTML = padRight(route.htmlFilePath ? trimNodeModulePath(route.htmlFilePath) : '', widestHTML)
     const routeJS = padRight(trimNodeModulePath(route.jsFilePath), widestJS)
@@ -276,6 +426,85 @@ function outputConfiguration () {
   output.splice(output.length - sortedURLs.length, 0, `\n${routeURL} ${routeAuth} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
   fs.writeFileSync('./sitemap.txt', output.join('\n'))
   return output.join('\n')
+}
+
+function parseDashboardConfiguration() {
+  const configuration = {
+    administrator: [],
+    account: [],
+    modules: [],
+    content: [],
+    server: [],
+    urls: {},
+    templateHTMLPath: trimApplicationPath(global.packageJSON.templateHTMLPath),
+    errorHTMLPath: trimApplicationPath(global.packageJSON.errorHTMLPath),
+    redirectHTMLPath: trimApplicationPath(global.packageJSON.redirectHTMLPath)
+  }
+  for (const item of global.packageJSON.dashboard.menus.administrator) {
+    if (item.module) {
+      configuration.administrator.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+    } else {
+      configuration.administrator.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+    }
+  }
+  for (const item of global.packageJSON.dashboard.menus.account) {
+    if (item.module) {
+      configuration.account.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+    } else {
+      configuration.account.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+    }
+  }
+  if (global.packageJSON.dashboard.moduleNames.length) {
+    for (const i in global.packageJSON.dashboard.moduleNames) {
+      const name = global.packageJSON.dashboard.moduleNames[i]
+      const version = global.packageJSON.dashboard.moduleVersions[i]
+      configuration.modules.push({ name, version })
+    }
+  }
+  if (global.packageJSON.dashboard.contentFilePaths.length) {
+    for (const item of global.packageJSON.dashboard.contentFilePaths) {
+      configuration.content.push(item[0] === '@' ? item : trimApplicationPath(item))
+    }
+  }
+  if (global.packageJSON.dashboard.serverFilePaths.length) {
+    for (const item of global.packageJSON.dashboard.serverFilePaths) {
+      configuration.server.push(item[0] === '@' ? item : trimApplicationPath(item))
+    }
+  }
+  const httpVerbs = ['DELETE', 'HEAD', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+  for (const url in global.sitemap) {
+    const route = global.sitemap[url]
+    const item = configuration.urls[url] = {}
+    item.htmlFilePath = route.htmlFilePath
+    item.jsFilePath = route.jsFilePath
+    item.templateDescription = route.template === false ? 'FULLSCREEN' : ''
+    item.verbs = ''
+    if (url.startsWith('/api/')) {
+      item.authDescription = route.api.auth === false ? 'GUEST' : ''
+      const verbs = []
+      for (const verb of httpVerbs) {
+        if (route.api[verb.toLowerCase()]) {
+          verbs.push(verb)
+        }
+      }
+      item.verbs = verbs.join(' ')
+    } else {
+      item.authDescription = route.auth === false ? 'GUEST' : ''
+      const verbs = []
+      if (route.jsFilePath === 'static-page') {
+        verbs.push('GET')
+      } else {
+        const pageFile = route.api
+        for (const verb of httpVerbs) {
+          if (pageFile[verb.toLowerCase()]) {
+            verbs.push(verb)
+          }
+        }
+      }
+      item.verbs = verbs.join(' ')
+    }
+  }
+  return configuration
 }
 
 function trimApplicationPath (str) {

@@ -3,20 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/accounts', () => {
-  describe('returns', () => {
-    it('array', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/api/administrator/accounts')
-      req.account = administrator.account
-      req.session = administrator.session
-      const accounts = await req.get()
-      assert.strictEqual(accounts.length, global.pageSize)
-      assert.strictEqual(accounts[0].accountid, user.account.accountid)
-      assert.strictEqual(accounts[1].accountid, administrator.account.accountid)
-    })
-  })
-
   describe('receives', () => {
     it('optional querystring offset (integer)', async () => {
       const offset = 1
@@ -51,6 +37,7 @@ describe('/api/administrator/accounts', () => {
       }
     })
   })
+
   describe('returns', () => {
     it('array', async () => {
       const administrator = await TestHelper.createOwner()

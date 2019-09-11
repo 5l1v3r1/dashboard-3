@@ -35,7 +35,7 @@ describe(`/api/administrator/reset-account-administrator`, () => {
     })
 
     describe('invalid-account', () => {
-      it('ineligible querystring accountid', async () => {
+      it('accessing account is not owner', async () => {
         const owner = await TestHelper.createOwner()
         const user = await TestHelper.createUser()
         const req = TestHelper.createRequest(`/api/administrator/reset-account-administrator?accountid=${user.account.accountid}`)
@@ -49,37 +49,21 @@ describe(`/api/administrator/reset-account-administrator`, () => {
         }
         assert.strictEqual(errorMessage, 'invalid-account')
       })
-    })
-  })
 
-  describe('requires', () => {
-    it('querystring accountid is administrator', async () => {
-      const owner = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/administrator/reset-account-administrator?accountid=${user.account.accountid}`)
-      req.account = owner.account
-      req.session = owner.session
-      let errorMessage
-      try {
-        await req.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-
-    it('querystring accountid is not owner', async () => {
-      const owner = await TestHelper.createOwner()
-      const req = TestHelper.createRequest(`/api/administrator/reset-account-administrator?accountid=${owner.account.accountid}`)
-      req.account = owner.account
-      req.session = owner.session
-      let errorMessage
-      try {
-        await req.patch(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
+      it('querystring accountid is not administrator', async () => {
+        const owner = await TestHelper.createOwner()
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest(`/api/administrator/reset-account-administrator?accountid=${user.account.accountid}`)
+        req.account = owner.account
+        req.session = owner.session
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-account')
+      })
     })
   })
 

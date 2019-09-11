@@ -593,6 +593,22 @@ describe(`/api/user/update-profile`, () => {
     })
   })
 
+  describe('returns', () => {
+    it('object', () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'first-name': 'Test',
+        'last-name': 'Person'
+      }
+      global.userProfileFields = ['full-name']
+      const profile = await req.patch()
+      assert.strictEqual(profile.object, 'profile')
+    })
+  })
+
   describe('configuration', () => {
     it('environment USER_PROFILE_FIELDS', async () => {
       const user = await TestHelper.createUser()
