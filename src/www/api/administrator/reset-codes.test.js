@@ -41,7 +41,7 @@ describe('/api/administrator/reset-codes', () => {
   })
 
   describe('returns', () => {
-    it('array', () => {
+    it('array', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)

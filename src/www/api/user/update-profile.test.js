@@ -594,7 +594,7 @@ describe(`/api/user/update-profile`, () => {
   })
 
   describe('returns', () => {
-    it('object', () => {
+    it('object', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/update-profile?profileid=${user.account.profileid}`)
       req.account = user.account
