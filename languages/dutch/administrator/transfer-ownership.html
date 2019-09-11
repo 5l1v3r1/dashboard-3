@@ -1,0 +1,46 @@
+<!doctype html>
+<html navbar="/administrator/navbar-account.html">
+  <head>
+    <title>Transfer ownership to ${account.accountid}</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <link href="/public/content-additional.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Transfer ownership to ${account.accountid}</h1>
+    <div id="message-container"></div>
+    <table id="accounts-table" class="pure-table object-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Created</th>
+          <th>Last signed in</th>
+        </tr>
+      </thead>
+      <tr id="${account.accountid}">
+        <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td><a href="mailto:${account.email}">${account.email}</a></td>
+        <td>${account.createdFormatted}</td>
+        <td>${account.lastSignedInFormatted}</td>
+      </tr>
+    </table>
+    <form id="submit-form" method="POST" class="pure-form" action="/administrator/transfer-ownership?accountid=${account.accountid}">
+      <fieldset>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary">Transfer ownership</button>
+      </fieldset>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message">Success! The user has been made owner</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message">Error! An unknown error occurred</div>
+  </template>
+  <template id="invalid-account">
+    <div class="error message">Error! Only the current owner can transfer ownership</div>
+  </template>
+</html>

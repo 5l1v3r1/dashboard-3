@@ -1,0 +1,150 @@
+<!doctype html>
+<html auth="false" template="false">
+  <head>
+    <title>Register</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <link href="/public/content-additional.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body class="entry">
+    <form id="submit-form" method="POST" class="pure-form pure-form-stacked entry-form" action="/account/register">
+      <fieldset>
+        <h1>Register</h1>
+        <div id="message-container"></div>
+        <div class="pure-control-group">
+          <label for="username">Signin username</label>
+          <input placeholder="${requirements.minimumUsernameLength}+ characters" name="username" id="username" type="text" maxlength="1000" />
+        </div>
+        <div class="pure-control-group">
+          <label for="password">Signin password</label>
+          <input placeholder="${requirements.minimumPasswordLength}+ characters" name="password" id="password" type="password" maxlength="1000" />
+        </div>
+        <div class="pure-control-group">
+          <label for="confirm">Confirm your password</label>
+          <input name="confirm" id="confirm" type="password" maxlength="1000" />
+        </div>
+        <div id="display-name-container" class="pure-control-group">
+          <label for="display-name">Display name</label>
+          <input require id="display-name" name="display-name" type="text" maxlength="1000" />
+        </div>
+        <div id="display-email-container" class="pure-control-group">
+          <label for="display-email">Display email</label>
+          <input require id="display-email" name="display-email" type="text" maxlength="1000" size="50" />
+        </div>
+        <div id="contact-email-container" class="pure-control-group">
+          <label for="contact-email">Contact email</label>
+          <input require id="contact-email" name="contact-email" type="text" maxlength="1000" size="50" />
+        </div>
+        <div id="full-name-container">
+          <div class="pure-control-group">
+            <label for="first-name">First name</label>
+            <input require id="first-name" name="first-name" type="text" maxlength="1000" />
+          </div>
+          <div class="pure-control-group">
+            <label for="last-name">Last name</label>
+            <input require id="last-name" name="last-name" type="text" maxlength="1000" />
+          </div>
+        </div>
+        <div id="dob-container">
+          <div class="pure-control-group">
+            <label for="dob">Date of birth</label>
+            <input require id="dob" name="dob" type="text" maxlength="11" />
+          </div>
+        </div>
+        <div id="phone-container" class="pure-control-group">
+          <label for="phone">Telephone</label>
+          <input require id="phone" name="phone" type="text" maxlength="1000" />
+        </div>
+        <div id="occupation-container" class="pure-control-group">
+          <label for="occupation">Occupation</label>
+          <input require id="occupation" name="occupation" type="text" maxlength="1000" />
+        </div>
+        <div id="location-container" class="pure-control-group">
+          <label for="location">Location</label>
+          <input require id="location" name="location" type="text" maxlength="1000" />
+        </div>
+        <div id="company-name-container" class="pure-control-group">
+          <label for="company-name">Company name</label>
+          <input require id="company-name" name="company-name" type="text" maxlength="1000" />
+        </div>
+        <div id="website-container" class="pure-control-group">
+          <label for="website">Website</label>
+          <input require id="website" name="website" type="text" maxlength="1000" />
+        </div>
+        <div class="pure-controls">
+          <button id="submit-button" type="submit" class="pure-button pure-button-primary">Register</button>
+        </div>
+        <ul>
+          <li><a href="/account/signin">I have an account</a></li>
+        </ul>
+      </fieldset>
+    </form>
+  </body>
+  <template id="invalid-username">
+    <div class="error message">Error! Invalid or registered username</div>
+  </template>
+  <template id="duplicate-username">
+    <div class="error message">Error! Invalid or registered username</div>
+  </template>
+  <template id="invalid-password">
+    <div class="error message">Error! Invalid password or confirmation password</div>
+  </template>
+  <template id="invalid-confirm">
+    <div class="error message">Error! Invalid confirmation password</div>
+  </template>
+  <template id="invalid-username-length">
+    <div class="error message">Error! Invalid username length</div>
+  </template>
+  <template id="invalid-password-length">
+    <div class="error message">Error! Invalid password length</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message">Error! Invalid username or password</div>
+  </template>
+  <template id="invalid-first-name">
+    <div class="error message">Error! A missing or invalid first name provided</div>
+  </template>
+  <template id="invalid-first-name-length">
+    <div class="error message">Error! An invalid first name was provided</div>
+  </template>
+  <template id="invalid-last-name">
+    <div class="error message">Error! A missing or invalid last name was provided</div>
+  </template>
+  <template id="invalid-last-name-length">
+    <div class="error message">Error! An invalid last name was provided</div>
+  </template>
+  <template id="invalid-contact-email">
+    <div class="error message">Error! Invalid contact email address</div>
+  </template>
+  <template id="invalid-display-email">
+    <div class="error message">Error! Invalid display email address</div>
+  </template>
+  <template id="invalid-display-name">
+    <div class="error message">Error! A missing or invalid display name was provided</div>
+  </template>
+  <template id="invalid-dob">
+    <div class="error message">Error! A missing or invalid date of birth was provided</div>
+  </template>
+  <template id="invalid-phone">
+    <div class="error message">Error! A missing or invalid phone was provided.</div>
+  </template>
+  <template id="invalid-occupation">
+    <div class="error message">Error! A missing or invalid occupation was provided.</div>
+  </template>
+  <template id="invalid-location">
+    <div class="error message">Error! A missing or invalid location was provided.</div>
+  </template>
+  <template id="invalid-company-name">
+    <div class="error message">Error! A missing or invalid company name was provided.</div>
+  </template>
+  <template id="invalid-website">
+    <div class="error message">Error! A missing or invalid website was provided.</div>
+  </template>
+  <template id="invalid-address-postal-code">
+    <div class="error message">Error! A missing or invalid address postal code was provided.</div>
+  </template>
+  <template id="invalid-display-name-length">
+    <div class="error message">Error! A missing or invalid display name was provided</div>
+  </template>  
+</html>
