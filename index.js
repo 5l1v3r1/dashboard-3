@@ -275,7 +275,7 @@ function writeAPI(configuration) {
         largestGroup = groupData[key].length
       }
     }
-    let precursor = ''
+    let precursor = '|'
     while (precursor.length < totalWidth) {
       precursor += '-'
     }
