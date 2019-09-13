@@ -70,6 +70,7 @@ describe('internal-api/server', () => {
         })
         return proxyResponse.on('end', () => {
           const doc = TestHelper.extractDoc(body)
+          console.log(body)
           const username = doc.getElementById('username')
           assert.strictEqual(username.attr.value, undefined)
         })

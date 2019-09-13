@@ -100,11 +100,9 @@ module.exports = {
     module.exports.Storage = require('./src/storage.js')
     module.exports.StorageList = require('./src/storage-list.js')
     module.exports.StorageObject = require('./src/storage-object.js')
-    if (!process.env.SILENT_START) {
+    if (process.env.FAST_START !== 'true') {
       const configuration = parseDashboardConfiguration()
       writeSitemap(configuration)
-    }
-    if (process.env.NODE_ENV === 'sitemap') {
       const apiStructure = parseAPIConfiguration()
       writeAPI(apiStructure)
     }
@@ -124,6 +122,16 @@ module.exports = {
     global.packageJSON = mergePackageJSON()
     global.sitemap = Sitemap.generate()
     global.api = API.generate()
+    if (global.applicationServer) {
+      const rootIndexPageExists = fs.existsSync(`${global.applicationPath}/src/www/index.html`)
+      const rootHomePageExists = fs.existsSync(`${global.applicationPath}/src/www/home.html`)
+      if (!rootIndexPageExists) {
+        delete (routes['/'])
+      }
+      if (!rootHomePageExists) {
+        delete (routes['/home'])
+      }
+    }
   }
 }
 
@@ -260,62 +268,46 @@ function writeAPI(configuration) {
       groupData[key] = route[key]
       totalWidth += columns[key]
     }
-    if (url.length > totalWidth) {
+    if (url.length + 4 > totalWidth) {
       for (const key of groups) {
         if (!columns[key]) {
           continue
         }
-        columns[key] = totalWidth = url.length + 4
+        columns[key] = url.length + 4
         break
       }
-    }
-    let largestGroup = 0
-    for (const key in groupData) {
-      if (groupData[key].length > largestGroup) {
-        largestGroup = groupData[key].length
+      totalWidth = 0
+      for (const key of groups) {
+        if (!route[key] || !route[key].length) {
+          continue
+        }
+        totalWidth += columns[key]
       }
     }
-    let precursor = '|'
-    while (precursor.length < totalWidth) {
-      precursor += '-'
-    }
-    let after = url
-    while (after.length < totalWidth - 2) {
-      after += ' '
-    }
-    output.push('\n' + precursor + '|\n| ' + after + '|\n')
+    let tallestGroup = 0
     for (const key in groupData) {
-      let segment = '|'
-      while (segment.length < columns[key]) {
-        segment += '-'
+      if (groupData[key].length > tallestGroup) {
+        tallestGroup = groupData[key].length
       }
-      output.push(segment)
     }
-    output.push('|\n')
+    const topBorder = underlineRight('|', totalWidth)
+    const urlLine = padRight('| ' + url, totalWidth)
+    output.push('\n' + topBorder + '|\n' + urlLine + '|\n')
     for (const key in groupData) {
-      let title = '| ' + key.toUpperCase()
-      while (title.length < columns[key]) {
-        title += ' '
-      }
+      const title = underlineRight('| ' + key.toUpperCase(), columns[key])
       output.push(title)
     }
     output.push('|\n')
-    for (let i = 0, len = largestGroup; i < len; i++) {
+    for (let i = 0, len = tallestGroup; i < len; i++) {
       const line = []
       for (const key in groupData) {
         const groupData = route[key]
         if (!groupData || !groupData.length || groupData.length < i || !groupData[i]) {
-          let segment = '|'
-          while (segment.length < columns[key]) {
-            segment += ' '
-          }
+          const segment = padRight('|', columns[key])
           line.push(segment)
           continue
         }
-        let title = '| ' + groupData[i]
-        while (title.length < columns[key]) {
-          title += ' '
-        }
+        const title = padRight('| ' + groupData[i], columns[key])
         line.push(title)
       }
       output.push(line.join('') + '|\n')
@@ -543,17 +535,11 @@ function trimNodeModulePath (str) {
 }
 
 function padRight (str, totalSize) {
-  let blank = ''
-  while (blank.length < totalSize) {
-    blank += ' '
-  }
+  const blank = '                                                                                                                                                                                                                                                        '
   return (str + blank).substring(0, totalSize)
 }
 
 function underlineRight (str, totalSize) {
-  let blank = ''
-  while (blank.length < totalSize) {
-    blank += '-'
-  }
+  const blank = '--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------'
   return (str + blank).substring(0, totalSize)
 }

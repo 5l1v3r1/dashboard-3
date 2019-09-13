@@ -3,8 +3,7 @@ http://localhost:8001
 
 |---------------------------------------------------------------------|
 | /api/administrator/account                                          |
-|----------|----------------|-----------------------------------------|
-| RETURNS  | REDACTS        | EXCEPTIONS                              |
+| RETURNS--| REDACTS--------| EXCEPTIONS------------------------------|
 | object   | username hash  | invalid-accountid                       |
 |          | password hash  |  * unspecified querystring accountid    |
 |          | session key    |  * invalid querystring accountid value  |
@@ -12,8 +11,7 @@ http://localhost:8001
 
 |----------------------------------------------------------------------------------------------------------------------|
 | /api/administrator/account-profiles                                                                                  |
-|----------------------------------------|----------|-----------------------------------------|------------------------|
-| RECEIVES                               | RETURNS  | EXCEPTIONS                              | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION----------|
 | optional querystring offset (integer)  | array    | invalid-accountid                       | environment PAGE_SIZE  |
 | optional querystring all (boolean)     |          |  * unspecified querystring accountid    |                        |
 |                                        |          |  * invalid querystring accountid value  |                        |
@@ -21,8 +19,7 @@ http://localhost:8001
 
 |--------------------------------------------------------------------------------------------|
 | /api/administrator/account-profiles-count                                                  |
-|---------------------------------------|----------|-----------------------------------------|
-| RECEIVES                              | RETURNS  | EXCEPTIONS                              |
+| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
 | required querystring accountid value  | integer  | invalid-accountid                       |
 |                                       |          |  * missing querystring accountid value  |
 |                                       |          |  * invalid querystring accountid value  |
@@ -30,8 +27,7 @@ http://localhost:8001
 
 |------------------------------------------------------------------------------------------------------------------------------------------|
 | /api/administrator/account-reset-codes                                                                                                   |
-|----------------------------------------|----------|-------------------|-----------------------------------------|------------------------|
-| RECEIVES                               | RETURNS  | REDACTS           | EXCEPTIONS                              | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| REDACTS-----------| EXCEPTIONS------------------------------| CONFIGURATION----------|
 | optional querystring offset (integer)  | array    | secret code hash  | invalid-accountid                       | environment PAGE_SIZE  |
 | optional querystring all (boolean)     |          |                   |  * unspecified querystring accountid    |                        |
 |                                        |          |                   |  * invalid querystring accountid value  |                        |
@@ -39,8 +35,7 @@ http://localhost:8001
 
 |--------------------------------------------------------------------------------------------|
 | /api/administrator/account-reset-codes-count                                               |
-|---------------------------------------|----------|-----------------------------------------|
-| RECEIVES                              | RETURNS  | EXCEPTIONS                              |
+| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
 | required querystring accountid value  | integer  | invalid-accountid                       |
 |                                       |          |  * missing querystring accountid value  |
 |                                       |          |  * invalid querystring accountid value  |
@@ -48,8 +43,7 @@ http://localhost:8001
 
 |----------------------------------------------------------------------------------------------------------------------------------------|
 | /api/administrator/account-sessions                                                                                                    |
-|----------------------------------------|----------|-----------------|-----------------------------------------|------------------------|
-| RECEIVES                               | RETURNS  | REDACTS         | EXCEPTIONS                              | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| REDACTS---------| EXCEPTIONS------------------------------| CONFIGURATION----------|
 | optional querystring offset (integer)  | array    | session tokens  | invalid-accountid                       | environment PAGE_SIZE  |
 | optional querystring all (boolean)     |          |                 |  * unspecified querystring accountid    |                        |
 |                                        |          |                 |  * invalid querystring accountid value  |                        |
@@ -57,8 +51,7 @@ http://localhost:8001
 
 |--------------------------------------------------------------------------------------------|
 | /api/administrator/account-sessions-count                                                  |
-|---------------------------------------|----------|-----------------------------------------|
-| RECEIVES                              | RETURNS  | EXCEPTIONS                              |
+| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
 | required querystring accountid value  | integer  | invalid-accountid                       |
 |                                       |          |  * missing querystring accountid value  |
 |                                       |          |  * invalid querystring accountid value  |
@@ -66,8 +59,7 @@ http://localhost:8001
 
 |---------------------------------------------------------------------------------------------|
 | /api/administrator/accounts                                                                 |
-|----------------------------------------|----------|----------------|------------------------|
-| RECEIVES                               | RETURNS  | REDACTS        | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| REDACTS--------| CONFIGURATION----------|
 | optional querystring offset (integer)  | array    | username hash  | environment PAGE_SIZE  |
 | optional querystring all (boolean)     |          | password hash  |                        |
 |                                        |          | sessionKey     |                        |
@@ -75,15 +67,13 @@ http://localhost:8001
 
 |------------------------------------|
 | /api/administrator/accounts-count  |
-|------------------------------------|
-| RETURNS                            |
+| RETURNS----------------------------|
 | integer                            |
 |------------------------------------|
 
 |---------------------------------------------------------------------------------------------|
 | /api/administrator/administrator-accounts                                                   |
-|----------------------------------------|----------|----------------|------------------------|
-| RECEIVES                               | RETURNS  | REDACTS        | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| REDACTS--------| CONFIGURATION----------|
 | optional querystring offset (integer)  | array    | username hash  | environment PAGE_SIZE  |
 | optional querystring all (boolean)     |          | password hash  |                        |
 |                                        |          | session key    |                        |
@@ -91,15 +81,13 @@ http://localhost:8001
 
 |--------------------------------------------------|
 | /api/administrator/administrator-accounts-count  |
-|--------------------------------------------------|
-| RETURNS                                          |
+| RETURNS------------------------------------------|
 | integer                                          |
 |--------------------------------------------------|
 
 |----------------------------------------------------------------------------------------------------------------------------|
 | /api/administrator/create-reset-code                                                                                       |
-|------------------------------|----------|-----------------------------------------|----------------------------------------|
-| RECEIVES                     | RETURNS  | EXCEPTIONS                              | CONFIGURATION                          |
+| RECEIVES---------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION--------------------------|
 | required posted secret-code  | object   | invalid-accountid                       | environment MINIMUM_RESET_CODE_LENGTH  |
 |                              |          |  * unspecified querystring accountid    | environment MAXIMUM_RESET_CODE_LENGTH  |
 |                              |          |  * invalid querystring accountid value  |                                        |
@@ -111,8 +99,7 @@ http://localhost:8001
 
 |--------------------------------------------------------------------------------------------|
 | /api/administrator/delete-account                                                          |
-|---------------------------------------|----------|-----------------------------------------|
-| RECEIVES                              | RETURNS  | EXCEPTIONS                              |
+| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
 | required querystring accountid value  | boolean  | invalid-accountid                       |
 |                                       |          |  * missing querystring accountid value  |
 |                                       |          |  * invalid querystring accountid value  |
@@ -122,8 +109,7 @@ http://localhost:8001
 
 |---------------------------------------------------------------------------------------------|
 | /api/administrator/deleted-accounts                                                         |
-|----------------------------------------|----------|----------------|------------------------|
-| RECEIVES                               | RETURNS  | REDACTS        | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| REDACTS--------| CONFIGURATION----------|
 | optional querystring offset (integer)  | array    | username hash  | environment PAGE_SIZE  |
 | optional querystring all (boolean)     |          | password hash  |                        |
 |                                        |          | session key    |                        |
@@ -131,15 +117,13 @@ http://localhost:8001
 
 |--------------------------------------------|
 | /api/administrator/deleted-accounts-count  |
-|--------------------------------------------|
-| RETURNS                                    |
+| RETURNS------------------------------------|
 | querystring accountid                      |
 |--------------------------------------------|
 
 |--------------------------------------------------------------------------------------------|
 | /api/administrator/profile                                                                 |
-|---------------------------------------|----------|-----------------------------------------|
-| RECEIVES                              | RETURNS  | EXCEPTIONS                              |
+| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
 | required querystring profileid value  | object   | invalid-profileid                       |
 |                                       |          |  * missing querystring profileid value  |
 |                                       |          |  * invalid querystring profileid value  |
@@ -147,23 +131,20 @@ http://localhost:8001
 
 |----------------------------------------------------------------------------|
 | /api/administrator/profiles                                                |
-|----------------------------------------|----------|------------------------|
-| RECEIVES                               | RETURNS  | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
 | optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
 | optional querystring all (boolean)     |          |                        |
 |----------------------------------------|----------|------------------------|
 
 |------------------------------------|
 | /api/administrator/profiles-count  |
-|------------------------------------|
-| RETURNS                            |
+| RETURNS----------------------------|
 | integer                            |
 |------------------------------------|
 
 |---------------------------------------------------------------------------------------------------|
 | /api/administrator/reset-account-administrator                                                    |
-|---------------------------------------|----------|------------------------------------------------|
-| RECEIVES                              | RETURNS  | EXCEPTIONS                                     |
+| RECEIVES------------------------------| RETURNS--| EXCEPTIONS-------------------------------------|
 | required querystring accountid value  | object   | invalid-accountid                              |
 |                                       |          |  * missing querystring accountid value         |
 |                                       |          |  * invalid querystring accountid value         |
@@ -174,8 +155,7 @@ http://localhost:8001
 
 |----------------------------------------------------------------------------------------------------------|
 | /api/administrator/reset-code                                                                            |
-|------------------------------------|----------|-------------------|--------------------------------------|
-| RECEIVES                           | RETURNS  | REDACTS           | EXCEPTIONS                           |
+| RECEIVES---------------------------| RETURNS--| REDACTS-----------| EXCEPTIONS---------------------------|
 | required querystring codeid value  | object   | secret code hash  | invalid-reset-codeid                 |
 |                                    |          |                   |  * missing querystring codeid value  |
 |                                    |          |                   |  * invalid querystring codeid value  |
@@ -183,23 +163,20 @@ http://localhost:8001
 
 |------------------------------------------------------------------------------------------------|
 | /api/administrator/reset-codes                                                                 |
-|----------------------------------------|----------|-------------------|------------------------|
-| RECEIVES                               | RETURNS  | REDACTS           | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| REDACTS-----------| CONFIGURATION----------|
 | optional querystring offset (integer)  | array    | secret code hash  | environment PAGE_SIZE  |
 | optional querystring all (boolean)     |          |                   |                        |
 |----------------------------------------|----------|-------------------|------------------------|
 
 |---------------------------------------|
 | /api/administrator/reset-codes-count  |
-|---------------------------------------|
-| RETURNS                               |
+| RETURNS-------------------------------|
 | integer                               |
 |---------------------------------------|
 
 |---------------------------------------------------------------------------------------------|
 | /api/administrator/reset-session-key                                                        |
-|---------------------------------------|----------|------------------------------------------|
-| RECEIVES                              | RETURNS  | EXCEPTIONS                               |
+| RECEIVES------------------------------| RETURNS--| EXCEPTIONS-------------------------------|
 | required querystring accountid value  | object   | invalid-accountid                        |
 |                                       |          |  * missing querystring accountid value   |
 |                                       |          |  * invalid querystring accountid value   |
@@ -211,8 +188,7 @@ http://localhost:8001
 
 |------------------------------------------------------------------|
 | /api/administrator/session                                       |
-|----------|-------------|-----------------------------------------|
-| RETURNS  | REDACTS     | EXCEPTIONS                              |
+| RETURNS--| REDACTS-----| EXCEPTIONS------------------------------|
 | object   | token hash  | invalid-sessionid                       |
 |          |             |  * unspecified querystring accountid    |
 |          |             |  * invalid querystring sessionid value  |
@@ -220,23 +196,20 @@ http://localhost:8001
 
 |---------------------------------------------------------------------------------------------|
 | /api/administrator/sessions                                                                 |
-|----------------------------------------|----------|----------------|------------------------|
-| RECEIVES                               | RETURNS  | REDACTS        | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| REDACTS--------| CONFIGURATION----------|
 | optional querystring offset (integer)  | array    | session token  | environment PAGE_SIZE  |
 | optional querystring all (boolean)     |          |                |                        |
 |----------------------------------------|----------|----------------|------------------------|
 
 |------------------------------------|
 | /api/administrator/sessions-count  |
-|------------------------------------|
-| RETURNS                            |
+| RETURNS----------------------------|
 | integer                            |
 |------------------------------------|
 
 |-----------------------------------------------------------|
 | /api/administrator/set-account-administrator              |
-|----------|------------------------------------------------|
-| RETURNS  | EXCEPTIONS                                     |
+| RETURNS--| EXCEPTIONS-------------------------------------|
 | object   | invalid-accountid                              |
 |          |  * unspecified querystring accountid           |
 |          |  * invalid querystring accountid value         |
@@ -248,8 +221,7 @@ http://localhost:8001
 
 |--------------------------------------------------------------------------------|
 | /api/administrator/set-account-deleted                                         |
-|----------|-----------------------------------------|---------------------------|
-| RETURNS  | EXCEPTIONS                              | CONFIGURATION             |
+| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION-------------|
 | object   | invalid-accountid                       | environment DELETE_DELAY  |
 |          |  * unspecified querystring accountid    |                           |
 |          |  * invalid querystring accountid value  |                           |
@@ -260,8 +232,7 @@ http://localhost:8001
 
 |--------------------------------------------------------------------------------------------|
 | /api/administrator/set-owner-account                                                       |
-|---------------------------------------|----------|-----------------------------------------|
-| RECEIVES                              | RETURNS  | EXCEPTIONS                              |
+| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
 | required querystring accountid value  | object   | invalid-accountid                       |
 |                                       |          |  * missing querystring accountid value  |
 |                                       |          |  * invalid querystring accountid value  |
@@ -276,8 +247,7 @@ http://localhost:8001
 
 |----------------------------------------------------------------------------------------------------|
 | /api/user/account                                                                                  |
-|---------------------------------|----------|----------------|--------------------------------------|
-| RECEIVES                        | RETURNS  | REDACTS        | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| REDACTS--------| EXCEPTIONS---------------------------|
 | required querystring accountid  | object   | username hash  | invalid-accountid                    |
 |                                 |          | password hash  |  * missing querystring accountid     |
 |                                 |          | sessionKey     |  * invalid querystring accountid     |
@@ -287,8 +257,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | /api/user/create-account                                                                                                                                              |
-|--------------------------------|----------|-----------------------------------|--------------------------------------------------|------------------------------------|
-| RECEIVES                       | RETURNS  | EXCEPTIONS                        | CONFIGURATION                                    | OVERRIDE                           |
+| RECEIVES-----------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION------------------------------------| OVERRIDE---------------------------|
 | required posted password       | object   | invalid-username                  | environment MINIMUM_USERNAME_LENGTH              | request specifies required fields  |
 | required posted username       |          |  * missing posted username        | environment MAXIMUM_USERNAME_LENGTH              |                                    |
 | optional posted first-name     |          | invalid-username-length           | environment MINIMUM_PASSWORD_LENGTH              |                                    |
@@ -332,8 +301,7 @@ http://localhost:8001
 
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | /api/user/create-profile                                                                                                                                       |
-|---------------------------------|--------------------------------------|--------------------------------------------------|------------------------------------|
-| RECEIVES                        | EXCEPTIONS                           | CONFIGURATION                                    | OVERRIDE                           |
+| RECEIVES------------------------| EXCEPTIONS---------------------------| CONFIGURATION------------------------------------| OVERRIDE---------------------------|
 | required querystring accountid  | invalid-accountid                    | environment USER_PROFILE_FIELDS                  | request specifies required fields  |
 | optional posted first-name      |  * missing querystring accountid     | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
 | optional posted last-name       |  * invalid querystring accountid     | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
@@ -373,8 +341,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/create-reset-code                                                       |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required posted secret-code     | object   | invalid-accountid                    |
 | required querystring accountid  |          |  * missing querystring accountid     |
 |                                 |          |  * invalid querystring accountid     |
@@ -388,8 +355,7 @@ http://localhost:8001
 
 |---------------------------------------------------------------------------------|
 | /api/user/create-session                                                        |
-|----------------------------------------|----------|-----------------------------|
-| RECEIVES                               | RETURNS  | EXCEPTIONS                  |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------|
 | required posted password               | object   | invalid-username            |
 | required posted username               |          |  * missing posted username  |
 | optional posted remember (hours|days)  |          | invalid-password            |
@@ -398,8 +364,7 @@ http://localhost:8001
 
 |---------------------------------------------------------------------------------------------------|
 | /api/user/delete-profile                                                                          |
-|---------------------------------|----------|------------------------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS-------------------------------------------|
 | required querystring profileid  | boolean  | invalid-profileid                                    |
 |                                 |          |  * missing querystring profileid                     |
 |                                 |          |  * invalid querystring profileid                     |
@@ -411,8 +376,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------|
 | /api/user/delete-reset-code                                                 |
-|------------------------------|----------|-----------------------------------|
-| RECEIVES                     | RETURNS  | EXCEPTIONS                        |
+| RECEIVES---------------------| RETURNS--| EXCEPTIONS------------------------|
 | required querystring codeid  | boolean  | invalid-reset-codeid              |
 |                              |          |  * missing querystring codeid     |
 |                              |          |  * invalid querystring codeid     |
@@ -422,8 +386,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/profile                                                                 |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required querystring profileid  | object   | invalid-profileid                    |
 |                                 |          |  * missing querystring profileid     |
 |                                 |          |  * invalid querystring profileid     |
@@ -433,8 +396,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------------------------------------------------------|
 | /api/user/profiles                                                                                                                |
-|----------------------------------------|----------|---------------|--------------------------------------|------------------------|
-| RECEIVES                               | RETURNS  | REDACTS       | EXCEPTIONS                           | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| REDACTS-------| EXCEPTIONS---------------------------| CONFIGURATION----------|
 | required querystring accountid         | array    | profile hash  | invalid-accountid                    | environment PAGE_SIZE  |
 | optional querystring offset (integer)  |          |               |  * missing querystring accountid     |                        |
 | optional querystring all (boolean)     |          |               |  * invalid querystring accountid     |                        |
@@ -444,8 +406,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/profiles-count                                                          |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required querystring accountid  | integer  | invalid-accountid                    |
 |                                 |          |  * missing querystring accountid     |
 |                                 |          |  * invalid querystring accountid     |
@@ -455,8 +416,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------------------|
 | /api/user/reset-account-deleted                                                               |
-|---------------------------|----------|--------------------------------------------------------|
-| RECEIVES                  | RETURNS  | EXCEPTIONS                                             |
+| RECEIVES------------------| RETURNS--| EXCEPTIONS---------------------------------------------|
 | required posted password  | object   | invalid-username                                       |
 | required posted username  |          |  * missing posted username                             |
 |                           |          |  * invalid posted username                             |
@@ -469,8 +429,7 @@ http://localhost:8001
 
 |----------------------------------------------------------------------------|
 | /api/user/reset-account-password                                           |
-|-------------------------------|----------|---------------------------------|
-| RECEIVES                      | RETURNS  | EXCEPTIONS                      |
+| RECEIVES----------------------| RETURNS--| EXCEPTIONS----------------------|
 | required posted secret-code   | boolean  | invalid-username                |
 | required posted new-password  |          |  * missing posted username      |
 | required posted username      |          |  * invalid posted username      |
@@ -484,8 +443,7 @@ http://localhost:8001
 
 |-------------------------------------------------------------------------------------------------|
 | /api/user/reset-code                                                                            |
-|------------------------------|----------|-------------------|-----------------------------------|
-| RECEIVES                     | RETURNS  | REDACTS           | EXCEPTIONS                        |
+| RECEIVES---------------------| RETURNS--| REDACTS-----------| EXCEPTIONS------------------------|
 | required querystring codeid  | object   | secret code hash  | invalid-reset-codeid              |
 |                              |          |                   |  * missing querystring codeid     |
 |                              |          |                   |  * invalid querystring codeid     |
@@ -495,8 +453,7 @@ http://localhost:8001
 
 |---------------------------------------------------------------------------------------------------------------------------------------|
 | /api/user/reset-codes                                                                                                                 |
-|----------------------------------------|----------|-------------------|--------------------------------------|------------------------|
-| RECEIVES                               | RETURNS  | REDACTS           | EXCEPTIONS                           | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| REDACTS-----------| EXCEPTIONS---------------------------| CONFIGURATION----------|
 | required querystring accountid         | array    | secret code hash  | invalid-accountid                    | environment PAGE_SIZE  |
 | optional querystring offset (integer)  |          |                   |  * missing querystring accountid     |                        |
 | optional querystring all (boolean)     |          |                   |  * invalid querystring accountid     |                        |
@@ -506,8 +463,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/reset-codes-count                                                       |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required querystring accountid  | integer  | invalid-accountid                    |
 |                                 |          |  * missing querystring accountid     |
 |                                 |          |  * invalid querystring accountid     |
@@ -517,8 +473,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/reset-session-key                                                       |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required querystring accountid  | boolean  | invalid-accountid                    |
 |                                 |          |  * missing querystring accountid     |
 |                                 |          |  * invalid querystring accountid     |
@@ -528,8 +483,7 @@ http://localhost:8001
 
 |-------------------------------------------------------------------------------------------------|
 | /api/user/session                                                                               |
-|---------------------------------|----------|-------------|--------------------------------------|
-| RECEIVES                        | RETURNS  | REDACTS     | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| REDACTS-----| EXCEPTIONS---------------------------|
 | required querystring sessionid  | object   | token hash  | invalid-sessionid                    |
 |                                 |          |             |  * missing querystring sessionid     |
 |                                 |          |             |  * invalid querystring sessionid     |
@@ -539,8 +493,7 @@ http://localhost:8001
 
 |-------------------------------------------------------------------------------------------------------------------|
 | /api/user/sessions                                                                                                |
-|----------------------------------------|----------|--------------------------------------|------------------------|
-| RECEIVES                               | RETURNS  | EXCEPTIONS                           | CONFIGURATION          |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS---------------------------| CONFIGURATION----------|
 | required querystring accountid         | array    | invalid-accountid                    | environment PAGE_SIZE  |
 | optional querystring offset (integer)  |          |  * missing querystring accountid     |                        |
 | optional querystring all (boolean)     |          |  * invalid querystring accountid     |                        |
@@ -550,8 +503,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/sessions-count                                                          |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required querystring accountid  | integer  | invalid-accountid                    |
 |                                 |          |  * missing querystring accountid     |
 |                                 |          |  * invalid querystring accountid     |
@@ -561,8 +513,7 @@ http://localhost:8001
 
 |---------------------------------------------------------------------------------------------------------------|
 | /api/user/set-account-deleted                                                                                 |
-|---------------------------------|----------|--------------------------------------|---------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           | CONFIGURATION             |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------| CONFIGURATION-------------|
 | required posted password        | object   | invalid-accountid                    | environment DELETE_DELAY  |
 | required querystring accountid  |          |  * missing querystring accountid     |                           |
 |                                 |          |  * invalid querystring accountid     |                           |
@@ -575,8 +526,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/set-account-password                                                    |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required posted new-password    | object   | invalid-accountid                    |
 | required posted password        |          |  * missing querystring accountid     |
 | required querystring accountid  |          |  * invalid querystring accountid     |
@@ -594,8 +544,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/set-account-profile                                                     |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required posted profileid       | object   | invalid-accountid                    |
 | required querystring accountid  |          |  * missing querystring accountid     |
 |                                 |          |  * invalid querystring accountid     |
@@ -608,8 +557,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/set-account-username                                                    |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required posted new-username    | object   | invalid-accountid                    |
 | required posted password        |          |  * missing querystring accountid     |
 | required querystring accountid  |          |  * invalid querystring accountid     |
@@ -627,8 +575,7 @@ http://localhost:8001
 
 |----------------------------------------------------------------------------------------------|
 | /api/user/set-session-ended                                                                  |
-|---------------------------------|----------|-------------------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                                      |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
 | required querystring sessionid  | object   | invalid-sessionid                               |
 |                                 |          |  * missing querystring sessionid                |
 |                                 |          |  * invalid querystring sessionid                |
@@ -640,8 +587,7 @@ http://localhost:8001
 
 |-----------------------------------------------------------------------------------|
 | /api/user/set-session-verified                                                    |
-|---------------------------------|----------|--------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required querystring sessionid  | object   | invalid-sessionid                    |
 |                                 |          |  * missing querystring sessionid     |
 |                                 |          |  * invalid querystring sessionid     |
@@ -651,8 +597,7 @@ http://localhost:8001
 
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | /api/user/update-profile                                                                                                                                                  |
-|---------------------------------|----------|--------------------------------------|--------------------------------------------------|------------------------------------|
-| RECEIVES                        | RETURNS  | EXCEPTIONS                           | CONFIGURATION                                    | OVERRIDE                           |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------| CONFIGURATION------------------------------------| OVERRIDE---------------------------|
 | required querystring profileid  | object   | invalid-profileid                    | environment USER_PROFILE_FIELDS                  | request specifies required fields  |
 | optional posted first-name      |          |  * missing querystring profileid     | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
 | optional posted last-name       |          |  * invalid querystring profileid     | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |

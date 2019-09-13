@@ -1,5 +1,5 @@
 NODE_ENV=testing \
-SILENT_START=true \
+FAST_START=true \
 PAGE_SIZE=3 \
 DASHBOARD_SERVER="http://localhost:9002" \
 PORT=9002 \
