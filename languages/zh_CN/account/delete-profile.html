@@ -1,0 +1,42 @@
+<!doctype html>
+<html navbar="/account/navbar-profile.html">
+  <head>
+    <title>Delete ${profile.profileid}</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <link href="/public/content-additional.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Delete ${profile.profileid}</h1>
+    <p>Your profile will be deleted immediately and cannot be recovered.</p>
+    <div id="message-container"></div>
+    <table id="profiles-table" class="pure-table object-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Created</th>
+        </tr>
+        <tr id="${profile.profileid}">
+          <td>${profile.profileid}</td>
+          <td>${profile.firstName} ${profile.lastName}</td>
+          <td><a href="mailto:${profile.contactEmail}">${profile.contactEmail}</a></td>
+          <td>${profile.createdFormatted}</td>
+        </tr>
+      </thead>
+    </table>
+    <form id="submit-form" method="POST" class="pure-form" action="/account/delete-profile?profileid=${profile.profileid}">
+      <fieldset>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary">Delete profile</button>
+      </fieldset>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message">Success! The profile has been deleted</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message">Error! An error occurred deleting the profile</div>
+  </template>
+  </html>

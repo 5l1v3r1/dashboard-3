@@ -1,0 +1,69 @@
+<!doctype html>
+<html navbar="/administrator/navbar-account.html">
+  <head>
+    <title>Profiles belonging to ${account.accountid}</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+    <link href="/public/content-additional.css" rel="stylesheet" />
+    <base target="_top" href="/" />
+  </head>
+  <body>
+    <h1>Profiles belonging to ${account.accountid}</h1>
+    <div id="no-profiles">
+      <p>This account does not have any profiles yet.</p>
+    </div>
+    <table id="accounts-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tr id="${account.accountid}">
+        <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td><a href="mailto:${account.email}">${account.email}</a></td>
+      </tr>
+    </table>
+    <table id="profiles-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th id="full-name">Full name</th>
+          <th id="contact-email">Contact email</th>
+          <th id="display-name">Display name</th>
+          <th id="display-email">Display email</th>
+          <th id="dob">DOB</th>
+          <th id="phone">Phone</th>
+          <th id="occupation">Occupation</th>
+          <th id="location">Location</th>
+          <th id="company-name">Company name</th>
+          <th id="website">Website</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+    </table>
+    <ul id="page-links" class="pagination"></ul>
+  </body>
+  <template id="page-link">
+    <li><a href="/administrator/profiles?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
+  </template>
+  <template id="profile-row">
+    <tr id="${profile.profileid}">
+      <td><a href="/administrator/profile?profileid=${profile.profileid}">${profile.profileid}</a></td>
+      <td><a href="mailto:${profile.contactEmail}">${profile.contactEmail}</a></td>
+      <td id="full-name-${profile.profileid}">${profile.firstName} ${profile.lastName}</td>
+      <td id="contact-email-${profile.profileid}"><a href="mailto:${profile.contactEmail}">${profile.contactEmail}</a></td>
+      <td id="display-name-${profile.profileid}">${profile.displayName}</td>
+      <td id="display-email-${profile.profileid}"><a href="mailto:${profile.displayEmail}">${profile.displayEmail}</a></td>
+      <td id="dob-${profile.profileid}">${profile.dob}</td>
+      <td id="phone-${profile.profileid}">${profile.phone}</td>
+      <td id="occupation-${profile.profileid}">${profile.occupation}</td>
+      <td id="location-${profile.profileid}">${profile.location}</td>
+      <td id="company-name-${profile.profileid}">${profile.companyName}</td>
+      <td id="website-${profile.profileid}"><a href="${profile.website}">${profile.website}</a></td>
+      <td>${profile.createdFormatted}</td>
+    </tr>
+  </template>
+</html>
