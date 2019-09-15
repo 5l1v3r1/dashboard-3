@@ -341,6 +341,14 @@ async function receiveRequest (req, res) {
     return req.route.api[req.method.toLowerCase()](req, res)
   }
   try {
+    const methodBefore = req.route.api.before
+    if (methodBefore) {
+      try {
+        await methodBefore(req)
+      } catch (error) {
+        
+      }
+    }
     await req.route.api[req.method.toLowerCase()](req, res)
   } catch (error) {
     if (process.env.DEBUG_ERRORS) {

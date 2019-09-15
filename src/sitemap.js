@@ -1,10 +1,8 @@
 const fs = require('fs')
 const HTML = require('./html.js')
-const Response = require('./response.js')
 
 module.exports = {
-  generate,
-  output
+  generate
 }
 
 function generate () {
@@ -23,7 +21,7 @@ function generate () {
   if (dashboardIsModule) {
     attachRoutes(routes, global.rootPath)
   }
-  if (process.env.FAST_START !== 'true') {
+  if (process.env.GENERATE_SITEMAP_TXT !== 'false') {
     writeSitemap(routes)
   }
   return routes
@@ -131,7 +129,7 @@ function readHTMLAttributes (html) {
   return { template, auth, navbar }
 }
 
-function writeSitemap(configuration) {
+function writeSitemap() {
   const configuration = parseDashboardConfiguration()
   let widestURL = 0
   let widestHTML = 0
@@ -233,6 +231,85 @@ function writeSitemap(configuration) {
   output.splice(output.length - sortedURLs.length, 0, `\n${routeURL} ${routeAuth} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
   fs.writeFileSync('./sitemap.txt', output.join('\n'))
   return output.join('\n')
+}
+
+function parseDashboardConfiguration() {
+  const configuration = {
+    administrator: [],
+    account: [],
+    modules: [],
+    content: [],
+    server: [],
+    urls: {},
+    templateHTMLPath: trimApplicationPath(global.packageJSON.templateHTMLPath),
+    errorHTMLPath: trimApplicationPath(global.packageJSON.errorHTMLPath),
+    redirectHTMLPath: trimApplicationPath(global.packageJSON.redirectHTMLPath)
+  }
+  for (const item of global.packageJSON.dashboard.menus.administrator) {
+    if (item.module) {
+      configuration.administrator.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+    } else {
+      configuration.administrator.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+    }
+  }
+  for (const item of global.packageJSON.dashboard.menus.account) {
+    if (item.module) {
+      configuration.account.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+    } else {
+      configuration.account.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+    }
+  }
+  if (global.packageJSON.dashboard.moduleNames.length) {
+    for (const i in global.packageJSON.dashboard.moduleNames) {
+      const name = global.packageJSON.dashboard.moduleNames[i]
+      const version = global.packageJSON.dashboard.moduleVersions[i]
+      configuration.modules.push({ name, version })
+    }
+  }
+  if (global.packageJSON.dashboard.contentFilePaths.length) {
+    for (const item of global.packageJSON.dashboard.contentFilePaths) {
+      configuration.content.push(item[0] === '@' ? item : trimApplicationPath(item))
+    }
+  }
+  if (global.packageJSON.dashboard.serverFilePaths.length) {
+    for (const item of global.packageJSON.dashboard.serverFilePaths) {
+      configuration.server.push(item[0] === '@' ? item : trimApplicationPath(item))
+    }
+  }
+  const httpVerbs = ['DELETE', 'HEAD', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
+  for (const url in global.sitemap) {
+    const route = global.sitemap[url]
+    const item = configuration.urls[url] = {}
+    item.htmlFilePath = route.htmlFilePath
+    item.jsFilePath = route.jsFilePath
+    item.templateDescription = route.template === false ? 'FULLSCREEN' : ''
+    item.verbs = ''
+    if (url.startsWith('/api/')) {
+      item.authDescription = route.api.auth === false ? 'GUEST' : ''
+      const verbs = []
+      for (const verb of httpVerbs) {
+        if (route.api[verb.toLowerCase()]) {
+          verbs.push(verb)
+        }
+      }
+      item.verbs = verbs.join(' ')
+    } else {
+      item.authDescription = route.auth === false ? 'GUEST' : ''
+      const verbs = []
+      if (route.jsFilePath === 'static-page') {
+        verbs.push('GET')
+      } else {
+        const pageFile = route.api
+        for (const verb of httpVerbs) {
+          if (pageFile[verb.toLowerCase()]) {
+            verbs.push(verb)
+          }
+        }
+      }
+      item.verbs = verbs.join(' ')
+    }
+  }
+  return configuration
 }
 
 function parseDashboardConfiguration() {
