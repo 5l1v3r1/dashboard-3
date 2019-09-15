@@ -50,6 +50,6 @@
     "uglify-js": "^2.8.29"
   },
   "devDependencies": {
-    "puppeteer": "^1.19.0"
+    "puppeteer": "^1.20.0"
   }
 }
