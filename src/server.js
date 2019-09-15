@@ -7,10 +7,12 @@ const Multiparty = require('multiparty')
 const Proxy = require('./proxy.js')
 const qs = require('querystring')
 const Response = require('./response.js')
-let StorageObject
 const Timestamp = require('./timestamp.js')
 const url = require('url')
 const util = require('util')
+let StorageObject
+let languageCache = {}
+
 
 const parsePostData = util.promisify((req, callback) => {
   if (req.headers &&
@@ -244,6 +246,9 @@ async function receiveRequest (req, res) {
   if (user) {
     req.session = user.session
     req.account = user.account
+    req.language = global.language || req.account.language || 'en-US'
+  } else {
+    req.language = global.language || 'en-US'
   }
   if (!req.account && req.route && req.route.auth !== false) {
     if (req.urlPath.startsWith('/api/')) {
@@ -266,6 +271,19 @@ async function receiveRequest (req, res) {
   }
   if (res.ended) {
     return
+  }
+  if (req.language !== 'en-US' && req.route && req.route.htmlFilePath) {
+    const newRoute = {}
+    for (const x in req.route) {
+      newRoute[x] = req.route[x]
+    }
+    const htmlFilePath = req.route.htmlFilePath.replace('/src/www', '/languages/' + req.language)
+    if (languageCache[htmlFilePath]) {
+      newRoute.html = languageCache[htmlFilePath]
+    } else if (fs.existsSync(htmlFilePath)) {
+      newRoute.html = languageCache[htmlFilePath] = fs.readFileSync(htmlFilePath)
+    }
+    req.route = newRoute
   }
   if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') || req.urlPath.startsWith('/api/administrator/')) {
     if (!req.account) {
