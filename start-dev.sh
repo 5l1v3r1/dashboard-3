@@ -24,17 +24,16 @@ node main.js
 # integer 4+ in production 10+
 # the strength with which to protect passwords
 
-# FAST_START=true
+# GENERATE_SITEMAP_TXT=false
 # boolean
-# skip scanning/writing api.txt and sitemap.txt on start
+# skip writing sitemap.txt on start
 
+# GENERATE_API_TXT=false
+# boolean
+# skip writing api.txt on start
 
 # DASHBOARD_LANGUAGE=select|fr-FR|it-IT|etc
 # any translation from /languages default is en-US in /src/www
-# serve content in a desired language
-
-# LANGUAGE=select
-# allow the user to select a preferred language
 # serve content in a desired language
 
 # BCRYPT_FIXED_SALT
