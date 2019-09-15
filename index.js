@@ -71,6 +71,7 @@ global.allowPublicAPI = process.env.ALLOW_PUBLIC_API === 'true'
 global.dashboardServer = process.env.DASHBOARD_SERVER
 global.domain = process.env.DOMAIN || ''
 global.idLength = parseInt(process.env.ID_LENGTH || '8', 10)
+global.language = process.env.LANGUAGE || 'en-us'
 global.minimumUsernameLength = parseInt(process.env.MINIMUM_USERNAME_LENGTH || '1', 6)
 global.maximumUsernameLength = parseInt(process.env.MAXIMUM_USERNAME_LENGTH || '50', 10)
 global.minimumPasswordLength = parseInt(process.env.MINIMUM_PASSWORD_LENGTH || '1', 6)
