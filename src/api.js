@@ -2,6 +2,7 @@ const fs = require('fs')
 
 module.exports = {
   wrapAPIRequest,
+  outputConfiguration,
   generate: () => {
     const api = {}
     for (const url in global.sitemap) {
@@ -38,10 +39,6 @@ module.exports = {
         }
       }
       wrapAPIRequest(global.sitemap[url].api, url)
-    }
-    if (process.env.GENERATE_API_TXT !== 'false') {
-      const configuration = parseAPITestOutput()
-      writeAPI(configuration)
     }
     return api
   }
@@ -98,7 +95,7 @@ function wrapResponseHandling (method, filePath) {
   }
 }
 
-function parseAPITestOutput () {
+function outputConfiguration () {
   let tests = fs.readFileSync('./tests.txt').toString()
   tests = tests.substring(tests.indexOf('/api/'))
   while (true) {
@@ -169,7 +166,7 @@ function parseAPITestOutput () {
     }    
     api[item.url] = item
   }
-  return api
+  return writeAPI(api)
 }
 
 function writeAPI(configuration) {
@@ -284,7 +281,7 @@ function writeAPI(configuration) {
     }
     output.push('|\n')
   } 
-  fs.writeFileSync('./api.txt', output.join(''))
+  fs.writeFileSync(`${global.applicationPath}/api.txt`, output.join(''))
 }
 
 function padRight(str, totalSize) {

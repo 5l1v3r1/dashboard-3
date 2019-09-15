@@ -114,6 +114,12 @@ module.exports = {
     global.packageJSON = mergePackageJSON()
     global.sitemap = Sitemap.generate()
     global.api = API.generate()
+    if (process.env.GENERATE_SITEMAP_TXT !== 'false') {
+      Sitemap.outputConfiguration()
+    }    
+    if (process.env.GENERATE_API_TXT !== 'false') {
+      API.outputConfiguration()
+    }
     if (global.applicationServer) {
       const rootIndexPageExists = fs.existsSync(`${global.applicationPath}/src/www/index.html`)
       const rootHomePageExists = fs.existsSync(`${global.applicationPath}/src/www/home.html`)

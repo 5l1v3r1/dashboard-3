@@ -2,7 +2,8 @@ const fs = require('fs')
 const HTML = require('./html.js')
 
 module.exports = {
-  generate
+  generate,
+  outputConfiguration
 }
 
 function generate () {
@@ -20,9 +21,6 @@ function generate () {
   }
   if (dashboardIsModule) {
     attachRoutes(routes, global.rootPath)
-  }
-  if (process.env.GENERATE_SITEMAP_TXT !== 'false') {
-    writeSitemap(routes)
   }
   return routes
 }
@@ -129,7 +127,7 @@ function readHTMLAttributes (html) {
   return { template, auth, navbar }
 }
 
-function writeSitemap() {
+function outputConfiguration() {
   const configuration = parseDashboardConfiguration()
   let widestURL = 0
   let widestHTML = 0
@@ -229,7 +227,7 @@ function writeSitemap() {
   const routeJS = underlineRight('NODEJS ', widestJS)
   const routeHTML = underlineRight('HTML ', widestHTML)
   output.splice(output.length - sortedURLs.length, 0, `\n${routeURL} ${routeAuth} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
-  fs.writeFileSync('./sitemap.txt', output.join('\n'))
+  fs.writeFileSync(`${global.applicationPath}/sitemap.txt`, output.join('\n'))
   return output.join('\n')
 }
 
