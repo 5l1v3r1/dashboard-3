@@ -439,8 +439,27 @@ function deleteLocalData (currentPath) {
 }
 
 async function fetchWithPuppeteer (method, req) {
-  const pages = await browser.pages()
-  const page = pages && pages.length ? pages[0] : await browser.newPage()
+  let pages = await browser.pages()
+  let page
+  if (pages && pages.length) {
+    page = pages[0]
+  } else {
+    while (true) {
+      pages = await browser.pages()
+      if (pages && pages.length) {
+        page = pages[0]
+      } else {
+        try {
+          page = await browser.newPage()
+        } catch (error) {
+        }
+      }
+      if (page) {
+        break
+      }
+      await wait(100)
+    }
+  }
   page.on('error', () => {})
   await page.emulate({
     name: 'Desktop',
