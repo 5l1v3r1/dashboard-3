@@ -30,7 +30,7 @@ describe('/api/administrator/sessions', () => {
         await TestHelper.createSession(user)
         sessions.unshift(user.session)
       }
-      const req = TestHelper.createRequest(`/api/administrator/sessions?all=true`)
+      const req = TestHelper.createRequest('/api/administrator/sessions?all=true')
       req.account = administrator.account
       req.session = administrator.session
       const sessionsNow = await req.get()

@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/user/delete-profile`, () => {
+describe('/api/user/delete-profile', () => {
   describe('exceptions', () => {
     describe('invalid-profileid', () => {
       it('missing querystring profileid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/delete-profile`)
+        const req = TestHelper.createRequest('/api/user/delete-profile')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -21,7 +21,7 @@ describe(`/api/user/delete-profile`, () => {
 
       it('invalid querystring profileid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=invalid`)
+        const req = TestHelper.createRequest('/api/user/delete-profile?profileid=invalid')
         req.account = user.account
         req.session = user.session
         let errorMessage

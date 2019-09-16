@@ -7,7 +7,7 @@ describe('/administrator/accounts', () => {
     it('should bind accounts to req', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/administrator/accounts`)
+      const req = TestHelper.createRequest('/administrator/accounts')
       req.account = administrator.account
       req.session = administrator.session
       await req.route.api.before(req)
@@ -67,7 +67,7 @@ describe('/administrator/accounts', () => {
     it('should enforce specified offset', async () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
-      const accounts = [ administrator.account ]
+      const accounts = [administrator.account]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         accounts.unshift(user.account)

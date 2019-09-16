@@ -266,14 +266,14 @@ function trimPath (str) {
   if (str.indexOf('/src/') === 0) {
     return str
   }
-  return `/src/` + str.split('/src/')[1]
+  return '/src/' + str.split('/src/')[1]
 }
 
 function trimModuleName (str) {
   if (str.indexOf('node_modules/') === -1) {
     return ''
   }
-  let shortPath = str.split('node_modules/').pop()
+  const shortPath = str.split('node_modules/').pop()
   const slashIndex = shortPath.indexOf('/')
   if (shortPath.indexOf('@') !== 0) {
     return shortPath.substring(0, slashIndex)

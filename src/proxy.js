@@ -26,7 +26,7 @@ async function pass (req, res) {
     method: req.method,
     port,
     headers: {
-      'referer': `${global.dashboardServer}${req.url}`,
+      referer: `${global.dashboardServer}${req.url}`,
       'x-dashboard-server': global.dashboardServer
     }
   }
@@ -107,7 +107,7 @@ async function pass (req, res) {
           res.statusCode = 200
           return res.end(body)
         case 302:
-          return Response.redirect(req, res, proxyRes.headers['location'])
+          return Response.redirect(req, res, proxyRes.headers.location)
         case 304:
           res.statusCode = 304
           return res.end()

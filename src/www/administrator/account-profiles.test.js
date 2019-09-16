@@ -76,7 +76,7 @@ describe('/administrator/account-profiles', () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const profiles = [ user.profile ]
+      const profiles = [user.profile]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,

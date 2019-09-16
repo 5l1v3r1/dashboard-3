@@ -2,11 +2,11 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/administrator/delete-account`, () => {
+describe('/administrator/delete-account', () => {
   describe('DeleteAccount#BEFORE', () => {
     it('should reject invalid accountid', async () => {
       const administrator = await TestHelper.createOwner()
-      const req = TestHelper.createRequest(`/administrator/delete-account?accountid=invalid`)
+      const req = TestHelper.createRequest('/administrator/delete-account?accountid=invalid')
       req.account = administrator.account
       req.session = administrator.session
       let errorMessage

@@ -8,7 +8,7 @@ describe('/api/user/reset-session-key', async () => {
     describe('invalid-accountid', () => {
       it('missing querystring accountid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/reset-session-key`)
+        const req = TestHelper.createRequest('/api/user/reset-session-key')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -22,7 +22,7 @@ describe('/api/user/reset-session-key', async () => {
 
       it('invalid querystring accountid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/reset-session-key?accountid=invalid`)
+        const req = TestHelper.createRequest('/api/user/reset-session-key?accountid=invalid')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -52,7 +52,7 @@ describe('/api/user/reset-session-key', async () => {
       })
     })
   })
-  
+
   describe('returns', () => {
     it('boolean', async () => {
       const user = await TestHelper.createUser()

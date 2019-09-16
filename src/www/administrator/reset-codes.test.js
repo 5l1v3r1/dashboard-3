@@ -71,7 +71,7 @@ describe('/administrator/reset-codes', () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const codes = [ user.resetCode ]
+      const codes = [user.resetCode]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
         codes.unshift(user.resetCode)

@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/administrator/transfer-ownership`, () => {
+describe('/administrator/transfer-ownership', () => {
   describe('TransferOwnership#BEFORE', () => {
     it('should bind account to req', async () => {
       const owner = await TestHelper.createOwner()

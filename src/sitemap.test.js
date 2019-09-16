@@ -1,6 +1,5 @@
 const assert = require('assert')
 const HTML = require('./html.js')
-const http = require('http')
 const Server = require('./server.js')
 const Timestamp = require('./timestamp.js')
 const TestHelper = require('../test-helper.js')
@@ -8,7 +7,6 @@ const TestHelper = require('../test-helper.js')
 /* eslint-env mocha */
 describe('internal-api/sitemap', () => {
   describe('Sitemap#authenticateRequest', () => {
-    
     it('should substitute language HTML file', async () => {
       Timestamp.now -= 10000
       const user = await TestHelper.createUser()

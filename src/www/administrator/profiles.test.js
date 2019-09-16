@@ -7,7 +7,7 @@ describe('/administrator/profiles', () => {
     it('should bind profiles to req', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/administrator/profiles`)
+      const req = TestHelper.createRequest('/administrator/profiles')
       req.account = administrator.account
       req.session = administrator.session
       await req.route.api.before(req)
@@ -65,7 +65,7 @@ describe('/administrator/profiles', () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const profiles = [ user.profile ]
+      const profiles = [user.profile]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -87,7 +87,7 @@ describe('/administrator/profiles', () => {
 
     it('should show fields if data exists', async () => {
       const administrator = await TestHelper.createOwner()
-      const req = TestHelper.createRequest(`/administrator/profiles`)
+      const req = TestHelper.createRequest('/administrator/profiles')
       req.account = administrator.account
       req.session = administrator.session
       const page = await req.get()

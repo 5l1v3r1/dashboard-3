@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/user/sessions`, () => {
+describe('/api/user/sessions', () => {
   describe('exceptions', () => {
     describe('invalid-accountid', () => {
       it('missing querystring accountid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/sessions`)
+        const req = TestHelper.createRequest('/api/user/sessions')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -21,7 +21,7 @@ describe(`/api/user/sessions`, () => {
 
       it('invalid querystring accountid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/sessions?accountid=invalid`)
+        const req = TestHelper.createRequest('/api/user/sessions?accountid=invalid')
         req.account = user.account
         req.session = user.session
         let errorMessage

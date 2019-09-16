@@ -5,14 +5,12 @@ const HTML = require('./html.js')
 const http = require('http')
 const Multiparty = require('multiparty')
 const Proxy = require('./proxy.js')
-const qs = require('querystring')
+const querystring = require('querystring')
 const Response = require('./response.js')
 const Timestamp = require('./timestamp.js')
-const url = require('url')
 const util = require('util')
 let StorageObject
-let languageCache = {}
-
+const languageCache = {}
 
 const parsePostData = util.promisify((req, callback) => {
   if (req.headers &&
@@ -100,7 +98,7 @@ async function receiveRequest (req, res) {
   req.route = global.sitemap[`${req.urlPath}/index`] || global.sitemap[req.urlPath]
   req.extension = dot > -1 ? req.urlPath.substring(dot + 1) : null
   if (question !== -1) {
-    req.query = url.parse(req.url, true).query
+    req.query = querystring.parse(req.url.substring(question + 1), '&', '=')
   }
   if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
     if (req.headers['content-type'] && req.headers['content-type'].indexOf('multipart/form-data;') > -1) {
@@ -123,7 +121,7 @@ async function receiveRequest (req, res) {
         return Response.throw500(req, res)
       }
       if (req.bodyRaw) {
-        req.body = qs.parse(req.bodyRaw)
+        req.body = querystring.parse(req.bodyRaw, '&', '=')
       }
     }
   }
@@ -254,7 +252,7 @@ async function receiveRequest (req, res) {
     if (req.urlPath.startsWith('/api/')) {
       res.statusCode = 511
       res.setHeader('content-type', 'application/json')
-      return res.end(`{ "object": "auth", "message": "Sign in required" }`)
+      return res.end('{ "object": "auth", "message": "Sign in required" }')
     }
     return Response.redirectToSignIn(req, res)
   }
@@ -346,7 +344,7 @@ async function receiveRequest (req, res) {
       try {
         await methodBefore(req)
       } catch (error) {
-        
+
       }
     }
     await req.route.api[req.method.toLowerCase()](req, res)

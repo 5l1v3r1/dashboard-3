@@ -63,7 +63,7 @@ describe('/administrator/administrators', () => {
     it('should enforce specified offset', async () => {
       const offset = 1
       const owner = await TestHelper.createOwner()
-      const administrators = [ owner.account ]
+      const administrators = [owner.account]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createAdministrator(owner)
         administrators.unshift(user.account)

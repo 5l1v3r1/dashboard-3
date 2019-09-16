@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/administrator/set-account-administrator`, () => {
+describe('/api/administrator/set-account-administrator', () => {
   describe('exceptions', () => {
     describe('invalid-accountid', () => {
       it('unspecified querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/set-account-administrator`)
+        const req = TestHelper.createRequest('/api/administrator/set-account-administrator')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage
@@ -21,7 +21,7 @@ describe(`/api/administrator/set-account-administrator`, () => {
 
       it('invalid querystring accountid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/set-account-administrator?accountid=invalid`)
+        const req = TestHelper.createRequest('/api/administrator/set-account-administrator?accountid=invalid')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage

@@ -6,7 +6,7 @@ describe('/account/sessions', () => {
   describe('Sessions#BEFORE', () => {
     it('should bind sessions to req', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/sessions`)
+      const req = TestHelper.createRequest('/account/sessions')
       req.account = user.account
       req.session = user.session
       await req.route.api.before(req)
@@ -66,7 +66,7 @@ describe('/account/sessions', () => {
     it('should enforce specified offset', async () => {
       const offset = 1
       const user = await TestHelper.createUser()
-      const sessions = [ user.session ]
+      const sessions = [user.session]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
         const session = await TestHelper.createSession(user)
         sessions.unshift(session)

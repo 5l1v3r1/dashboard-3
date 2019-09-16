@@ -7,7 +7,7 @@ describe('/api/administrator/set-owner-account', () => {
     describe('invalid-accountid', () => {
       it('missing querystring accountid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/set-owner-account`)
+        const req = TestHelper.createRequest('/api/administrator/set-owner-account')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage
@@ -21,7 +21,7 @@ describe('/api/administrator/set-owner-account', () => {
 
       it('invalid querystring accountid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/set-owner-account?accountid=invalid`)
+        const req = TestHelper.createRequest('/api/administrator/set-owner-account?accountid=invalid')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage

@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/administrator/reset-session-key`, () => {
+describe('/administrator/reset-session-key', () => {
   describe('ResetSessionKey#BEFORE', () => {
     it('should bind account to req', async () => {
       const administrator = await TestHelper.createOwner()

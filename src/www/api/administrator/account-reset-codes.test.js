@@ -7,7 +7,7 @@ describe('/api/administrator/account-reset-codes', () => {
     describe('invalid-accountid', () => {
       it('unspecified querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/account-reset-codes`)
+        const req = TestHelper.createRequest('/api/administrator/account-reset-codes')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage
@@ -21,7 +21,7 @@ describe('/api/administrator/account-reset-codes', () => {
 
       it('invalid querystring accountid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=invalid`)
+        const req = TestHelper.createRequest('/api/administrator/account-reset-codes?accountid=invalid')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage

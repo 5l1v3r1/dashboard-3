@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const HTML = require('./html.js')
 const url = require('url')
+const querystring = require('querystring')
 const zlib = require('zlib')
 const eightDays = 8 * 24 * 60 * 60 * 1000
 const eTagCache = {}
@@ -69,9 +70,12 @@ async function end (req, res, doc, blob) {
       if (req.query && req.query.returnURL && req.query.returnURL.startsWith('/')) {
         form.attr.action = form.attr.action || req.url
         if (form.attr.action) {
-          const action = url.parse(form.attr.action, true)
-          if (action.returnURL) {
-            continue
+          const question = form.attr.action.indexOf('?')
+          if (question > -1) {
+            const action = querystring.parse(form.attr.action.substring(question) + 1)
+            if (action.returnURL) {
+              continue
+            }
           }
         }
         const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
@@ -203,7 +207,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   const navigation = templateDoc.getElementById('navigation')
   if (navbarTemplate && navbarTemplate.child && navbarTemplate.child.length) {
     if (navbarTemplate.child[0].node === 'text') {
-      navigation.child = HTML.parse(`<div>` + navbarTemplate.child[0].text + `</div>`).child
+      navigation.child = HTML.parse('<div>' + navbarTemplate.child[0].text + '</div>').child
     } else {
       navigation.child = navbarTemplate.child
     }
@@ -276,7 +280,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     if (req.query && req.query.returnURL && req.query.returnURL.startsWith('/')) {
       form.attr.action = form.attr.action || req.url
       if (form.attr.action) {
-        const action = url.parse(form.attr.action, true)
+        const action = new url.URL(form.attr.action, true)
         if (action.returnURL) {
           continue
         }

@@ -69,7 +69,7 @@ describe('/api/user/create-session', () => {
       const req = TestHelper.createRequest('/api/user/create-session')
       req.body = {
         username: user.account.username,
-        password: user.account.password,
+        password: user.account.password
       }
       const session = await req.post()
       const minutes = Math.ceil((session.expires - dashboard.Timestamp.now) / 60)

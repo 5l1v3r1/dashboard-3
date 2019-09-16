@@ -28,7 +28,7 @@ describe('/api/administrator/accounts', () => {
         const user = await TestHelper.createUser()
         accounts.unshift(user.account)
       }
-      const req = TestHelper.createRequest(`/api/administrator/accounts?all=true`)
+      const req = TestHelper.createRequest('/api/administrator/accounts?all=true')
       req.account = administrator.account
       req.session = administrator.session
       const accountsNow = await req.get()

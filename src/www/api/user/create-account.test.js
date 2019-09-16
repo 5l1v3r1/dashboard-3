@@ -429,7 +429,7 @@ describe('/api/user/create-account', () => {
   describe('receives', () => {
     it('optional posted first-name', async () => {
       global.requireProfile = true
-      global.userProfileFields = [ 'full-name' ]
+      global.userProfileFields = ['full-name']
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username',
@@ -668,7 +668,7 @@ describe('/api/user/create-account', () => {
       req.body = {
         username: 'username-' + new Date().getTime(),
         password: 'password1234',
-        confirm: 'password1234',
+        confirm: 'password1234'
       }
       global.maximumPasswordLength = 1
       let errorMessage
@@ -721,7 +721,7 @@ describe('/api/user/create-account', () => {
         req.body = {
           username: 'username-' + new Date().getTime(),
           password: 'password1234',
-          confirm: 'password1234',
+          confirm: 'password1234'
         }
         if (field === 'full-name') {
           req.body['first-name'] = body['first-name']
@@ -916,7 +916,7 @@ describe('/api/user/create-account', () => {
         req.body = {
           username: 'username-' + new Date().getTime(),
           password: 'password1234',
-          confirm: 'password1234',
+          confirm: 'password1234'
         }
         if (field === 'full-name') {
           req.body['first-name'] = body['first-name']

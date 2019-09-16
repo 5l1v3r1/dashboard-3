@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/user/update-profile`, () => {
+describe('/api/user/update-profile', () => {
   describe('exceptions', () => {
     describe('invalid-profileid', () => {
       it('missing querystring profileid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/update-profile`)
+        const req = TestHelper.createRequest('/api/user/update-profile')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -21,7 +21,7 @@ describe(`/api/user/update-profile`, () => {
 
       it('invalid querystring profileid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/update-profile?profileid=invalid`)
+        const req = TestHelper.createRequest('/api/user/update-profile?profileid=invalid')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -631,7 +631,7 @@ describe(`/api/user/update-profile`, () => {
       }
       for (const field of fields) {
         req.body = {
-          confirm: 'password1234',
+          confirm: 'password1234'
         }
         if (field === 'full-name') {
           req.body['first-name'] = body['first-name']

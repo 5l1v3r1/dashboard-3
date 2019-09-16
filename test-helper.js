@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 global.applicationPath = global.applicationPath || __dirname
-global.appid = global.appid || `tests`
+global.appid = global.appid || 'tests'
 const bcrypt = require('./src/bcrypt.js')
 const dashboard = require('./index.js')
 const fs = require('fs')
@@ -10,7 +10,6 @@ const puppeteer = require('puppeteer')
 const querystring = require('querystring')
 const testData = require('./test-data.json')
 const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
-const url = require('url')
 const util = require('util')
 
 const storagePath = process.env.STORAGE_PATH || `${__dirname}/data`
@@ -26,7 +25,6 @@ if (process.env.STORAGE_CACHE) {
 
 let browser
 let packageJSON
-let lastURL
 
 before(async () => {
   await dashboard.start(global.applicationPath || __dirname)
@@ -126,27 +124,20 @@ function createRequest (rawURL) {
     url: rawURL,
     urlPath: rawURL.split('?')[0]
   }
-  if (req.url !== req.urlPath) {
-    req.query = url.parse(rawURL, true).query
-  }
   req.route = global.sitemap[req.urlPath]
   if (global.applicationServer && !req.route) {
     req.route = {}
   }
+  req.query = querystring.parse(rawURL.split('?')[1])
   for (const verb of ['get', 'post', 'patch', 'delete', 'put']) {
     req[verb] = async () => {
       req.method = verb.toUpperCase()
-      lastURL = req.urlPath
       if (req.url.startsWith('/api/')) {
         delete (global.apiResponse)
         global.apiDependencies = []
-        try {
-          const result = await proxy(verb, rawURL, req)
-          global.apiResponse = result
-          return result
-        } catch (error) {
-          throw error
-        }
+        const result = await proxy(verb, rawURL, req)
+        global.apiResponse = result
+        return result
       }
       let result
       try {
@@ -221,12 +212,12 @@ async function createAdministrator (owner) {
 async function createOwner () {
   const owner = await createUser('owner-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000))
   if (!owner.account.administrator) {
-    await dashboard.StorageObject.setProperty(`${global.appid}/account/${owner.account.accountid}`, `administrator`, dashboard.Timestamp.now)
+    await dashboard.StorageObject.setProperty(`${global.appid}/account/${owner.account.accountid}`, 'administrator', dashboard.Timestamp.now)
     await dashboard.StorageList.add(`${global.appid}/administrator/accounts`, owner.account.accountid)
     owner.account.administrator = dashboard.Timestamp.now
   }
   if (!owner.account.owner) {
-    await dashboard.StorageObject.setProperty(`${global.appid}/account/${owner.account.accountid}`, `owner`, dashboard.Timestamp.now)
+    await dashboard.StorageObject.setProperty(`${global.appid}/account/${owner.account.accountid}`, 'owner', dashboard.Timestamp.now)
     owner.account.owner = dashboard.Timestamp.now
   }
   return owner
@@ -294,7 +285,7 @@ async function createSession (user, remember) {
   return user.session
 }
 
-async function endSession(user) {
+async function endSession (user) {
   const req = createRequest(`/api/user/end-session?sessionid=${user.session.sessionid}`)
   user.session = await req.patch()
   await wait(100)
@@ -319,8 +310,8 @@ async function createResetCode (user) {
   const req = createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
-  req.body = { 
-    'secret-code': code 
+  req.body = {
+    'secret-code': code
   }
   user.resetCode = await req.post()
   user.resetCode.code = code

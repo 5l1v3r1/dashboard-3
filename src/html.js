@@ -159,7 +159,7 @@ function renderList (doc, dataSet, template, parent) {
   parent.child = parent.child || []
   for (let i = 0, len = dataSet.length; i < len; i++) {
     const dataObject = dataSet[i]
-    let li = parse(itemHTML, dataObject, dataObject.object)
+    const li = parse(itemHTML, dataObject, dataObject.object)
     if (parent.child.length % 2 === 0) {
       li.attr = li.attr || {}
       li.attr.class = li.attr.class || ''
@@ -192,7 +192,7 @@ function renderTemplate (doc, dataObject, template, parent) {
   let templateHTML = template.toString()
   templateHTML = templateHTML.substring(templateHTML.indexOf('>') + 1)
   templateHTML = templateHTML.substring(0, templateHTML.lastIndexOf('</template>'))
-  let newItem = parse(templateHTML, dataObject, dataObject ? dataObject.object : null)
+  const newItem = parse(templateHTML, dataObject, dataObject ? dataObject.object : null)
   if (!newItem) {
     throw new Error('invalid-template')
   }
@@ -298,13 +298,13 @@ function renderPagination (doc, offset, total, pageSize) {
     pageLinks.push({ object: 'page', offset: (i * pageSize), pageNumber: i + 1 })
   }
   renderList(doc, pageLinks, 'page-link', 'page-links')
-  const first = doc.getElementById(`page-link-1`)
+  const first = doc.getElementById('page-link-1')
   if (first) {
     first.attr.href = first.attr.href.substring(0, first.attr.href.indexOf('?offset=0'))
   } else {
     return
   }
-  let currentPage = Math.ceil(offset / pageSize) + 1
+  const currentPage = Math.ceil(offset / pageSize) + 1
   if (currentPage === 1) {
     return first.classList.add('current-page')
   }
@@ -323,7 +323,7 @@ function createCopy (dataObject, dataObjectName, element) {
       }
     }
   }
-  let docStr = element.toString()
+  const docStr = element.toString()
   dataObjectName = dataObjectName || 'data'
   const wrapper = 'const ' + dataObjectName + ' = ' + JSON.stringify(dataObject) + ';\n' +
                   'module.exports = `<template>' + docStr + '</template>`'
@@ -338,7 +338,7 @@ function createCopy (dataObject, dataObjectName, element) {
   if (!formatted) {
     throw new Error('invalid-html')
   }
-  let newElement = ServerHTML.parse(formatted)
+  const newElement = ServerHTML.parse(formatted)
   if (!newElement) {
     throw new Error('invalid-html')
   }

@@ -20,6 +20,7 @@ module.exports = {
     const profileFields = req.userProfileFields || global.userProfileFields
     const accountProperties = {}
     for (const field of profileFields) {
+      const displayName = global.profileFieldMap[field]
       switch (field) {
         case 'full-name':
           if (!req.body['first-name'] || !req.body['first-name'].length) {
@@ -75,21 +76,20 @@ module.exports = {
           if (!req.body[field] || !req.body[field].length) {
             throw new Error(`invalid-${field}`)
           }
-          let date
           try {
-            date = dashboard.Format.parseDate(req.body[field])
+            const date = dashboard.Format.parseDate(req.body[field])
+            if (!date || !date.getFullYear) {
+              throw new Error(`invalid-${field}`)
+            }
+            profileInfo.dob = accountProperties.dob = dashboard.Format.date(date)
           } catch (error) {
-          }
-          if (!date || !date.getFullYear) {
             throw new Error(`invalid-${field}`)
           }
-          profileInfo.dob = accountProperties.dob = dashboard.Format.date(date)
           continue
         default:
           if (!req.body || !req.body[field]) {
             throw new Error(`invalid-${field}`)
           }
-          const displayName = global.profileFieldMap[field]
           profileInfo[displayName] = accountProperties[displayName] = req.body[field]
           continue
       }

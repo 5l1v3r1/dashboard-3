@@ -7,7 +7,7 @@ describe('/api/user/create-reset-code', () => {
     describe('invalid-accountid', () => {
       it('missing querystring accountid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/create-reset-code`)
+        const req = TestHelper.createRequest('/api/user/create-reset-code')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -21,7 +21,7 @@ describe('/api/user/create-reset-code', () => {
 
       it('invalid querystring accountid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/create-reset-code?accountid=invalid`)
+        const req = TestHelper.createRequest('/api/user/create-reset-code?accountid=invalid')
         req.account = user.account
         req.session = user.session
         let errorMessage

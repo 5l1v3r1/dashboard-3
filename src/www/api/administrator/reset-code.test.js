@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/administrator/reset-code`, () => {
+describe('/api/administrator/reset-code', () => {
   describe('exceptions', () => {
     describe('invalid-reset-codeid', async () => {
       it('missing querystring codeid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/reset-code`)
+        const req = TestHelper.createRequest('/api/administrator/reset-code')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage
@@ -21,7 +21,7 @@ describe(`/api/administrator/reset-code`, () => {
 
       it('invalid querystring codeid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/reset-code?codeid=invalid`)
+        const req = TestHelper.createRequest('/api/administrator/reset-code?codeid=invalid')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage

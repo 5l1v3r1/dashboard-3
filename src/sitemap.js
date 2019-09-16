@@ -7,7 +7,7 @@ module.exports = {
 }
 
 function generate () {
-  let routes = {}
+  const routes = {}
   const dashboardModulePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/www`
   const dashboardIsModule = fs.existsSync(dashboardModulePath)
   if (dashboardIsModule) {
@@ -127,7 +127,7 @@ function readHTMLAttributes (html) {
   return { template, auth, navbar }
 }
 
-function outputConfiguration() {
+function outputConfiguration () {
   const configuration = parseDashboardConfiguration()
   let widestURL = 0
   let widestHTML = 0
@@ -174,7 +174,7 @@ function outputConfiguration() {
     url += global.applicationServer + ' (application)'
   }
   const output = [
-    `@userdashboard/dashboard ` + global.packageJSON.version,
+    '@userdashboard/dashboard ' + global.packageJSON.version,
     url
   ]
   output.push('\nAdministrator menu:')
@@ -231,7 +231,7 @@ function outputConfiguration() {
   return output.join('\n')
 }
 
-function parseDashboardConfiguration() {
+function parseDashboardConfiguration () {
   const configuration = {
     administrator: [],
     account: [],
@@ -310,86 +310,7 @@ function parseDashboardConfiguration() {
   return configuration
 }
 
-function parseDashboardConfiguration() {
-  const configuration = {
-    administrator: [],
-    account: [],
-    modules: [],
-    content: [],
-    server: [],
-    urls: {},
-    templateHTMLPath: trimApplicationPath(global.packageJSON.templateHTMLPath),
-    errorHTMLPath: trimApplicationPath(global.packageJSON.errorHTMLPath),
-    redirectHTMLPath: trimApplicationPath(global.packageJSON.redirectHTMLPath)
-  }
-  for (const item of global.packageJSON.dashboard.menus.administrator) {
-    if (item.module) {
-      configuration.administrator.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
-    } else {
-      configuration.administrator.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
-    }
-  }
-  for (const item of global.packageJSON.dashboard.menus.account) {
-    if (item.module) {
-      configuration.account.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
-    } else {
-      configuration.account.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
-    }
-  }
-  if (global.packageJSON.dashboard.moduleNames.length) {
-    for (const i in global.packageJSON.dashboard.moduleNames) {
-      const name = global.packageJSON.dashboard.moduleNames[i]
-      const version = global.packageJSON.dashboard.moduleVersions[i]
-      configuration.modules.push({ name, version })
-    }
-  }
-  if (global.packageJSON.dashboard.contentFilePaths.length) {
-    for (const item of global.packageJSON.dashboard.contentFilePaths) {
-      configuration.content.push(item[0] === '@' ? item : trimApplicationPath(item))
-    }
-  }
-  if (global.packageJSON.dashboard.serverFilePaths.length) {
-    for (const item of global.packageJSON.dashboard.serverFilePaths) {
-      configuration.server.push(item[0] === '@' ? item : trimApplicationPath(item))
-    }
-  }
-  const httpVerbs = ['DELETE', 'HEAD', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
-  for (const url in global.sitemap) {
-    const route = global.sitemap[url]
-    const item = configuration.urls[url] = {}
-    item.htmlFilePath = route.htmlFilePath
-    item.jsFilePath = route.jsFilePath
-    item.templateDescription = route.template === false ? 'FULLSCREEN' : ''
-    item.verbs = ''
-    if (url.startsWith('/api/')) {
-      item.authDescription = route.api.auth === false ? 'GUEST' : ''
-      const verbs = []
-      for (const verb of httpVerbs) {
-        if (route.api[verb.toLowerCase()]) {
-          verbs.push(verb)
-        }
-      }
-      item.verbs = verbs.join(' ')
-    } else {
-      item.authDescription = route.auth === false ? 'GUEST' : ''
-      const verbs = []
-      if (route.jsFilePath === 'static-page') {
-        verbs.push('GET')
-      } else {
-        const pageFile = route.api
-        for (const verb of httpVerbs) {
-          if (pageFile[verb.toLowerCase()]) {
-            verbs.push(verb)
-          }
-        }
-      }
-      item.verbs = verbs.join(' ')
-    }
-  }
-  return configuration
-}
-
-function trimApplicationPath(str) {
+function trimApplicationPath (str) {
   if (!str) {
     return 'static-page'
   }
@@ -406,7 +327,7 @@ function trimApplicationPath(str) {
   return trimmed
 }
 
-function trimNodeModulePath(str) {
+function trimNodeModulePath (str) {
   if (!str) {
     return 'static-page'
   }
@@ -416,12 +337,12 @@ function trimNodeModulePath(str) {
   return str.substring('/node_modules/'.length).split('/src/www')[0]
 }
 
-function padRight(str, totalSize) {
+function padRight (str, totalSize) {
   const blank = '                                                                                                                                                                                                                                                        '
   return (str + blank).substring(0, totalSize)
 }
 
-function underlineRight(str, totalSize) {
+function underlineRight (str, totalSize) {
   const blank = '--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------'
   return (str + blank).substring(0, totalSize)
 }

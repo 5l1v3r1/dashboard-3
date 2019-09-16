@@ -31,7 +31,7 @@ function deleteFile (path, callback) {
   }
   return exists(path, (_, exists) => {
     if (!exists) {
-      return callback(new Error(`invalid-file`))
+      return callback(new Error('invalid-file'))
     }
     return fs.unlink(`${storagePath}/${path}`, (error) => {
       return callback(error)

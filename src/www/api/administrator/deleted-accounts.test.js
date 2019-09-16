@@ -30,7 +30,7 @@ describe('/api/administrator/deleted-accounts', () => {
         await TestHelper.setDeleted(user)
         accounts.unshift(user.account)
       }
-      const req = TestHelper.createRequest(`/api/administrator/deleted-accounts?all=true`)
+      const req = TestHelper.createRequest('/api/administrator/deleted-accounts?all=true')
       req.account = administrator.account
       req.session = administrator.session
       const accountsNow = await req.get()

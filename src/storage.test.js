@@ -104,7 +104,7 @@ describe('internal-api/storage', async () => {
     it('should delete file', async () => {
       await Storage.write('test-delete', { test: true })
       await Storage.deleteFile('test-delete')
-      const file = await Storage.read(`test-delete`)
+      const file = await Storage.read('test-delete')
       assert.strictEqual(file, undefined)
     })
   })

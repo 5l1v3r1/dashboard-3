@@ -13,7 +13,7 @@ describe('/account/set-default-profile', () => {
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })
-      const req = TestHelper.createRequest(`/account/set-default-profile`)
+      const req = TestHelper.createRequest('/account/set-default-profile')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -39,7 +39,7 @@ describe('/account/set-default-profile', () => {
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })
-      const req = TestHelper.createRequest(`/account/set-default-profile`)
+      const req = TestHelper.createRequest('/account/set-default-profile')
       req.account = user.account
       req.session = user.session
       await req.route.api.before(req)
@@ -60,7 +60,7 @@ describe('/account/set-default-profile', () => {
         'contact-email': user.profile.contactEmail,
         default: 'true'
       })
-      const req = TestHelper.createRequest(`/account/set-default-profile`)
+      const req = TestHelper.createRequest('/account/set-default-profile')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -83,7 +83,7 @@ describe('/account/set-default-profile', () => {
         'contact-email': TestHelper.nextIdentity().email,
         default: 'true'
       })
-      const req = TestHelper.createRequest(`/account/set-default-profile`)
+      const req = TestHelper.createRequest('/account/set-default-profile')
       req.account = user.account
       req.session = user.session
       req.body = {

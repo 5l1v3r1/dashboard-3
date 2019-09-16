@@ -40,7 +40,7 @@ describe('/api/administrator/profiles', async () => {
         })
         profiles.unshift(user.profile)
       }
-      const req = TestHelper.createRequest(`/api/administrator/profiles?all=true`)
+      const req = TestHelper.createRequest('/api/administrator/profiles?all=true')
       req.account = administrator.account
       req.session = administrator.session
       const profilesNow = await req.get()

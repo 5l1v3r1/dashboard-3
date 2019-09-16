@@ -29,7 +29,7 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.redirect(req, res, decodeURI(req.query.returnURL))
     }
     messageTemplate = 'success'
-    return dashboard.Response.redirect(req, res, `/account/profiles`)
+    return dashboard.Response.redirect(req, res, '/account/profiles')
   } else if (req.error) {
     messageTemplate = req.error
   }

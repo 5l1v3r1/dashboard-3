@@ -3,7 +3,7 @@ let storage, cache
 if (process.env.STORAGE_ENGINE) {
   storage = require(process.env.STORAGE_ENGINE).Storage
 } else {
-  storage = require(`./storage-fs.js`)
+  storage = require('./storage-fs.js')
 }
 if (process.env.STORAGE_CACHE) {
   cache = require('./storage-cache.js')

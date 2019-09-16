@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/administrator/profile`, () => {
+describe('/api/administrator/profile', () => {
   describe('exceptions', () => {
     describe('invalid-profileid', async () => {
       it('missing querystring profileid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/profile`)
+        const req = TestHelper.createRequest('/api/administrator/profile')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage
@@ -21,7 +21,7 @@ describe(`/api/administrator/profile`, () => {
 
       it('invalid querystring profileid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/profile?profiled=invalid`)
+        const req = TestHelper.createRequest('/api/administrator/profile?profiled=invalid')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage

@@ -105,7 +105,7 @@ describe('internal-api/merge-package-json', () => {
                 text: 'application account 1'
               }]
             },
-            modules: [ 'testModule' ]
+            modules: ['testModule']
           }
         }
         global.testModuleJSON = {
@@ -169,7 +169,7 @@ describe('internal-api/merge-package-json', () => {
                 text: 'application account 1'
               }]
             },
-            modules: [ 'testModule' ]
+            modules: ['testModule']
           }
         }
         global.testModuleJSON = {
@@ -188,7 +188,7 @@ describe('internal-api/merge-package-json', () => {
                   text: 'module account 3'
                 }]
               },
-              modules: [ 'testModule2' ]
+              modules: ['testModule2']
             }
           },
           testModule2: {

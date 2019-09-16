@@ -116,7 +116,7 @@ module.exports = {
     global.api = API.generate()
     if (process.env.GENERATE_SITEMAP_TXT !== 'false') {
       Sitemap.outputConfiguration()
-    }    
+    }
     if (process.env.GENERATE_API_TXT !== 'false') {
       API.outputConfiguration()
     }
@@ -124,10 +124,10 @@ module.exports = {
       const rootIndexPageExists = fs.existsSync(`${global.applicationPath}/src/www/index.html`)
       const rootHomePageExists = fs.existsSync(`${global.applicationPath}/src/www/home.html`)
       if (!rootIndexPageExists) {
-        delete (routes['/'])
+        delete (global.sitemap['/'])
       }
       if (!rootHomePageExists) {
-        delete (routes['/home'])
+        delete (global.sitemap['/home'])
       }
     }
     if (process.env.NODE_ENV === 'sitemap') {

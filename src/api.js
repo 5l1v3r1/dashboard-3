@@ -136,7 +136,7 @@ function outputConfiguration () {
         if (!global.sitemap[line]) {
           throw new Error('invalid something ' + line)
         }
-        item.auth = global.sitemap[item.url].auth === false ? false : true
+        item.auth = global.sitemap[item.url].auth !== false
         for (const verb of verbs) {
           if (global.sitemap[line].api[verb]) {
             item.verb = verb
@@ -151,7 +151,7 @@ function outputConfiguration () {
         if (categories.indexOf(line) > -1) {
           done.push(line)
           continue
-        } 
+        }
         exception = line
         continue
       } else {
@@ -163,13 +163,13 @@ function outputConfiguration () {
         continue
       }
       item[type].push(line)
-    }    
+    }
     api[item.url] = item
   }
   return writeAPI(api)
 }
 
-function writeAPI(configuration) {
+function writeAPI (configuration) {
   const sortedURLs = []
   for (const url in configuration) {
     sortedURLs.push(url)
@@ -181,7 +181,7 @@ function writeAPI(configuration) {
     url += global.applicationServer + ' (application)'
   }
   const output = [
-    `@userdashboard/dashboard ` + global.packageJSON.version,
+    '@userdashboard/dashboard ' + global.packageJSON.version,
     '\n',
     url,
     '\n'
@@ -208,7 +208,7 @@ function writeAPI(configuration) {
       }
       route.exceptions = exceptions
     }
-    for (category of groups) {
+    for (const category of groups) {
       if (!route[category] || !route[category].length) {
         continue
       }
@@ -280,16 +280,16 @@ function writeAPI(configuration) {
       output.push(segment)
     }
     output.push('|\n')
-  } 
+  }
   fs.writeFileSync(`${global.applicationPath}/api.txt`, output.join(''))
 }
 
-function padRight(str, totalSize) {
+function padRight (str, totalSize) {
   const blank = '                                                                                                                                                                                                                                                        '
   return (str + blank).substring(0, totalSize)
 }
 
-function underlineRight(str, totalSize) {
+function underlineRight (str, totalSize) {
   const blank = '--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------'
   return (str + blank).substring(0, totalSize)
 }

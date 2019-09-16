@@ -7,7 +7,7 @@ describe('/api/administrator/administrator-accounts', () => {
     it('optional querystring offset (integer)', async () => {
       const offset = 1
       const owner = await TestHelper.createOwner()
-      const accounts = [ owner.account ]
+      const accounts = [owner.account]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
         const administrator = await TestHelper.createAdministrator(owner)
         accounts.unshift(administrator.account)
@@ -28,7 +28,7 @@ describe('/api/administrator/administrator-accounts', () => {
         const administrator = await TestHelper.createAdministrator(owner)
         accounts.unshift(administrator.account)
       }
-      const req = TestHelper.createRequest(`/api/administrator/administrator-accounts?all=true`)
+      const req = TestHelper.createRequest('/api/administrator/administrator-accounts?all=true')
       req.account = owner.account
       req.session = owner.session
       const accountsNow = await req.get()

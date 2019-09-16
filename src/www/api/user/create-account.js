@@ -63,13 +63,13 @@ module.exports = {
             if (!req.body[field] || !req.body[field].length) {
               throw new Error(`invalid-${field}`)
             }
-            let date
             try {
-              date = dashboard.Format.parseDate(req.body[field])
+              const date = dashboard.Format.parseDate(req.body[field])
+              if (!date || !date.getFullYear) {
+                throw new Error(`invalid-${field}`)
+              }
             } catch (error) {
-            }
-            if (!date || !date.getFullYear) {
-              throw new Error(`invalid-${field}`)
+              return renderPage(req, res, `invalid-${field}`)
             }
             continue
           default:

@@ -2,13 +2,13 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/user/reset-account-deleted`, () => {
+describe('/api/user/reset-account-deleted', () => {
   describe('exceptions', () => {
     describe('invalid-username', () => {
       it('missing posted username', async () => {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
-        const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
+        const req = TestHelper.createRequest('/api/user/reset-account-deleted')
         req.body = {
           username: '',
           password: 'password'
@@ -25,7 +25,7 @@ describe(`/api/user/reset-account-deleted`, () => {
       it('invalid posted username', async () => {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
-        const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
+        const req = TestHelper.createRequest('/api/user/reset-account-deleted')
         req.body = {
           username: 'invalid',
           password: 'password'
@@ -44,7 +44,7 @@ describe(`/api/user/reset-account-deleted`, () => {
       it('missing posted password', async () => {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
-        const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
+        const req = TestHelper.createRequest('/api/user/reset-account-deleted')
         req.body = {
           username: 'username',
           password: ''
@@ -61,7 +61,7 @@ describe(`/api/user/reset-account-deleted`, () => {
       it('invalid posted password', async () => {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
-        const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
+        const req = TestHelper.createRequest('/api/user/reset-account-deleted')
         req.body = {
           username: user.account.username,
           password: 'invalid'
@@ -79,7 +79,7 @@ describe(`/api/user/reset-account-deleted`, () => {
     describe('invalid-account', () => {
       it('credentialed account is not scheduled for deletion', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
+        const req = TestHelper.createRequest('/api/user/reset-account-deleted')
         req.account = user.account
         req.session = user.session
         req.body = {
@@ -101,7 +101,7 @@ describe(`/api/user/reset-account-deleted`, () => {
     it('object', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
-      const req = TestHelper.createRequest(`/api/user/reset-account-deleted`)
+      const req = TestHelper.createRequest('/api/user/reset-account-deleted')
       req.body = {
         username: user.account.username,
         password: user.account.password

@@ -7,7 +7,7 @@ describe('/api/user/profile', () => {
     describe('invalid-profileid', () => {
       it('missing querystring profileid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/profile`)
+        const req = TestHelper.createRequest('/api/user/profile')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -21,7 +21,7 @@ describe('/api/user/profile', () => {
 
       it('invalid querystring profileid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/profile?profileid=invalid`)
+        const req = TestHelper.createRequest('/api/user/profile?profileid=invalid')
         req.account = user.account
         req.session = user.session
         let errorMessage

@@ -2,7 +2,7 @@ let storageList
 if (process.env.STORAGE_ENGINE) {
   storageList = require(process.env.STORAGE_ENGINE).StorageList
 } else {
-  storageList = require(`./storage-list-fs.js`)
+  storageList = require('./storage-list-fs.js')
 }
 
 module.exports = {

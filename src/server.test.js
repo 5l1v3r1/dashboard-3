@@ -9,7 +9,7 @@ const TestHelper = require('../test-helper.js')
 describe('internal-api/server', () => {
   describe('Server#authenticateRequest', () => {
     it('should reject missing token', async () => {
-      const req = TestHelper.createRequest(`/account/change-username`)
+      const req = TestHelper.createRequest('/account/change-username')
       req.headers = {}
       const result = await Server.authenticateRequest(req)
       assert.strictEqual(result, undefined)
@@ -18,7 +18,7 @@ describe('internal-api/server', () => {
     it('should reject invalid token', async () => {
       const req = TestHelper.createRequest('/account/change-username')
       req.headers = {
-        cookie: `sessionid=invalid; token=invalid`
+        cookie: 'sessionid=invalid; token=invalid'
       }
       req.cookie = {
         sessionid: 'invalid',
@@ -30,7 +30,7 @@ describe('internal-api/server', () => {
 
     it('should identify user from token', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/change-username`)
+      const req = TestHelper.createRequest('/account/change-username')
       req.method = 'GET'
       const expires = Timestamp.date(user.session.expires).toUTCString()
       req.headers = {
@@ -43,7 +43,7 @@ describe('internal-api/server', () => {
 
   describe('Server#parsePostData', () => {
     it('should ignore file uploads', async () => {
-      const req = TestHelper.createRequest(`/account/change-username`)
+      const req = TestHelper.createRequest('/account/change-username')
       req.headers = {
         'content-type': 'multipart/form-data',
         'content-length': '1234'
@@ -107,7 +107,7 @@ describe('internal-api/server', () => {
 
   describe('Server#receiveRequest', () => {
     it('should bind query data of URL to req', async () => {
-      const req = TestHelper.createRequest(`/account/change-username?param1=1&param2=this`)
+      const req = TestHelper.createRequest('/account/change-username?param1=1&param2=this')
       req.headers = {}
       req.method = 'GET'
       const res = {
@@ -122,7 +122,7 @@ describe('internal-api/server', () => {
     })
 
     it('should not bind route for unknown url', async () => {
-      const req = TestHelper.createRequest(`/not-real`)
+      const req = TestHelper.createRequest('/not-real')
       req.method = 'GET'
       delete (req.route)
       req.headers = {
@@ -139,7 +139,7 @@ describe('internal-api/server', () => {
     })
 
     it('should bind route to req', async () => {
-      const req = TestHelper.createRequest(`/account/change-username?param1=1&param2=this`)
+      const req = TestHelper.createRequest('/account/change-username?param1=1&param2=this')
       req.method = 'GET'
       delete (req.route)
       req.headers = {

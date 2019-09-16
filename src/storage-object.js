@@ -53,7 +53,7 @@ async function getProperty (objectid, property) {
     return
   }
   data = JSON.parse(data)
-  let value = data[property]
+  const value = data[property]
   if (value === undefined || value === null) {
     return
   }

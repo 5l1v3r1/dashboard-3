@@ -15,7 +15,7 @@ function renderPage (req, res, messageTemplate) {
     messageTemplate = req.error
   }
   const doc = dashboard.HTML.parse(req.route.html)
-  const removeFields = [ 'display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website' ]
+  const removeFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
   const profileFields = req.userProfileFields || global.userProfileFields
   for (const field of profileFields) {
     removeFields.splice(removeFields.indexOf(field), 1)
@@ -100,12 +100,12 @@ async function submitForm (req, res) {
         if (!req.body[field] || !req.body[field].length) {
           return renderPage(req, res, `invalid-${field}`)
         }
-        let date
         try {
-          date = dashboard.Format.parseDate(req.body[field])
+          const date = dashboard.Format.parseDate(req.body[field])
+          if (!date || !date.getFullYear) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
         } catch (error) {
-        }
-        if (!date || !date.getFullYear) {
           return renderPage(req, res, `invalid-${field}`)
         }
         continue

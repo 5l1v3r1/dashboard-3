@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/user/reset-code`, () => {
+describe('/api/user/reset-code', () => {
   describe('exceptions', () => {
     describe('invalid-reset-codeid', () => {
       it('missing querystring codeid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/reset-code`)
+        const req = TestHelper.createRequest('/api/user/reset-code')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -21,7 +21,7 @@ describe(`/api/user/reset-code`, () => {
 
       it('invalid querystring codeid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/reset-code?codeid=invalid`)
+        const req = TestHelper.createRequest('/api/user/reset-code?codeid=invalid')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -52,7 +52,7 @@ describe(`/api/user/reset-code`, () => {
       })
     })
   })
-  
+
   describe('returns', () => {
     it('object', async () => {
       const user = await TestHelper.createUser()

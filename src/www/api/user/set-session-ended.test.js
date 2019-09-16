@@ -3,12 +3,12 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 /* eslint-env mocha */
-describe(`/api/user/set-session-ended`, () => {
+describe('/api/user/set-session-ended', () => {
   describe('exceptions', () => {
     describe('invalid-sessionid', () => {
       it('missing querystring sessionid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/set-session-ended`)
+        const req = TestHelper.createRequest('/api/user/set-session-ended')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -22,7 +22,7 @@ describe(`/api/user/set-session-ended`, () => {
 
       it('invalid querystring sessionid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/set-session-ended?sessionid=invalid`)
+        const req = TestHelper.createRequest('/api/user/set-session-ended?sessionid=invalid')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -54,7 +54,7 @@ describe(`/api/user/set-session-ended`, () => {
         assert.strictEqual(errorMessage, 'invalid-session')
       })
     })
-    
+
     describe('invalid-account', () => {
       it('ineligible querystring sessionid', async () => {
         const user = await TestHelper.createUser()

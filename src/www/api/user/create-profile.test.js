@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/user/create-profile`, () => {
+describe('/api/user/create-profile', () => {
   describe('exceptions', () => {
     describe('invalid-accountid', () => {
       it('missing querystring accountid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/create-profile`)
+        const req = TestHelper.createRequest('/api/user/create-profile')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -21,7 +21,7 @@ describe(`/api/user/create-profile`, () => {
 
       it('invalid querystring accountid', async () => {
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/create-profile?accountid=invalid`)
+        const req = TestHelper.createRequest('/api/user/create-profile?accountid=invalid')
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -597,7 +597,7 @@ describe(`/api/user/create-profile`, () => {
     })
   })
 
-  describe('configuration', () =>{ 
+  describe('configuration', () => {
     it('environment USER_PROFILE_FIELDS', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
@@ -619,7 +619,7 @@ describe(`/api/user/create-profile`, () => {
       }
       for (const field of fields) {
         req.body = {
-          confirm: 'password1234',
+          confirm: 'password1234'
         }
         if (field === 'full-name') {
           req.body['first-name'] = body['first-name']

@@ -92,15 +92,15 @@ describe('/api/user/reset-account-password', () => {
       })
     })
   })
-  
+
   describe('returns', () => {
     it('boolean', async () => {
       const user = await TestHelper.createUser()
       const code = await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest(`/api/user/reset-account-password`)
+      const req = TestHelper.createRequest('/api/user/reset-account-password')
       req.body = {
         username: user.account.username,
-        'new-password': `new-password`,
+        'new-password': 'new-password',
         'secret-code': code.code
       }
       const resetPassword = await req.patch()

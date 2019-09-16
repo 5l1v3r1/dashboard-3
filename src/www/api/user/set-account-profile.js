@@ -22,6 +22,7 @@ module.exports = {
       profileid: req.query.profileid
     }
     for (const field of profileFields) {
+      const displayName = global.profileFieldMap[field]
       switch (field) {
         case 'full-name':
           accountProperties.firstName = req.body['first-name']
@@ -40,10 +41,9 @@ module.exports = {
           accountProperties.companyName = req.body[field]
           continue
         case 'dob':
-          accountProperties.dob = dashboard.Format.date(date)
+          accountProperties.dob = dashboard.Format.date(req.body.dob)
           continue
         default:
-          const displayName = global.profileFieldMap[field]
           accountProperties[displayName] = req.body[field]
           continue
       }

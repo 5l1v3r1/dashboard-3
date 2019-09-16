@@ -116,12 +116,12 @@ async function submitForm (req, res) {
         if (!req.body[field] || !req.body[field].length) {
           return renderPage(req, res, `invalid-${field}`)
         }
-        let date
         try {
-          date = dashboard.Format.parseDate(req.body[field])
+          const date = dashboard.Format.parseDate(req.body[field])
+          if (!date || !date.getFullYear) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
         } catch (error) {
-        }
-        if (!date || !date.getFullYear) {
           return renderPage(req, res, `invalid-${field}`)
         }
         continue

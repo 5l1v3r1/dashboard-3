@@ -30,7 +30,7 @@ describe('/api/administrator/reset-codes', () => {
         await TestHelper.createResetCode(user)
         codes.unshift(user.resetCode)
       }
-      const req = TestHelper.createRequest(`/api/administrator/reset-codes?all=true`)
+      const req = TestHelper.createRequest('/api/administrator/reset-codes?all=true')
       req.account = administrator.account
       req.session = administrator.session
       const codesNow = await req.get()

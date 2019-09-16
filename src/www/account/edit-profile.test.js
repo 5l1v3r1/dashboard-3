@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/account/edit-profile`, () => {
+describe('/account/edit-profile', () => {
   describe('EditProfile#BEFORE', () => {
     it('should bind profile to req', async () => {
       const user = await TestHelper.createUser()
@@ -264,7 +264,7 @@ describe(`/account/edit-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'dob': null
+        dob: null
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -280,7 +280,7 @@ describe(`/account/edit-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'dob': '2017-13-52'
+        dob: '2017-13-52'
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -296,7 +296,7 @@ describe(`/account/edit-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'dob': '2017-11-01'
+        dob: '2017-11-01'
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -312,7 +312,7 @@ describe(`/account/edit-profile`, () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'dob': '12-13-1968'
+        dob: '12-13-1968'
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)

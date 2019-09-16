@@ -6,7 +6,7 @@ describe('/account/profiles', () => {
   describe('Profiles#BEFORE', () => {
     it('should bind profiles to req', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/profiles`)
+      const req = TestHelper.createRequest('/account/profiles')
       req.account = user.account
       req.session = user.session
       await req.route.api.before(req)
@@ -60,7 +60,7 @@ describe('/account/profiles', () => {
     it('should enforce specified offset', async () => {
       const offset = 1
       const user = await TestHelper.createUser()
-      const profiles = [ user.profile ]
+      const profiles = [user.profile]
       for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -82,7 +82,7 @@ describe('/account/profiles', () => {
 
     it('should show fields if data exists', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/profiles`)
+      const req = TestHelper.createRequest('/account/profiles')
       req.account = user.account
       req.session = user.session
       const page = await req.get()

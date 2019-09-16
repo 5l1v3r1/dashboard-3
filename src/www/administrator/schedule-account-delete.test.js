@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/administrator/schedule-account-delete`, () => {
+describe('/administrator/schedule-account-delete', () => {
   describe('ScheduleAccountDelete#BEFORE', () => {
     it('should bind account to req', async () => {
       const administrator = await TestHelper.createOwner()

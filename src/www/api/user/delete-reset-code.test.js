@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/user/delete-reset-code`, () => {
+describe('/api/user/delete-reset-code', () => {
   describe('exceptions', () => {
     describe('invalid-reset-codeid', () => {
       it('missing querystring codeid', async () => {

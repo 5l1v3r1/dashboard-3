@@ -8,7 +8,7 @@ describe('/account/end-all-sessions', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest(`/account/end-all-sessions`)
+      const req = TestHelper.createRequest('/account/end-all-sessions')
       req.account = user.account
       req.session = user.session
       const page = await req.get()

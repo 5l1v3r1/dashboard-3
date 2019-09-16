@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/administrator/revoke-administrator`, () => {
+describe('/administrator/revoke-administrator', () => {
   describe('RevokeAdministrator#BEFORE', () => {
     it('should bind account to req', async () => {
       const owner = await TestHelper.createOwner()

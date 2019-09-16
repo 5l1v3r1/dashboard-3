@@ -7,7 +7,7 @@ describe('/api/administrator/session', () => {
     describe('invalid-sessionid', async () => {
       it('unspecified querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/session`)
+        const req = TestHelper.createRequest('/api/administrator/session')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage
@@ -21,7 +21,7 @@ describe('/api/administrator/session', () => {
 
       it('invalid querystring sessionid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/session?sessionid=invalid`)
+        const req = TestHelper.createRequest('/api/administrator/session?sessionid=invalid')
         req.account = administrator.account
         req.session = administrator.session
         let errorMessage

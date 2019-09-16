@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/administrator/create-reset-code`, () => {
+describe('/api/administrator/create-reset-code', () => {
   describe('exceptions', () => {
     describe('invalid-accountid', async () => {
       it('unspecified querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/create-reset-code`)
+        const req = TestHelper.createRequest('/api/administrator/create-reset-code')
         req.account = administrator.account
         req.session = administrator.session
         req.body = {
@@ -24,7 +24,7 @@ describe(`/api/administrator/create-reset-code`, () => {
 
       it('invalid querystring accountid value', async () => {
         const administrator = await TestHelper.createOwner()
-        const req = TestHelper.createRequest(`/api/administrator/create-reset-code?accountid=invalid`)
+        const req = TestHelper.createRequest('/api/administrator/create-reset-code?accountid=invalid')
         req.account = administrator.account
         req.session = administrator.session
         req.body = {
@@ -83,7 +83,7 @@ describe(`/api/administrator/create-reset-code`, () => {
     })
   })
 
- describe('returns', () => {
+  describe('returns', () => {
     it('object', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
