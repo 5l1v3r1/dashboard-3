@@ -5,7 +5,7 @@ const TestHelper = require('../../../../test-helper.js')
 describe('/api/administrator/reset-account-administrator', () => {
   describe('exceptions', () => {
     describe('invalid-accountid', async () => {
-      it('missing querystring accountid value', async () => {
+      it('missing querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/reset-account-administrator')
         req.account = administrator.account
@@ -19,7 +19,7 @@ describe('/api/administrator/reset-account-administrator', () => {
         assert.strictEqual(errorMessage, 'invalid-accountid')
       })
 
-      it('invalid querystring accountid value', async () => {
+      it('invalid querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/reset-account-administrator?accountid=invalid')
         req.account = administrator.account

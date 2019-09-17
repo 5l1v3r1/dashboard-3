@@ -19,7 +19,7 @@ describe('/api/administrator/session', () => {
         assert.strictEqual(errorMessage, 'invalid-sessionid')
       })
 
-      it('invalid querystring sessionid value', async () => {
+      it('invalid querystring sessionid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/session?sessionid=invalid')
         req.account = administrator.account

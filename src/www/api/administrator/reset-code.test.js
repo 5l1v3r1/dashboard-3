@@ -5,7 +5,7 @@ const TestHelper = require('../../../../test-helper.js')
 describe('/api/administrator/reset-code', () => {
   describe('exceptions', () => {
     describe('invalid-reset-codeid', async () => {
-      it('missing querystring codeid value', async () => {
+      it('missing querystring codeid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/reset-code')
         req.account = administrator.account
@@ -19,7 +19,7 @@ describe('/api/administrator/reset-code', () => {
         assert.strictEqual(errorMessage, 'invalid-reset-codeid')
       })
 
-      it('invalid querystring codeid value', async () => {
+      it('invalid querystring codeid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/reset-code?codeid=invalid')
         req.account = administrator.account

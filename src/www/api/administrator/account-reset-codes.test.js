@@ -19,7 +19,7 @@ describe('/api/administrator/account-reset-codes', () => {
         assert.strictEqual(errorMessage, 'invalid-accountid')
       })
 
-      it('invalid querystring accountid value', async () => {
+      it('invalid querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/account-reset-codes?accountid=invalid')
         req.account = administrator.account

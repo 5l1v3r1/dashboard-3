@@ -5,7 +5,7 @@ const TestHelper = require('../../../../test-helper.js')
 describe('/api/administrator/profile', () => {
   describe('exceptions', () => {
     describe('invalid-profileid', async () => {
-      it('missing querystring profileid value', async () => {
+      it('missing querystring profileid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/profile')
         req.account = administrator.account
@@ -19,7 +19,7 @@ describe('/api/administrator/profile', () => {
         assert.strictEqual(errorMessage, 'invalid-profileid')
       })
 
-      it('invalid querystring profileid value', async () => {
+      it('invalid querystring profileid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/profile?profiled=invalid')
         req.account = administrator.account
