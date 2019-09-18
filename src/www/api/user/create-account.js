@@ -115,7 +115,7 @@ module.exports = {
     req.account = accountInfo
     if (global.requireProfile) {
       const profile = await global.api.user.CreateProfile.post(req)
-      for (const x of profile) {
+      for (const x in profile) {
         accountInfo[x] = accountInfo[x] || profile[x]
       }
     }
