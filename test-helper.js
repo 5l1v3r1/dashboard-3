@@ -1,12 +1,13 @@
 /* eslint-env mocha */
 global.applicationPath = global.applicationPath || __dirname
 global.appid = global.appid || 'tests'
+global.puppeteer = global.puppeteer || require('puppeteer')
+
 const bcrypt = require('./src/bcrypt.js')
 const dashboard = require('./index.js')
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
-const puppeteer = require('puppeteer')
 const querystring = require('querystring')
 const testData = require('./test-data.json')
 const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
@@ -29,7 +30,7 @@ let packageJSON
 before(async () => {
   await dashboard.start(global.applicationPath || __dirname)
   packageJSON = global.packageJSON
-  browser = await puppeteer.launch({
+  browser = await global.puppeteer.launch({
     headless: !(process.env.SHOW_BROWSERS === 'true'),
     args: ['--window-size=1920,1080', '--incognito'],
     slowMo: 0
@@ -460,7 +461,7 @@ async function fetchWithPuppeteer (method, req) {
       await wait(100)
     }
   }
-  page.on('error', () => {})
+  page.on('error', () => { })
   await page.emulate({
     name: 'Desktop',
     userAgent: 'Desktop browser',
