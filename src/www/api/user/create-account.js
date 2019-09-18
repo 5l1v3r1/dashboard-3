@@ -114,11 +114,12 @@ module.exports = {
     req.body.default = 'true'
     req.account = accountInfo
     if (global.requireProfile) {
-      await global.api.user.CreateProfile.post(req)
+      const profile = await global.api.user.CreateProfile.post(req)
+      for (const x of profile) {
+        accountInfo[x] = accountInfo[x] || profile[x]
+      }
     }
-    req.account = accountInfo
     req.success = true
-    const account = await global.api.user.Account.get(req)
-    return account
+    return accountInfo
   }
 }
