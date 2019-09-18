@@ -1,6 +1,6 @@
 
-> @userdashboard/dashboard@1.0.45 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
-> mocha src --recursive --no-colors --retries 3 --timeout 120000 --slow 120000
+> @userdashboard/dashboard@1.0.47 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> mocha src --recursive --no-colors --timeout 120000 --slow 120000
 
 
 
@@ -660,8 +660,8 @@
   /api/administrator/account-profiles-count
     exceptions
       invalid-accountid
-        ✓ missing querystring accountid value
-        ✓ invalid querystring accountid value
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
     returns
       ✓ integer
 
@@ -669,7 +669,7 @@
     exceptions
       invalid-accountid
         ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid value
+        ✓ invalid querystring accountid
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
@@ -681,8 +681,8 @@
   /api/administrator/account-reset-codes-count
     exceptions
       invalid-accountid
-        ✓ missing querystring accountid value
-        ✓ invalid querystring accountid value
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
     returns
       ✓ integer
 
@@ -690,7 +690,7 @@
     exceptions
       invalid-accountid
         ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid value
+        ✓ invalid querystring accountid
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
@@ -704,8 +704,8 @@
   /api/administrator/account-sessions-count
     exceptions
       invalid-accountid
-        ✓ missing querystring accountid value
-        ✓ invalid querystring accountid value
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
     returns
       ✓ integer
 
@@ -713,7 +713,7 @@
     exceptions
       invalid-accountid
         ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid value
+        ✓ invalid querystring accountid
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring all (boolean)
@@ -728,7 +728,7 @@
     exceptions
       invalid-accountid
         ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid value
+        ✓ invalid querystring accountid
     returns
       ✓ object
     redacts
@@ -774,7 +774,7 @@
     exceptions
       invalid-accountid
         ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid value
+        ✓ invalid querystring accountid
       invalid-secret-code
         ✓ missing posted secret-code
       invalid-secret-code-length
@@ -788,8 +788,8 @@
   /api/administrator/delete-account
     exceptions
       invalid-accountid
-        ✓ missing querystring accountid value
-        ✓ invalid querystring accountid value
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
     receieves
       ✓ querystring accountid
     returns
@@ -815,8 +815,8 @@
   /api/administrator/profile
     exceptions
       invalid-profileid
-        ✓ missing querystring profileid value
-        ✓ invalid querystring profileid value
+        ✓ missing querystring profileid
+        ✓ invalid querystring profileid
     returns
       ✓ object
 
@@ -836,8 +836,8 @@
   /api/administrator/reset-account-administrator
     exceptions
       invalid-accountid
-        ✓ missing querystring accountid value
-        ✓ invalid querystring accountid value
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
       invalid-account
         ✓ accessing account is not owner
         ✓ querystring accountid is not administrator
@@ -847,8 +847,8 @@
   /api/administrator/reset-code
     exceptions
       invalid-reset-codeid
-        ✓ missing querystring codeid value
-        ✓ invalid querystring codeid value
+        ✓ missing querystring codeid
+        ✓ invalid querystring codeid
     returns
       ✓ object
     redacts
@@ -872,8 +872,8 @@
   /api/administrator/reset-session-key
     exceptions
       invalid-accountid
-        ✓ missing querystring accountid value
-        ✓ invalid querystring accountid value
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
     invalid-account
       ✓ ineligible querystring accountid
     requires
@@ -885,7 +885,7 @@
     exceptions
       invalid-sessionid
         ✓ unspecified querystring accountid
-        ✓ invalid querystring sessionid value
+        ✓ invalid querystring sessionid
     returns
       ✓ object
     redacts
@@ -910,7 +910,7 @@
     exceptions
       invalid-accountid
         ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid value
+        ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible querystring accountid
     requires
@@ -922,7 +922,7 @@
     exceptions
       invalid-accountid
         ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid value
+        ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible querystring accountid
     invalid-account
@@ -935,8 +935,8 @@
   /api/administrator/set-owner-account
     exceptions
       invalid-accountid
-        ✓ missing querystring accountid value
-        ✓ invalid querystring accountid value
+        ✓ missing querystring accountid
+        ✓ invalid querystring accountid
       invalid-account
         ✓ ineligible accessing account
         ✓ ineligible querystring accountid

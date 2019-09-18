@@ -1,61 +1,61 @@
-@userdashboard/dashboard 1.0.45
+@userdashboard/dashboard 1.0.47
 
 
-|---------------------------------------------------------------------|
-| /api/administrator/account                                          |
-| RETURNS--| REDACTS--------| EXCEPTIONS------------------------------|
-| object   | username hash  | invalid-accountid                       |
-|          | password hash  |  * unspecified querystring accountid    |
-|          | session key    |  * invalid querystring accountid value  |
-|----------|----------------|-----------------------------------------|
+|-------------------------------------------------------------------|
+| /api/administrator/account                                        |
+| RETURNS--| REDACTS--------| EXCEPTIONS----------------------------|
+| object   | username hash  | invalid-accountid                     |
+|          | password hash  |  * unspecified querystring accountid  |
+|          | session key    |  * invalid querystring accountid      |
+|----------|----------------|---------------------------------------|
 
-|----------------------------------------------------------------------------------------------------------------------|
-| /api/administrator/account-profiles                                                                                  |
-| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION----------|
-| optional querystring offset (integer)  | array    | invalid-accountid                       | environment PAGE_SIZE  |
-| optional querystring all (boolean)     |          |  * unspecified querystring accountid    |                        |
-|                                        |          |  * invalid querystring accountid value  |                        |
-|----------------------------------------|----------|-----------------------------------------|------------------------|
+|--------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/account-profiles                                                                                |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS----------------------------| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | invalid-accountid                     | environment PAGE_SIZE  |
+| optional querystring all (boolean)     |          |  * unspecified querystring accountid  |                        |
+|                                        |          |  * invalid querystring accountid      |                        |
+|----------------------------------------|----------|---------------------------------------|------------------------|
 
-|--------------------------------------------------------------------------------------------|
-| /api/administrator/account-profiles-count                                                  |
-| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
-| required querystring accountid value  | integer  | invalid-accountid                       |
-|                                       |          |  * missing querystring accountid value  |
-|                                       |          |  * invalid querystring accountid value  |
-|---------------------------------------|----------|-----------------------------------------|
-
-|------------------------------------------------------------------------------------------------------------------------------------------|
-| /api/administrator/account-reset-codes                                                                                                   |
-| RECEIVES-------------------------------| RETURNS--| REDACTS-----------| EXCEPTIONS------------------------------| CONFIGURATION----------|
-| optional querystring offset (integer)  | array    | secret code hash  | invalid-accountid                       | environment PAGE_SIZE  |
-| optional querystring all (boolean)     |          |                   |  * unspecified querystring accountid    |                        |
-|                                        |          |                   |  * invalid querystring accountid value  |                        |
-|----------------------------------------|----------|-------------------|-----------------------------------------|------------------------|
-
-|--------------------------------------------------------------------------------------------|
-| /api/administrator/account-reset-codes-count                                               |
-| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
-| required querystring accountid value  | integer  | invalid-accountid                       |
-|                                       |          |  * missing querystring accountid value  |
-|                                       |          |  * invalid querystring accountid value  |
-|---------------------------------------|----------|-----------------------------------------|
+|--------------------------------------------------------------------------------|
+| /api/administrator/account-profiles-count                                      |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | integer  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|---------------------------------|----------|-----------------------------------|
 
 |----------------------------------------------------------------------------------------------------------------------------------------|
-| /api/administrator/account-sessions                                                                                                    |
-| RECEIVES-------------------------------| RETURNS--| REDACTS---------| EXCEPTIONS------------------------------| CONFIGURATION----------|
-| optional querystring offset (integer)  | array    | session tokens  | invalid-accountid                       | environment PAGE_SIZE  |
-| optional querystring all (boolean)     |          |                 |  * unspecified querystring accountid    |                        |
-|                                        |          |                 |  * invalid querystring accountid value  |                        |
-|----------------------------------------|----------|-----------------|-----------------------------------------|------------------------|
+| /api/administrator/account-reset-codes                                                                                                 |
+| RECEIVES-------------------------------| RETURNS--| REDACTS-----------| EXCEPTIONS----------------------------| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | secret code hash  | invalid-accountid                     | environment PAGE_SIZE  |
+| optional querystring all (boolean)     |          |                   |  * unspecified querystring accountid  |                        |
+|                                        |          |                   |  * invalid querystring accountid      |                        |
+|----------------------------------------|----------|-------------------|---------------------------------------|------------------------|
 
-|--------------------------------------------------------------------------------------------|
-| /api/administrator/account-sessions-count                                                  |
-| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
-| required querystring accountid value  | integer  | invalid-accountid                       |
-|                                       |          |  * missing querystring accountid value  |
-|                                       |          |  * invalid querystring accountid value  |
-|---------------------------------------|----------|-----------------------------------------|
+|--------------------------------------------------------------------------------|
+| /api/administrator/account-reset-codes-count                                   |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | integer  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|---------------------------------|----------|-----------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/account-sessions                                                                                                  |
+| RECEIVES-------------------------------| RETURNS--| REDACTS---------| EXCEPTIONS----------------------------| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | session tokens  | invalid-accountid                     | environment PAGE_SIZE  |
+| optional querystring all (boolean)     |          |                 |  * unspecified querystring accountid  |                        |
+|                                        |          |                 |  * invalid querystring accountid      |                        |
+|----------------------------------------|----------|-----------------|---------------------------------------|------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/administrator/account-sessions-count                                      |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | integer  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|---------------------------------|----------|-----------------------------------|
 
 |---------------------------------------------------------------------------------------------|
 | /api/administrator/accounts                                                                 |
@@ -85,27 +85,27 @@
 | integer                                          |
 |--------------------------------------------------|
 
-|----------------------------------------------------------------------------------------------------------------------------|
-| /api/administrator/create-reset-code                                                                                       |
-| RECEIVES---------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION--------------------------|
-| required posted secret-code  | object   | invalid-accountid                       | environment MINIMUM_RESET_CODE_LENGTH  |
-|                              |          |  * unspecified querystring accountid    | environment MAXIMUM_RESET_CODE_LENGTH  |
-|                              |          |  * invalid querystring accountid value  |                                        |
-|                              |          | invalid-secret-code                     |                                        |
-|                              |          |  * missing posted secret-code           |                                        |
-|                              |          | invalid-secret-code-length              |                                        |
-|                              |          |  * invalid posted secret-code length    |                                        |
-|------------------------------|----------|-----------------------------------------|----------------------------------------|
+|--------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/create-reset-code                                                                                     |
+| RECEIVES---------------------| RETURNS--| EXCEPTIONS----------------------------| CONFIGURATION--------------------------|
+| required posted secret-code  | object   | invalid-accountid                     | environment MINIMUM_RESET_CODE_LENGTH  |
+|                              |          |  * unspecified querystring accountid  | environment MAXIMUM_RESET_CODE_LENGTH  |
+|                              |          |  * invalid querystring accountid      |                                        |
+|                              |          | invalid-secret-code                   |                                        |
+|                              |          |  * missing posted secret-code         |                                        |
+|                              |          | invalid-secret-code-length            |                                        |
+|                              |          |  * invalid posted secret-code length  |                                        |
+|------------------------------|----------|---------------------------------------|----------------------------------------|
 
-|--------------------------------------------------------------------------------------------|
-| /api/administrator/delete-account                                                          |
-| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
-| required querystring accountid value  | boolean  | invalid-accountid                       |
-|                                       |          |  * missing querystring accountid value  |
-|                                       |          |  * invalid querystring accountid value  |
-|                                       |          | receieves                               |
-|                                       |          |  * querystring accountid                |
-|---------------------------------------|----------|-----------------------------------------|
+|--------------------------------------------------------------------------------|
+| /api/administrator/delete-account                                              |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring accountid  | boolean  | invalid-accountid                 |
+|                                 |          |  * missing querystring accountid  |
+|                                 |          |  * invalid querystring accountid  |
+|                                 |          | receieves                         |
+|                                 |          |  * querystring accountid          |
+|---------------------------------|----------|-----------------------------------|
 
 |---------------------------------------------------------------------------------------------|
 | /api/administrator/deleted-accounts                                                         |
@@ -121,13 +121,13 @@
 | querystring accountid                      |
 |--------------------------------------------|
 
-|--------------------------------------------------------------------------------------------|
-| /api/administrator/profile                                                                 |
-| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
-| required querystring profileid value  | object   | invalid-profileid                       |
-|                                       |          |  * missing querystring profileid value  |
-|                                       |          |  * invalid querystring profileid value  |
-|---------------------------------------|----------|-----------------------------------------|
+|--------------------------------------------------------------------------------|
+| /api/administrator/profile                                                     |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required querystring profileid  | object   | invalid-profileid                 |
+|                                 |          |  * missing querystring profileid  |
+|                                 |          |  * invalid querystring profileid  |
+|---------------------------------|----------|-----------------------------------|
 
 |----------------------------------------------------------------------------|
 | /api/administrator/profiles                                                |
@@ -142,24 +142,24 @@
 | integer                            |
 |------------------------------------|
 
-|---------------------------------------------------------------------------------------------------|
-| /api/administrator/reset-account-administrator                                                    |
-| RECEIVES------------------------------| RETURNS--| EXCEPTIONS-------------------------------------|
-| required querystring accountid value  | object   | invalid-accountid                              |
-|                                       |          |  * missing querystring accountid value         |
-|                                       |          |  * invalid querystring accountid value         |
-|                                       |          | invalid-account                                |
-|                                       |          |  * accessing account is not owner              |
-|                                       |          |  * querystring accountid is not administrator  |
-|---------------------------------------|----------|------------------------------------------------|
+|---------------------------------------------------------------------------------------------|
+| /api/administrator/reset-account-administrator                                              |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS-------------------------------------|
+| required querystring accountid  | object   | invalid-accountid                              |
+|                                 |          |  * missing querystring accountid               |
+|                                 |          |  * invalid querystring accountid               |
+|                                 |          | invalid-account                                |
+|                                 |          |  * accessing account is not owner              |
+|                                 |          |  * querystring accountid is not administrator  |
+|---------------------------------|----------|------------------------------------------------|
 
-|----------------------------------------------------------------------------------------------------------|
-| /api/administrator/reset-code                                                                            |
-| RECEIVES---------------------------| RETURNS--| REDACTS-----------| EXCEPTIONS---------------------------|
-| required querystring codeid value  | object   | secret code hash  | invalid-reset-codeid                 |
-|                                    |          |                   |  * missing querystring codeid value  |
-|                                    |          |                   |  * invalid querystring codeid value  |
-|------------------------------------|----------|-------------------|--------------------------------------|
+|----------------------------------------------------------------------------------------------|
+| /api/administrator/reset-code                                                                |
+| RECEIVES---------------------| RETURNS--| REDACTS-----------| EXCEPTIONS---------------------|
+| required querystring codeid  | object   | secret code hash  | invalid-reset-codeid           |
+|                              |          |                   |  * missing querystring codeid  |
+|                              |          |                   |  * invalid querystring codeid  |
+|------------------------------|----------|-------------------|--------------------------------|
 
 |------------------------------------------------------------------------------------------------|
 | /api/administrator/reset-codes                                                                 |
@@ -174,25 +174,25 @@
 | integer                               |
 |---------------------------------------|
 
-|---------------------------------------------------------------------------------------------|
-| /api/administrator/reset-session-key                                                        |
-| RECEIVES------------------------------| RETURNS--| EXCEPTIONS-------------------------------|
-| required querystring accountid value  | object   | invalid-accountid                        |
-|                                       |          |  * missing querystring accountid value   |
-|                                       |          |  * invalid querystring accountid value   |
-|                                       |          | invalid-account                          |
-|                                       |          |  * ineligible querystring accountid      |
-|                                       |          | requires                                 |
-|                                       |          |  * querystring accountid is not deleted  |
-|---------------------------------------|----------|------------------------------------------|
+|---------------------------------------------------------------------------------------|
+| /api/administrator/reset-session-key                                                  |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS-------------------------------|
+| required querystring accountid  | object   | invalid-accountid                        |
+|                                 |          |  * missing querystring accountid         |
+|                                 |          |  * invalid querystring accountid         |
+|                                 |          | invalid-account                          |
+|                                 |          |  * ineligible querystring accountid      |
+|                                 |          | requires                                 |
+|                                 |          |  * querystring accountid is not deleted  |
+|---------------------------------|----------|------------------------------------------|
 
-|------------------------------------------------------------------|
-| /api/administrator/session                                       |
-| RETURNS--| REDACTS-----| EXCEPTIONS------------------------------|
-| object   | token hash  | invalid-sessionid                       |
-|          |             |  * unspecified querystring accountid    |
-|          |             |  * invalid querystring sessionid value  |
-|----------|-------------|-----------------------------------------|
+|----------------------------------------------------------------|
+| /api/administrator/session                                     |
+| RETURNS--| REDACTS-----| EXCEPTIONS----------------------------|
+| object   | token hash  | invalid-sessionid                     |
+|          |             |  * unspecified querystring accountid  |
+|          |             |  * invalid querystring sessionid      |
+|----------|-------------|---------------------------------------|
 
 |---------------------------------------------------------------------------------------------|
 | /api/administrator/sessions                                                                 |
@@ -212,38 +212,38 @@
 | RETURNS--| EXCEPTIONS-------------------------------------|
 | object   | invalid-accountid                              |
 |          |  * unspecified querystring accountid           |
-|          |  * invalid querystring accountid value         |
+|          |  * invalid querystring accountid               |
 |          | invalid-account                                |
 |          |  * ineligible querystring accountid            |
 |          | requires                                       |
 |          |  * querystring accountid is not administrator  |
 |----------|------------------------------------------------|
 
-|--------------------------------------------------------------------------------|
-| /api/administrator/set-account-deleted                                         |
-| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION-------------|
-| object   | invalid-accountid                       | environment DELETE_DELAY  |
-|          |  * unspecified querystring accountid    |                           |
-|          |  * invalid querystring accountid value  |                           |
-|          | invalid-account                         |                           |
-|          |  * ineligible querystring accountid     |                           |
-|          |  * querystring accountid is deleted     |                           |
-|----------|-----------------------------------------|---------------------------|
+|------------------------------------------------------------------------------|
+| /api/administrator/set-account-deleted                                       |
+| RETURNS--| EXCEPTIONS----------------------------| CONFIGURATION-------------|
+| object   | invalid-accountid                     | environment DELETE_DELAY  |
+|          |  * unspecified querystring accountid  |                           |
+|          |  * invalid querystring accountid      |                           |
+|          | invalid-account                       |                           |
+|          |  * ineligible querystring accountid   |                           |
+|          |  * querystring accountid is deleted   |                           |
+|----------|---------------------------------------|---------------------------|
 
-|--------------------------------------------------------------------------------------------|
-| /api/administrator/set-owner-account                                                       |
-| RECEIVES------------------------------| RETURNS--| EXCEPTIONS------------------------------|
-| required querystring accountid value  | object   | invalid-accountid                       |
-|                                       |          |  * missing querystring accountid value  |
-|                                       |          |  * invalid querystring accountid value  |
-|                                       |          | invalid-account                         |
-|                                       |          |  * ineligible accessing account         |
-|                                       |          |  * ineligible querystring accountid     |
-|                                       |          | requires                                |
-|                                       |          |  * accessing account is owner           |
-|                                       |          |  * querystring account is not owner     |
-|                                       |          |  * querystring account is not deleted   |
-|---------------------------------------|----------|-----------------------------------------|
+|-------------------------------------------------------------------------------------|
+| /api/administrator/set-owner-account                                                |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS-----------------------------|
+| required querystring accountid  | object   | invalid-accountid                      |
+|                                 |          |  * missing querystring accountid       |
+|                                 |          |  * invalid querystring accountid       |
+|                                 |          | invalid-account                        |
+|                                 |          |  * ineligible accessing account        |
+|                                 |          |  * ineligible querystring accountid    |
+|                                 |          | requires                               |
+|                                 |          |  * accessing account is owner          |
+|                                 |          |  * querystring account is not owner    |
+|                                 |          |  * querystring account is not deleted  |
+|---------------------------------|----------|----------------------------------------|
 
 |----------------------------------------------------------------------------------------------------|
 | /api/user/account                                                                                  |
