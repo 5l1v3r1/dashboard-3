@@ -1,3 +1,7 @@
+if [ ! -d node_modules/puppeteer ]; then
+  npm install puppeteer --no-save
+fi
+
 NODE_ENV=testing \
 FAST_START=true \
 DASHBOARD_SERVER="http://localhost:9007" \
