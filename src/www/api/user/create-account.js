@@ -69,7 +69,7 @@ module.exports = {
                 throw new Error(`invalid-${field}`)
               }
             } catch (error) {
-              return renderPage(req, res, `invalid-${field}`)
+              throw new Error(`invalid-${field}`)
             }
             continue
           default:
