@@ -71,7 +71,7 @@ describe('/administrator/delete-schedule', () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const users = []
-      for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
         users.unshift(user.account)

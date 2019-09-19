@@ -64,7 +64,7 @@ describe('/administrator/administrators', () => {
       const offset = 1
       const owner = await TestHelper.createOwner()
       const administrators = [owner.account]
-      for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createAdministrator(owner)
         administrators.unshift(user.account)
       }

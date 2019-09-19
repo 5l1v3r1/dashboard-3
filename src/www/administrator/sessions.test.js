@@ -70,7 +70,7 @@ describe('/administrator/sessions', () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const sessions = [administrator.session]
-      for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         sessions.unshift(user.session)
       }

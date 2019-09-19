@@ -9,7 +9,7 @@ describe('/api/administrator/profiles', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const profiles = [administrator.profile, user.profile]
-      for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
           'last-name': user.profile.lastName,

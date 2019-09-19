@@ -8,7 +8,7 @@ describe('/api/administrator/deleted-accounts', () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const accounts = []
-      for (let i = 0, len = offset + global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
         accounts.unshift(user.account)
