@@ -440,7 +440,17 @@ function deleteLocalData (currentPath) {
 }
 
 async function fetchWithPuppeteer (method, req) {
-  let pages = await browser.pages()
+  let pages
+  while (!pages) {
+    try {
+      pages = await browser.pages()
+    } catch (error) {
+    }
+    if (pages) {
+      break
+    }
+    await wait(100)
+  }
   let page
   if (pages && pages.length) {
     page = pages[0]
@@ -462,18 +472,26 @@ async function fetchWithPuppeteer (method, req) {
     }
   }
   page.on('error', () => { })
-  await page.emulate({
-    name: 'Desktop',
-    userAgent: 'Desktop browser',
-    viewport: {
-      width: 1920,
-      height: 1080,
-      deviceScaleFactor: 1,
-      isMobile: false,
-      hasTouch: false,
-      isLandscape: false
+  while (true) {
+    try {
+      await page.emulate({
+        name: 'Desktop',
+        userAgent: 'Desktop browser',
+        viewport: {
+          width: 1920,
+          height: 1080,
+          deviceScaleFactor: 1,
+          isMobile: false,
+          hasTouch: false,
+          isLandscape: false
+        }
+      })
+      break
+    } catch (error) {
+      await wait(100)
+      continue
     }
-  })
+  }
   if (req.account) {
     await TestHelperPuppeteer.open(page, `${process.env.DASHBOARD_SERVER}/account/signin`)
     await TestHelperPuppeteer.fill(page, {
@@ -487,8 +505,28 @@ async function fetchWithPuppeteer (method, req) {
     await TestHelperPuppeteer.fill(page, req.body, req.uploads)
     await TestHelperPuppeteer.click(page, req.button || '#submit-button')
   }
-  const htmls = await page.$$('html')
-  const html = await page.evaluate(el => el.outerHTML, htmls[0])
+  let htmls
+  while (!htmls) {
+    try {
+      htmls = await page.$$('html')
+    } catch (Error) {
+    }
+    if (htmls) {
+      break
+    }
+    await wait(100)
+  }
+  let html
+  while (!html) {
+    try {
+      html = await page.evaluate(el => el.outerHTML, htmls[0])
+    } catch (error) {
+    }
+    if (html) {
+      break
+    }
+    await wait(100)
+  }
   await page.close()
   return html
 }
