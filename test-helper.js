@@ -30,11 +30,7 @@ let packageJSON
 before(async () => {
   await dashboard.start(global.applicationPath || __dirname)
   packageJSON = global.packageJSON
-  browser = await global.puppeteer.launch({
-    headless: !(process.env.SHOW_BROWSERS === 'true'),
-    args: ['--window-size=1920,1080', '--incognito'],
-    slowMo: 0
-  })
+  await cycleBrowserObject()
 })
 
 beforeEach(async () => {
@@ -110,6 +106,7 @@ module.exports = {
   createSession,
   createResetCode,
   createUser,
+  cycleBrowserObject,
   deleteResetCode,
   endSession,
   nextIdentity,
@@ -117,6 +114,26 @@ module.exports = {
   extractDoc,
   extractRedirectURL,
   wait
+}
+
+async function cycleBrowserObject () {
+  if (browser && browser.close) {
+    await browser.close()
+    browser = null
+  }
+  while (!browser) {
+    try {
+      browser = await global.puppeteer.launch({
+        headless: !(process.env.SHOW_BROWSERS === 'true'),
+        args: ['--window-size=1920,1080', '--incognito'],
+        slowMo: 0
+      })
+      return browser
+    } catch (error) {
+      await wait(100)
+      continue
+    }
+  }
 }
 
 function createRequest (rawURL) {
