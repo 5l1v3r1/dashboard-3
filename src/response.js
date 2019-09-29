@@ -55,33 +55,40 @@ async function end (req, res, doc, blob) {
   if (doc.substring) {
     doc = HTML.parse(doc)
   }
+  const forms = doc.getElementsByTagName('form')
+  for (const form of forms) {
+    form.attr = form.attr || {}
+    form.attr.method = form.attr.method || 'POST'
+    form.attr.action = form.attr.action || req.url
+    if (process.env.NODE_ENV === 'testing') {
+      const inputs = form.getElementsByTagName('input')
+      if (inputs && inputs.length) {
+        for (const input of inputs) {
+          if (input.attr && input.attr.required) {
+            delete (input.attr.required)
+          }
+        }
+      }
+    }
+    if (req.query && req.query.returnURL && req.query.returnURL.startsWith('/')) {
+      form.attr.action = form.attr.action || req.url
+      if (form.attr.action) {
+        const question = form.attr.action.indexOf('?')
+        if (question > -1) {
+          const action = querystring.parse(form.attr.action.substring(question) + 1)
+          if (action.returnURL) {
+            continue
+          }
+        }
+      }
+      const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
+      form.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
+    }
+  }
   if (!req.route || req.route.template !== false) {
     const framedPage = await wrapTemplateWithSrcDoc(req, res, doc)
     return compress(req, res, framedPage)
   } else {
-    const forms = doc.getElementsByTagName('form')
-    for (const form of forms) {
-      form.attr = form.attr || {}
-      form.attr.method = form.attr.method || 'POST'
-      form.attr.action = form.attr.action || req.url
-      if (global.testNumber) {
-        form.attr.novalidation = 'novalidation'
-      }
-      if (req.query && req.query.returnURL && req.query.returnURL.startsWith('/')) {
-        form.attr.action = form.attr.action || req.url
-        if (form.attr.action) {
-          const question = form.attr.action.indexOf('?')
-          if (question > -1) {
-            const action = querystring.parse(form.attr.action.substring(question) + 1)
-            if (action.returnURL) {
-              continue
-            }
-          }
-        }
-        const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
-        form.attr.action += `${divider}returnURL=${encodeURI(req.query.returnURL).split('?').join('%3F')}`
-      }
-    }
     return compress(req, res, doc.toString())
   }
 }
