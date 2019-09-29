@@ -417,8 +417,9 @@ describe('/api/user/update-profile', () => {
       })
     })
   })
+
   describe('receives', () => {
-    it('optional posted first-name', async () => {
+    it('optionally-required posted first-name', async () => {
       global.requireProfile = true
       global.userProfileFields = ['full-name']
       const user = await TestHelper.createUser()
@@ -437,7 +438,7 @@ describe('/api/user/update-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-first-name')
     })
 
-    it('optional posted last-name', async () => {
+    it('optionally-required posted last-name', async () => {
       global.requireProfile = true
       global.userProfileFields = ['full-name']
       const user = await TestHelper.createUser()
@@ -456,7 +457,7 @@ describe('/api/user/update-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-last-name')
     })
 
-    it('optional posted display-name', async () => {
+    it('optionally-required posted display-name', async () => {
       global.requireProfile = true
       global.userProfileFields = ['display-name']
       const user = await TestHelper.createUser()
@@ -473,7 +474,7 @@ describe('/api/user/update-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-display-name')
     })
 
-    it('optional posted company-name', async () => {
+    it('optionally-required posted company-name', async () => {
       global.requireProfile = true
       global.userProfileFields = ['company-name']
       const user = await TestHelper.createUser()
@@ -490,7 +491,7 @@ describe('/api/user/update-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-company-name')
     })
 
-    it('optional posted contact-email', async () => {
+    it('optionally-required posted contact-email', async () => {
       global.requireProfile = true
       global.userProfileFields = ['contact-email']
       const user = await TestHelper.createUser()
@@ -507,7 +508,7 @@ describe('/api/user/update-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-contact-email')
     })
 
-    it('optional posted display-email', async () => {
+    it('optionally-required posted display-email', async () => {
       global.requireProfile = true
       global.userProfileFields = ['display-email']
       const user = await TestHelper.createUser()
@@ -524,7 +525,7 @@ describe('/api/user/update-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-display-email')
     })
 
-    it('optional posted location', async () => {
+    it('optionally-required posted location', async () => {
       global.requireProfile = true
       global.userProfileFields = ['location']
       const user = await TestHelper.createUser()
@@ -541,7 +542,7 @@ describe('/api/user/update-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-location')
     })
 
-    it('optional posted occupation', async () => {
+    it('optionally-required posted occupation', async () => {
       global.requireProfile = true
       global.userProfileFields = ['occupation']
       const user = await TestHelper.createUser()
@@ -558,7 +559,7 @@ describe('/api/user/update-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-occupation')
     })
 
-    it('optional posted phone', async () => {
+    it('optionally-required posted phone', async () => {
       global.requireProfile = true
       global.userProfileFields = ['phone']
       const user = await TestHelper.createUser()
@@ -575,7 +576,7 @@ describe('/api/user/update-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-phone')
     })
 
-    it('optional posted dob', async () => {
+    it('optionally-required posted dob', async () => {
       global.requireProfile = true
       global.userProfileFields = ['dob']
       const user = await TestHelper.createUser()

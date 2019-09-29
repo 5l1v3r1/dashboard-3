@@ -170,7 +170,7 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        'contact-email': ' '
+        'contact-email': ''
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -219,7 +219,7 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        'display-email': ' '
+        'display-email': ''
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -332,7 +332,7 @@ describe('/account/register', () => {
         username: 'new-user-' + new Date().getTime(),
         password: 'a-user-password',
         confirm: 'a-user-password',
-        dob: ' '
+        dob: ''
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)

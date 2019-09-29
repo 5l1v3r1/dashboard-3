@@ -17,7 +17,7 @@ describe('/account/signin', () => {
     it('should reject missing username', async () => {
       const req = TestHelper.createRequest('/account/signin')
       req.body = {
-        username: ' ',
+        username: '',
         password: 'password'
       }
       const page = await req.post()

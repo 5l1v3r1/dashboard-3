@@ -24,7 +24,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'first-name': ' ',
+        'first-name': '',
         'last-name': 'Test'
       }
       const page = await req.post()
@@ -34,7 +34,7 @@ describe('/account/create-profile', () => {
       assert.strictEqual(message.attr.template, 'invalid-first-name')
       req.body = {
         'first-name': 'Test',
-        'last-name': ' '
+        'last-name': ''
       }
       const page2 = await req.post()
       const doc2 = TestHelper.extractDoc(page2)
@@ -97,7 +97,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'contact-email': ' '
+        'contact-email': ''
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -145,7 +145,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'display-email': ' '
+        'display-email': ''
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -193,7 +193,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'display-name': null
+        'display-name': ''
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -253,7 +253,7 @@ describe('/account/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        dob: null
+        dob: ''
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
@@ -319,7 +319,7 @@ describe('/account/create-profile', () => {
       for (const field of fields) {
         global.userProfileFields = [field]
         req.body = {
-          [field]: null
+          [field]: ''
         }
         const page = await req.post()
         const doc = TestHelper.extractDoc(page)

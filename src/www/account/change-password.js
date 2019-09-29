@@ -23,9 +23,9 @@ function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   if (!req.body) {
-    return renderPage(req, res, 'invalid-new-password')
+    return renderPage(req, res)
   }
-  req.body['new-password'] = req.body['new-password'].trim ? req.body['new-password'].trim() : req.body['new-password']
+  req.body['new-password'] = req.body['new-password'] && req.body['new-password'].trim ? req.body['new-password'].trim() : req.body['new-password']
   if (!req.body['new-password'] || !req.body['new-password'].length) {
     return renderPage(req, res, 'invalid-new-password')
   }

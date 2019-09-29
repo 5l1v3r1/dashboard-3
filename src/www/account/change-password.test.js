@@ -23,8 +23,8 @@ describe('/account/change-password', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'new-password': ' ',
-        'confirm-password': ' ',
+        'new-password': '',
+        'confirm-password': 'new-password',
         password: user.account.password
       }
       const page = await req.post()
@@ -39,8 +39,8 @@ describe('/account/change-password', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'new-password': '1',
-        'confirm-password': '1',
+        'new-password': 'new-password',
+        'confirm-password': 'new-password',
         password: user.account.password
       }
       global.minimumPasswordLength = 100

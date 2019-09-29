@@ -23,7 +23,7 @@ describe('/account/change-username', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'new-username': ' ',
+        'new-username': '',
         password: user.account.password
       }
       const page = await req.post()

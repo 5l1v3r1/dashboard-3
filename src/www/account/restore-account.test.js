@@ -23,7 +23,7 @@ describe('/account/restore-account', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        username: ' ',
+        username: '',
         password: user.account.password
       }
       const page = await req.post()
@@ -52,7 +52,7 @@ describe('/account/restore-account', () => {
       req.session = user.session
       req.body = {
         username: user.account.username,
-        password: ' '
+        password: ''
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)

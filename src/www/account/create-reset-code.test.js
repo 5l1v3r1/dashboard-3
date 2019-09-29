@@ -23,7 +23,8 @@ describe('/account/create-reset-code', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'secret-code': ' '
+        'secret-code': '',
+        'post': 'at least one field'
       }
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)

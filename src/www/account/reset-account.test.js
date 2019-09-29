@@ -16,7 +16,7 @@ describe('/account/reset-account', () => {
     it('should reject missing username', async () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
-        username: null,
+        username: '',
         'new-password': 'new-password',
         'confirm-password': 'new-password',
         'secret-code': 'reset-code'
