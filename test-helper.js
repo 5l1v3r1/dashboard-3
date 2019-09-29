@@ -117,23 +117,34 @@ module.exports = {
 }
 
 async function cycleBrowserObject () {
-  if (browser && browser.close) {
-    await browser.close()
-    browser = null
+  while (browser && browser.close) {
+    try {
+      await browser.close()
+      browser = null
+      await wait(1000)
+    } catch (error) {
+    }
+    if (!browser) {
+      break
+    }
+    await wait(100)
   }
   while (!browser) {
     try {
       browser = await global.puppeteer.launch({
         headless: !(process.env.SHOW_BROWSERS === 'true'),
-        args: ['--window-size=1920,1080', '--incognito'],
+        args: ['--window-size=1920,1080', '--incognito', '--disable-dev-shm-usage'],
         slowMo: 0
       })
       return browser
     } catch (error) {
-      await wait(100)
-      continue
     }
+    if (browser) {
+      return browser
+    }
+    await wait(100)
   }
+  await wait(100)
 }
 
 function createRequest (rawURL) {
@@ -510,33 +521,25 @@ async function fetchWithPuppeteer (method, req) {
     }
   }
   if (req.account) {
-    await TestHelperPuppeteer.open(page, `${process.env.DASHBOARD_SERVER}/account/signin`)
+    await page.goto(`${process.env.DASHBOARD_SERVER}/account/signin`, { waitLoad: true, waitNetworkIdle: true })
+    await page.waitForSelector('#submit-form')
     await TestHelperPuppeteer.fill(page, {
       username: req.account.username,
       password: req.account.password
     })
     await TestHelperPuppeteer.click(page, 'Sign in')
+    await page.waitForSelector('#application-iframe')
   }
-  await TestHelperPuppeteer.open(page, `${process.env.DASHBOARD_SERVER}${req.url}`)
+  await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
+  await page.waitForSelector('body')
   if (method === 'POST') {
     await TestHelperPuppeteer.fill(page, req.body, req.uploads)
     await TestHelperPuppeteer.click(page, req.button || '#submit-button')
   }
-  let htmls
-  while (!htmls) {
-    try {
-      htmls = await page.$$('html')
-    } catch (Error) {
-    }
-    if (htmls) {
-      break
-    }
-    await wait(100)
-  }
   let html
   while (!html) {
     try {
-      html = await page.evaluate(el => el.outerHTML, htmls[0])
+      html = await page.evaluate(el => document.body.parentNode.outerHTML)
     } catch (error) {
     }
     if (html) {
