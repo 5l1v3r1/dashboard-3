@@ -157,8 +157,12 @@ async function fill (page, body, uploads) {
           await evaluate(active, el => { el.checked = false }, [])
         }
       } else {
-        await evaluate(active, el => { el.value = '' }, element)
-        await typeInElement(element, body[field])
+        if (body[field]) {
+          await evaluate(active, el => { el.value = '' }, element)
+          await typeInElement(element, body[field])
+        } else {
+          await evaluate(active, el => { el.value = '' }, element)
+        }
       }
     }
   }
@@ -364,7 +368,7 @@ async function typeInElement (element, text) {
   let fails = 0
   while (true) {
     try {
-      await element.type(text)
+      await element.type(text || '')
       return
     } catch (error) {
     }
