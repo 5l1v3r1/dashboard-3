@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.53
+@userdashboard/dashboard 1.0.54
 
 
 |-------------------------------------------------------------------|
@@ -255,89 +255,89 @@
 |                                 |          |                |  * ineligible querystring accountid  |
 |---------------------------------|----------|----------------|--------------------------------------|
 
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| /api/user/create-account                                                                                                                                              |
-| RECEIVES-----------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION------------------------------------| OVERRIDE---------------------------|
-| required posted password       | object   | invalid-username                  | environment MINIMUM_USERNAME_LENGTH              | request specifies required fields  |
-| required posted username       |          |  * missing posted username        | environment MAXIMUM_USERNAME_LENGTH              |                                    |
-| optional posted first-name     |          | invalid-username-length           | environment MINIMUM_PASSWORD_LENGTH              |                                    |
-| optional posted last-name      |          |  * posted username too short      | environment MAXIMUM_PASSWORD_LENGTH              |                                    |
-| optional posted display-name   |          |  * posted username too long       | environment REQUIRE_PROFILE                      |                                    |
-| optional posted company-name   |          | invalid-password                  | environment USER_PROFILE_FIELDS                  |                                    |
-| optional posted contact-email  |          |  * missing posted password        | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
-| optional posted display-email  |          | invalid-password-length           | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
-| optional posted location       |          |  * posted password too short      | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
-| optional posted occupation     |          |  * posted password too long       | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
-| optional posted phone          |          | invalid-first-name                | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
-| optional posted dob            |          |  * missing posted first-name      | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
-|                                |          | invalid-first-name-length         | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
-|                                |          |  * posted first-name too short    | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
-|                                |          |  * posted first-name too long     |                                                  |                                    |
-|                                |          | invalid-last-name                 |                                                  |                                    |
-|                                |          |  * missing posted last-name       |                                                  |                                    |
-|                                |          | invalid-last-name-length          |                                                  |                                    |
-|                                |          |  * posted last-name too short     |                                                  |                                    |
-|                                |          |  * posted last-name too long      |                                                  |                                    |
-|                                |          | invalid-display-name              |                                                  |                                    |
-|                                |          |  * missing posted display-name    |                                                  |                                    |
-|                                |          | invalid-display-name-length       |                                                  |                                    |
-|                                |          |  * posted display-name too short  |                                                  |                                    |
-|                                |          |  * posted display-name too long   |                                                  |                                    |
-|                                |          | invalid-company-name              |                                                  |                                    |
-|                                |          |  * missing posted company-name    |                                                  |                                    |
-|                                |          | invalid-contact-email             |                                                  |                                    |
-|                                |          |  * missing posted contact-email   |                                                  |                                    |
-|                                |          | invalid-display-email             |                                                  |                                    |
-|                                |          |  * missing posted display-email   |                                                  |                                    |
-|                                |          | invalid-location                  |                                                  |                                    |
-|                                |          |  * missing posted location        |                                                  |                                    |
-|                                |          | invalid-occupation                |                                                  |                                    |
-|                                |          |  * missing posted occupation      |                                                  |                                    |
-|                                |          | invalid-phone                     |                                                  |                                    |
-|                                |          |  * missing posted phone           |                                                  |                                    |
-|                                |          | invalid-dob                       |                                                  |                                    |
-|                                |          |  * missing posted dob             |                                                  |                                    |
-|--------------------------------|----------|-----------------------------------|--------------------------------------------------|------------------------------------|
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/create-account                                                                                                                                                         |
+| RECEIVES----------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION------------------------------------| OVERRIDE---------------------------|
+| required posted dob                       | object   | invalid-username                  | environment MINIMUM_USERNAME_LENGTH              | request specifies required fields  |
+| required posted phone                     |          |  * missing posted username        | environment MAXIMUM_USERNAME_LENGTH              |                                    |
+| required posted occupation                |          | invalid-username-length           | environment MINIMUM_PASSWORD_LENGTH              |                                    |
+| required posted location                  |          |  * posted username too short      | environment MAXIMUM_PASSWORD_LENGTH              |                                    |
+| required posted display-email             |          |  * posted username too long       | environment REQUIRE_PROFILE                      |                                    |
+| required posted contact-email             |          | invalid-password                  | environment USER_PROFILE_FIELDS                  |                                    |
+| required posted company-name              |          |  * missing posted password        | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
+| required posted display-name              |          | invalid-password-length           | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
+| required posted last-name                 |          |  * posted password too short      | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
+| required posted first-name                |          |  * posted password too long       | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
+| required posted password                  |          | invalid-first-name                | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
+| required posted username                  |          |  * missing posted first-name      | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
+| optionally-required posted first-name     |          | invalid-first-name-length         | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
+| optionally-required posted last-name      |          |  * posted first-name too short    | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
+| optionally-required posted display-name   |          |  * posted first-name too long     |                                                  |                                    |
+| optionally-required posted company-name   |          | invalid-last-name                 |                                                  |                                    |
+| optionally-required posted contact-email  |          |  * missing posted last-name       |                                                  |                                    |
+| optionally-required posted display-email  |          | invalid-last-name-length          |                                                  |                                    |
+| optionally-required posted location       |          |  * posted last-name too short     |                                                  |                                    |
+| optionally-required posted occupation     |          |  * posted last-name too long      |                                                  |                                    |
+| optionally-required posted phone          |          | invalid-display-name              |                                                  |                                    |
+| optionally-required posted dob            |          |  * missing posted display-name    |                                                  |                                    |
+|                                           |          | invalid-display-name-length       |                                                  |                                    |
+|                                           |          |  * posted display-name too short  |                                                  |                                    |
+|                                           |          |  * posted display-name too long   |                                                  |                                    |
+|                                           |          | invalid-company-name              |                                                  |                                    |
+|                                           |          |  * missing posted company-name    |                                                  |                                    |
+|                                           |          | invalid-contact-email             |                                                  |                                    |
+|                                           |          |  * missing posted contact-email   |                                                  |                                    |
+|                                           |          | invalid-display-email             |                                                  |                                    |
+|                                           |          |  * missing posted display-email   |                                                  |                                    |
+|                                           |          | invalid-location                  |                                                  |                                    |
+|                                           |          |  * missing posted location        |                                                  |                                    |
+|                                           |          | invalid-occupation                |                                                  |                                    |
+|                                           |          |  * missing posted occupation      |                                                  |                                    |
+|                                           |          | invalid-phone                     |                                                  |                                    |
+|                                           |          |  * missing posted phone           |                                                  |                                    |
+|                                           |          | invalid-dob                       |                                                  |                                    |
+|                                           |          |  * missing posted dob             |                                                  |                                    |
+|-------------------------------------------|----------|-----------------------------------|--------------------------------------------------|------------------------------------|
 
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| /api/user/create-profile                                                                                                                                       |
-| RECEIVES------------------------| EXCEPTIONS---------------------------| CONFIGURATION------------------------------------| OVERRIDE---------------------------|
-| required querystring accountid  | invalid-accountid                    | environment USER_PROFILE_FIELDS                  | request specifies required fields  |
-| optional posted first-name      |  * missing querystring accountid     | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
-| optional posted last-name       |  * invalid querystring accountid     | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
-| optional posted display-name    |  * ineligible querystring accountid  | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
-| optional posted company-name    | invalid-first-name                   | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
-| optional posted contact-email   |  * missing posted first-name         | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
-| optional posted display-email   | invalid-first-name-length            | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
-| optional posted location        |  * posted first-name too short       | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
-| optional posted occupation      |  * posted first-name too long        | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
-| optional posted phone           | invalid-last-name                    |                                                  |                                    |
-| optional posted dob             |  * missing posted last-name          |                                                  |                                    |
-|                                 | invalid-last-name-length             |                                                  |                                    |
-|                                 |  * posted last-name too short        |                                                  |                                    |
-|                                 |  * posted last-name too long         |                                                  |                                    |
-|                                 | invalid-display-name                 |                                                  |                                    |
-|                                 |  * missing posted display-name       |                                                  |                                    |
-|                                 | invalid-display-name-length          |                                                  |                                    |
-|                                 |  * posted display-name too short     |                                                  |                                    |
-|                                 |  * posted display-name too long      |                                                  |                                    |
-|                                 | invalid-company-name-length          |                                                  |                                    |
-|                                 |  * posted company-name too short     |                                                  |                                    |
-|                                 |  * posted company-name too long      |                                                  |                                    |
-|                                 |  * invalid-company-name-length       |                                                  |                                    |
-|                                 | invalid-contact-email                |                                                  |                                    |
-|                                 |  * missing posted contact-email      |                                                  |                                    |
-|                                 | invalid-display-email                |                                                  |                                    |
-|                                 |  * missing posted display-email      |                                                  |                                    |
-|                                 | invalid-location                     |                                                  |                                    |
-|                                 |  * missing posted location           |                                                  |                                    |
-|                                 | invalid-occupation                   |                                                  |                                    |
-|                                 |  * missing posted occupation         |                                                  |                                    |
-|                                 | invalid-phone                        |                                                  |                                    |
-|                                 |  * missing posted phone              |                                                  |                                    |
-|                                 | invalid-dob                          |                                                  |                                    |
-|                                 |  * missing posted dob                |                                                  |                                    |
-|---------------------------------|--------------------------------------|--------------------------------------------------|------------------------------------|
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/create-profile                                                                                                                                                 |
+| RECEIVES----------------------------------| EXCEPTIONS---------------------------| CONFIGURATION------------------------------------| OVERRIDE---------------------------|
+| required posted dob                       | invalid-accountid                    | environment USER_PROFILE_FIELDS                  | request specifies required fields  |
+| required posted phone                     |  * missing querystring accountid     | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
+| required posted occupation                |  * invalid querystring accountid     | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
+| required posted location                  |  * ineligible querystring accountid  | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
+| required posted display-email             | invalid-first-name                   | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
+| required posted contact-email             |  * missing posted first-name         | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
+| required posted display-name              | invalid-first-name-length            | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
+| required posted last-name                 |  * posted first-name too short       | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
+| required posted first-name                |  * posted first-name too long        | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
+| required querystring accountid            | invalid-last-name                    |                                                  |                                    |
+| optionally-required posted first-name     |  * missing posted last-name          |                                                  |                                    |
+| optionally-required posted last-name      | invalid-last-name-length             |                                                  |                                    |
+| optionally-required posted display-name   |  * posted last-name too short        |                                                  |                                    |
+| optionally-required posted company-name   |  * posted last-name too long         |                                                  |                                    |
+| optionally-required posted contact-email  | invalid-display-name                 |                                                  |                                    |
+| optionally-required posted display-email  |  * missing posted display-name       |                                                  |                                    |
+| optionally-required posted location       | invalid-display-name-length          |                                                  |                                    |
+| optionally-required posted occupation     |  * posted display-name too short     |                                                  |                                    |
+| optionally-required posted phone          |  * posted display-name too long      |                                                  |                                    |
+| optionally-required posted dob            | invalid-company-name-length          |                                                  |                                    |
+|                                           |  * posted company-name too short     |                                                  |                                    |
+|                                           |  * posted company-name too long      |                                                  |                                    |
+|                                           |  * invalid-company-name-length       |                                                  |                                    |
+|                                           | invalid-contact-email                |                                                  |                                    |
+|                                           |  * missing posted contact-email      |                                                  |                                    |
+|                                           | invalid-display-email                |                                                  |                                    |
+|                                           |  * missing posted display-email      |                                                  |                                    |
+|                                           | invalid-location                     |                                                  |                                    |
+|                                           |  * missing posted location           |                                                  |                                    |
+|                                           | invalid-occupation                   |                                                  |                                    |
+|                                           |  * missing posted occupation         |                                                  |                                    |
+|                                           | invalid-phone                        |                                                  |                                    |
+|                                           |  * missing posted phone              |                                                  |                                    |
+|                                           | invalid-dob                          |                                                  |                                    |
+|                                           |  * missing posted dob                |                                                  |                                    |
+|-------------------------------------------|--------------------------------------|--------------------------------------------------|------------------------------------|
 
 |-----------------------------------------------------------------------------------|
 | /api/user/create-reset-code                                                       |
@@ -595,43 +595,43 @@
 |                                 |          |  * ineligible querystring sessionid  |
 |---------------------------------|----------|--------------------------------------|
 
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| /api/user/update-profile                                                                                                                                                  |
-| RECEIVES------------------------| RETURNS--| EXCEPTIONS---------------------------| CONFIGURATION------------------------------------| OVERRIDE---------------------------|
-| required querystring profileid  | object   | invalid-profileid                    | environment USER_PROFILE_FIELDS                  | request specifies required fields  |
-| optional posted first-name      |          |  * missing querystring profileid     | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
-| optional posted last-name       |          |  * invalid querystring profileid     | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
-| optional posted display-name    |          |  * ineligible querystring profileid  | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
-| optional posted company-name    |          | invalid-first-name                   | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
-| optional posted contact-email   |          |  * missing posted first-name         | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
-| optional posted display-email   |          | invalid-first-name-length            | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
-| optional posted location        |          |  * posted first-name too short       | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
-| optional posted occupation      |          |  * posted first-name too long        | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
-| optional posted phone           |          | invalid-last-name                    |                                                  |                                    |
-| optional posted dob             |          |  * missing posted last-name          |                                                  |                                    |
-|                                 |          | invalid-last-name-length             |                                                  |                                    |
-|                                 |          |  * posted last-name too short        |                                                  |                                    |
-|                                 |          |  * posted last-name too long         |                                                  |                                    |
-|                                 |          | invalid-display-name                 |                                                  |                                    |
-|                                 |          |  * missing posted display-name       |                                                  |                                    |
-|                                 |          | invalid-display-name-length          |                                                  |                                    |
-|                                 |          |  * posted display-name too short     |                                                  |                                    |
-|                                 |          |  * posted display-name too long      |                                                  |                                    |
-|                                 |          | invalid-company-name                 |                                                  |                                    |
-|                                 |          |  * missing posted company-name       |                                                  |                                    |
-|                                 |          | invalid-company-name-length          |                                                  |                                    |
-|                                 |          |  * posted company-name too short     |                                                  |                                    |
-|                                 |          |  * posted company-name too long      |                                                  |                                    |
-|                                 |          | invalid-contact-email                |                                                  |                                    |
-|                                 |          |  * missing posted contact-email      |                                                  |                                    |
-|                                 |          | invalid-display-email                |                                                  |                                    |
-|                                 |          |  * missing posted display-email      |                                                  |                                    |
-|                                 |          | invalid-location                     |                                                  |                                    |
-|                                 |          |  * missing posted location           |                                                  |                                    |
-|                                 |          | invalid-occupation                   |                                                  |                                    |
-|                                 |          |  * missing posted occupation         |                                                  |                                    |
-|                                 |          | invalid-phone                        |                                                  |                                    |
-|                                 |          |  * missing posted phone              |                                                  |                                    |
-|                                 |          | invalid-dob                          |                                                  |                                    |
-|                                 |          |  * missing posted dob                |                                                  |                                    |
-|---------------------------------|----------|--------------------------------------|--------------------------------------------------|------------------------------------|
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/update-profile                                                                                                                                                            |
+| RECEIVES----------------------------------| RETURNS--| EXCEPTIONS---------------------------| CONFIGURATION------------------------------------| OVERRIDE---------------------------|
+| required posted dob                       | object   | invalid-profileid                    | environment USER_PROFILE_FIELDS                  | request specifies required fields  |
+| required posted phone                     |          |  * missing querystring profileid     | environment MINIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
+| required posted occupation                |          |  * invalid querystring profileid     | environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH    |                                    |
+| required posted location                  |          |  * ineligible querystring profileid  | environment MINIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
+| required posted display-email             |          | invalid-first-name                   | environment MAXIMUM_PROFILE_LAST_NAME_LENGTH     |                                    |
+| required posted contact-email             |          |  * missing posted first-name         | environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
+| required posted company-name              |          | invalid-first-name-length            | environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH  |                                    |
+| required posted display-name              |          |  * posted first-name too short       | environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
+| required posted last-name                 |          |  * posted first-name too long        | environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH  |                                    |
+| required posted first-name                |          | invalid-last-name                    |                                                  |                                    |
+| required querystring profileid            |          |  * missing posted last-name          |                                                  |                                    |
+| optionally-required posted first-name     |          | invalid-last-name-length             |                                                  |                                    |
+| optionally-required posted last-name      |          |  * posted last-name too short        |                                                  |                                    |
+| optionally-required posted display-name   |          |  * posted last-name too long         |                                                  |                                    |
+| optionally-required posted company-name   |          | invalid-display-name                 |                                                  |                                    |
+| optionally-required posted contact-email  |          |  * missing posted display-name       |                                                  |                                    |
+| optionally-required posted display-email  |          | invalid-display-name-length          |                                                  |                                    |
+| optionally-required posted location       |          |  * posted display-name too short     |                                                  |                                    |
+| optionally-required posted occupation     |          |  * posted display-name too long      |                                                  |                                    |
+| optionally-required posted phone          |          | invalid-company-name                 |                                                  |                                    |
+| optionally-required posted dob            |          |  * missing posted company-name       |                                                  |                                    |
+|                                           |          | invalid-company-name-length          |                                                  |                                    |
+|                                           |          |  * posted company-name too short     |                                                  |                                    |
+|                                           |          |  * posted company-name too long      |                                                  |                                    |
+|                                           |          | invalid-contact-email                |                                                  |                                    |
+|                                           |          |  * missing posted contact-email      |                                                  |                                    |
+|                                           |          | invalid-display-email                |                                                  |                                    |
+|                                           |          |  * missing posted display-email      |                                                  |                                    |
+|                                           |          | invalid-location                     |                                                  |                                    |
+|                                           |          |  * missing posted location           |                                                  |                                    |
+|                                           |          | invalid-occupation                   |                                                  |                                    |
+|                                           |          |  * missing posted occupation         |                                                  |                                    |
+|                                           |          | invalid-phone                        |                                                  |                                    |
+|                                           |          |  * missing posted phone              |                                                  |                                    |
+|                                           |          | invalid-dob                          |                                                  |                                    |
+|                                           |          |  * missing posted dob                |                                                  |                                    |
+|-------------------------------------------|----------|--------------------------------------|--------------------------------------------------|------------------------------------|

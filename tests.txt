@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.53 test /Users/benlowry/Downloads/environment/dashboard
+> @userdashboard/dashboard@1.0.54 test /Users/benlowry/Dropbox/_synohome/drive/workspaces/dashboard/dashboard
 > mocha src --recursive --no-colors --timeout 120000 --slow 120000
 
 
@@ -1003,16 +1003,16 @@
       invalid-dob
         ✓ missing posted dob
     receives
-      ✓ optional posted first-name
-      ✓ optional posted last-name
-      ✓ optional posted display-name
-      ✓ optional posted company-name
-      ✓ optional posted contact-email
-      ✓ optional posted display-email
-      ✓ optional posted location
-      ✓ optional posted occupation
-      ✓ optional posted phone
-      ✓ optional posted dob
+      ✓ optionally-required posted first-name
+      ✓ optionally-required posted last-name
+      ✓ optionally-required posted display-name
+      ✓ optionally-required posted company-name
+      ✓ optionally-required posted contact-email
+      ✓ optionally-required posted display-email
+      ✓ optionally-required posted location
+      ✓ optionally-required posted occupation
+      ✓ optionally-required posted phone
+      ✓ optionally-required posted dob
     returns
       ✓ object
     configuration
@@ -1073,16 +1073,16 @@
       invalid-dob
         ✓ missing posted dob
     receives
-      ✓ optional posted first-name
-      ✓ optional posted last-name
-      ✓ optional posted display-name
-      ✓ optional posted company-name
-      ✓ optional posted contact-email
-      ✓ optional posted display-email
-      ✓ optional posted location
-      ✓ optional posted occupation
-      ✓ optional posted phone
-      ✓ optional posted dob
+      ✓ optionally-required posted first-name
+      ✓ optionally-required posted last-name
+      ✓ optionally-required posted display-name
+      ✓ optionally-required posted company-name
+      ✓ optionally-required posted contact-email
+      ✓ optionally-required posted display-email
+      ✓ optionally-required posted location
+      ✓ optionally-required posted occupation
+      ✓ optionally-required posted phone
+      ✓ optionally-required posted dob
     configuration
       ✓ environment USER_PROFILE_FIELDS
       ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
@@ -1420,16 +1420,16 @@
       invalid-dob
         ✓ missing posted dob
     receives
-      ✓ optional posted first-name
-      ✓ optional posted last-name
-      ✓ optional posted display-name
-      ✓ optional posted company-name
-      ✓ optional posted contact-email
-      ✓ optional posted display-email
-      ✓ optional posted location
-      ✓ optional posted occupation
-      ✓ optional posted phone
-      ✓ optional posted dob
+      ✓ optionally-required posted first-name
+      ✓ optionally-required posted last-name
+      ✓ optionally-required posted display-name
+      ✓ optionally-required posted company-name
+      ✓ optionally-required posted contact-email
+      ✓ optionally-required posted display-email
+      ✓ optionally-required posted location
+      ✓ optionally-required posted occupation
+      ✓ optionally-required posted phone
+      ✓ optionally-required posted dob
     returns
       ✓ object
     configuration
@@ -1446,5 +1446,5 @@
       ✓ request specifies required fields
 
 
-  787 passing (4m)
+  787 passing (20m)
 
