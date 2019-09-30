@@ -70,6 +70,21 @@ describe('/api/user/reset-codes', () => {
       }
     })
 
+    it('optional querystring limit (integer)', async () => {
+      const limit = 1
+      const user = await TestHelper.createUser()
+      const codes = []
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createResetCode(user)
+        codes.unshift(user.resetCode)
+      }
+      const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user.account.accountid}&limit=${limit}`)
+      req.account = user.account
+      req.session = user.session
+      const codesNow = await req.get()
+      assert.strictEqual(codesNow.length, limit)
+    })
+
     it('optional querystring all (boolean)', async () => {
       const user = await TestHelper.createUser()
       const codes = [user.resetCode]

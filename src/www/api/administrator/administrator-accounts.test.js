@@ -21,6 +21,21 @@ describe('/api/administrator/administrator-accounts', () => {
       }
     })
 
+    it('optional querystring limit (integer)', async () => {
+      const limit = 1
+      const owner = await TestHelper.createOwner()
+      const accounts = [owner.account]
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        const administrator = await TestHelper.createAdministrator(owner)
+        accounts.unshift(administrator.account)
+      }
+      const req = TestHelper.createRequest(`/api/administrator/administrator-accounts?limit=${limit}`)
+      req.account = owner.account
+      req.session = owner.session
+      const accountsNow = await req.get()
+      assert.strictEqual(accountsNow.length, limit)
+    })
+
     it('optional querystring all (boolean)', async () => {
       const owner = await TestHelper.createOwner()
       const accounts = [owner.account]

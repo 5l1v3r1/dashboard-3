@@ -22,6 +22,22 @@ describe('/api/administrator/deleted-accounts', () => {
       }
     })
 
+    it('optional querystring limit (integer)', async () => {
+      const limit = 1
+      const administrator = await TestHelper.createOwner()
+      const accounts = []
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        const user = await TestHelper.createUser()
+        await TestHelper.setDeleted(user)
+        accounts.unshift(user.account)
+      }
+      const req = TestHelper.createRequest(`/api/administrator/deleted-accounts?limit=${limit}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const accountsNow = await req.get()
+      assert.strictEqual(accountsNow.length, limit)
+    })
+
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const accounts = []

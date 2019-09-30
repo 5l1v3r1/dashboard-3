@@ -4,7 +4,7 @@ module.exports = {
   get: async (req) => {
     req.query = req.query || {}
     const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const accountids = await dashboard.StorageList.list(`${req.appid}/deleted/accounts`, offset)
+    const accountids = await dashboard.StorageList.list(`${req.appid}/deleted/accounts`, offset, limit)
     if (!accountids || !accountids.length) {
       return null
     }

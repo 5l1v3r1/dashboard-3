@@ -54,6 +54,22 @@ describe('/api/administrator/account-reset-codes', () => {
       }
     })
 
+    it('optional querystring limit (integer)', async () => {
+      const limit = 1
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const codes = []
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createResetCode(user)
+        codes.unshift(user.resetCode)
+      }
+      const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}&limit=${limit}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const codesNow = await req.get()
+      assert.strictEqual(codesNow.length, limit)
+    })
+
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

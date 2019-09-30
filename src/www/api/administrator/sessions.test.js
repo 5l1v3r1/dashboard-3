@@ -22,6 +22,22 @@ describe('/api/administrator/sessions', () => {
       }
     })
 
+    it('optional querystring limit (integer)', async () => {
+      const limit = 1
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const sessions = [user.session]
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createSession(user)
+        sessions.unshift(user.session)
+      }
+      const req = TestHelper.createRequest(`/api/administrator/sessions?limit=${limit}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const sessionsNow = await req.get()
+      assert.strictEqual(sessionsNow.length, limit)
+    })
+
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

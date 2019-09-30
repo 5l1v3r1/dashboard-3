@@ -8,7 +8,8 @@ module.exports = {
       sessionids = await dashboard.StorageList.listAll(`${req.appid}/sessions`)
     } else {
       const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-      sessionids = await dashboard.StorageList.list(`${req.appid}/sessions`, offset)
+      const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
+      sessionids = await dashboard.StorageList.list(`${req.appid}/sessions`, offset, limit)
     }
     if (!sessionids || !sessionids.length) {
       return null

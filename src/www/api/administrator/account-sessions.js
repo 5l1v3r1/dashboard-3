@@ -14,7 +14,8 @@ module.exports = {
       sessionids = await dashboard.StorageList.listAll(`${req.appid}/account/sessions/${req.query.accountid}`)
     } else {
       const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-      sessionids = await dashboard.StorageList.list(`${req.appid}/account/sessions/${req.query.accountid}`, offset)
+      const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
+      sessionids = await dashboard.StorageList.list(`${req.appid}/account/sessions/${req.query.accountid}`, offset, limit)
     }
     if (!sessionids || !sessionids.length) {
       return null

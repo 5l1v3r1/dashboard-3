@@ -8,7 +8,8 @@ module.exports = {
       profileids = await dashboard.StorageList.listAll(`${req.appid}/profiles`)
     } else {
       const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-      profileids = await dashboard.StorageList.list(`${req.appid}/profiles`, offset)
+      const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
+      profileids = await dashboard.StorageList.list(`${req.appid}/profiles`, offset, limit)
     }
     if (!profileids || !profileids.length) {
       return null

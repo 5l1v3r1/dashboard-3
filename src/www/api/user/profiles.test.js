@@ -75,6 +75,26 @@ describe('/api/user/profiles', () => {
       }
     })
 
+    it('optional querystring limit (integer)', async () => {
+      const limit = 1
+      const user = await TestHelper.createUser()
+      const profiles = [user.profile]
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
+        profiles.unshift(user.profile)
+      }
+      const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&limit=${limit}`)
+      req.account = user.account
+      req.session = user.session
+      const profilesNow = await req.get()
+      assert.strictEqual(profilesNow.length, limit)
+    })
+
     it('optional querystring all (boolean)', async () => {
       const user = await TestHelper.createUser()
       const profiles = [user.profile]

@@ -27,6 +27,27 @@ describe('/api/administrator/profiles', async () => {
       }
     })
 
+    it('optional querystring limit (integer)', async () => {
+      const limit = 1
+      const administrator = await TestHelper.createOwner()
+      const user = await TestHelper.createUser()
+      const profiles = [administrator.profile, user.profile]
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
+        profiles.unshift(user.profile)
+      }
+      const req = TestHelper.createRequest(`/api/administrator/profiles?limit=${limit}`)
+      req.account = administrator.account
+      req.session = administrator.session
+      const profilesNow = await req.get()
+      assert.strictEqual(profilesNow.length, limit)
+    })
+
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

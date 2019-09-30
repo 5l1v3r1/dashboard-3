@@ -11,7 +11,8 @@ module.exports = {
       accountids = await dashboard.StorageList.listAll(`${req.appid}/administrator/accounts`)
     } else {
       const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-      accountids = await dashboard.StorageList.list(`${req.appid}/administrator/accounts`, offset)
+      const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
+      accountids = await dashboard.StorageList.list(`${req.appid}/administrator/accounts`, offset, limit)
     }
     if (!accountids || !accountids.length) {
       return null
