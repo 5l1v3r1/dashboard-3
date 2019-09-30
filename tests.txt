@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.55 test /Users/benlowry/Dropbox/_synohome/drive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.56 test /Users/benlowry/Dropbox/_synohome/drive/workspaces/dashboard/dashboard
 > mocha src --recursive --no-colors --timeout 120000 --slow 120000
 
 
@@ -672,6 +672,7 @@
         ✓ invalid querystring accountid
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -693,6 +694,7 @@
         ✓ invalid querystring accountid
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -716,6 +718,7 @@
         ✓ invalid querystring accountid
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -743,6 +746,7 @@
   /api/administrator/accounts
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -760,6 +764,7 @@
   /api/administrator/administrator-accounts
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -802,6 +807,7 @@
   /api/administrator/deleted-accounts
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -827,6 +833,7 @@
   /api/administrator/profiles
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -861,6 +868,7 @@
   /api/administrator/reset-codes
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -898,6 +906,7 @@
   /api/administrator/sessions
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -1173,6 +1182,7 @@
         ✓ ineligible querystring accountid
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -1239,6 +1249,7 @@
         ✓ ineligible querystring accountid
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -1288,6 +1299,7 @@
         ✓ ineligible querystring accountid
     receives
       ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
       ✓ array
@@ -1446,5 +1458,5 @@
       ✓ request specifies required fields
 
 
-  787 passing (20m)
+  799 passing (19m)
 
