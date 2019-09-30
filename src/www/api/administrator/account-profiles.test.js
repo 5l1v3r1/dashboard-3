@@ -48,14 +48,14 @@ describe('/api/administrator/account-profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
+        profiles.unshift(user.profile.profileid)
       }
       const req = TestHelper.createRequest(`/api/administrator/account-profiles?accountid=${user.account.accountid}&offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
       const profilesNow = await req.get()
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(profilesNow[i].profileid, profiles[offset + i].profileid)
+        assert.strictEqual(profilesNow[i].profileid, profiles[offset + i])
       }
     })
 
@@ -63,7 +63,6 @@ describe('/api/administrator/account-profiles', () => {
       const limit = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const profiles = [user.profile]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -71,7 +70,6 @@ describe('/api/administrator/account-profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
       }
       const req = TestHelper.createRequest(`/api/administrator/account-profiles?accountid=${user.account.accountid}&limit=${limit}`)
       req.account = administrator.account
@@ -83,7 +81,6 @@ describe('/api/administrator/account-profiles', () => {
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const profiles = [user.profile]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -91,15 +88,12 @@ describe('/api/administrator/account-profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
       }
       const req = TestHelper.createRequest(`/api/administrator/account-profiles?accountid=${user.account.accountid}&all=true`)
       req.account = administrator.account
       req.session = administrator.session
       const profilesNow = await req.get()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        assert.strictEqual(profilesNow[i].profileid, profiles[i].profileid)
-      }
+      assert.strictEqual(profilesNow.length, global.pageSize + 2)
     })
   })
 
