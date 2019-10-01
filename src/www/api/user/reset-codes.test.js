@@ -35,7 +35,7 @@ describe('/api/user/reset-codes', () => {
     })
 
     describe('invalid-account', () => {
-      it('ineligible querystring accountid', async () => {
+      it('ineligible accessing account', async () => {
         const user = await TestHelper.createUser()
         const user2 = await TestHelper.createUser()
         const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user2.account.accountid}`)

@@ -36,7 +36,7 @@ describe('/api/administrator/reset-session-key', () => {
   })
 
   describe('invalid-account', () => {
-    it('ineligible querystring accountid', async () => {
+    it('ineligible querystring account is deleted', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)

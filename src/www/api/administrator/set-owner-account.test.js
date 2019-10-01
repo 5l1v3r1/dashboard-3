@@ -51,7 +51,7 @@ describe('/api/administrator/set-owner-account', () => {
         assert.strictEqual(errorMessage, 'invalid-account')
       })
 
-      it('ineligible querystring accountid', async () => {
+      it('ineligible querystring account is already owner', async () => {
         const owner = await TestHelper.createOwner()
         const req = TestHelper.createRequest(`/api/administrator/set-owner-account?accountid=${owner.account.accountid}`)
         req.account = owner.account

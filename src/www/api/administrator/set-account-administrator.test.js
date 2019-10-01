@@ -35,7 +35,7 @@ describe('/api/administrator/set-account-administrator', () => {
     })
 
     describe('invalid-account', () => {
-      it('ineligible querystring accountid', async () => {
+      it('ineligible querystring account is already administrator', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest(`/api/administrator/set-account-administrator?accountid=${administrator.account.accountid}`)
         req.account = administrator.account
