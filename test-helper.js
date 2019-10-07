@@ -164,9 +164,22 @@ function createRequest (rawURL) {
       if (req.url.startsWith('/api/')) {
         delete (global.apiResponse)
         global.apiDependencies = []
-        const result = await proxy(verb, rawURL, req)
-        global.apiResponse = result
-        return result
+        while (true) {
+          try {
+            const result = await proxy(verb, rawURL, req)
+            global.apiResponse = result
+            return result
+          } catch (error) {
+            if (!req.retry) {
+              throw error
+            }
+            req.retries = req.retries || 0
+            req.retries++
+            if (req.retries === 3) {
+              throw error
+            }
+          }
+        }
       }
       let result
       try {
