@@ -121,7 +121,6 @@ async function cycleBrowserObject () {
     try {
       await browser.close()
       browser = null
-      await wait(1000)
     } catch (error) {
     }
     if (!browser) {
@@ -136,7 +135,6 @@ async function cycleBrowserObject () {
         args: ['--window-size=1920,1080', '--incognito', '--disable-dev-shm-usage'],
         slowMo: 0
       })
-      return browser
     } catch (error) {
     }
     if (browser) {
