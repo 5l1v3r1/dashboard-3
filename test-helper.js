@@ -163,20 +163,22 @@ function createRequest (rawURL) {
         delete (global.apiResponse)
         global.apiDependencies = []
         while (true) {
+          let errorMessage
           try {
             const result = await proxy(verb, rawURL, req)
-            global.apiResponse = result
-            return result
+            if (!result || result.object !== 'error') {
+              global.apiResponse = result
+              return result
+            }
+            errorMessage = result ? result.message : null
           } catch (error) {
-            if (!req.retry) {
-              throw error
-            }
-            req.retries = req.retries || 0
-            req.retries++
-            if (req.retries === 3) {
-              throw error
-            }
+            errorMessage = error.message
           }
+          if (!req.retry || req.retries === 3) {
+            throw new Error(errorMessage || 'api proxying failed')
+          }
+          req.retries = req.retries || 0
+          req.retries++
         }
       }
       let result
