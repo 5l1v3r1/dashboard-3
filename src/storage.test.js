@@ -2,7 +2,7 @@
 const assert = require('assert')
 const Storage = require('./storage.js')
 
-describe('internal-api/storage', async () => {
+describe('internal-api/storage', () => {
   describe('Storage#read', () => {
     it('should require file', async () => {
       let errorMessage

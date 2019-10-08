@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe('/api/administrator/profiles', async () => {
+describe('/api/administrator/profiles', () => {
   describe('receives', () => {
     it('optional querystring offset (integer)', async () => {
       const offset = 1

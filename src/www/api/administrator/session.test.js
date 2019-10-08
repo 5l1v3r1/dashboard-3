@@ -4,7 +4,7 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/session', () => {
   describe('exceptions', () => {
-    describe('invalid-sessionid', async () => {
+    describe('invalid-sessionid', () => {
       it('unspecified querystring accountid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/session')

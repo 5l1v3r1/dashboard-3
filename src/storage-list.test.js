@@ -3,7 +3,7 @@ const assert = require('assert')
 const StorageList = require('./storage-list.js')
 const TestHelper = require('../test-helper.js')
 
-describe('internal-api/storage-list', async () => {
+describe('internal-api/storage-list', () => {
   describe('StorageList#add', () => {
     it('should add string properties', async () => {
       await StorageList.add('test-data', 'string')

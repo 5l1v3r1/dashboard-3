@@ -4,7 +4,7 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/reset-code', () => {
   describe('exceptions', () => {
-    describe('invalid-reset-codeid', async () => {
+    describe('invalid-reset-codeid', () => {
       it('missing querystring codeid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/reset-code')

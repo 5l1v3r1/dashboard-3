@@ -261,7 +261,7 @@ describe('/api/user/update-profile', () => {
       })
     })
 
-    describe('invalid-company-name-length', async () => {
+    describe('invalid-company-name-length', () => {
       it('posted company-name too short', async () => {
         const user = await TestHelper.createUser()
         const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)

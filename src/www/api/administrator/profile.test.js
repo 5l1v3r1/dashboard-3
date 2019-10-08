@@ -4,7 +4,7 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/profile', () => {
   describe('exceptions', () => {
-    describe('invalid-profileid', async () => {
+    describe('invalid-profileid', () => {
       it('missing querystring profileid', async () => {
         const administrator = await TestHelper.createOwner()
         const req = TestHelper.createRequest('/api/administrator/profile')

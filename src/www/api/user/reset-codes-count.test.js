@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe('/api/user/reset-codes-count', async () => {
+describe('/api/user/reset-codes-count', () => {
   describe('exceptions', () => {
     describe('invalid-accountid', () => {
       it('missing querystring accountid', async () => {
