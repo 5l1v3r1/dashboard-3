@@ -179,6 +179,7 @@ function createRequest (rawURL) {
           }
           req.retries = req.retries || 0
           req.retries++
+          await wait(2000)
         }
       }
       let result
