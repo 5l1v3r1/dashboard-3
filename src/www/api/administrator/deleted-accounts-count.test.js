@@ -6,17 +6,15 @@ describe('/api/administrator/deleted-accounts-count', () => {
   describe('returns', () => {
     it('querystring accountid', async () => {
       const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.setDeleted(user)
-      const user2 = await TestHelper.createUser()
-      await TestHelper.setDeleted(user2)
-      const user3 = await TestHelper.createUser()
-      await TestHelper.setDeleted(user3)
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        const user = await TestHelper.createUser()
+        await TestHelper.setDeleted(user)
+      }
       const req = TestHelper.createRequest('/api/administrator/deleted-accounts-count')
       req.account = administrator.account
       req.session = administrator.session
       const result = await req.get()
-      assert.strictEqual(result, 3)
+      assert.strictEqual(result, global.pageSize + 1)
     })
   })
 })

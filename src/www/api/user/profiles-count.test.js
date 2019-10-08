@@ -55,23 +55,19 @@ describe('/api/user/profiles-count', () => {
   describe('returns', () => {
     it('integer', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
-        default: 'true'
-      })
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
-        default: 'true'
-      })
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createProfile(user, {
+          'first-name': user.profile.firstName,
+          'last-name': user.profile.lastName,
+          'contact-email': user.profile.contactEmail,
+          default: 'true'
+        })
+      }
       const req = TestHelper.createRequest(`/api/user/profiles-count?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
       const result = await req.get()
-      assert.strictEqual(result, 3)
+      assert.strictEqual(result, global.pageSize + 2)
     })
   })
 })

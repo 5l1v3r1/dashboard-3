@@ -39,13 +39,14 @@ describe('/api/administrator/account-sessions-count', () => {
     it('integer', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      await TestHelper.createSession(user)
-      await TestHelper.createSession(user)
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createSession(user)
+      }
       const req = TestHelper.createRequest(`/api/administrator/account-sessions-count?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
       const result = await req.get()
-      assert.strictEqual(result, 3)
+      assert.strictEqual(result, global.pageSize + 2)
     })
   })
 })

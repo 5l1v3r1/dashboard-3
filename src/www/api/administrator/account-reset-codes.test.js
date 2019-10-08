@@ -43,14 +43,14 @@ describe('/api/administrator/account-reset-codes', () => {
       const codes = []
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode)
+        codes.unshift(user.resetCode.codeid)
       }
       const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}&offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
       const codesNow = await req.get()
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(codesNow[i].codeid, codes[offset + i].codeid)
+        assert.strictEqual(codesNow[i].codeid, codes[offset + i])
       }
     })
 
@@ -73,18 +73,14 @@ describe('/api/administrator/account-reset-codes', () => {
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const codes = []
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode)
       }
       const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}&all=true`)
       req.account = administrator.account
       req.session = administrator.session
       const codesNow = await req.get()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        assert.strictEqual(codesNow[i].codeid, codes[i].codeid)
-      }
+      assert.strictEqual(codesNow.length, global.pageSize + 1)
     })
   })
 
@@ -92,32 +88,27 @@ describe('/api/administrator/account-reset-codes', () => {
     it('array', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const codes = []
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode)
       }
-      const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}&all=true`)
+      const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
       const codesNow = await req.get()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        assert.strictEqual(codesNow[i].codeid, codes[i].codeid)
-      }
+      assert.strictEqual(codesNow.length, global.pageSize)
     })
   })
 
   describe('redacts', () => {
-    it('secret code hash', async () => {
+    it('secretCodeHash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
-      const resetCodes = await req.get()
-      assert.strictEqual(resetCodes.length, 1)
-      assert.strictEqual(undefined, resetCodes[0].secretCodeHash)
+      const codesNow = await req.get()
+      assert.strictEqual(codesNow[0].secretCodeHash, undefined)
     })
   })
 
@@ -126,12 +117,10 @@ describe('/api/administrator/account-reset-codes', () => {
       global.pageSize = 3
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const codes = []
-      for (let i = 0, len = global.pageSize; i < len; i++) {
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode)
       }
-      const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}&all=true`)
+      const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
       const codesNow = await req.get()

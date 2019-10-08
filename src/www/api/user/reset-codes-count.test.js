@@ -55,14 +55,14 @@ describe('/api/user/reset-codes-count', () => {
   describe('returns', () => {
     it('integer', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      await TestHelper.createResetCode(user)
-      await TestHelper.createResetCode(user)
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createResetCode(user)
+      }
       const req = TestHelper.createRequest(`/api/user/reset-codes-count?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
       const result = await req.get()
-      assert.strictEqual(result, 3)
+      assert.strictEqual(result, global.pageSize + 1)
     })
   })
 })

@@ -6,13 +6,14 @@ describe('/api/administrator/profiles-count', () => {
   describe('returns', () => {
     it('integer', async () => {
       const administrator = await TestHelper.createOwner()
-      await TestHelper.createUser()
-      await TestHelper.createUser()
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createUser()
+      }
       const req = TestHelper.createRequest('/api/administrator/profiles-count')
       req.account = administrator.account
       req.session = administrator.session
       const result = await req.get()
-      assert.strictEqual(result, 3)
+      assert.strictEqual(result, global.pageSize + 2)
     })
   })
 })

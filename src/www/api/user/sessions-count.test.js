@@ -55,13 +55,14 @@ describe('/api/user/sessions-count', () => {
   describe('returns', () => {
     it('integer', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createSession(user)
-      await TestHelper.createSession(user)
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        await TestHelper.createSession(user)
+      }
       const req = TestHelper.createRequest(`/api/user/sessions-count?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
       const result = await req.get()
-      assert.strictEqual(result, 3)
+      assert.strictEqual(result, global.pageSize + 2)
     })
   })
 })

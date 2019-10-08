@@ -6,17 +6,15 @@ describe('/api/administrator/reset-codes-count', () => {
   describe('returns', () => {
     it('integer', async () => {
       const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const user2 = await TestHelper.createUser()
-      await TestHelper.createResetCode(user2)
-      const user3 = await TestHelper.createUser()
-      await TestHelper.createResetCode(user3)
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        const user = await TestHelper.createUser()
+        await TestHelper.createResetCode(user)
+      }
       const req = TestHelper.createRequest('/api/administrator/reset-codes-count')
       req.account = administrator.account
       req.session = administrator.session
       const result = await req.get()
-      assert.strictEqual(result, 3)
+      assert.strictEqual(result, global.pageSize + 1)
     })
   })
 })
