@@ -287,7 +287,8 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     if (req.query && req.query.returnURL && req.query.returnURL.startsWith('/')) {
       form.attr.action = form.attr.action || req.url
       if (form.attr.action) {
-        const action = new url.URL(form.attr.action, true)
+        const formURL = form.attr.action.startsWith('/') ? global.dashboardServer + form.attr.action : form.attr.action
+        const action = new url.URL(formURL)
         if (action.returnURL) {
           continue
         }
