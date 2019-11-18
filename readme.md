@@ -6,9 +6,17 @@ Dashboard is a parallel web application that accompanies your web app, subscript
 
 ## Development status
 
-Dashboard is ready to use.  The following work remains:
+Dashboard is ready to use.  The following work remains and help is welcome:
 
 - translations required for everything in /languages please help
+- add sorting and searching table data to the APIs and UIs
+- add signin throttling
+- add api throttling
+- add UI for setting user language preference
+- add server handler to substitute preferred language HTML
+- add hooks for 2FA 
+- needs module for API keys
+- needs module for logs
 
 ## Local documentation
 
