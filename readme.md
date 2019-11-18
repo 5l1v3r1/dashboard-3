@@ -4,6 +4,12 @@
 
 Dashboard is a parallel web application that accompanies your web app, subscription service, or Stripe Connect platform to provide all the "boilerplate" a modern web app requires to serve its users.  Use Dashboard instead of rewriting user account and login systems.
 
+## Development status
+
+Dashboard is ready to use.  The following work remains:
+
+- translations required for everything in /languages please help
+
 ## Local documentation
 
 | File | Description | 
