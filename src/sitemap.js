@@ -3,7 +3,8 @@ const HTML = require('./html.js')
 
 module.exports = {
   generate,
-  outputConfiguration
+  outputConfiguration,
+  wrapAPIRequest
 }
 
 function generate () {
