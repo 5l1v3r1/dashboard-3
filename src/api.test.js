@@ -4,52 +4,62 @@ const TestHelper = require('../test-helper.js')
 
 /* eslint-env mocha */
 describe('internal-api/api', () => {
-  describe('API#wrapAPIRequest', () => {
-    it('should allow guest access', async () => {
-      const handler = API.wrapAPIRequest({
-        auth: false,
-        get: async () => {
-          return true
-        }
-      }, '/api/user/delete-account')
-      const req = TestHelper.createRequest('/api/user/delete-account')
-      const result = await handler.get(req)
-      assert.strictEqual(result, true)
-    })
-
-    it('should return object', async () => {
-      const handler = API.wrapAPIRequest({
-        get: async (req) => {
-          return req.account
-        }
-      }, '/api/user/account')
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      const account = await handler.get(req)
-      assert.strictEqual(account.accountid, user.account.accountid)
-    })
-
-    it('should end response with JSON', async () => {
-      const handler = API.wrapAPIRequest({
-        get: async () => {
-          return { this: 'thing' }
-        }
-      }, '/api/user/account')
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      const res = {
-        setHeader: () => {
+  describe('API#createFromSitemap', () => {
+    it ('should remap urls to object', () => {
+      global.sitemap = {
+        '/api/this/is/an/example': {
+          api: {
+            get: () => {
+              return 1
+            }
+          }
         },
-        end: async (str) => {
-          const object = JSON.parse(str)
-          assert.strictEqual(object.this, 'thing')
+        '/api/something/else': {
+          api: {
+            post: () => {
+              return 2
+            }
+          }
         }
       }
-      return handler.get(req, res)
+      const api = API.createFromSitemap()
+      assert.notStrictEqual(api.this.is.an.Example, undefined)
+      assert.notStrictEqual(api.this.is.an.Example, null)
+      const getResult = api.this.is.an.Example.get()
+      assert.strictEqual(getResult, 1)
+      const postResult = api.something.Else.post()
+      assert.strictEqual(postResult, 2)
+    })
+
+    it ('should capitalize the last segment', () => {
+      global.sitemap = {
+        '/api/this/is/an/example': {
+          api: {
+            get: () => {
+              return 1
+            }
+          }
+        }
+      }
+      const api = API.createFromSitemap()
+      assert.notStrictEqual(api.this.is.an.Example, undefined)
+      assert.notStrictEqual(api.this.is.an.Example, null)
+      assert.strictEqual(api.this.is.an.example, undefined)
+    })
+
+    it ('should capitalize hyphenated last segment', () => {
+      global.sitemap = {
+        '/api/this/is/an/example-two': {
+          api: {
+            get: () => {
+              return 1
+            }
+          }
+        }
+      }
+      const api = API.createFromSitemap()
+      assert.notStrictEqual(api.this.is.an.ExampleTwo, undefined)
+      assert.notStrictEqual(api.this.is.an.ExampleTwo, null)
     })
   })
 })

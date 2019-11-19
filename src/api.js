@@ -2,7 +2,7 @@ const fs = require('fs')
 
 module.exports = {
   outputConfiguration,
-  generate: () => {
+  createFromSitemap: () => {
     const api = {}
     for (const url in global.sitemap) {
       if (url.indexOf('/api/') !== 0) {
