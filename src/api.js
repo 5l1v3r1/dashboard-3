@@ -1,7 +1,6 @@
 const fs = require('fs')
 
 module.exports = {
-  wrapAPIRequest,
   outputConfiguration,
   generate: () => {
     const api = {}
@@ -38,60 +37,8 @@ module.exports = {
           obj[part] = obj[part] || {}
         }
       }
-      wrapAPIRequest(global.sitemap[url].api, url)
     }
     return api
-  }
-}
-
-/**
- * wrapAPIRequest takes each of the HTTP-or-not API routes and wraps
- * a function that verifies access is allowed and the user allowed and
- * optionally ends a ClientResponse with JSON of returned data
- * @param {*} nodejsHandler an API endpoint
- */
-function wrapAPIRequest (nodejsHandler, filePath) {
-  for (const functionName of ['get', 'post', 'patch', 'delete', 'put', 'head', 'option']) {
-    const originalFunction = nodejsHandler[functionName]
-    if (!originalFunction) {
-      continue
-    }
-    if (nodejsHandler[`_${functionName}`]) {
-      continue
-    }
-    nodejsHandler[`_${functionName}`] = originalFunction
-    nodejsHandler[functionName] = wrapResponseHandling(nodejsHandler[`_${functionName}`], filePath)
-  }
-  return nodejsHandler
-}
-
-function wrapResponseHandling (method, filePath) {
-  return async (req, res) => {
-    if (process.env.NODE_ENV === 'testing' &&
-        req.urlPath !== filePath &&
-        !res) {
-      const urlPath = filePath
-      if (global.apiDependencies.indexOf(urlPath) === -1) {
-        global.apiDependencies.push(urlPath)
-      }
-    }
-    let result
-    try {
-      result = await method(req)
-    } catch (error) {
-      if (res) {
-        res.statusCode = 500
-        res.setHeader('content-type', 'application/json; charset=utf-8')
-        return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
-      }
-      throw error
-    }
-    if (res) {
-      res.statusCode = 200
-      res.setHeader('content-type', 'application/json; charset=utf-8')
-      return res.end(result ? JSON.stringify(result) : '')
-    }
-    return result
   }
 }
 
