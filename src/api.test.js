@@ -1,11 +1,11 @@
 const API = require('./api.js')
 const assert = require('assert')
-const TestHelper = require('../test-helper.js')
 
 /* eslint-env mocha */
 describe('internal-api/api', () => {
   describe('API#createFromSitemap', () => {
     it ('should remap urls to object', () => {
+      const sitemap = global.sitemap
       global.sitemap = {
         '/api/this/is/an/example': {
           api: {
@@ -29,9 +29,11 @@ describe('internal-api/api', () => {
       assert.strictEqual(getResult, 1)
       const postResult = api.something.Else.post()
       assert.strictEqual(postResult, 2)
+      global.sitemap = sitemap
     })
 
     it ('should capitalize the last segment', () => {
+      const sitemap = global.sitemap
       global.sitemap = {
         '/api/this/is/an/example': {
           api: {
@@ -45,9 +47,11 @@ describe('internal-api/api', () => {
       assert.notStrictEqual(api.this.is.an.Example, undefined)
       assert.notStrictEqual(api.this.is.an.Example, null)
       assert.strictEqual(api.this.is.an.example, undefined)
+      global.sitemap = sitemap
     })
 
     it ('should capitalize hyphenated last segment', () => {
+      const sitemap = global.sitemap
       global.sitemap = {
         '/api/this/is/an/example-two': {
           api: {
@@ -60,6 +64,7 @@ describe('internal-api/api', () => {
       const api = API.createFromSitemap()
       assert.notStrictEqual(api.this.is.an.ExampleTwo, undefined)
       assert.notStrictEqual(api.this.is.an.ExampleTwo, null)
+      global.sitemap = sitemap
     })
   })
 })
