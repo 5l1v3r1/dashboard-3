@@ -1,23 +1,14 @@
 
-> puppeteer@2.0.0 install /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard/node_modules/puppeteer
-> node install.js
-
-Chromium downloaded to /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard/node_modules/puppeteer/.local-chromium/linux-706915
-+ puppeteer@2.0.0
-added 72 packages from 91 contributors and audited 37 packages in 27.512s
-found 0 vulnerabilities
-
-
-> @userdashboard/dashboard@1.0.62 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.63 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
 > mocha src --recursive --no-colors --timeout 120000 --slow 120000
 
 
 
   internal-api/api
-    API#wrapAPIRequest
-      ✓ should allow guest access
-      ✓ should return object
-      ✓ should end response with JSON
+    API#createFromSitemap
+      ✓ should remap urls to object
+      ✓ should capitalize the last segment
+      ✓ should capitalize hyphenated last segment
 
   internal-api/format
     Format#parseDate
@@ -144,6 +135,10 @@ found 0 vulnerabilities
   internal-api/sitemap
     Sitemap#authenticateRequest
       ✓ should substitute language HTML file
+    Sitemap#wrapAPIRequest
+      ✓ should allow guest access
+      ✓ should return object
+      ✓ should end response with JSON
 
   internal-api/storage-list
     StorageList#add
@@ -1467,5 +1462,5 @@ found 0 vulnerabilities
       ✓ request specifies required fields
 
 
-  799 passing (17m)
+  802 passing (17m)
 
