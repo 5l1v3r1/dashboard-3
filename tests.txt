@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.63 test /home/benlowry/SynologyDrive/workspaces/dashboard/dashboard
+> @userdashboard/dashboard@1.0.64 test /root/workspaces/dashboard
 > mocha src --recursive --no-colors --timeout 120000 --slow 120000
 
 
@@ -675,7 +675,7 @@
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -697,7 +697,7 @@
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -721,7 +721,7 @@
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -767,7 +767,7 @@
 
   /api/administrator/administrator-accounts
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -810,7 +810,7 @@
 
   /api/administrator/deleted-accounts
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -836,7 +836,7 @@
 
   /api/administrator/profiles
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -871,7 +871,7 @@
 
   /api/administrator/reset-codes
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -909,7 +909,7 @@
 
   /api/administrator/sessions
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -1185,7 +1185,7 @@
       invalid-account
         ✓ ineligible accessing account
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -1252,7 +1252,7 @@
       invalid-account
         ✓ ineligible accessing account
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -1302,7 +1302,7 @@
       invalid-account
         ✓ ineligible accessing account
     receives
-      ✓ optional querystring offset (integer)
+      ✓ optional querystring limit (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
     returns
@@ -1462,5 +1462,5 @@
       ✓ request specifies required fields
 
 
-  802 passing (17m)
+  802 passing (6m)
 

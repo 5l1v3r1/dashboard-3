@@ -36,7 +36,7 @@ describe('/api/administrator/account-profiles', () => {
   })
 
   describe('receives', () => {
-    it('optional querystring limit (integer)', async () => {
+    it('optional querystring offset (integer)', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
