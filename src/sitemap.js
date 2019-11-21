@@ -121,7 +121,7 @@ function attachRoutes (routes, folderPath) {
           }
         }
         if (htmlFileExists) {
-          routes[urlKey].html =  fs.readFileSync(htmlFilePath).toString()
+          routes[urlKey].html = fs.readFileSync(htmlFilePath).toString()
         }
       }
     }
