@@ -112,9 +112,7 @@ describe('/api/user/profiles', () => {
       req.account = user.account
       req.session = user.session
       const profilesNow = await req.get()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        assert.strictEqual(profilesNow[i].profileid, profiles[i].profileid)
-      }
+      assert.strictEqual(profilesNow.length, profiles.length)
     })
   })
 

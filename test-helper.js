@@ -118,17 +118,6 @@ module.exports = {
 }
 
 async function cycleBrowserObject () {
-  // while (browser && browser.close) {
-  //   try {
-  //     await browser.close()
-  //     browser = null
-  //   } catch (error) {
-  //   }
-  //   if (!browser) {
-  //     break
-  //   }
-  //   // await wait(1)
-  // }
   while (!browser) {
     try {
       browser = await global.puppeteer.launch({
@@ -141,9 +130,8 @@ async function cycleBrowserObject () {
     if (browser) {
       return browser
     }
-    // await wait(1)
+    await wait(1)
   }
-  // await wait(1)
 }
 
 function createRequest (rawURL) {
@@ -180,7 +168,7 @@ function createRequest (rawURL) {
           }
           req.retries = req.retries || 0
           req.retries++
-          await wait(2000)
+          await wait(100)
         }
       }
       let result
@@ -325,14 +313,12 @@ async function createSession (user, remember) {
     remember: remember || ''
   }
   user.session = await req.post()
-  // await wait(1)
   return user.session
 }
 
 async function endSession (user) {
   const req = createRequest(`/api/user/end-session?sessionid=${user.session.sessionid}`)
   user.session = await req.patch()
-  // await wait(1)
   return user.session
 }
 
@@ -359,7 +345,6 @@ async function createResetCode (user) {
   }
   user.resetCode = await req.post()
   user.resetCode.code = code
-  // await wait(1)
   return user.resetCode
 }
 
@@ -381,7 +366,6 @@ async function createProfile (user, properties) {
   req.body = properties
   testDataIndex++
   user.profile = await req.post()
-  // await wait(1)
   return user.profile
 }
 
@@ -425,10 +409,13 @@ const proxy = util.promisify((method, path, req, callback) => {
   }
   let delayedCallback
   if (global.delayDiskWrites) {
+    // when testing with disk-storage a delay may be
+    // needed so lists return objects in the same
+    // order they were written 
     delayedCallback = (error, result) => {
       return setTimeout(() => {
         callback(error, result)
-      }, 1400)
+      }, 100)
     }
   } else {
     delayedCallback = callback
@@ -503,7 +490,7 @@ async function fetchWithPuppeteer (method, req) {
     if (pages) {
       break
     }
-    // await wait(1)
+    await wait(1)
   }
   let page
   if (pages && pages.length) {
