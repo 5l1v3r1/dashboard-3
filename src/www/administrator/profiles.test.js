@@ -62,6 +62,7 @@ describe('/administrator/profiles', () => {
     })
 
     it('should enforce specified offset', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

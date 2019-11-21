@@ -4,7 +4,8 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/administrator-accounts', () => {
   describe('receives', () => {
-    it('optional querystring offset (integer)', async () => {
+    it('optional querystring limit (integer)', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const owner = await TestHelper.createOwner()
       const accounts = [owner.account]

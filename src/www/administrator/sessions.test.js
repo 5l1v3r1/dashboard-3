@@ -67,6 +67,7 @@ describe('/administrator/sessions', () => {
     })
 
     it('should enforce specified offset', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const sessions = [administrator.session]

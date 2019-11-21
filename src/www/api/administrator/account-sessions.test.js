@@ -36,7 +36,8 @@ describe('/api/administrator/account-sessions', () => {
   })
 
   describe('receives', () => {
-    it('optional querystring offset (integer)', async () => {
+    it('optional querystring limit (integer)', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -82,9 +83,7 @@ describe('/api/administrator/account-sessions', () => {
       req.account = administrator.account
       req.session = administrator.session
       const sessionsNow = await req.get()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        assert.strictEqual(sessionsNow[i].sessionid, sessions[i].sessionid)
-      }
+      assert.strictEqual(sessionsNow.length, sessions.length)
     })
   })
 

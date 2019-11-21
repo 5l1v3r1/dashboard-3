@@ -30,7 +30,7 @@ let packageJSON
 before(async () => {
   await dashboard.start(global.applicationPath || __dirname)
   packageJSON = global.packageJSON
-  await cycleBrowserObject()
+  // await cycleBrowserObject()
 })
 
 beforeEach(async () => {
@@ -58,6 +58,7 @@ beforeEach(async () => {
   global.deleteDelay = 7
   global.pageSize = 2
   global.allowPublicAPI = true
+  global.delayDiskWrites = false
   global.bcryptFixedSalt = bcrypt.genSaltSync(4)
   if (!process.env.STORAGE_ENGINE) {
     if (fs.existsSync(storagePath)) {
@@ -117,22 +118,22 @@ module.exports = {
 }
 
 async function cycleBrowserObject () {
-  while (browser && browser.close) {
-    try {
-      await browser.close()
-      browser = null
-    } catch (error) {
-    }
-    if (!browser) {
-      break
-    }
-    await wait(100)
-  }
+  // while (browser && browser.close) {
+  //   try {
+  //     await browser.close()
+  //     browser = null
+  //   } catch (error) {
+  //   }
+  //   if (!browser) {
+  //     break
+  //   }
+  //   // await wait(1)
+  // }
   while (!browser) {
     try {
       browser = await global.puppeteer.launch({
         headless: !(process.env.SHOW_BROWSERS === 'true'),
-        args: ['--window-size=1920,1080', '--incognito', '--disable-dev-shm-usage'],
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--window-size=1920,1080', '--incognito', '--disable-dev-shm-usage'],
         slowMo: 0
       })
     } catch (error) {
@@ -140,9 +141,9 @@ async function cycleBrowserObject () {
     if (browser) {
       return browser
     }
-    await wait(100)
+    // await wait(1)
   }
-  await wait(100)
+  // await wait(1)
 }
 
 function createRequest (rawURL) {
@@ -324,14 +325,14 @@ async function createSession (user, remember) {
     remember: remember || ''
   }
   user.session = await req.post()
-  await wait(100)
+  // await wait(1)
   return user.session
 }
 
 async function endSession (user) {
   const req = createRequest(`/api/user/end-session?sessionid=${user.session.sessionid}`)
   user.session = await req.patch()
-  await wait(100)
+  // await wait(1)
   return user.session
 }
 
@@ -358,7 +359,7 @@ async function createResetCode (user) {
   }
   user.resetCode = await req.post()
   user.resetCode.code = code
-  await wait(100)
+  // await wait(1)
   return user.resetCode
 }
 
@@ -380,7 +381,7 @@ async function createProfile (user, properties) {
   req.body = properties
   testDataIndex++
   user.profile = await req.post()
-  await wait(100)
+  // await wait(1)
   return user.profile
 }
 
@@ -422,6 +423,16 @@ const proxy = util.promisify((method, path, req, callback) => {
     const expires = dashboard.Timestamp.date(req.session.expires)
     requestOptions.headers.cookie = `sessionid=${req.session.sessionid}; token=${req.session.token}; expires=${expires.toUTCString()}; path=/`
   }
+  let delayedCallback
+  if (global.delayDiskWrites) {
+    delayedCallback = (error, result) => {
+      return setTimeout(() => {
+        callback(error, result)
+      }, 1400)
+    }
+  } else {
+    delayedCallback = callback
+  }
   const protocol = baseURLParts[0] === 'https' ? https : http
   const proxyRequest = protocol.request(requestOptions, (proxyResponse) => {
     let body = ''
@@ -430,7 +441,7 @@ const proxy = util.promisify((method, path, req, callback) => {
     })
     return proxyResponse.on('end', () => {
       if (!body) {
-        return callback()
+        return delayedCallback()
       }
       if (proxyResponse.headers['set-cookie']) {
         const cookie = proxyResponse.headers['set-cookie']
@@ -447,12 +458,12 @@ const proxy = util.promisify((method, path, req, callback) => {
         if (proxyResponse.headers['content-type'].startsWith('application/json')) {
           body = JSON.parse(body.toString())
           if (body.object === 'error') {
-            return callback(new Error(body.message))
+            return delayedCallback(new Error(body.message))
           }
-          return callback(null, body)
+          return delayedCallback(null, body)
         }
       }
-      return callback(null, body)
+      return delayedCallback(null, body)
     })
   })
   proxyRequest.on('error', (error) => {
@@ -482,6 +493,7 @@ function deleteLocalData (currentPath) {
 }
 
 async function fetchWithPuppeteer (method, req) {
+  browser = browser || await cycleBrowserObject()
   let pages
   while (!pages) {
     try {
@@ -491,7 +503,7 @@ async function fetchWithPuppeteer (method, req) {
     if (pages) {
       break
     }
-    await wait(100)
+    // await wait(1)
   }
   let page
   if (pages && pages.length) {
@@ -510,7 +522,7 @@ async function fetchWithPuppeteer (method, req) {
       if (page) {
         break
       }
-      await wait(100)
+      await wait(1)
     }
   }
   page.on('error', () => { })
@@ -530,7 +542,7 @@ async function fetchWithPuppeteer (method, req) {
       })
       break
     } catch (error) {
-      await wait(100)
+      await wait(1)
       continue
     }
   }
@@ -549,6 +561,7 @@ async function fetchWithPuppeteer (method, req) {
   if (method === 'POST') {
     await TestHelperPuppeteer.fill(page, req.body, req.uploads)
     await TestHelperPuppeteer.click(page, req.button || '#submit-button')
+    await page.waitForSelector('body')
   }
   let html
   while (!html) {
@@ -559,7 +572,7 @@ async function fetchWithPuppeteer (method, req) {
     if (html) {
       break
     }
-    await wait(100)
+    await wait(1)
   }
   await page.close()
   return html

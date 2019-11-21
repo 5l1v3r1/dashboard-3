@@ -25,6 +25,7 @@ describe('/account/set-default-profile', () => {
 
     it('should bind all profiles to req', async () => {
       global.pageSize = 1
+      global.delayDiskWrites = true
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       const profile2 = await TestHelper.createProfile(user, {

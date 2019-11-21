@@ -58,6 +58,7 @@ describe('/account/profiles', () => {
     })
 
     it('should enforce specified offset', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const user = await TestHelper.createUser()
       const profiles = [user.profile]

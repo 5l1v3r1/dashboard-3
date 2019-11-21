@@ -68,6 +68,7 @@ describe('/administrator/reset-codes', () => {
     })
 
     it('should enforce specified offset', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

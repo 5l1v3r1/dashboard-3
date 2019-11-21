@@ -184,7 +184,7 @@ async function evaluate (page, method, element) {
     if (fails > 10) {
       throw new Error('evaluate failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -203,7 +203,7 @@ async function openURL (page, url) {
     if (fails > 10) {
       throw new Error('openURL failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -224,7 +224,7 @@ async function getOptionalApplicationFrame (page) {
     if (fails > 10) {
       return null
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -243,7 +243,7 @@ async function getTags (page, tag) {
     if (fails > 10) {
       throw new Error('getTags failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -262,7 +262,7 @@ async function hoverElement (element) {
     if (fails > 10) {
       throw new Error('hoverElement failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -281,7 +281,7 @@ async function getElement (page, identifier) {
     if (fails > 10) {
       throw new Error('getElement failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -300,7 +300,7 @@ async function getOptionalElement (page, identifier) {
     if (fails > 10) {
       return
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -319,7 +319,7 @@ async function clickElement (element) {
     if (fails > 10) {
       throw new Error('clickElement failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -338,7 +338,7 @@ async function focusElement (element) {
     if (fails > 10) {
       throw new Error('focusElement failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -357,7 +357,7 @@ async function uploadFile (element, path) {
     if (fails > 10) {
       throw new Error('uploadFile failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -376,7 +376,7 @@ async function typeInElement (element, text) {
     if (fails > 10) {
       throw new Error('typeElement failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }
 
@@ -406,6 +406,6 @@ async function selectOption (element, value) {
     if (fails > 10) {
       throw new Error('selectOption failed ten times')
     }
-    await wait(100)
+    await wait(1)
   }
 }

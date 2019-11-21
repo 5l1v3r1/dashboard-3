@@ -53,7 +53,8 @@ describe('/api/user/profiles', () => {
   })
 
   describe('receives', () => {
-    it('optional querystring offset (integer)', async () => {
+    it('optional querystring limit (integer)', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const user = await TestHelper.createUser()
       const profiles = [user.profile]

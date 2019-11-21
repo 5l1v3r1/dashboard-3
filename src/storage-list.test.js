@@ -37,9 +37,13 @@ describe('internal-api/storage-list', () => {
   describe('StorageList#count', async () => {
     it('should count the items', async () => {
       await StorageList.add('test-data', 1)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 2)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 3)
       const count = await StorageList.count('test-data')
       assert.strictEqual(count, 3)
@@ -47,9 +51,13 @@ describe('internal-api/storage-list', () => {
 
     it('should not count removed items', async () => {
       await StorageList.add('test-data', 1)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 2)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 3)
       await StorageList.remove('test-data', 3)
       const count = await StorageList.count('test-data')
@@ -60,9 +68,13 @@ describe('internal-api/storage-list', () => {
   describe('StorageList#remove', () => {
     it('should remove the item', async () => {
       await StorageList.add('test-data', 1)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.remove('test-data', 1)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       const count = await StorageList.count('test-data')
       assert.strictEqual(count, 0)
     })
@@ -72,11 +84,17 @@ describe('internal-api/storage-list', () => {
     it('should enforce page size', async () => {
       global.pageSize = 3
       await StorageList.add('test-data', 1)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 2)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 3)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 4)
       const listed = await StorageList.list('test-data')
       assert.strictEqual(listed.length, global.pageSize)
@@ -89,9 +107,13 @@ describe('internal-api/storage-list', () => {
       const offset = 1
       global.pageSize = 2
       await StorageList.add('test-data', 1)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 2)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 3)
       const listed = await StorageList.list('test-data', offset)
       assert.strictEqual(listed.length, global.pageSize)
@@ -103,15 +125,25 @@ describe('internal-api/storage-list', () => {
   describe('StorageList#listAll', async () => {
     it('should return all records', async () => {
       await StorageList.add('test-data', 1)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 2)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 3)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 4)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 5)
-      await TestHelper.wait(2200)
+      if (!process.env.STORAGE_ENGINE) {
+        await TestHelper.wait(1600)
+      }
       await StorageList.add('test-data', 6)
       const listed = await StorageList.listAll('test-data')
       assert.strictEqual(listed.length, 6)

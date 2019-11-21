@@ -61,6 +61,7 @@ describe('/administrator/administrators', () => {
     })
 
     it('should enforce specified offset', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const owner = await TestHelper.createOwner()
       const administrators = [owner.account]

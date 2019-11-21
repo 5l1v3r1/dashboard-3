@@ -4,7 +4,8 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/profiles', () => {
   describe('receives', () => {
-    it('optional querystring offset (integer)', async () => {
+    it('optional querystring limit (integer)', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -51,7 +52,7 @@ describe('/api/administrator/profiles', () => {
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const profiles = [user.profile]
+      const profiles = [administrator.profile, user.profile]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -65,9 +66,7 @@ describe('/api/administrator/profiles', () => {
       req.account = administrator.account
       req.session = administrator.session
       const profilesNow = await req.get()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        assert.strictEqual(profilesNow[i].profileid, profiles[i].profileid)
-      }
+      assert.strictEqual(profilesNow.length, profiles.length)
     })
   })
 

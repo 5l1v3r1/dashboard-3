@@ -64,6 +64,7 @@ describe('/account/sessions', () => {
     })
 
     it('should enforce specified offset', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const user = await TestHelper.createUser()
       const sessions = [user.session]

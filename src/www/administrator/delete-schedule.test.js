@@ -68,6 +68,7 @@ describe('/administrator/delete-schedule', () => {
     })
 
     it('should enforce specified offset', async () => {
+      global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const users = []
