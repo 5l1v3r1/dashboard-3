@@ -408,14 +408,14 @@ const proxy = util.promisify((method, path, req, callback) => {
     requestOptions.headers.cookie = `sessionid=${req.session.sessionid}; token=${req.session.token}; expires=${expires.toUTCString()}; path=/`
   }
   let delayedCallback
-  if (global.delayDiskWrites) {
-    // when testing with disk-storage a delay may be
+  if (!process.env.STORAGE_ENGINE && global.delayDiskWrites) {
+    // when testing with disk-storage a delay is
     // needed so lists return objects in the same
-    // order they were written 
+    // order they were written
     delayedCallback = (error, result) => {
       return setTimeout(() => {
         callback(error, result)
-      }, 100)
+      }, 10)
     }
   } else {
     delayedCallback = callback
