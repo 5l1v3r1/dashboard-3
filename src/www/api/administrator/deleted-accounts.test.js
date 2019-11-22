@@ -4,7 +4,7 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/deleted-accounts', () => {
   describe('receives', () => {
-    it('optional querystring limit (integer)', async () => {
+    it('optional querystring offset (integer)', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
@@ -12,14 +12,14 @@ describe('/api/administrator/deleted-accounts', () => {
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
-        accounts.unshift(user.account)
+        accounts.unshift(user.account.accountid)
       }
       const req = TestHelper.createRequest(`/api/administrator/deleted-accounts?offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
       const accountsNow = await req.get()
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(accountsNow[i].accountid, accounts[offset + i].accountid)
+        assert.strictEqual(accountsNow[i].accountid, accounts[offset + i])
       }
     })
 
@@ -30,7 +30,7 @@ describe('/api/administrator/deleted-accounts', () => {
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
-        accounts.unshift(user.account)
+        accounts.unshift(user.account.accountid)
       }
       const req = TestHelper.createRequest(`/api/administrator/deleted-accounts?limit=${limit}`)
       req.account = administrator.account
@@ -45,15 +45,13 @@ describe('/api/administrator/deleted-accounts', () => {
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
-        accounts.unshift(user.account)
+        accounts.unshift(user.account.accountid)
       }
       const req = TestHelper.createRequest('/api/administrator/deleted-accounts?all=true')
       req.account = administrator.account
       req.session = administrator.session
       const accountsNow = await req.get()
-      for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(accountsNow[i].accountid, accounts[i].accountid)
-      }
+      assert.strictEqual(accountsNow.length, accounts.length)
     })
   })
 

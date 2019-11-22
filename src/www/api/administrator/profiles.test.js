@@ -4,12 +4,12 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/profiles', () => {
   describe('receives', () => {
-    it('optional querystring limit (integer)', async () => {
+    it('optional querystring offset (integer)', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const profiles = [administrator.profile, user.profile]
+      const profiles = [administrator.profile.profileid, user.profile.profileid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -17,14 +17,14 @@ describe('/api/administrator/profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
+        profiles.unshift(user.profile.profileid)
       }
       const req = TestHelper.createRequest(`/api/administrator/profiles?offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
       const profilesNow = await req.get()
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(profilesNow[i].profileid, profiles[offset + i].profileid)
+        assert.strictEqual(profilesNow[i].profileid, profiles[offset + i])
       }
     })
 
@@ -32,7 +32,7 @@ describe('/api/administrator/profiles', () => {
       const limit = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const profiles = [administrator.profile, user.profile]
+      const profiles = [administrator.profile.profileid, user.profile.profileid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -40,7 +40,7 @@ describe('/api/administrator/profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
+        profiles.unshift(user.profile.profileid)
       }
       const req = TestHelper.createRequest(`/api/administrator/profiles?limit=${limit}`)
       req.account = administrator.account
@@ -52,7 +52,7 @@ describe('/api/administrator/profiles', () => {
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const profiles = [administrator.profile, user.profile]
+      const profiles = [administrator.profile.profileid, user.profile.profileid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -60,7 +60,7 @@ describe('/api/administrator/profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
+        profiles.unshift(user.profile.profileid)
       }
       const req = TestHelper.createRequest('/api/administrator/profiles?all=true')
       req.account = administrator.account

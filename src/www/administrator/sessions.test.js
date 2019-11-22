@@ -70,19 +70,19 @@ describe('/administrator/sessions', () => {
       global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
-      const sessions = [administrator.session]
+      const sessions = [administrator.session.sessionid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
-        sessions.unshift(user.session)
+        sessions.unshift(user.session.sessionid)
       }
       const req = TestHelper.createRequest(`/administrator/sessions?offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
-      sessions.unshift({})
+      sessions.unshift({note: 'test helper creates session too'})
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(sessions[offset + i].sessionid).tag, 'tr')
+        assert.strictEqual(doc.getElementById(sessions[offset + i]).tag, 'tr')
       }
     })
   })

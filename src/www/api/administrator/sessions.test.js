@@ -4,22 +4,22 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/sessions', () => {
   describe('receives', () => {
-    it('optional querystring limit (integer)', async () => {
+    it('optional querystring offset (integer)', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const sessions = [user.session]
+      const sessions = [administrator.session.sessionid, user.session.sessionid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createSession(user)
-        sessions.unshift(user.session)
+        sessions.unshift(user.session.sessionid)
       }
       const req = TestHelper.createRequest(`/api/administrator/sessions?offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
       const sessionsNow = await req.get()
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(sessionsNow[i].profileid, sessions[offset + i].profileid)
+        assert.strictEqual(sessionsNow[i].sessionid, sessions[offset + i])
       }
     })
 
@@ -27,10 +27,10 @@ describe('/api/administrator/sessions', () => {
       const limit = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const sessions = [user.session]
+      const sessions = [administrator.session.sessionid, user.session.sessionid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createSession(user)
-        sessions.unshift(user.session)
+        sessions.unshift(user.session.sessionid)
       }
       const req = TestHelper.createRequest(`/api/administrator/sessions?limit=${limit}`)
       req.account = administrator.account
@@ -42,18 +42,16 @@ describe('/api/administrator/sessions', () => {
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const sessions = [user.session]
+      const sessions = [administrator.session.sessionid, user.session.sessionid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createSession(user)
-        sessions.unshift(user.session)
+        sessions.unshift(user.session.sessionid)
       }
       const req = TestHelper.createRequest('/api/administrator/sessions?all=true')
       req.account = administrator.account
       req.session = administrator.session
       const sessionsNow = await req.get()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        assert.strictEqual(sessionsNow[i].profileid, sessions[i].profileid)
-      }
+      assert.strictEqual(sessionsNow.length, sessions.length)
     })
   })
 

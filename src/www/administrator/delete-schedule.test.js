@@ -75,7 +75,7 @@ describe('/administrator/delete-schedule', () => {
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.setDeleted(user)
-        users.unshift(user.account)
+        users.unshift(user.account.accountid)
       }
       const req = TestHelper.createRequest(`/administrator/delete-schedule?offset=${offset}`)
       req.account = administrator.account
@@ -83,7 +83,7 @@ describe('/administrator/delete-schedule', () => {
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(users[offset + i].accountid).tag, 'tr')
+        assert.strictEqual(doc.getElementById(users[offset + i]).tag, 'tr')
       }
     })
   })

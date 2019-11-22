@@ -4,28 +4,28 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/administrator-accounts', () => {
   describe('receives', () => {
-    it('optional querystring limit (integer)', async () => {
+    it('optional querystring offset (integer)', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const owner = await TestHelper.createOwner()
-      const accounts = [owner.account]
+      const accounts = [owner.account.accountid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const administrator = await TestHelper.createAdministrator(owner)
-        accounts.unshift(administrator.account)
+        accounts.unshift(administrator.account.accountid)
       }
       const req = TestHelper.createRequest(`/api/administrator/administrator-accounts?offset=${offset}`)
       req.account = owner.account
       req.session = owner.session
       const accountsNow = await req.get()
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(accountsNow[i].accountid, accounts[offset + i].accountid)
+        assert.strictEqual(accountsNow[i].accountid, accounts[offset + i])
       }
     })
 
     it('optional querystring limit (integer)', async () => {
       const limit = 1
       const owner = await TestHelper.createOwner()
-      const accounts = [owner.account]
+      const accounts = [owner.account.accountid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const administrator = await TestHelper.createAdministrator(owner)
         accounts.unshift(administrator.account)
@@ -39,7 +39,7 @@ describe('/api/administrator/administrator-accounts', () => {
 
     it('optional querystring all (boolean)', async () => {
       const owner = await TestHelper.createOwner()
-      const accounts = [owner.account]
+      const accounts = [owner.account.accountid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const administrator = await TestHelper.createAdministrator(owner)
         accounts.unshift(administrator.account)
@@ -48,9 +48,7 @@ describe('/api/administrator/administrator-accounts', () => {
       req.account = owner.account
       req.session = owner.session
       const accountsNow = await req.get()
-      for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(accountsNow[i].accountid, accounts[i].accountid)
-      }
+      assert.strictEqual(accountsNow.length, accounts.length)
     })
   })
   describe('returns', () => {

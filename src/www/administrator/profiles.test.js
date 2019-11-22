@@ -66,7 +66,7 @@ describe('/administrator/profiles', () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const profiles = [user.profile]
+      const profiles = [user.profile.profileid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -74,7 +74,7 @@ describe('/administrator/profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
+        profiles.unshift(user.profile.profileid)
       }
       const req = TestHelper.createRequest(`/administrator/profiles?offset=${offset}`)
       req.account = administrator.account
@@ -82,7 +82,7 @@ describe('/administrator/profiles', () => {
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(profiles[offset + i].profileid).tag, 'tr')
+        assert.strictEqual(doc.getElementById(profiles[offset + i]).tag, 'tr')
       }
     })
 

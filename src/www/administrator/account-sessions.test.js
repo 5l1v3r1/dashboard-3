@@ -87,10 +87,10 @@ describe('/administrator/account-sessions', () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const sessions = [user.session]
+      const sessions = [user.session.sessionid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createSession(user)
-        sessions.unshift(user.session)
+        sessions.unshift(user.session.sessionid)
       }
       const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}&offset=${offset}`)
       req.account = administrator.account
@@ -98,7 +98,7 @@ describe('/administrator/account-sessions', () => {
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(sessions[offset + i].sessionid).tag, 'tr')
+        assert.strictEqual(doc.getElementById(sessions[offset + i]).tag, 'tr')
       }
     })
   })

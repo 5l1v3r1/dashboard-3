@@ -36,7 +36,7 @@ describe('/api/administrator/account-reset-codes', () => {
   })
 
   describe('receives', () => {
-    it('optional querystring limit (integer)', async () => {
+    it('optional querystring offset (integer)', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
@@ -62,7 +62,7 @@ describe('/api/administrator/account-reset-codes', () => {
       const codes = []
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode)
+        codes.unshift(user.resetCode.codeid)
       }
       const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}&limit=${limit}`)
       req.account = administrator.account
@@ -74,14 +74,16 @@ describe('/api/administrator/account-reset-codes', () => {
     it('optional querystring all (boolean)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
+      const codes = []
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
+        codes.unshift(user.resetCode.codeid)
       }
       const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}&all=true`)
       req.account = administrator.account
       req.session = administrator.session
       const codesNow = await req.get()
-      assert.strictEqual(codesNow.length, global.pageSize + 1)
+      assert.strictEqual(codesNow.length, codes.length)
     })
   })
 

@@ -53,11 +53,11 @@ describe('/api/user/profiles', () => {
   })
 
   describe('receives', () => {
-    it('optional querystring limit (integer)', async () => {
+    it('optional querystring offset (integer)', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const user = await TestHelper.createUser()
-      const profiles = [user.profile]
+      const profiles = [user.profile.profileid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -65,21 +65,21 @@ describe('/api/user/profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
+        profiles.unshift(user.profile.profileid)
       }
       const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&offset=${offset}`)
       req.account = user.account
       req.session = user.session
       const profilesNow = await req.get()
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(profilesNow[i].profileid, profiles[offset + i].profileid)
+        assert.strictEqual(profilesNow[i].profileid, profiles[offset + i])
       }
     })
 
     it('optional querystring limit (integer)', async () => {
       const limit = 1
       const user = await TestHelper.createUser()
-      const profiles = [user.profile]
+      const profiles = [user.profile.profileid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -87,7 +87,7 @@ describe('/api/user/profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
+        profiles.unshift(user.profile.profileid)
       }
       const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&limit=${limit}`)
       req.account = user.account
@@ -98,7 +98,7 @@ describe('/api/user/profiles', () => {
 
     it('optional querystring all (boolean)', async () => {
       const user = await TestHelper.createUser()
-      const profiles = [user.profile]
+      const profiles = [user.profile.profileid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
@@ -106,7 +106,7 @@ describe('/api/user/profiles', () => {
           'contact-email': user.profile.contactEmail,
           default: 'true'
         })
-        profiles.unshift(user.profile)
+        profiles.unshift(user.profile.profileid)
       }
       const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&all=true`)
       req.account = user.account

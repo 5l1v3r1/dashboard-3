@@ -4,7 +4,7 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe('/api/administrator/reset-codes', () => {
   describe('receives', () => {
-    it('optional querystring limit (integer)', async () => {
+    it('optional querystring offset (integer)', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
@@ -12,14 +12,14 @@ describe('/api/administrator/reset-codes', () => {
       const codes = []
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode)
+        codes.unshift(user.resetCode.codeid)
       }
       const req = TestHelper.createRequest(`/api/administrator/reset-codes?offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
       const codesNow = await req.get()
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(codesNow[i].codeid, codes[offset + i].codeid)
+        assert.strictEqual(codesNow[i].codeid, codes[offset + i])
       }
     })
 
@@ -30,7 +30,7 @@ describe('/api/administrator/reset-codes', () => {
       const codes = []
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode)
+        codes.unshift(user.resetCode.codeid)
       }
       const req = TestHelper.createRequest(`/api/administrator/reset-codes?limit=${limit}`)
       req.account = administrator.account
@@ -45,15 +45,13 @@ describe('/api/administrator/reset-codes', () => {
       const codes = []
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode)
+        codes.unshift(user.resetCode.codeid)
       }
       const req = TestHelper.createRequest('/api/administrator/reset-codes?all=true')
       req.account = administrator.account
       req.session = administrator.session
       const codesNow = await req.get()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        assert.strictEqual(codesNow[i].codeid, codes[i].codeid)
-      }
+      assert.strictEqual(codesNow.length, codes.length)
     })
   })
 

@@ -67,19 +67,19 @@ describe('/account/sessions', () => {
       global.delayDiskWrites = true
       const offset = 1
       const user = await TestHelper.createUser()
-      const sessions = [user.session]
+      const sessions = [user.session.sessionid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const session = await TestHelper.createSession(user)
-        sessions.unshift(session)
+        sessions.unshift(session.sessionid)
       }
       const req = TestHelper.createRequest(`/account/sessions?offset=${offset}`)
       req.account = user.account
       req.session = user.session
       const page = await req.get()
-      sessions.unshift({})
       const doc = TestHelper.extractDoc(page)
+      sessions.unshift({note: 'test helper creates session too'})
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(sessions[offset + i].sessionid).tag, 'tr')
+        assert.strictEqual(doc.getElementById(sessions[offset + i]).tag, 'tr')
       }
     })
   })

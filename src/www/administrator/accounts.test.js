@@ -68,10 +68,10 @@ describe('/administrator/accounts', () => {
       global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()
-      const accounts = [administrator.account]
+      const accounts = [administrator.account.accountid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
-        accounts.unshift(user.account)
+        accounts.unshift(user.account.accountid)
       }
       const req = TestHelper.createRequest(`/administrator/accounts?offset=${offset}`)
       req.account = administrator.account
@@ -79,7 +79,7 @@ describe('/administrator/accounts', () => {
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(accounts[offset + i].accountid).tag, 'tr')
+        assert.strictEqual(doc.getElementById(accounts[offset + i]).tag, 'tr')
       }
     })
   })

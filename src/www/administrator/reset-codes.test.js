@@ -72,10 +72,10 @@ describe('/administrator/reset-codes', () => {
       const offset = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const codes = [user.resetCode]
+      const codes = []
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode)
+        codes.unshift(user.resetCode.codeid)
       }
       const req = TestHelper.createRequest(`/administrator/reset-codes?offset=${offset}`)
       req.account = administrator.account
@@ -83,7 +83,7 @@ describe('/administrator/reset-codes', () => {
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(codes[offset + i].codeid).tag, 'tr')
+        assert.strictEqual(doc.getElementById(codes[offset + i]).tag, 'tr')
       }
     })
   })
