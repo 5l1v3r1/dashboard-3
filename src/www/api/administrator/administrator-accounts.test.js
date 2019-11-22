@@ -28,7 +28,7 @@ describe('/api/administrator/administrator-accounts', () => {
       const accounts = [owner.account.accountid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const administrator = await TestHelper.createAdministrator(owner)
-        accounts.unshift(administrator.account)
+        accounts.unshift(administrator.account.accountid)
       }
       const req = TestHelper.createRequest(`/api/administrator/administrator-accounts?limit=${limit}`)
       req.account = owner.account
@@ -42,7 +42,7 @@ describe('/api/administrator/administrator-accounts', () => {
       const accounts = [owner.account.accountid]
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const administrator = await TestHelper.createAdministrator(owner)
-        accounts.unshift(administrator.account)
+        accounts.unshift(administrator.account.accountid)
       }
       const req = TestHelper.createRequest('/api/administrator/administrator-accounts?all=true')
       req.account = owner.account
