@@ -171,17 +171,22 @@ function createRequest (rawURL) {
           await wait(100)
         }
       }
-      let result
-      try {
-        result = await fetchWithPuppeteer(req.method, req)
-      } catch (error) {
-        return error
+      while (true) {
+        let result
+        try {
+          result = await fetchWithPuppeteer(req.method, req)
+        } catch (error) {
+        }
+        if (!result) {
+          await wait(1)
+          continue
+        }
+        try {
+          result = dashboard.HTML.parse(result)
+        } catch (error) {
+        }
+        return result
       }
-      try {
-        result = dashboard.HTML.parse(result)
-      } catch (error) {
-      }
-      return result
     }
   }
   return req
@@ -553,7 +558,7 @@ async function fetchWithPuppeteer (method, req) {
   let html
   while (!html) {
     try {
-      html = await page.evaluate(el => document.body.parentNode.outerHTML)
+      html = await page.evaluate(_ => document.body.parentNode.outerHTML)
     } catch (error) {
     }
     if (html) {
