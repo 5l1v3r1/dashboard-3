@@ -80,7 +80,6 @@ describe('/administrator/sessions', () => {
       req.session = administrator.session
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
-      sessions.unshift({note: 'test helper creates session too'})
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(sessions[offset + i]).tag, 'tr')
       }
