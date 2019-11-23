@@ -518,7 +518,6 @@ async function fetchWithPuppeteer (method, req) {
       await wait(1)
     }
   }
-  page.on('error', () => { })
   while (true) {
     try {
       await page.emulate({
@@ -539,15 +538,19 @@ async function fetchWithPuppeteer (method, req) {
       continue
     }
   }
-  if (req.account) {
-    await page.goto(`${process.env.DASHBOARD_SERVER}/account/signin`, { waitLoad: true, waitNetworkIdle: true })
-    await page.waitForSelector('#submit-form')
-    await TestHelperPuppeteer.fill(page, {
-      username: req.account.username,
-      password: req.account.password
+  if (req.session) {
+    await page.setCookie({
+      value: req.session.sessionid,
+      domain: process.env.DOMAIN,
+      expires: Date.now() / 1000 + 10,
+      name: 'sessionid'
     })
-    await TestHelperPuppeteer.click(page, 'Sign in')
-    await page.waitForSelector('#application-iframe')
+    await page.setCookie({
+      value: req.session.token,
+      domain: process.env.DOMAIN,
+      expires: Date.now() / 1000 + 10,
+      name: 'token'
+    })
   }
   await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
   await page.waitForSelector('body')
