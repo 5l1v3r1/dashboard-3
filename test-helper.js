@@ -508,6 +508,7 @@ async function fetchWithPuppeteer (method, req) {
       } else {
         try {
           page = await browser.newPage()
+          page.on('error', () => { })
         } catch (error) {
         }
       }
