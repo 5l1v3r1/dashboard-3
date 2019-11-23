@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.65 test /root/workspaces/dashboard
+> @userdashboard/dashboard@1.0.66 test /root/workspaces/dashboard
 > mocha src --recursive --no-colors --timeout 120000 --slow 120000
 
 
@@ -1462,5 +1462,5 @@
       ✓ request specifies required fields
 
 
-  802 passing (5m)
+  802 passing (1m)
 
