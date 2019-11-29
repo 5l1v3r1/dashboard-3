@@ -402,7 +402,6 @@ const proxy = util.promisify((method, path, req, callback) => {
     if (req.body.write) {
       postData = req.body
       requestOptions.headers = req.headers
-      requestOptions.headers['user-agent'] = 'integration tests'
     } else {
       postData = querystring.stringify(req.body)
       requestOptions.headers['content-length'] = postData.length
