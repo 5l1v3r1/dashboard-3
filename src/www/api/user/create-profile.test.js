@@ -430,15 +430,11 @@ describe('/api/user/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
+        'first-name': 'Testing',
         'last-name': 'Person'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-first-name')
+      const profile = await req.post()
+      assert.strictEqual(profile.firstName, 'Testing')
     })
 
     it('optionally-required posted last-name', async () => {
@@ -449,15 +445,11 @@ describe('/api/user/create-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'first-name': 'Test'
+        'first-name': 'Test',
+        'last-name': 'Testing'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-last-name')
+      const profile = await req.post()
+      assert.strictEqual(profile.lastName, 'Testing')
     })
 
     it('optionally-required posted display-name', async () => {
@@ -467,14 +459,11 @@ describe('/api/user/create-profile', () => {
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {}
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
+      req.body = {
+        'display-name': 'Testing'
       }
-      assert.strictEqual(errorMessage, 'invalid-display-name')
+      const profile = await req.post()
+      assert.strictEqual(profile.displayName, 'Testing')
     })
 
     it('optionally-required posted company-name', async () => {
@@ -484,14 +473,11 @@ describe('/api/user/create-profile', () => {
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {}
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
+      req.body = {
+        'company-name': 'Testing'
       }
-      assert.strictEqual(errorMessage, 'invalid-company-name')
+      const profile = await req.post()
+      assert.strictEqual(profile.companyName, 'Testing')
     })
 
     it('optionally-required posted contact-email', async () => {
@@ -501,14 +487,11 @@ describe('/api/user/create-profile', () => {
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {}
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
+      req.body = {
+        'contact-email': 'test@test.com'
       }
-      assert.strictEqual(errorMessage, 'invalid-contact-email')
+      const profile = await req.post()
+      assert.strictEqual(profile.contactEmail, 'test@test.com')
     })
 
     it('optionally-required posted display-email', async () => {
@@ -518,14 +501,11 @@ describe('/api/user/create-profile', () => {
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {}
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
+      req.body = {
+        'display-email': 'test@test.com'
       }
-      assert.strictEqual(errorMessage, 'invalid-display-email')
+      const profile = await req.post()
+      assert.strictEqual(profile.displayEmail, 'test@test.com')
     })
 
     it('optionally-required posted location', async () => {
@@ -535,14 +515,11 @@ describe('/api/user/create-profile', () => {
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {}
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
+      req.body = {
+        location: 'Testing'
       }
-      assert.strictEqual(errorMessage, 'invalid-location')
+      const profile = await req.post()
+      assert.strictEqual(profile.location, 'Testing')
     })
 
     it('optionally-required posted occupation', async () => {
@@ -552,14 +529,11 @@ describe('/api/user/create-profile', () => {
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {}
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
+      req.body = {
+        occupation: 'Testing'
       }
-      assert.strictEqual(errorMessage, 'invalid-occupation')
+      const profile = await req.post()
+      assert.strictEqual(profile.occupation, 'Testing')
     })
 
     it('optionally-required posted phone', async () => {
@@ -569,14 +543,11 @@ describe('/api/user/create-profile', () => {
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {}
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
+      req.body = {
+        phone: '456-789-0123'
       }
-      assert.strictEqual(errorMessage, 'invalid-phone')
+      const profile = await req.post()
+      assert.strictEqual(profile.phone, '456-789-0123')
     })
 
     it('optionally-required posted dob', async () => {
@@ -586,14 +557,11 @@ describe('/api/user/create-profile', () => {
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
-      req.body = {}
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
+      req.body = {
+        dob: '1950-01-01'
       }
-      assert.strictEqual(errorMessage, 'invalid-dob')
+      const profile = await req.post()
+      assert.strictEqual(profile.dob, '1950-01-01')
     })
   })
 

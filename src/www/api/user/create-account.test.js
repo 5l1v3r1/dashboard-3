@@ -28,8 +28,8 @@ describe('/api/user/create-account', () => {
           username: '123456',
           password: 'password'
         }
-        global.minimumUsernameLength = 100
         let errorMessage
+        global.minimumUsernameLength = 100
         try {
           await req.post()
         } catch (error) {
@@ -434,15 +434,11 @@ describe('/api/user/create-account', () => {
       req.body = {
         username: 'username',
         password: 'password',
+        'first-name': 'Testing',
         'last-name': 'Person'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-first-name')
+      const account = await req.post()
+      assert.strictEqual(account.firstName, 'Testing')
     })
 
     it('optionally-required posted last-name', async () => {
@@ -452,15 +448,11 @@ describe('/api/user/create-account', () => {
       req.body = {
         username: 'username',
         password: 'password',
-        'first-name': 'Test'
+        'first-name': 'Person',
+        'last-name': 'Testing'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-last-name')
+      const account = await req.post()
+      assert.strictEqual(account.lastName, 'Testing')
     })
 
     it('optionally-required posted display-name', async () => {
@@ -469,15 +461,11 @@ describe('/api/user/create-account', () => {
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username',
-        password: 'password'
+        password: 'password',
+        'display-name': 'Testing'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-display-name')
+      const account = await req.post()
+      assert.strictEqual(account.displayName, 'Testing')
     })
 
     it('optionally-required posted company-name', async () => {
@@ -486,15 +474,11 @@ describe('/api/user/create-account', () => {
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username',
-        password: 'password'
+        password: 'password',
+        'company-name': 'Testing'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-company-name')
+      const account = await req.post()
+      assert.strictEqual(account.companyName, 'Testing')
     })
 
     it('optionally-required posted contact-email', async () => {
@@ -503,15 +487,11 @@ describe('/api/user/create-account', () => {
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username',
-        password: 'password'
+        password: 'password',
+        'contact-email': 'test@test.com'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-contact-email')
+      const account = await req.post()
+      assert.strictEqual(account.contactEmail, 'test@test.com')
     })
 
     it('optionally-required posted display-email', async () => {
@@ -520,15 +500,11 @@ describe('/api/user/create-account', () => {
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username',
-        password: 'password'
+        password: 'password',
+        'display-email': 'test@test.com'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-display-email')
+      const account = await req.post()
+      assert.strictEqual(account.displayEmail, 'test@test.com')
     })
 
     it('optionally-required posted location', async () => {
@@ -537,15 +513,11 @@ describe('/api/user/create-account', () => {
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username',
-        password: 'password'
+        password: 'password',
+        location: 'testing'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-location')
+      const account = await req.post()
+      assert.strictEqual(account.location, 'testing')
     })
 
     it('optionally-required posted occupation', async () => {
@@ -554,15 +526,11 @@ describe('/api/user/create-account', () => {
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username',
-        password: 'password'
+        password: 'password',
+        occupation: 'testing'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-occupation')
+      const account = await req.post()
+      assert.strictEqual(account.occupation, 'testing')
     })
 
     it('optionally-required posted phone', async () => {
@@ -571,15 +539,11 @@ describe('/api/user/create-account', () => {
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username',
-        password: 'password'
+        password: 'password',
+        phone: '123-456-7890'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-phone')
+      const account = await req.post()
+      assert.strictEqual(account.phone, '123-456-7890')
     })
 
     it('optionally-required posted dob', async () => {
@@ -588,15 +552,11 @@ describe('/api/user/create-account', () => {
       const req = TestHelper.createRequest('/api/user/create-account')
       req.body = {
         username: 'username',
-        password: 'password'
+        password: 'password',
+        dob: '1950-01-01'
       }
-      let errorMessage
-      try {
-        await req.post()
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-dob')
+      const account = await req.post()
+      assert.strictEqual(account.dob, '1950-01-01')
     })
   })
 
@@ -669,7 +629,7 @@ describe('/api/user/create-account', () => {
         username: 'username-' + new Date().getTime(),
         password: 'password1234',
         confirm: 'password1234'
-      }
+      } 
       global.maximumPasswordLength = 1
       let errorMessage
       try {
