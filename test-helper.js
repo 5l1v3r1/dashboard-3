@@ -555,8 +555,13 @@ async function fetchWithPuppeteer (method, req) {
   await page.waitForSelector('body')
   if (method === 'POST') {
     await TestHelperPuppeteer.fill(page, req.body, req.uploads)
+    html = await page.evaluate(_ => document.body.parentNode.outerHTML)
     await TestHelperPuppeteer.click(page, req.button || '#submit-button')
-    await page.waitForSelector('body')
+    if (req.clientside) {
+      await wait(10000)
+    } else {
+      await page.waitForSelector('body')
+    }
   }
   let html
   while (!html) {
