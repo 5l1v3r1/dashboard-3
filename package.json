@@ -2,8 +2,8 @@
   "version": "1.0.67",
   "description": "Dashboard for building web apps and SaaS",
   "engines": {
-    "node": "8.12.0",
-    "npm": "6.4.1"
+    "node": "12.13.1",
+    "npm": "6.12.1"
   },
   "license": "MIT",
   "main": "index.js",
