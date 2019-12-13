@@ -507,7 +507,10 @@ async function fetchWithPuppeteer (method, req) {
       } else {
         try {
           page = await browser.newPage()
-          page.on('error', () => { })
+          if (process.env.TRACE_PUPPETEER) { 
+            page.on('error', msg => console.log('[error]', msg.text()))
+            page.on('console', msg => console.log('[console]', msg.text()))
+          }
         } catch (error) {
         }
       }
