@@ -527,7 +527,7 @@ describe('/api/user/update-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'occupation': 'Testing'
+        occupation: 'Testing'
       }
       const profile = await req.patch()
       assert.strictEqual(profile.occupation, 'Testing')
@@ -555,7 +555,7 @@ describe('/api/user/update-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'dob': '1950-01-01'
+        dob: '1950-01-01'
       }
       const profile = await req.patch()
       assert.strictEqual(profile.dob, '1950-01-01')

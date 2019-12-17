@@ -629,7 +629,7 @@ describe('/api/user/create-account', () => {
         username: 'username-' + new Date().getTime(),
         password: 'password1234',
         confirm: 'password1234'
-      } 
+      }
       global.maximumPasswordLength = 1
       let errorMessage
       try {
