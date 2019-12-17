@@ -168,7 +168,7 @@ function createRequest (rawURL) {
           }
           req.retries = req.retries || 0
           req.retries++
-          await wait(100)
+          await wait(1000)
         }
       }
       while (true) {
@@ -485,6 +485,7 @@ function deleteLocalData (currentPath) {
 
 async function fetchWithPuppeteer (method, req) {
   browser = browser || await cycleBrowserObject()
+
   let pages
   while (!pages) {
     try {
@@ -507,7 +508,7 @@ async function fetchWithPuppeteer (method, req) {
       } else {
         try {
           page = await browser.newPage()
-          if (process.env.TRACE_PUPPETEER) { 
+          if (process.env.TRACE_PUPPETEER) {
             page.on('error', msg => console.log('[error]', msg.text()))
             page.on('console', msg => console.log('[console]', msg.text()))
           }
