@@ -163,7 +163,10 @@ function createRequest (rawURL) {
           } catch (error) {
             errorMessage = error.message
           }
-          if (!req.retry || req.retries === 3) {
+          if (req.retry === false || req.retries === 3) {
+            if (process.env.DEBUG_ERRORS) {
+              console.log('[test-helper] req.retry ending', errorMessage)
+            }
             throw new Error(errorMessage || 'api proxying failed')
           }
           req.retries = req.retries || 0
@@ -458,6 +461,11 @@ const proxy = util.promisify((method, path, req, callback) => {
     })
   })
   proxyRequest.on('error', (error) => {
+    if (error.raw.code === 'lock_timeout') {
+      return setTimeout(() => {
+        proxy(method, path, req, callback)
+      }, 100)
+    }
     return callback(error)
   })
   if (postData) {
@@ -485,7 +493,6 @@ function deleteLocalData (currentPath) {
 
 async function fetchWithPuppeteer (method, req) {
   browser = browser || await cycleBrowserObject()
-
   let pages
   while (!pages) {
     try {
