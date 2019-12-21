@@ -1,3 +1,4 @@
+let puppeteer, browser
 const util = require('util')
 const wait = util.promisify(function (amount, callback) {
   if (amount && !callback) {
@@ -9,94 +10,282 @@ const wait = util.promisify(function (amount, callback) {
   }
   return callback()
 })
+const allDevices = require('puppeteer/DeviceDescriptors')
+const devices = [{
+    name: 'Desktop',
+    userAgent: 'Desktop browser',
+    viewport: {
+      width: 1920,
+      height: 1080,
+      deviceScaleFactor: 1,
+      isMobile: false,
+      hasTouch: false,
+      isLandscape: false
+    }
+  },
+  allDevices['iPad Pro'],
+  allDevices['iPad Mini'],
+  allDevices['Pixel 2 XL'],
+  allDevices['iPhone SE']
+]
 
 module.exports = {
-  open,
+  fetch,
   hover,
   click,
-  fill
+  fill,
+  close: () => {
+    if (browser && browser.close) {
+      browser.close()
+      browser = null
+    }
+    puppeteer = null
+  }
 }
 
-async function open (page, url) {
-  await openURL(page, url)
+async function fetch (method, req) {
+  puppeteer = global.puppeteer = global.puppeteer || require('puppeteer')
+  while (!browser) {
+    try {
+      browser = await puppeteer.launch({
+        headless: !(process.env.SHOW_BROWSERS === 'true'),
+        args: [
+          '--no-sandbox', 
+          '--disable-setuid-sandbox', 
+          '--window-size=1920,1080', 
+          '--incognito', 
+          '--disable-dev-shm-usage'
+        ],
+        slowMo: 0
+      })
+    } catch (error) {
+    }
+    if (browser) {
+      break
+    }
+    await wait(1)
+  }
+  let pages
+  while (!pages) {
+    try {
+      pages = await browser.pages()
+    } catch (error) {
+    }
+    if (pages) {
+      break
+    }
+    await wait(1)
+  }
+  let page
+  if (pages && pages.length) {
+    page = pages[0]
+  } else {
+    while (true) {
+      pages = await browser.pages()
+      if (pages && pages.length) {
+        page = pages[0]
+      } else {
+        try {
+          page = await browser.newPage()
+          if (process.env.DEBUG_PUPPETEER) {
+            page.on('error', msg => console.log('[error]', msg.text()))
+            page.on('console', msg => console.log('[console]', msg.text()))
+          }
+        } catch (error) {
+        }
+      }
+      if (page) {
+        break
+      }
+      await wait(1)
+    }
+  }
+  while (true) {
+    try {
+      await page.emulate({
+        name: 'Desktop',
+        userAgent: 'Desktop browser',
+        viewport: {
+          width: 1920,
+          height: 1080,
+          deviceScaleFactor: 1,
+          isMobile: false,
+          hasTouch: false,
+          isLandscape: false
+        }
+      })
+      break
+    } catch (error) {
+      await wait(1)
+      continue
+    }
+  }
+  if (req.session) {
+    await page.setCookie({
+      value: req.session.sessionid,
+      domain: process.env.DOMAIN,
+      expires: Date.now() / 1000 + 10,
+      name: 'sessionid'
+    })
+    await page.setCookie({
+      value: req.session.token,
+      domain: process.env.DOMAIN,
+      expires: Date.now() / 1000 + 10,
+      name: 'token'
+    })
+  }
+  if (req.screenshots) {
+    await page.goto(`${process.env.DASHBOARD_SERVER}/home`, { waitLoad: true, waitNetworkIdle: true })
+    await page.waitForSelector('body')
+    let screenshotNumber = 1
+    let device
+    for (const deviceInfo of devices) {
+      if (deviceInfo.name === process.env.DEVICE_NAME) {
+        device = deviceInfo
+      }
+    }
+    device = device || devices[0]
+    for (const step of req.screenshots) {
+      if (step.hover) {
+        await hover(page, step.hover)
+        if (process.env.GENERATE_SCREENSHOTS) {
+          await saveScreenshot(devices[0], page, screenshotNumber, 'hover', step.hover)
+          screenshotNumber++
+        }
+      } else if (step.click) {
+        if (step.click === '/account') {
+          await hover(page, '#account-menu-container')
+          await focus(page, '#account-menu-container')
+          await wait(1)
+        } else {
+          await hover(page, step.click)
+        }
+        if (process.env.GENERATE_SCREENSHOTS) {
+          await saveScreenshot(devices[0], page, screenshotNumber, 'click', step.click)
+          screenshotNumber++
+        }
+        await click(page, step.click)
+        if (req.waitOnSubmit) {
+          await wait(10000)
+        } else {
+          await wait(2000)        
+        }
+      } else if (step.fill) {
+        await fill(page, req.body, req.uploads)
+        await hover(page, '#submit-button')
+        if (process.env.GENERATE_SCREENSHOTS) {
+          await saveScreenshot(devices[0], page, screenshotNumber, 'submit', step.fill)
+          screenshotNumber++
+        }
+        await click(page, req.button || '#submit-button')
+        if (req.waitOnSubmit) {
+          await wait(10000)
+        } else {
+          await wait(2000)        
+        }
+        if (process.env.GENERATE_SCREENSHOTS) {
+          await saveScreenshot(devices[0], page, screenshotNumber, 'complete')
+        }
+      }
+    }
+  } else {
+    await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
+    await page.waitForSelector('body')
+    if (method === 'POST') {
+      await fill(page, req.body, req.uploads)
+      await click(page, req.button || '#submit-button')
+      if (req.waitOnSubmit) {
+        await wait(10000)
+      } else {
+        await page.waitForSelector('body')
+      }
+    }
+  }
+  let html
+  while (!html) {
+    try {
+      html = await page.content()
+    } catch (error) {
+    }
+    if (html) {
+      break
+    }
+    await wait(1)
+  }
+  await page.close()
+  return html
+}
+
+async function saveScreenshot(device, page, number, action, identifier) {
+  const basePath = process.env.SCREENSHOT_PATH || global.applicationPath
+  let title
+  if (identifier === '#submit-form') {
+    title = 'form'
+  } else if (identifier) {
+    const element = await getElement(page, identifier)
+    title = await getText(page, element)
+  }
+  let filename
+  if (title) {
+    filename = `${number}-${action}-${title}-${device.name}.png`.toLowerCase()
+  } else {
+    filename = `${number}-${action}-${device.name}.png`.toLowerCase()
+  }
+  await page.emulate(device)
+  await page.screenshot({ path: `${basePath}/${filename}`, type: 'png' })
+}
+
+async function focus (page, identifier) {
+  const element = await getElement(page, identifier)
+  if (element) {
+    return focusElement(element)
+  }
 }
 
 async function hover (page, identifier) {
-  let active = null
-  const frame = await getOptionalApplicationFrame(active)
-  if (frame && frame.evaluate) {
-    active = frame
-  } else {
-    active = page
-  }
-  if (identifier.startsWith('#')) {
-    const element = await getElement(active, identifier)
-    await hoverElement(element)
-    return
-  }
-  const tags = ['a', 'button', 'input', 'select', 'textarea', 'img']
-  for (const tag of tags) {
-    const links = await getTags(active, tag)
-    for (const link of links) {
-      let text = await evaluate(active, el => el.firstChild && el.firstChild.title ? el.firstChild.title : el.innerText, link)
-      if (!text) {
-        continue
-      }
-      text = text.trim()
-      if (text === identifier || text.indexOf(identifier) > -1) {
-        await hoverElement(link)
-      }
-    }
+  const element = await getElement(page, identifier)
+  if (element) {
+    return hoverElement(element)
   }
 }
 
 async function click (page, identifier) {
-  const frame = await getOptionalApplicationFrame(page)
-  let active
-  if (frame && frame.evaluate) {
-    active = frame
-  } else {
-    active = page
-  }
-  if (identifier.startsWith('#')) {
-    const element = await getElement(active, identifier)
+  const element = await getElement(page, identifier)
+  if (element) {
     await hoverElement(element)
     return clickElement(element)
   }
-  const tags = ['a', 'button', 'input', 'select', 'textarea', 'img']
-  for (const tag of tags) {
-    const links = await getTags(active, tag)
-    if (!links || !links.length) {
-      continue
+}
+
+async function getText (page, element) {
+  return evaluate(page, (el) => {
+    if (el.innerText && el.innerHTML.indexOf('>') === -1) {
+      return el.innerText
+    } 
+    if (el.title) {
+      return el.title
     }
-    for (const link of links) {
-      let text = await evaluate(active, el => el.firstChild && el.firstChild.title ? el.firstChild.title : el.innerText, link)
-      if (!text) {
-        continue
+    for (var i = 0, len = el.children.length; i < len; i++) {
+      if (el.children[i].innerText) {
+        return el.children[i].innerText
       }
-      text = text.trim()
-      if (text === identifier || text.indexOf(identifier) > -1) {
-        return clickElement(link)
+      if (el.children[i].title) {
+        return el.children[i].title
       }
     }
-  }
+  }, element)
 }
 
 async function fill (page, body, uploads) {
   if (!body && !uploads) {
     return
   }
-  const frame = await getOptionalApplicationFrame(page)
-  let active
-  if (frame && frame.evaluate) {
-    active = frame
-  } else {
-    active = page
-  }
   if (uploads) {
     for (const field in uploads) {
-      const element = await getElement(active, `#${field}`)
-      await uploadFile(element, uploads[field].path)
+      const element = await getElement(page, `#${field}`)
+      if (element) {
+        await uploadFile(element, uploads[field].path)
+      }
       continue
     }
   }
@@ -104,64 +293,148 @@ async function fill (page, body, uploads) {
     return
   }
   for (const field in body) {
-    const element = await getOptionalElement(active, `#${field}`)
+    const element = await getElement(page, `#${field}`)
     if (!element) {
-      const checkboxes = await getTags(active, 'input[type=checkbox]')
+      const checkboxes = await getTags(page, 'input[type=checkbox]')
       if (checkboxes && checkboxes.length) {
         for (const checkbox of checkboxes) {
-          const name = await evaluate(active, el => el.name, checkbox)
+          const name = await evaluate(page, el => el.name, checkbox)
           if (name !== field) {
             continue
           }
-          const value = await evaluate(active, el => el.value, checkbox)
+          const value = await evaluate(page, el => el.value, checkbox)
           if (value === body[field]) {
-            await evaluate(active, el => { el.checked = true }, checkbox)
+            await evaluate(page, el => { el.checked = true }, checkbox)
           } else if (!body[field]) {
-            await evaluate(active, el => { el.checked = false }, checkbox)
+            await evaluate(page, el => { el.checked = false }, checkbox)
           }
         }
       }
-      const radios = await getTags(active, 'input[type=radio]')
+      const radios = await getTags(page, 'input[type=radio]')
       if (radios && radios.length) {
         for (const radio of radios) {
-          const name = await evaluate(active, el => el.name, radio)
+          const name = await evaluate(page, el => el.name, radio)
           if (name !== field) {
             continue
           }
-          const value = await evaluate(active, el => el.value, radio)
+          const value = await evaluate(page, el => el.value, radio)
           if (value === body[field]) {
-            await evaluate(active, el => { el.checked = true }, radio)
+            await evaluate(page, el => { el.checked = true }, radio)
           } else if (!body[field]) {
-            await evaluate(active, el => { el.checked = false }, radio)
+            await evaluate(page, el => { el.checked = false }, radio)
           }
         }
       }
       continue
     }
-    const tagName = await evaluate(active, el => el.tagName, element)
+    const tagName = await evaluate(page, el => el.tagName, element)
     if (!tagName) {
       throw new Error('unknown tag name')
     }
     await focusElement(element)
     if (tagName === 'TEXTAREA') {
-      await evaluate(active, el => { el.value = '' }, element)
+      await evaluate(page, el => { el.value = '' }, element)
       await typeInElement(element, body[field])
     } else if (tagName === 'SELECT') {
       await selectOption(element, body[field])
     } else if (tagName === 'INPUT') {
-      const inputType = await evaluate(active, el => el.type, element)
+      const inputType = await evaluate(page, el => el.type, element)
       if (inputType === 'radio' || inputType === 'checkbox') {
         if (body[field]) {
-          await evaluate(active, el => { el.checked = true }, element)
+          await evaluate(page, el => { el.checked = true }, element)
         } else {
-          await evaluate(active, el => { el.checked = false }, [])
+          await evaluate(page, el => { el.checked = false }, [])
         }
       } else {
         if (body[field]) {
-          await evaluate(active, el => { el.value = '' }, element)
+          await evaluate(page, el => { el.value = '' }, element)
           await typeInElement(element, body[field])
         } else {
-          await evaluate(active, el => { el.value = '' }, element)
+          await evaluate(page, el => { el.value = '' }, element)
+        }
+      }
+    }
+  }
+}
+
+async function getElement (page, identifier) {
+  console.log('getElement', identifier)
+  const frame = await getOptionalApplicationFrame(page)
+  let element
+  if (identifier.startsWith('#')) {
+    element = await page.$(identifier)
+    if (element) {
+      return element
+    }
+    if (frame) {
+      element = await frame.$(identifier)
+      if (element) {
+        return element
+      }
+    }
+    return null
+  }
+  if (identifier.startsWith('/')) {
+    let elements = await getTags(page, 'a')
+    if (elements && elements.length) {
+      for (element of elements) {
+        const href = await evaluate(page, el => el.href, element)
+        if (href) {
+          if (href === identifier || 
+              href.startsWith(`${identifier}?`) || 
+              href === `${global.dashboardServer}${identifier}` || 
+              href.startsWith(`${global.dashboardServer}${identifier}?`) || 
+              href === `${global.dashboardServer}:${global.port}${identifier}` ||
+              href.startsWith(`${global.dashboardServer}:${global.port}${identifier}?`)) {
+            return element
+          }
+        }
+      }
+    }
+    if (frame) {
+      elements = await getTags(frame, 'a')
+      if (elements && elements.length) {
+        for (element of elements) {
+          const href = await evaluate(page, el => el.href, element)
+          if (href) {
+            if (href === identifier || 
+              href.startsWith(`${identifier}?`) || 
+              href === `${global.dashboardServer}${identifier}` || 
+              href.startsWith(`${global.dashboardServer}${identifier}?`) || 
+              href === `${global.dashboardServer}:${global.port}${identifier}` ||
+              href.startsWith(`${global.dashboardServer}:${global.port}${identifier}?`)) {
+            return element
+            }
+          }
+        }
+      }
+    }
+  }
+  const tags = ['button', 'input', 'select', 'textarea', 'img']
+  for (const tag of tags) {
+    let elements = await getTags(page, tag)
+    if (!elements || !elements.length) {
+      continue
+    }
+    for (element of elements) {
+      const text = await getText(element)
+      if (text) {
+        if (text === identifier || text.indexOf(identifier) > -1) {
+          return element
+        }
+      }
+    }
+    if (frame) {
+      elements = await getTags(frame, tag)
+      if (!elements || !elements.length) {
+        continue
+      }
+      for (element of elements) {
+        const text = await getText(element)
+        if (text) {
+          if (text === identifier || text.indexOf(identifier) > -1) {
+            return element
+          }
         }
       }
     }
@@ -169,9 +442,6 @@ async function fill (page, body, uploads) {
 }
 
 async function evaluate (page, method, element) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('evaluate')
-  }
   let fails = 0
   const active = element || page
   while (true) {
@@ -188,29 +458,7 @@ async function evaluate (page, method, element) {
   }
 }
 
-async function openURL (page, url) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('open url', url)
-  }
-  let fails = 0
-  while (true) {
-    try {
-      page.goto(url, { waitLoad: true, waitNetworkIdle: true })
-      return
-    } catch (error) {
-    }
-    fails++
-    if (fails > 10) {
-      throw new Error('openURL failed ten times')
-    }
-    await wait(1)
-  }
-}
-
 async function getOptionalApplicationFrame (page) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('get optional application frame')
-  }
   let fails = 0
   while (true) {
     try {
@@ -229,9 +477,6 @@ async function getOptionalApplicationFrame (page) {
 }
 
 async function getTags (page, tag) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('get tags', tag)
-  }
   let fails = 0
   while (true) {
     try {
@@ -248,9 +493,6 @@ async function getTags (page, tag) {
 }
 
 async function hoverElement (element) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('hover element')
-  }
   let fails = 0
   while (true) {
     try {
@@ -266,48 +508,7 @@ async function hoverElement (element) {
   }
 }
 
-async function getElement (page, identifier) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('get element', identifier)
-  }
-  let fails = 0
-  while (true) {
-    try {
-      const element = await page.$(identifier)
-      return element
-    } catch (error) {
-    }
-    fails++
-    if (fails > 10) {
-      throw new Error('getElement failed ten times')
-    }
-    await wait(1)
-  }
-}
-
-async function getOptionalElement (page, identifier) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('get optional element', identifier)
-  }
-  let fails = 0
-  while (true) {
-    try {
-      const element = await page.$(identifier)
-      return element
-    } catch (error) {
-    }
-    fails++
-    if (fails > 10) {
-      return
-    }
-    await wait(1)
-  }
-}
-
 async function clickElement (element) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('click element')
-  }
   let fails = 0
   while (true) {
     try {
@@ -324,9 +525,6 @@ async function clickElement (element) {
 }
 
 async function focusElement (element) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('focus element')
-  }
   let fails = 0
   while (true) {
     try {
@@ -343,9 +541,6 @@ async function focusElement (element) {
 }
 
 async function uploadFile (element, path) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('upload file', path)
-  }
   let fails = 0
   while (true) {
     try {
@@ -362,9 +557,6 @@ async function uploadFile (element, path) {
 }
 
 async function typeInElement (element, text) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('type in element', text)
-  }
   let fails = 0
   while (true) {
     try {
@@ -381,9 +573,6 @@ async function typeInElement (element, text) {
 }
 
 async function selectOption (element, value) {
-  if (process.env.TRACE_PUPPETEER) {
-    console.log('select option', value)
-  }
   const id = await element.evaluate(element => element.id, element)
   let fails = 0
   while (true) {

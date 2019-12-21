@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 global.applicationPath = global.applicationPath || __dirname
 global.appid = global.appid || 'tests'
-global.puppeteer = global.puppeteer || require('puppeteer')
 
 const bcrypt = require('./src/bcrypt.js')
 const dashboard = require('./index.js')
@@ -30,7 +29,6 @@ let packageJSON
 before(async () => {
   await dashboard.start(global.applicationPath || __dirname)
   packageJSON = global.packageJSON
-  // await cycleBrowserObject()
 })
 
 beforeEach(async () => {
@@ -81,10 +79,7 @@ after((callback) => {
   dashboard.stop()
   global.testEnded = true
   delete (global.apiDependencies)
-  if (browser && browser.close) {
-    browser.close()
-    browser = null
-  }
+  TestHelperPuppeteer.close()
   return callback()
 })
 
@@ -107,7 +102,6 @@ module.exports = {
   createSession,
   createResetCode,
   createUser,
-  cycleBrowserObject,
   deleteResetCode,
   endSession,
   nextIdentity,
@@ -117,25 +111,9 @@ module.exports = {
   wait
 }
 
-async function cycleBrowserObject () {
-  while (!browser) {
-    try {
-      browser = await global.puppeteer.launch({
-        headless: !(process.env.SHOW_BROWSERS === 'true'),
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--window-size=1920,1080', '--incognito', '--disable-dev-shm-usage'],
-        slowMo: 0
-      })
-    } catch (error) {
-    }
-    if (browser) {
-      return browser
-    }
-    await wait(1)
-  }
-}
-
 function createRequest (rawURL) {
   const req = {
+    language: global.language,
     appid: global.appid,
     url: rawURL,
     urlPath: rawURL.split('?')[0]
@@ -165,7 +143,7 @@ function createRequest (rawURL) {
           }
           if (req.retry === false || req.retries === 3) {
             if (process.env.DEBUG_ERRORS) {
-              console.log('[test-helper] req.retry ending', errorMessage)
+              console.log('[test-helper] req.retry ending', errorMessage, req.url)
             }
             throw new Error(errorMessage || 'api proxying failed')
           }
@@ -177,7 +155,7 @@ function createRequest (rawURL) {
       while (true) {
         let result
         try {
-          result = await fetchWithPuppeteer(req.method, req)
+          result = await TestHelperPuppeteer.fetch(req.method, req)
         } catch (error) {
         }
         if (!result) {
@@ -489,101 +467,4 @@ function deleteLocalData (currentPath) {
     }
   }
   fs.rmdirSync(currentPath)
-}
-
-async function fetchWithPuppeteer (method, req) {
-  browser = browser || await cycleBrowserObject()
-  let pages
-  while (!pages) {
-    try {
-      pages = await browser.pages()
-    } catch (error) {
-    }
-    if (pages) {
-      break
-    }
-    await wait(1)
-  }
-  let page
-  if (pages && pages.length) {
-    page = pages[0]
-  } else {
-    while (true) {
-      pages = await browser.pages()
-      if (pages && pages.length) {
-        page = pages[0]
-      } else {
-        try {
-          page = await browser.newPage()
-          if (process.env.TRACE_PUPPETEER) {
-            page.on('error', msg => console.log('[error]', msg.text()))
-            page.on('console', msg => console.log('[console]', msg.text()))
-          }
-        } catch (error) {
-        }
-      }
-      if (page) {
-        break
-      }
-      await wait(1)
-    }
-  }
-  while (true) {
-    try {
-      await page.emulate({
-        name: 'Desktop',
-        userAgent: 'Desktop browser',
-        viewport: {
-          width: 1920,
-          height: 1080,
-          deviceScaleFactor: 1,
-          isMobile: false,
-          hasTouch: false,
-          isLandscape: false
-        }
-      })
-      break
-    } catch (error) {
-      await wait(1)
-      continue
-    }
-  }
-  if (req.session) {
-    await page.setCookie({
-      value: req.session.sessionid,
-      domain: process.env.DOMAIN,
-      expires: Date.now() / 1000 + 10,
-      name: 'sessionid'
-    })
-    await page.setCookie({
-      value: req.session.token,
-      domain: process.env.DOMAIN,
-      expires: Date.now() / 1000 + 10,
-      name: 'token'
-    })
-  }
-  await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
-  await page.waitForSelector('body')
-  if (method === 'POST') {
-    await TestHelperPuppeteer.fill(page, req.body, req.uploads)
-    await TestHelperPuppeteer.click(page, req.button || '#submit-button')
-    if (req.waitOnSubmit) {
-      await wait(10000)
-    } else {
-      await page.waitForSelector('body')
-    }
-  }
-  let html
-  while (!html) {
-    try {
-      html = await page.evaluate(_ => document.body.parentNode.outerHTML)
-    } catch (error) {
-    }
-    if (html) {
-      break
-    }
-    await wait(1)
-  }
-  await page.close()
-  return html
 }
