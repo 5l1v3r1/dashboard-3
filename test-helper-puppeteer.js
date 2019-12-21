@@ -358,7 +358,6 @@ async function fill (page, body, uploads) {
 }
 
 async function getElement (page, identifier) {
-  console.log('getElement', identifier)
   const frame = await getOptionalApplicationFrame(page)
   let element
   if (identifier.startsWith('#')) {
