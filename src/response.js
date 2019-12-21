@@ -282,7 +282,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     form.attr.method = form.attr.method || 'POST'
     form.attr.action = form.attr.action || req.url
     if (global.testNumber) {
-      form.attr.novalidation = 'novalidation'
+      form.attr.novalidate = 'novalidate'
     }
     if (req.query && req.query['return-url']) {
       form.attr.action = form.attr.action || req.url
