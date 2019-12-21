@@ -6,17 +6,11 @@ Dashboard is a parallel web application that accompanies your web app, subscript
 
 ## Development status
 
-Dashboard is ready to use.  The following work remains and help is welcome:
+Check the [Github Issues](https://github.com/userdashboard/dashboard/issues) for ways you can help improve and continue development of this module, including:
 
-- translations required for everything in /languages please help
-- add sorting and searching table data to the APIs and UIs
-- add signin throttling
-- add api throttling
-- add UI for setting user language preference
-- add server handler to substitute preferred language HTML
-- add hooks for 2FA 
-- needs module for API keys
-- needs module for logs
+- translations
+- adding support for new functionality
+- creating modules with new functionality
 
 ## Local documentation
 
