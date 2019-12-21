@@ -40,7 +40,7 @@ async function submitForm (req, res) {
   try {
     await global.api.user.SetSessionVerified.patch(req)
     if (req.success) {
-      return dashboard.Response.redirect(req, res, req.query.returnURL)
+      return dashboard.Response.redirect(req, res, req.query['return-url'])
     }
     return renderPage(req, res, 'unknown-error')
   } catch (error) {

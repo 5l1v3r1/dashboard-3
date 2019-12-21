@@ -6,7 +6,7 @@ describe('/account/verify', () => {
   describe('Verify#GET', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?returnURL=/redirecting')
+      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
       req.account = user.account
       req.session = user.session
       const page = await req.get()
@@ -18,7 +18,7 @@ describe('/account/verify', () => {
   describe('Verify#POST', () => {
     it('should reject missing username', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?returnURL=/redirecting')
+      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -32,7 +32,7 @@ describe('/account/verify', () => {
 
     it('should enforce username length', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?returnURL=/redirecting')
+      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -47,7 +47,7 @@ describe('/account/verify', () => {
 
     it('should reject missing password', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?returnURL=/redirecting')
+      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -61,7 +61,7 @@ describe('/account/verify', () => {
 
     it('should reject invalid password', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?returnURL=/redirecting')
+      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -75,7 +75,7 @@ describe('/account/verify', () => {
 
     it('should enforce password length', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?returnURL=/redirecting')
+      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -91,7 +91,7 @@ describe('/account/verify', () => {
     it('should mark session as verified', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?returnURL=/redirecting')
+      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
       req.account = user.account
       req.session = user.session
       req.body = {

@@ -57,6 +57,6 @@ async function submitForm (req, res) {
     `sessionid=${session.sessionid}; ${cookieStr}`,
     `token=${session.token}; ${cookieStr}`
   ])
-  const nextURL = req.query && req.query.returnURL ? req.query.returnURL : '/home'
+  const nextURL = req.query && req.query['return-url'] ? req.query['return-url'] : '/home'
   return dashboard.Response.redirect(req, res, nextURL)
 }

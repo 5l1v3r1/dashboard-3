@@ -37,7 +37,7 @@ describe('/account/end-all-sessions', () => {
       req.session = user.session
       const page = await req.post()
       const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/account/signin?returnURL=/home')
+      assert.strictEqual(redirectURL, '/account/signin?return-url=/home')
     })
   })
 })

@@ -7,8 +7,8 @@ module.exports = {
 
 function renderPage (req, res, messageTemplate) {
   if (req.success) {
-    if (req.query && req.query.returnURL && req.query.returnURL.indexOf('/') === 0) {
-      return dashboard.Response.redirect(req, res, decodeURI(req.query.returnURL))
+    if (req.query && req.query['return-url']) {
+      return dashboard.Response.redirect(req, res, req.query['return-url'])
     }
     messageTemplate = 'success'
   } else if (req.error) {
@@ -25,7 +25,6 @@ async function submitForm (req, res) {
   if (!req.body) {
     return renderPage(req, res)
   }
-  req.body['new-password'] = req.body['new-password'] && req.body['new-password'].trim ? req.body['new-password'].trim() : req.body['new-password']
   if (!req.body['new-password'] || !req.body['new-password'].length) {
     return renderPage(req, res, 'invalid-new-password')
   }
