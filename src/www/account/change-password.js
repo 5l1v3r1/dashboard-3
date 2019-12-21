@@ -29,7 +29,9 @@ async function submitForm (req, res) {
   if (!req.body['new-password'] || !req.body['new-password'].length) {
     return renderPage(req, res, 'invalid-new-password')
   }
-  if (global.minimumPasswordLength > req.body['new-password'].length) {
+  req.body['new-password'] = req.body['new-password'].trim()
+  if (global.minimumPasswordLength > req.body['new-password'].length ||
+      req.body['new-password'].length > global.maximumPasswordLength) {
     return renderPage(req, res, 'invalid-new-password-length')
   }
   if (req.body['new-password'] !== req.body['confirm-password']) {
