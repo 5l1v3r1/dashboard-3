@@ -149,7 +149,7 @@ async function fetch (method, req) {
       if (step.hover) {
         await hover(page, step.hover)
         if (process.env.GENERATE_SCREENSHOTS) {
-          await saveScreenshot(devices[0], page, screenshotNumber, 'hover', step.hover)
+          await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover)
           screenshotNumber++
         }
       } else if (step.click) {
@@ -161,7 +161,7 @@ async function fetch (method, req) {
           await hover(page, step.click)
         }
         if (process.env.GENERATE_SCREENSHOTS) {
-          await saveScreenshot(devices[0], page, screenshotNumber, 'click', step.click)
+          await saveScreenshot(device, page, screenshotNumber, 'click', step.click)
           screenshotNumber++
         }
         await click(page, step.click)
@@ -174,7 +174,7 @@ async function fetch (method, req) {
         await fill(page, req.body, req.uploads)
         await hover(page, '#submit-button')
         if (process.env.GENERATE_SCREENSHOTS) {
-          await saveScreenshot(devices[0], page, screenshotNumber, 'submit', step.fill)
+          await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill)
           screenshotNumber++
         }
         await click(page, req.button || '#submit-button')
@@ -184,7 +184,7 @@ async function fetch (method, req) {
           await wait(2000)        
         }
         if (process.env.GENERATE_SCREENSHOTS) {
-          await saveScreenshot(devices[0], page, screenshotNumber, 'complete')
+          await saveScreenshot(device, page, screenshotNumber, 'complete')
         }
       }
     }
