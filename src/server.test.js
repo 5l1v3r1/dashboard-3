@@ -175,7 +175,7 @@ describe('internal-api/server', () => {
         end: (page) => {
           const doc = HTML.parse(page)
           const redirectURL = TestHelper.extractRedirectURL(doc)
-          assert.strictEqual(redirectURL, '/account/verify?returnURL=/account/change-password')
+          assert.strictEqual(redirectURL, '/account/verify?return-url=/account/change-password')
         }
       }
       return Server.receiveRequest(req, res)
