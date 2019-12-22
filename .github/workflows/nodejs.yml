@@ -23,7 +23,7 @@ jobs:
         standard src || exit 1 
     - name: mocha tests
       run: |
-      npm install mocha -g &&
+        npm install mocha -g &&
         npm install puppeteer --no-save &&
         NODE_ENV=testing \
         FAST_START=true \
