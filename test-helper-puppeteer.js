@@ -1,4 +1,5 @@
 let puppeteer, browser
+const fs = require('fs')
 const util = require('util')
 const wait = util.promisify(function (amount, callback) {
   if (amount && !callback) {
@@ -135,7 +136,11 @@ async function fetch (method, req) {
     })
   }
   if (req.screenshots) {
-    await page.goto(`${process.env.DASHBOARD_SERVER}/home`, { waitLoad: true, waitNetworkIdle: true })
+    if (req.account) {
+      await page.goto(`${process.env.DASHBOARD_SERVER}/home`, { waitLoad: true, waitNetworkIdle: true })
+    } else {
+      await page.goto(`${process.env.DASHBOARD_SERVER}/`, { waitLoad: true, waitNetworkIdle: true })
+    }
     await page.waitForSelector('body')
     let screenshotNumber = 1
     let device
@@ -149,7 +154,7 @@ async function fetch (method, req) {
       if (step.hover) {
         await hover(page, step.hover)
         if (process.env.GENERATE_SCREENSHOTS) {
-          await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover)
+          await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
           screenshotNumber++
         }
       } else if (step.click) {
@@ -157,11 +162,16 @@ async function fetch (method, req) {
           await hover(page, '#account-menu-container')
           await focus(page, '#account-menu-container')
           await wait(1)
+        } else if (step.click === '/administrator') {
+          await hover(page, '#administrator-menu-container')
+          await focus(page, '#administrator-menu-container')
+          await wait(1)
         } else {
           await hover(page, step.click)
+          await focus(page, step.click)
         }
         if (process.env.GENERATE_SCREENSHOTS) {
-          await saveScreenshot(device, page, screenshotNumber, 'click', step.click)
+          await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
           screenshotNumber++
         }
         await click(page, step.click)
@@ -174,7 +184,7 @@ async function fetch (method, req) {
         await fill(page, req.body, req.uploads)
         await hover(page, '#submit-button')
         if (process.env.GENERATE_SCREENSHOTS) {
-          await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill)
+          await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
           screenshotNumber++
         }
         await click(page, req.button || '#submit-button')
@@ -183,10 +193,10 @@ async function fetch (method, req) {
         } else {
           await wait(2000)        
         }
-        if (process.env.GENERATE_SCREENSHOTS) {
-          await saveScreenshot(device, page, screenshotNumber, 'complete')
-        }
       }
+    }
+    if (process.env.GENERATE_SCREENSHOTS) {
+      await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
     }
   } else {
     await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
@@ -216,14 +226,20 @@ async function fetch (method, req) {
   return html
 }
 
-async function saveScreenshot(device, page, number, action, identifier) {
-  const basePath = process.env.SCREENSHOT_PATH || global.applicationPath
+async function saveScreenshot(device, page, number, action, identifier, scriptName) {
+  let filePath = scriptName.substring(0, scriptName.lastIndexOf('.test.js'))
+  filePath = filePath.split('/src/www/account/').join('/screenshots/account/')
+  filePath = filePath.split('/src/www/administrator/').join('/screenshots/administrator/')
+  if (!fs.existsSync(filePath)) {
+    createFolderSync(filePath)
+  }
   let title
   if (identifier === '#submit-form') {
     title = 'form'
   } else if (identifier) {
     const element = await getElement(page, identifier)
     title = await getText(page, element)
+    title = title.split(' ').join('-').toLowerCase()
   }
   let filename
   if (title) {
@@ -232,7 +248,7 @@ async function saveScreenshot(device, page, number, action, identifier) {
     filename = `${number}-${action}-${device.name}.png`.toLowerCase()
   }
   await page.emulate(device)
-  await page.screenshot({ path: `${basePath}/${filename}`, type: 'png' })
+  await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
 }
 
 async function focus (page, identifier) {
@@ -595,5 +611,17 @@ async function selectOption (element, value) {
       throw new Error('selectOption failed ten times')
     }
     await wait(1)
+  }
+}
+
+function createFolderSync (folderPath) {
+  const nested = folderPath.substring(global.applicationPath.length)
+  const nestedParts = nested.split('/')
+  let nestedPath = global.applicationPath
+  for (const part of nestedParts) {
+    nestedPath += `/${part}`
+    if (!fs.existsSync(nestedPath)) {
+      fs.mkdirSync(nestedPath)
+    }
   }
 }

@@ -23,7 +23,6 @@ if (process.env.STORAGE_CACHE) {
   require(`${process.env.STORAGE_CACHE}/test-helper.js`)
 }
 
-let browser
 let packageJSON
 
 before(async () => {
