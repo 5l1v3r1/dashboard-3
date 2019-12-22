@@ -35,3 +35,4 @@ jobs:
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
         REDIS_URL: "redis://localhost:6379"
+        DEBUG_ERRORS: true

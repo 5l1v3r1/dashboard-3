@@ -30,3 +30,4 @@ jobs:
         STORAGE_PATH: /tmp/test-data
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
+        DEBUG_ERRORS: true

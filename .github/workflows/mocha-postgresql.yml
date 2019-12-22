@@ -37,3 +37,4 @@ jobs:
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
         DATABASE_URL: "postgres://user:pass@localhost:5432/postgres"
+        DEBUG_ERRORS: true
