@@ -18,6 +18,11 @@ jobs:
       run: |
         npm install mocha -g &&
         npm install puppeteer --no-save
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: screenshots
+        path: screenshots
     - name: Test
       run: |
         bash screenshots.sh || exit 1
