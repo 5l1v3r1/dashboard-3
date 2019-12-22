@@ -31,6 +31,9 @@ jobs:
         ENCRYPTION_SECRET_IV=1234123412341234 \
         GENERATE_SITEMAP_TXT=false \
         GENERATE_API_TXT=false \
-        npm test
+        npm install mocha standard -g \
+        npm install puppeteer --no-save \
+        mocha || exit 1
+        npm test || exit 1
       env:
         CI: true
