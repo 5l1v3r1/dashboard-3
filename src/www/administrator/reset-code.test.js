@@ -24,6 +24,13 @@ describe('/administrator/reset-code', () => {
       const req = TestHelper.createRequest(`/administrator/reset-code?codeid=${user.resetCode.codeid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#administrator-menu-container' },
+        { click: '/administrator' },
+        { click: '/administrator/reset-codes' },
+        { click: `/administrator/reset-code?codeid=${user.resetCode.codeid}` }
+      ]
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
       const table = doc.getElementById('reset-codes-table')

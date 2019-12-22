@@ -101,6 +101,15 @@ describe('/account/delete-profile', () => {
       const req = TestHelper.createRequest(`/account/delete-profile?profileid=${profile1.profileid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/profiles' },
+        { click: `/account/profile?profileid=${profile1.profileid}`},
+        { click: `/account/delete-profile?profileid=${profile1.profileid}`},
+        { fill: '#submit-form' }
+      ]
       await req.post()
       const req2 = TestHelper.createRequest(`/api/user/profile?profileid=${profile1.profileid}`)
       req2.account = user.account

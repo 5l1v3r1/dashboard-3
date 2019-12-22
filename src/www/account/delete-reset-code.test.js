@@ -69,6 +69,15 @@ describe('/account/delete-reset-code', () => {
       const req = TestHelper.createRequest(`/account/delete-reset-code?codeid=${user.resetCode.codeid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/reset-codes' },
+        { click: `/account/reset-code?codeid=${user.resetCode.codeid}`},
+        { click: `/account/delete-reset-code?codeid=${user.resetCode.codeid}`},
+        { fill: '#submit-form' }
+      ]
       await req.post()
       const req2 = TestHelper.createRequest(`/api/user/reset-code?codeid=${user.resetCode.codeid}`)
       req2.account = user.account

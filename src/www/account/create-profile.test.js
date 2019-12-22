@@ -368,6 +368,14 @@ describe('/account/create-profile', () => {
         website: 'https://example.com',
         default: 'true'
       }
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/profiles' },
+        { click: '/account/create-profile' },
+        { fill: '#submit-form' }
+      ]
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')

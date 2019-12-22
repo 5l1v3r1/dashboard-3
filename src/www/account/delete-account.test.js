@@ -43,6 +43,13 @@ describe('/account/delete-account', () => {
       req.body = {
         password: user.account.password
       }
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/delete-account' },
+        { fill: '#submit-form' }
+      ]
       await req.post()
       const req2 = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
       req2.account = administrator.account

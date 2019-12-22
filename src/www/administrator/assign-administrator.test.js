@@ -48,6 +48,15 @@ describe('/administrator/assign-administrator', () => {
       const req = TestHelper.createRequest(`/administrator/assign-administrator?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#administrator-menu-container' },
+        { click: '/administrator' },
+        { click: '/administrator/accounts' },
+        { click: `/administrator/account?accountid=${user.account.accountid}` },
+        { click: `/administrator/assign-administrator?accountid=${user.account.accountid}` },
+        { fill: '#submit-form' }
+      ]
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')

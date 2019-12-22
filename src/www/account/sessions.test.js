@@ -21,6 +21,12 @@ describe('/account/sessions', () => {
       const req = TestHelper.createRequest('/account/signout')
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/sessions' }
+      ]
       await req.get()
       const req2 = TestHelper.createRequest('/account/signin')
       req2.body = {

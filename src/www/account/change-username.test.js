@@ -73,6 +73,13 @@ describe('/account/change-username', () => {
         'new-username': 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
         password: user.account.password
       }
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/change-username' },
+        { fill: '#submit-form' }
+      ]
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')

@@ -25,13 +25,11 @@ describe('/account/reset-codes', () => {
       const req = TestHelper.createRequest('/account/reset-codes')
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
       req.screenshots = [
-        { 'hover': 'Account' },
-        { 'hover': 'My account', screenshot: true },
-        { 'click': 'My account' },
-        { 'hover': 'Reset codes' },
-        { 'click': 'Reset codes', screenshot: true },
-        { screenshot: true, title: 'Viewing reset codes' }
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/reset-codes' }
       ]
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)

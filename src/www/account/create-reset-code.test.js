@@ -70,6 +70,14 @@ describe('/account/create-reset-code', () => {
       req.body = {
         'secret-code': '123456890'
       }
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/reset-codes' },
+        { click: '/account/create-reset-code' },
+        { fill: '#submit-form' }
+      ]
       global.minimumResetCodeLength = 1
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)

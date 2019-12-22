@@ -25,6 +25,13 @@ describe('/account/end-all-sessions', () => {
       const req = TestHelper.createRequest('/account/end-all-sessions')
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: `/account/end-all-sessions`},
+        { fill: '#submit-form' }
+      ]
       await req.post()
       const current = await dashboard.StorageObject.getProperty(`${req.appid}/account/${user.account.accountid}`, 'sessionKey')
       assert.notStrictEqual(current, previous)

@@ -90,6 +90,15 @@ describe('/account/set-default-profile', () => {
       req.body = {
         profileid: profile1id
       }
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/profiles' },
+        { click: `/account/profile?profileid=${profile1id}`},
+        { click: `/account/set-default-profile?profileid=${profile1id}`},
+        { fill: '#submit-form' }
+      ]
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')

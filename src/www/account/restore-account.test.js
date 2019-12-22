@@ -112,6 +112,12 @@ describe('/account/restore-account', () => {
         username: user.account.username,
         password: user.account.password
       }
+      req.filename = __filename
+      req.screenshots = [
+        { click: '/account/signin' },
+        { click: '/account/restore-account' },
+        { fill: '#submit-form' }
+      ]
       await req.post()
       const req2 = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
       req2.account = administrator.account

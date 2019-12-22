@@ -20,6 +20,13 @@ describe('/account/profile', () => {
       const req = TestHelper.createRequest(`/account/profile?profileid=${user.profile.profileid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/profiles' },
+        { click: `/account/profile?profileid=${user.profile.profileid}`}
+      ]
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
       const table = doc.getElementById('profiles-table')

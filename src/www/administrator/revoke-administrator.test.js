@@ -36,6 +36,15 @@ describe('/administrator/revoke-administrator', () => {
       const req = TestHelper.createRequest(`/administrator/revoke-administrator?accountid=${administrator2.account.accountid}`)
       req.account = owner.account
       req.session = owner.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#administrator-menu-container' },
+        { click: '/administrator' },
+        { click: '/administrator/administrators' },
+        { click: `/administrator/account?accountid=${administrator2.account.accountid}` },
+        { click: `/administrator/revoke-administrator?accountid=${administrator2.account.accountid}` },
+        { fill: '#submit-form' }
+      ]
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')

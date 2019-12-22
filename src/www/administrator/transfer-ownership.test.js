@@ -44,10 +44,19 @@ describe('/administrator/transfer-ownership', () => {
   describe('TransferOwnership#POST', () => {
     it('should change ownership', async () => {
       const owner = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/administrator/transfer-ownership?accountid=${user.account.accountid}`)
+      const administrator2 = await TestHelper.createAdministrator(owner)
+      const req = TestHelper.createRequest(`/administrator/transfer-ownership?accountid=${administrator2.account.accountid}`)
       req.account = owner.account
       req.session = owner.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#administrator-menu-container' },
+        { click: '/administrator' },
+        { click: '/administrator/administrators' },
+        { click: `/administrator/account?accountid=${administrator2.account.accountid}` },
+        { click: `/administrator/transfer-ownership?accountid=${administrator2.account.accountid}` },
+        { fill: '#submit-form' }
+      ]
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')

@@ -46,6 +46,14 @@ describe('/account/end-session', () => {
       req.account = user.account
       req.session = user.session
       const page = await req.post()
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { click: '/account/sessions' },
+        { click: `/account/end-session?sessionid=${user.session.sessionid}`},
+        { fill: '#submit-form' }
+      ]
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]

@@ -51,6 +51,15 @@ describe('/administrator/create-reset-code', () => {
       req.body = {
         'secret-code': 'code-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000)
       }
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#administrator-menu-container' },
+        { click: '/administrator' },
+        { click: '/administrator/accounts' },
+        { click: `/administrator/account?accountid=${user.account.accountid}` },
+        { click: `/administrator/create-reset-code?accountid=${user.account.accountid}` },
+        { fill: '#submit-form' }
+      ]
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const messageContainer = doc.getElementById('message-container')

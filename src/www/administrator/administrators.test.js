@@ -23,6 +23,12 @@ describe('/administrator/administrators', () => {
       const req = TestHelper.createRequest('/administrator/administrators')
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#administrator-menu-container' },
+        { click: '/administrator' },
+        { click: '/administrator/administrators' }
+      ]
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)
       const row = doc.getElementById(administrator.account.accountid)

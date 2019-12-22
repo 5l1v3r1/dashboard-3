@@ -176,6 +176,10 @@ describe('/account/reset-account', () => {
         'confirm-password': 'my-new-password',
         'secret-code': user.resetCode.code
       }
+      req.filename = __filename
+      req.screenshots = [
+        { fill: '#submit-form' }
+      ]
       const res = {
         setHeader: () => {
         },
