@@ -1,5 +1,5 @@
 # Dashboard
-![Tests are passing](https://github.com/userdashboard/dashboard/workflows/Node%20CI/badge.svg)
+![Test status](https://github.com/userdashboard/dashboard/workflows/Node%20CI/badge.svg)
 
 ![Guest landing page](https://userdashboard.github.io/outline.png?raw=true) 
 
