@@ -1,4 +1,4 @@
-name: Mocha Disk
+name: mocha-fs
 
 on: [push]
 

@@ -1,4 +1,4 @@
-name: Mocha Encrypted Disk
+name: mocha-encrypted-fs
 
 on: [push]
 
@@ -33,4 +33,3 @@ jobs:
         ENCRYPTION_SECRET: "12345678901234567890123456789012"
         ENCRYPTION_SECRET_IV: "1234123412341234"
         DEBUG_ERRORS: true
-        

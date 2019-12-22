@@ -1,4 +1,4 @@
-name: Mocha Encrypted PostgreSQL
+name: mocha-encrypted-pg
 
 on: [push]
 

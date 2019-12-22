@@ -1,4 +1,4 @@
-name: Mocha PostgreSQL
+name: mocha-postgreSQL
 
 on: [push]
 

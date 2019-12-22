@@ -1,9 +1,9 @@
 # Dashboard
-![StandardJS](https://github.com/userdashboard/dashboard/workflows/StandardJS%20Lint/badge.svg) 
+![StandardJS](https://github.com/userdashboard/dashboard/workflows/standardjs/badge.svg) 
 
-![Mocha + Disk](https://github.com/userdashboard/dashboard/workflows/Mocha%20Disk/badge.svg) ![Mocha + Redis](https://github.com/userdashboard/dashboard/workflows/Mocha%20Redis/badge.svg) ![Mocha + PostgreSQL](https://github.com/userdashboard/dashboard/workflows/Mocha%20PostgreSQL/badge.svg)  
+![Mocha tests with local disk](https://github.com/userdashboard/dashboard/workflows/mocha-disk/badge.svg) ![Mocha tests with Redis](https://github.com/userdashboard/dashboard/workflows/mocha-redis/badge.svg) ![Mocha tests with PostgreSQL](https://github.com/userdashboard/dashboard/workflows/mocha-postgresql/badge.svg) ![Mocha tests with S3](https://github.com/userdashboard/dashboard/workflows/mocha-s3/badge.svg)  
 
-![Mocha + Encrypted Disk](https://github.com/userdashboard/dashboard/workflows/Mocha%20Encrypted%20Disk/badge.svg) ![Mocha + Encrypted Redis](https://github.com/userdashboard/dashboard/workflows/Mocha%20Encrypted%20Redis/badge.svg) ![Mocha + Encrypted PostgreSQL](https://github.com/userdashboard/dashboard/workflows/Mocha%20Encrypted%20PostgreSQL/badge.svg)
+![Nocha tests with encrypted local disk](https://github.com/userdashboard/dashboard/workflows/mocha-encrypted-fs/badge.svg) ![Mocha tests with encrypted Redis](https://github.com/userdashboard/dashboard/workflows/mocha-encrypted-redis/badge.svg) ![Mocha tests with encrypted PostgreSQL](https://github.com/userdashboard/dashboard/workflows/mocha-encrypted-postgresql/badge.svg) ![Mocha tests with encrypted S3](https://github.com/userdashboard/dashboard/workflows/mocha-encrypted-s3/badge.svg)  
 
 ![Guest landing page](https://userdashboard.github.io/outline.png?raw=true) 
 

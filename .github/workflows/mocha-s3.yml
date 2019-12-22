@@ -1,4 +1,4 @@
-name: mocha-redis
+name: mocha-encrypted-redis
 
 on: [push]
 
