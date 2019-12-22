@@ -26,13 +26,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
- 
     - name: Setup dependencies
       run: |
         npm install mocha -g &&
         npm install puppeteer @userdashboard/storage-postgresql --no-save
     - name: Test
       run: |
+        psql -U postgres -d postgres -a -f node_modules/@userdashboard/storage-postggresql/setup.sql &&
         npm test || exit 1
       env:
         NODE_ENV: testing
