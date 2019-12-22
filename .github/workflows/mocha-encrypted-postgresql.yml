@@ -1,4 +1,4 @@
-name: mocha-encrypted-postgresql
+name: mocha-postgresql
 
 on: [push]
 
@@ -8,19 +8,26 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_HOSTNAME: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PORT: 5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - uses: harmon758/postgresql-action@v1
-      with:
-        postgresql version: "11"
-      env:
-        POSTGRES_DB: "user"
-        POSTGRES_USER: "pass"
-        POSTGRES_PASS: "dashboard"
+ 
     - name: Setup dependencies
       run: |
         npm install mocha -g &&
@@ -37,7 +44,11 @@ jobs:
         STORAGE_ENGINE: "@userdashboard/storage-postgresql"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-        DATABASE_URL: "postgres://user:pass@postgres:5432/postgres"
+        DATABASE_URL: "postgres://postgres:postgres@postgres:5432/daspostgreshboard"
+        DEBUG_ERRORS: true
+        POSTGRES_HOSTNAME: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+        POSTGRES_PORT: 5432
         ENCRYPTION_SECRET: "12345678901234567890123456789012"
         ENCRYPTION_SECRET_IV: "1234123412341234"
-        DEBUG_ERRORS: true

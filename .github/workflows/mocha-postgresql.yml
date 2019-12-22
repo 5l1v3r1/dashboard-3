@@ -9,16 +9,18 @@ jobs:
       matrix:
         node-version: [12.x]
     services:
-        postgres:
-          image: postgres:10.8
-          env:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_DB: postgres
-          ports:
-          - 5432:5432
-          # needed because the postgres container does not provide a healthcheck
-          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_HOSTNAME: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          POSTGRES_PORT: 5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -44,3 +46,7 @@ jobs:
         GENERATE_API_TXT: false
         DATABASE_URL: "postgres://postgres:postgres@postgres:5432/daspostgreshboard"
         DEBUG_ERRORS: true
+        POSTGRES_HOSTNAME: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+        POSTGRES_PORT: 5432
