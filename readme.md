@@ -1,5 +1,5 @@
 # Dashboard
-![StandardJS](https://github.com/userdashboard/dashboard/workflows/Standard%20JS%20Lint/badge.svg) ![Mocha](https://github.com/userdashboard/dashboard/workflows/Mocha%20Test/badge.svg)
+![StandardJS](https://github.com/userdashboard/dashboard/workflows/StandardJS%20Lint/badge.svg) ![Mocha](https://github.com/userdashboard/dashboard/workflows/Mocha%20Test/badge.svg)
 
 ![Guest landing page](https://userdashboard.github.io/outline.png?raw=true) 
 
