@@ -1,4 +1,4 @@
-name: mocha-encrypted-redis
+name: mocha-s3
 
 on: [push]
 
@@ -8,31 +8,30 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
+    services: localstack/localstack:latest
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Start Redis
-      uses: zhulik/redis-action@v1.0.0
-      with:
-        redis-version: '5'
     - name: Setup dependencies
       run: |
-        npm install mocha -g &&
-        npm install puppeteer @userdashboard/storage-redis --no-save
+        npm install mocha puppeteer @userdashboard/storage-s3 --no-save
     - name: Test
       run: |
-        npm test || exit 1
+        node --max_old_space_size=8192 ./node_modules/mocha/bin/mocha src --recursive --no-colors --timeout 120000 --slow 120000 || exit 1
       env:
         NODE_ENV: testing
         FAST_START: true
         DASHBOARD_SERVER: "http://localhost:9007"
         DOMAIN: "localhost"
         PORT: 9007
-        STORAGE_ENGINE: "@userdashboard/storage-redis"
+        STORAGE_ENGINE: @userdashboard/storage-s3
+        S3_BUCKET_NAME: the_name 
+        S3_ENDPOINT: localhost:5000
+        ACCESS_KEY_ID: secret from amazon 
+        SECRET_ACCESS_KEY: secret from amazon
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-        REDIS_URL: "redis://localhost:6379"
         DEBUG_ERRORS: true

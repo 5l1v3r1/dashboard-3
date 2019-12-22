@@ -24,8 +24,7 @@ jobs:
         npm install mocha puppeteer @userdashboard/storage-redis --no-save
     - name: Test
       run: |
-        node --max_old_space_size=8192 ./node_modules/mocha/bin/mocha src --recursive --no-colors --timeout 120000 --slow 120000
-        npm test || exit 1
+        node --max_old_space_size=8192 ./node_modules/mocha/bin/mocha src --recursive --no-colors --timeout 120000 --slow 120000 || exit 1
       env:
         NODE_ENV: testing
         FAST_START: true
