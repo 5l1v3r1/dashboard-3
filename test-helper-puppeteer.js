@@ -178,7 +178,7 @@ async function fetch (method, req) {
         if (req.waitOnSubmit) {
           await wait(10000)
         } else {
-          await wait(2000)        
+          await wait(500)        
         }
       } else if (step.fill) {
         await fill(page, req.body, req.uploads)
@@ -191,7 +191,7 @@ async function fetch (method, req) {
         if (req.waitOnSubmit) {
           await wait(10000)
         } else {
-          await wait(2000)        
+          await wait(500)        
         }
       }
     }
@@ -404,9 +404,7 @@ async function getElement (page, identifier) {
           if (href === identifier || 
               href.startsWith(`${identifier}?`) || 
               href === `${global.dashboardServer}${identifier}` || 
-              href.startsWith(`${global.dashboardServer}${identifier}?`) || 
-              href === `${global.dashboardServer}:${global.port}${identifier}` ||
-              href.startsWith(`${global.dashboardServer}:${global.port}${identifier}?`)) {
+              href.startsWith(`${global.dashboardServer}${identifier}?`)) {
             return element
           }
         }
@@ -421,9 +419,7 @@ async function getElement (page, identifier) {
             if (href === identifier || 
               href.startsWith(`${identifier}?`) || 
               href === `${global.dashboardServer}${identifier}` || 
-              href.startsWith(`${global.dashboardServer}${identifier}?`) || 
-              href === `${global.dashboardServer}:${global.port}${identifier}` ||
-              href.startsWith(`${global.dashboardServer}:${global.port}${identifier}?`)) {
+              href.startsWith(`${global.dashboardServer}${identifier}?`)) {
             return element
             }
           }
