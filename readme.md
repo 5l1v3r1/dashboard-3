@@ -3,7 +3,7 @@
 
 ![Mocha + Disk](https://github.com/userdashboard/dashboard/workflows/Mocha%20Disk/badge.svg) ![Mocha + Redis](https://github.com/userdashboard/dashboard/workflows/Mocha%20Redis/badge.svg) ![Mocha + PostgreSQL](https://github.com/userdashboard/dashboard/workflows/Mocha%20PostgreSQL/badge.svg)  
 
-![Mocha + Encrypted Disk](https://github.com/userdashboard/dashboard/workflows/Mocha%20Encrypted%20Disk/badge.svg) ![Mocha + Encrypted Redis](https://github.com/userdashboard/dashboard/workflows/Mocha%20Encrypted%20Redis/badge.svg) ![Mocha + Encrypted PostgreSQL](https://github.com/userdashboard/dashboard/workflows/Mocha%20PostgreSQL/badge.svg)
+![Mocha + Encrypted Disk](https://github.com/userdashboard/dashboard/workflows/Mocha%20Encrypted%20Disk/badge.svg) ![Mocha + Encrypted Redis](https://github.com/userdashboard/dashboard/workflows/Mocha%20Encrypted%20Redis/badge.svg) ![Mocha + Encrypted PostgreSQL](https://github.com/userdashboard/dashboard/workflows/Mocha%20Encrypted%20PostgreSQL/badge.svg)
 
 ![Guest landing page](https://userdashboard.github.io/outline.png?raw=true) 
 

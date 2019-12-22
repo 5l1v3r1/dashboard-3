@@ -14,7 +14,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        redis version: '5'
+    - name: Start Redis
+      uses: superchargejs/redis-github-action@v1
+      with:
+        redis-version: ${{ matrix.redis-version }}
     - name: Setup dependencies
       run: |
         npm install mocha -g &&
