@@ -176,9 +176,14 @@ async function fetch (method, req) {
         }
         await click(page, step.click)
         if (req.waitOnSubmit) {
+          // TODO: detect when to proceed
+          // the intention with 'waitOnSubmit' is to wait until
+          // stripe.js callbacks have finished any client-side 
+          // network activity that takes place before the form 
+          // is submitted
           await wait(10000)
         } else {
-          await wait(500)        
+          await wait(500)
         }
       } else if (step.fill) {
         await fill(page, req.body, req.uploads)
@@ -191,7 +196,7 @@ async function fetch (method, req) {
         if (req.waitOnSubmit) {
           await wait(10000)
         } else {
-          await wait(500)        
+          await wait(500)
         }
       }
     }
@@ -207,7 +212,7 @@ async function fetch (method, req) {
       if (req.waitOnSubmit) {
         await wait(10000)
       } else {
-        await page.waitForSelector('body')
+        await wait(500)
       }
     }
   }
