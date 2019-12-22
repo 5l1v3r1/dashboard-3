@@ -18,8 +18,9 @@ jobs:
       with:
         postgresql version: "11"
       env:
-        POSTGRES_USER: "user"
-        POSTGRES_PASSWORD: "pass"
+        db: "user"
+        user: "pass"
+        pass: "dashboard"
     - name: Setup dependencies
       run: |
         npm install mocha -g &&
@@ -36,5 +37,5 @@ jobs:
         STORAGE_ENGINE: "@userdashboard/storage-postgresql"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-        DATABASE_URL: "postgres://user:pass@localhost:5432/postgres"
+        DATABASE_URL: "postgres://user:pass@localhost:5432/dashboard"
         DEBUG_ERRORS: true

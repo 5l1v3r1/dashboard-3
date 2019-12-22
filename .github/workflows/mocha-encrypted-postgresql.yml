@@ -18,8 +18,9 @@ jobs:
       with:
         postgresql version: "11"
       env:
-        POSTGRES_USER: "user"
-        POSTGRES_PASSWORD: "pass"
+        db: "user"
+        user: "pass"
+        pass: "dashboard"
     - name: Setup dependencies
       run: |
         npm install mocha -g &&
