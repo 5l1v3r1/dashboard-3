@@ -1,4 +1,4 @@
-name: mocha-redis
+name: mocha-encrypted-redis
 
 on: [push]
 
@@ -20,10 +20,10 @@ jobs:
         redis-version: '5'
     - name: Setup dependencies
       run: |
-        npm install mocha -g &&
-        npm install puppeteer @userdashboard/storage-redis --no-save
+        npm install mocha puppeteer @userdashboard/storage-redis --no-save
     - name: Test
       run: |
+        node --max_old_space_size=8192 ./node_modules/mocha/bin/mocha src --recursive --no-colors --timeout 120000 --slow 120000
         npm test || exit 1
       env:
         NODE_ENV: testing
@@ -36,5 +36,3 @@ jobs:
         GENERATE_API_TXT: false
         REDIS_URL: "redis://localhost:6379"
         DEBUG_ERRORS: true
-
-        NODE_OPTIONS: max_old_space_size=8192
