@@ -1,5 +1,9 @@
 # Dashboard
-![StandardJS](https://github.com/userdashboard/dashboard/workflows/StandardJS%20Lint/badge.svg) ![Mocha](https://github.com/userdashboard/dashboard/workflows/Mocha%20Test/badge.svg)
+![StandardJS](https://github.com/userdashboard/dashboard/workflows/StandardJS%20Lint/badge.svg) 
+
+![Mocha + Disk](https://github.com/userdashboard/dashboard/workflows/Mocha%20Disk/badge.svg) ![Mocha + Redis](https://github.com/userdashboard/dashboard/workflows/Mocha%20Redis%20Encrypted/badge.svg) ![Mocha + PostgreSQL](https://github.com/userdashboard/dashboard/workflows/Mocha%20PostgreSQL/badge.svg)  
+
+![Mocha + Encrypted Disk](https://github.com/userdashboard/dashboard/workflows/Mocha%20Disk/badge.svg) ![Mocha + Encrypted Redis](https://github.com/userdashboard/dashboard/workflows/Mocha%20Redis%20Encrypted/badge.svg) ![Mocha + Encrypted PostgreSQL](https://github.com/userdashboard/dashboard/workflows/Mocha%20PostgreSQL/badge.svg)
 
 ![Guest landing page](https://userdashboard.github.io/outline.png?raw=true) 
 

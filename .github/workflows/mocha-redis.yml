@@ -1,4 +1,4 @@
-name: Mocha Test
+name: Mocha Redis
 
 on: [push]
 
@@ -17,7 +17,7 @@ jobs:
     - name: Setup dependencies
       run: |
         npm install mocha -g &&
-        npm install puppeteer --no-save
+        npm install puppeteer @userdashboard/storage-redis --no-save
     - name: Test
       run: |
         npm test || exit 1
@@ -27,8 +27,7 @@ jobs:
         DASHBOARD_SERVER: "http://localhost:9007"
         DOMAIN: "localhost"
         PORT: 9007
-        STORAGE_PATH: /tmp/test-data
-        ENCRYPTION_SECRET: 12345678901234567890123456789012
-        ENCRYPTION_SECRET_IV: 1234123412341234
+        STORAGE_ENGINE: "@userdashboard/storage-redis"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
+        REDIS_URL: "redis://localhost:6379"

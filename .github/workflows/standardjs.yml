@@ -1,4 +1,4 @@
-name: StandardJS Lint
+name: StandardJS
 
 on: [push]
 
