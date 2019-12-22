@@ -36,3 +36,5 @@ jobs:
         GENERATE_API_TXT: false
         REDIS_URL: "redis://localhost:6379"
         DEBUG_ERRORS: true
+
+        NODE_OPTIONS: max_old_space_size=8192
