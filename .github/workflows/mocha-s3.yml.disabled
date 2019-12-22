@@ -1,7 +1,7 @@
 
-This test version has been disabled for now as the tests 
-aren't connecting to the postgres server.  Pull requests 
-are welcome, don't forget to remove this message.
+This test version has been disabled for now as localstack needs
+to be configured to mock the S3 endpoints.  Pull requests  are 
+welcome, don't forget to remove this message.
 
 name: mocha-s3
 

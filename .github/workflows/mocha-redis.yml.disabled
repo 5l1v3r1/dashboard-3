@@ -1,6 +1,6 @@
 
 This test version has been disabled for now as the tests 
-aren't connecting to the postgres server.  Pull requests 
+aren't connecting to the redis server.  Pull requests 
 are welcome, don't forget to remove this message.
 
 name: mocha-redis

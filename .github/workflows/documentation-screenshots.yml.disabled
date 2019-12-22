@@ -1,3 +1,7 @@
+
+This test version has been disabled for now as the documentation
+repo will generate screenshots against a dashboard server instance
+
 name: documentation-screenshots
 
 on: [push]
