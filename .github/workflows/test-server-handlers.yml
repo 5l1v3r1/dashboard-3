@@ -16,11 +16,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Setup dependencies
       run: |
-        npm install mocha -g &&
-        npm install puppeteer --no-save
+        npm install mocha puppeteer --no-save
     - name: Test (fs)
       run: |
-        npm test  -- --fgrep "server" || exit 1
+        node node_modules/mocha/bin/mocha src/server --recursive --timeout 120000 --slow 120000 || exit 1
       env:
         NODE_ENV: testing
         FAST_START: true
@@ -34,7 +33,7 @@ jobs:
         ENCRYPTION_SECRET_IV: "1234123412341234"
     - name: Test (fs + encryption)
       run: |
-        npm test  -- --fgrep "server" || exit 1
+        node node_modules/mocha/bin/mocha src/server --recursive --timeout 120000 --slow 120000 || exit 1
       env:
         NODE_ENV: testing
         FAST_START: true
