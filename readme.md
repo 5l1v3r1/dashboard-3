@@ -1,9 +1,5 @@
 # Dashboard
-![StandardJS](https://github.com/userdashboard/dashboard/workflows/standardjs/badge.svg) 
-
-![Mocha tests with local disk](https://github.com/userdashboard/dashboard/workflows/mocha-fs/badge.svg) ![Mocha tests with Redis](https://github.com/userdashboard/dashboard/workflows/mocha-redis/badge.svg) ![Mocha tests with PostgreSQL](https://github.com/userdashboard/dashboard/workflows/mocha-postgresql/badge.svg) ![Mocha tests with S3](https://github.com/userdashboard/dashboard/workflows/mocha-s3/badge.svg)  
-
-![Nocha tests with encrypted local disk](https://github.com/userdashboard/dashboard/workflows/mocha-encrypted-fs/badge.svg) ![Mocha tests with encrypted Redis](https://github.com/userdashboard/dashboard/workflows/mocha-encrypted-redis/badge.svg) ![Mocha tests with encrypted PostgreSQL](https://github.com/userdashboard/dashboard/workflows/mocha-encrypted-postgresql/badge.svg) ![Mocha tests with encrypted S3](https://github.com/userdashboard/dashboard/workflows/mocha-encrypted-s3/badge.svg)  
+![StandardJS](https://github.com/userdashboard/dashboard/workflows/standardjs/badge.svg)  ![Test suite](https://github.com/userdashboard/dashboard/workflows/mocha-fs/badge.svg) ![Test suite with encryption](https://github.com/userdashboard/dashboard/workflows/mocha-encrypted-fs/badge.svg)
 
 ![Guest landing page](https://userdashboard.github.io/outline.png?raw=true) 
 
