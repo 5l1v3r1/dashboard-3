@@ -1,4 +1,4 @@
-name: mocha-postgresql
+name: mocha-encrypted-postgresql
 
 on: [push]
 
@@ -12,17 +12,12 @@ jobs:
       postgres:
         image: postgres:11
         env:
-          POSTGRES_HOST: postgres
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         ports:
-          - 5432/tcp
+        - 5432:5432
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -45,12 +40,11 @@ jobs:
         STORAGE_ENGINE: "@userdashboard/storage-postgresql"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-        DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres"
+        DATABASE_URL: "postgres://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}/postgres"
         DEBUG_ERRORS: true
-        POSTGRES_HOST: postgres
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
-        POSTGRES_DATABASE: postgres
+        POSTGRES_DB: postgres
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
         ENCRYPTION_SECRET: "12345678901234567890123456789012"
         ENCRYPTION_SECRET_IV: "1234123412341234"
