@@ -1,4 +1,4 @@
-name: mocha-postgreSQL
+name: mocha-postgresql
 
 on: [push]
 
@@ -8,19 +8,24 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
+    services:
+        postgres:
+          image: postgres:10.8
+          env:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: postgres
+          ports:
+          - 5432:5432
+          # needed because the postgres container does not provide a healthcheck
+          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - uses: harmon758/postgresql-action@v1
-      with:
-        postgresql version: "11"
-      env:
-        db: "user"
-        user: "pass"
-        pass: "dashboard"
+ 
     - name: Setup dependencies
       run: |
         npm install mocha -g &&
@@ -37,5 +42,5 @@ jobs:
         STORAGE_ENGINE: "@userdashboard/storage-postgresql"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-        DATABASE_URL: "postgres://user:pass@localhost:5432/dashboard"
+        DATABASE_URL: "postgres://postgres:postgres@postgres:5432/daspostgreshboard"
         DEBUG_ERRORS: true

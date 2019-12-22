@@ -1,4 +1,4 @@
-name: mocha-encrypted-pg
+name: mocha-encrypted-postgresql
 
 on: [push]
 
@@ -18,9 +18,9 @@ jobs:
       with:
         postgresql version: "11"
       env:
-        db: "user"
-        user: "pass"
-        pass: "dashboard"
+        POSTGRES_DB: "user"
+        POSTGRES_USER: "pass"
+        POSTGRES_PASS: "dashboard"
     - name: Setup dependencies
       run: |
         npm install mocha -g &&
@@ -37,7 +37,7 @@ jobs:
         STORAGE_ENGINE: "@userdashboard/storage-postgresql"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-        DATABASE_URL: "postgres://user:pass@localhost:5432/postgres"
+        DATABASE_URL: "postgres://user:pass@postgres:5432/postgres"
         ENCRYPTION_SECRET: "12345678901234567890123456789012"
         ENCRYPTION_SECRET_IV: "1234123412341234"
         DEBUG_ERRORS: true
