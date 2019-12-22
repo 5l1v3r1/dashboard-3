@@ -1,4 +1,9 @@
-name: mocha-encrypted-postgresql
+
+This test version has been disabled for now as the tests 
+aren't connecting to the postgres server.  Pull requests 
+are welcome, don't forget to remove this message.
+
+name: mocha-postgresql
 
 on: [push]
 
@@ -46,5 +51,3 @@ jobs:
         POSTGRES_PASSWORD: postgres
         POSTGRES_DB: postgres
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
-        ENCRYPTION_SECRET: "12345678901234567890123456789012"
-        ENCRYPTION_SECRET_IV: "1234123412341234"
