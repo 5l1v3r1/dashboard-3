@@ -239,7 +239,13 @@ async function saveScreenshot(device, page, number, action, identifier, scriptNa
   } else if (identifier) {
     const element = await getElement(page, identifier)
     title = await getText(page, element)
-    title = title.split(' ').join('-').toLowerCase()
+    if (action === 'click' && title.indexOf('_') > -1) {
+      title = title.substring(0, title.indexOf('_'))
+    } else {
+      const element = await getElement(page, identifier)
+      title = await getText(page, element)
+      title = title.split(' ').join('-').toLowerCase()
+    }
   }
   let filename
   if (title) {
