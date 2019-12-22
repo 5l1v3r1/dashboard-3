@@ -44,7 +44,7 @@ jobs:
         STORAGE_ENGINE: "@userdashboard/storage-postgresql"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-        DATABASE_URL: "postgres://postgres:postgres@postgres:5432/postgres"
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
         DEBUG_ERRORS: true
         POSTGRES_HOST: postgres
         POSTGRES_USER: postgres
