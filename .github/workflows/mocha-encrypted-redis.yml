@@ -35,7 +35,7 @@ jobs:
         STORAGE_ENGINE: "@userdashboard/storage-redis"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-        REDIS_URL: "redis://localhost:${{ job.services.redis.ports[6379] }}"
+        REDIS_URL: "redis://redis:${{ job.services.redis.ports[6379] }}"
         REDIS_PORT: ${{ job.services.redis.ports[6379] }}
         ENCRYPTION_SECRET: "12345678901234567890123456789012"
         ENCRYPTION_SECRET_IV: "1234123412341234"
