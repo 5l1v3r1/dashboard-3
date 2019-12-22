@@ -59,6 +59,27 @@ async function end (req, res, doc, blob) {
     const framedPage = await wrapTemplateWithSrcDoc(req, res, doc)
     return compress(req, res, framedPage)
   } else {
+    const forms = doc.getElementsByTagName('form')
+    for (const form of forms) {
+      form.attr = form.attr || {}
+      form.attr.method = form.attr.method || 'POST'
+      form.attr.action = form.attr.action || req.url
+      if (global.testNumber) {
+        form.attr.novalidate = 'novalidate'
+      }
+      if (req.query && req.query['return-url']) {
+        form.attr.action = form.attr.action || req.url
+        if (form.attr.action) {
+          const formURL = form.attr.action.startsWith('/') ? global.dashboardServer + form.attr.action : form.attr.action
+          const action = new url.URL(formURL)
+          if (action['return-url']) {
+            continue
+          }
+        }
+        const divider = form.attr.action.indexOf('?') > -1 ? '&' : '?'
+        form.attr.action += `${divider}return-url=${encodeURI(req.query['return-url']).split('?').join('%3F')}`
+      }
+    }
     return compress(req, res, doc.toString())
   }
 }
