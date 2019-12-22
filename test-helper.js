@@ -140,15 +140,7 @@ function createRequest (rawURL) {
           } catch (error) {
             errorMessage = error.message
           }
-          if (req.retry === false || req.retries === 3) {
-            if (process.env.DEBUG_ERRORS) {
-              console.log('[test-helper] req.retry ending', errorMessage, req.url)
-            }
-            throw new Error(errorMessage || 'api proxying failed')
-          }
-          req.retries = req.retries || 0
-          req.retries++
-          await wait(1000)
+          throw new Error(errorMessage || 'api proxying failed')
         }
       }
       while (true) {
