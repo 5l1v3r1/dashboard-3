@@ -430,7 +430,7 @@ const proxy = util.promisify((method, path, req, callback) => {
     })
   })
   proxyRequest.on('error', (error) => {
-    if (error.raw.code === 'lock_timeout') {
+    if (error.raw && error.raw.code === 'lock_timeout') {
       return setTimeout(() => {
         proxy(method, path, req, callback)
       }, 100)
