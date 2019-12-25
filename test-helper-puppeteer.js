@@ -150,6 +150,7 @@ async function fetch (method, req) {
       }
     }
     device = device || devices[0]
+    let lastStep
     for (const step of req.screenshots) {
       if (step.hover) {
         await hover(page, step.hover)
@@ -158,11 +159,11 @@ async function fetch (method, req) {
           screenshotNumber++
         }
       } else if (step.click) {
-        if (step.click.startsWith('/account')) {
+        if (lastStep && lastStep.hover === '/account') {
           await hover(page, '#account-menu-container')
           await focus(page, '#account-menu-container')
           await wait(1)
-        } else if (step.click.startsWith('/administrator')) {
+        } else if (lastStep && lastStep.hover === '/administrator') {
           await hover(page, '#administrator-menu-container')
           await focus(page, '#administrator-menu-container')
           await wait(1)
@@ -199,6 +200,7 @@ async function fetch (method, req) {
           await wait(500)
         }
       }
+      lastStep = step
     }
     if (process.env.GENERATE_SCREENSHOTS) {
       await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
