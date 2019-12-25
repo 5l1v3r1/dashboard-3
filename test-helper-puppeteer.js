@@ -307,9 +307,14 @@ async function fill (page, body, uploads) {
   if (!body && !uploads) {
     return
   }
+  const frame = await getOptionalApplicationFrame(page)
+  let submitForm = await getElement(page, '#submit-form')
+  if (!submitForm) {
+    submitForm = await getElement(frame, '#submit-form')
+  }
   if (uploads) {
     for (const field in uploads) {
-      const element = await getElement(page, `#${field}`)
+      const element = await getElement(submitForm, `#${field}`)
       if (element) {
         await uploadFile(element, uploads[field].path)
       }
@@ -320,64 +325,64 @@ async function fill (page, body, uploads) {
     return
   }
   for (const field in body) {
-    const element = await getElement(page, `#${field}`)
+    const element = await getElement(submitForm, `#${field}`)
     if (!element) {
-      const checkboxes = await getTags(page, 'input[type=checkbox]')
+      const checkboxes = await getTags(submitForm, 'input[type=checkbox]')
       if (checkboxes && checkboxes.length) {
         for (const checkbox of checkboxes) {
-          const name = await evaluate(page, el => el.name, checkbox)
+          const name = await evaluate(submitForm, el => el.name, checkbox)
           if (name !== field) {
             continue
           }
-          const value = await evaluate(page, el => el.value, checkbox)
+          const value = await evaluate(submitForm, el => el.value, checkbox)
           if (value === body[field]) {
-            await evaluate(page, el => { el.checked = true }, checkbox)
+            await evaluate(submitForm, el => { el.checked = true }, checkbox)
           } else if (!body[field]) {
-            await evaluate(page, el => { el.checked = false }, checkbox)
+            await evaluate(submitForm, el => { el.checked = false }, checkbox)
           }
         }
       }
-      const radios = await getTags(page, 'input[type=radio]')
+      const radios = await getTags(submitForm, 'input[type=radio]')
       if (radios && radios.length) {
         for (const radio of radios) {
-          const name = await evaluate(page, el => el.name, radio)
+          const name = await evaluate(submitForm, el => el.name, radio)
           if (name !== field) {
             continue
           }
-          const value = await evaluate(page, el => el.value, radio)
+          const value = await evaluate(submitForm, el => el.value, radio)
           if (value === body[field]) {
-            await evaluate(page, el => { el.checked = true }, radio)
+            await evaluate(submitForm, el => { el.checked = true }, radio)
           } else if (!body[field]) {
-            await evaluate(page, el => { el.checked = false }, radio)
+            await evaluate(submitForm, el => { el.checked = false }, radio)
           }
         }
       }
       continue
     }
-    const tagName = await evaluate(page, el => el.tagName, element)
+    const tagName = await evaluate(submitForm, el => el.tagName, element)
     if (!tagName) {
       throw new Error('unknown tag name')
     }
     await focusElement(element)
     if (tagName === 'TEXTAREA') {
-      await evaluate(page, el => { el.value = '' }, element)
+      await evaluate(submitForm, el => { el.value = '' }, element)
       await typeInElement(element, body[field])
     } else if (tagName === 'SELECT') {
       await selectOption(element, body[field])
     } else if (tagName === 'INPUT') {
-      const inputType = await evaluate(page, el => el.type, element)
+      const inputType = await evaluate(submitForm, el => el.type, element)
       if (inputType === 'radio' || inputType === 'checkbox') {
         if (body[field]) {
-          await evaluate(page, el => { el.checked = true }, element)
+          await evaluate(submitForm, el => { el.checked = true }, element)
         } else {
-          await evaluate(page, el => { el.checked = false }, [])
+          await evaluate(submitForm, el => { el.checked = false }, [])
         }
       } else {
         if (body[field]) {
-          await evaluate(page, el => { el.value = '' }, element)
+          await evaluate(submitForm, el => { el.value = '' }, element)
           await typeInElement(element, body[field])
         } else {
-          await evaluate(page, el => { el.value = '' }, element)
+          await evaluate(submitForm, el => { el.value = '' }, element)
         }
       }
     }
