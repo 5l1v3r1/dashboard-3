@@ -1,7 +1,6 @@
 const crypto = require('crypto')
 const HTML = require('./html.js')
 const url = require('url')
-const querystring = require('querystring')
 const zlib = require('zlib')
 const eightDays = 8 * 24 * 60 * 60 * 1000
 const eTagCache = {}
