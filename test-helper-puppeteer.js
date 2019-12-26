@@ -161,11 +161,9 @@ async function fetch (method, req) {
       } else if (step.click) {
         if (lastStep && lastStep.hover === '#account-menu-container') {
           await hover(page, '#account-menu-container')
-          await focus(page, '#account-menu-container')
           await wait(1)
         } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
           await hover(page, '#administrator-menu-container')
-          await focus(page, '#administrator-menu-container')
           await wait(1)
         } else {
           await hover(page, step.click)
@@ -415,8 +413,10 @@ async function getElement (page, identifier) {
         if (href) {
           if (href === identifier || 
               href.startsWith(`${identifier}?`) || 
+              href.startsWith(`${identifier}&`) || 
               href === `${global.dashboardServer}${identifier}` || 
-              href.startsWith(`${global.dashboardServer}${identifier}?`)) {
+              href.startsWith(`${global.dashboardServer}${identifier}?`) ||
+              href.startsWith(`${global.dashboardServer}${identifier}&`)) {
             return element
           }
         }
@@ -430,8 +430,10 @@ async function getElement (page, identifier) {
           if (href) {
             if (href === identifier || 
               href.startsWith(`${identifier}?`) || 
+              href.startsWith(`${identifier}&`) || 
               href === `${global.dashboardServer}${identifier}` || 
-              href.startsWith(`${global.dashboardServer}${identifier}?`)) {
+              href.startsWith(`${global.dashboardServer}${identifier}?`) ||
+              href.startsWith(`${global.dashboardServer}${identifier}&`)) {
             return element
             }
           }
