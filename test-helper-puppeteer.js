@@ -524,6 +524,9 @@ async function evaluate (page, method, element) {
 }
 
 async function getOptionalApplicationFrame (page) {
+  if (!page.frames) {
+    return null
+  }
   let fails = 0
   while (true) {
     try {
