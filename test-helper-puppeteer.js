@@ -136,13 +136,13 @@ async function fetch (method, req) {
   if (req.session) {
     await page.setCookie({
       value: req.session.sessionid,
-      domain: process.env.DOMAIN,
+      domain: global.domain,
       expires: Date.now() / 1000 + 10,
       name: 'sessionid'
     })
     await page.setCookie({
       value: req.session.token,
-      domain: process.env.DOMAIN,
+      domain: global.domain,
       expires: Date.now() / 1000 + 10,
       name: 'token'
     })
