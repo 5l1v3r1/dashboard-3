@@ -384,8 +384,8 @@ describe('/account/edit-profile', () => {
         { hover: '#account-menu-container' },
         { click: '/account' },
         { click: '/account/profiles' },
-        { click: `/account/profile?profileid=${user.profile.profileid}`},
-        { click: `/account/edit-profile?profileid=${user.profile.profileid}`},
+        { click: `/account/profile?profileid=${user.profile.profileid}` },
+        { click: `/account/edit-profile?profileid=${user.profile.profileid}` },
         { fill: '#submit-form' }
       ]
       const page = await req.post()

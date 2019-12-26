@@ -74,8 +74,8 @@ describe('/account/delete-reset-code', () => {
         { hover: '#account-menu-container' },
         { click: '/account' },
         { click: '/account/reset-codes' },
-        { click: `/account/reset-code?codeid=${user.resetCode.codeid}`},
-        { click: `/account/delete-reset-code?codeid=${user.resetCode.codeid}`},
+        { click: `/account/reset-code?codeid=${user.resetCode.codeid}` },
+        { click: `/account/delete-reset-code?codeid=${user.resetCode.codeid}` },
         { fill: '#submit-form' }
       ]
       await req.post()

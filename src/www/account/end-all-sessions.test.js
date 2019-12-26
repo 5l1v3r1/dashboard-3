@@ -29,7 +29,7 @@ describe('/account/end-all-sessions', () => {
       req.screenshots = [
         { hover: '#account-menu-container' },
         { click: '/account' },
-        { click: `/account/end-all-sessions`},
+        { click: '/account/end-all-sessions' },
         { fill: '#submit-form' }
       ]
       await req.post()

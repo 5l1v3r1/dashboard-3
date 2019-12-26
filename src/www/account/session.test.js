@@ -25,7 +25,7 @@ describe('/account/session', () => {
         { hover: '#account-menu-container' },
         { click: '/account' },
         { click: '/account/sessions' },
-        { click: `/account/session?sessionid=${user.session.sessionid}`}
+        { click: `/account/session?sessionid=${user.session.sessionid}` }
       ]
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)

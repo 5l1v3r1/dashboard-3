@@ -25,7 +25,7 @@ describe('/account/profile', () => {
         { hover: '#account-menu-container' },
         { click: '/account' },
         { click: '/account/profiles' },
-        { click: `/account/profile?profileid=${user.profile.profileid}`}
+        { click: `/account/profile?profileid=${user.profile.profileid}` }
       ]
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)

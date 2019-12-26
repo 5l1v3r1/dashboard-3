@@ -185,7 +185,7 @@ describe('/account/reset-account', () => {
       const page = await req.post()
       const doc = TestHelper.extractDoc(page)
       const redirectURL = TestHelper.extractRedirectURL(doc)
-      assert.strictEqual(redirectURL, `/home`)
+      assert.strictEqual(redirectURL, '/home')
     })
   })
 })

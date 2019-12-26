@@ -27,7 +27,7 @@ describe('/account/reset-code', () => {
         { hover: '#account-menu-container' },
         { click: '/account' },
         { click: '/account/reset-codes' },
-        { click: `/account/reset-code?codeid=${user.resetCode.codeid}`}
+        { click: `/account/reset-code?codeid=${user.resetCode.codeid}` }
       ]
       const page = await req.get()
       const doc = TestHelper.extractDoc(page)

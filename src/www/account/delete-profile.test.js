@@ -106,8 +106,8 @@ describe('/account/delete-profile', () => {
         { hover: '#account-menu-container' },
         { click: '/account' },
         { click: '/account/profiles' },
-        { click: `/account/profile?profileid=${profile1.profileid}`},
-        { click: `/account/delete-profile?profileid=${profile1.profileid}`},
+        { click: `/account/profile?profileid=${profile1.profileid}` },
+        { click: `/account/delete-profile?profileid=${profile1.profileid}` },
         { fill: '#submit-form' }
       ]
       await req.post()

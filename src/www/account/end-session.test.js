@@ -50,8 +50,8 @@ describe('/account/end-session', () => {
         { hover: '#account-menu-container' },
         { click: '/account' },
         { click: '/account/sessions' },
-        { click: `/account/session?sessionid=${user.session.sessionid}`},
-        { click: `/account/end-session?sessionid=${user.session.sessionid}`},
+        { click: `/account/session?sessionid=${user.session.sessionid}` },
+        { click: `/account/end-session?sessionid=${user.session.sessionid}` },
         { fill: '#submit-form' }
       ]
       const page = await req.post()
