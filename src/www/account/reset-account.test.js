@@ -178,17 +178,14 @@ describe('/account/reset-account', () => {
       }
       req.filename = __filename
       req.screenshots = [
+        { click: '/account/signin' },
+        { click: '/account/reset-account' },
         { fill: '#submit-form' }
       ]
-      const res = {
-        setHeader: () => {
-        },
-        end: () => {
-          assert.notStrictEqual(res.headers['set-cookie'], undefined)
-          assert.notStrictEqual(res.headers['set-cookie'], null)
-        }
-      }
-      return req.post()
+      const page = await req.post()
+      const doc = TestHelper.extractDoc(page)
+      const redirectURL = TestHelper.extractRedirectURL(doc)
+      assert.strictEqual(redirectURL, `/home`)
     })
   })
 })
