@@ -242,7 +242,7 @@ async function fetch (method, req) {
   while (!html) {
     try {
       html = await page.content()
-      if (process.env.DEBUG_PUPPETEER && process.env.DEBUG_PUPPEETEER_SCREENSHOTS) {
+      if (process.env.DEBUG_PUPPETEER && process.env.DEBUG_PUPPETEER_SCREENSHOTS) {
         console.log('screenshot page html', html)
       }
     } catch (error) {
