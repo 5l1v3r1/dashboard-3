@@ -175,6 +175,9 @@ async function fetch (method, req) {
         console.log('screenshot step', JSON.stringify(step))
       }
       if (step.hover) {
+        if (process.env.DEBUG_PUPPETEER) {
+          console.log('hover account menu')
+        }
         await hover(page, step.hover)
         if (process.env.GENERATE_SCREENSHOTS) {
           await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
@@ -182,15 +185,25 @@ async function fetch (method, req) {
         }
       } else if (step.click) {
         if (lastStep && lastStep.hover === '#account-menu-container') {
-          console.log('hover account menu')
+          if (process.env.DEBUG_PUPPETEER) {
+            console.log('hover account menu to click link')
+          }
           await hover(page, '#account-menu-container')
-          await wait(1)
+          await wait(10)
         } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
-          console.log('hover administrator menu')
+          if (process.env.DEBUG_PUPPETEER) {
+            console.log('hover administrator menu to click link')
+          }
           await hover(page, '#administrator-menu-container')
-          await wait(1)
+          await wait(10)
         }
+        if (process.env.DEBUG_PUPPETEER) {
+          console.log('hovering click target')
+        }        
         await hover(page, step.click)
+        if (process.env.DEBUG_PUPPETEER) {
+          console.log('focusing click target')
+        }
         await focus(page, step.click)
         if (process.env.GENERATE_SCREENSHOTS) {
           await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
