@@ -298,12 +298,20 @@ async function focus (page, identifier) {
   if (element) {
     return focusElement(element)
   }
+  if (process.env.DEBUG_PUPPETEER) {
+    const contents = page.contents ? page.contents() : null
+    console.log('could not focus element', contents)
+  }
 }
 
 async function hover (page, identifier) {
   const element = await getElement(page, identifier)
   if (element) {
     return hoverElement(element)
+  }
+  if (process.env.DEBUG_PUPPETEER) {
+    const contents = page.contents ? page.contents() : null
+    console.log('could not hover element', contents)
   }
 }
 
@@ -312,6 +320,10 @@ async function click (page, identifier) {
   if (element) {
     await hoverElement(element)
     return clickElement(element)
+  }
+  if (process.env.DEBUG_PUPPETEER) {
+    const contents = page.contents ? page.contents() : null
+    console.log('could not click element', contents)
   }
 }
 
