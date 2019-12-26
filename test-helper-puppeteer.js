@@ -60,6 +60,9 @@ async function fetch (method, req) {
         slowMo: 0
       })
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error instantiating browser', error.toString())
+      }
     }
     if (browser) {
       break
@@ -71,6 +74,9 @@ async function fetch (method, req) {
     try {
       pages = await browser.pages()
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error instantiating pages', error.toString())
+      }
     }
     if (pages) {
       break
@@ -93,6 +99,9 @@ async function fetch (method, req) {
             page.on('console', msg => console.log('[console]', msg.text()))
           }
         } catch (error) {
+          if(DEBUG_PUPPETEER) {
+            console.log('error opening new page', error.toString())
+          }
         }
       }
       if (page) {
@@ -117,6 +126,9 @@ async function fetch (method, req) {
       })
       break
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error emulating desktop settings', error.toString())
+      }
       await wait(1)
       continue
     }
@@ -137,8 +149,12 @@ async function fetch (method, req) {
   }
   if (req.screenshots) {
     if (req.account) {
+      if(DEBUG_PUPPETEER) {
+        console.log('starting screenshot browser at /home')
+      }
       await page.goto(`${process.env.DASHBOARD_SERVER}/home`, { waitLoad: true, waitNetworkIdle: true })
     } else {
+      console.log('starting screenshot browser at /')
       await page.goto(`${process.env.DASHBOARD_SERVER}/`, { waitLoad: true, waitNetworkIdle: true })
     }
     await page.waitForSelector('body')
@@ -150,8 +166,14 @@ async function fetch (method, req) {
       }
     }
     device = device || devices[0]
+    if(DEBUG_PUPPETEER) {
+      console.log('screenshot device', JSON.stringify(device))
+    }
     let lastStep
     for (const step of req.screenshots) {
+      if(DEBUG_PUPPETEER) {
+        console.log('screenshot step', JSON.stringify(step))
+      }
       if (step.hover) {
         await hover(page, step.hover)
         if (process.env.GENERATE_SCREENSHOTS) {
@@ -220,7 +242,13 @@ async function fetch (method, req) {
   while (!html) {
     try {
       html = await page.content()
+      if(DEBUG_PUPPETEER && DEBUG_PUPPEETEER_SCREENSHOTS) {
+        console.log('screenshot page html', html)
+      }
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error reading HTML', error.toString())
+      }
     }
     if (html) {
       break
@@ -232,6 +260,9 @@ async function fetch (method, req) {
 }
 
 async function saveScreenshot(device, page, number, action, identifier, scriptName) {
+  if(DEBUG_PUPPETEER) {
+    console.log('taking screenshot', number, action, identifier, scriptName)
+  }
   let filePath = scriptName.substring(0, scriptName.lastIndexOf('.test.js'))
   filePath = filePath.split('/src/www/account/').join('/screenshots/account/')
   filePath = filePath.split('/src/www/administrator/').join('/screenshots/administrator/')
@@ -480,6 +511,9 @@ async function evaluate (page, method, element) {
       const thing = await active.evaluate(method, element)
       return thing
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error evaluating method', error.toString())
+      }
     }
     fails++
     if (fails > 10) {
@@ -498,6 +532,9 @@ async function getOptionalApplicationFrame (page) {
         return frame
       }
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error getting application frame', error.toString())
+      }
     }
     fails++
     if (fails > 10) {
@@ -514,6 +551,9 @@ async function getTags (page, tag) {
       const links = await page.$$(tag)
       return links
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log(`error getting ${tag} tags`, error.toString())
+      }
     }
     fails++
     if (fails > 10) {
@@ -530,6 +570,9 @@ async function hoverElement (element) {
       await element.hover()
       return
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error hovering element', error.toString())
+      }
     }
     fails++
     if (fails > 10) {
@@ -546,6 +589,9 @@ async function clickElement (element) {
       await element.click()
       return
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error clicking element', error.toString())
+      }
     }
     fails++
     if (fails > 10) {
@@ -562,6 +608,9 @@ async function focusElement (element) {
       await element.focus()
       return
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error focusing element', error.toString())
+      }
     }
     fails++
     if (fails > 10) {
@@ -578,6 +627,9 @@ async function uploadFile (element, path) {
       await element.uploadFile(path)
       return
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error uploading file', error.toString())
+      }
     }
     fails++
     if (fails > 10) {
@@ -594,6 +646,9 @@ async function typeInElement (element, text) {
       await element.type(text || '')
       return
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error typing in element', error.toString())
+      }
     }
     fails++
     if (fails > 10) {
@@ -621,6 +676,9 @@ async function selectOption (element, value) {
       }, { id, value })
       return
     } catch (error) {
+      if(DEBUG_PUPPETEER) {
+        console.log('error selecting option', error.toString())
+      }
     }
     fails++
     if (fails > 10) {
