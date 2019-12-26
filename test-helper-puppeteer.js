@@ -176,7 +176,7 @@ async function fetch (method, req) {
       }
       if (step.hover) {
         if (process.env.DEBUG_PUPPETEER) {
-          console.log('hover account menu')
+          console.log('hover menu')
         }
         await hover(page, step.hover)
         if (process.env.GENERATE_SCREENSHOTS) {
@@ -466,6 +466,9 @@ async function getElement (page, identifier) {
     if (elements && elements.length) {
       for (element of elements) {
         const href = await evaluate(page, el => el.href, element)
+        if (process.env.DEBUG_PUPPETEER) {
+          console.log('checking page link', href, identifier)
+        }
         if (href) {
           if (href === identifier ||
               href.startsWith(`${identifier}?`) ||
@@ -483,6 +486,9 @@ async function getElement (page, identifier) {
       if (elements && elements.length) {
         for (element of elements) {
           const href = await evaluate(page, el => el.href, element)
+          if (process.env.DEBUG_PUPPETEER) {
+            console.log('checking frame link', href, identifier)
+          }
           if (href) {
             if (href === identifier ||
               href.startsWith(`${identifier}?`) ||
