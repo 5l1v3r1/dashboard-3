@@ -43,6 +43,7 @@ async function submitForm (req, res) {
   } catch (error) {
     return renderPage(req, res, error.message)
   }
+  req.body.password = req.body['new-password']
   req.route = global.sitemap['/account/signin']
   return req.route.api.post(req, res)
 }
