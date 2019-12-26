@@ -159,11 +159,11 @@ async function fetch (method, req) {
           screenshotNumber++
         }
       } else if (step.click) {
-        if (lastStep && lastStep.hover === '/account') {
+        if (lastStep && lastStep.hover === '#account-menu-container') {
           await hover(page, '#account-menu-container')
           await focus(page, '#account-menu-container')
           await wait(1)
-        } else if (lastStep && lastStep.hover === '/administrator') {
+        } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
           await hover(page, '#administrator-menu-container')
           await focus(page, '#administrator-menu-container')
           await wait(1)
