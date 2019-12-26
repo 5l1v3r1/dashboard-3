@@ -152,10 +152,12 @@ async function fetch (method, req) {
       if (process.env.DEBUG_PUPPETEER) {
         console.log('starting screenshot browser at /home')
       }
-      await page.goto(`${process.env.DASHBOARD_SERVER}/home`, { waitLoad: true, waitNetworkIdle: true })
+      await page.goto(`${global.dashboardServer}/home`, { waitLoad: true, waitNetworkIdle: true })
     } else {
-      console.log('starting screenshot browser at /')
-      await page.goto(`${process.env.DASHBOARD_SERVER}/`, { waitLoad: true, waitNetworkIdle: true })
+      if (process.env.DEBUG_PUPPETEER) {
+        console.log('starting screenshot browser at /')
+      }
+      await page.goto(`${global.dashboardServer}/`, { waitLoad: true, waitNetworkIdle: true })
     }
     await page.waitForSelector('body')
     let screenshotNumber = 1
