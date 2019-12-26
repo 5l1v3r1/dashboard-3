@@ -13,21 +13,21 @@ const wait = util.promisify(function (amount, callback) {
 })
 const allDevices = require('puppeteer/DeviceDescriptors')
 const devices = [{
-    name: 'Desktop',
-    userAgent: 'Desktop browser',
-    viewport: {
-      width: 1920,
-      height: 1080,
-      deviceScaleFactor: 1,
-      isMobile: false,
-      hasTouch: false,
-      isLandscape: false
-    }
-  },
-  allDevices['iPad Pro'],
-  allDevices['iPad Mini'],
-  allDevices['Pixel 2 XL'],
-  allDevices['iPhone SE']
+  name: 'Desktop',
+  userAgent: 'Desktop browser',
+  viewport: {
+    width: 1920,
+    height: 1080,
+    deviceScaleFactor: 1,
+    isMobile: false,
+    hasTouch: false,
+    isLandscape: false
+  }
+},
+allDevices['iPad Pro'],
+allDevices['iPad Mini'],
+allDevices['Pixel 2 XL'],
+allDevices['iPhone SE']
 ]
 
 module.exports = {
@@ -51,16 +51,16 @@ async function fetch (method, req) {
       browser = await puppeteer.launch({
         headless: !(process.env.SHOW_BROWSERS === 'true'),
         args: [
-          '--no-sandbox', 
-          '--disable-setuid-sandbox', 
-          '--window-size=1920,1080', 
-          '--incognito', 
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--window-size=1920,1080',
+          '--incognito',
           '--disable-dev-shm-usage'
         ],
         slowMo: 0
       })
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error instantiating browser', error.toString())
       }
     }
@@ -74,7 +74,7 @@ async function fetch (method, req) {
     try {
       pages = await browser.pages()
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error instantiating pages', error.toString())
       }
     }
@@ -99,7 +99,7 @@ async function fetch (method, req) {
             page.on('console', msg => console.log('[console]', msg.text()))
           }
         } catch (error) {
-          if(DEBUG_PUPPETEER) {
+          if (process.env.DEBUG_PUPPETEER) {
             console.log('error opening new page', error.toString())
           }
         }
@@ -126,7 +126,7 @@ async function fetch (method, req) {
       })
       break
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error emulating desktop settings', error.toString())
       }
       await wait(1)
@@ -149,7 +149,7 @@ async function fetch (method, req) {
   }
   if (req.screenshots) {
     if (req.account) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('starting screenshot browser at /home')
       }
       await page.goto(`${process.env.DASHBOARD_SERVER}/home`, { waitLoad: true, waitNetworkIdle: true })
@@ -166,12 +166,12 @@ async function fetch (method, req) {
       }
     }
     device = device || devices[0]
-    if(DEBUG_PUPPETEER) {
+    if (process.env.DEBUG_PUPPETEER) {
       console.log('screenshot device', JSON.stringify(device))
     }
     let lastStep
     for (const step of req.screenshots) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('screenshot step', JSON.stringify(step))
       }
       if (step.hover) {
@@ -199,8 +199,8 @@ async function fetch (method, req) {
         if (req.waitOnSubmit) {
           // TODO: detect when to proceed
           // the intention with 'waitOnSubmit' is to wait until
-          // stripe.js callbacks have finished any client-side 
-          // network activity that takes place before the form 
+          // stripe.js callbacks have finished any client-side
+          // network activity that takes place before the form
           // is submitted
           await wait(10000)
         } else {
@@ -242,11 +242,11 @@ async function fetch (method, req) {
   while (!html) {
     try {
       html = await page.content()
-      if(DEBUG_PUPPETEER && DEBUG_PUPPEETEER_SCREENSHOTS) {
+      if (process.env.DEBUG_PUPPETEER && process.env.DEBUG_PUPPEETEER_SCREENSHOTS) {
         console.log('screenshot page html', html)
       }
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error reading HTML', error.toString())
       }
     }
@@ -259,8 +259,8 @@ async function fetch (method, req) {
   return html
 }
 
-async function saveScreenshot(device, page, number, action, identifier, scriptName) {
-  if(DEBUG_PUPPETEER) {
+async function saveScreenshot (device, page, number, action, identifier, scriptName) {
+  if (process.env.DEBUG_PUPPETEER) {
     console.log('taking screenshot', number, action, identifier, scriptName)
   }
   let filePath = scriptName.substring(0, scriptName.lastIndexOf('.test.js'))
@@ -319,7 +319,7 @@ async function getText (page, element) {
   return evaluate(page, (el) => {
     if (el.innerText && el.innerHTML.indexOf('>') === -1) {
       return el.innerText
-    } 
+    }
     if (el.title) {
       return el.title
     }
@@ -442,10 +442,10 @@ async function getElement (page, identifier) {
       for (element of elements) {
         const href = await evaluate(page, el => el.href, element)
         if (href) {
-          if (href === identifier || 
-              href.startsWith(`${identifier}?`) || 
-              href.startsWith(`${identifier}&`) || 
-              href === `${global.dashboardServer}${identifier}` || 
+          if (href === identifier ||
+              href.startsWith(`${identifier}?`) ||
+              href.startsWith(`${identifier}&`) ||
+              href === `${global.dashboardServer}${identifier}` ||
               href.startsWith(`${global.dashboardServer}${identifier}?`) ||
               href.startsWith(`${global.dashboardServer}${identifier}&`)) {
             return element
@@ -459,13 +459,13 @@ async function getElement (page, identifier) {
         for (element of elements) {
           const href = await evaluate(page, el => el.href, element)
           if (href) {
-            if (href === identifier || 
-              href.startsWith(`${identifier}?`) || 
-              href.startsWith(`${identifier}&`) || 
-              href === `${global.dashboardServer}${identifier}` || 
+            if (href === identifier ||
+              href.startsWith(`${identifier}?`) ||
+              href.startsWith(`${identifier}&`) ||
+              href === `${global.dashboardServer}${identifier}` ||
               href.startsWith(`${global.dashboardServer}${identifier}?`) ||
               href.startsWith(`${global.dashboardServer}${identifier}&`)) {
-            return element
+              return element
             }
           }
         }
@@ -511,7 +511,7 @@ async function evaluate (page, method, element) {
       const thing = await active.evaluate(method, element)
       return thing
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error evaluating method', error.toString())
       }
     }
@@ -532,7 +532,7 @@ async function getOptionalApplicationFrame (page) {
         return frame
       }
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error getting application frame', error.toString())
       }
     }
@@ -551,7 +551,7 @@ async function getTags (page, tag) {
       const links = await page.$$(tag)
       return links
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log(`error getting ${tag} tags`, error.toString())
       }
     }
@@ -570,7 +570,7 @@ async function hoverElement (element) {
       await element.hover()
       return
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error hovering element', error.toString())
       }
     }
@@ -589,7 +589,7 @@ async function clickElement (element) {
       await element.click()
       return
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error clicking element', error.toString())
       }
     }
@@ -608,7 +608,7 @@ async function focusElement (element) {
       await element.focus()
       return
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error focusing element', error.toString())
       }
     }
@@ -627,7 +627,7 @@ async function uploadFile (element, path) {
       await element.uploadFile(path)
       return
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error uploading file', error.toString())
       }
     }
@@ -646,7 +646,7 @@ async function typeInElement (element, text) {
       await element.type(text || '')
       return
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error typing in element', error.toString())
       }
     }
@@ -676,7 +676,7 @@ async function selectOption (element, value) {
       }, { id, value })
       return
     } catch (error) {
-      if(DEBUG_PUPPETEER) {
+      if (process.env.DEBUG_PUPPETEER) {
         console.log('error selecting option', error.toString())
       }
     }
