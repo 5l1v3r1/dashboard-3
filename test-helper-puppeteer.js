@@ -182,15 +182,16 @@ async function fetch (method, req) {
         }
       } else if (step.click) {
         if (lastStep && lastStep.hover === '#account-menu-container') {
+          console.log('hover account menu')
           await hover(page, '#account-menu-container')
           await wait(1)
         } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
+          console.log('hover administrator menu')
           await hover(page, '#administrator-menu-container')
           await wait(1)
-        } else {
-          await hover(page, step.click)
-          await focus(page, step.click)
         }
+        await hover(page, step.click)
+        await focus(page, step.click)
         if (process.env.GENERATE_SCREENSHOTS) {
           await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
           screenshotNumber++
@@ -318,7 +319,6 @@ async function hover (page, identifier) {
 async function click (page, identifier) {
   const element = await getElement(page, identifier)
   if (element) {
-    await hoverElement(element)
     return clickElement(element)
   }
   if (process.env.DEBUG_PUPPETEER) {
