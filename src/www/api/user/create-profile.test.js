@@ -565,6 +565,32 @@ describe('/api/user/create-profile', () => {
     })
   })
 
+  describe('returns', () => {
+    it.only('object', async () => {
+      global.requireProfile = true
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
+      req.account = user.account
+      req.session = user.session
+      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+      req.body =  {
+        'first-name': 'Test',
+        'last-name': 'Person',
+        'contact-email': 'test1@test.com',
+        'display-email': 'test2@test.com',
+        dob: '2000-01-01',
+        'display-name': 'tester',
+        phone: '456-789-0123',
+        occupation: 'Programmer',
+        location: 'USA',
+        'company-name': 'Test company',
+        website: 'https://example.com'
+      }
+      const profile = await req.post()
+      assert.strictEqual(profile.object, 'profile')
+    })
+  })
+
   describe('configuration', () => {
     it('environment USER_PROFILE_FIELDS', async () => {
       const user = await TestHelper.createUser()
