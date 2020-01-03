@@ -46,7 +46,7 @@ module.exports = {
 function outputConfiguration () {
   const filePath = path.join(global.applicationPath, 'api.txt')
   let tests = fs.readFileSync(filePath).toString()
-  tests = tests.substring(tests.indexOf('/api/'))
+  tests = tests.substring(tests.indexOf('\n\n'))
   while (true) {
     const lastTick = tests.lastIndexOf('✓')
     const lastLineBreak = tests.lastIndexOf('\n')
