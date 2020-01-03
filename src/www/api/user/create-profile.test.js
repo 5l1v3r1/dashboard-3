@@ -757,10 +757,8 @@ describe('/api/user/create-profile', () => {
       }
       assert.strictEqual(errorMessage, 'invalid-company-name-length')
     })
-  })
 
-  describe('override', () => {
-    it('request specifies required fields', async () => {
+    it('request overrides required fields', async () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
