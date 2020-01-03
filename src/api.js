@@ -58,7 +58,7 @@ function outputConfiguration () {
   }
   tests = tests.split('\n\n')
   const api = {}
-  const categories = ['exceptions', 'receives', 'configuration', 'returns', 'redacts', 'override']
+  const categories = ['exceptions', 'receives', 'configuration', 'returns', 'redacts']
   const verbs = ['get', 'post', 'patch', 'pull', 'delete', 'options', 'head']
   for (const test of tests) {
     const item = {
