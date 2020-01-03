@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const HTML = require('./html.js')
 
 module.exports = {
@@ -243,7 +244,8 @@ function outputConfiguration () {
   const routeJS = underlineRight('NODEJS ', widestJS)
   const routeHTML = underlineRight('HTML ', widestHTML)
   output.splice(output.length - sortedURLs.length, 0, `\n${routeURL} ${routeAuth} ${routeTemplate} ${routeVerbs} ${routeJS} ${routeHTML}`)
-  fs.writeFileSync(`${global.applicationPath}/sitemap.txt`, output.join('\n'))
+  const filePath = path.join(global.applicationPath, 'sitemap.txt')
+  fs.writeFileSync(filePath, output.join('\n'))
   return output.join('\n')
 }
 

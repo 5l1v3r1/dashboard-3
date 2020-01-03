@@ -1,5 +1,6 @@
 let puppeteer, browser
 const fs = require('fs')
+const path = require('path')
 const util = require('util')
 const wait = util.promisify(function (amount, callback) {
   if (amount && !callback) {
@@ -282,6 +283,7 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   let filePath = scriptName.substring(0, scriptName.lastIndexOf('.test.js'))
   filePath = filePath.split('/src/www/account/').join('/screenshots/account/')
   filePath = filePath.split('/src/www/administrator/').join('/screenshots/administrator/')
+  filePath = path.join(global.applicationPath, filePath)
   if (!fs.existsSync(filePath)) {
     createFolderSync(filePath)
   }
