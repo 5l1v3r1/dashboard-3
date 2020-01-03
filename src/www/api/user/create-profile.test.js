@@ -566,7 +566,7 @@ describe('/api/user/create-profile', () => {
   })
 
   describe('returns', () => {
-    it.only('object', async () => {
+    it('object', async () => {
       global.requireProfile = true
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)

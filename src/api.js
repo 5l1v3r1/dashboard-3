@@ -82,7 +82,6 @@ function outputConfiguration () {
       if (!done.length) {
         item.url = line
         if (!global.sitemap[line]) {
-          continue
           throw new Error('invalid something ' + line)
         }
         item.auth = global.sitemap[item.url].auth !== false
