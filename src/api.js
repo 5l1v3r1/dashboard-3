@@ -43,7 +43,8 @@ module.exports = {
 }
 
 function outputConfiguration () {
-  let tests = fs.readFileSync('./tests.txt').toString()
+  const filePath = path.join(global.applicationPath, 'api.txt')
+  let tests = fs.readFileSync(filePath).toString()
   tests = tests.substring(tests.indexOf('/api/'))
   while (true) {
     const lastTick = tests.lastIndexOf('✓')
@@ -228,7 +229,8 @@ function writeAPI (configuration) {
     }
     output.push('|\n')
   }
-  fs.writeFileSync(`${global.applicationPath}/api.txt`, output.join(''))
+  const filePath = path.join(global.applicationPath, 'api.txt')
+  fs.writeFileSync(filePath, output.join(''))
 }
 
 function padRight (str, totalSize) {
