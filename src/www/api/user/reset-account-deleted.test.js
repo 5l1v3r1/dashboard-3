@@ -106,6 +106,8 @@ describe('/api/user/reset-account-deleted', () => {
         username: user.account.username,
         password: user.account.password
       }
+      req.filename = __filename
+      req.saveResponse = true
       const accountNow = await req.patch()
       assert.strictEqual(undefined, accountNow.deleted)
     })

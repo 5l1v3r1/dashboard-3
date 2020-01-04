@@ -61,6 +61,8 @@ describe('/api/user/sessions-count', () => {
       const req = TestHelper.createRequest(`/api/user/sessions-count?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       const result = await req.get()
       assert.strictEqual(result, global.pageSize + 2)
     })

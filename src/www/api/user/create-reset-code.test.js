@@ -114,6 +114,8 @@ describe('/api/user/create-reset-code', () => {
       const req = TestHelper.createRequest(`/api/user/create-reset-code?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       req.body = {
         'secret-code': 'this-is-the-code'
       }

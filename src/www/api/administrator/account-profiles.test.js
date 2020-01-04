@@ -115,6 +115,8 @@ describe('/api/administrator/account-profiles', () => {
       const req = TestHelper.createRequest(`/api/administrator/account-profiles?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       const profilesNow = await req.get()
       assert.strictEqual(profilesNow.length, global.pageSize)
     })

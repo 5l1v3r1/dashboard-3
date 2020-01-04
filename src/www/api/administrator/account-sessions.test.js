@@ -94,6 +94,8 @@ describe('/api/administrator/account-sessions', () => {
       const req = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       const sessions = await req.get()
       assert.strictEqual(sessions.length, 1)
     })

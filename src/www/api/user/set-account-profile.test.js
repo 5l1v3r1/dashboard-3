@@ -104,6 +104,8 @@ describe('/api/user/set-account-profile', () => {
       req.body = {
         profileid: profile1.profileid
       }
+      req.filename = __filename
+      req.saveResponse = true
       const account = await req.patch()
       assert.strictEqual(account.object, 'account')
     })

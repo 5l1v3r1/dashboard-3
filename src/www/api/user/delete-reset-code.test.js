@@ -60,6 +60,8 @@ describe('/api/user/delete-reset-code', () => {
       const req = TestHelper.createRequest(`/api/user/delete-reset-code?codeid=${user.resetCode.codeid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       const deleted = await req.delete()
       assert.strictEqual(deleted, true)
     })

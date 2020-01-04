@@ -97,6 +97,8 @@ describe('/api/administrator/account-reset-codes', () => {
       const req = TestHelper.createRequest(`/api/administrator/account-reset-codes?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       const codesNow = await req.get()
       assert.strictEqual(codesNow.length, global.pageSize)
     })

@@ -42,6 +42,8 @@ describe('/api/administrator/account', () => {
       const req = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       const account = await req.get()
       assert.strictEqual(account.accountid, user.account.accountid)
     })

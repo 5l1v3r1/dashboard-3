@@ -58,6 +58,8 @@ describe('/api/user/profile', () => {
       const req = TestHelper.createRequest(`/api/user/profile?profileid=${user.profile.profileid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       const profile = await req.get()
       assert.strictEqual(profile.object, 'profile')
     })

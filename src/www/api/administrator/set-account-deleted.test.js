@@ -93,6 +93,8 @@ describe('/api/administrator/set-account-deleted', () => {
       const req = TestHelper.createRequest(`/api/administrator/set-account-deleted?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       global.deleteDelay = 7
       const accountNow = await req.patch()
       const now = Math.floor(new Date().getTime() / 1000)

@@ -79,6 +79,8 @@ describe('/api/user/set-session-ended', () => {
       const req = TestHelper.createRequest(`/api/user/set-session-ended?sessionid=${user.session.sessionid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       const sessionNow = await req.patch()
       assert.strictEqual(sessionNow.object, 'session')
     })

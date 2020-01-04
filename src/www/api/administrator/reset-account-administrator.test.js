@@ -74,6 +74,8 @@ describe('/api/administrator/reset-account-administrator', () => {
       const req = TestHelper.createRequest(`/api/administrator/reset-account-administrator?accountid=${administrator2.account.accountid}`)
       req.account = owner.account
       req.session = owner.session
+      req.filename = __filename
+      req.saveResponse = true
       const accountNow = await req.patch()
       assert.strictEqual(accountNow.administrator, undefined)
     })

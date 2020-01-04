@@ -72,6 +72,9 @@ afterEach(() => {
       deleteLocalData(storagePath)
     }
   }
+  if (global.apiResult) {
+
+  }
 })
 
 after((callback) => {
@@ -126,14 +129,18 @@ function createRequest (rawURL) {
     req[verb] = async () => {
       req.method = verb.toUpperCase()
       if (req.url.startsWith('/api/')) {
-        delete (global.apiResponse)
         global.apiDependencies = []
         while (true) {
           let errorMessage
           try {
             const result = await proxy(verb, rawURL, req)
+            if (req.saveResponse) {
+              let responseFilePath = req.filename.split('/src/www/api/user/').join('/api/user/')
+              responseFilePath = responseFilePath.split('/src/www/api/administrator/').join('/api/administrator/')
+              createFolderSync(responseFilePath.substring(0, responseFilePath.lastIndexOf('/')))
+              fs.writeFileSync(responseFilePath + 'on', JSON.stringify(result, null, '  '))
+            }
             if (!result || result.object !== 'error') {
-              global.apiResponse = result
               return result
             }
             errorMessage = result ? result.message : null
@@ -193,8 +200,16 @@ function extractRedirectURL (doc) {
   return null
 }
 
+let usedIdentities = []
 function nextIdentity () {
-  testDataIndex++
+  if (usedIdentities.length > testData.length / 2) {
+    usedIdentities = []
+  }
+  testDataIndex = Math.floor(Math.random() * testData.length)
+  while (usedIdentities.indexOf(testDataIndex) > -1) {  
+    testDataIndex = Math.floor(Math.random() * testData.length)
+  }
+  usedIdentities.push(testDataIndex)
   if (testDataIndex >= testData.length) {
     testDataIndex = 0
   }
@@ -233,9 +248,6 @@ async function createOwner () {
 }
 
 async function createUser (username) {
-  if (testDataIndex >= testData.length) {
-    testDataIndex = 0
-  }
   username = username || 'user-' + dashboard.Timestamp.now + '-' + Math.ceil(Math.random() * 100000)
   const password = username
   const req = createRequest('/api/user/create-account')
@@ -243,14 +255,14 @@ async function createUser (username) {
   const profileFieldsWere = global.userProfileFields
   global.requireProfile = true
   global.userProfileFields = ['full-name', 'contact-email']
+  const identity = nextIdentity()
   req.body = {
     username,
     password,
-    'first-name': testData[testDataIndex].firstName,
-    'last-name': testData[testDataIndex].lastName,
-    'contact-email': testData[testDataIndex].email
+    'first-name': identity.firstName,
+    'last-name': identity.lastName,
+    'contact-email': identity.email
   }
-  testDataIndex++
   let account = await req.post()
   account.username = username
   account.password = password
@@ -333,15 +345,10 @@ async function deleteResetCode (user) {
 }
 
 async function createProfile (user, properties) {
-  testDataIndex++
-  if (testDataIndex >= testData.length) {
-    testDataIndex = 0
-  }
   const req = createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
   req.account = user.account
   req.session = user.session
   req.body = properties
-  testDataIndex++
   user.profile = await req.post()
   return user.profile
 }
@@ -458,4 +465,16 @@ function deleteLocalData (currentPath) {
     }
   }
   fs.rmdirSync(currentPath)
+}
+
+function createFolderSync (folderPath) {
+  const nested = folderPath.substring(global.applicationPath.length)
+  const nestedParts = nested.split('/')
+  let nestedPath = global.applicationPath
+  for (const part of nestedParts) {
+    nestedPath += `/${part}`
+    if (!fs.existsSync(nestedPath)) {
+      fs.mkdirSync(nestedPath)
+    }
+  }
 }

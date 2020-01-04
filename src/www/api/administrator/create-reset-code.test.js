@@ -93,6 +93,8 @@ describe('/api/administrator/create-reset-code', () => {
       req.body = {
         'secret-code': '12345678'
       }
+      req.filename = __filename
+      req.saveResponse = true
       const resetCode = await req.post()
       assert.strictEqual(resetCode.object, 'resetCode')
     })

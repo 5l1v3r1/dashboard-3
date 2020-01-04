@@ -63,6 +63,8 @@ describe('/api/user/set-session-verified', () => {
         username: user.account.username,
         password: user.account.password
       }
+      req.filename = __filename
+      req.saveResponse = true
       const sessionNow = await req.patch()
       assert.strictEqual(sessionNow.object, 'session')
     })

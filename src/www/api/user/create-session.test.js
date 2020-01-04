@@ -71,6 +71,8 @@ describe('/api/user/create-session', () => {
         username: user.account.username,
         password: user.account.password
       }
+      req.filename = __filename
+      req.saveResponse = true
       const session = await req.post()
       const minutes = Math.ceil((session.expires - dashboard.Timestamp.now) / 60)
       assert.strictEqual(minutes, 20)

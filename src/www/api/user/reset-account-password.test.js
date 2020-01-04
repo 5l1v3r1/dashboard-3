@@ -103,6 +103,8 @@ describe('/api/user/reset-account-password', () => {
         'new-password': 'new-password',
         'secret-code': code.code
       }
+      req.filename = __filename
+      req.saveResponse = true
       const resetPassword = await req.patch()
       assert.strictEqual(resetPassword, true)
     })

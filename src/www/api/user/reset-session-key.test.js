@@ -59,6 +59,8 @@ describe('/api/user/reset-session-key', () => {
       const req = TestHelper.createRequest(`/api/user/reset-session-key?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       const resetted = await req.patch()
       assert.strictEqual(resetted, true)
     })

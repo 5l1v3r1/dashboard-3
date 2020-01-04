@@ -12,6 +12,8 @@ describe('/api/administrator/accounts-count', () => {
       const req = TestHelper.createRequest('/api/administrator/accounts-count')
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       const result = await req.get()
       assert.strictEqual(result, global.pageSize + 2)
     })

@@ -572,6 +572,8 @@ describe('/api/user/update-profile', () => {
         'first-name': 'Test',
         'last-name': 'Person'
       }
+      req.filename = __filename
+      req.saveResponse = true
       global.userProfileFields = ['full-name']
       const profile = await req.patch()
       assert.strictEqual(profile.object, 'profile')

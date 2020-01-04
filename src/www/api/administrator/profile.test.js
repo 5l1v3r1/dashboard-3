@@ -42,6 +42,8 @@ describe('/api/administrator/profile', () => {
       const req = TestHelper.createRequest(`/api/administrator/profile?profileid=${user.profile.profileid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       const profile = await req.get()
       assert.strictEqual(profile.profileid, user.account.profileid)
     })

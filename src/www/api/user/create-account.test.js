@@ -569,6 +569,8 @@ describe('/api/user/create-account', () => {
         password: 'password1234',
         confirm: 'password1234'
       }
+      req.filename = __filename
+      req.saveResponse = true
       const account = await req.post()
       assert.strictEqual(account.object, 'account')
     })

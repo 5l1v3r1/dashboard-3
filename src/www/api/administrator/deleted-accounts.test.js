@@ -65,6 +65,8 @@ describe('/api/administrator/deleted-accounts', () => {
       const req = TestHelper.createRequest('/api/administrator/deleted-accounts')
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       const accounts = await req.get()
       assert.strictEqual(accounts.length, global.pageSize)
       assert.strictEqual(accounts[0].accountid, user2.account.accountid)

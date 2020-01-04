@@ -110,6 +110,8 @@ describe('/api/user/reset-codes', () => {
       const req = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       const codesNow = await req.get()
       assert.strictEqual(codesNow.length, global.pageSize)
     })

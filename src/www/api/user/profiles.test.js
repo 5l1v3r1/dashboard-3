@@ -147,6 +147,8 @@ describe('/api/user/profiles', () => {
       const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       const profilesNow = await req.get()
       assert.strictEqual(profilesNow.length, global.pageSize)
       assert.strictEqual(profilesNow[0].profileid, profile2.profileid)

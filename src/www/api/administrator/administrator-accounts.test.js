@@ -58,6 +58,8 @@ describe('/api/administrator/administrator-accounts', () => {
       const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
       req.account = owner.account
       req.session = owner.session
+      req.filename = __filename
+      req.saveResponse = true
       const administrators = await req.get()
       assert.strictEqual(administrators.length, global.pageSize)
       assert.strictEqual(administrators[0].accountid, administrator2.account.accountid)

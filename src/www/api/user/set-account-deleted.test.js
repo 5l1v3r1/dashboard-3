@@ -97,6 +97,8 @@ describe('/api/user/set-account-deleted', () => {
       req.body = {
         password: user.account.password
       }
+      req.filename = __filename
+      req.saveResponse = true
       const account = await req.patch()
       assert.strictEqual(account.object, 'account')
     })

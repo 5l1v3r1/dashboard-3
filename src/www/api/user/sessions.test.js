@@ -107,6 +107,8 @@ describe('/api/user/sessions', () => {
       const req = TestHelper.createRequest(`/api/user/sessions?accountid=${user.account.accountid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       const sessions = await req.get()
       assert.strictEqual(sessions.length, 1)
       assert.strictEqual(sessions[0].sessionid, req.session.sessionid)

@@ -81,6 +81,8 @@ describe('/api/user/delete-profile', () => {
       const req = TestHelper.createRequest(`/api/user/delete-profile?profileid=${profile1.profileid}`)
       req.account = user.account
       req.session = user.session
+      req.filename = __filename
+      req.saveResponse = true
       const deleted = await req.delete()
       assert.strictEqual(deleted, true)
     })

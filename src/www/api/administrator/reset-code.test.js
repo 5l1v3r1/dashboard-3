@@ -56,6 +56,8 @@ describe('/api/administrator/reset-code', () => {
       const req = TestHelper.createRequest(`/api/administrator/reset-code?codeid=${user.resetCode.codeid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       const codeNow = await req.get()
       assert.strictEqual(codeNow.accountid, user.account.accountid)
       assert.strictEqual(undefined, codeNow.secretCodeHash)

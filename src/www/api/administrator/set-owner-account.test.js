@@ -122,6 +122,8 @@ describe('/api/administrator/set-owner-account', () => {
       const req = TestHelper.createRequest(`/api/administrator/set-owner-account?accountid=${user.account.accountid}`)
       req.account = owner.account
       req.session = owner.session
+      req.filename = __filename
+      req.saveResponse = true
       const accountNow = await req.patch()
       assert.notStrictEqual(accountNow.owner, undefined)
       assert.notStrictEqual(accountNow.owner, null)

@@ -74,6 +74,8 @@ describe('/api/administrator/set-account-administrator', () => {
       const req = TestHelper.createRequest(`/api/administrator/set-account-administrator?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
+      req.filename = __filename
+      req.saveResponse = true
       const accountNow = await req.patch()
       assert.notStrictEqual(accountNow.administrator, undefined)
       assert.notStrictEqual(accountNow.administrator, null)
