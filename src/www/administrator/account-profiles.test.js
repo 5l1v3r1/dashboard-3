@@ -17,7 +17,7 @@ describe('/administrator/account-profiles', () => {
   })
 
   describe('Profiles#GET', () => {
-    it('should present the account table', async () => {
+    it('should present the account table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/account-profiles?accountid=${user.account.accountid}`)

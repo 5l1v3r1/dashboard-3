@@ -42,7 +42,7 @@ describe('/administrator/assign-administrator', () => {
   })
 
   describe('AssignAdministrator#POST', () => {
-    it('should apply account update', async () => {
+    it('should apply account update (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/assign-administrator?accountid=${user.account.accountid}`)

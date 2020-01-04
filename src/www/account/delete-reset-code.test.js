@@ -63,7 +63,7 @@ describe('/account/delete-reset-code', () => {
   })
 
   describe('DeleteResetCode#POST', () => {
-    it('should delete', async () => {
+    it('should delete reset code (screenshots)', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest(`/account/delete-reset-code?codeid=${user.resetCode.codeid}`)

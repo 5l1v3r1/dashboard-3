@@ -75,7 +75,7 @@ describe('/account/set-default-profile', () => {
   })
 
   describe('SetDefaultProfile#POST', () => {
-    it('should set the profile as default', async () => {
+    it('should set the profile as default (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const profile1id = user.profile.profileid
       await TestHelper.createProfile(user, {

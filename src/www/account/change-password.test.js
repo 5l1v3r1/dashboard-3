@@ -83,7 +83,7 @@ describe('/account/change-password', () => {
       assert.strictEqual(message.attr.template, 'invalid-password')
     })
 
-    it('should apply new password', async () => {
+    it('should apply new password (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/change-password')
       req.account = user.account

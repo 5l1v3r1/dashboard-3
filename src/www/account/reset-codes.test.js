@@ -17,7 +17,7 @@ describe('/account/reset-codes', () => {
   })
 
   describe('ResetCodes#GET', () => {
-    it('should limit reset codes to one page', async () => {
+    it('should limit reset codes to one page (screenshots)', async () => {
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createResetCode(user)

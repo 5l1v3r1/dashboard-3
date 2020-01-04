@@ -166,7 +166,7 @@ describe('/account/reset-account', () => {
       assert.notStrictEqual(account.resetCodeLastUsed, null)
     })
 
-    it('should sign in', async () => {
+    it('should sign in (screenshots)', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest('/account/reset-account')

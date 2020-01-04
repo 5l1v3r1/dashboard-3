@@ -89,7 +89,7 @@ describe('/account/delete-profile', () => {
   })
 
   describe('DeleteProfile#POST', () => {
-    it('should delete', async () => {
+    it('should delete profile (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       await TestHelper.createProfile(user, {

@@ -23,7 +23,7 @@ describe('/administrator/account-sessions', () => {
   })
 
   describe('AccountSessions#GET', () => {
-    it('should present the sessions table', async () => {
+    it('should present the sessions table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createSession(user)

@@ -34,7 +34,7 @@ describe('/account/delete-account', () => {
       assert.strictEqual(message.attr.template, 'invalid-password')
     })
 
-    it('should mark account deleted', async () => {
+    it('should mark account deleted (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/delete-account')

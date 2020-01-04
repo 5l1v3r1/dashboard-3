@@ -40,7 +40,7 @@ describe('/account/end-session', () => {
   })
 
   describe('EndSession#POST', () => {
-    it('should end the session', async () => {
+    it('should end the session (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
       req.account = user.account

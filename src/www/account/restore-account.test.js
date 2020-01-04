@@ -102,7 +102,7 @@ describe('/account/restore-account', () => {
       assert.strictEqual(message.attr.template, 'invalid-account')
     })
 
-    it('should unset account deleted', async () => {
+    it('should unset account deleted (screenshots)', async () => {
       global.deleteDelay = 1
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

@@ -348,7 +348,7 @@ describe('/account/create-profile', () => {
       }
     })
 
-    it('should create new profile and set as default', async () => {
+    it('should create new profile and set as default (screenshots)', async () => {
       global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/create-profile')

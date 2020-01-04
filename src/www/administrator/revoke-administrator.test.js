@@ -30,7 +30,7 @@ describe('/administrator/revoke-administrator', () => {
   })
 
   describe('RevokeAdministrator#POST', () => {
-    it('should revoke administrator status', async () => {
+    it('should revoke administrator status (screenshots)', async () => {
       const owner = await TestHelper.createOwner()
       const administrator2 = await TestHelper.createAdministrator(owner)
       const req = TestHelper.createRequest(`/administrator/revoke-administrator?accountid=${administrator2.account.accountid}`)

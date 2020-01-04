@@ -16,7 +16,7 @@ describe('/administrator/profile', () => {
   })
 
   describe('Profile#GET', () => {
-    it('should present the profile table', async () => {
+    it('should present the profile table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/profile?profileid=${user.profile.profileid}`)

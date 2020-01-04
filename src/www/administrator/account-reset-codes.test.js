@@ -20,7 +20,7 @@ describe('/administrator/account-reset-codes', () => {
   })
 
   describe('AccountResetCodes#GET', () => {
-    it('should present the reset codes table', async () => {
+    it('should present the reset codes table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)

@@ -15,7 +15,7 @@ describe('/account/session', () => {
   })
 
   describe('Session#GET', () => {
-    it('should present the session table', async () => {
+    it('should present the session table (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/session?sessionid=${user.session.sessionid}`)
       req.account = user.account

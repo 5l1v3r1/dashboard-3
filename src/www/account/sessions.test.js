@@ -16,7 +16,7 @@ describe('/account/sessions', () => {
   })
 
   describe('Sessions#GET', () => {
-    it('should exclude ended sessions', async () => {
+    it('should exclude ended sessions (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/signout')
       req.account = user.account

@@ -21,7 +21,7 @@ describe('/administrator/delete-schedule', () => {
   })
 
   describe('DeleteSchedule#GET', () => {
-    it('should present the deleted accounts table', async () => {
+    it('should present the deleted accounts table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)

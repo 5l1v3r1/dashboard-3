@@ -16,7 +16,7 @@ describe('/account/reset-code', () => {
   })
 
   describe('ResetCode#GET', () => {
-    it('should present the reset code table', async () => {
+    it('should present the reset code table (screenshots)', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest(`/account/reset-code?codeid=${user.resetCode.codeid}`)

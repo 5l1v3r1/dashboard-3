@@ -16,7 +16,7 @@ describe('/administrator/session', () => {
   })
 
   describe('Session#GET', () => {
-    it('should present the session table', async () => {
+    it('should present the session table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/session?sessionid=${user.session.sessionid}`)

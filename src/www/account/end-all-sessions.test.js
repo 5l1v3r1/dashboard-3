@@ -19,7 +19,7 @@ describe('/account/end-all-sessions', () => {
   })
 
   describe('EndAllSessions#POST', () => {
-    it('should generate a new session key', async () => {
+    it('should generate a new session key (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const previous = await dashboard.StorageObject.getProperty(`${global.appid}/account/${user.account.accountid}`, 'sessionKey')
       const req = TestHelper.createRequest('/account/end-all-sessions')

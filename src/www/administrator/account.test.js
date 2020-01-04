@@ -49,7 +49,7 @@ describe('/administrator/account', () => {
   })
 
   describe('Account#GET', () => {
-    it('should present the account table', async () => {
+    it('should present the account table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/account?accountid=${user.account.accountid}`)

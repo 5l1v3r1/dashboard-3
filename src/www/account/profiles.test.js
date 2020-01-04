@@ -16,7 +16,7 @@ describe('/account/profiles', () => {
   })
 
   describe('Profiles#GET', () => {
-    it('should limit profiles to one page', async () => {
+    it('should limit profiles to one page (screenshots)', async () => {
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
