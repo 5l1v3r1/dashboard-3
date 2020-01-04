@@ -134,7 +134,7 @@ function createRequest (rawURL) {
           let errorMessage
           try {
             const result = await proxy(verb, rawURL, req)
-            if (process.env.GENERATE_RESPOMSE && req.saveResponse) {
+            if (process.env.GENERATE_RESPONSE && req.saveResponse) {
               let responseFilePath = req.filename.split('/src/www/api/user/').join('/api/user/')
               responseFilePath = responseFilePath.split('/src/www/api/administrator/').join('/api/administrator/')
               createFolderSync(responseFilePath.substring(0, responseFilePath.lastIndexOf('/')))
