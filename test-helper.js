@@ -73,9 +73,6 @@ afterEach(() => {
       deleteLocalData(storagePath)
     }
   }
-  if (global.apiResult) {
-
-  }
 })
 
 after((callback) => {
