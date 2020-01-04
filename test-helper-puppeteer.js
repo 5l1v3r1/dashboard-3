@@ -182,7 +182,7 @@ async function fetch (method, req) {
           console.log('hover menu')
         }
         await hover(page, step.hover)
-        if (process.env.GENERATE_SCREENSHOTS) {
+        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
           screenshotNumber++
         }
@@ -208,7 +208,7 @@ async function fetch (method, req) {
           console.log('focusing click target')
         }
         await focus(page, step.click)
-        if (process.env.GENERATE_SCREENSHOTS) {
+        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
           screenshotNumber++
         }
@@ -226,7 +226,7 @@ async function fetch (method, req) {
       } else if (step.fill) {
         await fill(page, req.body, req.uploads)
         await hover(page, '#submit-button')
-        if (process.env.GENERATE_SCREENSHOTS) {
+        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
           screenshotNumber++
         }
@@ -239,7 +239,7 @@ async function fetch (method, req) {
       }
       lastStep = step
     }
-    if (process.env.GENERATE_SCREENSHOTS) {
+    if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
       await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
     }
   } else {
@@ -280,10 +280,9 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   if (process.env.DEBUG_PUPPETEER) {
     console.log('taking screenshot', number, action, identifier, scriptName)
   }
-  let filePath = scriptName.substring(0, scriptName.lastIndexOf('.test.js'))
-  filePath = filePath.split('/src/www/account/').join('/screenshots/account/')
-  filePath = filePath.split('/src/www/administrator/').join('/screenshots/administrator/')
-  filePath = path.join(global.applicationPath, filePath)
+  let filePath = scriptName.substring(scriptName.indexOf('/src/www/') + '/src/www/'.length)
+  filePath = filePath.substring(0, filePath.lastIndexOf('.test.js'))
+  filePath = path.join(process.env.SCREENSHOT_PATH, filePath)
   if (!fs.existsSync(filePath)) {
     createFolderSync(filePath)
   }
@@ -727,9 +726,8 @@ async function selectOption (element, value) {
 }
 
 function createFolderSync (folderPath) {
-  const nested = folderPath.substring(global.applicationPath.length)
-  const nestedParts = nested.split('/')
-  let nestedPath = global.applicationPath
+  const nestedParts = folderPath.split('/')
+  let nestedPath = ''
   for (const part of nestedParts) {
     nestedPath += `/${part}`
     if (!fs.existsSync(nestedPath)) {
