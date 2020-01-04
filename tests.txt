@@ -1,6 +1,6 @@
 
-> @userdashboard/dashboard@1.0.90 test /root/workspaces/dashboard
-> mocha src --recursive --no-colors --timeout 120000 --slow 120000
+> @userdashboard/dashboard@1.0.91 test /root/workspaces/dashboard
+> mocha src --recursive --no-colors --timeout 600000 --slow 600000
 
 
 
@@ -220,7 +220,7 @@
       ✓ should reject short password
       ✓ should reject mismatched passwords
       ✓ should reject invalid current password
-      ✓ should apply new password
+      ✓ should apply new password (screenshots)
 
   /account/change-username
     ChangeUsername#GET
@@ -229,7 +229,7 @@
       ✓ should reject missing username
       ✓ should reject short username
       ✓ should reject invalid password
-      ✓ should apply new username
+      ✓ should apply new username (screenshots)
 
   /account/create-profile
     CreateProfile#GET
@@ -253,7 +253,7 @@
       ✓ should accept dob in MM-DD-YYYY
       ✓ should require unvalidated fields
       ✓ should save unvalidated fields
-      ✓ should create new profile and set as default
+      ✓ should create new profile and set as default (screenshots)
 
   /account/create-reset-code
     CreateResetCode#GET
@@ -262,7 +262,7 @@
       ✓ should reject missing secret-code
       ✓ should reject short secret-code
       ✓ should reject long secret-code
-      ✓ should create
+      ✓ should create reset code (screenshots)
 
   /account/delete-account-complete
     DeleteAccountComplete#GET
@@ -275,7 +275,7 @@
       ✓ should present the form
     DeleteAccount#POST
       ✓ should reject invalid password
-      ✓ should mark account deleted
+      ✓ should mark account deleted (screenshots)
 
   /account/delete-profile
     DeleteProfile#BEFORE
@@ -286,7 +286,7 @@
       ✓ should present the form
       ✓ should present the profile table
     DeleteProfile#POST
-      ✓ should delete
+      ✓ should delete profile (screenshots)
 
   /account/delete-reset-code
     DeleteResetCode#BEFORE
@@ -296,7 +296,7 @@
       ✓ should present the form
       ✓ should present the reset code table
     DeleteResetCode#POST
-      ✓ should delete
+      ✓ should delete reset code (screenshots)
 
   /account/edit-profile
     EditProfile#BEFORE
@@ -322,13 +322,13 @@
       ✓ should accept dob in MM-DD-YYYY
       ✓ should require unvalidated fields
       ✓ should save unvalidated fields
-      ✓ should update profile and set as default
+      ✓ should update profile and set as default (screenshots)
 
   /account/end-all-sessions
     EndAllSessions#GET
       ✓ should present the form
     EndAllSessions#POST
-      ✓ should generate a new session key
+      ✓ should generate a new session key (screenshots)
       ✓ should invalidate current session
 
   /account/end-session
@@ -338,20 +338,20 @@
       ✓ should present the form
       ✓ should present the session table
     EndSession#POST
-      ✓ should end the session
+      ✓ should end the session (screenshots)
 
   /account/profile
     Profile#BEFORE
       ✓ should bind profile to req
     Profile#GET
-      ✓ should present the profile table
+      ✓ should present the profile table (screenshots)
       ✓ should show fields if data exists
 
   /account/profiles
     Profiles#BEFORE
       ✓ should bind profiles to req
     Profiles#GET
-      ✓ should limit profiles to one page
+      ✓ should limit profiles to one page (screenshots)
       ✓ should enforce page size
       ✓ should enforce specified offset
       ✓ should show fields if data exists
@@ -399,19 +399,19 @@
       ✓ should not reset deleted account
       ✓ should reset session key
       ✓ should reset code last used
-      ✓ should sign in
+      ✓ should sign in (screenshots)
 
   /account/reset-code
     ResetCode#BEFORE
       ✓ should bind reset code to req
     ResetCode#GET
-      ✓ should present the reset code table
+      ✓ should present the reset code table (screenshots)
 
   /account/reset-codes
     ResetCodes#BEFORE
       ✓ should bind reset codes to req
     ResetCodes#GET
-      ✓ should limit reset codes to one page
+      ✓ should limit reset codes to one page (screenshots)
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -425,19 +425,19 @@
       ✓ should enforce password length
       ✓ should reject invalid password
       ✓ should reject if after deletion date
-      ✓ should unset account deleted
+      ✓ should unset account deleted (screenshots)
 
   /account/session
     Session#BEFORE
       ✓ should bind session to req
     Session#GET
-      ✓ should present the session table
+      ✓ should present the session table (screenshots)
 
   /account/sessions
     Sessions#BEFORE
       ✓ should bind sessions to req
     Sessions#GET
-      ✓ should exclude ended sessions
+      ✓ should exclude ended sessions (screenshots)
       ✓ should limit sessions to one page
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -449,7 +449,7 @@
     SetDefaultProfile#GET
       ✓ should present the form
     SetDefaultProfile#POST
-      ✓ should set the profile as default
+      ✓ should set the profile as default (screenshots)
 
   /account/signin
     Signin#GET
@@ -485,7 +485,7 @@
     AccountProfiles#BEFORE
       ✓ should bind profiles to req
     Profiles#GET
-      ✓ should present the account table
+      ✓ should present the account table (screenshots)
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -494,7 +494,7 @@
     AccountResetCodes#BEFORE
       ✓ should bind reset codes to req
     AccountResetCodes#GET
-      ✓ should present the reset codes table
+      ✓ should present the reset codes table (screenshots)
       ✓ should present the account table
       ✓ should return one page by default
       ✓ should enforce page size
@@ -504,7 +504,7 @@
     AccountSessions#BEFORE
       ✓ should bind sessions to req
     AccountSessions#GET
-      ✓ should present the sessions table
+      ✓ should present the sessions table (screenshots)
       ✓ should present the account table
       ✓ should return one page by default
       ✓ should enforce page size
@@ -517,7 +517,7 @@
       ✓ should bind sessions to req
       ✓ should bind reset codes to req
     Account#GET
-      ✓ should present the account table
+      ✓ should present the account table (screenshots)
       ✓ should present the profile table
       ✓ should present the sessions table
       ✓ should hide empty reset codes table
@@ -527,7 +527,7 @@
     Accounts#BEFORE
       ✓ should bind accounts to req
     Accounts#GET
-      ✓ should present the accounts table
+      ✓ should present the accounts table (screenshots)
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -536,7 +536,7 @@
     Administrators#BEFORE
       ✓ should bind administrators to req
     Administrators#GET
-      ✓ should present the administrators table
+      ✓ should present the administrators table (screenshots)
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -548,7 +548,7 @@
       ✓ should present the form
       ✓ should present the account table
     AssignAdministrator#POST
-      ✓ should apply account update
+      ✓ should apply account update (screenshots)
 
   /administrator/create-reset-code
     CreateResetCode#BEFORE
@@ -557,7 +557,7 @@
       ✓ should present the form
       ✓ should present the account table
     CreateResetCode#POST
-      ✓ should create reset code
+      ✓ should create reset code (screenshots)
 
   /administrator/delete-account
     DeleteAccount#BEFORE
@@ -569,13 +569,13 @@
       ✓ should present the form
       ✓ should present the account table
     DeleteAccount#POST
-      ✓ should immediately delete
+      ✓ should immediately delete (screenshots)
 
   /administrator/delete-schedule
     DeleteSchedule#BEFORE
       ✓ should bind deleted accounts to req
     DeleteSchedule#GET
-      ✓ should present the deleted accounts table
+      ✓ should present the deleted accounts table (screenshots)
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -584,14 +584,14 @@
     Profile#BEFORE
       ✓ should bind profile to req
     Profile#GET
-      ✓ should present the profile table
+      ✓ should present the profile table (screenshots)
       ✓ should show fields if data exists
 
   /administrator/profiles
     Profiles#BEFORE
       ✓ should bind profiles to req
     Profiles#GET
-      ✓ should return one page by default
+      ✓ should return one page by default (screenshots)
       ✓ should enforce page size
       ✓ should enforce specified offset
       ✓ should show fields if data exists
@@ -600,13 +600,13 @@
     ResetCode#BEFORE
       ✓ should bind reset code to req
     ResetCode#GET
-      ✓ should present the reset code table
+      ✓ should present the reset code table (screenshots)
 
   /administrator/reset-codes
     ResetCodes#BEFORE
       ✓ should bind reset codes to req
     ResetCodes#GET
-      ✓ should present the reset codes table
+      ✓ should present the reset codes table (screenshots)
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -618,7 +618,7 @@
       ✓ should present the form
       ✓ should present the account table
     ResetSessionKey#POST
-      ✓ should reset session key
+      ✓ should reset session key (screenshots)
 
   /administrator/revoke-administrator
     RevokeAdministrator#BEFORE
@@ -626,7 +626,7 @@
     RevokeAdministrator#GET
       ✓ should present the form
     RevokeAdministrator#POST
-      ✓ should revoke administrator status
+      ✓ should revoke administrator status (screenshots)
 
   /administrator/schedule-account-delete
     ScheduleAccountDelete#BEFORE
@@ -635,19 +635,19 @@
       ✓ should present the form
       ✓ should present the account table
     ScheduleAccountDelete#POST
-      ✓ should schedule account for deletion
+      ✓ should schedule account for deletion (screenshots)
 
   /administrator/session
     Session#BEFORE
       ✓ should bind session to req
     Session#GET
-      ✓ should present the session table
+      ✓ should present the session table (screenshots)
 
   /administrator/sessions
     Sessions#BEFORE
       ✓ should bind sessions to req
     Sessions#GET
-      ✓ should present the sessions table
+      ✓ should present the sessions table (screenshots)
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -659,7 +659,7 @@
       ✓ should present the form
       ✓ should present the account table
     TransferOwnership#POST
-      ✓ should change ownership
+      ✓ should change ownership (screenshots)
 
   /api/administrator/account-profiles-count
     exceptions
