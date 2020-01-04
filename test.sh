@@ -1,7 +1,16 @@
 if [ ! -d node_modules/puppeteer ]; then
   npm install puppeteer --no-save
 fi
-
+PARAMS="--recursive"
+if [ ! -z "$1" ]; then
+  PARAMS="$PARAMS -- $1"
+  if [ ! -z "$2" ]; then
+  PARAMS="$PARAMS $2"
+    if [ ! -z "$3" ]; then
+    PARAMS="$PARAMS $3"
+    fi
+  fi
+fi
 NODE_ENV=testing \
 FAST_START=true \
 DASHBOARD_SERVER="http://localhost:9007" \
@@ -12,4 +21,4 @@ ENCRYPTION_SECRET=12345678901234567890123456789012 \
 ENCRYPTION_SECRET_IV=1234123412341234 \
 GENERATE_SITEMAP_TXT=false \
 GENERATE_API_TXT=false \
-npm test --recursive
+npm test $PARAMS
