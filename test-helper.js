@@ -7,6 +7,7 @@ const dashboard = require('./index.js')
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
+const path = require('path')
 const querystring = require('querystring')
 const testData = require('./test-data.json')
 const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
@@ -134,9 +135,9 @@ function createRequest (rawURL) {
           let errorMessage
           try {
             const result = await proxy(verb, rawURL, req)
-            if (process.env.GENERATE_RESPONSE && req.saveResponse) {
-              let responseFilePath = req.filename.split('/src/www/api/user/').join('/api/user/')
-              responseFilePath = responseFilePath.split('/src/www/api/administrator/').join('/api/administrator/')
+            if (process.env.GENERATE_RESPONSE && process.env.RESPONSE_PATH && req.saveResponse) {
+              let responseFilePath = req.filename.substring(req.filename.indexOf('/src/www/') + '/src/www/'.length)
+              responseFilePath = path.join(process.env.RESPONSE_PATH, responseFilePath)
               createFolderSync(responseFilePath.substring(0, responseFilePath.lastIndexOf('/')))
               fs.writeFileSync(responseFilePath + 'on', JSON.stringify(result, null, '  '))
             }
