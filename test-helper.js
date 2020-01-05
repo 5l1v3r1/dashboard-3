@@ -466,9 +466,8 @@ function deleteLocalData (currentPath) {
 }
 
 function createFolderSync (folderPath) {
-  const nested = folderPath.substring(global.applicationPath.length)
-  const nestedParts = nested.split('/')
-  let nestedPath = global.applicationPath
+  const nestedParts = folderPath.split('/')
+  let nestedPath = ''
   for (const part of nestedParts) {
     nestedPath += `/${part}`
     if (!fs.existsSync(nestedPath)) {
