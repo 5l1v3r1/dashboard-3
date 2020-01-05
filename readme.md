@@ -1,7 +1,7 @@
 # Dashboard
 ![StandardJS](https://github.com/userdashboard/dashboard/workflows/standardjs/badge.svg) ![Test suite](https://github.com/userdashboard/dashboard/workflows/test-user-ui/badge.svg) ![Test suite](https://github.com/userdashboard/dashboard/workflows/test-administrator-ui/badge.svg) ![Test suite](https://github.com/userdashboard/dashboard/workflows/test-user-api/badge.svg) ![Test suite](https://github.com/userdashboard/dashboard/workflows/test-administrator-api/badge.svg)
 
-When you want to write a web app you have to create authentication and account management and lots of other stuff each time.  Dashboard bundles everything a web app needs like signing in and changing passwords into a parallel web server so your web app only needs to serve your application.  
+When you want to write a web app you have to create authentication and account management and lots of other stuff each time.  Dashboard bundles everything a web app needs like signing in and changing passwords into a parallel web server so your web app has fewer responsibilities.
 
 After you set up your Dashboard server you have a complete user and administrator interface with all the basic user account maintenance functionality like registering and changing passwords provided by Dashboard.  
 
@@ -21,7 +21,7 @@ For help using or contributing to this software join the freenode IRC `#dashboar
 
 Dashboard has setup and usage documentation contained in `readme.md` files.  This is the Dashboard readme.md.
 
-Dashboard has API documentation for [developers](https://userdashboard.github.io/api).
+Dashboard has API documentation for [developers](https://userdashboard.github.io/api).  The online documentation includes sample response objects.
 
 Dashboard has UI documentation for [users](https://userdashboard.github.io/account) demonstrating how to perform account-related tasks like changing passwords or cancelling subscriptions.
 
@@ -29,9 +29,9 @@ Dashboard has UI documentation for [administrators](https://userdashboard.github
 
 Dashboard has run-time documentation generated when the server starts:
 
-- `api.txt` documenting each API endpoint, what exceptions it throws and what parameters it can receive.  The online documentation includes response objects.
+- `api.txt` documents each API endpoint in your server
 
-- `sitemap.txt` documenting all URLs and what files they resolve to, and other useful details about your server.
+- `sitemap.txt` documents all URLs in your server
 
 # Write your application server
 
