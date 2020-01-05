@@ -302,9 +302,9 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   }
   let filename
   if (title) {
-    filename = `${number}-${action}-${title}-${device.name}.png`.toLowerCase()
+    filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}.png`.toLowerCase()
   } else {
-    filename = `${number}-${action}-${device.name}.png`.toLowerCase()
+    filename = `${number}-${action}-${device.name.split(' ').join('-')}.png`.toLowerCase()
   }
   await page.emulate(device)
   await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
