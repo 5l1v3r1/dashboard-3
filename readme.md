@@ -19,13 +19,18 @@ For help using or contributing to this software join the freenode IRC `#dashboar
 
 ## Documentation
 
-Dashboard and modules all contain a `readme.md` that includes all the information you need to use, deploy and customize this software for your own purposes.
+Dashboard has setup and usage documentation contained in `readme.md` files.  This is the Dashboard readme.md.
 
-When your users or administrators have usage questions you can refer to the [online documentation](https://userdashboard.github.io/) which includes screenshot sequences demonstrating how to brows to and use every page.
+Dashboard has API documentation for [developers](https://userdashboard.github.io/api).
 
-Dashboard generates some useful information when you start the server too:
+Dashboard has UI documentation for [users](https://userdashboard.github.io/account) demonstrating how to perform account-related tasks like changing passwords or cancelling subscriptions.
 
-- `api.txt` documenting each API endpoint and how to use it.
+Dashboard has UI documentation for [administrators](https://userdashboard.github.io/administrators) demonstrating all the administrative functionality.
+
+Dashboard has run-time documentation generated when the server starts:
+
+- `api.txt` documenting each API endpoint, what exceptions it throws and what parameters it can receive.  The online documentation includes response objects.
+
 - `sitemap.txt` documenting all URLs and what files they resolve to, and other useful details about your server.
 
 # Write your application server
