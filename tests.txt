@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.93 test /root/workspaces/dashboard
+> @userdashboard/dashboard@1.0.94 test /root/workspaces/dashboard
 > mocha src --recursive --no-colors --timeout 600000 --slow 600000
 
 
@@ -340,6 +340,10 @@
     EndSession#POST
       ✓ should end the session (screenshots)
 
+  /account
+    Index#GET
+      ✓ should return page (screenshots)
+
   /account/profile
     Profile#BEFORE
       ✓ should bind profile to req
@@ -579,6 +583,10 @@
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
+
+  /administrator
+    Index#GET
+      ✓ should return page (screenshots)
 
   /administrator/profile
     Profile#BEFORE
@@ -1461,5 +1469,5 @@
       ✓ override req.userProfileFields
 
 
-  803 passing (11m)
+  805 passing (11m)
 
