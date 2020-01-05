@@ -9,25 +9,24 @@ Then you write your application server using your preferred language and have it
 
 Dashboard handles everything account related like signing in, changing passwords.  The Organizations module is a complete invitation-based membership system for your users.  The Stripe Connect module adds a complete custom integration ready for your users to receive payouts.  The Stripe Subscriptions module has an entire administrative interface for managing plans and subscriptions, and everything users needs to subscribe.  Browser-javascript is optional, except where Stripe requires.
 
-Environment configuration variables are documented in `start-dev.sh`.  You can view API documentation in `api.txt`, or in more detail on the [documentation site](https://userdashboard.github.io/).  Join the freenode IRC #dashboard chatroom for support - [Web IRC client](https://kiwiirc.com/nextclient/).
+## Support and contributions
 
-## Remaining work
+If you have encountered a problem post an issue on the appropriate [Github repository](https://github.com/userdashboard).  
 
-Localization supports specifying a single language for your application or allowing the user to select languages.  Pull requests are welcome if you would like to help translate the UI and to complete the UI for selecting a preferred language.  All of the translations in `/languages` for Dashboard and its modules are just copies of the default en-US content in `/src/www`.  
+If you would like to contribute check [Github Issues](https://github.com/userdashboard/dashboard) for ways you can help. 
 
-The administrative UI is very spartan and needs SVG visualizations of system and data metrics like registrations etc.  Some of this information could be integrated with the user account pages too, like visualizing sign in history.
+For help using or contributing to this software join the freenode IRC `#dashboard` chatroom - [Web IRC client](https://kiwiirc.com/nextclient/).
 
-There are lots of modules that could be created:
+## Documentation
 
-- module for multifactor authentication
-- module for request throttling
-- module for collecting/visualizing logs
+Dashboard and modules all contain a `readme.md` that includes all the information you need to use, deploy and customize this software for your own purposes.
 
-Interested in helping?  Join the freenode IRC #dashboard chatroom and to coordinate - [Web IRC client](https://kiwiirc.com/nextclient/).
+When your users or administrators have usage questions you can refer to the [online documentation](https://userdashboard.github.io/) which includes screenshot sequences demonstrating how to brows to and use every page.
 
-## Supporting your users
+Dashboard generates some useful information when you start the server too:
 
-Every page in Dashboard and official modules has a series of screenshots that demonstrate how to browse to the page and optionally what the page does.  If a user wants to change their password or cancel a subscription or submit a Connect registration, you can browse the screenshots on the [documentation site](https://userdashboard.github.io/).
+- `api.txt` documenting each API endpoint and how to use it.
+- `sitemap.txt` documenting all URLs and what files they resolve to, and other useful details about your server.
 
 # Write your application server
 
