@@ -1,5 +1,5 @@
 {
-  "version": "1.0.92",
+  "version": "1.0.93",
   "description": "Dashboard for building web apps and SaaS",
   "engines": {
     "node": "12.13.1",
