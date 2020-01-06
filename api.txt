@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.94
+@userdashboard/dashboard 1.0.95
 
 
 |

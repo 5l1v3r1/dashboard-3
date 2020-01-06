@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.94 test /root/workspaces/dashboard
+> @userdashboard/dashboard@1.0.95 test /root/workspaces/dashboard
 > mocha src --recursive --no-colors --timeout 600000 --slow 600000
 
 
