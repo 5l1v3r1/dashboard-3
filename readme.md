@@ -9,7 +9,7 @@ Then you write your application server using your preferred language and have it
 
 Users browse your dashboard server's address and it may serve its own content or proxy your application server.  Dashboard tells your server who the user is and you can access more information through APIs.  Your content can occupy the entire page or be served within a generic template with header, navigation bar and content sections.  You can make your own template too and serve CSS to style Dashboard's content.
 
-Dashboard is written in NodeJS and supports local file system, Redis, PostgreSQL and S3 for data storage.  Dashboard modules are distributed using NPM and their `src/www` folders get merged to add UI and API routes.  There is test coverage for all UI and API routes and all UI pages are documented with screenshots at multiple resolutions.
+Dashboard is written in NodeJS and supports local file system, Redis, PostgreSQL and S3 for data storage.  Dashboard modules are distributed using NPM and their `src/www` folders get merged to add UI and API routes.  There is test coverage for all UI and API routes and the UI is documented with screenshots at multiple resolutions.
 
 The Organizations module adds a complete invitation-based membership system for your users.  The Stripe Connect module adds a complete custom integration ready for your users to receive payouts.  The Stripe Subscriptions module adds everything you need to start a Subscription SaaS.
 
