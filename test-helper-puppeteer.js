@@ -224,7 +224,7 @@ async function fetch (method, req) {
           await wait(500)
         }
       } else if (step.fill) {
-        await fill(page, req.body, req.uploads)
+        await fill(page, step.body || req.body, req.uploads)
         await hover(page, '#submit-button')
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
