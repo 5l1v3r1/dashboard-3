@@ -7,9 +7,9 @@ After you set up a copy of Dashboard server you have a complete user and adminis
 
 Then you write your application server using your preferred language and have it serve your guest landing page on `/` and your application on `/home`, and any other URLs your application needs.
 
-Users browse your dashboard server's address and it may serve its own content or proxy your application server.  Dashboard tells your server who the user is and you can access more information through APIs.  Your content can occupy the entire page or be served within a generic template with header, navigation bar and content sections.  You can make your own template too and easily style Dashboard's content to match your application.
+Users browse your dashboard server's address and it may serve its own content or proxy your application server.  Dashboard tells your server who the user is and you can access more information through APIs.  Your content can occupy the entire page or be served within a generic template with header, navigation bar and content sections.  You can make your own template too and serve CSS to style Dashboard's content.
 
-Dashboard is written in NodeJS and supports local file system, Redis, PostgreSQL and S3 for data storage.  Dashboard is modular, modules are distributed using NPM and their `src/www` folders gets combined with Dashboards to add content and API routes.  
+Dashboard is written in NodeJS and supports local file system, Redis, PostgreSQL and S3 for data storage.  Dashboard is modular, modules are distributed using NPM and their `src/www` folders gets combined to add UI and API routes.  There is test coverage for all UI and API routes and all UI pages are documented with screenshots at multiple resolutions.
 
 The Organizations module adds a complete invitation-based membership system for your users.  The Stripe Connect module adds a complete custom integration ready for your users to receive payouts.  The Stripe Subscriptions module adds everything you need to start a Subscription SaaS.
 
