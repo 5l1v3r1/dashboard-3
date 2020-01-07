@@ -1,13 +1,17 @@
 # Dashboard
 ![StandardJS](https://github.com/userdashboard/dashboard/workflows/standardjs/badge.svg) ![Test suite](https://github.com/userdashboard/dashboard/workflows/test-user-ui/badge.svg) ![Test suite](https://github.com/userdashboard/dashboard/workflows/test-administrator-ui/badge.svg) ![Test suite](https://github.com/userdashboard/dashboard/workflows/test-user-api/badge.svg) ![Test suite](https://github.com/userdashboard/dashboard/workflows/test-administrator-api/badge.svg)
 
-When you want to write a web app you have to create authentication and account management and lots of other stuff each time.  Dashboard bundles everything a web app needs like signing in and changing passwords into a parallel web server so your web app has fewer responsibilities.
+When you want to write a web app you have to create authentication and account management and lots of other stuff each time.  Dashboard bundles all of this repeatative boilerplate into a parallel web server so your web app has fewer responsibilities.
 
-After you set up your Dashboard server you have a complete user and administrator interface with all the basic user account maintenance functionality like registering and changing passwords provided by Dashboard.  
+After you set up a copy of Dashboard server you have a complete user and administrator interface with all the basic user account maintenance functionality like registering and changing passwords provided by Dashboard.  
 
-Then you write your application server using your preferred language and have it serve your guest landing page on `/` and your application on `/home` much as you would without Dashboard. 
+Then you write your application server using your preferred language and have it serve your guest landing page on `/` and your application on `/home`, and any other URLs your application needs.
 
-Dashboard handles everything account related like signing in, changing passwords.  The Organizations module is a complete invitation-based membership system for your users.  The Stripe Connect module adds a complete custom integration ready for your users to receive payouts.  The Stripe Subscriptions module has an entire administrative interface for managing plans and subscriptions, and everything users needs to subscribe.  Browser-javascript is optional, except where Stripe requires.
+Users browse your dashboard server's address and it may serve its own content or proxy your application server.  Dashboard tells your server who the user is and you can access more information through APIs.  Your content can occupy the entire page or be served within a generic web application template with a header, navigation bar and content section.
+
+Dashboard is modular and you can install node modules that are modules for Dashboard.  The Organizations module adds a complete invitation-based membership system for your users.  The Stripe Connect module adds a complete custom integration ready for your users to receive payouts.  The Stripe Subscriptions module adds everything you need to start a Subscription SaaS.
+
+Dashboard is written in NodeJS and supports local file system, Redis, PostgreSQL and S3 for data storage.  The UI is tested at mobile and desktop resolutions.
 
 ## Support and contributions
 
