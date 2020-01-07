@@ -3,15 +3,15 @@
 
 When you want to write a web app you have to create authentication and account management and lots of other stuff each time.  Dashboard bundles all of this repeatative boilerplate into a parallel web server so your web app has fewer responsibilities.
 
-After you set up a copy of Dashboard server you have a complete user and administrator interface with all the basic user account maintenance functionality like registering and changing passwords provided by Dashboard.  
+After you set up a copy of Dashboard server you have a complete user and administrator interface with all the basic user functionality like registering and changing passwords provided by Dashboard.
 
 Then you write your application server using your preferred language and have it serve your guest landing page on `/` and your application on `/home`, and any other URLs your application needs.
 
-Users browse your dashboard server's address and it may serve its own content or proxy your application server.  Dashboard tells your server who the user is and you can access more information through APIs.  Your content can occupy the entire page or be served within a generic web application template with a header, navigation bar and content section.
+Users browse your dashboard server's address and it may serve its own content or proxy your application server.  Dashboard tells your server who the user is and you can access more information through APIs.  Your content can occupy the entire page or be served within a generic template with header, navigation bar and content sections.  You can make your own template too and easily style Dashboard's content to match your application.
 
-Dashboard is modular and you can install node modules that are modules for Dashboard.  The Organizations module adds a complete invitation-based membership system for your users.  The Stripe Connect module adds a complete custom integration ready for your users to receive payouts.  The Stripe Subscriptions module adds everything you need to start a Subscription SaaS.
+Dashboard is written in NodeJS and supports local file system, Redis, PostgreSQL and S3 for data storage.  Dashboard is modular, modules are distributed using NPM and their `src/www` folders gets combined with Dashboards to add content and API routes.  
 
-Dashboard is written in NodeJS and supports local file system, Redis, PostgreSQL and S3 for data storage.  The UI is tested at mobile and desktop resolutions.
+The Organizations module adds a complete invitation-based membership system for your users.  The Stripe Connect module adds a complete custom integration ready for your users to receive payouts.  The Stripe Subscriptions module adds everything you need to start a Subscription SaaS.
 
 ## Support and contributions
 
@@ -23,19 +23,15 @@ For help using or contributing to this software join the freenode IRC `#dashboar
 
 ## Documentation
 
-Dashboard has setup and usage documentation contained in `readme.md` files.  This is the Dashboard readme.md.
-
-Dashboard has API documentation for [developers](https://userdashboard.github.io/api).  The online documentation includes sample response objects.
-
-Dashboard has UI documentation for [users](https://userdashboard.github.io/account) demonstrating how to perform account-related tasks like changing passwords or cancelling subscriptions.
-
-Dashboard has UI documentation for [administrators](https://userdashboard.github.io/administrators) demonstrating all the administrative functionality.
+Dashboard and modules have setup and usage documentation contained in `readme.md` files.  This is the Dashboard readme.md.
 
 Dashboard has run-time documentation generated when the server starts:
 
-- `api.txt` documents each API endpoint in your server
+- `api.txt` provides a local copy of usage information for all of your API endpoints
 
-- `sitemap.txt` documents all URLs in your server
+- `sitemap.txt` contains your configuration, all URLs and where they have come from
+
+The `readme.md` files are published in the online documentation too.  Online [API documentation](https://userdashboard.github.io/dashboard-api) has more information than the `api.txt` files.  The UI documentation for [users](https://userdashboard.github.io/account) and [administrators](https://userdashboard.github.io/administrators) demonstrates how to browse to or use each page.
 
 # Write your application server
 
