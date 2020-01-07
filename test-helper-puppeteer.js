@@ -177,6 +177,11 @@ async function fetch (method, req) {
       if (process.env.DEBUG_PUPPETEER) {
         console.log('screenshot step', JSON.stringify(step))
       }
+      if (step.save) {
+        await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
+        screenshotNumber++
+        continue
+      }
       if (step.hover) {
         if (process.env.DEBUG_PUPPETEER) {
           console.log('hover menu')
