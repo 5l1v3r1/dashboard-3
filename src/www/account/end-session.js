@@ -11,6 +11,14 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.sessionid) {
     throw new Error('invalid-sessionid')
   }
+  if (req.query.message === 'success') {
+    req.data = { 
+      session: { 
+        sessionid: req.query.sessionid
+      }
+    }
+    return
+  }
   const session = await global.api.user.Session.get(req)
   session.createdFormatted = dashboard.Format.date(session.created)
   session.expiresFormatted = dashboard.Format.date(session.expires)
@@ -18,6 +26,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res, messageTemplate) {
+  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.route.html, req.data.session, 'session')
   await navbar.setup(doc, req.data.session)
   if (messageTemplate) {
@@ -34,12 +43,21 @@ async function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    req.query = req.query || {}
-    req.query.sessionid = req.session.sessionid
     await global.api.user.SetSessionEnded.patch(req)
-    req.data.session.ended = true
-    return renderPage(req, res, 'success')
   } catch (error) {
     return renderPage(req, res, 'unknown-error')
+  }
+  if (req.query.sessionid === req.session.sessionid) {
+    req.query = {}
+    req.urlPath = req.url = '/home'
+    return dashboard.Response.redirectToSignIn(req, res)
+  } 
+  if (req.query['return-url']) {
+    return dashboard.Response.redirect(req, res, req.query['return-url'])
+  } else {
+    res.writeHead(302, {
+      'location': `${req.urlPath}?sessionid=${req.query.sessionid}&message=success`
+    })
+    return res.end() 
   }
 }

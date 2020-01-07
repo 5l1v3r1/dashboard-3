@@ -6,13 +6,7 @@ module.exports = {
 }
 
 function renderPage (req, res, messageTemplate) {
-  if (req.success) {
-    req.url = req.urlPath = '/home'
-    req.query = {}
-    return dashboard.Response.redirectToSignIn(req, res)
-  } else if (req.error) {
-    messageTemplate = req.error
-  }
+  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.route.html)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
@@ -25,13 +19,10 @@ async function submitForm (req, res) {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid
     await global.api.user.ResetSessionKey.patch(req)
-    if (req.success) {
-      req.query = {}
-      req.url = req.urlPath = '/home'
-      return dashboard.Response.redirectToSignIn(req, res)
-    }
-    return renderPage(req, res, 'unknown-error')
   } catch (error) {
     return renderPage(req, res, error.message)
   }
+  req.query = {}
+  req.url = req.urlPath = '/home'
+  return dashboard.Response.redirectToSignIn(req, res)
 }

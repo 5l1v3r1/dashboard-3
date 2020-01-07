@@ -6,14 +6,7 @@ module.exports = {
 }
 
 async function renderPage (req, res, messageTemplate) {
-  if (req.success) {
-    if (req.query && req.query['return-url']) {
-      return dashboard.Response.redirect(req, res, decodeURI(req.query['return-url']))
-    }
-    return dashboard.Response.redirect(req, res, '/account/delete-account-complete')
-  } else if (req.error) {
-    messageTemplate = req.error
-  }
+  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.account.ownerid) {
     req.error = true
@@ -49,11 +42,12 @@ async function submitForm (req, res) {
     req.query = req.query || {}
     req.query.accountid = req.account.accountid
     await global.api.user.SetAccountDeleted.patch(req)
-    if (req.success) {
-      return renderPage(req, res)
-    }
-    return renderPage(req, res, 'unknown-error')
   } catch (error) {
     return renderPage(req, res, error.message)
+  }
+  if (req.query['return-url']) {
+    return dashboard.Response.redirect(req, res, req.query['return-url'])
+  } else {
+    return dashboard.Response.redirect(req, res, '/account/delete-account-complete')
   }
 }

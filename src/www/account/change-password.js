@@ -6,14 +6,7 @@ module.exports = {
 }
 
 function renderPage (req, res, messageTemplate) {
-  if (req.success) {
-    if (req.query && req.query['return-url']) {
-      return dashboard.Response.redirect(req, res, req.query['return-url'])
-    }
-    messageTemplate = 'success'
-  } else if (req.error) {
-    messageTemplate = req.error
-  }
+  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.route.html)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
@@ -39,15 +32,19 @@ async function submitForm (req, res) {
   if (!req.body.password || !req.body.password.length) {
     return renderPage(req, res, 'invalid-password')
   }
+  req.query = req.query || {}
+  req.query.accountid = req.account.accountid
   try {
-    req.query = req.query || {}
-    req.query.accountid = req.account.accountid
-    await global.api.user.SetAccountPassword.patch(req)
-    if (req.success) {
-      return renderPage(req, res, 'success')
-    }
-    return renderPage(req, res, 'unknown-error')
+    await global.api.user.SetAccountPassword.patch(req)    
   } catch (error) {
     return renderPage(req, res, error.message)
+  }
+  if (req.query['return-url']) {
+    return dashboard.Response.redirect(req, res, req.query['return-url'])
+  } else {
+    res.writeHead(302, {
+      'location': `${req.urlPath}?message=success`
+    })
+    return res.end() 
   }
 }

@@ -11,6 +11,14 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.profileid) {
     throw new Error('invalid-profileid')
   }
+  if (req.query.message === 'success') {
+    req.data = {
+      profile: { 
+        profileid: req.query.profileid
+      }
+    }
+    return
+  }
   const profile = await global.api.user.Profile.get(req)
   if (!profile) {
     throw new Error('invalid-profileid')
@@ -24,15 +32,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res, messageTemplate) {
-  if (req.success) {
-    if (req.query && req.query['return-url']) {
-      return dashboard.Response.redirect(req, res, decodeURI(req.query['return-url']))
-    }
-    messageTemplate = 'success'
-    return dashboard.Response.redirect(req, res, '/account/profiles')
-  } else if (req.error) {
-    messageTemplate = req.error
-  }
+  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.route.html, req.data.profile, 'profile')
   await navbar.setup(doc, req.data.profile)
   if (messageTemplate) {
@@ -48,11 +48,15 @@ async function renderPage (req, res, messageTemplate) {
 async function submitForm (req, res) {
   try {
     await global.api.user.DeleteProfile.delete(req)
-    if (req.success) {
-      return renderPage(req, res, 'success')
-    }
-    return renderPage(req, res, 'unknown-error')
   } catch (error) {
     return renderPage(req, res, error.message)
+  }
+  if (req.query['return-url']) {
+    return dashboard.Response.redirect(req, res, req.query['return-url'])
+  } else {
+    res.writeHead(302, {
+      'location': `${req.urlPath}?profileid=${req.query.profileid}&message=success`
+    })
+    return res.end() 
   }
 }

@@ -6,14 +6,7 @@ module.exports = {
 }
 
 function renderPage (req, res, messageTemplate) {
-  if (req.success) {
-    if (req.query && req.query['return-url']) {
-      return dashboard.Response.redirect(req, res, decodeURI(req.query['return-url']))
-    }
-    messageTemplate = 'success'
-  } else if (req.error) {
-    messageTemplate = req.error
-  }
+  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.route.html)
   const removeFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
   const profileFields = req.userProfileFields || global.userProfileFields
@@ -116,15 +109,18 @@ async function submitForm (req, res) {
         continue
     }
   }
+  req.query = req.query || {}
+  req.query.accountid = req.account.accountid
   try {
-    req.query = req.query || {}
-    req.query.accountid = req.account.accountid
     await global.api.user.CreateProfile.post(req)
-    if (req.success) {
-      return renderPage(req, res, 'success')
-    }
-    return renderPage(req, res, 'unknown-error')
   } catch (error) {
     return renderPage(req, res, error.message)
   }
+  if (req.query['return-url']) {
+    return dashboard.Response.redirect(req, res, req.query['return-url'])
+  }
+  res.writeHead(302, {
+    'location': `${req.urlPath}?message=success`
+  })
+  return res.end() 
 }

@@ -42,7 +42,9 @@ describe('/account/end-session', () => {
   describe('EndSession#POST', () => {
     it('should end the session (screenshots)', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
+      const firstSession = user.session
+      await TestHelper.createSession(user)
+      const req = TestHelper.createRequest(`/account/end-session?sessionid=${firstSession.sessionid}`)
       req.account = user.account
       req.session = user.session
       req.filename = __filename
@@ -50,8 +52,8 @@ describe('/account/end-session', () => {
         { hover: '#account-menu-container' },
         { click: '/account' },
         { click: '/account/sessions' },
-        { click: `/account/session?sessionid=${user.session.sessionid}` },
-        { click: `/account/end-session?sessionid=${user.session.sessionid}` },
+        { click: `/account/session?sessionid=${firstSession.sessionid}` },
+        { click: `/account/end-session?sessionid=${firstSession.sessionid}` },
         { fill: '#submit-form' }
       ]
       const page = await req.post()
@@ -59,6 +61,16 @@ describe('/account/end-session', () => {
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')
+    })
+
+    it('should end current session', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
+      req.account = user.account
+      req.session = user.session
+      const page = await req.post()
+      const redirectURL = TestHelper.extractRedirectURL(page)
+      assert.strictEqual(redirectURL, '/account/signin?return-url=/home')
     })
   })
 })
