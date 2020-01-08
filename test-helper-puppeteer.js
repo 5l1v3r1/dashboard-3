@@ -324,16 +324,14 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   let title
   if (identifier === '#submit-form') {
     title = 'form'
-  } else if (identifier) {
+  } else if (identifier === '#submit-button') {
     const element = await getElement(page, identifier)
     title = await getText(page, element)
     if (action === 'click' && title.indexOf('_') > -1) {
       title = title.substring(0, title.indexOf('_'))
-    } else {
-      const element = await getElement(page, identifier)
-      title = await getText(page, element)
-      title = title.split(' ').join('-').toLowerCase()
     }
+  } else {
+    title = 'form'
   }
   let filename
   if (title) {
