@@ -26,20 +26,6 @@ describe('/account/reset-account', () => {
       assert.strictEqual(message.attr.template, 'invalid-username')
     })
 
-    it('should enforce username length', async () => {
-      const req = TestHelper.createRequest('/account/reset-account')
-      req.body = {
-        username: '1',
-        'new-password': 'new-password',
-        'confirm-password': 'new-password',
-        'secret-code': 'reset-code'
-      }
-      global.minimumUsernameLength = 100
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-username-length')
-    })
-
     it('should reject missing reset code', async () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
@@ -176,16 +162,17 @@ describe('/account/reset-account', () => {
         'confirm-password': 'my-new-password',
         'secret-code': user.resetCode.code
       }
+      req.waitOnSubmit = true
       req.filename = __filename
       req.screenshots = [
+        { index: true },
         { click: '/account/signin' },
         { click: '/account/reset-account' },
         { fill: '#submit-form' }
       ]
       const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
-      const redirectURL = TestHelper.extractRedirectURL(doc)
-      assert.strictEqual(redirectURL, '/home')
+      const accountMenu = page.getElementById('account-menu-container')
+      assert.strictEqual(accountMenu.tag, 'div')
     })
   })
 })
