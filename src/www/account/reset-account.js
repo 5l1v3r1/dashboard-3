@@ -26,9 +26,6 @@ async function submitForm (req, res) {
   if (!req.body.username || !req.body.username.length) {
     return renderPage(req, res, 'invalid-username')
   }
-  if (global.minimumUsernameLength > req.body.username.length) {
-    return renderPage(req, res, 'invalid-username-length')
-  }
   if (!req.body['new-password'] || !req.body['new-password'].length) {
     return renderPage(req, res, 'invalid-new-password')
   }
