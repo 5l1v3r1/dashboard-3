@@ -162,23 +162,16 @@ async function fetch (method, req) {
     }
     await page.waitForSelector('body')
     let screenshotNumber = 1
-    let device
-    for (const deviceInfo of devices) {
-      if (deviceInfo.name === process.env.DEVICE_NAME) {
-        device = deviceInfo
-      }
-    }
-    device = device || devices[0]
-    if (process.env.DEBUG_PUPPETEER) {
-      console.log('screenshot device', JSON.stringify(device))
-    }
     let lastStep
     for (const step of req.screenshots) {
       if (process.env.DEBUG_PUPPETEER) {
         console.log('screenshot step', JSON.stringify(step))
       }
       if (step.save) {
-        await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
+        for (const device of devices) {
+          await emulate(page, device, req)
+          await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
+        }
         screenshotNumber++
         continue
       }
@@ -186,37 +179,43 @@ async function fetch (method, req) {
         if (process.env.DEBUG_PUPPETEER) {
           console.log('hover menu')
         }
-        await hover(page, step.hover)
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
-          screenshotNumber++
+        for (const device of devices) {
+          await emulate(page, device, req)
+          await hover(page, step.hover)
+          if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+            await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
+          }
         }
+        screenshotNumber++
       } else if (step.click) {
-        if (lastStep && lastStep.hover === '#account-menu-container') {
-          if (process.env.DEBUG_PUPPETEER) {
-            console.log('hover account menu to click link')
+        for (const device of devices) {
+          await emulate(page, device, req)
+          if (lastStep && lastStep.hover === '#account-menu-container') {
+            if (process.env.DEBUG_PUPPETEER) {
+              console.log('hover account menu to click link')
+            }
+            await hover(page, '#account-menu-container')
+            await wait(10)
+          } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
+            if (process.env.DEBUG_PUPPETEER) {
+              console.log('hover administrator menu to click link')
+            }
+            await hover(page, '#administrator-menu-container')
+            await wait(10)
           }
-          await hover(page, '#account-menu-container')
-          await wait(10)
-        } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
           if (process.env.DEBUG_PUPPETEER) {
-            console.log('hover administrator menu to click link')
+            console.log('hovering click target')
           }
-          await hover(page, '#administrator-menu-container')
-          await wait(10)
+          await hover(page, step.click)
+          if (process.env.DEBUG_PUPPETEER) {
+            console.log('focusing click target')
+          }
+          await focus(page, step.click)
+          if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+            await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
+          }
         }
-        if (process.env.DEBUG_PUPPETEER) {
-          console.log('hovering click target')
-        }        
-        await hover(page, step.click)
-        if (process.env.DEBUG_PUPPETEER) {
-          console.log('focusing click target')
-        }
-        await focus(page, step.click)
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
-          screenshotNumber++
-        }
+        screenshotNumber++
         await click(page, step.click)
         if (req.waitOnSubmit) {
           // TODO: detect when to proceed
@@ -229,12 +228,15 @@ async function fetch (method, req) {
           await wait(500)
         }
       } else if (step.fill) {
-        await fill(page, step.body || req.body, req.uploads)
-        await hover(page, '#submit-button')
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
-          screenshotNumber++
+        for (const device of devices) {
+          await emulate(page, device, req)
+          await fill(page, step.body || req.body, req.uploads)
+          await hover(page, '#submit-button')
+          if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+            await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
+          }
         }
+        screenshotNumber++
         await click(page, req.button || '#submit-button')
         if (req.waitOnSubmit) {
           await wait(10000)
@@ -244,9 +246,13 @@ async function fetch (method, req) {
       }
       lastStep = step
     }
-    if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-      await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
+    for (const device of devices) {
+      await emulate(page, device, req)
+      if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+        await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
+      }
     }
+    screenshotNumber++
   } else {
     await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
     await page.waitForSelector('body')
@@ -281,6 +287,22 @@ async function fetch (method, req) {
   return html
 }
 
+async function emulate (page, device, req) {
+  await page.emulate(device)
+  await page.setCookie({
+    value: req.session.sessionid,
+    domain: global.domain,
+    expires: Date.now() / 1000 + 10,
+    name: 'sessionid'
+  })
+  await page.setCookie({
+    value: req.session.token,
+    domain: global.domain,
+    expires: Date.now() / 1000 + 10,
+    name: 'token'
+  })
+}
+
 async function saveScreenshot (device, page, number, action, identifier, scriptName) {
   if (process.env.DEBUG_PUPPETEER) {
     console.log('taking screenshot', number, action, identifier, scriptName)
@@ -311,7 +333,6 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   } else {
     filename = `${number}-${action}-${device.name.split(' ').join('-')}.png`.toLowerCase()
   }
-  await page.emulate(device)
   await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
 }
 
