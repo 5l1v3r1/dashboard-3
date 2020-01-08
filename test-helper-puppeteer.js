@@ -241,6 +241,7 @@ async function fetch (method, req) {
           await fill(page, step.fill, step.body || req.body, req.uploads)
         }
         screenshotNumber++
+        await focus(page, req.button || '#submit-button')
         await click(page, req.button || '#submit-button')
         if (req.waitOnSubmit) {
           await wait(10000)
@@ -457,8 +458,7 @@ async function fill (page, fieldContainer, body, uploads) {
     }
     await focusElement(element)
     if (tagName === 'TEXTAREA') {
-      await evaluate(formFields, el => { el.value = '' }, element)
-      await typeInElement(element, body[field])
+      await evaluate(formFields, (el, value) => { el.innerHTML = value }, element, body[field])
     } else if (tagName === 'SELECT') {
       await selectOption(element, body[field])
     } else if (tagName === 'INPUT') {
