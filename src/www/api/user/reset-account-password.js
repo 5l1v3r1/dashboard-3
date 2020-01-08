@@ -67,7 +67,6 @@ module.exports = {
     await dashboard.StorageList.remove(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.remove(`${req.appid}/account/resetCodes/${accountid}`, codeid)
     await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${accountid}/${secretCodeHash}`)
-    req.success = true
-    return true
+        return true
   }
 }

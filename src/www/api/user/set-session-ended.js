@@ -16,7 +16,6 @@ module.exports = {
       throw new Error('invalid-account')
     }
     await dashboard.StorageObject.setProperty(`${req.appid}/session/${req.query.sessionid}`, 'ended', dashboard.Timestamp.now)
-    req.success = true
-    return global.api.user.Session.get(req)
+        return global.api.user.Session.get(req)
   }
 }

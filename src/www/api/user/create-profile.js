@@ -101,7 +101,6 @@ module.exports = {
       accountProperties.profileid = profileid
       await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, accountProperties)
     }
-    req.success = true
-    return profileInfo
+        return profileInfo
   }
 }

@@ -35,8 +35,7 @@ module.exports = {
     await dashboard.StorageList.add(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.add(`${req.appid}/account/resetCodes/${req.query.accountid}`, codeid)
     await dashboard.Storage.write(`${req.appid}/map/account/resetCodes/${req.query.accountid}/${secretCodeHash}`, codeid)
-    req.success = true
-    req.query.codeid = codeid
+        req.query.codeid = codeid
     return global.api.administrator.ResetCode.get(req)
   }
 }

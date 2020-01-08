@@ -15,8 +15,7 @@ module.exports = {
     await dashboard.StorageList.remove(`${req.appid}/resetCodes`, req.query.codeid)
     await dashboard.StorageList.remove(`${req.appid}/account/resetCodes/${req.account.accountid}`, req.query.codeid)
     await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${req.account.accountid}/${secretCodeHash}`)
-    req.success = true
-    req.query.accountid = req.account.accountid
+        req.query.accountid = req.account.accountid
     return true
   }
 }

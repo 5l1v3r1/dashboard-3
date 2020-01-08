@@ -15,7 +15,6 @@ module.exports = {
     const delay = global.deleteDelay < 1 ? 0 : global.deleteDelay * 24 * 60 * 60
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'deleted', dashboard.Timestamp.now + delay - 1)
     await dashboard.StorageList.add(`${req.appid}/deleted/accounts`, req.query.accountid)
-    req.success = true
-    return global.api.administrator.Account.get(req)
+        return global.api.administrator.Account.get(req)
   }
 }

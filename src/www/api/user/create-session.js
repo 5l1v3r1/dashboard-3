@@ -74,7 +74,6 @@ module.exports = {
     await dashboard.StorageList.add(`${req.appid}/account/sessions/${accountid}`, sessionid)
     req.session = sessionInfo
     req.session.token = sessionToken
-    req.success = true
-    return req.session
+        return req.session
   }
 }

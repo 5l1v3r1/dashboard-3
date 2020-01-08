@@ -119,7 +119,6 @@ module.exports = {
         accountInfo[x] = accountInfo[x] || profile[x]
       }
     }
-    req.success = true
-    return accountInfo
+        return accountInfo
   }
 }
