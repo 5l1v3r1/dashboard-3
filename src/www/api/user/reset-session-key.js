@@ -12,6 +12,6 @@ module.exports = {
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'sessionKey', dashboard.UUID.random(64))
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'sessionKeyLastReset', dashboard.Timestamp.now)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'sessionKeyNumber', req.account.sessionKeyNumber + 1)
-        return true
+    return true
   }
 }

@@ -13,7 +13,7 @@ async function beforeRequest (req) {
   }
   if (req.query.message === 'success') {
     req.data = {
-      profile: { 
+      profile: {
         profileid: req.query.profileid
       }
     }
@@ -55,8 +55,8 @@ async function submitForm (req, res) {
     return dashboard.Response.redirect(req, res, req.query['return-url'])
   } else {
     res.writeHead(302, {
-      'location': `${req.urlPath}?profileid=${req.query.profileid}&message=success`
+      location: `${req.urlPath}?profileid=${req.query.profileid}&message=success`
     })
-    return res.end() 
+    return res.end()
   }
 }

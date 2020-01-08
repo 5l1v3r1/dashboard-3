@@ -25,6 +25,6 @@ module.exports = {
     req.account.deleted = dashboard.Timestamp.now + delay - 1
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'deleted', req.account.deleted)
     await dashboard.StorageList.add(`${req.appid}/deleted/accounts`, req.query.accountid)
-        return req.account
+    return req.account
   }
 }

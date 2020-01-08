@@ -119,6 +119,6 @@ module.exports = {
         accountInfo[x] = accountInfo[x] || profile[x]
       }
     }
-        return accountInfo
+    return accountInfo
   }
 }

@@ -204,7 +204,7 @@ function nextIdentity () {
     usedIdentities = []
   }
   testDataIndex = Math.floor(Math.random() * testData.length)
-  while (usedIdentities.indexOf(testDataIndex) > -1) {  
+  while (usedIdentities.indexOf(testDataIndex) > -1) {
     testDataIndex = Math.floor(Math.random() * testData.length)
   }
   usedIdentities.push(testDataIndex)

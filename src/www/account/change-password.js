@@ -35,7 +35,7 @@ async function submitForm (req, res) {
   req.query = req.query || {}
   req.query.accountid = req.account.accountid
   try {
-    await global.api.user.SetAccountPassword.patch(req)    
+    await global.api.user.SetAccountPassword.patch(req)
   } catch (error) {
     return renderPage(req, res, error.message)
   }
@@ -43,8 +43,8 @@ async function submitForm (req, res) {
     return dashboard.Response.redirect(req, res, req.query['return-url'])
   } else {
     res.writeHead(302, {
-      'location': `${req.urlPath}?message=success`
+      location: `${req.urlPath}?message=success`
     })
-    return res.end() 
+    return res.end()
   }
 }

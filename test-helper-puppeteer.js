@@ -15,20 +15,20 @@ const wait = util.promisify(function (amount, callback) {
 const allDevices = require('puppeteer/DeviceDescriptors')
 const devices = [{
   name: 'Desktop',
-    userAgent: 'Desktop browser',
-    viewport: {
-      width: 1920,
-      height: 1080,
-      deviceScaleFactor: 1,
-      isMobile: false,
-      hasTouch: false,
-      isLandscape: false
-    }
-  },
-  allDevices['iPad Pro'],
-  allDevices['iPad Mini'],
-  allDevices['Pixel 2 XL'],
-  allDevices['iPhone SE']
+  userAgent: 'Desktop browser',
+  viewport: {
+    width: 1920,
+    height: 1080,
+    deviceScaleFactor: 1,
+    isMobile: false,
+    hasTouch: false,
+    isLandscape: false
+  }
+},
+allDevices['iPad Pro'],
+allDevices['iPad Mini'],
+allDevices['Pixel 2 XL'],
+allDevices['iPhone SE']
 ]
 
 module.exports = {

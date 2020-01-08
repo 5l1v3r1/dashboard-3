@@ -12,8 +12,8 @@ async function beforeRequest (req) {
     throw new Error('invalid-sessionid')
   }
   if (req.query.message === 'success') {
-    req.data = { 
-      session: { 
+    req.data = {
+      session: {
         sessionid: req.query.sessionid
       }
     }
@@ -51,13 +51,13 @@ async function submitForm (req, res) {
     req.query = {}
     req.urlPath = req.url = '/home'
     return dashboard.Response.redirectToSignIn(req, res)
-  } 
+  }
   if (req.query['return-url']) {
     return dashboard.Response.redirect(req, res, req.query['return-url'])
   } else {
     res.writeHead(302, {
-      'location': `${req.urlPath}?sessionid=${req.query.sessionid}&message=success`
+      location: `${req.urlPath}?sessionid=${req.query.sessionid}&message=success`
     })
-    return res.end() 
+    return res.end()
   }
 }

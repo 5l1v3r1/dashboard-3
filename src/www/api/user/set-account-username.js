@@ -37,6 +37,6 @@ module.exports = {
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'usernameHash', usernameHash)
     req.account.usernameLastChanged = dashboard.Timestamp.now
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'usernameLastChanged', dashboard.Timestamp.now)
-        return req.account
+    return req.account
   }
 }

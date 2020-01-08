@@ -21,6 +21,6 @@ module.exports = {
       sessionKeyLastReset: dashboard.Timestamp.now,
       sessionKeyNumber: account.sessionKeyNumber + 1
     })
-        return global.api.administrator.Account.get(req)
+    return global.api.administrator.Account.get(req)
   }
 }

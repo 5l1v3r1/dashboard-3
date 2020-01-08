@@ -17,6 +17,6 @@ module.exports = {
     if (account.deleted) {
       await dashboard.StorageList.remove(`${req.appid}/deleted/accounts`, req.query.accountid)
     }
-        return true
+    return true
   }
 }

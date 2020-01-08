@@ -51,7 +51,7 @@ module.exports = {
     }
     await dashboard.StorageObject.removeProperty(`${req.appid}/account/${account.accountid}`, 'deleted')
     await dashboard.StorageList.remove(`${req.appid}/deleted/accounts`, account.accountid)
-        req.account = account
+    req.account = account
     const accountNow = await global.api.user.Account.get(req)
     req.query = query
     return accountNow

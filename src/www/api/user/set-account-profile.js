@@ -49,6 +49,6 @@ module.exports = {
       }
     }
     await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, accountProperties)
-        return global.api.user.Account.get(req)
+    return global.api.user.Account.get(req)
   }
 }

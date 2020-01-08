@@ -16,6 +16,6 @@ module.exports = {
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.account.accountid}`, 'profileLastDeleted', dashboard.Timestamp.now)
     await dashboard.StorageList.remove(`${req.appid}/profiles`, req.query.profileid)
     await dashboard.StorageList.remove(`${req.appid}/account/profiles/${req.account.accountid}`, req.query.profileid)
-        return true
+    return true
   }
 }

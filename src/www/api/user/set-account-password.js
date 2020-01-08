@@ -31,6 +31,6 @@ module.exports = {
     const newPasswordHash = await dashboard.Hash.randomSaltHash(req.body['new-password'], dashboardEncryptionKey)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash', newPasswordHash)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordLastChanged', dashboard.Timestamp.now)
-        return global.api.user.Account.get(req)
+    return global.api.user.Account.get(req)
   }
 }

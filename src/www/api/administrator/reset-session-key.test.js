@@ -77,7 +77,7 @@ describe('/api/administrator/reset-session-key', () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/reset-session-key?accountid=${user.account.accountid}`)
       req.account = administrator.account
-      req.session = administrator.session      
+      req.session = administrator.session
       req.filename = __filename
       req.saveResponse = true
       const accountNow = await req.patch()

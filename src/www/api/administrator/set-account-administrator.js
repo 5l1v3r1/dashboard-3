@@ -19,6 +19,6 @@ module.exports = {
     }
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'administrator', dashboard.Timestamp.now)
     await dashboard.StorageList.add(`${req.appid}/administrator/accounts`, req.query.accountid)
-        return global.api.administrator.Account.get(req)
+    return global.api.administrator.Account.get(req)
   }
 }

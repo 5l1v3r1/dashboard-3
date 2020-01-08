@@ -12,7 +12,7 @@ async function beforeRequest (req) {
   }
   if (req.query.message === 'success') {
     req.data = {
-      resetCode: { 
+      resetCode: {
         codeid: req.query.codeid
       }
     }
@@ -49,8 +49,8 @@ async function submitForm (req, res) {
     return dashboard.Response.redirect(req, res, req.query['return-url'])
   } else {
     res.writeHead(302, {
-      'location': `${req.urlPath}?codeid=${req.query.codeid}&message=success`
+      location: `${req.urlPath}?codeid=${req.query.codeid}&message=success`
     })
-    return res.end() 
+    return res.end()
   }
 }

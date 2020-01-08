@@ -26,6 +26,6 @@ module.exports = {
     })
     await dashboard.StorageObject.removeProperty(`${req.appid}/account/${req.account.accountid}`, 'owner')
     await dashboard.StorageList.add(`${req.appid}/administrator/accounts`, req.query.accountid)
-        return global.api.administrator.Account.get(req)
+    return global.api.administrator.Account.get(req)
   }
 }

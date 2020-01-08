@@ -22,7 +22,7 @@ module.exports = {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
       bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
-    const secretCodeHash = await dashboard.Hash.fixedSaltHash(req.body['secret-code'], bcryptFixedSalt, dashboardEncryptionKey)    
+    const secretCodeHash = await dashboard.Hash.fixedSaltHash(req.body['secret-code'], bcryptFixedSalt, dashboardEncryptionKey)
     const codeid = `code_${await dashboard.UUID.generateID()}`
     const resetCodeInfo = {
       object: 'resetCode',
@@ -36,6 +36,6 @@ module.exports = {
     await dashboard.StorageList.add(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.add(`${req.appid}/account/resetCodes/${req.query.accountid}`, codeid)
     await dashboard.Storage.write(`${req.appid}/map/account/resetCodes/${req.query.accountid}/${secretCodeHash}`, codeid)
-        return resetCodeInfo
+    return resetCodeInfo
   }
 }

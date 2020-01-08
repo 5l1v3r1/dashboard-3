@@ -36,6 +36,7 @@ module.exports = {
     const query = req.query
     req.query = { accountid }
     const account = await global.api.administrator.Account.get(req)
+    req.query = query
     if (!account) {
       throw new Error('invalid-username')
     }
@@ -67,6 +68,6 @@ module.exports = {
     await dashboard.StorageList.remove(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.remove(`${req.appid}/account/resetCodes/${accountid}`, codeid)
     await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${accountid}/${secretCodeHash}`)
-        return true
+    return true
   }
 }

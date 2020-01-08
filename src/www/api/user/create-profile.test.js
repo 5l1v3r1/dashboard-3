@@ -575,7 +575,7 @@ describe('/api/user/create-profile', () => {
       global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       req.filename = __filename
       req.saveResponse = true
-      req.body =  {
+      req.body = {
         'first-name': 'Test',
         'last-name': 'Person',
         'contact-email': 'test1@test.com',

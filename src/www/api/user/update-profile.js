@@ -92,7 +92,7 @@ module.exports = {
     if (req.query.profileid === req.account.profileid || req.body.default === 'true') {
       await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.account.accountid}`, accountProperties)
     }
-        for (const field in profileInfo) {
+    for (const field in profileInfo) {
       profile[field] = profileInfo[field]
     }
     return profile

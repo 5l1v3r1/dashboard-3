@@ -45,6 +45,6 @@ module.exports = {
     }
     await dashboard.StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, 'lastVerified', dashboard.Timestamp.now)
     req.session.lastVerified = dashboard.Timestamp.now
-        return req.session
+    return req.session
   }
 }
