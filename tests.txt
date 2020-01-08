@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.97 test /root/workspaces/dashboard
+> @userdashboard/dashboard@1.0.98 test /root/workspaces/dashboard
 > mocha src --recursive --no-colors --timeout 600000 --slow 600000
 
 
@@ -395,7 +395,6 @@
       ✓ should present the form
     ResetAccount#POST
       ✓ should reject missing username
-      ✓ should enforce username length
       ✓ should reject missing reset code
       ✓ should enforce reset code length
       ✓ should reject missing password
@@ -1470,5 +1469,5 @@
       ✓ override req.userProfileFields
 
 
-  806 passing (11m)
+  805 passing (11m)
 
