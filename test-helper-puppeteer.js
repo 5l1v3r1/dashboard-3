@@ -233,12 +233,12 @@ async function fetch (method, req) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device, req)
-            await fill(page, step.body || req.body, req.uploads)
+            await fill(page, step.fill, step.body || req.body, req.uploads)
             await hover(page, '#submit-button')
             await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
           }
         } else {
-          await fill(page, step.body || req.body, req.uploads)
+          await fill(page, step.fill, step.body || req.body, req.uploads)
         }
         screenshotNumber++
         await click(page, req.button || '#submit-button')
@@ -261,7 +261,7 @@ async function fetch (method, req) {
     await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
     await page.waitForSelector('body')
     if (method === 'POST') {
-      await fill(page, req.body, req.uploads)
+      await fill(page, step.fill, req.body, req.uploads)
       await click(page, req.button || '#submit-button')
       if (req.waitOnSubmit) {
         await wait(10000)
@@ -395,18 +395,18 @@ async function getText (page, element) {
   }, element)
 }
 
-async function fill (page, body, uploads) {
+async function fill (page, fieldContainer, body, uploads) {
   if (!body && !uploads) {
     return
   }
   const frame = await getOptionalApplicationFrame(page)
-  let submitForm = await getElement(page, '#submit-form')
-  if (!submitForm) {
-    submitForm = await getElement(frame, '#submit-form')
+  let formFields = await getElement(page, fieldContainer || '#submit-form')
+  if (!formFields) {
+    formFields = await getElement(frame, fieldContainer || '#submit-form')
   }
   if (uploads) {
     for (const field in uploads) {
-      const element = await getElement(submitForm, `#${field}`)
+      const element = await getElement(formFields, `#${field}`)
       if (element) {
         await uploadFile(element, uploads[field].path)
       }
@@ -417,64 +417,64 @@ async function fill (page, body, uploads) {
     return
   }
   for (const field in body) {
-    const element = await getElement(submitForm, `#${field}`)
+    const element = await getElement(formFields, `#${field}`)
     if (!element) {
-      const checkboxes = await getTags(submitForm, 'input[type=checkbox]')
+      const checkboxes = await getTags(formFields, 'input[type=checkbox]')
       if (checkboxes && checkboxes.length) {
         for (const checkbox of checkboxes) {
-          const name = await evaluate(submitForm, el => el.name, checkbox)
+          const name = await evaluate(formFields, el => el.name, checkbox)
           if (name !== field) {
             continue
           }
-          const value = await evaluate(submitForm, el => el.value, checkbox)
+          const value = await evaluate(formFields, el => el.value, checkbox)
           if (value === body[field]) {
-            await evaluate(submitForm, el => { el.checked = true }, checkbox)
+            await evaluate(formFields, el => { el.checked = true }, checkbox)
           } else if (!body[field]) {
-            await evaluate(submitForm, el => { el.checked = false }, checkbox)
+            await evaluate(formFields, el => { el.checked = false }, checkbox)
           }
         }
       }
-      const radios = await getTags(submitForm, 'input[type=radio]')
+      const radios = await getTags(formFields, 'input[type=radio]')
       if (radios && radios.length) {
         for (const radio of radios) {
-          const name = await evaluate(submitForm, el => el.name, radio)
+          const name = await evaluate(formFields, el => el.name, radio)
           if (name !== field) {
             continue
           }
-          const value = await evaluate(submitForm, el => el.value, radio)
+          const value = await evaluate(formFields, el => el.value, radio)
           if (value === body[field]) {
-            await evaluate(submitForm, el => { el.checked = true }, radio)
+            await evaluate(formFields, el => { el.checked = true }, radio)
           } else if (!body[field]) {
-            await evaluate(submitForm, el => { el.checked = false }, radio)
+            await evaluate(formFields, el => { el.checked = false }, radio)
           }
         }
       }
       continue
     }
-    const tagName = await evaluate(submitForm, el => el.tagName, element)
+    const tagName = await evaluate(formFields, el => el.tagName, element)
     if (!tagName) {
       throw new Error('unknown tag name')
     }
     await focusElement(element)
     if (tagName === 'TEXTAREA') {
-      await evaluate(submitForm, el => { el.value = '' }, element)
+      await evaluate(formFields, el => { el.value = '' }, element)
       await typeInElement(element, body[field])
     } else if (tagName === 'SELECT') {
       await selectOption(element, body[field])
     } else if (tagName === 'INPUT') {
-      const inputType = await evaluate(submitForm, el => el.type, element)
+      const inputType = await evaluate(formFields, el => el.type, element)
       if (inputType === 'radio' || inputType === 'checkbox') {
         if (body[field]) {
-          await evaluate(submitForm, el => { el.checked = true }, element)
+          await evaluate(formFields, el => { el.checked = true }, element)
         } else {
-          await evaluate(submitForm, el => { el.checked = false }, [])
+          await evaluate(formFields, el => { el.checked = false }, [])
         }
       } else {
         if (body[field]) {
-          await evaluate(submitForm, el => { el.value = '' }, element)
+          await evaluate(formFields, el => { el.value = '' }, element)
           await typeInElement(element, body[field])
         } else {
-          await evaluate(submitForm, el => { el.value = '' }, element)
+          await evaluate(formFields, el => { el.value = '' }, element)
         }
       }
     }
