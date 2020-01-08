@@ -261,7 +261,7 @@ async function fetch (method, req) {
     await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
     await page.waitForSelector('body')
     if (method === 'POST') {
-      await fill(page, step.fill, req.body, req.uploads)
+      await fill(page, '#submit-form', req.body, req.uploads)
       await click(page, req.button || '#submit-button')
       if (req.waitOnSubmit) {
         await wait(10000)
