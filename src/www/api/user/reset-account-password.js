@@ -52,13 +52,6 @@ module.exports = {
           global.maximumResetCodeLength < req.body['secret-code'].length) {
         throw new Error('invalid-secret-code-length')
       }
-
-      throw new Error('invalid-reset-code')
-    }
-    req.query.codeid = codeid
-    const code = await global.api.administrator.ResetCode.get(req)
-    req.query = query
-    if (!code || code.accountid !== accountid) {
       throw new Error('invalid-reset-code')
     }
     const passwordHash = await dashboard.Hash.randomSaltHash(req.body['new-password'], dashboardEncryptionKey)
@@ -70,7 +63,7 @@ module.exports = {
       passwordLastChanged: dashboard.Timestamp.now,
       sessionKeyNumber: account.sessionKeyNumber + 1
     })
-    await dashboard.Storage.deleteFile(`${req.appid}/resetCode/${code.codeid}`)
+    await dashboard.Storage.deleteFile(`${req.appid}/resetCode/${codeid}`)
     await dashboard.StorageList.remove(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.remove(`${req.appid}/account/resetCodes/${accountid}`, codeid)
     await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${accountid}/${secretCodeHash}`)
