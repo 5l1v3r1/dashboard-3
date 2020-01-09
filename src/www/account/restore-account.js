@@ -17,6 +17,9 @@ async function submitForm (req, res) {
   if (!req.body) {
     return renderPage(req, res)
   }
+  if (req.query && req.query.message === 'success') {
+    return renderPage(req, res)
+  }
   if (!req.body.username || !req.body.username.length) {
     return renderPage(req, res, 'invalid-username')
   }

@@ -28,6 +28,9 @@ async function submitForm (req, res) {
   if (!req.body) {
     return renderPage(req, res)
   }
+  if (req.query && req.query.message === 'success') {
+    return renderPage(req, res)
+  }
   req.body['secret-code'] = req.body['secret-code'] && req.body['secret-code'].trim ? req.body['secret-code'].trim() : req.body['secret-code']
   if (!req.body['secret-code'] || !req.body['secret-code'].length) {
     return renderPage(req, res, 'invalid-secret-code')
