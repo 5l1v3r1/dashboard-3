@@ -140,14 +140,14 @@ async function fetch (method, req) {
   if (req.screenshots) {
     if (req.account) {
       if (process.env.DEBUG_PUPPETEER) {
-        console.log('starting screenshot browser at /home')
+        console.log('continuing authenticated session at /home')
       }
       await page.goto(`${global.dashboardServer}/home`, { waitLoad: true, waitNetworkIdle: true })
     } else {
       if (process.env.DEBUG_PUPPETEER) {
-        console.log('starting screenshot browser at /')
+        console.log('starting guest session at /')
       }
-      await page.goto(`${global.dashboardServer}/`, { waitLoad: true, waitNetworkIdle: true })
+      await page.goto(global.dashboardServer, { waitLoad: true, waitNetworkIdle: true })
     }
     await page.waitForSelector('body')
     let screenshotNumber = 1
@@ -160,7 +160,7 @@ async function fetch (method, req) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device, req)
-            await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
+            await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename)
           }
         }
         screenshotNumber++
@@ -330,7 +330,13 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     if (action === 'click' && title.indexOf('_') > -1) {
       title = title.substring(0, title.indexOf('_'))
     }
-  } else {
+  } else if (identifier && identifier[0] === '/') {
+    const element = await getElement(page, identifier)
+    const linkText = await getText(page, element)
+    title = linkText.split(' ').join('-').toLowerCase()
+  } else if (action === 'index') {
+    title = 'index'
+  } else { 
     title = 'form'
   }
   let filename
@@ -369,14 +375,13 @@ async function click (page, identifier) {
   if (element) {
     return clickElement(element)
   }
-  if (process.env.DEBUG_PUPPETEER) {
-    const contents = page.contents ? page.contents() : null
-    console.log('could not click element', contents)
-  }
 }
 
 async function getText (page, element) {
   return evaluate(page, (el) => {
+    if (!el) {
+      return ''
+    }
     if (el.innerText && el.innerHTML.indexOf('>') === -1) {
       return el.innerText
     }
@@ -400,8 +405,11 @@ async function fill (page, fieldContainer, body, uploads) {
   }
   const frame = await getOptionalApplicationFrame(page)
   let formFields = await getElement(page, fieldContainer || '#submit-form')
-  if (!formFields) {
+  if (!formFields && frame) {
     formFields = await getElement(frame, fieldContainer || '#submit-form')
+  }
+  if (!formFields) {
+    throw new Error('no form fields')
   }
   if (uploads) {
     for (const field in uploads) {
@@ -456,7 +464,7 @@ async function fill (page, fieldContainer, body, uploads) {
     }
     await focusElement(element)
     if (tagName === 'TEXTAREA') {
-      await evaluate(formFields, (el, value) => { el.innerHTML = value }, element, body[field])
+      await (frame || page).$eval(`textarea[id=${field}]`, (el, value) => el.value = value, body[field])      
     } else if (tagName === 'SELECT') {
       await selectOption(element, body[field])
     } else if (tagName === 'INPUT') {
