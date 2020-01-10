@@ -263,9 +263,31 @@ async function fetch (method, req) {
       }
       lastStep = step
     }
+    await page.waitForSelector('body')
+    let zhtml
+    while (true) {
+      try {
+        zhtml = await page.content()
+        break
+      } catch (error) {
+      }
+    }
+    let zlocation
+    while (!zlocation) {
+      try {
+        zlocation = await page.url()
+      } catch (error){
+      }
+    }
+    if (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
+      zlocation = zhtml.substring(zhtml.indexOf(';url=') + 5)
+      zlocation = zlocation.substring(0, zlocation.indexOf('"'))
+      await page.goto(`${global.dashboardServer}${zlocation}`)
+      await page.waitForSelector('body')
+    }
     if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
       for (const device of devices) {
-        await emulate(page, device, req)
+        await page.setViewport(device.viewport)
         await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
       }
     }
@@ -349,14 +371,22 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     title = 'form'
   } else if (identifier === '#submit-button') {
     const element = await getElement(page, identifier)
-    title = await getText(page, element)
-    if (action === 'click' && title.indexOf('_') > -1) {
-      title = title.substring(0, title.indexOf('_'))
+    let text = await getText(page, element)
+    if (text.indexOf('_') > -1) {
+      text = text.substring(0, text.indexOf('_'))
+    } else {
+      text = text.split(' ').join('-').toLowerCase()
     }
+    title = text
   } else if (identifier && identifier[0] === '/') {
     const element = await getElement(page, identifier)
-    const linkText = await getText(page, element)
-    title = linkText.split(' ').join('-').toLowerCase()
+    let text = await getText(page, element)
+    if (text.indexOf('_') > -1) {
+      text = text.substring(0, text.indexOf('_'))
+    } else {
+      text = text.split(' ').join('-').toLowerCase()
+    }
+    title = text
   } else if (action === 'index') {
     title = 'index'
   } else if (identifier) { 
