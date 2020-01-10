@@ -124,18 +124,30 @@ async function fetch (method, req) {
     }
   }
   if (req.session) {
-    await page.setCookie({
+    const cookie = {
       value: req.session.sessionid,
-      domain: global.domain,
-      expires: Date.now() / 1000 + 10,
+      expires: Math.ceil(Date.now() / 1000) + 1000,
       name: 'sessionid'
-    })
-    await page.setCookie({
+    }
+    // this is not a good check the intention is to not
+    // set an ip address as the cookie's domain
+    if (global.domain && global.domain.split('.').length !== 4) {
+      cookie.domain = global.domain
+    } else {
+      cookie.url = global.dashboardServer
+    }
+    await page.setCookie(cookie)
+    const cookie2 = {
       value: req.session.token,
-      domain: global.domain,
-      expires: Date.now() / 1000 + 10,
+      expires: Math.ceil(Date.now() / 1000) + 1000,
       name: 'token'
-    })
+    }
+    if (global.domain && global.domain.split('.').length !== 4) {
+      cookie2.domain = global.domain
+    } else {
+      cookie2.url = global.dashboardServer
+    }
+    await page.setCookie(cookie2)
   }
   if (req.screenshots) {
     if (req.account) {
@@ -234,7 +246,7 @@ async function fetch (method, req) {
           for (const device of devices) {
             await emulate(page, device, req)
             await fill(page, step.fill, step.body || req.body, req.uploads)
-            await hover(page, '#submit-button')
+            await hover(page, req.button || '#submit-button')
             await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
           }
         } else {
@@ -409,7 +421,7 @@ async function fill (page, fieldContainer, body, uploads) {
     formFields = await getElement(frame, fieldContainer || '#submit-form')
   }
   if (!formFields) {
-    throw new Error('no form fields')
+    return
   }
   if (uploads) {
     for (const field in uploads) {
