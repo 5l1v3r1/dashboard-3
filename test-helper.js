@@ -128,42 +128,37 @@ function createRequest (rawURL) {
       req.method = verb.toUpperCase()
       if (req.url.startsWith('/api/')) {
         global.apiDependencies = []
-        while (true) {
-          let errorMessage
-          try {
-            const result = await proxy(verb, rawURL, req)
-            if (process.env.GENERATE_RESPONSE && process.env.RESPONSE_PATH && req.saveResponse) {
-              let responseFilePath = req.filename.substring(req.filename.indexOf('/src/www/') + '/src/www/'.length)
-              responseFilePath = path.join(process.env.RESPONSE_PATH, responseFilePath)
-              createFolderSync(responseFilePath.substring(0, responseFilePath.lastIndexOf('/')))
-              fs.writeFileSync(responseFilePath + 'on', JSON.stringify(result, null, '  '))
-            }
-            if (!result || result.object !== 'error') {
-              return result
-            }
-            errorMessage = result ? result.message : null
-          } catch (error) {
-            errorMessage = error.message
+        let errorMessage
+        try {
+          const result = await proxy(verb, rawURL, req)
+          if (process.env.GENERATE_RESPONSE && process.env.RESPONSE_PATH && req.saveResponse) {
+            let responseFilePath = req.filename.substring(req.filename.indexOf('/src/www/') + '/src/www/'.length)
+            responseFilePath = path.join(process.env.RESPONSE_PATH, responseFilePath)
+            createFolderSync(responseFilePath.substring(0, responseFilePath.lastIndexOf('/')))
+            fs.writeFileSync(responseFilePath + 'on', JSON.stringify(result, null, '  '))
           }
-          throw new Error(errorMessage || 'api proxying failed')
-        }
-      }
-      while (true) {
-        let result
-        try {
-          result = await TestHelperPuppeteer.fetch(req.method, req)
+          if (!result || result.object !== 'error') {
+            return result
+          }
+          errorMessage = result ? result.message : null
         } catch (error) {
+          errorMessage = error.message
         }
-        if (!result) {
-          await wait(1)
-          continue
-        }
-        try {
-          result = dashboard.HTML.parse(result)
-        } catch (error) {
-        }
-        return result
+        throw new Error(errorMessage || 'api proxying failed')
       }
+      let result
+      try {
+        result = await TestHelperPuppeteer.fetch(req.method, req)
+      } catch (error) {
+      }
+      if (!result || !result.length) {
+        return
+      }
+      try {
+        result = dashboard.HTML.parse(result)
+      } catch (error) {
+      }
+      return result
     }
   }
   return req
