@@ -308,19 +308,25 @@ async function emulate (page, device, req) {
   await page.emulate(device)
   if (!req.session) {
     return
+}
+  // this is not a good check the intention is to not
+  // set an ip address as the cookie's domain
+  if (global.domain && global.domain.split('.').length !== 4) {
+    cookie.domain = global.domain
+  } else {
+    cookie.url = global.dashboardServer
   }
-  await page.setCookie({
-    value: req.session.sessionid,
-    domain: global.domain,
-    expires: Date.now() / 1000 + 10,
-    name: 'sessionid'
-  })
-  await page.setCookie({
+  await page.setCookie(cookie)
+  const cookie2 = {
     value: req.session.token,
-    domain: global.domain,
-    expires: Date.now() / 1000 + 10,
+    expires: Math.ceil(Date.now() / 1000) + 1000,
     name: 'token'
-  })
+  }
+  if (global.domain && global.domain.split('.').length !== 4) {
+    cookie2.domain = global.domain
+  } else {
+    cookie2.url = global.dashboardServer
+  }
 }
 
 async function saveScreenshot (device, page, number, action, identifier, scriptName) {
