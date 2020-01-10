@@ -308,7 +308,12 @@ async function emulate (page, device, req) {
   await page.emulate(device)
   if (!req.session) {
     return
-}
+  }
+  const cookie = {
+    value: req.session.sessionid,
+    expires: Math.ceil(Date.now() / 1000) + 1000,
+    name: 'sessionid'
+  }
   // this is not a good check the intention is to not
   // set an ip address as the cookie's domain
   if (global.domain && global.domain.split('.').length !== 4) {
