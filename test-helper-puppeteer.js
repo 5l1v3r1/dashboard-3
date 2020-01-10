@@ -359,8 +359,10 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     title = linkText.split(' ').join('-').toLowerCase()
   } else if (action === 'index') {
     title = 'index'
-  } else { 
+  } else if (identifier) { 
     title = 'form'
+  } else {
+    title = ''
   }
   let filename
   if (title) {
