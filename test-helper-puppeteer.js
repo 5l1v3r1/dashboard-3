@@ -127,25 +127,15 @@ async function fetch (method, req) {
     const cookie = {
       value: req.session.sessionid,
       expires: Math.ceil(Date.now() / 1000) + 1000,
-      name: 'sessionid'
-    }
-    // this is not a good check the intention is to not
-    // set an ip address as the cookie's domain
-    if (global.domain && global.domain.split('.').length !== 4) {
-      cookie.domain = global.domain
-    } else {
-      cookie.url = global.dashboardServer
+      name: 'sessionid',
+      url: global.dashboardServer
     }
     await page.setCookie(cookie)
     const cookie2 = {
       value: req.session.token,
       expires: Math.ceil(Date.now() / 1000) + 1000,
-      name: 'token'
-    }
-    if (global.domain && global.domain.split('.').length !== 4) {
-      cookie2.domain = global.domain
-    } else {
-      cookie2.url = global.dashboardServer
+      name: 'token',
+      url: global.dashboardServer
     }
     await page.setCookie(cookie2)
   }
@@ -231,6 +221,7 @@ async function fetch (method, req) {
         }
         screenshotNumber++
         await click(page, step.click)
+        await page.waitForSelector('body')
         if (req.waitOnSubmit) {
           // TODO: detect when to proceed
           // the intention with 'waitOnSubmit' is to wait until
@@ -240,7 +231,8 @@ async function fetch (method, req) {
           await wait(10000)
         } else {
           await wait(500)
-        }
+        }        
+        await page.waitForSelector('body')
       } else if (step.fill) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
@@ -293,7 +285,7 @@ async function fetch (method, req) {
     }
     screenshotNumber++
   } else {
-    await page.goto(`${process.env.DASHBOARD_SERVER}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
+    await page.goto(`${global.dashboardServer}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
     await page.waitForSelector('body')
     if (method === 'POST') {
       await fill(page, '#submit-form', req.body, req.uploads)
@@ -304,23 +296,14 @@ async function fetch (method, req) {
         await wait(500)
       }
     }
-  }
+  }    
+  await page.waitForSelector('body')
   let html
   while (!html) {
     try {
       html = await page.content()
-      if (process.env.DEBUG_PUPPETEER && process.env.DEBUG_PUPPETEER_SCREENSHOTS) {
-        console.log('screenshot page html', html)
-      }
     } catch (error) {
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error reading HTML', error.toString())
-      }
     }
-    if (html) {
-      break
-    }
-    await wait(1)
   }
   await page.close()
   return html
