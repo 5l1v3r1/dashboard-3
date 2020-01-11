@@ -214,7 +214,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     for (const child of children) {
       if (child.tag === 'a') {
         links.push(child)
-        if (child.child.length > 1) {
+        if (child.child && child.child.length > 1) {
           for (const element of child.child) {
             if (element.tag !== 'text') {
               child.child.splice(child.child.indexOf(element), 1)
