@@ -211,13 +211,15 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     const spillage = templateDoc.getElementById('spillage')
     const children = HTML.parse(navigation.toString()).child
     const links = []
-    for (const child of children) {
-      if (child.tag === 'a') {
-        links.push(child)
-        if (child.child && child.child.length > 1) {
-          for (const element of child.child) {
-            if (element.tag !== 'text') {
-              child.child.splice(child.child.indexOf(element), 1)
+    if (children && children.length) {
+      for (const child of children) {
+        if (child.tag === 'a') {
+          links.push(child)
+          if (child.child && child.child.length > 1) {
+            for (const element of child.child) {
+              if (element.tag !== 'text') {
+                child.child.splice(child.child.indexOf(element), 1)
+              }
             }
           }
         }
