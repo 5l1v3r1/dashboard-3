@@ -231,7 +231,7 @@ async function fetch (method, req) {
           await wait(10000)
         } else {
           await wait(500)
-        }        
+        }
         await page.waitForSelector('body')
       } else if (step.fill) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
@@ -268,7 +268,7 @@ async function fetch (method, req) {
     while (!zlocation) {
       try {
         zlocation = await page.url()
-      } catch (error){
+      } catch (error) {
       }
     }
     if (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
@@ -296,7 +296,7 @@ async function fetch (method, req) {
         await wait(500)
       }
     }
-  }    
+  }
   await page.waitForSelector('body')
   let html
   while (!html) {
@@ -372,7 +372,7 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     title = text
   } else if (action === 'index') {
     title = 'index'
-  } else if (identifier) { 
+  } else if (identifier) {
     title = 'form'
   } else {
     title = ''
@@ -502,7 +502,7 @@ async function fill (page, fieldContainer, body, uploads) {
     }
     await focusElement(element)
     if (tagName === 'TEXTAREA') {
-      await (frame || page).$eval(`textarea[id=${field}]`, (el, value) => el.value = value, body[field])      
+      await (frame || page).$eval(`textarea[id=${field}]`, (el, value) => { el.value = value }, body[field])
     } else if (tagName === 'SELECT') {
       await selectOption(element, body[field])
     } else if (tagName === 'INPUT') {
