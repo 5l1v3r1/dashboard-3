@@ -242,7 +242,7 @@ async function fetch (method, req) {
             await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
           }
         } else {
-          await fill(page, step.fill, step.body || req.body, req.uploads)
+          await fill(page, step.fill, step.body || req.body, step.uploads || req.uploads)
         }
         screenshotNumber++
         await focus(page, req.button || '#submit-button')
