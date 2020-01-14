@@ -364,6 +364,7 @@ const proxy = util.promisify((method, path, req, callback) => {
     host,
     path,
     port,
+    timeout: 180000,
     method: method.toUpperCase(),
     headers: {
       'user-agent': 'integration tests'
