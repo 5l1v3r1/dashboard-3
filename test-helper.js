@@ -27,6 +27,7 @@ if (process.env.STORAGE_CACHE) {
 let packageJSON
 
 before(async () => {
+  global.requests = []
   await dashboard.start(global.applicationPath || __dirname)
   packageJSON = global.packageJSON
 })
@@ -80,6 +81,9 @@ after((callback) => {
   global.testEnded = true
   delete (global.apiDependencies)
   TestHelperPuppeteer.close()
+  if (process.env.DEBUG_REQUESTS) {
+    fs.writeFileSync(path.join(__dirname, 'debug-requests.txt'), JSON.stringify(global.requests, null, '  '))
+  }
   return callback()
 })
 
