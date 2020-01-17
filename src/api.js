@@ -45,6 +45,9 @@ module.exports = {
 
 function outputConfiguration () {
   const filePath = path.join(global.applicationPath, 'api.txt')
+  if (!fs.existsSync(filePath)) {
+    return
+  }
   let tests = fs.readFileSync(filePath).toString()
   tests = tests.substring(tests.indexOf('\n\n'))
   while (true) {
