@@ -19,7 +19,7 @@ If you have encountered a problem post an issue on the appropriate [Github repos
 
 If you would like to contribute check [Github Issues](https://github.com/userdashboard/dashboard) for ways you can help. 
 
-For help using or contributing to this software join the freenode IRC `#dashboard` chatroom - [Web IRC client](https://kiwiirc.com/nextclient/).
+For help using or contributing to this software join the freenode IRC `#userdashboard` chatroom - [Web IRC client](https://kiwiirc.com/nextclient/).
 
 ## Documentation
 
