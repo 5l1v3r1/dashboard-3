@@ -82,7 +82,7 @@ after((callback) => {
   delete (global.apiDependencies)
   TestHelperPuppeteer.close()
   if (process.env.DEBUG_REQUESTS) {
-    fs.writeFileSync(path.join(__dirname, 'debug-requests.txt'), JSON.stringify(global.requests, null, '  '))
+    fs.writeFileSync(path.join(global.applicationPath, 'debug-requests.txt'), JSON.stringify(global.requests, null, '  '))
   }
   return callback()
 })
@@ -147,6 +147,12 @@ function createRequest (rawURL) {
           errorMessage = result ? result.message : null
         } catch (error) {
           errorMessage = error.message
+        }
+        if (process.env.DEBUG_ERRORS) {
+          console.log('request failed', errorMessage, req)
+        }
+        if (errorMessage === 'socket hang up') {
+          return req[verb]()
         }
         throw new Error(errorMessage || 'api proxying failed')
       }
