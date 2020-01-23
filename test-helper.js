@@ -408,12 +408,16 @@ const proxy = util.promisify((method, path, req, callback) => {
     delayedCallback = callback
   }
   const protocol = baseURLParts[0] === 'https' ? https : http
+  let ended
   const proxyRequest = protocol.request(requestOptions, (proxyResponse) => {
     let body = ''
     proxyResponse.on('data', (chunk) => {
       body += chunk
     })
     return proxyResponse.on('end', () => {
+      if (ended) {
+        return
+      }
       if (!body) {
         return delayedCallback()
       }
@@ -441,10 +445,12 @@ const proxy = util.promisify((method, path, req, callback) => {
     })
   })
   proxyRequest.on('error', (error) => {
-    if (error.raw && error.raw.code === 'lock_timeout') {
-      return setTimeout(() => {
-        proxy(method, path, req, callback)
-      }, 100)
+    ended = true
+    try { 
+      if (proxyRequest && proxyRequest.end) {
+        proxyRequest.end()
+      }
+    } catch (error) {
     }
     return callback(error)
   })
