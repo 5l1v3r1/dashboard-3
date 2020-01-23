@@ -69,6 +69,7 @@ beforeEach(async () => {
 })
 
 afterEach(() => {
+  usedIdentities = []
   if (!process.env.STORAGE_ENGINE) {
     if (fs.existsSync(storagePath)) {
       deleteLocalData(storagePath)
@@ -213,9 +214,6 @@ function nextIdentity () {
     testDataIndex = Math.floor(Math.random() * testData.length)
   }
   usedIdentities.push(testDataIndex)
-  if (testDataIndex >= testData.length) {
-    testDataIndex = 0
-  }
   return testData[testDataIndex]
 }
 
