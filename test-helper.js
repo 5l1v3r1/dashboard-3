@@ -33,6 +33,7 @@ before(async () => {
 })
 
 beforeEach(async () => {
+  testDataIndex = Math.floor(Math.random() *  testData.length)
   global.packageJSON = packageJSON
   global.appid = `tests_${dashboard.Timestamp.now}`
   global.testNumber = dashboard.Timestamp.now
@@ -69,7 +70,6 @@ beforeEach(async () => {
 })
 
 afterEach(() => {
-  usedIdentities = []
   if (!process.env.STORAGE_ENGINE) {
     if (fs.existsSync(storagePath)) {
       deleteLocalData(storagePath)
@@ -204,16 +204,11 @@ function extractRedirectURL (doc) {
   return null
 }
 
-let usedIdentities = []
 function nextIdentity () {
-  if (usedIdentities.length > testData.length / 2) {
-    usedIdentities = []
+  testDataIndex++
+  if (testDataIndex >= testData.length) {
+    testDataIndex = 0
   }
-  testDataIndex = Math.floor(Math.random() * testData.length)
-  while (usedIdentities.indexOf(testDataIndex) > -1) {
-    testDataIndex = Math.floor(Math.random() * testData.length)
-  }
-  usedIdentities.push(testDataIndex)
   return testData[testDataIndex]
 }
 
