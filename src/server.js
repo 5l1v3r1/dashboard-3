@@ -363,7 +363,7 @@ async function receiveRequest (req, res) {
     return Response.end(req, res)
   }
   if (req.urlPath.startsWith('/api/')) {
-    return req.route.api[req.method.toLowerCase()](req, res)
+    return executeAPIRequest(req, res)
   }
   try {
     if (req.route.api.before) {
@@ -376,6 +376,20 @@ async function receiveRequest (req, res) {
     }
     return Response.throw500(req, res)
   }
+}
+
+async function executeAPIRequest (req, res) {
+  let result
+  try {
+    result = await req.route.api[req.method.toLowerCase()](req)
+  } catch (error) {
+    res.statusCode = 500
+    res.setHeader('content-type', 'application/json; charset=utf-8')
+    return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
+  }
+  res.statusCode = 200
+  res.setHeader('content-type', 'application/json; charset=utf-8')
+  return res.end(result ? JSON.stringify(result) : '')
 }
 
 async function executeHandlers (req, res, method, handlers) {

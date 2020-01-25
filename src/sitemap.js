@@ -4,8 +4,7 @@ const HTML = require('./html.js')
 
 module.exports = {
   generate,
-  outputConfiguration,
-  wrapAPIRequest
+  outputConfiguration
 }
 
 function generate () {
@@ -63,9 +62,6 @@ function attachRoutes (routes, folderPath) {
     if (api !== 'static-page' && !api.get && !api.post && !api.patch && !api.delete && !api.put) {
       continue
     }
-    if (apiOnly) {
-      wrapAPIRequest(api, jsFilePath)
-    }
     const html = htmlFileExists ? fs.readFileSync(htmlFilePath).toString() : null
     const extension = apiOnly ? '.js' : '.html'
     const index = `index${extension}`
@@ -117,9 +113,6 @@ function attachRoutes (routes, folderPath) {
         if (jsFileExists) {
           delete require.cache[require.resolve(jsFilePath)]
           routes[urlKey].api = require(jsFilePath)
-          if (apiOnly) {
-            wrapAPIRequest(routes[urlKey].api, jsFilePath)
-          }
         }
         if (htmlFileExists) {
           routes[urlKey].html = fs.readFileSync(htmlFilePath).toString()
@@ -363,49 +356,4 @@ function padRight (str, totalSize) {
 function underlineRight (str, totalSize) {
   const blank = '--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------'
   return (str + blank).substring(0, totalSize)
-}
-
-function wrapAPIRequest (nodejsHandler, filePath) {
-  for (const functionName of ['get', 'post', 'patch', 'delete', 'put', 'head', 'option']) {
-    const originalFunction = nodejsHandler[functionName]
-    if (!originalFunction) {
-      continue
-    }
-    if (nodejsHandler[`_${functionName}`]) {
-      continue
-    }
-    nodejsHandler[`_${functionName}`] = originalFunction
-    nodejsHandler[functionName] = wrapResponseHandling(nodejsHandler[`_${functionName}`], filePath)
-  }
-  return nodejsHandler
-}
-
-function wrapResponseHandling (method, filePath) {
-  return async (req, res) => {
-    if (process.env.NODE_ENV === 'testing' &&
-        req.urlPath !== filePath &&
-        !res) {
-      const urlPath = filePath
-      if (global.apiDependencies.indexOf(urlPath) === -1) {
-        global.apiDependencies.push(urlPath)
-      }
-    }
-    let result
-    try {
-      result = await method(req)
-    } catch (error) {
-      if (res) {
-        res.statusCode = 500
-        res.setHeader('content-type', 'application/json; charset=utf-8')
-        return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
-      }
-      throw error
-    }
-    if (res) {
-      res.statusCode = 200
-      res.setHeader('content-type', 'application/json; charset=utf-8')
-      return res.end(result ? JSON.stringify(result) : '')
-    }
-    return result
-  }
 }
