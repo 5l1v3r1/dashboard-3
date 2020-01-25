@@ -162,6 +162,9 @@ function createRequest (rawURL) {
         result = await TestHelperPuppeteer.fetch(req.method, req)
       } catch (error) {
       }
+      if (process.env.DEBUG_PAGES) {
+        console.log("pupetteer fetched html", '\n' + result)
+      }      
       if (!result || !result.length) {
         return
       }
@@ -389,7 +392,7 @@ const proxy = util.promisify((method, path, req, callback) => {
   }
   let delayedCallback
   if (global.delayDiskWrites) {
-    // when testing with disk-storage a delay is
+    // when testing with disk-storage a delay  is
     // needed so lists return objects in the same
     // order they were written
     delayedCallback = (error, result) => {
