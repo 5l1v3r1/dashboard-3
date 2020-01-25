@@ -383,6 +383,9 @@ async function executeAPIRequest (req, res) {
   try {
     result = await req.route.api[req.method.toLowerCase()](req)
   } catch (error) {
+    if (process.env.DEBUG_ERRORS) {
+      console.log('dashboard api error', req.url, req.body, req.uploads, error)
+    }
     res.statusCode = 500
     res.setHeader('content-type', 'application/json; charset=utf-8')
     return res.end(`{ "object": "error", "message": "${error.message || 'An error ocurred'}" }`)
