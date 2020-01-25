@@ -441,6 +441,9 @@ const proxy = util.promisify((method, path, req, callback) => {
     })
   })
   proxyRequest.on('error', (error) => {
+    if (process.env.DEBUG_ERRORS) {
+      console.log('dashboard proxy error', error)
+    }
     ended = true
     try {
       if (proxyRequest && proxyRequest.end) {
