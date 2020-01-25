@@ -33,7 +33,7 @@ before(async () => {
 })
 
 beforeEach(async () => {
-  testDataIndex = Math.floor(Math.random() *  testData.length)
+  testDataIndex = Math.floor(Math.random() * testData.length)
   global.packageJSON = packageJSON
   global.appid = `tests_${dashboard.Timestamp.now}`
   global.testNumber = dashboard.Timestamp.now
@@ -439,7 +439,7 @@ const proxy = util.promisify((method, path, req, callback) => {
   })
   proxyRequest.on('error', (error) => {
     ended = true
-    try { 
+    try {
       if (proxyRequest && proxyRequest.end) {
         proxyRequest.end()
       }
