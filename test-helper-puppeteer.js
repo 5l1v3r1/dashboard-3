@@ -111,8 +111,9 @@ async function fetch (method, req) {
       await wait(1)
     }
   }
-  page.setDefaultTimeout(180000)
-  page.setDefaultNavigationTimeout(180000)
+  await page.setDefaultTimeout(180000)
+  await page.setDefaultNavigationTimeout(180000)
+  await page.setBypassCSP(true)
   while (true) {
     try {
       await page.emulate(devices[0])
