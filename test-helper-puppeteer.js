@@ -307,6 +307,9 @@ async function fetch (method, req) {
       html = await page.content()
     } catch (error) {
     }
+    if (!html || !html.length) {
+      await wait(100)
+    }
   }
   await page.close()
   return html
