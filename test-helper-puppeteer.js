@@ -47,6 +47,10 @@ module.exports = {
 
 async function fetch (method, req) {
   puppeteer = global.puppeteer = global.puppeteer || require('puppeteer')
+  if (browser && browser.close) {
+    browser.close()
+    browser = null
+  }
   while (!browser) {
     try {
       browser = await puppeteer.launch({
@@ -95,7 +99,7 @@ async function fetch (method, req) {
       } else {
         try {
           page = await browser.newPage()
-          if (process.env.DEBUG_PUPPETEER) {
+          if (process.env. DEBUG_PUPPETEER) {
             page.on('error', msg => console.log('[error]', msg.text()))
             page.on('console', msg => console.log('[console]', msg.text()))
           }

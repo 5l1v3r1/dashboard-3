@@ -161,18 +161,26 @@ function createRequest (rawURL) {
       try {
         result = await TestHelperPuppeteer.fetch(req.method, req)
       } catch (error) {
+        if (process.env.DEBUG_ERRORS) {
+          console.log('error fetching with puppeteer', error)
+        }
       }
       if (process.env.DEBUG_PAGES) {
         console.log("pupetteer fetched html", '\n' + result)
-      }      
+      }
       if (!result || !result.length) {
         return
       }
+      let doc
       try {
-        result = dashboard.HTML.parse(result)
+        doc = dashboard.HTML.parse(result)
       } catch (error) {
+        console.log('error parsing response', error, result)
+      } 
+      if (!page) {
+        console.log('no page parsed from result', result)
       }
-      return result
+      return doc
     }
   }
   return req
