@@ -281,7 +281,14 @@ async function fetch (method, req) {
     if (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
       zlocation = zhtml.substring(zhtml.indexOf(';url=') + 5)
       zlocation = zlocation.substring(0, zlocation.indexOf('"'))
-      await page.goto(`${global.dashboardServer}${zlocation}`)
+      while (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
+        await wait(100)
+        try {
+          const newHTML = await page.content()
+          zhtml = newHTML || zhtml
+        } catch (error) {
+        }
+      }
       await page.waitForSelector('body')
     }
     if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
