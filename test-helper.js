@@ -177,7 +177,7 @@ function createRequest (rawURL) {
       } catch (error) {
         console.log('error parsing response', error, result)
       } 
-      if (!page) {
+      if (!doc) {
         console.log('no page parsed from result', result)
       }
       return doc
