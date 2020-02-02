@@ -32,7 +32,7 @@
   </template>
   <template id="reset-code-row">
     <tr id="${resetCode.codeid}">
-      <td>${resetCode.codeid}</td>
+      <td><a href="/administrator/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a></td>
       <td><a href="/administrator/account?accountid=${resetCode.accountid}">${resetCode.accountid}</a></td>
       <td>${resetCode.firstName} ${resetCode.lastName}</td>
       <td><a href="mailto:${resetCode.email}">${resetCode.email}</a></td>
