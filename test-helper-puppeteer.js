@@ -528,7 +528,7 @@ async function fill (page, fieldContainer, body, uploads) {
         if (body[field]) {
           await evaluate(formFields, el => { el.checked = true }, element)
         } else {
-          await evaluate(formFields, el => { el.checked = false }, [])
+          await evaluate(formFields, el => { el.checked = false }, element)
         }
       } else {
         if (body[field]) {
