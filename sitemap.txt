@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.122
+@userdashboard/dashboard 1.0.123
 
 
 Administrator menu:
