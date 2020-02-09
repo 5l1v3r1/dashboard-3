@@ -118,6 +118,17 @@ async function fetch (method, req) {
   await page.setDefaultTimeout(180000)
   await page.setDefaultNavigationTimeout(180000)
   await page.setBypassCSP(true)
+  await page.setRequestInterception(true)
+  page.on('request', request => {
+    request.continue()
+  })
+  page.on('response', async (response) => {
+    const status = await response.status()
+    if (status === 302) {
+      const headers = await response.headers() 
+      await page.goto(`${global.dashboardServer}${headers.location}`, { waitLoad: true, waitNetworkIdle: true })
+    }
+  })
   while (true) {
     try {
       await page.emulate(devices[0])
