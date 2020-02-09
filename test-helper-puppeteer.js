@@ -125,6 +125,22 @@ async function fetch (method, req) {
   page.on('response', async (response) => {
     const status = await response.status()
     if (status === 302) {
+      if (req.session) {
+        const cookie = {
+          value: req.session.sessionid,
+          expires: Math.ceil(Date.now() / 1000) + 1000,
+          name: 'sessionid',
+          url: global.dashboardServer
+        }
+        await page.setCookie(cookie)
+        const cookie2 = {
+          value: req.session.token,
+          expires: Math.ceil(Date.now() / 1000) + 1000,
+          name: 'token',
+          url: global.dashboardServer
+        }
+        await page.setCookie(cookie2)
+      }
       const headers = await response.headers() 
       await page.goto(`${global.dashboardServer}${headers.location}`, { waitLoad: true, waitNetworkIdle: true })
     }
@@ -211,7 +227,7 @@ async function fetch (method, req) {
               await hover(page, '#account-menu-container')
               await wait(10)
             } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
-              if (process.env.DEBUG_PUPPETEER) {
+              if (process.env.DEBUG_PUPPETEER) {        
                 console.log('hover administrator menu to click link')
               }
               await hover(page, '#administrator-menu-container')
@@ -239,16 +255,16 @@ async function fetch (method, req) {
         }
         screenshotNumber++
         await click(page, step.click)
-        await page.waitForSelector('body')
-        if (req.waitOnSubmit) {
-          // TODO: detect when to proceed
-          // the intention with 'waitOnSubmit' is to wait until
-          // stripe.js callbacks have finished any client-side
-          // network activity that takes place before the form
-          // is submitted
-          await wait(10000)
-        } else {
-          await wait(500)
+        let redirecting = false
+        await page.waitForResponse(async (response) => {
+          const status = await response.status()
+          if (status === 302) {
+            redirecting = true
+          }
+          return status === 200
+        })
+        if (redirecting) {
+          await wait(1000)
         }
         await page.waitForSelector('body')
       } else if (step.fill) {
@@ -265,10 +281,16 @@ async function fetch (method, req) {
         screenshotNumber++
         await focus(page, req.button || '#submit-button')
         await click(page, req.button || '#submit-button')
-        if (req.waitOnSubmit) {
-          await wait(10000)
-        } else {
-          await wait(500)
+        let redirecting = false
+        await page.waitForResponse(async (response) => {
+          const status = await response.status()
+          if (status === 302) {
+            redirecting = true
+          }
+          return status === 200
+        })
+        if (redirecting) {
+          await wait(1000)
         }
       }
       lastStep = step
@@ -315,10 +337,16 @@ async function fetch (method, req) {
     if (method === 'POST') {
       await fill(page, '#submit-form', req.body, req.uploads)
       await click(page, req.button || '#submit-button')
-      if (req.waitOnSubmit) {
-        await wait(10000)
-      } else {
-        await wait(500)
+      let redirecting = false
+      await page.waitForResponse(async (response) => {
+        const status = await response.status()
+        if (status === 302) {
+          redirecting = true
+        }
+        return status === 200
+      })
+      if (redirecting) {
+        await wait(1000)
       }
     }
   }

@@ -162,7 +162,6 @@ describe('/account/reset-account', () => {
         'confirm-password': 'my-new-password',
         'secret-code': user.resetCode.code
       }
-      req.waitOnSubmit = true
       req.filename = __filename
       req.screenshots = [
         { index: true },
