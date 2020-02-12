@@ -142,7 +142,13 @@ async function fetch (method, req) {
         await page.setCookie(cookie2)
       }
       const headers = await response.headers() 
-      await page.goto(`${global.dashboardServer}${headers.location}`, { waitLoad: true, waitNetworkIdle: true })
+      while (true) {
+        try {
+          await page.goto(`${global.dashboardServer}${headers.location}`, { waitLoad: true, waitNetworkIdle: true })
+          break
+        } catch (error) {
+        }
+      }
     }
   })
   while (true) {
@@ -347,6 +353,8 @@ async function fetch (method, req) {
       })
       if (redirecting) {
         await wait(1000)
+      } else {
+        await wait(10000)
       }
     }
   }
