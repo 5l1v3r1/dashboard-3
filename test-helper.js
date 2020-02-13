@@ -160,13 +160,16 @@ function createRequest (rawURL) {
       let result
       try {
         result = await TestHelperPuppeteer.fetch(req.method, req)
+        if (!result) {
+          throw new Error('there was no result from puppeteer')
+        }
       } catch (error) {
         if (process.env.DEBUG_ERRORS) {
           console.log('error fetching with puppeteer', error)
         }
       }
       if (process.env.DEBUG_PAGES) {
-        console.log('pupetteer fetched html', '\n' + result)
+        console.log('puppeteer fetched html', '\n' + JSON.stringify(result))
       }
       return result
     }
