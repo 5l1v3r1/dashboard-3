@@ -33,9 +33,8 @@ describe('/account/signout', () => {
         username: user.account.username,
         password: user.account.password
       }
-      const page = await req.get()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/account/signout-complete')
+      const result = await req.get()
+      assert.strictEqual(result.redirect, '/account/signout-complete')
     })
   })
 })

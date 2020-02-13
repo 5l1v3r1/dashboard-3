@@ -9,8 +9,8 @@ describe('/account/restore-account', () => {
       const req = TestHelper.createRequest('/account/restore-account')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -26,8 +26,8 @@ describe('/account/restore-account', () => {
         username: '',
         password: user.account.password
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-username')
     })
@@ -39,8 +39,8 @@ describe('/account/restore-account', () => {
         password: '123456789123'
       }
       global.minimumUsernameLength = 100
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-username-length')
     })
@@ -54,8 +54,8 @@ describe('/account/restore-account', () => {
         username: user.account.username,
         password: ''
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-password')
     })
@@ -67,8 +67,8 @@ describe('/account/restore-account', () => {
         password: '1'
       }
       global.minimumPasswordLength = 100
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-password-length')
     })
@@ -81,8 +81,8 @@ describe('/account/restore-account', () => {
         username: user.account.username,
         password: 'invalid-password'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-password')
     })
@@ -96,8 +96,8 @@ describe('/account/restore-account', () => {
         username: user.account.username,
         password: user.account.password
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-account')
     })

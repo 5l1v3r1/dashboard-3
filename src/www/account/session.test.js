@@ -27,8 +27,8 @@ describe('/account/session', () => {
         { click: '/account/sessions' },
         { click: `/account/session?sessionid=${user.session.sessionid}` }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const tbody = doc.getElementById(req.session.sessionid)
       assert.strictEqual(tbody.tag, 'tbody')
     })

@@ -166,21 +166,9 @@ function createRequest (rawURL) {
         }
       }
       if (process.env.DEBUG_PAGES) {
-        console.log("pupetteer fetched html", '\n' + result)
+        console.log('pupetteer fetched html', '\n' + result)
       }
-      if (!result || !result.length) {
-        return
-      }
-      let doc
-      try {
-        doc = dashboard.HTML.parse(result)
-      } catch (error) {
-        console.log('error parsing response', error, result)
-      } 
-      if (!doc) {
-        console.log('no page parsed from result', result)
-      }
-      return doc
+      return result
     }
   }
   return req

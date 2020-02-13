@@ -9,8 +9,8 @@ describe('/account/change-password', () => {
       const req = TestHelper.createRequest('/account/change-password')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -27,8 +27,8 @@ describe('/account/change-password', () => {
         'confirm-password': 'new-password',
         password: user.account.password
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-new-password')
     })
@@ -44,8 +44,8 @@ describe('/account/change-password', () => {
         password: user.account.password
       }
       global.minimumPasswordLength = 100
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-new-password-length')
     })
@@ -60,8 +60,8 @@ describe('/account/change-password', () => {
         'confirm-password': '4567890123',
         password: user.account.password
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-confirm-password')
     })
@@ -76,8 +76,8 @@ describe('/account/change-password', () => {
         'confirm-password': '123456789',
         password: 'invalid'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-password')
@@ -100,8 +100,8 @@ describe('/account/change-password', () => {
         { click: '/account/change-password' },
         { fill: '#submit-form' }
       ]
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')

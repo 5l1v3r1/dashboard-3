@@ -22,8 +22,8 @@ describe('/administrator/assign-administrator', () => {
       const req = TestHelper.createRequest(`/administrator/assign-administrator?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -34,8 +34,8 @@ describe('/administrator/assign-administrator', () => {
       const req = TestHelper.createRequest(`/administrator/assign-administrator?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const row = doc.getElementById(user.account.accountid)
       assert.strictEqual(row.tag, 'tr')
     })
@@ -57,8 +57,8 @@ describe('/administrator/assign-administrator', () => {
         { click: `/administrator/assign-administrator?accountid=${user.account.accountid}` },
         { fill: '#submit-form' }
       ]
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')

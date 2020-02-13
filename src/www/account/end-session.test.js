@@ -20,8 +20,8 @@ describe('/account/end-session', () => {
       const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -31,8 +31,8 @@ describe('/account/end-session', () => {
       const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const row = doc.getElementById(req.session.sessionid)
       assert.notStrictEqual(row, undefined)
       assert.notStrictEqual(row, null)
@@ -56,8 +56,8 @@ describe('/account/end-session', () => {
         { click: `/account/end-session?sessionid=${firstSession.sessionid}` },
         { fill: '#submit-form' }
       ]
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')
@@ -68,9 +68,8 @@ describe('/account/end-session', () => {
       const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
       req.account = user.account
       req.session = user.session
-      const page = await req.post()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/account/signin?return-url=/home')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/account/signin?return-url=/home')
     })
   })
 })

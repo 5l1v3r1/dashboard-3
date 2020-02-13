@@ -9,8 +9,8 @@ describe('/account/change-username', () => {
       const req = TestHelper.createRequest('/account/change-username')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -26,8 +26,8 @@ describe('/account/change-username', () => {
         'new-username': '',
         password: user.account.password
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-new-username')
     })
@@ -42,8 +42,8 @@ describe('/account/change-username', () => {
         password: user.account.password
       }
       global.minimumUsernameLength = 100
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-new-username-length')
     })
@@ -57,8 +57,8 @@ describe('/account/change-username', () => {
         'new-username': 'new-username-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
         password: 'invalid'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-password')
@@ -80,8 +80,8 @@ describe('/account/change-username', () => {
         { click: '/account/change-username' },
         { fill: '#submit-form' }
       ]
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')

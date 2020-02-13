@@ -14,8 +14,8 @@ describe('/administrator', () => {
         { hover: '#administrator-menu-container' },
         { click: '/administrator' }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.notStrictEqual(doc, undefined)
       assert.notStrictEqual(doc, null)
     })

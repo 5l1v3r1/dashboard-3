@@ -6,9 +6,10 @@ describe('/account/reset-account', () => {
   describe('ResetAccount#GET', () => {
     it('should present the form', async () => {
       const req = TestHelper.createRequest('/account/reset-account')
-      const page = await req.get()
-      assert.strictEqual(page.getElementById('submit-form').tag, 'form')
-      assert.strictEqual(page.getElementById('submit-button').tag, 'button')
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
+      assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
+      assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
   })
 
@@ -21,8 +22,9 @@ describe('/account/reset-account', () => {
         'confirm-password': 'new-password',
         'secret-code': 'reset-code'
       }
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-username')
     })
 
@@ -34,8 +36,9 @@ describe('/account/reset-account', () => {
         'confirm-password': 'new-password',
         'secret-code': ''
       }
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-secret-code')
     })
 
@@ -48,8 +51,9 @@ describe('/account/reset-account', () => {
         'secret-code': '1'
       }
       global.minimumResetCodeLength = 100
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
     })
 
@@ -61,8 +65,9 @@ describe('/account/reset-account', () => {
         'confirm-password': 'new-password',
         'secret-code': 'reset-code'
       }
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-new-password')
     })
 
@@ -75,8 +80,9 @@ describe('/account/reset-account', () => {
         'secret-code': 'reset-code'
       }
       global.minimumPasswordLength = 100
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-new-password-length')
     })
 
@@ -88,8 +94,9 @@ describe('/account/reset-account', () => {
         'confirm-password': '',
         'secret-code': 'reset-code'
       }
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-confirm-password')
     })
 
@@ -105,8 +112,9 @@ describe('/account/reset-account', () => {
         'confirm-password': 'my-new-password',
         'secret-code': user.resetCode.code
       }
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-account')
     })
 
@@ -169,9 +177,8 @@ describe('/account/reset-account', () => {
         { click: '/account/reset-account' },
         { fill: '#submit-form' }
       ]
-      const page = await req.post()
-      const accountMenu = page.getElementById('account-menu-container')
-      assert.strictEqual(accountMenu.tag, 'div')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/home')
     })
   })
 })

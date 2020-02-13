@@ -27,8 +27,8 @@ describe('/account/profile', () => {
         { click: '/account/profiles' },
         { click: `/account/profile?profileid=${user.profile.profileid}` }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
       const tbody = table.getElementById(user.profile.profileid)
       assert.strictEqual(tbody.tag, 'tbody')
@@ -49,8 +49,8 @@ describe('/account/profile', () => {
       const req = TestHelper.createRequest(`/account/profile?profileid=${user.profile.profileid}`)
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       for (const field in fields) {
         assert.strictEqual(doc.getElementById(field), undefined)
       }
@@ -65,8 +65,8 @@ describe('/account/profile', () => {
         const req2 = TestHelper.createRequest(`/account/profile?profileid=${user.profile.profileid}`)
         req2.account = user.account
         req2.session = user.session
-        const page2 = await req2.get()
-        const doc2 = TestHelper.extractDoc(page2)
+        const result2 = await req2.get()
+        const doc2 = TestHelper.extractDoc(result2.html)
         assert.strictEqual(doc2.getElementById('contact-email').tag, 'tr')
         assert.strictEqual(doc2.getElementById('full-name').tag, 'tr')
         assert.strictEqual(doc2.getElementById(field).tag, 'tr')

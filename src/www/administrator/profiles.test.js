@@ -38,8 +38,8 @@ describe('/administrator/profiles', () => {
         { click: '/administrator' },
         { click: '/administrator/profiles' }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -60,8 +60,8 @@ describe('/administrator/profiles', () => {
       const req = TestHelper.createRequest('/administrator/profiles')
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -85,8 +85,8 @@ describe('/administrator/profiles', () => {
       const req = TestHelper.createRequest(`/administrator/profiles?offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(profiles[offset + i]).tag, 'tr')
       }
@@ -97,8 +97,8 @@ describe('/administrator/profiles', () => {
       const req = TestHelper.createRequest('/administrator/profiles')
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('full-name').tag, 'th')
       assert.strictEqual(doc.getElementById('contact-email').tag, 'th')
       const fields = {
@@ -122,8 +122,8 @@ describe('/administrator/profiles', () => {
           'contact-email': 'test1@test.com',
           [field]: fields[field]
         })
-        const page2 = await req.get()
-        const doc2 = TestHelper.extractDoc(page2)
+        const result2 = await req.get()
+        const doc2 = TestHelper.extractDoc(result2.html)
         assert.strictEqual(doc2.getElementById(field).tag, 'th')
         assert.strictEqual(doc2.getElementById('contact-email').tag, 'th')
         assert.strictEqual(doc2.getElementById('full-name').tag, 'th')

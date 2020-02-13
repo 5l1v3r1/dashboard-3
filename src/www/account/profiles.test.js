@@ -35,8 +35,8 @@ describe('/account/profiles', () => {
         { click: '/account' },
         { click: '/account/profiles' }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -56,8 +56,8 @@ describe('/account/profiles', () => {
       const req = TestHelper.createRequest('/account/profiles')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -80,8 +80,8 @@ describe('/account/profiles', () => {
       const req = TestHelper.createRequest(`/account/profiles?offset=${offset}`)
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(profiles[offset + i]).tag, 'tr')
       }
@@ -92,8 +92,8 @@ describe('/account/profiles', () => {
       const req = TestHelper.createRequest('/account/profiles')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById(`full-name-${user.profile.profileid}`).tag, 'td')
       assert.strictEqual(doc.getElementById(`contact-email-${user.profile.profileid}`).tag, 'td')
       const fields = {
@@ -117,8 +117,8 @@ describe('/account/profiles', () => {
           'contact-email': 'test1@test.com',
           [field]: fields[field]
         })
-        const page2 = await req.get()
-        const doc2 = TestHelper.extractDoc(page2)
+        const result2 = await req.get()
+        const doc2 = TestHelper.extractDoc(result2.html)
         assert.strictEqual(doc2.getElementById(`${field}-${user.profile.profileid}`).tag, 'td')
         assert.strictEqual(doc2.getElementById(`contact-email-${user.profile.profileid}`).tag, 'td')
         assert.strictEqual(doc2.getElementById(`full-name-${user.profile.profileid}`).tag, 'td')

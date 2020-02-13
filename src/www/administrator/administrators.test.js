@@ -29,8 +29,8 @@ describe('/administrator/administrators', () => {
         { click: '/administrator' },
         { click: '/administrator/administrators' }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const row = doc.getElementById(administrator.account.accountid)
       assert.strictEqual(row.tag, 'tr')
     })
@@ -43,8 +43,8 @@ describe('/administrator/administrators', () => {
       const req = TestHelper.createRequest('/administrator/administrators')
       req.account = owner.account
       req.session = owner.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('administrators-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -59,8 +59,8 @@ describe('/administrator/administrators', () => {
       const req = TestHelper.createRequest('/administrator/administrators')
       req.account = owner.account
       req.session = owner.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('administrators-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -78,8 +78,8 @@ describe('/administrator/administrators', () => {
       const req = TestHelper.createRequest(`/administrator/administrators?offset=${offset}`)
       req.account = owner.account
       req.session = owner.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(administrators[offset + i]).tag, 'tr')
       }

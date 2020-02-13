@@ -38,8 +38,8 @@ describe('/administrator/account-sessions', () => {
         { click: `/administrator/account?accountid=${user.account.accountid}` },
         { click: `/administrator/account-sessions?accountid=${user.account.accountid}` }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const tableString = table.toString()
       assert.strictEqual(tableString.indexOf(user.session.sessionid) > -1, true)
@@ -51,8 +51,8 @@ describe('/administrator/account-sessions', () => {
       const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const row = doc.getElementById(user.account.accountid)
       assert.strictEqual(row.tag, 'tr')
     })
@@ -66,8 +66,8 @@ describe('/administrator/account-sessions', () => {
       const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -83,8 +83,8 @@ describe('/administrator/account-sessions', () => {
       const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -103,8 +103,8 @@ describe('/administrator/account-sessions', () => {
       const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}&offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(sessions[offset + i]).tag, 'tr')
       }

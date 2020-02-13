@@ -22,8 +22,8 @@ describe('/administrator/revoke-administrator', () => {
       const req = TestHelper.createRequest(`/administrator/revoke-administrator?accountid=${administrator2.account.accountid}`)
       req.account = owner.account
       req.session = owner.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -45,8 +45,8 @@ describe('/administrator/revoke-administrator', () => {
         { click: `/administrator/revoke-administrator?accountid=${administrator2.account.accountid}` },
         { fill: '#submit-form' }
       ]
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')

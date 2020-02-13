@@ -31,8 +31,8 @@ describe('/administrator/sessions', () => {
         { click: '/administrator' },
         { click: '/administrator/sessions' }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const tableString = table.toString()
       assert.strictEqual(tableString.indexOf(administrator.session.accountid) > -1, true)
@@ -48,8 +48,8 @@ describe('/administrator/sessions', () => {
       const req = TestHelper.createRequest('/administrator/sessions')
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -65,8 +65,8 @@ describe('/administrator/sessions', () => {
       const req = TestHelper.createRequest('/administrator/sessions')
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -84,8 +84,8 @@ describe('/administrator/sessions', () => {
       const req = TestHelper.createRequest(`/administrator/sessions?offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(sessions[offset + i]).tag, 'tr')
       }

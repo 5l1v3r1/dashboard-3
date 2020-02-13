@@ -20,8 +20,8 @@ describe('/account/edit-profile', () => {
       const req = TestHelper.createRequest(`/account/edit-profile?profileid=${user.profile.profileid}`)
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -38,8 +38,8 @@ describe('/account/edit-profile', () => {
         'first-name': '',
         'last-name': 'Test'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-first-name')
@@ -47,8 +47,8 @@ describe('/account/edit-profile', () => {
         'first-name': 'Test',
         'last-name': ''
       }
-      const page2 = await req.post()
-      const doc2 = TestHelper.extractDoc(page2)
+      const result2 = await req.post()
+      const doc2 = TestHelper.extractDoc(result2.html)
       const messageContainer2 = doc2.getElementById('message-container')
       const message2 = messageContainer2.child[0]
       assert.strictEqual(message2.attr.template, 'invalid-last-name')
@@ -66,8 +66,8 @@ describe('/account/edit-profile', () => {
       }
       global.minimumProfileFirstNameLength = 10
       global.maximumProfileFirstNameLength = 100
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-first-name-length')
@@ -77,8 +77,8 @@ describe('/account/edit-profile', () => {
         'first-name': '123456789',
         'last-name': 'Test'
       }
-      const page2 = await req.post()
-      const doc2 = TestHelper.extractDoc(page2)
+      const result2 = await req.post()
+      const doc2 = TestHelper.extractDoc(result2.html)
       const messageContainer2 = doc2.getElementById('message-container')
       const message2 = messageContainer2.child[0]
       assert.strictEqual(message2.attr.template, 'invalid-first-name-length')
@@ -94,8 +94,8 @@ describe('/account/edit-profile', () => {
         'first-name': 'Test',
         'last-name': 'Person'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')
@@ -110,8 +110,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         'contact-email': ''
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-contact-email')
@@ -126,8 +126,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         'contact-email': 'invalid'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-contact-email')
@@ -142,8 +142,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         'contact-email': user.profile.contactEmail
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')
@@ -158,8 +158,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         'display-email': ''
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-email')
@@ -174,8 +174,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         'display-email': 'invalid'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-email')
@@ -190,8 +190,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         'display-email': user.profile.contactEmail
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')
@@ -206,8 +206,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         'display-name': ''
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-name')
@@ -224,8 +224,8 @@ describe('/account/edit-profile', () => {
       }
       global.minimumProfileDisplayNameLength = 10
       global.maximumProfileDisplayNameLength = 100
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-name-length')
@@ -234,8 +234,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         'display-name': '123456789'
       }
-      const page2 = await req.post()
-      const doc2 = TestHelper.extractDoc(page2)
+      const result2 = await req.post()
+      const doc2 = TestHelper.extractDoc(result2.html)
       const messageContainer2 = doc2.getElementById('message-container')
       const message2 = messageContainer2.child[0]
       assert.strictEqual(message2.attr.template, 'invalid-display-name-length')
@@ -250,8 +250,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         'display-name': user.profile.firstName + ' ' + user.profile.lastName.substring(0, 1)
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')
@@ -266,8 +266,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         dob: ''
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-dob')
@@ -282,8 +282,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         dob: '2017-13-52'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-dob')
@@ -298,8 +298,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         dob: '2017-11-01'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')
@@ -314,8 +314,8 @@ describe('/account/edit-profile', () => {
       req.body = {
         dob: '12-13-1968'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')
@@ -332,8 +332,8 @@ describe('/account/edit-profile', () => {
         req.body = {
           [field]: ''
         }
-        const page = await req.post()
-        const doc = TestHelper.extractDoc(page)
+        const result = await req.post()
+        const doc = TestHelper.extractDoc(result.html)
         const messageContainer = doc.getElementById('message-container')
         const message = messageContainer.child[0]
         assert.strictEqual(message.attr.template, `invalid-${field}`)
@@ -351,8 +351,8 @@ describe('/account/edit-profile', () => {
         req.body = {
           [field]: 'test value ' + Math.random()
         }
-        const page = await req.post()
-        const doc = TestHelper.extractDoc(page)
+        const result = await req.post()
+        const doc = TestHelper.extractDoc(result.html)
         const messageContainer = doc.getElementById('message-container')
         const message = messageContainer.child[0]
         assert.strictEqual(message.attr.template, 'success')
@@ -388,8 +388,8 @@ describe('/account/edit-profile', () => {
         { click: `/account/edit-profile?profileid=${user.profile.profileid}` },
         { fill: '#submit-form' }
       ]
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')

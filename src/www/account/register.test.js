@@ -7,8 +7,8 @@ describe('/account/register', () => {
   describe('Register#GET', () => {
     it('should present the form', async () => {
       const req = TestHelper.createRequest('/account/register')
-      const page = await req.get()
-      const doc = await TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = await TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -22,8 +22,8 @@ describe('/account/register', () => {
         password: 'new-password',
         confirm: 'new-password'
       }
-      const page = await req.post()
-      const doc = await TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = await TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-username')
     })
@@ -36,8 +36,8 @@ describe('/account/register', () => {
         confirm: 'new-password'
       }
       global.minimumUsernameLength = 100
-      const page = await req.post()
-      const doc = await TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = await TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-username-length')
     })
@@ -49,8 +49,8 @@ describe('/account/register', () => {
         password: '',
         confirm: 'new-password'
       }
-      const page = await req.post()
-      const doc = await TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = await TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-password')
     })
@@ -63,8 +63,8 @@ describe('/account/register', () => {
         confirm: '1'
       }
       global.minimumPasswordLength = 100
-      const page = await req.post()
-      const doc = await TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = await TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-password-length')
     })
@@ -76,8 +76,8 @@ describe('/account/register', () => {
         password: '1234567890123',
         confirm: '123'
       }
-      const page = await req.post()
-      const doc = await TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = await TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-confirm')
     })
@@ -93,8 +93,8 @@ describe('/account/register', () => {
         'first-name': '',
         'last-name': 'Test'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-first-name')
@@ -105,8 +105,8 @@ describe('/account/register', () => {
         'first-name': 'Test',
         'last-name': ''
       }
-      const page2 = await req.post()
-      const doc2 = TestHelper.extractDoc(page2)
+      const result2 = await req.post()
+      const doc2 = TestHelper.extractDoc(result2.html)
       const messageContainer2 = doc2.getElementById('message-container')
       const message2 = messageContainer2.child[0]
       assert.strictEqual(message2.attr.template, 'invalid-last-name')
@@ -125,8 +125,8 @@ describe('/account/register', () => {
       }
       global.minimumProfileFirstNameLength = 10
       global.maximumProfileFirstNameLength = 100
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-first-name-length')
@@ -139,8 +139,8 @@ describe('/account/register', () => {
         'first-name': '123456789',
         'last-name': 'Test'
       }
-      const page2 = await req.post()
-      const doc2 = TestHelper.extractDoc(page2)
+      const result2 = await req.post()
+      const doc2 = TestHelper.extractDoc(result2.html)
       const messageContainer2 = doc2.getElementById('message-container')
       const message2 = messageContainer2.child[0]
       assert.strictEqual(message2.attr.template, 'invalid-first-name-length')
@@ -157,9 +157,8 @@ describe('/account/register', () => {
         'first-name': 'Test',
         'last-name': 'Person'
       }
-      const page = await req.post()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/home')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/home')
     })
 
     it('should reject missing contact email', async () => {
@@ -172,8 +171,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         'contact-email': ''
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-contact-email')
@@ -189,8 +188,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         'contact-email': 'invalid'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-contact-email')
@@ -206,9 +205,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         'contact-email': TestHelper.nextIdentity().email
       }
-      const page = await req.post()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/home')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/home')
     })
 
     it('should reject missing display email', async () => {
@@ -221,8 +219,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         'display-email': ''
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-email')
@@ -238,8 +236,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         'display-email': 'invalid'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-email')
@@ -255,9 +253,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         'display-email': TestHelper.nextIdentity().email
       }
-      const page = await req.post()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/home')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/home')
     })
 
     it('should require display name', async () => {
@@ -270,8 +267,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         'display-name': ''
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-name')
@@ -289,8 +286,8 @@ describe('/account/register', () => {
       }
       global.minimumProfileDisplayNameLength = 10
       global.maximumProfileDisplayNameLength = 100
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-display-name-length')
@@ -302,8 +299,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         'display-name': '123456789'
       }
-      const page2 = await req.post()
-      const doc2 = TestHelper.extractDoc(page2)
+      const result2 = await req.post()
+      const doc2 = TestHelper.extractDoc(result2.html)
       const messageContainer2 = doc2.getElementById('message-container')
       const message2 = messageContainer2.child[0]
       assert.strictEqual(message2.attr.template, 'invalid-display-name-length')
@@ -319,9 +316,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         'display-name': '@user'
       }
-      const page = await req.post()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/home')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/home')
     })
 
     it('should require date of birth', async () => {
@@ -334,8 +330,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         dob: ''
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-dob')
@@ -351,8 +347,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         dob: '2017-13-52'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-dob')
@@ -368,9 +364,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         dob: '2017-11-01'
       }
-      const page = await req.post()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/home')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/home')
     })
 
     it('should accept dob in MM-DD-YYYY', async () => {
@@ -383,9 +378,8 @@ describe('/account/register', () => {
         confirm: 'a-user-password',
         dob: '12-13-1968'
       }
-      const page = await req.post()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/home')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/home')
     })
 
     it('should require unvalidated fields', async () => {
@@ -399,8 +393,8 @@ describe('/account/register', () => {
       }
       for (const field of fields) {
         global.userProfileFields = [field]
-        const page = await req.post()
-        const doc = TestHelper.extractDoc(page)
+        const result = await req.post()
+        const doc = TestHelper.extractDoc(result.html)
         const messageContainer = doc.getElementById('message-container')
         const message = messageContainer.child[0]
         assert.strictEqual(message.attr.template, `invalid-${field}`)
@@ -419,9 +413,8 @@ describe('/account/register', () => {
           confirm: 'a-user-password'
         }
         req.body[field] = 'test value ' + Math.random()
-        const page = await req.post()
-        const redirectURL = TestHelper.extractRedirectURL(page)
-        assert.strictEqual(redirectURL, '/home')
+        const result = await req.post()
+        assert.strictEqual(result.redirect, '/home')
       }
     })
 

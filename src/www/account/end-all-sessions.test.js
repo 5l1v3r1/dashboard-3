@@ -11,8 +11,8 @@ describe('/account/end-all-sessions', () => {
       const req = TestHelper.createRequest('/account/end-all-sessions')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -42,9 +42,8 @@ describe('/account/end-all-sessions', () => {
       const req = TestHelper.createRequest('/account/end-all-sessions')
       req.account = user.account
       req.session = user.session
-      const page = await req.post()
-      const redirectURL = TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/account/signin?return-url=/home')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/account/signin?return-url=/home')
     })
   })
 })

@@ -9,9 +9,10 @@ describe('/account/verify', () => {
       const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      assert.strictEqual(page.getElementById('submit-form').tag, 'form')
-      assert.strictEqual(page.getElementById('submit-button').tag, 'button')
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
+      assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
+      assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
   })
 
@@ -25,8 +26,9 @@ describe('/account/verify', () => {
         username: '',
         password: 'password'
       }
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-username')
     })
 
@@ -40,8 +42,9 @@ describe('/account/verify', () => {
         password: '123456789123'
       }
       global.minimumUsernameLength = 100
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-username-length')
     })
 
@@ -54,8 +57,9 @@ describe('/account/verify', () => {
         username: 'asdfasdf',
         password: ''
       }
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-password')
     })
 
@@ -68,8 +72,9 @@ describe('/account/verify', () => {
         username: user.account.username,
         password: 'invalid-password'
       }
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-password')
     })
 
@@ -83,8 +88,9 @@ describe('/account/verify', () => {
         password: '1'
       }
       global.minimumPasswordLength = 100
-      const page = await req.post()
-      const message = page.getElementById('message-container').child[0]
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-password-length')
     })
 
@@ -98,9 +104,8 @@ describe('/account/verify', () => {
         username: user.account.username,
         password: user.account.password
       }
-      const page = await req.post()
-      const redirectURL = await TestHelper.extractRedirectURL(page)
-      assert.strictEqual(redirectURL, '/redirecting')
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/redirecting')
       const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
       req2.account = administrator.account
       req2.session = administrator.session

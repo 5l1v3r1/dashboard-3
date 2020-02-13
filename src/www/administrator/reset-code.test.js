@@ -31,8 +31,8 @@ describe('/administrator/reset-code', () => {
         { click: '/administrator/reset-codes' },
         { click: `/administrator/reset-code?codeid=${user.resetCode.codeid}` }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('reset-codes-table')
       const tbody = table.getElementById(user.resetCode.codeid)
       assert.strictEqual(tbody.tag, 'tbody')

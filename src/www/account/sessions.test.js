@@ -33,7 +33,8 @@ describe('/account/sessions', () => {
         username: user.account.username,
         password: user.account.password
       }
-      const doc = await req2.post()
+      const result = await req2.post()
+      const doc = TestHelper.extractDoc(result.html)
       const sessionRow = doc.getElementById(`${req.session.sessionid}`)
       assert.strictEqual(undefined, sessionRow)
     })
@@ -46,8 +47,8 @@ describe('/account/sessions', () => {
       const req = TestHelper.createRequest('/account/sessions')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -62,8 +63,8 @@ describe('/account/sessions', () => {
       const req = TestHelper.createRequest('/account/sessions')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -81,8 +82,8 @@ describe('/account/sessions', () => {
       const req = TestHelper.createRequest(`/account/sessions?offset=${offset}`)
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(sessions[offset + i]).tag, 'tr')
       }

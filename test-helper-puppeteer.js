@@ -47,10 +47,6 @@ module.exports = {
 
 async function fetch (method, req) {
   puppeteer = global.puppeteer = global.puppeteer || require('puppeteer')
-  if (browser && browser.close) {
-    browser.close()
-    browser = null
-  }
   while (!browser) {
     try {
       browser = await puppeteer.launch({
@@ -74,110 +70,72 @@ async function fetch (method, req) {
     }
     await wait(1)
   }
-  let pages
-  while (!pages) {
-    try {
-      pages = await browser.pages()
-    } catch (error) {
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error instantiating pages', error.toString())
-      }
-    }
-    if (pages) {
-      break
-    }
-    await wait(1)
-  }
+  const result = {}
   let page
-  if (pages && pages.length) {
-    page = pages[0]
-  } else {
-    while (true) {
-      pages = await browser.pages()
-      if (pages && pages.length) {
-        page = pages[0]
-      } else {
-        try {
-          page = await browser.newPage()
-          if (process.env. DEBUG_PUPPETEER) {
-            page.on('error', msg => console.log('[error]', msg.text()))
-            page.on('console', msg => console.log('[console]', msg.text()))
+  try {
+    page = await browser.newPage()
+    await page.emulate(devices[0])
+    if (process.env.DEBUG_PUPPETEER) {
+      page.on('error', msg => console.log('[error]', msg.text()))
+      page.on('console', msg => console.log('[console]', msg.text()))
+    }
+    await page.setDefaultTimeout(180000)
+    await page.setDefaultNavigationTimeout(180000)
+    await page.setBypassCSP(true)
+    await page.setRequestInterception(true)
+    if (req.session) {
+      const cookie = {
+        value: req.session.sessionid,
+        expires: Math.ceil(Date.now() / 1000) + 1000,
+        name: 'sessionid',
+        url: global.dashboardServer
+      }
+      await page.setCookie(cookie)
+      const cookie2 = {
+        value: req.session.token,
+        expires: Math.ceil(Date.now() / 1000) + 1000,
+        name: 'token',
+        url: global.dashboardServer
+      }
+      await page.setCookie(cookie2)
+    }
+    page.on('request', async (request) => {
+      await request.continue()
+    })
+    page.on('response', async (response) => {
+      const status = await response.status()
+      if (status === 302) {
+        if (req.session) {
+          const cookie = {
+            value: req.session.sessionid,
+            expires: Math.ceil(Date.now() / 1000) + 1000,
+            name: 'sessionid',
+            url: global.dashboardServer
           }
-        } catch (error) {
-          if (process.env.DEBUG_PUPPETEER) {
-            console.log('error opening new page', error.toString())
+          await page.setCookie(cookie)
+          const cookie2 = {
+            value: req.session.token,
+            expires: Math.ceil(Date.now() / 1000) + 1000,
+            name: 'token',
+            url: global.dashboardServer
+          }
+          await page.setCookie(cookie2)
+        }
+        const headers = await response.headers()
+        result.redirect = headers.location
+        while (true) {
+          try {
+            await page.goto(`${global.dashboardServer}${result.redirect}`, { waitLoad: true, waitNetworkIdle: true })
+            break
+          } catch (error) {
           }
         }
       }
-      if (page) {
-        break
-      }
-      await wait(1)
+    })
+  } catch (error) {
+    if (process.env.DEBUG_PUPPETEER) {
+      console.log('error opening new page', error.toString())
     }
-  }
-  await page.setDefaultTimeout(180000)
-  await page.setDefaultNavigationTimeout(180000)
-  await page.setBypassCSP(true)
-  await page.setRequestInterception(true)
-  page.on('request', request => {
-    request.continue()
-  })
-  page.on('response', async (response) => {
-    const status = await response.status()
-    if (status === 302) {
-      if (req.session) {
-        const cookie = {
-          value: req.session.sessionid,
-          expires: Math.ceil(Date.now() / 1000) + 1000,
-          name: 'sessionid',
-          url: global.dashboardServer
-        }
-        await page.setCookie(cookie)
-        const cookie2 = {
-          value: req.session.token,
-          expires: Math.ceil(Date.now() / 1000) + 1000,
-          name: 'token',
-          url: global.dashboardServer
-        }
-        await page.setCookie(cookie2)
-      }
-      const headers = await response.headers() 
-      while (true) {
-        try {
-          await page.goto(`${global.dashboardServer}${headers.location}`, { waitLoad: true, waitNetworkIdle: true })
-          break
-        } catch (error) {
-        }
-      }
-    }
-  })
-  while (true) {
-    try {
-      await page.emulate(devices[0])
-      break
-    } catch (error) {
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error emulating desktop settings', error.toString())
-      }
-      await wait(1)
-      continue
-    }
-  }
-  if (req.session) {
-    const cookie = {
-      value: req.session.sessionid,
-      expires: Math.ceil(Date.now() / 1000) + 1000,
-      name: 'sessionid',
-      url: global.dashboardServer
-    }
-    await page.setCookie(cookie)
-    const cookie2 = {
-      value: req.session.token,
-      expires: Math.ceil(Date.now() / 1000) + 1000,
-      name: 'token',
-      url: global.dashboardServer
-    }
-    await page.setCookie(cookie2)
   }
   if (req.screenshots) {
     if (req.account) {
@@ -233,7 +191,7 @@ async function fetch (method, req) {
               await hover(page, '#account-menu-container')
               await wait(10)
             } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
-              if (process.env.DEBUG_PUPPETEER) {        
+              if (process.env.DEBUG_PUPPETEER) {
                 console.log('hover administrator menu to click link')
               }
               await hover(page, '#administrator-menu-container')
@@ -261,18 +219,7 @@ async function fetch (method, req) {
         }
         screenshotNumber++
         await click(page, step.click)
-        let redirecting = false
-        await page.waitForResponse(async (response) => {
-          const status = await response.status()
-          if (status === 302) {
-            redirecting = true
-          }
-          return status === 200
-        })
-        if (redirecting) {
-          await wait(1000)
-        }
-        await page.waitForSelector('body')
+        await page.waitForNavigation()
       } else if (step.fill) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
@@ -287,49 +234,11 @@ async function fetch (method, req) {
         screenshotNumber++
         await focus(page, req.button || '#submit-button')
         await click(page, req.button || '#submit-button')
-        let redirecting = false
-        await page.waitForResponse(async (response) => {
-          const status = await response.status()
-          if (status === 302) {
-            redirecting = true
-          }
-          return status === 200
-        })
-        if (redirecting) {
-          await wait(1000)
-        }
+        await page.waitForNavigation()
       }
       lastStep = step
     }
     await page.waitForSelector('body')
-    let zhtml
-    while (true) {
-      try {
-        zhtml = await page.content()
-        break
-      } catch (error) {
-      }
-    }
-    let zlocation
-    while (!zlocation) {
-      try {
-        zlocation = await page.url()
-      } catch (error) {
-      }
-    }
-    if (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
-      zlocation = zhtml.substring(zhtml.indexOf(';url=') + 5)
-      zlocation = zlocation.substring(0, zlocation.indexOf('"'))
-      while (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
-        await wait(100)
-        try {
-          const newHTML = await page.content()
-          zhtml = newHTML || zhtml
-        } catch (error) {
-        }
-      }
-      await page.waitForSelector('body')
-    }
     if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
       for (const device of devices) {
         await page.setViewport(device.viewport)
@@ -343,22 +252,40 @@ async function fetch (method, req) {
     if (method === 'POST') {
       await fill(page, '#submit-form', req.body, req.uploads)
       await click(page, req.button || '#submit-button')
-      let redirecting = false
-      await page.waitForResponse(async (response) => {
-        const status = await response.status()
-        if (status === 302) {
-          redirecting = true
-        }
-        return status === 200
-      })
-      if (redirecting) {
-        await wait(1000)
-      } else {
-        await wait(10000)
-      }
+      await page.waitForNavigation()
     }
   }
   await page.waitForSelector('body')
+  let zhtml
+  while (true) {
+    try {
+      zhtml = await page.content()
+      break
+    } catch (error) {
+    }
+  }
+  // detect rendered <meta> redirect pages
+  let zlocation
+  while (!zlocation) {
+    try {
+      zlocation = await page.url()
+    } catch (error) {
+    }
+  }
+  if (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
+    zlocation = zhtml.substring(zhtml.indexOf(';url=') + 5)
+    zlocation = zlocation.substring(0, zlocation.indexOf('"'))
+    result.redirect = zlocation
+    while (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
+      await wait(100)
+      try {
+        const newHTML = await page.content()
+        zhtml = newHTML || zhtml
+      } catch (error) {
+      }
+    }
+    await page.waitForSelector('body')
+  }
   let html
   while (!html) {
     try {
@@ -369,8 +296,9 @@ async function fetch (method, req) {
       await wait(100)
     }
   }
+  result.html = html
   await page.close()
-  return html
+  return result
 }
 
 async function emulate (page, device, req) {
@@ -764,7 +692,7 @@ async function clickElement (element) {
   let fails = 0
   while (true) {
     try {
-      await element.click()
+      await element.click({ waitLoad: true, waitNetworkIdle: true })
       return
     } catch (error) {
       if (process.env.DEBUG_PUPPETEER) {

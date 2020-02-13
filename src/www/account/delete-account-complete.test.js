@@ -11,8 +11,8 @@ describe('/account/delete-account-complete', () => {
       req.account = user.account
       req.account.deleted = req.account.created
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const duration = doc.getElementById('scheduled-delete')
       assert.strictEqual(duration.tag, 'div')
     })
@@ -24,8 +24,8 @@ describe('/account/delete-account-complete', () => {
       req.account = user.account
       req.account.deleted = req.account.created
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const duration = doc.getElementById('scheduled-delete')
       assert.strictEqual(duration.tag, 'div')
     })
@@ -37,8 +37,8 @@ describe('/account/delete-account-complete', () => {
       req.account = user.account
       req.account.deleted = req.account.created
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const instant = doc.getElementById('instant-delete')
       assert.strictEqual(instant.tag, 'div')
     })

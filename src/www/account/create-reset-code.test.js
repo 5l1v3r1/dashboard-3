@@ -9,8 +9,8 @@ describe('/account/create-reset-code', () => {
       const req = TestHelper.createRequest('/account/create-reset-code')
       req.account = user.account
       req.session = user.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
@@ -26,8 +26,8 @@ describe('/account/create-reset-code', () => {
         'secret-code': '',
         post: 'at least one field'
       }
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-secret-code')
     })
@@ -41,8 +41,8 @@ describe('/account/create-reset-code', () => {
         'secret-code': '1'
       }
       global.minimumResetCodeLength = 100
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
     })
@@ -56,8 +56,8 @@ describe('/account/create-reset-code', () => {
         'secret-code': '1000000'
       }
       global.maximumResetCodeLength = 1
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
     })
@@ -79,8 +79,8 @@ describe('/account/create-reset-code', () => {
         { fill: '#submit-form' }
       ]
       global.minimumResetCodeLength = 1
-      const page = await req.post()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'success')

@@ -31,8 +31,8 @@ describe('/administrator/account-profiles', () => {
         { click: `/administrator/account?accountid=${user.account.accountid}` },
         { click: `/administrator/account-profiles?accountid=${user.account.accountid}` }
       ]
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const row = doc.getElementById(user.account.accountid)
       assert.strictEqual(row.tag, 'tr')
     })
@@ -51,8 +51,8 @@ describe('/administrator/account-profiles', () => {
       const req = TestHelper.createRequest(`/administrator/account-profiles?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -73,8 +73,8 @@ describe('/administrator/account-profiles', () => {
       const req = TestHelper.createRequest(`/administrator/account-profiles?accountid=${user.account.accountid}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
       const rows = table.getElementsByTagName('tr')
       assert.strictEqual(rows.length, global.pageSize + 1)
@@ -98,8 +98,8 @@ describe('/administrator/account-profiles', () => {
       const req = TestHelper.createRequest(`/administrator/account-profiles?accountid=${user.account.accountid}&offset=${offset}`)
       req.account = administrator.account
       req.session = administrator.session
-      const page = await req.get()
-      const doc = TestHelper.extractDoc(page)
+      const result = await req.get()
+      const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(profiles[offset + i]).tag, 'tr')
       }
