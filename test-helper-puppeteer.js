@@ -47,6 +47,145 @@ module.exports = {
 
 async function fetch (method, req) {
   puppeteer = global.puppeteer = global.puppeteer || require('puppeteer')
+  browser = await relaunchBrowser()
+  const result = {}
+  const page = await launchBrowserPage()
+  await emulate(page, devices[0])
+  if (process.env.DEBUG_PUPPETEER) {
+    page.on('error', msg => console.log('[error]', msg.text()))
+    page.on('console', msg => console.log('[console]', msg.text()))
+  }
+  // these huge timeouts allow webhooks to be received
+  await page.setDefaultTimeout(30000)
+  await page.setDefaultNavigationTimeout(30000)
+  await page.setBypassCSP(true)
+  await page.setRequestInterception(true)
+  page.on('request', async (request) => {
+    await request.continue()
+  })
+  page.on('response', async (response) => {
+    const status = await response.status()
+    if (status === 302) {
+      const headers = await response.headers()
+      result.redirect = headers.location
+      await gotoURL(page, `${global.dashboardServer}${headers.location}`)
+    } else {
+      return status === 200
+    }
+  })
+  if (req.screenshots) {
+    if (req.account) {
+      await setCookie(page, req)
+      await gotoURL(page, `${global.dashboardServer}/home`)
+    } else {
+      await gotoURL(page, global.dashboardServer)
+    }
+    let screenshotNumber = 1
+    let lastStep
+    for (const step of req.screenshots) {
+      if (process.env.DEBUG_PUPPETEER) {
+        console.log('screenshot step', JSON.stringify(step))
+      }
+      if (step.save) {
+        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+          for (const device of devices) {
+            await emulate(page, device)
+            await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename)
+          }
+        }
+        screenshotNumber++
+        continue
+      }
+      if (step.hover) {
+        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+          for (const device of devices) {
+            await emulate(page, device, req)
+            await hover(page, step.hover)
+            await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
+          }
+        } else {
+          await hover(page, step.hover)
+        }
+        screenshotNumber++
+      } else if (step.click) {
+        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+          for (const device of devices) {
+            await emulate(page, device)
+            if (lastStep && lastStep.hover === '#account-menu-container') {
+              await hover(page, '#account-menu-container')
+              await wait(100)
+            } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
+              await hover(page, '#administrator-menu-container')
+              await wait(100)
+            }
+            await hover(page, step.click)
+            await focus(page, step.click)
+            await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
+          }
+        } else {
+          if (lastStep && lastStep.hover === '#account-menu-container') {
+            await hover(page, '#account-menu-container')
+            await wait(100)
+          } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
+            await hover(page, '#administrator-menu-container')
+            await wait(100)
+          }
+          await hover(page, step.click)
+        }
+        screenshotNumber++
+        await click(page, step.click)
+      } else if (step.fill) {
+        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+          for (const device of devices) {
+            await emulate(page, device, req)
+            await fill(page, step.fill, step.body || req.body, req.uploads)
+            await hover(page, req.button || '#submit-button')
+            await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
+          }
+        } else {
+          await fill(page, step.fill, step.body || req.body, step.uploads || req.uploads)
+        }
+        screenshotNumber++
+        await focus(page, req.button || '#submit-button')
+        await click(page, req.button || '#submit-button')
+      }
+      lastStep = step
+    }
+    if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
+      for (const device of devices) {
+        await emulate(page, device)
+        await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
+      }
+    }
+    screenshotNumber++
+  } else {
+    if (req.account) {
+      await setCookie(page, req)
+    }
+    await gotoURL(page, `${global.dashboardServer}${req.url}`)
+    if (method === 'POST') {
+      await fill(page, '#submit-form', req.body, req.uploads)
+      await hover(page, req.button || '#submit-button')
+      await click(page, req.button || '#submit-button')
+    }
+  }
+  let html = await getContent(page)
+  if (html.indexOf('<meta http-equiv="refresh"') > -1) {
+    let redirectLocation = html.substring(html.indexOf(';url=') + 5)
+    redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
+    result.redirect = redirectLocation
+    while (!html || html.indexOf('<meta http-equiv="refresh"') > -1) {
+      html = await getContent(page)
+      await wait(100)
+    }
+  }
+  // return html
+  result.html = html
+  await page.close()
+  return result
+}
+
+async function relaunchBrowser() {
   if (browser && browser.close) {
     await browser.close()
     browser = null
@@ -64,286 +203,98 @@ async function fetch (method, req) {
         ],
         slowMo: 0
       })
+      return browser
     } catch (error) {
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error instantiating browser', error.toString())
       }
     }
-    if (browser) {
-      break
-    }
-    await wait(1)
+    await wait(100)
   }
-  const result = {}
+}
+
+async function launchBrowserPage () {
+  let pages
+  while (!pages) {
+    try {
+      pages = await browser.pages()
+    } catch (error) {
+    }
+    await wait(100)
+  }
+  if (pages && pages.length) {
+    return pages[0]
+  }
   let page
-  try {
-    page = await browser.newPage()
-    await page.emulate(devices[0])
-    if (process.env.DEBUG_PUPPETEER) {
-      page.on('error', msg => console.log('[error]', msg.text()))
-      page.on('console', msg => console.log('[console]', msg.text()))
+  while (!page) {
+    try {
+      page = await browser.newPage()
+    } catch (error) {
     }
-    await page.setDefaultTimeout(180000)
-    await page.setDefaultNavigationTimeout(180000)
-    await page.setBypassCSP(true)
-    await page.setRequestInterception(true)
-    if (req.session) {
-      const cookie = {
-        value: req.session.sessionid,
-        expires: Math.ceil(Date.now() / 1000) + 1000,
-        name: 'sessionid',
-        url: global.dashboardServer
-      }
-      const cookie2 = {
-        value: req.session.token,
-        expires: Math.ceil(Date.now() / 1000) + 1000,
-        name: 'token',
-        url: global.dashboardServer
-      }
-      while (true) {
-        try {
-          await page.setCookie(cookie)
-          await page.setCookie(cookie2)
-          break
-        } catch (error) {
-        }
-      }
-    }
-    page.on('request', async (request) => {
-      await request.continue()
-    })
-    page.on('response', async (response) => {
-      const status = await response.status()
-      if (status === 302) {
-        if (req.session) {
-          const cookie = {
-            value: req.session.sessionid,
-            expires: Math.ceil(Date.now() / 1000) + 1000,
-            name: 'sessionid',
-            url: global.dashboardServer
-          }
-          const cookie2 = {
-            value: req.session.token,
-            expires: Math.ceil(Date.now() / 1000) + 1000,
-            name: 'token',
-            url: global.dashboardServer
-          }
-          while (true) {
-            try {
-              await page.setCookie(cookie)
-              await page.setCookie(cookie2)
-              break
-            } catch (error) {
-            }
-          }
-        }
-        const headers = await response.headers()
-        result.redirect = headers.location
-        while (true) {
-          try {
-            await page.goto(`${global.dashboardServer}${result.redirect}`, { waitLoad: true, waitNetworkIdle: true })
-            break
-          } catch (error) {
-          }
-        }
-      }
-    })
-  } catch (error) {
-    if (process.env.DEBUG_PUPPETEER) {
-      console.log('error opening new page', error.toString())
-    }
+    await wait(100)
   }
-  if (req.screenshots) {
-    if (req.account) {
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('continuing authenticated session at /home')
-      }
-      await page.goto(`${global.dashboardServer}/home`, { waitLoad: true, waitNetworkIdle: true })
-    } else {
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('starting guest session at /')
-      }
-      await page.goto(global.dashboardServer, { waitLoad: true, waitNetworkIdle: true })
-    }
-    await page.waitForSelector('body')
-    let screenshotNumber = 1
-    let lastStep
-    for (const step of req.screenshots) {
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('screenshot step', JSON.stringify(step))
-      }
-      if (step.save) {
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          for (const device of devices) {
-            await emulate(page, device, req)
-            await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename)
-          }
-        }
-        screenshotNumber++
-        continue
-      }
-      if (step.hover) {
-        if (process.env.DEBUG_PUPPETEER) {
-          console.log('hover menu')
-        }
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          for (const device of devices) {
-            await emulate(page, device, req)
-            await hover(page, step.hover)
-            await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
-          }
-        } else {
-          await hover(page, step.hover)
-        }
-        screenshotNumber++
-      } else if (step.click) {
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          for (const device of devices) {
-            await emulate(page, device, req)
-            if (lastStep && lastStep.hover === '#account-menu-container') {
-              if (process.env.DEBUG_PUPPETEER) {
-                console.log('hover account menu to click link')
-              }
-              await hover(page, '#account-menu-container')
-              await wait(10)
-            } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
-              if (process.env.DEBUG_PUPPETEER) {
-                console.log('hover administrator menu to click link')
-              }
-              await hover(page, '#administrator-menu-container')
-              await wait(10)
-            }
-            if (process.env.DEBUG_PUPPETEER) {
-              console.log('hovering click target')
-            }
-            await hover(page, step.click)
-            if (process.env.DEBUG_PUPPETEER) {
-              console.log('focusing click target')
-            }
-            await focus(page, step.click)
-            await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
-          }
-        } else {
-          if (lastStep && lastStep.hover === '#account-menu-container') {
-            await hover(page, '#account-menu-container')
-            await wait(10)
-          } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
-            await hover(page, '#administrator-menu-container')
-            await wait(10)
-          }
-          await hover(page, step.click)
-        }
-        screenshotNumber++
-        await click(page, step.click)
-        await page.waitForNavigation()
-      } else if (step.fill) {
-        if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          for (const device of devices) {
-            await emulate(page, device, req)
-            await fill(page, step.fill, step.body || req.body, req.uploads)
-            await hover(page, req.button || '#submit-button')
-            await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
-          }
-        } else {
-          await fill(page, step.fill, step.body || req.body, step.uploads || req.uploads)
-        }
-        screenshotNumber++
-        await focus(page, req.button || '#submit-button')
-        await click(page, req.button || '#submit-button')
-        await page.waitForNavigation()
-      }
-      lastStep = step
-    }
-    await page.waitForSelector('body')
-    if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-      for (const device of devices) {
-        await page.setViewport(device.viewport)
-        await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
-      }
-    }
-    screenshotNumber++
-  } else {
-    await page.goto(`${global.dashboardServer}${req.url}`, { waitLoad: true, waitNetworkIdle: true })
-    await page.waitForSelector('body')
-    if (method === 'POST') {
-      await fill(page, '#submit-form', req.body, req.uploads)
-      await click(page, req.button || '#submit-button')
-      await page.waitForNavigation()
-    }
-  }
-  await page.waitForSelector('body')
-  let zhtml
+}
+
+async function gotoURL (page, url) {
   while (true) {
     try {
-      zhtml = await page.content()
-      break
+      await page.goto(url, { waitLoad: true, waitNetworkIdle: true })
+      return true
     } catch (error) {
-    }
-  }
-  // detect rendered <meta> redirect pages
-  let zlocation
-  while (!zlocation) {
-    try {
-      zlocation = await page.url()
-    } catch (error) {
-    }
-  }
-  if (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
-    zlocation = zhtml.substring(zhtml.indexOf(';url=') + 5)
-    zlocation = zlocation.substring(0, zlocation.indexOf('"'))
-    result.redirect = zlocation
-    while (zhtml.indexOf('<meta http-equiv="refresh"') > -1) {
-      await wait(100)
-      try {
-        const newHTML = await page.content()
-        zhtml = newHTML || zhtml
-      } catch (error) {
+      if (process.env.DEBUG_PUPPETEER) {
+        console.log('error going to url', error.toString())
       }
     }
-    await page.waitForSelector('body')
+    await wait(100)
   }
+}
+
+async function getContent (page) {
   let html
-  while (!html) {
+  while (!html || !html.length) {
     try {
       html = await page.content()
     } catch (error) {
     }
-    if (!html || !html.length) {
-      await wait(100)
-    }
+    await wait(100)
   }
-  result.html = html
-  await page.close()
-  return result
+  return html
 }
-
-async function emulate (page, device, req) {
-  await page.emulate(device)
+async function setCookie (page, req) {
   if (!req.session) {
     return
   }
   const cookie = {
     value: req.session.sessionid,
     expires: Math.ceil(Date.now() / 1000) + 1000,
-    name: 'sessionid'
+    name: 'sessionid',
+    url: global.dashboardServer
   }
-  // this is not a good check the intention is to not
-  // set an ip address as the cookie's domain
-  if (global.domain && global.domain.split('.').length !== 4) {
-    cookie.domain = global.domain
-  } else {
-    cookie.url = global.dashboardServer
-  }
-  await page.setCookie(cookie)
   const cookie2 = {
     value: req.session.token,
     expires: Math.ceil(Date.now() / 1000) + 1000,
-    name: 'token'
+    name: 'token',
+    url:  global.dashboardServer
   }
-  if (global.domain && global.domain.split('.').length !== 4) {
-    cookie2.domain = global.domain
-  } else {
-    cookie2.url = global.dashboardServer
+  while (true) {
+    try {
+      await page.setCookie(cookie)
+      await page.setCookie(cookie2)
+      return
+    } catch (error) {
+    }
+    await wait(100)
+  }
+}
+
+async function emulate (page, device) {
+  while (true) {
+    try {
+      await page.emulate(device)
+      return
+    } catch (error) {
+    }
+    await wait(100)
   }
 }
 
@@ -400,8 +351,7 @@ async function focus (page, identifier) {
     return focusElement(element)
   }
   if (process.env.DEBUG_PUPPETEER) {
-    const contents = page.contents ? page.contents() : null
-    console.log('could not focus element', contents)
+    console.log('could not focus element', identifier)
   }
 }
 
@@ -411,15 +361,26 @@ async function hover (page, identifier) {
     return hoverElement(element)
   }
   if (process.env.DEBUG_PUPPETEER) {
-    const contents = page.contents ? page.contents() : null
-    console.log('could not hover element', contents)
+    console.log('could not hover element', identifier)
   }
 }
 
 async function click (page, identifier) {
   const element = await getElement(page, identifier)
   if (element) {
-    return clickElement(element)
+    const tagName = await evaluate(page, el => el.tagName, element)
+    await clickElement(element)
+    if (tagName === 'A') {
+      return page.waitForNavigation()
+    } else if (tagName === 'BUTTON') {
+      return page.waitForResponse((response) => {
+        const status = response.status()
+        return status === 200
+      })
+    }
+  }
+  if (process.env.DEBUG_PUPPETEER) {
+    console.log('could not click element', identifier)
   }
 }
 
@@ -554,9 +515,6 @@ async function getElement (page, identifier) {
     if (elements && elements.length) {
       for (element of elements) {
         const href = await evaluate(page, el => el.href, element)
-        if (process.env.DEBUG_PUPPETEER) {
-          console.log('checking page link', href, identifier)
-        }
         if (href) {
           if (href === identifier ||
               href.startsWith(`${identifier}?`) ||
@@ -564,6 +522,9 @@ async function getElement (page, identifier) {
               href === `${global.dashboardServer}${identifier}` ||
               href.startsWith(`${global.dashboardServer}${identifier}?`) ||
               href.startsWith(`${global.dashboardServer}${identifier}&`)) {
+            if (process.env.DEBUG_PUPPETEER) {
+              console.log('found page link', identifier)
+            }
             return element
           }
         }
@@ -574,9 +535,6 @@ async function getElement (page, identifier) {
       if (elements && elements.length) {
         for (element of elements) {
           const href = await evaluate(page, el => el.href, element)
-          if (process.env.DEBUG_PUPPETEER) {
-            console.log('checking frame link', href, identifier)
-          }
           if (href) {
             if (href === identifier ||
               href.startsWith(`${identifier}?`) ||
@@ -584,6 +542,9 @@ async function getElement (page, identifier) {
               href === `${global.dashboardServer}${identifier}` ||
               href.startsWith(`${global.dashboardServer}${identifier}?`) ||
               href.startsWith(`${global.dashboardServer}${identifier}&`)) {
+              if (process.env.DEBUG_PUPPETEER) {
+                console.log('found frame link', identifier)
+              }
               return element
             }
           }
@@ -601,6 +562,9 @@ async function getElement (page, identifier) {
       const text = await getText(element)
       if (text) {
         if (text === identifier || text.indexOf(identifier) > -1) {
+          if (process.env.DEBUG_PUPPETEER) {
+            console.log('found page element', identifier)
+          }
           return element
         }
       }
@@ -614,6 +578,9 @@ async function getElement (page, identifier) {
         const text = await getText(element)
         if (text) {
           if (text === identifier || text.indexOf(identifier) > -1) {
+            if (process.env.DEBUG_PUPPETEER) {
+              console.log('found frame element', identifier)
+            }
             return element
           }
         }
@@ -638,7 +605,7 @@ async function evaluate (page, method, element) {
     if (fails > 10) {
       throw new Error('evaluate failed ten times')
     }
-    await wait(1)
+    await wait(100)
   }
 }
 
@@ -662,7 +629,7 @@ async function getOptionalApplicationFrame (page) {
     if (fails > 10) {
       return null
     }
-    await wait(1)
+    await wait(100)
   }
 }
 
@@ -681,7 +648,7 @@ async function getTags (page, tag) {
     if (fails > 10) {
       throw new Error('getTags failed ten times')
     }
-    await wait(1)
+    await wait(100)
   }
 }
 
@@ -700,7 +667,7 @@ async function hoverElement (element) {
     if (fails > 10) {
       throw new Error('hoverElement failed ten times')
     }
-    await wait(1)
+    await wait(100)
   }
 }
 
@@ -708,7 +675,7 @@ async function clickElement (element) {
   let fails = 0
   while (true) {
     try {
-      await element.click({ waitLoad: true, waitNetworkIdle: true })
+      await element.click()
       return
     } catch (error) {
       if (process.env.DEBUG_PUPPETEER) {
@@ -719,7 +686,7 @@ async function clickElement (element) {
     if (fails > 10) {
       throw new Error('clickElement failed ten times')
     }
-    await wait(1)
+    await wait(100)
   }
 }
 
@@ -738,7 +705,7 @@ async function focusElement (element) {
     if (fails > 10) {
       throw new Error('focusElement failed ten times')
     }
-    await wait(1)
+    await wait(100)
   }
 }
 
@@ -757,7 +724,7 @@ async function uploadFile (element, path) {
     if (fails > 10) {
       throw new Error('uploadFile failed ten times')
     }
-    await wait(1)
+    await wait(100)
   }
 }
 
@@ -776,7 +743,7 @@ async function typeInElement (element, text) {
     if (fails > 10) {
       throw new Error('typeElement failed ten times')
     }
-    await wait(1)
+    await wait(100)
   }
 }
 
@@ -806,7 +773,7 @@ async function selectOption (element, value) {
     if (fails > 10) {
       throw new Error('selectOption failed ten times')
     }
-    await wait(1)
+    await wait(100)
   }
 }
 
