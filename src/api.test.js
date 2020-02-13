@@ -4,7 +4,7 @@ const assert = require('assert')
 /* eslint-env mocha */
 describe('internal-api/api', () => {
   describe('API#createFromSitemap', () => {
-    it('should remap urls to object', () => {
+    it('should remap urls to object', async () => {
       const sitemap = global.sitemap
       global.sitemap = {
         '/api/this/is/an/example': {
@@ -32,7 +32,7 @@ describe('internal-api/api', () => {
       global.sitemap = sitemap
     })
 
-    it('should capitalize the last segment', () => {
+    it('should capitalize the last segment', async () => {
       const sitemap = global.sitemap
       global.sitemap = {
         '/api/this/is/an/example': {
@@ -50,7 +50,7 @@ describe('internal-api/api', () => {
       global.sitemap = sitemap
     })
 
-    it('should capitalize hyphenated last segment', () => {
+    it('should capitalize hyphenated last segment', async () => {
       const sitemap = global.sitemap
       global.sitemap = {
         '/api/this/is/an/example-two': {
