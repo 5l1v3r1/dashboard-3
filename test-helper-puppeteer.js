@@ -94,14 +94,20 @@ async function fetch (method, req) {
         name: 'sessionid',
         url: global.dashboardServer
       }
-      await page.setCookie(cookie)
       const cookie2 = {
         value: req.session.token,
         expires: Math.ceil(Date.now() / 1000) + 1000,
         name: 'token',
         url: global.dashboardServer
       }
-      await page.setCookie(cookie2)
+      while (true) {
+        try {
+          await page.setCookie(cookie)
+          await page.setCookie(cookie2)
+          break
+        } catch (error) {
+        }
+      }
     }
     page.on('request', async (request) => {
       await request.continue()
@@ -116,14 +122,20 @@ async function fetch (method, req) {
             name: 'sessionid',
             url: global.dashboardServer
           }
-          await page.setCookie(cookie)
           const cookie2 = {
             value: req.session.token,
             expires: Math.ceil(Date.now() / 1000) + 1000,
             name: 'token',
             url: global.dashboardServer
           }
-          await page.setCookie(cookie2)
+          while (true) {
+            try {
+              await page.setCookie(cookie)
+              await page.setCookie(cookie2)
+              break
+            } catch (error) {
+            }
+          }
         }
         const headers = await response.headers()
         result.redirect = headers.location
