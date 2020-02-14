@@ -56,8 +56,8 @@ async function fetch (method, req) {
     page.on('console', msg => console.log('[console]', msg.text()))
   }
   // these huge timeouts allow webhooks to be received
-  await page.setDefaultTimeout(30000)
-  await page.setDefaultNavigationTimeout(30000)
+  await page.setDefaultTimeout(90000)
+  await page.setDefaultNavigationTimeout(90000)
   await page.setBypassCSP(true)
   await page.setRequestInterception(true)
   page.on('request', async (request) => {
