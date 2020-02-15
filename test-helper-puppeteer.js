@@ -113,10 +113,8 @@ async function fetch (method, req) {
             await emulate(page, device)
             if (lastStep && lastStep.hover === '#account-menu-container') {
               await hover(page, '#account-menu-container')
-              await wait(100)
             } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
               await hover(page, '#administrator-menu-container')
-              await wait(100)
             }
             await hover(page, step.click)
             await focus(page, step.click)
@@ -125,10 +123,8 @@ async function fetch (method, req) {
         } else {
           if (lastStep && lastStep.hover === '#account-menu-container') {
             await hover(page, '#account-menu-container')
-            await wait(100)
           } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
             await hover(page, '#administrator-menu-container')
-            await wait(100)
           }
           await hover(page, step.click)
         }
@@ -189,6 +185,7 @@ async function relaunchBrowser() {
     browser = null
   }
   while (!browser) {
+    await wait(100)
     try {
       browser = await puppeteer.launch({
         headless: !(process.env.SHOW_BROWSERS === 'true'),
@@ -207,54 +204,59 @@ async function relaunchBrowser() {
         console.log('error instantiating browser', error.toString())
       }
     }
-    await wait(100)
   }
 }
 
 async function launchBrowserPage () {
   let pages
   while (!pages) {
+    await wait(100)
     try {
       pages = await browser.pages()
     } catch (error) {
     }
-    await wait(100)
   }
   if (pages && pages.length) {
     return pages[0]
   }
   let page
   while (!page) {
+    await wait(100)
     try {
       page = await browser.newPage()
     } catch (error) {
     }
-    await wait(100)
   }
 }
 
 async function gotoURL (page, url) {
   while (true) {
+    await wait(100)
     try {
       await page.goto(url, { waitLoad: true, waitNetworkIdle: true })
+      let content
+      while (!content || !content.length) {
+        content = await getContent(page)
+      }
       return true
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error going to url', error.toString())
       }
     }
-    await wait(100)
   }
 }
 
 async function getContent (page) {
   let html
   while (!html || !html.length) {
+    await wait(100)
     try {
       html = await page.content()
     } catch (error) {
+      await wait(100)
     }
-    await wait(100)
   }
   return html
 }
@@ -279,31 +281,34 @@ async function setCookie (page, req) {
     url:  global.dashboardServer
   }
   while (true) {
+    await wait(100)
     try {
       await page.setCookie(cookie)
       break
     } catch (error) {
     }
-    await wait(100)
+    
   }
   while (true) {
+    await wait(100)
     try {
       await page.setCookie(cookie2)
       return
     } catch (error) {
+      await wait(100)
     }
-    await wait(100)
   }
 }
 
 async function emulate (page, device) {
   while (true) {
+    await wait(100)
     try {
       await page.emulate(device)
       return
     } catch (error) {
+      await wait(100)
     }
-    await wait(100)
   }
 }
 
@@ -602,10 +607,12 @@ async function evaluate (page, method, element) {
   let fails = 0
   const active = element || page
   while (true) {
+    await wait(100)
     try {
       const thing = await active.evaluate(method, element)
       return thing
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error evaluating method', error.toString())
       }
@@ -614,7 +621,6 @@ async function evaluate (page, method, element) {
     if (fails > 10) {
       throw new Error('evaluate failed ten times')
     }
-    await wait(100)
   }
 }
 
@@ -624,12 +630,14 @@ async function getOptionalApplicationFrame (page) {
   }
   let fails = 0
   while (true) {
+    await wait(100)
     try {
       const frame = await page.frames().find(f => f.name() === 'application-iframe')
       if (frame) {
         return frame
       }
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error getting application frame', error.toString())
       }
@@ -638,17 +646,18 @@ async function getOptionalApplicationFrame (page) {
     if (fails > 10) {
       return null
     }
-    await wait(100)
   }
 }
 
 async function getTags (page, tag) {
   let fails = 0
   while (true) {
+    await wait(100)
     try {
       const links = await page.$$(tag)
       return links
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log(`error getting ${tag} tags`, error.toString())
       }
@@ -657,17 +666,18 @@ async function getTags (page, tag) {
     if (fails > 10) {
       throw new Error('getTags failed ten times')
     }
-    await wait(100)
   }
 }
 
 async function hoverElement (element) {
   let fails = 0
   while (true) {
+    await wait(100)
     try {
       await element.hover()
       return
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error hovering element', error.toString())
       }
@@ -676,17 +686,18 @@ async function hoverElement (element) {
     if (fails > 10) {
       throw new Error('hoverElement failed ten times')
     }
-    await wait(100)
   }
 }
 
 async function clickElement (element) {
   let fails = 0
   while (true) {
+    await wait(100)
     try {
       await element.click()
       return
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error clicking element', error.toString())
       }
@@ -695,17 +706,18 @@ async function clickElement (element) {
     if (fails > 10) {
       throw new Error('clickElement failed ten times')
     }
-    await wait(100)
   }
 }
 
 async function focusElement (element) {
   let fails = 0
   while (true) {
+    await wait(100)
     try {
       await element.focus()
       return
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error focusing element', error.toString())
       }
@@ -714,17 +726,18 @@ async function focusElement (element) {
     if (fails > 10) {
       throw new Error('focusElement failed ten times')
     }
-    await wait(100)
   }
 }
 
 async function uploadFile (element, path) {
   let fails = 0
   while (true) {
+    await wait(100)
     try {
       await element.uploadFile(path)
       return
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error uploading file', error.toString())
       }
@@ -733,17 +746,18 @@ async function uploadFile (element, path) {
     if (fails > 10) {
       throw new Error('uploadFile failed ten times')
     }
-    await wait(100)
   }
 }
 
 async function typeInElement (element, text) {
   let fails = 0
   while (true) {
+    await wait(100)
     try {
       await element.type(text || '')
       return
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error typing in element', error.toString())
       }
@@ -752,7 +766,6 @@ async function typeInElement (element, text) {
     if (fails > 10) {
       throw new Error('typeElement failed ten times')
     }
-    await wait(100)
   }
 }
 
@@ -760,6 +773,7 @@ async function selectOption (element, value) {
   const id = await element.evaluate(element => element.id, element)
   let fails = 0
   while (true) {
+    await wait(100)
     try {
       await element.evaluate((_, data) => {
         var select = document.getElementById(data.id)
@@ -774,6 +788,7 @@ async function selectOption (element, value) {
       }, { id, value })
       return
     } catch (error) {
+      await wait(100)
       if (process.env.DEBUG_PUPPETEER) {
         console.log('error selecting option', error.toString())
       }
@@ -782,7 +797,6 @@ async function selectOption (element, value) {
     if (fails > 10) {
       throw new Error('selectOption failed ten times')
     }
-    await wait(100)
   }
 }
 
