@@ -7,6 +7,7 @@ const Multiparty = require('multiparty')
 const Proxy = require('./proxy.js')
 const querystring = require('querystring')
 const Response = require('./response.js')
+const Storage = require('./storage.js')
 const Timestamp = require('./timestamp.js')
 const util = require('util')
 let StorageObject
@@ -465,28 +466,28 @@ async function authenticateRequest (req) {
   if (!cookie.sessionid || !cookie.token) {
     return
   }
-  const query = req.query
-  req.query = { sessionid: cookie.sessionid }
   let session
   try {
-    session = await global.api.administrator.Session.get(req)
+    const sessionRaw = await Storage.read(`${req.appid}/session/${cookie.sessionid}`)
+    if (sessionRaw && sessionRaw.length) {
+      session = JSON.parse(sessionRaw)
+    }
   } catch (error) {
   }
   if (!session || session.ended) {
     return
   }
-  req.query.accountid = session.accountid
   let account
   try {
-    account = await global.api.administrator.Account.get(req)
+    const accountRaw = await Storage.read(`${req.appid}/account/${session.accountid}`)
+    if (accountRaw && accountRaw.length) {
+      account = JSON.parse(accountRaw)
+    }
   } catch (error) {
   }
-  req.query = query
   if (!account || account.deleted) {
     return
   }
-  const sessionToken = await StorageObject.getProperty(`${req.appid}/session/${session.sessionid}`, 'tokenHash')
-  const sessionKey = await StorageObject.getProperty(`${req.appid}/account/${account.accountid}`, 'sessionKey')
   let dashboardEncryptionKey = global.dashboardEncryptionKey
   let dashboardSessionKey = global.dashboardSessionKey
   let bcryptFixedSalt = global.bcryptFixedSalt
@@ -495,8 +496,8 @@ async function authenticateRequest (req) {
     dashboardSessionKey = req.server.dashboardSessionKey || dashboardSessionKey
     bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
   }
-  const tokenHash = await Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${sessionKey}/${dashboardSessionKey}`, bcryptFixedSalt, dashboardEncryptionKey)
-  if (sessionToken !== tokenHash) {
+  const tokenHash = await Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${account.sessionKey}/${dashboardSessionKey}`, bcryptFixedSalt, dashboardEncryptionKey)
+  if (session.tokenHash !== tokenHash) {
     return
   }
   return { session, account }
