@@ -7,10 +7,9 @@ const Multiparty = require('multiparty')
 const Proxy = require('./proxy.js')
 const querystring = require('querystring')
 const Response = require('./response.js')
-const Storage = require('./storage.js')
 const Timestamp = require('./timestamp.js')
 const util = require('util')
-let StorageObject
+let Storage, StorageObject
 const languageCache = {}
 
 const parsePostData = util.promisify((req, callback) => {
@@ -77,6 +76,7 @@ module.exports = {
 
 function start () {
   StorageObject = require('./storage-object.js')
+  Storage = require('./storage.js')
   server = http.createServer(receiveRequest)
   server.listen(global.port, global.host)
   return server
