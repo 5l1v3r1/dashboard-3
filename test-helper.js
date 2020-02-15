@@ -15,15 +15,6 @@ const util = require('util')
 
 const storagePath = process.env.STORAGE_PATH || `${__dirname}/data`
 let testDataIndex = 0
-
-if (process.env.STORAGE_ENGINE) {
-  require(`${process.env.STORAGE_ENGINE}/test-helper.js`)
-}
-
-if (process.env.STORAGE_CACHE) {
-  require(`${process.env.STORAGE_CACHE}/test-helper.js`)
-}
-
 let packageJSON
 
 before(async () => {
