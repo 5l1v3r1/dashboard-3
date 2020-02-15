@@ -68,7 +68,6 @@ async function fetch (method, req) {
     if (status === 302) {
       const headers = await response.headers()
       result.redirect = headers.location
-      await setCookie(page, req)
       await gotoURL(page, `${global.dashboardServer}${headers.location}`)
     } else {
       return status === 200
@@ -78,10 +77,8 @@ async function fetch (method, req) {
     if (req.account) {
       await setCookie(page, req)
       await gotoURL(page, `${global.dashboardServer}/home`)
-      await setCookie(page, req)
     } else {
       await gotoURL(page, global.dashboardServer)
-      await setCookie(page, req)
     }
     let screenshotNumber = 1
     let lastStep
@@ -93,7 +90,6 @@ async function fetch (method, req) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device)
-            await setCookie(page, req)
             await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename)
           }
         }
@@ -104,7 +100,6 @@ async function fetch (method, req) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device, req)
-            await setCookie(page, req)
             await hover(page, step.hover)
             await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
           }
@@ -116,7 +111,6 @@ async function fetch (method, req) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device)
-            await setCookie(page, req)
             if (lastStep && lastStep.hover === '#account-menu-container') {
               await hover(page, '#account-menu-container')
               await wait(100)
@@ -160,7 +154,6 @@ async function fetch (method, req) {
     if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
       for (const device of devices) {
         await emulate(page, device)
-        await setCookie(page, req)
         await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
       }
     }
@@ -170,7 +163,6 @@ async function fetch (method, req) {
       await setCookie(page, req)
     }
     await gotoURL(page, `${global.dashboardServer}${req.url}`)
-    await setCookie(page, req)
     if (method === 'POST') {
       await fill(page, '#submit-form', req.body, req.uploads)
       await hover(page, req.button || '#submit-button')
@@ -182,10 +174,8 @@ async function fetch (method, req) {
     let redirectLocation = html.substring(html.indexOf(';url=') + 5)
     redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
     result.redirect = redirectLocation
-    while (!html || html.indexOf('<meta http-equiv="refresh"') > -1) {
-      html = await getContent(page)
-      await wait(100)
-    }
+    await gotoURL(page, `${global.dashboardServer}${redirectLocation}`)
+    html = await getContent(page)
   }
   // return html
   result.html = html
@@ -269,24 +259,35 @@ async function getContent (page) {
   return html
 }
 async function setCookie (page, req) {
+  const cookies = await page.cookies()
+  if (cookies.length) {
+    return
+  }
   if (!req.session) {
     return
   }
   const cookie = {
     value: req.session.sessionid,
-    expires: Math.ceil(Date.now() / 1000) + 1000,
+    session: true,
     name: 'sessionid',
     url: global.dashboardServer
   }
   const cookie2 = {
     value: req.session.token,
-    expires: Math.ceil(Date.now() / 1000) + 1000,
+    session: true,
     name: 'token',
     url:  global.dashboardServer
   }
   while (true) {
     try {
       await page.setCookie(cookie)
+      break
+    } catch (error) {
+    }
+    await wait(100)
+  }
+  while (true) {
+    try {
       await page.setCookie(cookie2)
       return
     } catch (error) {
