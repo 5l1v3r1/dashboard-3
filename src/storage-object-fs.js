@@ -1,12 +1,13 @@
 const Storage = require('./storage.js')
+const util = require('util')
 
 module.exports = {
-  getProperties,
-  getProperty,
-  removeProperty,
-  removeProperties,
-  setProperty,
-  setProperties
+  getProperties: util.promisify(getProperties),
+  getProperty: util.promisify(getProperty),
+  removeProperty: util.promisify(removeProperty),
+  removeProperties: util.promisify(removeProperties),
+  setProperty: util.promisify(setProperty),
+  setProperties: util.promisify(setProperties)
 }
 
 /**
@@ -14,26 +15,30 @@ module.exports = {
  * @param {string} objectid - the object
  * @param {string} array - array of properties
  */
-async function getProperties (objectid, array) {
+function getProperties (objectid, array, callback) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
   if (!array || !array.length) {
     throw new Error('invalid-array')
   }
-  let data = await Storage.read(objectid, array)
-  if (!data || !data.length) {
-    return
-  }
-  data = JSON.parse(data)
-  const object = {}
-  for (const key in data) {
-    if (array.indexOf(key) === -1) {
-      continue
+  return Storage.read(objectid, array).then((error, data) => {
+    if (error) {
+      return callback(error)
     }
-    object[key] = data[key]
-  }
-  return object
+    if (!data || !data.length) {
+      return
+    }
+    data = JSON.parse(data)
+    const object = {}
+    for (const key in data) {
+      if (array.indexOf(key) === -1) {
+        continue
+      }
+      object[key] = data[key]
+    }
+    return callback(null, object)
+  })
 }
 
 /**
@@ -41,23 +46,28 @@ async function getProperties (objectid, array) {
  * @param {string} objectid - the object
  * @param {string} property - name of property
  */
-async function getProperty (objectid, property) {
+function getProperty (objectid, property, callback) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
   if (!property || !property.length) {
     throw new Error('invalid-property')
   }
-  let data = await Storage.read(objectid)
-  if (!data || !data.length) {
-    return
-  }
-  data = JSON.parse(data)
-  const value = data[property]
-  if (value === undefined || value === null) {
-    return
-  }
-  return value
+  return Storage.read(objectid).then((error, data) => {
+    if (error) {
+      return callback(error)
+    }
+    if (!data || !data.length) {
+      return
+    }
+    data = JSON.parse(data)
+    const value = data[property]
+    if (value === undefined || value === null) {
+      return
+    }
+    return callback(null, value)
+  })
+
 }
 
 /**
@@ -65,7 +75,7 @@ async function getProperty (objectid, property) {
  * @param {string} objectid - the object
  * @param {string} hash - hash of properties
  */
-async function setProperties (objectid, properties) {
+function setProperties (objectid, properties, callback) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
@@ -76,16 +86,20 @@ async function setProperties (objectid, properties) {
   if (!keys.length) {
     throw new Error('invalid-properties')
   }
-  let data = await Storage.read(objectid) || '{}'
-  data = JSON.parse(data)
-  for (const property in properties) {
-    if (properties[property] === undefined || properties[property] === null || properties[property] === '') {
-      delete (data[property])
-    } else {
-      data[property] = properties[property]
+  return Storage.read(objectid).then((error, data) => {
+    if (error) {
+      return callback(error)
     }
-  }
-  return Storage.write(objectid, data)
+    data = JSON.parse(data)
+    for (const property in properties) {
+      if (properties[property] === undefined || properties[property] === null || properties[property] === '') {
+        delete (data[property])
+      } else {
+        data[property] = properties[property]
+      }
+    }
+    return Storage.write(objectid, data, callback)
+  })
 }
 
 /**
@@ -94,7 +108,7 @@ async function setProperties (objectid, properties) {
  * @param {string} property - the field
  * @param {string} value - the value
  */
-async function setProperty (objectid, property, value) {
+function setProperty (objectid, property, value, callback) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
@@ -104,10 +118,14 @@ async function setProperty (objectid, property, value) {
   if (value == null || value === undefined) {
     throw new Error('invalid-value')
   }
-  let data = await Storage.read(objectid) || '{}'
-  data = JSON.parse(data)
-  data[property] = value
-  return Storage.write(objectid, data)
+  return Storage.read(objectid).then((error, data) => {
+    if (error) {
+      return callback(error)
+    }
+    data = JSON.parse(data)
+    data[property] = value
+    return Storage.write(objectid, data, callback)
+  })
 }
 
 /**
@@ -115,22 +133,26 @@ async function setProperty (objectid, property, value) {
  * @param {string} objectid - the object
  * @param {string} array - array of properties
  */
-async function removeProperties (objectid, array) {
+function removeProperties (objectid, array, callback) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
   if (!array || !array.length) {
     throw new Error('invalid-array')
   }
-  let data = await Storage.read(objectid)
-  if (!data) {
-    return
-  }
-  data = JSON.parse(data)
-  for (const item of array) {
-    delete (data[item])
-  }
-  return Storage.write(objectid, data)
+  return Storage.read(objectid).then((error, data) => {
+    if (error) {
+      return callback(error)
+    }
+    if (!data) {
+      return
+    }
+    data = JSON.parse(data)
+    for (const item of array) {
+      delete (data[item])
+    }
+    return Storage.write(objectid, data, callback)
+  })
 }
 
 /**
@@ -138,18 +160,22 @@ async function removeProperties (objectid, array) {
  * @param {string} objectid - the object
  * @param {string} property - the field
  */
-async function removeProperty (objectid, property) {
+function removeProperty (objectid, property, callback) {
   if (!objectid || !objectid.length) {
     throw new Error('invalid-objectid')
   }
   if (!property || !property.length) {
     throw new Error('invalid-property')
   }
-  let data = await Storage.read(objectid)
-  if (!data) {
-    return
-  }
-  data = JSON.parse(data)
-  delete (data[property])
-  return Storage.write(objectid, data)
+  return Storage.read(objectid).then((error, data) => {
+    if (error) {
+      return callback(error)
+    }
+    if (!data) {
+      return
+    }
+    data = JSON.parse(data)
+    delete (data[property])
+    return Storage.write(objectid, data, callback)
+  })
 }
