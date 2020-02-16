@@ -108,11 +108,14 @@ function list (path, offset, pageSize, callback) {
         if (offset) {
           itemids.splice(0, offset)
         }
+        if (!itemids.length) {
+          return callback()
+        }
         if (pageSize > 0) {
           itemids.splice(pageSize, itemids.length - pageSize)
         }
-        if (!itemids || !itemids.length) {
-          return null
+        if (!itemids.length) {
+          return callback()
         }
         return callback(null, itemids)
       })
