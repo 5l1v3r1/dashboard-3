@@ -26,7 +26,7 @@ describe('/api/administrator/administrator-accounts', () => {
       const limit = 1
       const owner = await TestHelper.createOwner()
       const accounts = [owner.account.accountid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = limit + 1; i < len; i++) {
         const administrator = await TestHelper.createAdministrator(owner)
         accounts.unshift(administrator.account.accountid)
       }

@@ -28,7 +28,7 @@ describe('/api/administrator/reset-codes', () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const codes = []
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = limit + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
         codes.unshift(user.resetCode.codeid)
       }

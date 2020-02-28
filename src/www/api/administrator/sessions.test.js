@@ -28,7 +28,7 @@ describe('/api/administrator/sessions', () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const sessions = [administrator.session.sessionid, user.session.sessionid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = limit + 1; i < len; i++) {
         await TestHelper.createSession(user)
         sessions.unshift(user.session.sessionid)
       }

@@ -33,7 +33,7 @@ describe('/api/administrator/profiles', () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const profiles = [administrator.profile.profileid, user.profile.profileid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = limit + 1; i < len; i++) {
         await TestHelper.createProfile(user, {
           'first-name': user.profile.firstName,
           'last-name': user.profile.lastName,

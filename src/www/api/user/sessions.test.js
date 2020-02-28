@@ -75,7 +75,7 @@ describe('/api/user/sessions', () => {
       const limit = 1
       const user = await TestHelper.createUser()
       const sessions = [user.session.sessionid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      for (let i = 0, len = limit + 1; i < len; i++) {
         await TestHelper.createSession(user)
         sessions.unshift(user.session.sessionid)
       }
