@@ -754,6 +754,10 @@ async function typeInElement (element, text) {
   while (true) {
     await wait(100)
     try {
+      if (!text || !text.length) {
+        await element.evaluate(element => element.value = '', element)
+        return
+      }
       await element.type(text || '')
       return
     } catch (error) {
