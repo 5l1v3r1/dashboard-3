@@ -166,12 +166,24 @@ async function fetch (method, req) {
     }
   }
   let html = await getContent(page)
-  if (html.indexOf('<meta http-equiv="refresh"') > -1) {
-    let redirectLocation = html.substring(html.indexOf(';url=') + 5)
-    redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
-    result.redirect = redirectLocation
-    await gotoURL(page, `${global.dashboardServer}${redirectLocation}`)
-    html = await getContent(page)
+  if (req.waitOnClientCallback) {
+    while (true) {
+      const htmlNow = await getContent(page)
+      if (html === htmlNow) {
+        await wait(100)
+        continue
+      }
+      html = htmlNow
+      break
+    }
+  } else {
+    if (html.indexOf('<meta http-equiv="refresh"') > -1) {
+      let redirectLocation = html.substring(html.indexOf(';url=') + 5)
+      redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
+      result.redirect = redirectLocation
+      await gotoURL(page, `${global.dashboardServer}${redirectLocation}`)
+      html = await getContent(page)
+    }
   }
   // return html
   result.html = html
