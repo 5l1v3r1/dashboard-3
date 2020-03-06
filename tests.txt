@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.133 test /root/workspaces/dashboard
+> @userdashboard/dashboard@1.0.134 test /root/workspaces/dashboard
 > mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 120000 --slow 120000 './src{,!(public)/**}/*.test.js'
 
 
@@ -1465,5 +1465,5 @@
       ✓ override req.userProfileFields
 
 
-  802 passing (28m)
+  802 passing (31m)
 
