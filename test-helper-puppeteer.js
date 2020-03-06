@@ -442,7 +442,10 @@ async function fill (page, fieldContainer, body, uploads) {
     formFields = await getElement(frame, fieldContainer || '#submit-form')
   }
   if (!formFields) {
-    return
+    formFields = await page.$('form')
+    if (!formFields) {
+      return
+    }
   }
   if (uploads) {
     for (const field in uploads) {
