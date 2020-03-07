@@ -519,6 +519,9 @@ async function fill (page, fieldContainer, body, uploads) {
           await evaluate(formFields, el => { el.value = '' }, element)
         }
       }
+    } else {
+      await clickElement(element)
+      await typeInElement(element, body[field])
     }
   }
 }
