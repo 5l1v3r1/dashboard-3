@@ -524,9 +524,11 @@ async function fill (page, fieldContainer, body, uploads) {
       // For fields in iframes that cannot be read, like 
       // Stripe card information, existing values must 
       // be brute-force cleared or else they get garbled
-      // when creating screenshots
       for (let i = 0, len = 1000; i < len; i++) {
+        await clickElement(element)
+        await wait(1)
         await page.keyboard.press('Backspace')
+        await wait(1)
       }
       await typeInElement(element, body[field])
     }
