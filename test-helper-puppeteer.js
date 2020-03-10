@@ -65,13 +65,7 @@ async function fetch (method, req) {
   })
   page.on('response', async (response) => {
     const status = await response.status()
-    if (status === 302) {
-      const headers = await response.headers()
-      result.redirect = headers.location
-      await gotoURL(page, `${global.dashboardServer}${headers.location}`)
-    } else {
-      return status === 200
-    }
+    return status === 200
   })
   if (req.screenshots) {
     if (req.account) {
