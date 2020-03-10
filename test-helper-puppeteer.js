@@ -63,6 +63,7 @@ async function fetch (method, req) {
   page.on('request', async (request) => {
     await request.continue()
   })
+  let html
   page.on('response', async (response) => {
     const status = await response.status()
     return status === 200
@@ -123,6 +124,7 @@ async function fetch (method, req) {
           await hover(page, step.click)
         }
         screenshotNumber++
+        html = await getContent(page)
         await click(page, step.click)
       } else if (step.fill) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
@@ -137,6 +139,7 @@ async function fetch (method, req) {
         }
         screenshotNumber++
         await focus(page, req.button || '#submit-button')
+        html = await getContent(page)
         await click(page, req.button || '#submit-button')
       }
       lastStep = step
@@ -156,10 +159,10 @@ async function fetch (method, req) {
     if (method === 'POST') {
       await fill(page, '#submit-form', req.body, req.uploads)
       await hover(page, req.button || '#submit-button')
+      html = await getContent(page)
       await click(page, req.button || '#submit-button')
     }
   }
-  let html = await getContent(page)
   if (req.waitOnClientCallback) {
     while (true) {
       const htmlNow = await getContent(page)
@@ -392,12 +395,8 @@ async function click (page, identifier) {
     await clickElement(element)
     if (tagName === 'A') {
       return page.waitForNavigation()
-    } else if (tagName === 'BUTTON') {
-      return page.waitForResponse((response) => {
-        const status = response.status()
-        return status === 200
-      })
-    }
+    } 
+    return
   }
   if (process.env.DEBUG_PUPPETEER) {
     console.log('could not click element', identifier)
