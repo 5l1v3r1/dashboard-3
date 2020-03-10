@@ -126,6 +126,17 @@ async function fetch (method, req) {
         screenshotNumber++
         html = await getContent(page)
         await click(page, step.click)
+        if (!req.waitOnClientCallback) {
+          while (true) {
+            const htmlNow = await getContent(page)
+            if (html === htmlNow) {
+              await wait(100)
+              continue
+            }
+            html = htmlNow
+            break
+          }
+        }
       } else if (step.fill) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
@@ -163,6 +174,7 @@ async function fetch (method, req) {
       await click(page, req.button || '#submit-button')
     }
   }
+  html = html || await getContent(page)
   if (req.waitOnClientCallback) {
     while (true) {
       const htmlNow = await getContent(page)
@@ -180,6 +192,23 @@ async function fetch (method, req) {
       result.redirect = redirectLocation
       await gotoURL(page, `${global.dashboardServer}${redirectLocation}`)
       html = await getContent(page)
+    } else if (method === 'POST') {
+      while (true) {
+        const htmlNow = await getContent(page)
+        if (html === htmlNow) {
+          await wait(100)
+          continue
+        }
+        html = htmlNow
+        if (html.indexOf('<meta http-equiv="refresh"') > -1) {
+          let redirectLocation = html.substring(html.indexOf(';url=') + 5)
+          redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
+          result.redirect = redirectLocation
+          await gotoURL(page, `${global.dashboardServer}${redirectLocation}`)
+          html = await getContent(page)
+        }
+        break
+      }
     }
   }
   // return html
@@ -391,11 +420,7 @@ async function hover (page, identifier) {
 async function click (page, identifier) {
   const element = await getElement(page, identifier)
   if (element) {
-    const tagName = await evaluate(page, el => el.tagName, element)
     await clickElement(element)
-    if (tagName === 'A') {
-      return page.waitForNavigation()
-    } 
     return
   }
   if (process.env.DEBUG_PUPPETEER) {
@@ -714,7 +739,7 @@ async function clickElement (element) {
   while (true) {
     await wait(100)
     try {
-      await element.click()
+      await element.click({ waitLoad: true, waitForNetworkIdle: true })
       return
     } catch (error) {
       await wait(100)
