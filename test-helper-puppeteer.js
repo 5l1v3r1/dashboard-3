@@ -186,32 +186,27 @@ async function fetch (method, req) {
       break
     }
   } else {
+    if (req.method === 'POST') {
+      await page.waitForResponse((response) => {
+        const status = response.status()
+        if (status === 302) {
+          const headers = response.headers()
+          result.redirect = headers.location
+        }
+        return status === 200
+      })
+    }
+    html = await getContent(page)
     if (html.indexOf('<meta http-equiv="refresh"') > -1) {
       let redirectLocation = html.substring(html.indexOf(';url=') + 5)
       redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
       result.redirect = redirectLocation
-      await gotoURL(page, `${global.dashboardServer}${redirectLocation}`)
-      html = await getContent(page)
-    } else if (method === 'POST') {
-      while (true) {
-        const htmlNow = await getContent(page)
-        if (html === htmlNow) {
-          await wait(100)
-          continue
-        }
-        html = htmlNow
-        if (html.indexOf('<meta http-equiv="refresh"') > -1) {
-          let redirectLocation = html.substring(html.indexOf(';url=') + 5)
-          redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
-          result.redirect = redirectLocation
-          await gotoURL(page, `${global.dashboardServer}${redirectLocation}`)
-          html = await getContent(page)
-        }
-        break
-      }
     }
+    if (result.redirect) {
+      await gotoURL(page, `${global.dashboardServer}${result.redirect}`)
+    }
+    html = await getContent(page)
   }
-  // return html
   result.html = html
   await page.close()
   return result
