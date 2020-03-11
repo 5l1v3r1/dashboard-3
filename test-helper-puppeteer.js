@@ -141,12 +141,12 @@ async function fetch (method, req) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device, req)
-            await fill(page, step.fill, step.body || req.body, req.uploads)
+            await fillForm(page, step.fill, step.body || req.body, req.uploads)
             await hover(page, req.button || '#submit-button')
             await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
           }
         } else {
-          await fill(page, step.fill, step.body || req.body, step.uploads || req.uploads)
+          await fillForm(page, step.fill, step.body || req.body, step.uploads || req.uploads)
         }
         screenshotNumber++
         await focus(page, req.button || '#submit-button')
@@ -168,7 +168,7 @@ async function fetch (method, req) {
     }
     await gotoURL(page, `${global.dashboardServer}${req.url}`, req.waitOnClientLoad)
     if (method === 'POST') {
-      await fill(page, '#submit-form', req.body, req.uploads)
+      await fillForm(page, '#submit-form', req.body, req.uploads)
       await hover(page, req.button || '#submit-button')
       html = await getContent(page)
       await click(page, req.button || '#submit-button')
@@ -393,6 +393,17 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     filename = `${number}-${action}-${device.name.split(' ').join('-')}.png`.toLowerCase()
   }
   await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
+}
+
+async function fillForm (page, fieldContainer, body, uploads) {
+  while (true) {
+    try {
+      await fill(page, fieldContainer, body, uploads)
+      break
+    } catch (error) {
+      await wait(100)
+    }
+  }
 }
 
 async function focus (page, identifier) {
