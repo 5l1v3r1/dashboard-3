@@ -741,7 +741,9 @@ async function hoverElement (element) {
 async function clickElement (element) {
   let fails = 0
   while (true) {
-    await wait(100)
+    if (fails) {
+      await wait(100)
+    }
     try {
       await element.click({ waitLoad: true, waitForNetworkIdle: true })
       return
@@ -761,7 +763,9 @@ async function clickElement (element) {
 async function focusElement (element) {
   let fails = 0
   while (true) {
-    await wait(100)
+    if (fails) {
+      await wait(100)
+    }
     try {
       await element.focus()
       return
@@ -781,7 +785,9 @@ async function focusElement (element) {
 async function uploadFile (element, path) {
   let fails = 0
   while (true) {
-    await wait(100)
+    if (fails) {
+      await wait(100)
+    }
     try {
       await element.uploadFile(path)
       return
@@ -801,7 +807,9 @@ async function uploadFile (element, path) {
 async function typeInElement (element, text) {
   let fails = 0
   while (true) {
-    await wait(100)
+    if (fails) {
+      await wait(100)
+    }
     try {
       if (!text || !text.length) {
         await element.evaluate(element => element.value = '', element)
@@ -826,7 +834,9 @@ async function selectOption (element, value) {
   const id = await element.evaluate(element => element.id, element)
   let fails = 0
   while (true) {
-    await wait(100)
+    if (fails) {
+      await wait(100)
+    }
     try {
       await element.evaluate((_, data) => {
         var select = document.getElementById(data.id)
