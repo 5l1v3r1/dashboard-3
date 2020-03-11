@@ -166,7 +166,7 @@ async function fetch (method, req) {
     if (req.account) {
       await setCookie(page, req)
     }
-    await gotoURL(page, `${global.dashboardServer}${req.url}`)
+    await gotoURL(page, `${global.dashboardServer}${req.url}`, req.waitOnClientLoad)
     if (method === 'POST') {
       await fill(page, '#submit-form', req.body, req.uploads)
       await hover(page, req.button || '#submit-button')
@@ -262,11 +262,14 @@ async function launchBrowserPage () {
   }
 }
 
-async function gotoURL (page, url) {
+async function gotoURL (page, url, waitOnClientLoad) {
   while (true) {
     await wait(100)
     try {
       await page.goto(url, { waitLoad: true, waitNetworkIdle: true })
+      if (waitOnClientLoad) {
+        await wait(1000)
+      }
       let content
       while (!content || !content.length) {
         content = await getContent(page)
