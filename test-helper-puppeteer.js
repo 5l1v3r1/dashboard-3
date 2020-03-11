@@ -66,6 +66,10 @@ async function fetch (method, req) {
   let html
   page.on('response', async (response) => {
     const status = await response.status()
+    if (status === 302) {
+      const headers = response.headers()
+      result.redirect = headers.location
+    }
     return status === 200
   })
   if (req.screenshots) {
@@ -138,6 +142,9 @@ async function fetch (method, req) {
           }
         }
       } else if (step.fill) {
+        if (req.waitOnClientLoad) {
+          await waitForClientLoaded(page)
+        }
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device, req)
@@ -176,6 +183,10 @@ async function fetch (method, req) {
   }
   html = html || await getContent(page)
   if (req.waitOnClientCallback) {
+    await page.waitForResponse((response) => {
+      const status = response.status()
+      return status === 200
+    })
     while (true) {
       const htmlNow = await getContent(page)
       if (html === htmlNow) {
@@ -268,7 +279,7 @@ async function gotoURL (page, url, waitOnClientLoad) {
     try {
       await page.goto(url, { waitLoad: true, waitNetworkIdle: true })
       if (waitOnClientLoad) {
-        await wait(1000)
+        return waitForClientLoaded(page)
       }
       let content
       while (!content || !content.length) {
@@ -281,6 +292,21 @@ async function gotoURL (page, url, waitOnClientLoad) {
         console.log('error going to url', error.toString())
       }
     }
+  }
+}
+
+async function waitForClientLoaded (page) {
+  while (true) {
+    try {
+      const loaded = await page.evaluate(() => {
+        return window.loaded
+      })
+      if (loaded) {
+        return true
+      }
+    } catch (error) {
+    }
+    await wait(100)
   }
 }
 
@@ -563,7 +589,10 @@ async function fill (page, fieldContainer, body, uploads) {
           await wait(1)
         }
       }
-      await typeInElement(element, body[field])
+      for (const character of body[field]) {
+        await page.keyboard.press(character)
+        await wait(1)
+      }
     }
   }
 }
