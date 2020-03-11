@@ -541,10 +541,16 @@ async function fill (page, fieldContainer, body, uploads) {
       // Stripe card information, existing values must 
       // be brute-force cleared or else they get garbled
       for (let i = 0, len = 1000; i < len; i++) {
-        await clickElement(element)
-        await wait(1)
-        await page.keyboard.press('Backspace')
-        await wait(1)
+        let error
+        try {
+          await page.keyboard.press('Backspace')
+        } catch (error) {
+          error = true
+        }
+        if (error) {
+          await clickElement(element)
+          await wait(1)
+        }
       }
       await typeInElement(element, body[field])
     }
