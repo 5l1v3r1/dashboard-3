@@ -343,7 +343,7 @@ async function createProfile (user, properties) {
 }
 
 const proxy = util.promisify((method, path, req, callback) => {
-  const baseURLParts = process.env.DASHBOARD_SERVER.split('://')
+  const baseURLParts = global.dashboardServer.split('://')
   let host, port
   const colon = baseURLParts[1].indexOf(':')
   if (colon > -1) {
