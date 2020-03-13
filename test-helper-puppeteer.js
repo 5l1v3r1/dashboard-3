@@ -130,35 +130,39 @@ async function fetch (method, req) {
         screenshotNumber++
         html = await getContent(page)
         await click(page, step.click)
-        if (!req.waitOnClientCallback) {
-          while (true) {
-            const htmlNow = await getContent(page)
-            if (html === htmlNow) {
-              await wait(100)
-              continue
-            }
-            html = htmlNow
-            break
-          }
-        }
+        await page.waitForNavigation((response) => {
+          const status = response.status()
+          return status === 200
+        })
       } else if (step.fill) {
-        if (req.waitOnClientLoad) {
-          await waitForClientLoaded(page)
-        }
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device, req)
+            if (req.waitFormLoad) {
+              await req.waitFormLoad(page)
+            }
             await fillForm(page, step.fill, step.body || req.body, req.uploads)
             await hover(page, req.button || '#submit-button')
             await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
           }
         } else {
+          if (req.waitFormLoad) {
+            await req.waitFormLoad(page)
+          }
           await fillForm(page, step.fill, step.body || req.body, step.uploads || req.uploads)
         }
         screenshotNumber++
         await focus(page, req.button || '#submit-button')
         html = await getContent(page)
         await click(page, req.button || '#submit-button')
+        if (req.waitFormComplete) {
+          await req.waitFormComplete(page)
+        } else {
+          await page.waitForResponse((response) => {
+            const status = response.status()
+            return status === 200
+          })
+        }
       }
       lastStep = step
     }
@@ -173,49 +177,33 @@ async function fetch (method, req) {
     if (req.account) {
       await setCookie(page, req)
     }
-    await gotoURL(page, `${global.dashboardServer}${req.url}`, req.waitOnClientLoad)
+    await gotoURL(page, `${global.dashboardServer}${req.url}`)
     if (method === 'POST') {
+      if (req.waitFormLoad) {
+        await req.waitFormLoad(page)
+      }
       await fillForm(page, '#submit-form', req.body, req.uploads)
       await hover(page, req.button || '#submit-button')
       html = await getContent(page)
       await click(page, req.button || '#submit-button')
+      if (req.waitFormComplete) {
+        await req.waitFormComplete(page)
+      } else {
+        await page.waitForResponse((response) => {
+          const status = response.status()
+          return status === 200
+        })
+      }
     }
   }
-  html = html || await getContent(page)
-  if (req.waitOnClientCallback) {
-    await page.waitForResponse((response) => {
-      const status = response.status()
-      return status === 200
-    })
-    while (true) {
-      const htmlNow = await getContent(page)
-      if (html === htmlNow) {
-        await wait(100)
-        continue
-      }
-      html = htmlNow
-      break
-    }
-  } else {
-    if (req.method === 'POST') {
-      await page.waitForResponse((response) => {
-        const status = response.status()
-        if (status === 302) {
-          const headers = response.headers()
-          result.redirect = headers.location
-        }
-        return status === 200
-      })
-    }
-    html = await getContent(page)
-    if (html.indexOf('<meta http-equiv="refresh"') > -1) {
-      let redirectLocation = html.substring(html.indexOf(';url=') + 5)
-      redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
-      result.redirect = redirectLocation
-    }
-    if (result.redirect) {
-      await gotoURL(page, `${global.dashboardServer}${result.redirect}`)
-    }
+  html = await getContent(page)
+  if (html.indexOf('<meta http-equiv="refresh"') > -1) {
+    let redirectLocation = html.substring(html.indexOf(';url=') + 5)
+    redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
+    result.redirect = redirectLocation
+  }
+  if (result.redirect) {
+    await gotoURL(page, `${global.dashboardServer}${result.redirect}`)
     html = await getContent(page)
   }
   result.html = html
@@ -238,7 +226,8 @@ async function relaunchBrowser() {
           '--disable-setuid-sandbox',
           '--window-size=1920,1080',
           '--incognito',
-          '--disable-dev-shm-usage'
+          '--disable-dev-shm-usage',
+          '--disable-features=site-per-process'
         ],
         slowMo: 0
       })
@@ -273,14 +262,11 @@ async function launchBrowserPage () {
   }
 }
 
-async function gotoURL (page, url, waitOnClientLoad) {
+async function gotoURL (page, url) {
   while (true) {
     await wait(100)
     try {
       await page.goto(url, { waitLoad: true, waitNetworkIdle: true })
-      if (waitOnClientLoad) {
-        return waitForClientLoaded(page)
-      }
       let content
       while (!content || !content.length) {
         content = await getContent(page)
@@ -785,7 +771,7 @@ async function clickElement (element) {
       await wait(100)
     }
     try {
-      await element.click({ waitLoad: true, waitForNetworkIdle: true })
+      await element.click()
       return
     } catch (error) {
       await wait(100)
