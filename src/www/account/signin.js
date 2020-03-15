@@ -10,9 +10,9 @@ function renderPage (req, res, messageTemplate) {
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }
-  if (req.body) {
+  if (req.body && req.body.username) {
     const usernameField = doc.getElementById('username')
-    usernameField.setAttribute('value', req.body.username || '')
+    usernameField.setAttribute('value', req.body.username.split("'").join('&quot;'))
   }
   return dashboard.Response.end(req, res, doc)
 }

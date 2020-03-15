@@ -36,7 +36,7 @@ async function renderPage (req, res, messageTemplate) {
   }
   const codeField = doc.getElementById('secret-code')
   if (req.body && req.body['secret-code']) {
-    codeField.setAttribute('value', req.body['secret-code'])
+    codeField.setAttribute('value', req.body['secret-code'].split("'").join('&quot;'))
   } else {
     codeField.setAttribute('value', dashboard.UUID.random(10))
   }
