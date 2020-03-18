@@ -43,11 +43,11 @@ async function submitForm (req, res) {
     req.query = query
   }
   req.session = session
-  let cookieStr = 'httponly; path=/'
+  let cookieStr = 'httponly; path=/;'
   if (req.secure) {
     cookieStr += '; secure'
   }
-  if (global.domain) {
+  if (global.domain && global.domain.indexOf('.') > -1) {
     cookieStr += '; domain=' + global.domain
   }
   if (session.expires) {
@@ -58,5 +58,8 @@ async function submitForm (req, res) {
     `token=${session.token}; ${cookieStr}`
   ])
   const nextURL = req.query && req.query['return-url'] ? req.query['return-url'] : '/home'
-  return dashboard.Response.redirect(req, res, nextURL)
+  res.writeHead(302, {
+    location: nextURL
+  })
+  return res.end()
 }
