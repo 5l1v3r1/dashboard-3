@@ -47,12 +47,8 @@ module.exports = {
       throw new Error('invalid-account')
     }
     const secretCodeHash = await dashboard.Hash.fixedSaltHash(req.body['secret-code'], bcryptFixedSalt, dashboardEncryptionKey)
-    const codeid = await dashboard.Storage.read(`${req.appid}/map/account/resetCodes/${account.accountid}/${secretCodeHash}`)
+    const codeid = await dashboard.Storage.read(`${req.appid}/map/account/resetCodes/${accountid}/${secretCodeHash}`)
     if (!codeid) {
-      if (global.minimumResetCodeLength > req.body['secret-code'].length ||
-          global.maximumResetCodeLength < req.body['secret-code'].length) {
-        throw new Error('invalid-secret-code-length')
-      }
       throw new Error('invalid-reset-code')
     }
     const passwordHash = await dashboard.Hash.randomSaltHash(req.body['new-password'], dashboardEncryptionKey)

@@ -23,9 +23,6 @@ async function submitForm (req, res) {
   if (!req.body['secret-code'] || !req.body['secret-code'].length) {
     return renderPage(req, res, 'invalid-secret-code')
   }
-  if (global.minimumResetCodeLength > req.body['secret-code'].length) {
-    return renderPage(req, res, 'invalid-secret-code-length')
-  }
   if (!req.body.username || !req.body.username.length) {
     return renderPage(req, res, 'invalid-username')
   }
