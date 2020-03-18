@@ -42,21 +42,6 @@ describe('/account/reset-account', () => {
       assert.strictEqual(message.attr.template, 'invalid-secret-code')
     })
 
-    it('should enforce reset code length', async () => {
-      const req = TestHelper.createRequest('/account/reset-account')
-      req.body = {
-        username: 'username',
-        'new-password': 'new-password',
-        'confirm-password': 'new-password',
-        'secret-code': '1'
-      }
-      global.minimumResetCodeLength = 100
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-secret-code-length')
-    })
-
     it('should reject missing password', async () => {
       const req = TestHelper.createRequest('/account/reset-account')
       req.body = {
