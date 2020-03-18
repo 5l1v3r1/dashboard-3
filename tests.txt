@@ -1,6 +1,6 @@
 
-> @userdashboard/dashboard@1.0.143 test /root/workspaces/dashboard
-> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 120000 --slow 120000 './src{,!(public)/**}/*.test.js'
+> @userdashboard/dashboard@1.0.144 test /root/workspaces/dashboard
+> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
 
 
 
@@ -392,7 +392,6 @@
     ResetAccount#POST
       ✓ should reject missing username
       ✓ should reject missing reset code
-      ✓ should enforce reset code length
       ✓ should reject missing password
       ✓ should enforce password length
       ✓ should require confirm
@@ -1465,5 +1464,5 @@
       ✓ override req.userProfileFields
 
 
-  802 passing (26m)
+  801 passing (27m)
 
