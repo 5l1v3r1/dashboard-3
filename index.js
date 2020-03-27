@@ -113,10 +113,10 @@ module.exports = {
     global.rootPath = `${applicationPath}/src/www`
     global.packageJSON = mergePackageJSON()
     global.sitemap = Sitemap.generate()
-    global.api = API.createFromSitemap()
     if (process.env.GENERATE_SITEMAP_TXT !== 'false') {
       Sitemap.outputConfiguration()
     }
+    global.api = API.createFromSitemap()
     if (process.env.GENERATE_API_TXT !== 'false') {
       API.outputConfiguration()
     }

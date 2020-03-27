@@ -44,10 +44,7 @@ module.exports = {
 }
 
 function outputConfiguration () {
-  const filePath = path.join(global.applicationPath, 'api.txt')
-  if (!fs.existsSync(filePath)) {
-    return
-  }
+  const filePath = path.join(global.applicationPath, 'tests.txt')
   let tests = fs.readFileSync(filePath).toString()
   tests = tests.substring(tests.indexOf('\n\n'))
   while (true) {
@@ -85,7 +82,7 @@ function outputConfiguration () {
       if (!done.length) {
         item.url = line
         if (!global.sitemap[line]) {
-          throw new Error('invalid something ' + line)
+          continue
         }
         item.auth = global.sitemap[item.url].auth !== false
         for (const verb of verbs) {
@@ -111,6 +108,9 @@ function outputConfiguration () {
       if (type === 'exceptions') {
         item.exceptions[exception] = item.exceptions[exception] || []
         item.exceptions[exception].push(line)
+        continue
+      }
+      if (!item[type] || !item[type].push) {
         continue
       }
       item[type].push(line)
@@ -200,6 +200,9 @@ function writeAPI (configuration) {
       if (groupData[key].length > tallestGroup) {
         tallestGroup = groupData[key].length
       }
+    }
+    if (tallestGroup === 0) {
+      continue
     }
     const topBorder = underlineRight('|', totalWidth)
     const urlLine = padRight('| ' + url, totalWidth)
