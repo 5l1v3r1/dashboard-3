@@ -130,7 +130,7 @@ module.exports = {
         delete (global.sitemap['/home'])
       }
     }
-    if (process.env.NODE_ENV === 'sitemap') {
+    if (process.env.EXIT_ON_START) {
       return process.exit(0)
     }
   }
