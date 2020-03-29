@@ -48,7 +48,7 @@ describe('/account/delete-account-complete', () => {
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
-      const duration = doc.getElementById('scheduled-delete')
+      const duration = doc.getElementById('instant-delete')
       assert.strictEqual(duration.tag, 'div')
     })
 
