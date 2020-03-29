@@ -5,9 +5,13 @@ module.exports = {
 }
 
 async function renderPage (req, res, messageTemplate) {
-  req.query = req.query || {}
-  req.query.sessionid = req.session.sessionid
-  await global.api.user.SetSessionEnded.patch(req)
+  if (req.session) {
+    req.query = req.query || {}
+    req.query.sessionid = req.session.sessionid
+    await global.api.user.SetSessionEnded.patch(req)
+  }
+  const now = new Date()
+  const expires = new Date(now.getTime() + 1000).toUTCString()
   let cookieStr = 'httponly; path=/'
   if (req.secure) {
     cookieStr += '; secure'
@@ -15,8 +19,6 @@ async function renderPage (req, res, messageTemplate) {
   if (global.domain) {
     cookieStr += `; domain=${global.domain}`
   }
-  const now = new Date()
-  const expires = new Date(now.getTime() + 1000).toUTCString()
   cookieStr += '; expires=' + expires
   const cookie = [
     `sessionid=x; ${cookieStr}`,
@@ -27,5 +29,8 @@ async function renderPage (req, res, messageTemplate) {
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }
-  return dashboard.Response.end(req, res, doc)
+  res.writeHead(302, {
+    location: '/account/signout-complete'
+  })
+  return res.end(doc.toString())
 }

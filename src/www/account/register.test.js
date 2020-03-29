@@ -439,5 +439,21 @@ describe('/account/register', () => {
       const hours = Math.floor((sessions[1].expires - dashboard.Timestamp.now) / 60 / 60)
       assert.strictEqual(hours, 0)
     })
+
+    it('should create account (screenshots)', async () => {
+      const req = TestHelper.createRequest('/account/register')
+      req.body = {
+        username: 'new-user-' + new Date().getTime(),
+        password: 'a-user-password',
+        confirm: 'a-user-password'
+      }
+      req.filename = __filename
+      req.screenshots = [
+        { click: '/account/register' },
+        { fill: '#submit-form' }
+      ]
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/home')
+    })
   })
 })

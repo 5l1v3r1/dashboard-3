@@ -10,10 +10,6 @@ describe('/account/signout', () => {
       const req = TestHelper.createRequest('/account/signout')
       req.account = user.account
       req.session = user.session
-      req.body = {
-        username: user.account.username,
-        password: user.account.password
-      }
       await req.get()
       const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
       req2.account = administrator.account
@@ -29,10 +25,20 @@ describe('/account/signout', () => {
       const req = TestHelper.createRequest('/account/signout')
       req.account = user.account
       req.session = user.session
-      req.body = {
-        username: user.account.username,
-        password: user.account.password
-      }
+      const result = await req.get()
+      assert.strictEqual(result.redirect, '/account/signout-complete')
+    })
+
+    it('should signout (screenshots)', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/signout')
+      req.account = user.account
+      req.session = user.session
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account/signout' }
+      ]
       const result = await req.get()
       assert.strictEqual(result.redirect, '/account/signout-complete')
     })

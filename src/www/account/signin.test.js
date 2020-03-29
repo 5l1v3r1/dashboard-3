@@ -153,5 +153,22 @@ describe('/account/signin', () => {
       const days = Math.ceil((session.expires - dashboard.Timestamp.now) / 60 / 60 / 24)
       assert.strictEqual(days, 30)
     })
+
+    it('should sign in (screenshots)', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/signin')
+      req.body = {
+        username: user.account.username,
+        password: user.account.password,
+        remember: 'days'
+      }
+      req.filename = __filename
+      req.screenshots = [
+        { click: '/account/signin' },
+        { fill: '#submit-form' }
+      ]
+      const result = await req.post()
+      assert.strictEqual(result.redirect, '/home')
+    })
   })
 })
