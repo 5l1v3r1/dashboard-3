@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.145 test /root/workspaces/dashboard
+> @userdashboard/dashboard@1.0.146 test /root/workspaces/dashboard
 > mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
 
 
@@ -262,15 +262,21 @@
 
   /account/delete-account-complete
     DeleteAccountComplete#GET
+redirecting to completion page
       ✓ should present 3 days remaining message
+redirecting to completion page
       ✓ should present 7 days remaining message
-      ✓ should present instant delete message
+redirecting to completion page
+      ✓ should present instant deletion message
+redirecting to completion page
+      ✓ should present instant delete message (screenshots)
 
   /account/delete-account
     DeleteAccount#GET
       ✓ should present the form
     DeleteAccount#POST
       ✓ should reject invalid password
+redirecting to completion page
       ✓ should mark account deleted (screenshots)
 
   /account/delete-profile
@@ -385,6 +391,7 @@
       ✓ should require unvalidated fields
       ✓ should save unvalidated fields
       ✓ should create account and 20-minute session
+      ✓ should create account (screenshots)
 
   /account/reset-account
     ResetAccount#GET
@@ -463,11 +470,17 @@
       ✓ should create session expiring in 20 minutes
       ✓ should create session expiring in 8 hours
       ✓ should create session expiring in 30 days
+      ✓ should sign in (screenshots)
+
+  /account/signout-complete
+    SignoutComplete#GET
+      ✓ should sign out (screenshots)
 
   /account/signout
     Signout#GET
       ✓ should end the session
       ✓ should redirect to signout complete page
+      ✓ should signout (screenshots)
 
   /account/verify
     Verify#GET
@@ -1464,5 +1477,5 @@
       ✓ override req.userProfileFields
 
 
-  801 passing (27m)
+  806 passing (29m)
 

@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.145
+@userdashboard/dashboard 1.0.146
 http://localhost:8001
 
 Administrator menu:
@@ -39,7 +39,7 @@ URL ------------------------------------------- AUTH - TEMPLATE - HTTP REQUESTS 
 /account/sessions                                                 GET             /src/www     /src/www    
 /account/set-default-profile                                      GET POST        /src/www     /src/www    
 /account/signin                                 GUEST  FULLSCREEN GET POST        /src/www     /src/www    
-/account/signout                                       FULLSCREEN GET             /src/www     /src/www    
+/account/signout                                GUEST  FULLSCREEN GET             /src/www     /src/www    
 /account/signout-complete                       GUEST  FULLSCREEN GET                          /src/www    
 /account/verify                                 GUEST  FULLSCREEN GET POST        /src/www     /src/www    
 /administrator                                                    GET                          /src/www    
