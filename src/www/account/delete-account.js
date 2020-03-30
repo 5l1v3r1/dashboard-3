@@ -48,7 +48,6 @@ async function submitForm (req, res) {
   if (req.query['return-url']) {
     return dashboard.Response.redirect(req, res, req.query['return-url'])
   } else {
-    console.log('redirecting to completion page')
     res.writeHead(302, {
       location: `/account/delete-account-complete`
     })
