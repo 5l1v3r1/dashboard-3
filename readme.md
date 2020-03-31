@@ -3,23 +3,75 @@
 
 Dashboard provides the user boilerplate web apps require for users to register, create groups, subscription billing with Stripe etc.
 
-You write your application in your preferred language and it serves your guest landing page on `/` and your web app on `/home`, and any other URLs your application needs.
+You write your application server in any language and Dashboard runs in parallel.  Users browse your Dashboard server's URL and it serves its own content for account-related requests and proxies your application server for everything else.  An application server needs to serve a guest landing page on `/` and your web app on `/home`, and optionally any other URLs you require.
 
-Users browse your dashboard server's address and it may serve its own content or proxy your application server depending on what page the user's requesting.  Your server is told who the user is and can access more information through APIs.
+Dashboard is a stateless web server designed to scale horizontally, written in NodeJS.  You can publish it to Heroku or similar PaaS and run multiple instances, or use web hosts like Digital Ocean, Vultr, AWS etc load balancing services they provide.  In production you should have at least 2 instances of the server sharing requests for basic redundancy.
 
-You can style Dashboard content to look like your application, configure registration information, add modules for organizations and subscriptions and more.
+Dashboard's UI offers a generic account management and administration interface resembling the last two decades of web applications.  Your application server can serve two special CSS files, `/public/template-additional.css` and `/public/content-additional.css` to theme the Dashboard template and content.  If your server does not provide these files your Dashboard server will respond with blank files rather than 404 errors.
 
-Dashboard is written in NodeJS and supports local file system, Redis, PostgreSQL and S3 for data storage.
+Your content can occupy the full screen with `<html template="false">`.  Your content can be accessible to guests by specifying `<html auth="false">`.  The content you serve can include a `<template id="head"></template>` with HTML to be copied into Dashboard's template `<HEAD>` tag.  You can use Dashboard's navigation bar by providing a `<template id="navbar"></template>` with your HTML links.
 
-# Style Dashboard content like your application
+Your application server can access Dashboard's APIs on behalf of your users and administrators to do anything Dashboard's UI offers and more.
 
-Your application server can serve two special CSS files, `/public/template-additional.css` and `/public/content-additional.css` to theme the Dashboard server template and content.  If your server does not provide these files your Dashboard server will respond with blank files rather than 404 errors.
+# Hosting Dashboard yourself
 
-The content you serve can include a `<template id="head"></template>` with HTML you wish to be copied into the template's `<HEAD>` tag.  Provide a `<template id="navbar"></template>` with HTML links if you want to borrow the template's navigation bar.
+Dashboard requires NodeJS `12.13.1` be installed.
 
-# Access user data from your application
+    $ mkdir my-dashboard-server
+    $ cd my-dashboard-server
+    $ npm init
+    $ npm install @userdashboard/dashboard
+    $ echo "require('@userdashboard/dashboard').start(__dirname)" > main.js
+    $ node main.js
 
-You can access the Dashboard APIs on behalf of the user making requests.  You perform HTTP requests against the API endpoints to fetch or modify data.  This example uses NodeJS to fetch the user's account from the Dashboard server.
+# Customize registration information
+
+By default users may register with just a username and password, both of which are encrypted so they cannot be used for anything but signing in.  You can specify some personal information fields to require in an environment variable:
+
+        REQUIRE_PROFILE=true
+        PROFILE_FIEDLS=any,combination
+
+|Field|
+|----------
+|full-name|
+|contact-email|
+|display-name|
+|display-email|
+|dob|
+|location|
+|phone|
+|company-name|
+|website|
+|occupation|
+
+# Adding links to the account or administrator menus
+
+Your web application can add links to the account and administrator menus in its `package.json`:
+
+    {
+        dashboard: {
+            "menus": {
+                "administrator": [
+                    {
+                    "href": "/administrator/manage-things",
+                    "text": "Manage things",
+                    "object": "link"
+                    }
+                ],
+                "account": [
+                    {
+                    "href": "/mortgage-calculator",
+                    "text": "Mortgage calculator",
+                    "object": "link"
+                    }
+                ]
+            },
+        }
+    }
+
+# Access user data from your application server
+
+You can access the Dashboard HTTP APIs on behalf of the user making requests.  Dashboard and its modules are entirely API-driven so your application server can retrieve, modify or create any user data.   This example uses NodeJS to fetch the user's account from the Dashboard server.
 
     const account = await proxy(`/api/user/account?accountid=${accountid}`, accountid, sessionid)
 
@@ -46,7 +98,7 @@ You can access the Dashboard APIs on behalf of the user making requests.  You pe
             requestOptions.headers['x-accountid'] = accountid
             requestOptions.headers['x-sessionid'] = sessionid
         }
-        const proxyRequest = require('https').request(requestOptions, (proxyResponse) => {
+        const proxyRequest = require('jj').request(requestOptions, (proxyResponse) => {
             let body = ''
             proxyResponse.on('data', (chunk) => {
                 body += chunk
@@ -62,39 +114,32 @@ You can access the Dashboard APIs on behalf of the user making requests.  You pe
       })
     }
 
-# Set up a copy of Dashboard
-
-Dashboard is a NodeJS project requiring node `12.13.1`.  You must install NodeJS first.
-
-    $ mkdir dashboard-server
-    $ cd dashboard-server
-    $ npm init
-    $ npm install @userdashboard/dashboard
-    # install any modules you want here
-    $ echo "require('@userdashboard/dashboard').start(__dirname)" > main.js
-
-Dashboard is a stateless NodeJS server, you can publish it to Heroku or similar PaaS and scale to multiple instances, or use web hosts like Digital Ocean, Vultr, AWS etc and load balancing services they provide.  In production you should have at least 2 instances of the server sharing requests for basic redundancy.
-
 # Dashboard storage backends
 
-Dashboard by default uses local disk, this is good for development and okay for applications that aren't going to grow to many users.  Alternatively you can use Redis, PostgreSQL or S3-compatible backends.
+Dashboard by default uses local disk, this is good for development but in production you can use Redis, PostgreSQL or S3-compatible backends.
 
 | Name | Description | Package   | Repository |
 |------|-------------|-----------|------------|
-| Redis | Maximum speed and maximum scaling cost | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
 | Amazon S3 | Minimum speed and minimum scaling cost | [@userdashboard/storage-s3](https://npmjs.com/package/@userdashboard/storage-s3) | [github](https://github.com/userdashboard/storage-s3) |
 | PostgreSQL | Medium speed and medium scaling cost | [@userdashboard/storage-postgresql](https://npmjs.com/package/@userdashboard/storage-postgresql) | [github](https://github.com/userdashboard/storage-postgresql) |
+| Redis | Maximum speed and maximum scaling cost | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
+
+You can activate a storage backend with an environment variable.  Each have unique connection parameter(s) specified in their readme files.
+
+    $ STORAGE_ENGINE=@userdashboard/redis \
+      REDIS_URL=redis:/.... \
+      node main.js
 
 # Dashboard modules
 
-Dashboard is modular, and by itself it provides only the signing in and account management pages and API routes.  Modules add new pages and API routes for additional functionality.
+Dashboard is modular, and by itself it provides only the signing in and basic account management.  Modules add new pages and API routes for additional functionality.
 
 | Name | Description | Package   | Repository |
 |------|-------------|-----------|------------|
 | MaxMind GeoIP | IP address-based geolocation | [@userdashboard/maxmind-geoip](https://npmjs.com/package/userdashboard/maxmind-geoip)| [github](https://github.com/userdashboard/maxmind-geoip) |
 | Organizations | User created groups | [@userdashboard/organizations](https://npmjs.com/package/userdashboard/organizations) | [github](https://github.com/userdashboard/organizations) |
-| Stripe Subscriptions | SaaS functionality | [@userdashboard/stripe-subscriptions](https://npmjs.com/package/userdashboard/stripe-subscriptions) | [github](https://github.com/userdashboard/stripe-subscriptions) |
 | Stripe Connect | Marketplace functionality | [@userdashboard/stripe-connect](https://npmjs.com/package/userdashboard/stripe-connect) | [github](https://github.com/userdashboard/stripe-connect)
+| Stripe Subscriptions | SaaS functionality | [@userdashboard/stripe-subscriptions](https://npmjs.com/package/userdashboard/stripe-subscriptions) | [github](https://github.com/userdashboard/stripe-subscriptions) |
 
 Modules are NodeJS packages that you install with NPM:
 
@@ -108,28 +153,7 @@ You need to notify Dashboard which modules you are using in `package.json` conff
       ]
     }
 
-
 If you have built your own modules you may submit a pull request to add them to this list.  
-
-# Customizing registration information
-
-By default users may register with just a username and password, both of which are encrypted so they cannot be used for anything but signing in.  You can specify additional fields to require in an environment variable:
-
-        REQUIRE_PROFILE=true
-        PROFILE_FIEDLS=any,combination
-
-|Field|
-|----------
-|full-name|
-|contact-email|
-|display-name|
-|display-email|
-|dob|
-|location|
-|phone|
-|company-name|
-|website|
-|occupation|
 
 # Creating modules for Dashboard
 
@@ -149,7 +173,7 @@ When your module is published users can install it with NPM:
 
     $ npm install your_module_name
 
-Modules must be activated in a web app's package.json:
+Modules must be activated in a web app's `package.json`:
 
     dashboard: {
         modules: [ "your_module_name" ]
@@ -199,7 +223,7 @@ Content can occupy the full screen without the template via a flag in the HTML o
         }
     }
 
-Your module can add links to the account and administrator menus in its package.json:
+Your module can add links to the account and administrator menus in its `package.json`:
 
     {
         dashboard: {
