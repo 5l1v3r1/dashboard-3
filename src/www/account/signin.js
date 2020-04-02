@@ -43,12 +43,27 @@ async function submitForm (req, res) {
     req.query = query
   }
   req.session = session
-  let cookieStr = 'httponly; path=/;'
+  let cookieStr = 'httponly; path=/; SameSite=strict'
   if (req.secure) {
     cookieStr += '; secure'
   }
-  if (global.domain && global.domain.indexOf('.') > -1) {
-    cookieStr += '; domain=' + global.domain
+  if (global.domain) {
+    const domainColon = global.domain.indexOf(':')
+    if (domainColon > -1) {
+      cookieStr += '; domain=' + global.domain.substring(0, domainColon)
+      cookieStr += '; port=' + global.domain.substring(domainColon + 1)
+    } else {
+      cookieStr += '; domain=' + global.domain
+    }
+  } else {
+    const address = global.dashboardServer.split('://')[1]
+    const addressColon = address.indexOf(':')
+    if (addressColon > -1) {
+      cookieStr += '; domain=' + address.substring(0, addressColon)
+      cookieStr += '; port=' + address.substring(addressColon + 1)
+    } else {
+      cookieStr += '; domain=' + address
+    }
   }
   if (session.expires) {
     cookieStr += '; expires=' + dashboard.Timestamp.date(session.expires).toUTCString()
