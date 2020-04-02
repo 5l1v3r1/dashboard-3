@@ -332,9 +332,6 @@ async function receiveRequest (req, res) {
         delete (req.session.lastVerified)
       }
     }
-    if (!req.session.lastVerified) {
-      await StorageObject.removeProperty(`${req.appid}/session/${req.session.sessionid}`, 'lastVerified')
-    }
     await StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, 'lastSeen', Timestamp.now)
     if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') ||
         req.urlPath === '/account' || req.urlPath.startsWith('/account/')) {
