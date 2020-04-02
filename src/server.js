@@ -327,12 +327,13 @@ async function receiveRequest (req, res) {
     if (req.session.lastSeen && Timestamp.now - req.session.lastSeen > 3600) {
       delete (req.session.lastVerified)
     }
-    if (!req.session.lastSeen) {
-      if (Timestamp.now - req.session.created > 3600) {
-        delete (req.session.lastVerified)
-      }
+    if (!req.session.lastSeen && Timestamp.now - req.session.created > 3600) {
+      delete (req.session.lastVerified)
     }
-    await StorageObject.setProperty(`${req.appid}/session/${req.session.sessionid}`, 'lastSeen', Timestamp.now)
+    if (req.session.lastSeen < Timestamp.now - 30) {
+      req.session.lastSeen = Timestamp.now
+      await Storage(`${req.appid}/session/${req.session.sessionid}`, 'lastSeen', Timestamp.now)
+    }
     if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') ||
         req.urlPath === '/account' || req.urlPath.startsWith('/account/')) {
       if (!req.session.lastVerified &&
