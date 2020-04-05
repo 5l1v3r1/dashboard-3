@@ -886,6 +886,198 @@ describe('internal-api/response', () => {
       assert.strictEqual(scripts.length, 1)
       assert.strictEqual(scripts[0].attr.src, 'override.js')
     })
+
+    it('should execute "page" handlers on the rendered page', async () => {
+      global.packageJSON = {
+        dashboard: {
+          title: 'Global Template Title',
+          content: [
+            {
+              page: async (req, res, pageDoc) => {
+                req.executedPageRequest = true
+              }
+            }
+          ],
+          menus: {
+            administrator: [],
+            account: []
+          }
+        },
+        templateHTML: `
+        <html>
+          <head>
+            <title>Hardcoded Template Title</title>
+          </head>
+          <body>
+            <header id="heading"></header>
+            <div id="administrator-menu-container"><menu id="administrator-menu"></menu></div>
+            <div id="account-menu-container"><menu id="account-menu"></menu></div>
+            <nav id="navigation"></nav>
+            <div id="spillage"></div>
+            <iframe id="application-iframe"></iframe>
+            <template id="heading-link"><a href="\${link.href}">\${link.text}</a></template>
+            <template id="menu-link"><a href="\${link.href}">\${link.text}</a></template>
+          </body>
+        </html>`
+      }
+      const doc = HTML.parse(`
+      <html>
+        <head>
+          <title>Hardcoded Page Title</title>
+        </head>
+        <body>Body</body>
+      </html>`)
+      const req = TestHelper.createRequest('/account/sessions')
+      const res = { setHeader: () => { } }
+      await Response.wrapTemplateWithSrcDoc(req, res, doc)
+      assert.strictEqual(req.executedPageRequest, true)
+    })
+
+    it('should execute "template" handlers on the rendered + page-merged template', async () => {
+      global.packageJSON = {
+        dashboard: {
+          title: 'Global Template Title',
+          content: [
+            {
+              template: async (req, res, templateDoc) => {
+                req.executedTemplateRequest = true
+              }
+            }
+          ],
+          menus: {
+            administrator: [],
+            account: []
+          }
+        },
+        templateHTML: `
+        <html>
+          <head>
+            <title>Hardcoded Template Title</title>
+          </head>
+          <body>
+            <header id="heading"></header>
+            <div id="administrator-menu-container"><menu id="administrator-menu"></menu></div>
+            <div id="account-menu-container"><menu id="account-menu"></menu></div>
+            <nav id="navigation"></nav>
+            <div id="spillage"></div>
+            <iframe id="application-iframe"></iframe>
+            <template id="heading-link"><a href="\${link.href}">\${link.text}</a></template>
+            <template id="menu-link"><a href="\${link.href}">\${link.text}</a></template>
+          </body>
+        </html>`
+      }
+      const doc = HTML.parse(`
+      <html>
+        <head>
+          <title>Hardcoded Page Title</title>
+        </head>
+        <body>Body</body>
+      </html>`)
+      const req = TestHelper.createRequest('/account/sessions')
+      const res = { setHeader: () => { } }
+      await Response.wrapTemplateWithSrcDoc(req, res, doc)
+      assert.strictEqual(req.executedTemplateRequest, true)
+    })
+
+    it('should execute "page" and "template" handlers on the rendered + page-merged template', async () => {
+      global.packageJSON = {
+        dashboard: {
+          title: 'Global Template Title',
+          content: [
+            {
+              page: async (req, res, pageDoc) => {
+                req.executedPageRequest = true
+              },
+              template: async (req, res, templateDoc) => {
+                req.executedTemplateRequest = true
+              }
+            }
+          ],
+          menus: {
+            administrator: [],
+            account: []
+          }
+        },
+        templateHTML: `
+        <html>
+          <head>
+            <title>Hardcoded Template Title</title>
+          </head>
+          <body>
+            <header id="heading"></header>
+            <div id="administrator-menu-container"><menu id="administrator-menu"></menu></div>
+            <div id="account-menu-container"><menu id="account-menu"></menu></div>
+            <nav id="navigation"></nav>
+            <div id="spillage"></div>
+            <iframe id="application-iframe"></iframe>
+            <template id="heading-link"><a href="\${link.href}">\${link.text}</a></template>
+            <template id="menu-link"><a href="\${link.href}">\${link.text}</a></template>
+          </body>
+        </html>`
+      }
+      const doc = HTML.parse(`
+      <html>
+        <head>
+          <title>Hardcoded Page Title</title>
+        </head>
+        <body>Body</body>
+      </html>`)
+      const req = TestHelper.createRequest('/account/sessions')
+      const res = { setHeader: () => { } }
+      await Response.wrapTemplateWithSrcDoc(req, res, doc)
+      assert.strictEqual(req.executedTemplateRequest, true)
+    })
+
+    it('should execute each content handler', async () => {
+      global.packageJSON = {
+        dashboard: {
+          title: 'Global Template Title',
+          content: [
+            {
+              page: async (req, res, pageDoc) => {
+                req.executedPageRequest = true
+              }
+            }, {
+              template: async (req, res, templateDoc) => {
+                req.executedTemplateRequest = true
+              }
+            }
+          ],
+          menus: {
+            administrator: [],
+            account: []
+          }
+        },
+        templateHTML: `
+        <html>
+          <head>
+            <title>Hardcoded Template Title</title>
+          </head>
+          <body>
+            <header id="heading"></header>
+            <div id="administrator-menu-container"><menu id="administrator-menu"></menu></div>
+            <div id="account-menu-container"><menu id="account-menu"></menu></div>
+            <nav id="navigation"></nav>
+            <div id="spillage"></div>
+            <iframe id="application-iframe"></iframe>
+            <template id="heading-link"><a href="\${link.href}">\${link.text}</a></template>
+            <template id="menu-link"><a href="\${link.href}">\${link.text}</a></template>
+          </body>
+        </html>`
+      }
+      const doc = HTML.parse(`
+      <html>
+        <head>
+          <title>Hardcoded Page Title</title>
+        </head>
+        <body>Body</body>
+      </html>`)
+      const req = TestHelper.createRequest('/account/sessions')
+      const res = { setHeader: () => { } }
+      await Response.wrapTemplateWithSrcDoc(req, res, doc)
+      assert.strictEqual(req.executedTemplateRequest, true)
+      assert.strictEqual(req.executedPageRequest, true)
+    })
   })
 
   describe('Response#throw404', () => {
