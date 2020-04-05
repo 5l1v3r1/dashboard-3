@@ -352,47 +352,47 @@ describe('internal-api/merge-package-json', () => {
       })
     })
 
-    describe('Merged server handler order', () => {
-      it('should put application server handlers last', async () => {
+    describe('Merged proxy handler order', () => {
+      it('should put application proxy handlers last', async () => {
         const applicationJSON = {
           dashboard: {
-            server: ['server-3']
+            proxy: ['proxy-3']
           }
         }
         const dashboardJSON = {
           version: 'test',
           name: '@userdashboard/dashboard',
           dashboard: {
-            server: ['server-1', 'server-2']
+            proxy: ['proxy-1', 'proxy-2']
           }
         }
         const mergedJSON = mergePackageJSON(applicationJSON, dashboardJSON)
-        assert.strictEqual(mergedJSON.dashboard.server[mergedJSON.dashboard.server.length - 1], applicationJSON.dashboard.server[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[mergedJSON.dashboard.proxy.length - 1], applicationJSON.dashboard.proxy[0])
       })
 
-      it('should put dashboard server handlers first', async () => {
+      it('should put dashboard proxy handlers first', async () => {
         const applicationJSON = {
           dashboard: {
-            server: ['content-3']
+            proxy: ['content-3']
           }
         }
         const dashboardJSON = {
           version: 'test',
           name: '@userdashboard/dashboard',
           dashboard: {
-            server: ['server-1', 'server-2']
+            proxy: ['proxy-1', 'proxy-2']
           }
         }
         const mergedJSON = mergePackageJSON(applicationJSON, dashboardJSON)
-        assert.strictEqual(mergedJSON.dashboard.server.length, 3)
-        assert.strictEqual(mergedJSON.dashboard.server[0], dashboardJSON.dashboard.server[0])
-        assert.strictEqual(mergedJSON.dashboard.server[1], dashboardJSON.dashboard.server[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy.length, 3)
+        assert.strictEqual(mergedJSON.dashboard.proxy[0], dashboardJSON.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[1], dashboardJSON.dashboard.proxy[1])
       })
 
-      it('should put module server handlers between dashboard and application', async () => {
+      it('should put module proxy handlers between dashboard and application', async () => {
         const applicationJSON = {
           dashboard: {
-            server: ['server-5'],
+            proxy: ['proxy-5'],
             modules: ['testModule']
           }
         }
@@ -400,29 +400,29 @@ describe('internal-api/merge-package-json', () => {
           version: 'test',
           name: '@userdashboard/dashboard',
           dashboard: {
-            server: ['server-1', 'server-2']
+            proxy: ['proxy-1', 'proxy-2']
           }
         }
         global.testModuleJSON = {
           testModule: {
             dashboard: {
-              server: ['server-3', 'server-4']
+              proxy: ['proxy-3', 'proxy-4']
             }
           }
         }
         const mergedJSON = mergePackageJSON(applicationJSON, dashboardJSON)
-        assert.strictEqual(mergedJSON.dashboard.server.length, 5)
-        assert.strictEqual(mergedJSON.dashboard.server[0], dashboardJSON.dashboard.server[0])
-        assert.strictEqual(mergedJSON.dashboard.server[1], dashboardJSON.dashboard.server[1])
-        assert.strictEqual(mergedJSON.dashboard.server[2], global.testModuleJSON.testModule.dashboard.server[0])
-        assert.strictEqual(mergedJSON.dashboard.server[3], global.testModuleJSON.testModule.dashboard.server[1])
-        assert.strictEqual(mergedJSON.dashboard.server[4], applicationJSON.dashboard.server[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy.length, 5)
+        assert.strictEqual(mergedJSON.dashboard.proxy[0], dashboardJSON.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[1], dashboardJSON.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[2], global.testModuleJSON.testModule.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[3], global.testModuleJSON.testModule.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[4], applicationJSON.dashboard.proxy[0])
       })
 
       it('should include nested modules', async () => {
         const applicationJSON = {
           dashboard: {
-            server: ['server-7'],
+            proxy: ['proxy-7'],
             modules: ['testModule']
           }
         }
@@ -430,31 +430,138 @@ describe('internal-api/merge-package-json', () => {
           version: 'test',
           name: '@userdashboard/dashboard',
           dashboard: {
-            server: ['server-1', 'server-2']
+            proxy: ['proxy-1', 'proxy-2']
           }
         }
         global.testModuleJSON = {
           testModule: {
             dashboard: {
-              server: ['server-3', 'server-4'],
+              proxy: ['proxy-3', 'proxy-4'],
               modules: ['testModule2']
             }
           },
           testModule2: {
             dashboard: {
-              server: ['server-5', 'server-6']
+              proxy: ['proxy-5', 'proxy-6']
             }
           }
         }
         const mergedJSON = mergePackageJSON(applicationJSON, dashboardJSON)
-        assert.strictEqual(mergedJSON.dashboard.server.length, 7)
-        assert.strictEqual(mergedJSON.dashboard.server[0], dashboardJSON.dashboard.server[0])
-        assert.strictEqual(mergedJSON.dashboard.server[1], dashboardJSON.dashboard.server[1])
-        assert.strictEqual(mergedJSON.dashboard.server[2], global.testModuleJSON.testModule.dashboard.server[0])
-        assert.strictEqual(mergedJSON.dashboard.server[3], global.testModuleJSON.testModule.dashboard.server[1])
-        assert.strictEqual(mergedJSON.dashboard.server[4], global.testModuleJSON.testModule2.dashboard.server[0])
-        assert.strictEqual(mergedJSON.dashboard.server[5], global.testModuleJSON.testModule2.dashboard.server[1])
-        assert.strictEqual(mergedJSON.dashboard.server[6], applicationJSON.dashboard.server[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy.length, 7)
+        assert.strictEqual(mergedJSON.dashboard.proxy[0], dashboardJSON.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[1], dashboardJSON.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[2], global.testModuleJSON.testModule.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[3], global.testModuleJSON.testModule.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[4], global.testModuleJSON.testModule2.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[5], global.testModuleJSON.testModule2.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[6], applicationJSON.dashboard.proxy[0])
+      })
+    })
+
+
+    describe('Merged proxy handler order', () => {
+      it('should put application proxy handlers last', async () => {
+        const applicationJSON = {
+          dashboard: {
+            proxy: ['proxy-3']
+          }
+        }
+        const dashboardJSON = {
+          version: 'test',
+          name: '@userdashboard/dashboard',
+          dashboard: {
+            proxy: ['proxy-1', 'proxy-2']
+          }
+        }
+        const mergedJSON = mergePackageJSON(applicationJSON, dashboardJSON)
+        assert.strictEqual(mergedJSON.dashboard.proxy[mergedJSON.dashboard.proxy.length - 1], applicationJSON.dashboard.proxy[0])
+      })
+
+      it('should put dashboard proxy handlers first', async () => {
+        const applicationJSON = {
+          dashboard: {
+            proxy: ['content-3']
+          }
+        }
+        const dashboardJSON = {
+          version: 'test',
+          name: '@userdashboard/dashboard',
+          dashboard: {
+            proxy: ['proxy-1', 'proxy-2']
+          }
+        }
+        const mergedJSON = mergePackageJSON(applicationJSON, dashboardJSON)
+        assert.strictEqual(mergedJSON.dashboard.proxy.length, 3)
+        assert.strictEqual(mergedJSON.dashboard.proxy[0], dashboardJSON.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[1], dashboardJSON.dashboard.proxy[1])
+      })
+
+      it('should put module proxy handlers between dashboard and application', async () => {
+        const applicationJSON = {
+          dashboard: {
+            proxy: ['proxy-5'],
+            modules: ['testModule']
+          }
+        }
+        const dashboardJSON = {
+          version: 'test',
+          name: '@userdashboard/dashboard',
+          dashboard: {
+            proxy: ['proxy-1', 'proxy-2']
+          }
+        }
+        global.testModuleJSON = {
+          testModule: {
+            dashboard: {
+              proxy: ['proxy-3', 'proxy-4']
+            }
+          }
+        }
+        const mergedJSON = mergePackageJSON(applicationJSON, dashboardJSON)
+        assert.strictEqual(mergedJSON.dashboard.proxy.length, 5)
+        assert.strictEqual(mergedJSON.dashboard.proxy[0], dashboardJSON.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[1], dashboardJSON.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[2], global.testModuleJSON.testModule.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[3], global.testModuleJSON.testModule.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[4], applicationJSON.dashboard.proxy[0])
+      })
+
+      it('should include nested modules', async () => {
+        const applicationJSON = {
+          dashboard: {
+            proxy: ['proxy-7'],
+            modules: ['testModule']
+          }
+        }
+        const dashboardJSON = {
+          version: 'test',
+          name: '@userdashboard/dashboard',
+          dashboard: {
+            proxy: ['proxy-1', 'proxy-2']
+          }
+        }
+        global.testModuleJSON = {
+          testModule: {
+            dashboard: {
+              proxy: ['proxy-3', 'proxy-4'],
+              modules: ['testModule2']
+            }
+          },
+          testModule2: {
+            dashboard: {
+              proxy: ['proxy-5', 'proxy-6']
+            }
+          }
+        }
+        const mergedJSON = mergePackageJSON(applicationJSON, dashboardJSON)
+        assert.strictEqual(mergedJSON.dashboard.proxy.length, 7)
+        assert.strictEqual(mergedJSON.dashboard.proxy[0], dashboardJSON.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[1], dashboardJSON.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[2], global.testModuleJSON.testModule.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[3], global.testModuleJSON.testModule.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[4], global.testModuleJSON.testModule2.dashboard.proxy[0])
+        assert.strictEqual(mergedJSON.dashboard.proxy[5], global.testModuleJSON.testModule2.dashboard.proxy[1])
+        assert.strictEqual(mergedJSON.dashboard.proxy[6], applicationJSON.dashboard.proxy[0])
       })
     })
   })
