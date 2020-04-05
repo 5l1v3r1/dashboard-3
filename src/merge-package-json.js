@@ -17,6 +17,8 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   packageJSON.dashboard.serverFilePaths = []
   packageJSON.dashboard.content = []
   packageJSON.dashboard.contentFilePaths = []
+  packageJSON.dashboard.proxy = []
+  packageJSON.dashboard.proxyFilePaths = []
   packageJSON.dashboard.modules = []
   packageJSON.dashboard.moduleNames = []
   packageJSON.dashboard.moduleVersions = []
@@ -41,6 +43,12 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
       packageJSON.dashboard.content[i] = relativePath
       packageJSON.dashboard.contentFilePaths[i] = filePath
     }
+    for (const i in dashboardJSON.dashboard.proxy) {
+      const relativePath = dashboardJSON.dashboard.proxy[i]
+      const filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/${relativePath}`
+      packageJSON.dashboard.proxy[i] = relativePath
+      packageJSON.dashboard.proxyFilePaths[i] = filePath
+    }
   } else {
     for (const i in dashboardJSON.dashboard.server) {
       const relativePath = dashboardJSON.dashboard.server[i]
@@ -53,6 +61,12 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
       const filePath = `${global.applicationPath}/${relativePath}`
       packageJSON.dashboard.content[i] = relativePath
       packageJSON.dashboard.contentFilePaths[i] = filePath
+    }
+    for (const i in dashboardJSON.dashboard.proxy) {
+      const relativePath = dashboardJSON.dashboard.proxy[i]
+      const filePath = `${global.applicationPath}/${relativePath}`
+      packageJSON.dashboard.proxy[i] = relativePath
+      packageJSON.dashboard.proxyFilePaths[i] = filePath
     }
   }
   if (applicationJSON && applicationJSON.dashboard) {
@@ -90,6 +104,14 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
         const filePath = `${global.applicationPath}${relativePath}`
         packageJSON.dashboard.content.push(relativePath)
         packageJSON.dashboard.contentFilePaths.push(filePath)
+      }
+    }
+    if (applicationJSON.dashboard.proxy && applicationJSON.dashboard.proxy.length) {
+      for (const i in applicationJSON.dashboard.proxy) {
+        const relativePath = applicationJSON.dashboard.proxy[i]
+        const filePath = `${global.applicationPath}${relativePath}`
+        packageJSON.dashboard.proxy.push(relativePath)
+        packageJSON.dashboard.proxyFilePaths.push(filePath)
       }
     }
     if (applicationJSON.dashboard.menus) {
@@ -138,6 +160,14 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     }
     const moduleName = trimModuleName(filePath)
     packageJSON.dashboard.contentFilePaths[i] = moduleName + trimPath(filePath)
+  }
+  for (const i in packageJSON.dashboard.proxyFilePaths) {
+    const filePath = packageJSON.dashboard.proxyFilePaths[i]
+    if (fs.existsSync(filePath)) {
+      packageJSON.dashboard.proxy[i] = require(filePath)
+    }
+    const moduleName = trimModuleName(filePath)
+    packageJSON.dashboard.proxyFilePaths[i] = moduleName + trimPath(filePath)
   }
   const firstJSON = (applicationJSON || packageJSON)
   const applicationJSONErrorHTMLPath = firstJSON.dashboard && firstJSON.dashboard['error.html'] ? `${global.applicationPath}${firstJSON.dashboard['error.html']}` : null
@@ -210,6 +240,17 @@ function mergeModuleJSON (baseJSON, moduleJSON, nested) {
       const filePath = `${global.applicationPath}/node_modules/${moduleJSON.name}/${relativePath}`
       baseJSON.dashboard.content.push(relativePath)
       baseJSON.dashboard.contentFilePaths.push(filePath)
+    }
+  }
+  if (moduleJSON.dashboard.proxy && moduleJSON.dashboard.proxy.length) {
+    for (const i in moduleJSON.dashboard.proxy) {
+      const relativePath = moduleJSON.dashboard.proxy[i]
+      if (baseJSON.dashboard.proxy.indexOf(relativePath) > -1) {
+        continue
+      }
+      const filePath = `${global.applicationPath}/node_modules/${moduleJSON.name}/${relativePath}`
+      baseJSON.dashboard.proxy.push(relativePath)
+      baseJSON.dashboard.proxyFilePaths.push(filePath)
     }
   }
   if (moduleJSON.dashboard.modules) {

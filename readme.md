@@ -246,7 +246,7 @@ Your module can add links to the account and administrator menus in its `package
         }
     }
 
-Your module can add `server` and `content` handlers that manipulate requests or responses as they occur:
+Your module can add `server` handlers that manipulate requests, `content` handlers that adjust the rendered content, and `proxy` handlers that add to header information sent to application servers.
 
     {
         dashboard: {
@@ -255,8 +255,34 @@ Your module can add `server` and `content` handlers that manipulate requests or 
             ],
             "content": [
                 "/src/content/my-content-modifier.js"
+            ],
+            "proxy": [
+                "/src/proxy/my-header-additions.js"
             ]
         }
+    }
+
+Server handlers can execute `before` and/or `after` a visitor is identified as a guest or user:
+
+    module.exports = {
+        before: async (req, res) => {
+        },
+        after: async (req, res) => {
+        }
+    }
+
+Content handlers can adjust the `template` and `page` documents before they are served to the user:
+
+    module.exports = {
+        page: async (req, res, pageDoc) => {
+        },
+        template: async (req, res, templateDoc) => {
+        }
+    }
+
+Proxy handlers can add to the headers sent to application servers:
+    
+    module.exports = async (req, proxyRequestOptions) => {
     }
     
 # Support and contributions

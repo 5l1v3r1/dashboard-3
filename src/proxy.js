@@ -46,6 +46,12 @@ async function pass (req, res) {
     const tokenHash = bcrypt.hashSync(token, salt)
     requestOptions.headers['x-dashboard-token'] = tokenHash
   }
+  const proxyHandlers = global.packageJSON.dashboard.proxy
+  if (proxyHandlers && proxyHandlers.length) {
+    for (const handler of proxyHandlers) {
+      await handler(req, requestOptions)
+    }
+  }
   if (req.body && req.bodyRaw) {
     requestOptions.headers['content-length'] = req.headers['content-length'] || req.bodyRaw.length
     requestOptions.headers['content-type'] = req.headers['content-type'] || 'application/x-www-form-urlencoded'

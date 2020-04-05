@@ -220,6 +220,12 @@ function outputConfiguration () {
       output.push(item)
     }
   }
+  if (configuration.proxy.length) {
+    output.push('\nProxy handlers:')
+    for (const item of configuration.proxy) {
+      output.push(item)
+    }
+  }
   for (const url of sortedURLs) {
     const route = configuration.urls[url]
     const routeURL = padRight(url, widestURL)
