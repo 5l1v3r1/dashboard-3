@@ -46,10 +46,8 @@ const parseMultiPartData = util.promisify((req, callback) => {
       if (!file.size) {
         continue
       }
-      const extension = file.originalFilename.toLowerCase().split('.').pop()
-      const type = extension === 'png' ? 'image/png' : 'image/jpeg'
       req.uploads[field] = {
-        type,
+        type: file.headers['content-type'],
         buffer: fs.readFileSync(file.path),
         name: file.originalFilename
       }
