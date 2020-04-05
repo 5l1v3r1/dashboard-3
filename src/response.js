@@ -90,7 +90,7 @@ async function redirect (req, res, url) {
   res.setHeader('content-type', mimeTypes.html)
   const packageJSON = req.packageJSON || global.packageJSON
   const doc = HTML.parse(packageJSON.redirectHTML.split('{url}').join(url))
-  if (packageJSON.dashboard.content.length) {
+  if (packageJSON.dashboard.content && packageJSON.dashboard.content.length) {
     for (const contentHandler of packageJSON.dashboard.content) {
       if (contentHandler.page) {
         await contentHandler.page(req, res, doc)
@@ -235,7 +235,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     templateTitles[0].child = pageTitles[0].child
   }
   let newTitle = packageJSON.dashboard.title
-  if (newTitle.indexOf(' ') > -1) {
+  if (newTitle && newTitle.length && newTitle.indexOf(' ') > -1) {
     newTitle = newTitle.split(' ').join('&nbsp;')
   }
   const headingLink = {
@@ -250,7 +250,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
     administratorMenuContainer.removeChild(administratorMenuContainer)
   } else {
-    if (packageJSON.dashboard.menus.account && packageJSON.dashboard.menus.account.length) {
+    if (packageJSON.dashboard.menus && packageJSON.dashboard.menus.account && packageJSON.dashboard.menus.account.length) {
       HTML.renderList(templateDoc, packageJSON.dashboard.menus.account, 'menu-link', 'account-menu')
     } else {
       const accountMenuContainer = templateDoc.getElementById('account-menu-container')
@@ -260,7 +260,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
       administratorMenuContainer.setAttribute('style', 'display: none')
     } else {
-      if (packageJSON.dashboard.menus.administrator && packageJSON.dashboard.menus.administrator.length) {
+      if (packageJSON.dashboard.menus && packageJSON.dashboard.menus.administrator && packageJSON.dashboard.menus.administrator.length) {
         HTML.renderList(templateDoc, packageJSON.dashboard.menus.administrator, 'menu-link', 'administrator-menu')
       } else {
         const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
@@ -289,7 +289,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
       form.attr.action += `${divider}return-url=${encodeURI(req.query['return-url']).split('?').join('%3F')}`
     }
   }
-  if (packageJSON.dashboard.content.length) {
+  if (packageJSON.dashboard.content && packageJSON.dashboard.content.length) {
     for (const contentHandler of packageJSON.dashboard.content) {
       if (contentHandler.page) {
         await contentHandler.page(req, res, doc)

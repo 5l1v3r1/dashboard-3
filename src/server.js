@@ -412,10 +412,12 @@ async function staticFile (req, res) {
   if (!fs.existsSync(filePath)) {
     filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/www${req.urlPath}`
     if (!fs.existsSync(filePath)) {
-      for (const moduleName of global.packageJSON.dashboard.moduleNames) {
-        filePath = `${global.applicationPath}/node_modules/${moduleName}/src/www${req.urlPath}`
-        if (fs.existsSync(filePath)) {
-          break
+      if (global.packageJSON.dashboard.moduleNames && global.packageJSON.dashboard.moduleNames.length) {
+        for (const moduleName of global.packageJSON.dashboard.moduleNames) {
+          filePath = `${global.applicationPath}/node_modules/${moduleName}/src/www${req.urlPath}`
+          if (fs.existsSync(filePath)) {
+            break
+          }
         }
       }
     }
