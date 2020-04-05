@@ -139,8 +139,11 @@ async function pass (req, res) {
       }
     })
   })
-  if (req.body) {
+  if (req.bodyRaw) {
     proxyReq.write(req.bodyRaw)
+  } else if (req.body) {
+    proxyReq.write(req.body)
   }
-  return proxyReq.end()
+  proxyReq.end()
+  return requestOptions
 }
