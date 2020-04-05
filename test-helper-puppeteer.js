@@ -130,24 +130,26 @@ async function fetch (method, req) {
         screenshotNumber++
         html = await getContent(page)
         await click(page, step.click)
-        await page.waitForNavigation((response) => {
-          const status = response.status()
-          return status === 200
-        })
+        if (step.waitLinkNavigation !== false) {
+          await page.waitForNavigation((response) => {
+            const status = response.status()
+            return status === 200
+          })
+        }
       } else if (step.fill) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device, req)
-            if (req.waitFormLoad) {
-              await req.waitFormLoad(page)
+            if (step.waitFormLoad) {
+              await step.waitFormLoad(page)
             }
             await fillForm(page, step.fill, step.body || req.body, req.uploads)
             await hover(page, req.button || '#submit-button')
             await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
           }
         } else {
-          if (req.waitFormLoad) {
-            await req.waitFormLoad(page)
+          if (step.waitFormLoad) {
+            await step.waitFormLoad(page)
           }
           await fillForm(page, step.fill, step.body || req.body, step.uploads || req.uploads)
         }
@@ -155,8 +157,8 @@ async function fetch (method, req) {
         await focus(page, req.button || '#submit-button')
         html = await getContent(page)
         await click(page, req.button || '#submit-button')
-        if (req.waitFormComplete) {
-          await req.waitFormComplete(page)
+        if (step.waitFormComplete) {
+          await step.waitFormComplete(page)
         } else {
           await page.waitForResponse((response) => {
             const status = response.status()
