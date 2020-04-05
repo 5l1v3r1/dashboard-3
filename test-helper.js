@@ -92,6 +92,7 @@ const wait = util.promisify(function (amount, callback) {
 
 module.exports = {
   createAdministrator,
+  createMultiPart,
   createOwner,
   createProfile,
   createRequest,
@@ -368,7 +369,7 @@ const proxy = util.promisify((method, path, req, callback) => {
   }
   let postData
   if (req.body) {
-    if (req.body.write) {
+    if (req.body.length) {
       postData = req.body
       requestOptions.headers = req.headers
     } else {
@@ -379,6 +380,11 @@ const proxy = util.promisify((method, path, req, callback) => {
   if (req.session && req.session.expires) {
     const expires = dashboard.Timestamp.date(req.session.expires)
     requestOptions.headers.cookie = `sessionid=${req.session.sessionid}; token=${req.session.token}; expires=${expires.toUTCString()}; path=/`
+  }
+  if (req.headers) {
+    for (const header in req.headers) {
+      requestOptions.headers[header] = req.headers[header]
+    }
   }
   let delayedCallback
   if (global.delayDiskWrites) {
@@ -475,4 +481,44 @@ function createFolderSync (folderPath) {
       fs.mkdirSync(nestedPath)
     }
   }
+}
+const mimeTypes = {
+  js: 'text/javascript;',
+  css: 'text/css',
+  txt: 'text/plain',
+  html: 'text/html',
+  jpg: 'image/jpeg',
+  png: 'image/png',
+  ico: 'image/x-icon',
+  svg: 'image/svg+xml'
+}
+
+function createMultiPart (req, body, uploads) {
+  const boundary = '-----------------test' + global.testNumber
+  const delimiter = `\r\n--${boundary}`
+  const closeDelimiter = delimiter + '--'
+  const buffers = []
+  if (uploads) {
+    for (const field in uploads) {
+      const filename = uploads[field].filename
+      const extension = filename.substring(filename.indexOf('.') + 1).toLowerCase()
+      const type = mimeTypes[extension]
+      const segment = [
+        delimiter,
+        `Content-Disposition: form-data; name="${field}"; filename="${filename}"`,
+        `Content-Type: ${type}`,
+        '\r\n'
+      ]
+      buffers.push(Buffer.from(segment.join('\r\n')), fs.readFileSync(uploads[field].path), Buffer.from('\r\n'))
+    }
+  }
+  for (const field in body) {
+    buffers.push(Buffer.from(`${delimiter}\r\nContent-Disposition: form-data; name="${field}"\r\n\r\n${body[field]}`))
+  }
+  buffers.push(Buffer.from(closeDelimiter))
+  const multipartBody = Buffer.concat(buffers)
+  req.headers = req.headers || {}
+  req.headers['Content-Type'] = `multipart/form-data; boundary=${boundary}`
+  req.headers['Content-Length'] = multipartBody.length
+  return multipartBody
 }
