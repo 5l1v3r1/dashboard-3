@@ -180,5 +180,127 @@ describe('internal-api/server', () => {
       }
       return Server.receiveRequest(req, res)
     })
+
+    it('should execute "before" server handler before identifying user', async () => {
+      global.packageJSON.dashboard.server = [
+        {
+          before: async (req) => {
+            req.executedBeforeRequest = true
+          }
+        }
+      ]
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/change-username')
+      req.headers = {
+        cookie: `sessionid=${user.session.sessionid}; token=${user.session.token}`
+      }
+      req.method = 'GET'
+      const res = {
+        setHeader: () => {
+        },
+        end: () => {
+          assert.strictEqual(req.executedBeforeRequest, true)
+        }
+      }
+      return Server.receiveRequest(req, res)
+    })
+
+    it('should execute "after" server handler after identifying user', async () => {
+      global.packageJSON.dashboard.server = [
+        {
+          after: async (req) => {
+            req.executedAfterRequest = true
+          }
+        }
+      ]
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/change-username')
+      req.headers = {
+        cookie: `sessionid=${user.session.sessionid}; token=${user.session.token}`
+      }
+      req.method = 'GET'
+      const res = {
+        setHeader: () => {
+        },
+        end: () => {
+          assert.strictEqual(req.executedAfterRequest, true)
+          assert.strictEqual(req.account.accountid, user.account.accountid)
+        }
+      }
+      return Server.receiveRequest(req, res)
+    })
+
+    it('should execute "after" server handler after identifying guest', async () => {
+      global.packageJSON.dashboard.server = [
+        {
+          after: async (req) => {
+            req.executedAfterRequest = true
+          }
+        }
+      ]
+      const req = TestHelper.createRequest('/')
+      req.headers = {}
+      req.method = 'GET'
+      const res = {
+        setHeader: () => {
+        },
+        end: () => {
+          assert.strictEqual(req.executedAfterRequest, true)
+          assert.strictEqual(req.account, undefined)
+        }
+      }
+      return Server.receiveRequest(req, res)
+    })
+
+    it('should execute "before" and "after" server handler', async () => {
+      global.packageJSON.dashboard.server = [
+        {
+          before: async (req) => {
+            req.executedBeforeRequest = true
+          },
+          after: async (req) => {
+            req.executedAfterRequest = true
+          }
+        }
+      ]
+      const req = TestHelper.createRequest('/')
+      req.headers = {}
+      req.method = 'GET'
+      const res = {
+        setHeader: () => {
+        },
+        end: () => {
+          assert.strictEqual(req.executedBeforeRequest, true)
+          assert.strictEqual(req.executedAfterRequest, true)
+        }
+      }
+      return Server.receiveRequest(req, res)
+    })
+
+    it('should execute each server handler', async () => {
+      global.packageJSON.dashboard.server = [
+        {
+          before: async (req) => {
+            req.executedBeforeRequest = true
+          }
+        }, {
+          after: async (req) => {
+            req.executedAfterRequest = true
+          }
+        }
+      ]
+      const req = TestHelper.createRequest('/')
+      req.headers = {}
+      req.method = 'GET'
+      const res = {
+        setHeader: () => {
+        },
+        end: () => {
+          assert.strictEqual(req.executedBeforeRequest, true)
+          assert.strictEqual(req.executedAfterRequest, true)
+        }
+      }
+      return Server.receiveRequest(req, res)
+    })
   })
 })
