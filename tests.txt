@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.151 test /root/workspaces/dashboard
+> @userdashboard/dashboard@1.0.153 test /root/workspaces/dashboard
 > mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
 
 
@@ -80,11 +80,28 @@
         ✓ should put dashboard content handlers first
         ✓ should put module content handlers between dashboard and application
         ✓ should include nested modules
-      Merged server handler order
-        ✓ should put application server handlers last
-        ✓ should put dashboard server handlers first
-        ✓ should put module server handlers between dashboard and application
+      Merged proxy handler order
+        ✓ should put application proxy handlers last
+        ✓ should put dashboard proxy handlers first
+        ✓ should put module proxy handlers between dashboard and application
         ✓ should include nested modules
+      Merged proxy handler order
+        ✓ should put application proxy handlers last
+        ✓ should put dashboard proxy handlers first
+        ✓ should put module proxy handlers between dashboard and application
+        ✓ should include nested modules
+
+  internal-api/proxy
+    Proxy#pass
+      ✓ should include x-accountid header
+      ✓ should include x-sessionid header
+      ✓ should include x-dashboard-server header
+      ✓ should create x-dashboard-token header
+      ✓ should include referer header
+      ✓ should send POST data
+      ✓ should send multipart POST data
+      ✓ should send file upload POST data
+      ✓ should execute proxy handlers
 
   internal-api/response
     Response#wrapTemplateWithSrcDoc (global setting)
@@ -105,6 +122,10 @@
       ✓ should disable administrator menu for normal user
       ✓ should add account menu links from package.json
       ✓ should add administrator menu links from package.json
+      ✓ should execute "page" handlers on the rendered page
+      ✓ should execute "template" handlers on the rendered + page-merged template
+      ✓ should execute "page" and "template" handlers on the rendered + page-merged template
+      ✓ should execute each content handler
     Response#throw404
       ✓ should set 404 status
       ✓ should contain 404 code
@@ -131,6 +152,11 @@
       ✓ should not bind route for unknown url
       ✓ should bind route to req
       ✓ should redirect user to verification
+      ✓ should execute "before" server handler before identifying user
+      ✓ should execute "after" server handler after identifying user
+      ✓ should execute "after" server handler after identifying guest
+      ✓ should execute "before" and "after" server handler
+      ✓ should execute each server handler
 
   internal-api/sitemap
     Sitemap#authenticateRequest
@@ -1472,5 +1498,5 @@
       ✓ override req.userProfileFields
 
 
-  806 passing (27m)
+  828 passing (27m)
 
