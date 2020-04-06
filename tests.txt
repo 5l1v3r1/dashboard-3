@@ -1,5 +1,14 @@
 
-> @userdashboard/dashboard@1.0.155 test /root/workspaces/dashboard
+> puppeteer@2.1.1 install /root/workspaces/dashboard/node_modules/puppeteer
+> node install.js
+
+Chromium downloaded to /root/workspaces/dashboard/node_modules/puppeteer/.local-chromium/linux-722234
++ puppeteer@2.1.1
+added 72 packages from 93 contributors and audited 37 packages in 12.263s
+found 0 vulnerabilities
+
+
+> @userdashboard/dashboard@1.0.156 test /root/workspaces/dashboard
 > mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
 
 
