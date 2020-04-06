@@ -128,9 +128,14 @@ async function fetch (method, req) {
           await hover(page, step.click)
         }
         screenshotNumber++
+        if (step.waitBefore) {
+          await step.waitBefore(page)
+        }
         html = await getContent(page)
         await click(page, step.click)
-        if (step.waitLinkNavigation !== false) {
+        if (step.waitAfter) {
+          await step.waitAfter(page)
+        } else {
           await page.waitForNavigation((response) => {
             const status = response.status()
             return status === 200
@@ -155,10 +160,13 @@ async function fetch (method, req) {
         }
         screenshotNumber++
         await focus(page, req.button || '#submit-button')
+        if (step.waitBefore) {
+          await step.waitBefore(page)
+        }
         html = await getContent(page)
         await click(page, req.button || '#submit-button')
-        if (step.waitFormComplete) {
-          await step.waitFormComplete(page)
+        if (step.waitAfter) {
+          await step.waitAfter(page)
         } else {
           await page.waitForResponse((response) => {
             const status = response.status()
@@ -181,15 +189,15 @@ async function fetch (method, req) {
     }
     await gotoURL(page, `${global.dashboardServer}${req.url}`)
     if (method === 'POST') {
-      if (req.waitFormLoad) {
-        await req.waitFormLoad(page)
+      if (req.waitBefore) {
+        await req.waitBefore(page)
       }
       await fillForm(page, '#submit-form', req.body, req.uploads)
       await hover(page, req.button || '#submit-button')
       html = await getContent(page)
       await click(page, req.button || '#submit-button')
-      if (req.waitFormComplete) {
-        await req.waitFormComplete(page)
+      if (req.waitAfter) {
+        await req.waitAfter(page)
       } else {
         await page.waitForResponse((response) => {
           const status = response.status()
