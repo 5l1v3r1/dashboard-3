@@ -20,13 +20,15 @@ let packageJSON
 before(async () => {
   global.requests = []
   await dashboard.start(global.applicationPath || __dirname)
-  packageJSON = JSON.stringify(global.packageJSON)
+  packageJSON = {}
+  util._extend(packageJSON, global.packageJSON)
 })
 
 beforeEach(async () => {
   testDataIndex = Math.floor(Math.random() * testData.length)
   global.applicationServer = false
-  global.packageJSON = JSON.parse(packageJSON)
+  global.packageJSON = {}
+  util._extend(global.packageJSON, packageJSON)
   global.appid = `tests_${dashboard.Timestamp.now}`
   global.testNumber = dashboard.Timestamp.now
   global.testModuleJSON = null
