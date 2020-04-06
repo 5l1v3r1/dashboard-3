@@ -255,6 +255,7 @@ function parseDashboardConfiguration () {
     modules: [],
     content: [],
     server: [],
+    proxy: [],
     urls: {},
     templateHTMLPath: trimApplicationPath(global.packageJSON.templateHTMLPath),
     errorHTMLPath: trimApplicationPath(global.packageJSON.errorHTMLPath),
@@ -289,6 +290,11 @@ function parseDashboardConfiguration () {
   if (global.packageJSON.dashboard.serverFilePaths.length) {
     for (const item of global.packageJSON.dashboard.serverFilePaths) {
       configuration.server.push(item[0] === '@' ? item : trimApplicationPath(item))
+    }
+  }
+  if (global.packageJSON.dashboard.proxyFilePaths.length) {
+    for (const item of global.packageJSON.dashboard.proxyFilePaths) {
+      configuration.proxy.push(item[0] === '@' ? item : trimApplicationPath(item))
     }
   }
   const httpVerbs = ['DELETE', 'HEAD', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT']
