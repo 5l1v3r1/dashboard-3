@@ -33,8 +33,6 @@ allDevices['iPhone SE']
 
 module.exports = {
   fetch,
-  hover,
-  click,
   fill,
   close: () => {
     if (browser && browser.close) {
@@ -99,11 +97,11 @@ async function fetch (method, req) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device, req)
-            await hover(page, step.hover)
+            await execute('hover', page, step.hover)
             await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
           }
         } else {
-          await hover(page, step.hover)
+          await execute('hover', page, step.hover)
         }
         screenshotNumber++
       } else if (step.click) {
@@ -111,28 +109,28 @@ async function fetch (method, req) {
           for (const device of devices) {
             await emulate(page, device)
             if (lastStep && lastStep.hover === '#account-menu-container') {
-              await hover(page, '#account-menu-container')
+              await execute('hover', page, '#account-menu-container')
             } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
-              await hover(page, '#administrator-menu-container')
+              await execute('hover', page, '#administrator-menu-container')
             }
-            await hover(page, step.click)
-            await focus(page, step.click)
+            await execute('hover', page, step.click)
+            await execute('focus', page, step.click)
             await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
           }
         } else {
           if (lastStep && lastStep.hover === '#account-menu-container') {
-            await hover(page, '#account-menu-container')
+            await execute('hover', page, '#account-menu-container')
           } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
-            await hover(page, '#administrator-menu-container')
+            await execute('hover', page , '#administrator-menu-container')
           }
-          await hover(page, step.click)
+          await execute('hover', page, step.click)
         }
         screenshotNumber++
         if (step.waitBefore) {
           await step.waitBefore(page)
         }
         html = await getContent(page)
-        await click(page, step.click)
+        await execute('click', page, step.click)
         if (step.waitAfter) {
           await step.waitAfter(page)
         } else {
@@ -149,7 +147,7 @@ async function fetch (method, req) {
               await step.waitFormLoad(page)
             }
             await fillForm(page, step.fill, step.body || req.body, req.uploads)
-            await hover(page, req.button || '#submit-button')
+            await execute('hover', page, req.button || '#submit-button')
             await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
           }
         } else {
@@ -159,12 +157,12 @@ async function fetch (method, req) {
           await fillForm(page, step.fill, step.body || req.body, step.uploads || req.uploads)
         }
         screenshotNumber++
-        await focus(page, req.button || '#submit-button')
+        await execute('focus', page, req.button || '#submit-button')
         if (step.waitBefore) {
           await step.waitBefore(page)
         }
         html = await getContent(page)
-        await click(page, req.button || '#submit-button')
+        await execute('click', page, req.button || '#submit-button')
         if (step.waitAfter) {
           await step.waitAfter(page)
         } else {
@@ -193,9 +191,9 @@ async function fetch (method, req) {
         await req.waitBefore(page)
       }
       await fillForm(page, '#submit-form', req.body, req.uploads)
-      await hover(page, req.button || '#submit-button')
+      await execute('hover', page, req.button || '#submit-button')
       html = await getContent(page)
-      await click(page, req.button || '#submit-button')
+      await execute('click', page, req.button || '#submit-button')
       if (req.waitAfter) {
         await req.waitAfter(page)
       } else {
@@ -428,34 +426,25 @@ async function fillForm (page, fieldContainer, body, uploads) {
   }
 }
 
-async function focus (page, identifier) {
-  const element = await getElement(page, identifier)
-  if (element) {
-    return focusElement(element)
+async function execute (action, page, identifier) {
+  let method
+  switch (action) {
+    case 'hover':
+      method = hoverElement
+      break
+    case 'click':
+      method = clickElement
+      break
+    case 'focus':
+      method = focusElement
+      break
   }
-  if (process.env.DEBUG_PUPPETEER) {
-    console.log('could not focus element', identifier)
-  }
-}
-
-async function hover (page, identifier) {
-  const element = await getElement(page, identifier)
+  let element = await getElement(page, identifier)
   if (element) {
-    return hoverElement(element)
+    return method(element)
   }
   if (process.env.DEBUG_PUPPETEER) {
     console.log('could not hover element', identifier)
-  }
-}
-
-async function click (page, identifier) {
-  const element = await getElement(page, identifier)
-  if (element) {
-    await clickElement(element)
-    return
-  }
-  if (process.env.DEBUG_PUPPETEER) {
-    console.log('could not click element', identifier)
   }
 }
 
