@@ -597,38 +597,20 @@ async function getElement (page, identifier) {
   const frame = await getOptionalApplicationFrame(page)
   let element
   if (identifier.startsWith('#')) {
-    element = await page.$(identifier)
-    if (element) {
-      return element
-    }
     if (frame) {
       element = await frame.$(identifier)
       if (element) {
         return element
       }
     }
+    element = await page.$(identifier)
+    if (element) {
+      return element
+    }
     return null
   }
+  let elements
   if (identifier.startsWith('/')) {
-    let elements = await getTags(page, 'a')
-    if (elements && elements.length) {
-      for (element of elements) {
-        const href = await evaluate(page, el => el.href, element)
-        if (href) {
-          if (href === identifier ||
-              href.startsWith(`${identifier}?`) ||
-              href.startsWith(`${identifier}&`) ||
-              href === `${global.dashboardServer}${identifier}` ||
-              href.startsWith(`${global.dashboardServer}${identifier}?`) ||
-              href.startsWith(`${global.dashboardServer}${identifier}&`)) {
-            if (process.env.DEBUG_PUPPETEER) {
-              console.log('found page link', identifier)
-            }
-            return element
-          }
-        }
-      }
-    }
     if (frame) {
       elements = await getTags(frame, 'a')
       if (elements && elements.length) {
@@ -650,24 +632,55 @@ async function getElement (page, identifier) {
         }
       }
     }
-  }
-  const tags = ['button', 'input', 'select', 'textarea', 'img']
-  for (const tag of tags) {
-    let elements = await getTags(page, tag)
-    if (!elements || !elements.length) {
-      continue
-    }
-    for (element of elements) {
-      const text = await getText(element)
-      if (text) {
-        if (text === identifier || text.indexOf(identifier) > -1) {
-          if (process.env.DEBUG_PUPPETEER) {
-            console.log('found page element', identifier)
+    elements = await getTags(page, 'a')
+    const menuLinks = []
+    if (elements && elements.length) {
+      for (element of elements) {
+        const href = await evaluate(page, el => el.href, element)
+        const isMenu = await evaluate(page, (el) => {
+          return el.parentNode.id === 'account-menu' || 
+                 el.parentNode.id === 'administrator-menu' ||
+                 el.parentNode.parentNode.id === 'account-menu' ||
+                 el.parentNode.parentNode.id === 'administrator-menu'
+        }, element)
+        if (isMenu) {
+          menuLinks.push(element)
+          continue
+        }
+        if (href) {
+          if (href === identifier ||
+              href.startsWith(`${identifier}?`) ||
+              href.startsWith(`${identifier}&`) ||
+              href === `${global.dashboardServer}${identifier}` ||
+              href.startsWith(`${global.dashboardServer}${identifier}?`) ||
+              href.startsWith(`${global.dashboardServer}${identifier}&`)) {
+            if (process.env.DEBUG_PUPPETEER) {
+              console.log('found page link', identifier)
+            }
+            return element
           }
-          return element
+        }
+      }
+      for (element of menuLinks) {
+        const href = await evaluate(page, el => el.href, element)
+        if (href) {
+          if (href === identifier ||
+              href.startsWith(`${identifier}?`) ||
+              href.startsWith(`${identifier}&`) ||
+              href === `${global.dashboardServer}${identifier}` ||
+              href.startsWith(`${global.dashboardServer}${identifier}?`) ||
+              href.startsWith(`${global.dashboardServer}${identifier}&`)) {
+            if (process.env.DEBUG_PUPPETEER) {
+              console.log('found page menu link', identifier)
+            }
+            return element
+          }
         }
       }
     }
+  }
+  const tags = ['button', 'input', 'select', 'textarea', 'img']
+  for (const tag of tags) {
     if (frame) {
       elements = await getTags(frame, tag)
       if (!elements || !elements.length) {
@@ -682,6 +695,21 @@ async function getElement (page, identifier) {
             }
             return element
           }
+        }
+      }
+    }
+    elements = await getTags(page, tag)
+    if (!elements || !elements.length) {
+      continue
+    }
+    for (element of elements) {
+      const text = await getText(element)
+      if (text) {
+        if (text === identifier || text.indexOf(identifier) > -1) {
+          if (process.env.DEBUG_PUPPETEER) {
+            console.log('found page element', identifier)
+          }
+          return element
         }
       }
     }
