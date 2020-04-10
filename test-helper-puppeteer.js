@@ -140,6 +140,9 @@ async function fetch (method, req) {
           })
         }
       } else if (step.fill) {
+        if (step.waitBefore) {
+          await step.waitBefore(page)
+        }
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
             await emulate(page, device, req)
@@ -158,9 +161,6 @@ async function fetch (method, req) {
         }
         screenshotNumber++
         await execute('focus', page, req.button || '#submit-button')
-        if (step.waitBefore) {
-          await step.waitBefore(page)
-        }
         html = await getContent(page)
         await execute('click', page, req.button || '#submit-button')
         if (step.waitAfter) {
@@ -286,21 +286,6 @@ async function gotoURL (page, url) {
         console.log('error going to url', error.toString())
       }
     }
-  }
-}
-
-async function waitForClientLoaded (page) {
-  while (true) {
-    try {
-      const loaded = await page.evaluate(() => {
-        return window.loaded
-      })
-      if (loaded) {
-        return true
-      }
-    } catch (error) {
-    }
-    await wait(100)
   }
 }
 
@@ -896,7 +881,8 @@ async function selectOption (element, value) {
         for (var i = 0, len = select.options.length; i < len; i++) {
           if (select.options[i].value === data.value ||
             select.options[i].text === data.value ||
-            select.options[i].text.indexOf(data.value) === 0) {
+            select.options[i].text.indexOf(data.value) === 0 ||
+            select.options[i].value.indexOf(data.value) === 0) {
             select.selectedIndex = i
             return
           }
