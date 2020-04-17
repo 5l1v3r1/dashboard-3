@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.160 test /root/workspaces/dashboard
+> @userdashboard/dashboard@1.0.161 test /root/workspaces/dashboard
 > mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
 
 
@@ -508,11 +508,10 @@
       ✓ should present the form
     Verify#POST
       ✓ should reject missing username
-      ✓ should enforce username length
       ✓ should reject missing password
       ✓ should reject invalid password
-      ✓ should enforce password length
       ✓ should mark session as verified
+      ✓ should verify session (screenshots)
 
   /administrator/account-profiles
     AccountProfiles#BEFORE
@@ -1498,5 +1497,5 @@
       ✓ override req.userProfileFields
 
 
-  828 passing (28m)
+  827 passing (28m)
 
