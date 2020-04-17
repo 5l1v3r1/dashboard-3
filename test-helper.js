@@ -24,7 +24,10 @@ before(async () => {
   util._extend(packageJSON, global.packageJSON)
 })
 
+const helperRoutes = require('./test-helper-routes.js')
+
 beforeEach(async () => {
+  global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
   testDataIndex = Math.floor(Math.random() * testData.length)
   global.applicationServer = false
   global.packageJSON = {}
@@ -108,6 +111,7 @@ module.exports = {
   setDeleted,
   extractDoc,
   extractRedirectURL,
+  requireVerification,
   wait
 }
 
@@ -296,6 +300,13 @@ async function createSession (user, remember) {
   }
   user.session = await req.post()
   return user.session
+}
+
+async function requireVerification (user) {
+  const req = createRequest(`/api/require-verification?sessionid=${user.session.sessionid}`)
+  req.account = user.account
+  req.session = user.session
+  await req.patch()
 }
 
 async function endSession (user) {
