@@ -327,6 +327,7 @@ async function setCookie (page, req) {
       await page.setCookie(cookie)
       break
     } catch (error) {
+      await wait(100)
     }
     
   }
