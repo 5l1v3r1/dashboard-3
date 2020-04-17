@@ -63,7 +63,6 @@ describe('/account/verify', () => {
     })
 
     it('should mark session as verified', async () => {
-      const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
       req.account = user.account
@@ -72,15 +71,44 @@ describe('/account/verify', () => {
         username: user.account.username,
         password: user.account.password
       }
-      const result = await req.post()
-      assert.strictEqual(result.redirect, '/redirecting')
-      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
-      req2.account = administrator.account
-      req2.session = administrator.session
-      const sessions = await req2.get()
-      const session = sessions[0]
+      await req.post()
+      const req2 = TestHelper.createRequest(`/api/user/session?sessionid=${user.session.sessionid}`)
+      req2.account = user.account
+      req2.session = user.session
+      const session = await req2.get()
       assert.notStrictEqual(session.lastVerified, undefined)
       assert.notStrictEqual(session.lastVerified, null)
+    })
+
+    it('should verify session (screenshots)', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.requireVerification(user)
+      const req = TestHelper.createRequest('/account/change-password')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        username: user.account.username,
+        password: user.account.password
+      }
+      req.filename = __filename
+      req.screenshots = [
+        { hover: '#account-menu-container' },
+        { click: '/account' },
+        { 
+          fill: '#submit-form', 
+          body: {
+            username: user.account.username,
+            password: user.account.password
+          },
+          waitAfter: async (page) => {
+            await page.waitForNavigation()
+            await page.waitForNavigation()
+            req.location = await page.url()
+          }
+        }
+      ]
+      await req.get()
+      assert.strictEqual(req.location, `${global.dashboardServer}/account`)
     })
   })
 })
