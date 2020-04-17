@@ -8,6 +8,7 @@ PARAMS=""
 if [ ! -z "$1" ]; then
   PARAMS="$PARAMS -- --grep $1"
 fi
+NODE_ENV=testing \
 FAST_START=true \
 DASHBOARD_SERVER="http://localhost:9007" \
 DOMAIN="localhost" \
