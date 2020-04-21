@@ -100,6 +100,9 @@ describe('/account/verify', () => {
             username: user.account.username,
             password: user.account.password
           },
+          waitBefore: async (page) => {
+            await page.waitForSelector('#submit-button')
+          },
           waitAfter: async (page) => {
             await page.waitForNavigation()
             await page.waitForNavigation()
