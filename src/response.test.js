@@ -348,7 +348,7 @@ describe('internal-api/response', () => {
         </head>
         <body>Body</body>
       </html>`)
-      const administrator = await TestHelper.createAdministrator()
+      const administrator = await TestHelper.createOwner()
       const req = TestHelper.createRequest('/account/sessions')
       req.account = administrator.account
       req.session = administrator.session
@@ -843,7 +843,7 @@ describe('internal-api/response', () => {
         </head>
         <body>Body</body>
       </html>`)
-      const administrator = await TestHelper.createAdministrator()
+      const administrator = await TestHelper.createOwner()
       const req = TestHelper.createRequest('/account/sessions')
       req.account = administrator.account
       req.session = administrator.session
