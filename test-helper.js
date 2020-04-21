@@ -13,7 +13,6 @@ const testData = require('./test-data.json')
 const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
 const util = require('util')
 
-const storagePath = process.env.STORAGE_PATH || `${__dirname}/data`
 let testDataIndex = 0
 let packageJSON
 
@@ -57,21 +56,11 @@ beforeEach(async () => {
   global.allowPublicAPI = true
   global.delayDiskWrites = false
   global.bcryptFixedSalt = bcrypt.genSaltSync(4)
-  if (!process.env.STORAGE_ENGINE) {
-    if (fs.existsSync(storagePath)) {
-      deleteLocalData(storagePath)
-    }
-    fs.mkdirSync(storagePath)
-    await wait()
-  }
+  dashboard.Storage.flush()
 })
 
 afterEach(() => {
-  if (!process.env.STORAGE_ENGINE) {
-    if (fs.existsSync(storagePath)) {
-      deleteLocalData(storagePath)
-    }
-  }
+  dashboard.Storage.flush()
 })
 
 after((callback) => {

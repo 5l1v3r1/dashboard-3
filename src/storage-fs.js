@@ -19,6 +19,30 @@ if (!process.env.STORAGE_ENGINE) {
   }
 }
 
+if (process.env.NODE_ENV === 'testing') {
+  function deleteLocalData (currentPath) {
+    if (!fs.existsSync(currentPath)) {
+      return
+    }
+    const contents = fs.readdirSync(currentPath)
+    for (const item of contents) {
+      var itemPath = `${currentPath}/${item}`
+      const stat = fs.lstatSync(itemPath)
+      if (stat.isDirectory()) {
+        deleteLocalData(itemPath)
+      } else {
+        fs.unlinkSync(itemPath)
+      }
+    }
+    fs.rmdirSync(currentPath)
+  }
+
+  module.exports.flush = async () => {
+    deleteLocalData(storagePath)
+    createFolderSync(storagePath)
+  }
+}
+
 function exists (file, callback) {
   return fs.access(`${storagePath}/${file}`, fs.constants.F_OK | fs.constants.W_OK, (error) => {
     return callback(null, error === null || error === undefined)

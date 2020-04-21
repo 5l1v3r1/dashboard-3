@@ -115,6 +115,12 @@ module.exports = {
   }
 }
 
+if (process.env.NODE_ENV === 'testing') {
+  module.exports.flush = async () => {
+    await storage.flush()
+  }
+}
+
 function decrypt (value) {
   if (!process.env.ENCRYPTION_KEY) {
     return value
