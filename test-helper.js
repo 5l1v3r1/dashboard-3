@@ -18,9 +18,23 @@ let packageJSON
 
 before(async () => {
   global.requests = []
-  await dashboard.start(global.applicationPath || __dirname)
+  global.port = 9000
+  let dashboardServer = global.dashboardServer
+  if (dashboardServer.lastIndexOf(':') > dashboardServer.indexOf(':')) {
+    dashboardServer = dashboardServer.substring(0, dashboardServer.lastIndexOf(':'))
+  }
+  global.dashboardServer = `${dashboardServer}:${global.port}`
+  while (true) {
+    try {
+      await dashboard.start(global.applicationPath || __dirname)
+      break
+    } catch (error) {
+      global.port++
+      global.dashboardServer = `${dashboardServer}:${global.port}`
+    }
+  }
   packageJSON = {}
-  util._extend(packageJSON, global.packageJSON)
+  Object.assign(packageJSON, global.packageJSON)
 })
 
 const helperRoutes = require('./test-helper-routes.js')
