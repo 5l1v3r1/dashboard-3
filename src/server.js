@@ -67,17 +67,29 @@ module.exports = {
   parsePostData,
   parseMultiPartData,
   receiveRequest,
-  start,
+  start: util.promisify(start),
   stop,
   staticFile
 }
 
-function start () {
+function start (callback) {
   require('./storage-object.js')
   Storage = require('./storage.js')
   server = http.createServer(receiveRequest)
-  server.listen(global.port, global.host)
-  return server
+  server.on('error', (error) => {
+    callback(error)
+    callback = null
+  })
+  try {
+    server.listen(global.port, global.host)
+  } catch (error) {
+    return callback(error)
+  }
+  return setTimeout(() => {
+    if (callback) {
+      return callback(null, server)
+    }
+  }, 100)
 }
 
 function stop () {
