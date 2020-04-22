@@ -11,10 +11,21 @@ const path = require('path')
 const querystring = require('querystring')
 const testData = require('./test-data.json')
 const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
+const helperRoutes = require('./test-helper-routes.js')
 const util = require('util')
 
 let testDataIndex = 0
 let packageJSON
+const mimeTypes = {
+  js: 'text/javascript;',
+  css: 'text/css',
+  txt: 'text/plain',
+  html: 'text/html',
+  jpg: 'image/jpeg',
+  png: 'image/png',
+  ico: 'image/x-icon',
+  svg: 'image/svg+xml'
+}
 
 before(async () => {
   global.requests = []
@@ -37,14 +48,12 @@ before(async () => {
   Object.assign(packageJSON, global.packageJSON)
 })
 
-const helperRoutes = require('./test-helper-routes.js')
-
 beforeEach(async () => {
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
   testDataIndex = Math.floor(Math.random() * testData.length)
   global.applicationServer = false
   global.packageJSON = {}
-  util._extend(global.packageJSON, packageJSON)
+  Object.assign(global.packageJSON, packageJSON)
   global.appid = `tests_${dashboard.Timestamp.now}`
   global.testNumber = dashboard.Timestamp.now
   global.testModuleJSON = null
@@ -478,23 +487,6 @@ const proxy = util.promisify((method, path, req, callback) => {
   return proxyRequest.end()
 })
 
-function deleteLocalData (currentPath) {
-  if (!fs.existsSync(currentPath)) {
-    return
-  }
-  const contents = fs.readdirSync(currentPath)
-  for (const item of contents) {
-    var itemPath = `${currentPath}/${item}`
-    const stat = fs.lstatSync(itemPath)
-    if (stat.isDirectory()) {
-      deleteLocalData(itemPath)
-    } else {
-      fs.unlinkSync(itemPath)
-    }
-  }
-  fs.rmdirSync(currentPath)
-}
-
 function createFolderSync (folderPath) {
   const nestedParts = folderPath.split('/')
   let nestedPath = ''
@@ -504,16 +496,6 @@ function createFolderSync (folderPath) {
       fs.mkdirSync(nestedPath)
     }
   }
-}
-const mimeTypes = {
-  js: 'text/javascript;',
-  css: 'text/css',
-  txt: 'text/plain',
-  html: 'text/html',
-  jpg: 'image/jpeg',
-  png: 'image/png',
-  ico: 'image/x-icon',
-  svg: 'image/svg+xml'
 }
 
 function createMultiPart (req, body, uploads) {
