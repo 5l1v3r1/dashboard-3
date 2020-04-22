@@ -458,7 +458,6 @@ describe('internal-api/merge-package-json', () => {
       })
     })
 
-
     describe('Merged proxy handler order', () => {
       it('should put application proxy handlers last', async () => {
         const applicationJSON = {

@@ -9,7 +9,7 @@ const querystring = require('querystring')
 const Response = require('./response.js')
 const Timestamp = require('./timestamp.js')
 const util = require('util')
-let Storage, StorageObject
+let Storage
 const languageCache = {}
 
 const parsePostData = util.promisify((req, callback) => {
@@ -73,7 +73,7 @@ module.exports = {
 }
 
 function start () {
-  StorageObject = require('./storage-object.js')
+  require('./storage-object.js')
   Storage = require('./storage.js')
   server = http.createServer(receiveRequest)
   server.listen(global.port, global.host)

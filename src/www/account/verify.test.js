@@ -94,8 +94,8 @@ describe('/account/verify', () => {
       req.screenshots = [
         { hover: '#account-menu-container' },
         { click: '/account' },
-        { 
-          fill: '#submit-form', 
+        {
+          fill: '#submit-form',
           body: {
             username: user.account.username,
             password: user.account.password

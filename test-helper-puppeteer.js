@@ -121,7 +121,7 @@ async function fetch (method, req) {
           if (lastStep && lastStep.hover === '#account-menu-container') {
             await execute('hover', page, '#account-menu-container')
           } else if (lastStep && lastStep.hover === '#administrator-menu-container') {
-            await execute('hover', page , '#administrator-menu-container')
+            await execute('hover', page, '#administrator-menu-container')
           }
           await execute('hover', page, step.click)
         }
@@ -219,7 +219,7 @@ async function fetch (method, req) {
   return result
 }
 
-async function relaunchBrowser() {
+async function relaunchBrowser () {
   if (browser && browser.close) {
     await browser.close()
     browser = null
@@ -319,7 +319,7 @@ async function setCookie (page, req) {
     value: req.session.token,
     session: true,
     name: 'token',
-    url:  global.dashboardServer
+    url: global.dashboardServer
   }
   while (true) {
     await wait(100)
@@ -329,7 +329,6 @@ async function setCookie (page, req) {
     } catch (error) {
       await wait(100)
     }
-    
   }
   while (true) {
     await wait(100)
@@ -425,7 +424,7 @@ async function execute (action, page, identifier) {
       method = focusElement
       break
   }
-  let element = await getElement(page, identifier)
+  const element = await getElement(page, identifier)
   if (element) {
     return method(element)
   }
@@ -545,14 +544,14 @@ async function fill (page, fieldContainer, body, uploads) {
       }
     } else {
       await clickElement(element)
-      // For fields in iframes that cannot be read, like 
-      // Stripe card information, existing values must 
+      // For fields in iframes that cannot be read, like
+      // Stripe card information, existing values must
       // be brute-force cleared or else they get garbled
       for (let i = 0, len = 1000; i < len; i++) {
         let error
         try {
           await page.keyboard.press('Backspace')
-        } catch (error) {
+        } catch (_) {
           error = true
         }
         if (error) {
@@ -613,7 +612,7 @@ async function getElement (page, identifier) {
       for (element of elements) {
         const href = await evaluate(page, el => el.href, element)
         const isMenu = await evaluate(page, (el) => {
-          return el.parentNode.id === 'account-menu' || 
+          return el.parentNode.id === 'account-menu' ||
                  el.parentNode.id === 'administrator-menu' ||
                  el.parentNode.parentNode.id === 'account-menu' ||
                  el.parentNode.parentNode.id === 'administrator-menu'
@@ -851,7 +850,9 @@ async function typeInElement (element, text) {
     }
     try {
       if (!text || !text.length) {
-        await element.evaluate(element => element.value = '', element)
+        await element.evaluate((element) => {
+          element.value = ''
+        }, element)
         return
       }
       await element.type(text || '')

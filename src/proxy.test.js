@@ -21,7 +21,7 @@ describe('internal-api/proxy', () => {
       req.session = user.session
       const res = {
         headers: {},
-        setHeader: () => {  
+        setHeader: () => {
         },
         end: () => {
           assert.strictEqual(requestOptions.headers['x-accountid'], user.account.accountid)
@@ -43,7 +43,7 @@ describe('internal-api/proxy', () => {
       req.session = user.session
       const res = {
         headers: {},
-        setHeader: () => {  
+        setHeader: () => {
         },
         end: () => {
           assert.strictEqual(requestOptions.headers['x-sessionid'], user.session.sessionid)
@@ -65,7 +65,7 @@ describe('internal-api/proxy', () => {
       req.session = user.session
       const res = {
         headers: {},
-        setHeader: () => {  
+        setHeader: () => {
         },
         end: () => {
           assert.strictEqual(requestOptions.headers['x-dashboard-server'], global.dashboardServer)
@@ -87,7 +87,7 @@ describe('internal-api/proxy', () => {
       req.session = user.session
       const res = {
         headers: {},
-        setHeader: () => {  
+        setHeader: () => {
         },
         end: () => {
           assert.notStrictEqual(requestOptions.headers['x-dashboard-token'], null)
@@ -97,7 +97,6 @@ describe('internal-api/proxy', () => {
       }
       const requestOptions = await Proxy.pass(req, res)
     })
-
 
     it('should include referer header', async () => {
       const server = http.createServer((_, res) => {
@@ -112,10 +111,10 @@ describe('internal-api/proxy', () => {
       req.session = user.session
       const res = {
         headers: {},
-        setHeader: () => {  
+        setHeader: () => {
         },
         end: () => {
-          assert.strictEqual(requestOptions.headers['referer'], `${global.dashboardServer}/some-application-page`)
+          assert.strictEqual(requestOptions.headers.referer, `${global.dashboardServer}/some-application-page`)
         }
       }
       const requestOptions = await Proxy.pass(req, res)
@@ -226,7 +225,7 @@ describe('internal-api/proxy', () => {
       req.session = user.session
       const res = {
         headers: {},
-        setHeader: () => {  
+        setHeader: () => {
         },
         end: () => {
           assert.strictEqual(requestOptions.executedProxyRequest, true)

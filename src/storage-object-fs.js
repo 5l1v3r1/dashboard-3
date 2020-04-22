@@ -67,7 +67,6 @@ function getProperty (objectid, property, callback) {
     }
     return callback(null, value)
   })
-
 }
 
 /**
