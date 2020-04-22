@@ -19,28 +19,27 @@ if (!process.env.STORAGE_ENGINE) {
   }
 }
 
-if (process.env.NODE_ENV === 'testing') {
-  function deleteLocalData (currentPath) {
-    if (!fs.existsSync(currentPath)) {
-      return
+function createFolderSync (path) {
+  const nested = path.substring(storagePath.length + 1)
+  const nestedParts = nested.split('/')
+  let nestedPath = storagePath
+  for (const part of nestedParts) {
+    nestedPath += `/${part}`
+    if (!fs.existsSync(nestedPath)) {
+      fs.mkdirSync(nestedPath)
     }
-    const contents = fs.readdirSync(currentPath)
-    for (const item of contents) {
-      var itemPath = `${currentPath}/${item}`
-      const stat = fs.lstatSync(itemPath)
-      if (stat.isDirectory()) {
-        deleteLocalData(itemPath)
-      } else {
-        fs.unlinkSync(itemPath)
-      }
-    }
-    fs.rmdirSync(currentPath)
   }
+}
 
-  module.exports.flush = async () => {
-    deleteLocalData(storagePath)
-    createFolderSync(storagePath)
-  }
+if (process.env.NODE_ENV === 'testing') {
+  const execSync = require('child_process').execSync
+  module.exports.flush = util.promisify((callback) => {
+    if (!storagePath || storagePath.length < 5) {
+      throw new Error('unsafe storage path ' + storagePath)
+    }
+    execSync(`rm -rf ${storagePath} && mkdir -p ${storagePath}`)
+    return callback()
+  })
 }
 
 function exists (file, callback) {
@@ -64,6 +63,7 @@ function deleteFile (path, callback) {
 }
 
 function write (file, contents, callback) {
+  createFolderSync(storagePath)
   if (!file) {
     return callback(new Error('invalid-file'))
   }
@@ -172,18 +172,6 @@ function readImage (file, callback) {
     }
     return fs.readFile(`${storagePath}/${file}`, callback)
   })
-}
-
-function createFolderSync (path) {
-  const nested = path.substring(storagePath.length + 1)
-  const nestedParts = nested.split('/')
-  let nestedPath = storagePath
-  for (const part of nestedParts) {
-    nestedPath += `/${part}`
-    if (!fs.existsSync(nestedPath)) {
-      fs.mkdirSync(nestedPath)
-    }
-  }
 }
 
 function createFolder (path, callback) {

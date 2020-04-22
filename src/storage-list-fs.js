@@ -22,6 +22,17 @@ module.exports = {
   remove: util.promisify(remove)
 }
 
+if (process.env.NODE_ENV === 'testing') {
+  const execSync = require('child_process').execSync
+  module.exports.flush = util.promisify((callback) => {
+    if (!storagePath || storagePath.length < 5) {
+      throw new Error('unsafe storage path ' + storagePath)
+    }
+    execSync(`rm -rf ${storagePath} && mkdir -p ${storagePath}`)
+    return callback()
+  })
+}
+
 const statCache = {}
 const statCacheItems = []
 

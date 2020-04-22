@@ -70,11 +70,17 @@ beforeEach(async () => {
   global.allowPublicAPI = true
   global.delayDiskWrites = false
   global.bcryptFixedSalt = bcrypt.genSaltSync(4)
-  dashboard.Storage.flush()
+  await dashboard.Storage.flush()
+  if (dashboard.StorageList.flush) {
+    await dashboard.StorageList.flush()
+  }
 })
 
-afterEach(() => {
-  dashboard.Storage.flush()
+afterEach(async () => {
+  await dashboard.Storage.flush()
+  if (dashboard.StorageList.flush) {
+    await dashboard.StorageList.flush()
+  }
 })
 
 after((callback) => {

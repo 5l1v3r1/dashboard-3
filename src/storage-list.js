@@ -14,6 +14,14 @@ module.exports = {
   remove
 }
 
+if (process.env.NODE_ENV === 'testing') {
+  module.exports.flush = async () => {
+    if (storageList.flush) {
+      await storageList.flush()
+    }
+  }
+}
+
 async function exists (path, itemid) {
   return storageList.exists(path, itemid)
 }
