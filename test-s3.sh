@@ -1,11 +1,21 @@
+#!/bin/sh
+if [ ! -d node_modules/puppeteer ] || [ ! -d node_modules/@userdashboard/storage-s3 ]; then
+  npm install @userdashboard/storage-s3 puppeteer@2.1.1 --no-save
+fi
+PARAMS=""
+if [ ! -z "$1" ]; then
+  PARAMS="$PARAMS -- --grep $1"
+fi
 NODE_ENV=testing \
-FAST_START=true \
-PAGE_SIZE=3 \
-DASHBOARD_SERVER="http://localhost:9001" \
-PORT=9001 \
 STORAGE_ENGINE="@userdashboard/storage-s3" \
 S3_BUCKET_NAME="$DASHBOARD_S3_BUCKET_NAME" \
 SECRET_ACCESS_KEY="$DASHBOARD_SECRET_ACCESS_KEY" \
 ACCESS_KEY_ID="$DASHBOARD_ACCESS_KEY_ID" \
-STORAGE_PATH="/dashboard" \
-npm test
+FAST_START=true \
+DASHBOARD_SERVER="http://localhost" \
+DOMAIN="localhost" \
+ENCRYPTION_SECRET=12345678901234567890123456789012 \
+ENCRYPTION_SECRET_IV=1234123412341234 \
+GENERATE_SITEMAP_TXT=false \
+GENERATE_API_TXT=false \
+npm test $PARAMS
