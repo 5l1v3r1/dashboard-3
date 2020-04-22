@@ -56,7 +56,7 @@ describe('internal-api/server', () => {
       const requestOptions = {
         host: 'localhost',
         path: '/account/signin',
-        port: process.env.PORT,
+        port: global.port,
         method: 'POST',
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
@@ -82,7 +82,7 @@ describe('internal-api/server', () => {
       const requestOptions = {
         host: 'localhost',
         path: '/account/signin',
-        port: process.env.PORT,
+        port: global.port,
         method: 'POST',
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
