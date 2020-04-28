@@ -13,6 +13,8 @@ jobs:
         image: localstack/localstack:latest
         env:
           SERVICES: s3
+        ports:
+          - 4566:4566
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -30,7 +32,7 @@ jobs:
         DASHBOARD_SERVER: "http://localhost:9000"
         DOMAIN: "localhost"
         STORAGE_ENGINE: "@userdashboard/storage-s3"
-        S3_ENDPOINT: "http://localhost:4568"
+        S3_ENDPOINT: "http://localhost:4566"
         S3_BUCKET_NAME: "testing"
         SECRET_ACCESS_KEY: "using-mock-aws-s3"
         ACCESS_KEY_ID: "using-mock-aws-s3"
@@ -44,7 +46,7 @@ jobs:
         DASHBOARD_SERVER: "http://localhost:9000"
         DOMAIN: "localhost"
         STORAGE_ENGINE: "@userdashboard/storage-s3"
-        S3_ENDPOINT: "http://localhost:4568"
+        S3_ENDPOINT: "http://localhost:4566"
         S3_BUCKET_NAME: "testing"
         SECRET_ACCESS_KEY: "using-mock-aws-s3"
         ACCESS_KEY_ID: "using-mock-aws-s3"
