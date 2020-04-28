@@ -422,13 +422,11 @@ const proxy = util.promisify((method, path, req, callback) => {
   }
   let delayedCallback
   if (global.delayDiskWrites) {
-    // when testing with disk-storage a delay  is
-    // needed so lists return objects in the same
-    // order they were written
+    // when testing with disk-storage a delay is needed to distinguish timestamps
     delayedCallback = (error, result) => {
       return setTimeout(() => {
         callback(error, result)
-      }, 1200)
+      }, 2000)
     }
   } else {
     delayedCallback = callback
