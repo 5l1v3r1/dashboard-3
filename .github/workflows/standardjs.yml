@@ -19,4 +19,4 @@ jobs:
         npm install standard --no-save
     - name: Lint (standardjs)
       run: |
-        node /node_modules/standard/bin/cmd.js src || exit 1
+        node node_modules/standard/bin/cmd.js src || exit 1
