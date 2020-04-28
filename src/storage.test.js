@@ -88,6 +88,18 @@ describe('internal-api/storage', () => {
       const file = await Storage.read('test-write')
       assert.strictEqual(file, '{"test":true}')
     })
+
+    it('should encrypt contents', async () => {
+      global.encryptionSecret = '12345678901234567890123456789012'
+      global.encryptionSecretIV = '1234123412341234'
+      await Storage.write('test-write', { test: true })
+      const decryptedVersion = await Storage.read('test-write')
+      assert.strictEqual(decryptedVersion, '{"test":true}')
+      global.encryptionSecret = ''
+      global.encryptionSecretIV = ''
+      const cannotDecrypt = await Storage.read('test-write')
+      assert.notStrictEqual(cannotDecrypt, '{"test":true}')
+    })
   })
 
   describe('Storage#deleteFile', async () => {

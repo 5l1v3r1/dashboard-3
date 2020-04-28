@@ -35,6 +35,10 @@ if (process.env.ENCRYPTION_SECRET &&
   process.env.ENCRYPTION_SECRET_IV.length !== 16)) {
   throw new Error('Invalid ENCRYPTION_SECRET_IV length (16)')
 }
+if (process.env.ENCRYPTION_SECRET) {
+  global.encryptionSecret = process.env.ENCRYPTION_SECRET
+  global.encryptionSecretIV = process.env.ENCRYPTION_SECRET_IV
+}
 global.requireProfile = process.env.REQUIRE_PROFILE === 'true'
 global.profileFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
 global.profileFieldMap = {}
