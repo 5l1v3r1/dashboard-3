@@ -14,12 +14,17 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Use Redis
+      uses: zhulik/redis-action@1.1.0
+      with:
+        redis version: '5'
     - name: Setup dependencies
       run: |
-        npm install mocha puppeteer --no-save
+        npm install mocha puppeteer @userdashboard/storage-redis --no-save
     - name: Test (fs)
       run: |
         node node_modules/mocha/bin/mocha --exit --inline-diffs --full-trace --forbid-only --forbid-pending --async-only --recursive --timeout 600000 --slow 600000 src/www/api/administrator
+        npm version patch
       env:
         NODE_ENV: testing
         FAST_START: true
@@ -29,6 +34,8 @@ jobs:
         STORAGE_PATH: /tmp/test-data1
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
+        STORAGE_ENGINE: @userdashboard/redis
+        REDIS_URL: 'redis://localhost:6379'
     - uses: JS-DevTools/npm-publish@v1
       with:
         token: ${{ secrets.NPM_TOKEN }}
