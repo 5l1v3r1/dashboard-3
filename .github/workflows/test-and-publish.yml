@@ -9,7 +9,7 @@ jobs:
       matrix:
         node-version: [12.x]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -50,7 +50,7 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:
         commit_message: Apply automatic changes
-        branch: HEAD:${{ github.head_ref }}
+        branch: ${{ github.head_ref }}
         commit_options: '--no-verify --signoff'
         repository: .
     - name: Publish to NPM
