@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.165 test /home/runner/work/dashboard/dashboard
+> @userdashboard/dashboard@1.0.166 test /home/runner/work/dashboard/dashboard
 > mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
 
 
@@ -218,6 +218,7 @@
       ✓ should accept content object
       ✓ should accept content string
       ✓ should write file contents
+      ✓ should encrypt contents
     Storage#deleteFile
       ✓ should require file
       ✓ should delete file
@@ -1497,5 +1498,5 @@
       ✓ override req.userProfileFields
 
 
-  827 passing (10m)
+  828 passing (10m)
 
