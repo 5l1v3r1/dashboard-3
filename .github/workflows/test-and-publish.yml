@@ -47,8 +47,6 @@ jobs:
         FAST_START: true
         DASHBOARD_SERVER: "http://localhost:9004"
         DOMAIN: "localhost"
-        GENERATE_SITEMAP_TXT: false
-        GENERATE_API_TXT: false
     - name: Publish to Github
       uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:
