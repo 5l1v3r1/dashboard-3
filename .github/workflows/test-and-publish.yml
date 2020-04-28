@@ -1,4 +1,4 @@
-name: npm-publish
+name: test-and-publish
 
 on: [push]
 
@@ -21,9 +21,13 @@ jobs:
         npm install mocha puppeteer@2.1.1 @userdashboard/storage-redis --no-save
         git config --global user.name "${{ secrets.NAME }}"
         git config --global user.email "${{ secrets.EMAIL }}"
-    - name: Version bump
+        npm install standard -g
+    - name: Lint (standard.js)
+      run: |
+        standard src
+    - name: Increase NPM version
       run: npm version patch
-    - name: Test
+    - name: Test (redis)
       run: |
         npm test > tests.txt
       env:
@@ -35,7 +39,7 @@ jobs:
         REDIS_URL: "redis://localhost:6379"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-    - name: Generate text files
+    - name: Generate supporting texts
       run: node main.js
       env:
         NODE_ENV: sitemap
@@ -46,13 +50,13 @@ jobs:
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
     - name: Publish to Github
-    - uses: stefanzweifel/git-auto-commit-action@v4.1.6
+      uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:
         commit_message: Apply automatic changes
         branch: ${{ github.head_ref }}
         commit_options: '--no-verify --signoff'
         repository: .
     - name: Publish to NPM
-    - uses: JS-DevTools/npm-publish@v1
+      uses: JS-DevTools/npm-publish@v1
       with:
         token: ${{ secrets.NPM_TOKEN }}
