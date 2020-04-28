@@ -1,5 +1,5 @@
-@userdashboard/dashboard 1.0.164
-http://localhost:8001
+@userdashboard/dashboard 1.0.165
+http://localhost:9000
 
 Administrator menu:
 /administrator "Dashboard administration"
