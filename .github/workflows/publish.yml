@@ -35,7 +35,7 @@ jobs:
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
         STORAGE_ENGINE: "@userdashboard/redis"
-        REDIS_URL: "redis://localhost:6379"
+        REDIS_URL: "redis://127.0.0.1:6379"
     - uses: JS-DevTools/npm-publish@v1
       with:
         token: ${{ secrets.NPM_TOKEN }}
