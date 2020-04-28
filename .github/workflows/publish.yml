@@ -18,17 +18,17 @@ jobs:
       run: |
         sudo apt-get install -y redis-server
         npm install mocha puppeteer @userdashboard/storage-redis --no-save
+        git config --global.name "${{ secrets.NAME }}"
+        git config --global.email "${{ secrets.EMAIL }}"
     - name: Test (fs)
       run: |
-        node node_modules/mocha/bin/mocha --exit --inline-diffs --full-trace --forbid-only --forbid-pending --async-only --recursive --timeout 600000 --slow 600000 src/www/api/administrator
+        npm test
         npm version patch
       env:
         NODE_ENV: testing
         FAST_START: true
         DASHBOARD_SERVER: "http://localhost:9004"
         DOMAIN: "localhost"
-        PORT: 9004
-        STORAGE_PATH: /tmp/test-data1
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
         STORAGE_ENGINE: "@userdashboard/storage-redis"
