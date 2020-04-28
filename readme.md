@@ -15,7 +15,7 @@ Your application server can access Dashboard's APIs on behalf of your users and 
 
 # Hosting Dashboard yourself
 
-Dashboard requires NodeJS `12.13.1` be installed.
+Dashboard requires NodeJS `12.16.3` be installed.
 
     $ mkdir my-dashboard-server
     $ cd my-dashboard-server
