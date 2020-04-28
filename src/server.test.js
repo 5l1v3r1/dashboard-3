@@ -52,7 +52,7 @@ describe('internal-api/server', () => {
       assert.strictEqual(bodyRaw, undefined)
     })
 
-    it('should ignore no-content uploads', async () => {
+    it('should ignore no-content uploads', (callback) => {
       const requestOptions = {
         host: 'localhost',
         path: '/account/signin',
@@ -72,12 +72,13 @@ describe('internal-api/server', () => {
           const doc = TestHelper.extractDoc(body)
           const username = doc.getElementById('username')
           assert.strictEqual(username.attr.value, undefined)
+          return callback()
         })
       })
       return proxyRequest.end()
     })
 
-    it('should parse post data', async () => {
+    it('should parse post data', (callback) => {
       const postData = 'username=value1&password=value2'
       const requestOptions = {
         host: 'localhost',
@@ -99,6 +100,7 @@ describe('internal-api/server', () => {
           console.log(doc.toString())
           const username = doc.getElementById('username')
           assert.strictEqual(username.attr.value, 'value1')
+          return callback()
         })
       })
       proxyRequest.write(postData)
