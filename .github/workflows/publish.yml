@@ -1,4 +1,4 @@
-name: test-administrator-api
+name: npm-publish
 
 on: [push]
 
