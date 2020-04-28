@@ -8,6 +8,7 @@ module.exports = {
 function renderPage (req, res, messageTemplate) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (messageTemplate) {
+    console.log(messageTemplate)
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }
   if (req.body && req.body.username) {

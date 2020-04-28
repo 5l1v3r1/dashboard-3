@@ -78,7 +78,7 @@ describe('internal-api/server', () => {
     })
 
     it('should parse post data', async () => {
-      const postData = 'username=invalid&password=nope'
+      const postData = 'username=value1&password=value2'
       const requestOptions = {
         host: 'localhost',
         path: '/account/signin',
@@ -96,8 +96,9 @@ describe('internal-api/server', () => {
         })
         return proxyResponse.on('end', () => {
           const doc = TestHelper.extractDoc(body)
+          console.log(doc.toString())
           const username = doc.getElementById('username')
-          assert.strictEqual(username.attr.value, 'invalid')
+          assert.strictEqual(username.attr.value, 'value1')
         })
       })
       proxyRequest.write(postData)
