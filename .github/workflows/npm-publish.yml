@@ -45,10 +45,6 @@ jobs:
         DOMAIN: "localhost"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-    - name: Publish to NPM
-    - uses: JS-DevTools/npm-publish@v1
-      with:
-        token: ${{ secrets.NPM_TOKEN }}
     - name: Publish to Github
     - uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:
@@ -56,3 +52,7 @@ jobs:
         branch: ${{ github.head_ref }}
         commit_options: '--no-verify --signoff'
         repository: .
+    - name: Publish to NPM
+    - uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
