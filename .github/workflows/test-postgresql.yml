@@ -29,7 +29,7 @@ jobs:
     - name: Setup dependencies
       run: |
         npm install mocha puppeteer@2.1.1 @userdashboard/storage-postgresql --no-save
-    - name: Unencrypted PostgreSQL storage
+    - name: Test unencrypted PostgreSQL storage
       run: npm test
       env:
         NODE_ENV: testing
@@ -40,7 +40,7 @@ jobs:
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-    - name: Encrypted PostgreSQL storage
+    - name: Test encrypted PostgreSQL storage
       run: npm test
       env:
         NODE_ENV: testing

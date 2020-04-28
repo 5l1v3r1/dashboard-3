@@ -16,7 +16,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Setup dependencies
       run: npm install mocha puppeteer@2.1.1 @userdashboard/storage-redis --no-save
-    - name: Unencrypted file-system storage
+    - name: Test unencrypted file-system storage
       run: npm test
       env:
         NODE_ENV: testing
@@ -25,7 +25,7 @@ jobs:
         DOMAIN: "localhost"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-    - name: Encrypted file-system storage
+    - name: Test encrypted file-system storage
       run: npm test
       env:
         NODE_ENV: testing

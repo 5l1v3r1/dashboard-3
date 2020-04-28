@@ -22,7 +22,7 @@ jobs:
     - name: Setup dependencies
       run: |
         npm install mocha puppeteer@2.1.1 @userdashboard/storage-s3 --no-save
-    - name: Unencrypted S3-compatible storage
+    - name: Test unencrypted S3-compatible storage
       run: npm test
       env:
         NODE_ENV: testing
@@ -30,12 +30,13 @@ jobs:
         DASHBOARD_SERVER: "http://localhost:9000"
         DOMAIN: "localhost"
         STORAGE_ENGINE: "@userdashboard/storage-s3"
+        S3_ENDPOINT: "http://localhost:4566"
         S3_BUCKET_NAME: "testing"
         SECRET_ACCESS_KEY: "using-mock-aws-s3"
         ACCESS_KEY_ID: "using-mock-aws-s3"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-    - name: Encrypted S3-compatible storage
+    - name: Test encrypted S3-compatible storage
       run: npm test
       env:
         NODE_ENV: testing
@@ -43,6 +44,7 @@ jobs:
         DASHBOARD_SERVER: "http://localhost:9000"
         DOMAIN: "localhost"
         STORAGE_ENGINE: "@userdashboard/storage-s3"
+        S3_ENDPOINT: "http://localhost:4566"
         S3_BUCKET_NAME: "testing"
         SECRET_ACCESS_KEY: "using-mock-aws-s3"
         ACCESS_KEY_ID: "using-mock-aws-s3"

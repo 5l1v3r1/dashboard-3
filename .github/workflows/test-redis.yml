@@ -18,7 +18,7 @@ jobs:
       run: |
         sudo apt-get install -y redis-server
         npm install mocha puppeteer@2.1.1 @userdashboard/storage-redis --no-save
-    - name: Unencrypted Redis storage
+    - name: Test unencrypted Redis storage
       run: npm test
       env:
         NODE_ENV: testing
@@ -29,7 +29,7 @@ jobs:
         REDIS_URL: "redis://localhost:6379"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-    - name: Encrypted Redis storage
+    - name: Test encrypted Redis storage
       run: npm test
       env:
         NODE_ENV: testing
