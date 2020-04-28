@@ -21,10 +21,11 @@ jobs:
         npm install mocha puppeteer@2.1.1 @userdashboard/storage-redis --no-save
         git config --global user.name "${{ secrets.NAME }}"
         git config --global user.email "${{ secrets.EMAIL }}"
-    - name: Test (fs)
+    - name: Version bump
+      run: npm version patch
+    - name: Test
       run: |
-        npm test
-        npm version patch
+        npm test > tests.txt
       env:
         NODE_ENV: testing
         FAST_START: true
@@ -32,9 +33,23 @@ jobs:
         DOMAIN: "localhost"
         STORAGE_ENGINE: "@userdashboard/storage-redis"
         REDIS_URL: "redis://localhost:6379"
+        GENERATE_SITEMAP_TXT: false
+        GENERATE_API_TXT: false
+    - name: Generate text files
+      run: node main.js
+      env:
+        NODE_ENV: sitemap
+        EXIT_ON_START: true
+        FAST_START: true
+        DASHBOARD_SERVER: "http://localhost:9004"
+        DOMAIN: "localhost"
+        GENERATE_SITEMAP_TXT: false
+        GENERATE_API_TXT: false
+    - name: Publish to NPM
     - uses: JS-DevTools/npm-publish@v1
       with:
         token: ${{ secrets.NPM_TOKEN }}
+    - name: Publish to Github
     - uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:
         commit_message: Apply automatic changes
