@@ -14,12 +14,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Use Redis
-      uses: zhulik/redis-action@1.1.0
-      with:
-        redis version: '5'
     - name: Setup dependencies
       run: |
+        apt install redis-server
         npm install mocha puppeteer @userdashboard/storage-redis --no-save
     - name: Test (fs)
       run: |
