@@ -30,8 +30,6 @@ jobs:
         FAST_START: true
         DASHBOARD_SERVER: "http://localhost:9004"
         DOMAIN: "localhost"
-        GENERATE_SITEMAP_TXT: false
-        GENERATE_API_TXT: false
         STORAGE_ENGINE: "@userdashboard/storage-redis"
         REDIS_URL: "redis://localhost:6379"
     - uses: JS-DevTools/npm-publish@v1
