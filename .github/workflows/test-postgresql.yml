@@ -40,6 +40,9 @@ jobs:
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
+        DEBUG_ERRORS: true
+        DEBUG_PUPPETEER: true
+        DEBUG_REQUESTS: true
     - name: Encrypted PostgreSQL storage
       run: npm test
       env:
