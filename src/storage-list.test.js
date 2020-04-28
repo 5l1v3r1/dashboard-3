@@ -36,12 +36,18 @@ describe('internal-api/storage-list', () => {
 
   describe('StorageList#count', async () => {
     it('should count the items', async () => {
+      console.log('write 1')
       await StorageList.add('test-data', 1)
       await TestHelper.wait(2000)
+      console.log('write 2')
       await StorageList.add('test-data', 2)
       await TestHelper.wait(2000)
+      console.log('write 3')
       await StorageList.add('test-data', 3)
       const count = await StorageList.count('test-data')
+      console.log('write count', count)
+      const items = await StorageList.listAll('test-data')
+      console.log('write items', items)
       assert.strictEqual(count, 3)
     })
 
