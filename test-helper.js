@@ -106,14 +106,7 @@ after((callback) => {
 })
 
 const wait = util.promisify(function (amount, callback) {
-  if (amount && !callback) {
-    callback = amount
-    amount = null
-  }
-  if (!process.env.STORAGE_ENGINE) {
-    return setTimeout(callback, amount || 1)
-  }
-  return callback()
+  return setTimeout(callback, amount || 1)
 })
 
 module.exports = {
