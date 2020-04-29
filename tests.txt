@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.168 test /home/runner/work/dashboard/dashboard
+> @userdashboard/dashboard@1.0.169 test /home/runner/work/dashboard/dashboard
 > mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
 
 
@@ -1498,5 +1498,5 @@
       ✓ override req.userProfileFields
 
 
-  828 passing (10m)
+  828 passing (15m)
 
