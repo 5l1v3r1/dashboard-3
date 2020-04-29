@@ -110,7 +110,7 @@ async function list (path, offset, pageSize) {
       }
     }
   }
-  return JSON.parse(JSON.stringify(itemids))
+  return itemids
 }
 
 async function remove (path, itemid) {
