@@ -39,7 +39,7 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'testing') {
   module.exports.setStorageCache = () => {
-    if (process.env.STORAGE_CACHE) {
+    if (process.env.STORAGE_CACHE !== 'node') {
       storageCache = require(process.env.STORAGE_CACHE)
     } else {
       storageCache = require('./storage-cache-node.js')
