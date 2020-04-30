@@ -127,8 +127,19 @@ Dashboard by default uses local disk, this is good for development and under cer
 
 You can activate a storage backend with an environment variable.  Each have unique connection parameter(s) specified in their readme files.
 
-    $ STORAGE_ENGINE=@userdashboard/redis \
-      REDIS_URL=redis:/.... \
+    $ STORAGE_ENGINE=@userdashboard/storage-mongodb \
+      MONGODB_URL=mongodb:/.... \
+      node main.js
+
+You can optionally use Redis as a cache, this is good if your storage is not fast enough.
+
+    $ STORAGE_CACHE=@userdashboard/storage-cache-redis \
+      CACHE_REDIS_URL=redis:/.... \
+      node main.js
+
+If you have a single Dashboard server you can cache within memory:
+
+    $ STORAGE_CACHE=node \
       node main.js
 
 # Dashboard modules
