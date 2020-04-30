@@ -1,4 +1,4 @@
-name: test-s3
+name: test-node-cache
 
 on: [push]
 
@@ -9,12 +9,17 @@ jobs:
       matrix:
         node-version: [12.x]
     services:
-      localstack:
-        image: localstack/localstack:latest
+      postgres:
+        image: postgres
         env:
-          SERVICES: s3
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports:
-          - 4566:4566
+          - 5432:5432
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -22,33 +27,29 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Setup dependencies
-      run: npm install mocha puppeteer@2.1.1 @userdashboard/storage-s3 --no-save
-    - name: Test unencrypted S3-compatible storage
+      run: npm install mocha puppeteer@2.1.1 @userdashboard/storage-postgresql --no-save
+    - name: Test NodeJS caching with unencrypted data
       run: npm test
       env:
         NODE_ENV: testing
         FAST_START: true
         DASHBOARD_SERVER: "http://localhost:9000"
         DOMAIN: "localhost"
-        STORAGE_ENGINE: "@userdashboard/storage-s3"
-        S3_ENDPOINT: "http://localhost:4566"
-        S3_BUCKET_NAME: "testing"
-        SECRET_ACCESS_KEY: "using-mock-aws-s3"
-        ACCESS_KEY_ID: "using-mock-aws-s3"
+        STORAGE_ENGINE: "@userdashboard/storage-postgresql"
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+        STORAGE_CACHE: "node"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-    - name: Test encrypted S3-compatible storage
+    - name: Test NodeJS caching with encrypted data
       run: npm test
       env:
         NODE_ENV: testing
         FAST_START: true
         DASHBOARD_SERVER: "http://localhost:9000"
         DOMAIN: "localhost"
-        STORAGE_ENGINE: "@userdashboard/storage-s3"
-        S3_ENDPOINT: "http://localhost:4566"
-        S3_BUCKET_NAME: "testing"
-        SECRET_ACCESS_KEY: "using-mock-aws-s3"
-        ACCESS_KEY_ID: "using-mock-aws-s3"
+        STORAGE_ENGINE: "@userdashboard/storage-postgresql"
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+        STORAGE_CACHE: "node"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
         ENCRYPTION_SECRET: "12345678901234567890123456789012"

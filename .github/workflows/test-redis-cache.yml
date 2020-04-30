@@ -1,4 +1,4 @@
-name: test-postgresql
+name: test-redis-cache
 
 on: [push]
 
@@ -27,8 +27,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Setup dependencies
-      run: npm install mocha puppeteer@2.1.1 @userdashboard/storage-postgresql --no-save
-    - name: Test unencrypted PostgreSQL storage
+      run: |
+        sudo apt-get install -y redis-server
+        npm install mocha puppeteer@2.1.1 @userdashboard/storage-postgresql @userdashboard/storage-cache-redis --no-save
+    - name: Test Redis cache with unencrypted data
       run: npm test
       env:
         NODE_ENV: testing
@@ -37,9 +39,11 @@ jobs:
         DOMAIN: "localhost"
         STORAGE_ENGINE: "@userdashboard/storage-postgresql"
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+        STORAGE_CACHE: "@userdashboard/storage-cache-redis"
+        CACHE_REDIS_URL: "redis://localhost:6379"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
-    - name: Test encrypted PostgreSQL storage
+    - name: Test Redis cache with encrypted data
       run: npm test
       env:
         NODE_ENV: testing
@@ -48,6 +52,8 @@ jobs:
         DOMAIN: "localhost"
         STORAGE_ENGINE: "@userdashboard/storage-postgresql"
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/postgres"
+        STORAGE_CACHE: "@userdashboard/storage-cache-redis"
+        CACHE_REDIS_URL: "redis://localhost:6379"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
         ENCRYPTION_SECRET: "12345678901234567890123456789012"
