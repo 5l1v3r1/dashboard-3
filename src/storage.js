@@ -52,7 +52,7 @@ module.exports = {
       for (const file of files) {
         const cached = await cache.get(file)
         if (cached) {
-          data[file] = cached
+          data[file] = JSON.parse(cached)
         } else {
           noncachedFiles.push(file)
         }
@@ -80,6 +80,12 @@ module.exports = {
   readImage: async (file) => {
     if (!file) {
       throw new Error('invalid-file')
+    }
+    if (cache) {
+      const cached = await cache.get(file)
+      if (cached) {
+        return Buffer.from(cached)
+      }
     }
     const data = storage.readImage(file)
     if (cache) {
@@ -111,7 +117,7 @@ module.exports = {
     }
     await storage.writeImage(file, buffer)
     if (cache) {
-      await cache.set(file, buffer)
+      await cache.set(file, buffer.toString('hex'))
     }
   },
   deleteFile: async (file) => {

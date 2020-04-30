@@ -16,12 +16,12 @@ describe('internal-api/storage-cache', () => {
       assert.strictEqual(errorMessage, 'invalid-key')
     })
 
-    it('should return cached contents', async () => {
+    it('should return value', async () => {
       StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
-      await StorageCache.set('test-read/1', { test: true })
+      await StorageCache.set('test-read/1', 'value')
       const file = await StorageCache.get('test-read/1')
       StorageCache.unsetStorageCache()
-      assert.strictEqual(file.test, true)
+      assert.strictEqual(file, 'value')
     })
   })
 
@@ -38,12 +38,12 @@ describe('internal-api/storage-cache', () => {
       assert.strictEqual(errorMessage, 'invalid-key')
     })
 
-    it('should set object', async () => {
+    it('should set value', async () => {
       StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
-      await StorageCache.set('test-read/1', { test: true })
+      await StorageCache.set('test-read/1', '{ "test": true }')
       const file = await StorageCache.get('test-read/1')
       StorageCache.unsetStorageCache()
-      assert.strictEqual(file.test, true)
+      assert.strictEqual(file, '{ "test": true }')
     })
   })
 
@@ -61,9 +61,9 @@ describe('internal-api/storage-cache', () => {
 
     it('should remove object', async () => {
       StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
-      await StorageCache.set('test-read/1', { test: true })
+      await StorageCache.set('test-read/1', '{ "test": true }')
       const file = await StorageCache.get('test-read/1')
-      assert.strictEqual(file.test, true)
+      assert.strictEqual(file, '{ "test": true }')
       await StorageCache.remove('test-read/1')
       const fileNow = await StorageCache.get('test-read/1')
       StorageCache.unsetStorageCache()

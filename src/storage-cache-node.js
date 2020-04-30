@@ -3,14 +3,12 @@ const cacheList = []
 
 module.exports = {
   get: async (key) => {
-    return cache[key]
+    const value = cache[key] ? '' + cache[key] : undefined
+    return value
   },
   set: async (key, value) => {
     if (cache[key] === undefined) {
       cacheList.push(key)
-    } else if (value === undefined) {
-      delete (cache[key])
-      cacheList.splice(cacheList.indexOf(key), 1)
     }
     cache[key] = value
     cacheList.unshift(key)
