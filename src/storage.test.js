@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const Storage = require('./storage.js')
-const StorageCache = require('./storage-cache.js')
 
 describe('internal-api/storage', () => {
   describe('Storage#read', () => {
@@ -99,6 +98,7 @@ describe('internal-api/storage', () => {
       global.encryptionSecret = ''
       global.encryptionSecretIV = ''
       if (process.env.STORAGE_CACHE) {
+        const StorageCache = require('./storage-cache.js')
         await StorageCache.remove('test-write')
       }
       const cannotDecrypt = await Storage.read('test-write')

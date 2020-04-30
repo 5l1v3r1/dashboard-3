@@ -36,3 +36,19 @@ module.exports = {
     return storageCache.remove(key)
   }
 }
+
+if (process.env.NODE_ENV === 'testing') {
+  module.exports.setStorageCache = () => {
+    if (process.env.STORAGE_CACHE) {
+      storageCache = require(process.env.STORAGE_CACHE)
+    } else {
+      storageCache = require('./storage-cache-node.js')
+    }
+  }
+  module.exports.unsetStorageCache = () => {
+    if (process.env.STORAGE_CACHE) {
+      return
+    }
+    storageCache = null
+  }
+}
