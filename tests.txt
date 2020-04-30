@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.170 test /home/runner/work/dashboard/dashboard
+> @userdashboard/dashboard@1.0.171 test /home/runner/work/dashboard/dashboard
 > mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
 
 
@@ -161,6 +161,17 @@
   internal-api/sitemap
     Sitemap#authenticateRequest
       ✓ should substitute language HTML file
+
+  internal-api/storage-cache
+    StorageCache#get
+      ✓ should require key
+      ✓ should return value
+    StorageCache#set
+      ✓ should require key
+      ✓ should set value
+    StorageCache#remove
+      ✓ should require key
+      ✓ should remove object
 
   internal-api/storage-list
     StorageList#add
@@ -1498,5 +1509,5 @@
       ✓ override req.userProfileFields
 
 
-  828 passing (16m)
+  834 passing (15m)
 
