@@ -115,11 +115,13 @@ You can access the Dashboard HTTP APIs on behalf of the user making requests.  D
 
 # Dashboard storage backends
 
-Dashboard by default uses local disk, this is good for development but in production you can use Redis, PostgreSQL or S3-compatible backends.
+Dashboard by default uses local disk, this is good for development and under certain circumstances but generally you should use any of Redis, PostgreSQL, MySQL, MongoDB or S3-compatible backends.
 
 | Name | Description | Package   | Repository |
 |------|-------------|-----------|------------|
 | Amazon S3 | Minimum speed and minimum scaling cost | [@userdashboard/storage-s3](https://npmjs.com/package/@userdashboard/storage-s3) | [github](https://github.com/userdashboard/storage-s3) |
+| MySQL | Medium speed and medium scaling cost | [@userdashboard/storage-mysql](https://npmjs.com/package/@userdashboard/storage-mysql) | [github](https://github.com/userdashboard/storage-mysql) |
+| MongoDB | Medium speed and medium scaling cost | [@userdashboard/storage-mongodb](https://npmjs.com/package/@userdashboard/storage-mongodb) | [github](https://github.com/userdashboard/storage-mongodb) |
 | PostgreSQL | Medium speed and medium scaling cost | [@userdashboard/storage-postgresql](https://npmjs.com/package/@userdashboard/storage-postgresql) | [github](https://github.com/userdashboard/storage-postgresql) |
 | Redis | Maximum speed and maximum scaling cost | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
 
