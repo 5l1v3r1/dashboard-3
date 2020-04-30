@@ -46,16 +46,23 @@ module.exports = {
       throw new Error('invalid-files')
     }
     const data = {}
+    const noncachedFiles = []
     if (cache) {
       for (const file of files) {
         const cached = await cache.get(file)
         if (cached) {
           data[file] = cached
-          files.splice(files.indexOf(file), 1)
+        } else {
+          noncachedFiles.push(file)
         }
       }
     }
-    const uncachedData = await storage.readMany(prefix, files)
+    let uncachedData
+    if (noncachedFiles.length) {
+      uncachedData = await storage.readMany(prefix, noncachedFiles)
+    } else {
+      uncachedData = {}
+    }
     for (const file of files) {
       if (!uncachedData[file]) {
         continue
