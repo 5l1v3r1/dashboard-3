@@ -1,4 +1,5 @@
 # Dashboard
+![Test suite status](https://github.com/userdashboard/dashboard/workflows/test-and-publish/badge.svg?branch=master)
 
 Dashboard provides the user boilerplate web apps require for users to register, create groups, subscription billing with Stripe etc.
 
@@ -117,19 +118,30 @@ You can access the Dashboard HTTP APIs on behalf of the user making requests.  D
 
 Dashboard by default uses local disk, this is good for development and under certain circumstances but generally you should use any of Redis, PostgreSQL, MySQL, MongoDB or S3-compatible backends.
 
-| Name | Description | Package   | Repository |
-|------|-------------|-----------|------------|
-| Amazon S3 | Minimum speed and minimum scaling cost | [@userdashboard/storage-s3](https://npmjs.com/package/@userdashboard/storage-s3) | [github](https://github.com/userdashboard/storage-s3) |
-| MySQL | Medium speed and medium scaling cost | [@userdashboard/storage-mysql](https://npmjs.com/package/@userdashboard/storage-mysql) | [github](https://github.com/userdashboard/storage-mysql) |
-| MongoDB | Medium speed and medium scaling cost | [@userdashboard/storage-mongodb](https://npmjs.com/package/@userdashboard/storage-mongodb) | [github](https://github.com/userdashboard/storage-mongodb) |
-| PostgreSQL | Medium speed and medium scaling cost | [@userdashboard/storage-postgresql](https://npmjs.com/package/@userdashboard/storage-postgresql) | [github](https://github.com/userdashboard/storage-postgresql) |
-| Redis | Maximum speed and maximum scaling cost | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
+|      | Name | Description | Package   | Repository |
+|------|------|-------------|-----------|------------|
+| ![Test suite status using file system](https://github.com/userdashboard/dashboard/workflows/test-fs/badge.svg?branch=master) | File system | For development and single-server apps  | - | - |
+| ![Test suite status using S3 storage](https://github.com/userdashboard/dashboard/workflows/test-s3/badge.svg?branch=master) | Amazon S3 | Minimum speed and minimum scaling cost | [@userdashboard/storage-s3](https://npmjs.com/package/@userdashboard/storage-s3) | [github](https://github.com/userdashboard/storage-s3) |
+| ![Test suite status using MySQL storage](https://github.com/userdashboard/dashboard/workflows/test-mysql/badge.svg?branch=master) | MySQL | Medium speed and medium scaling cost | [@userdashboard/storage-mysql](https://npmjs.com/package/@userdashboard/storage-mysql) | [github](https://github.com/userdashboard/storage-mysql) |
+| ![Test suite status using MongoDB storage](https://github.com/userdashboard/dashboard/workflows/test-mongodb/badge.svg?branch=master) | MongoDB | Medium speed and medium scaling cost | [@userdashboard/storage-mongodb](https://npmjs.com/package/@userdashboard/storage-mongodb) | [github](https://github.com/userdashboard/storage-mongodb) |
+| ![Test suite status using PostgreSQL storage](https://github.com/userdashboard/dashboard/workflows/test-postgresql/badge.svg?branch=master) | PostgreSQL | Medium speed and medium scaling cost | [@userdashboard/storage-postgresql](https://npmjs.com/package/@userdashboard/storage-postgresql) | [github](https://github.com/userdashboard/storage-postgresql) |
+| ![Test suite status using Redis storage](https://github.com/userdashboard/dashboard/workflows/test-redis/badge.svg?branch=master) | Redis | Maximum speed and maximum scaling cost | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
 
-You can activate a storage backend with an environment variable.  Each have unique connection parameter(s) specified in their readme files.
+You can activate a storage backend with an environment variable.  Each have unique configuration requirements specified in their readme files.
 
     $ STORAGE_ENGINE=@userdashboard/storage-mongodb \
       MONGODB_URL=mongodb:/.... \
       node main.js
+
+## Dashboard storage caching
+
+You can complement your storage backend with caching.
+
+|      |Name | Description | Package   | Repository |
+|------|-----|-------------|-----------|------------|
+| ![Test suite status using NodeJS caching](https://github.com/userdashboard/dashboard/workflows/test-node-cache/badge.svg?branch=master) | NodeJS | For single-server apps | - | - |
+| ![Test suite status using Redis caching](https://github.com/userdashboard/dashboard/workflows/test-redis-cache/badge.svg?branch=master) | Redis | For speeding up disk-based storage | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
+
 
 You can optionally use Redis as a cache, this is good if your storage is not fast enough.
 
