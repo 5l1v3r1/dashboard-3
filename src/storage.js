@@ -52,7 +52,11 @@ module.exports = {
       for (const file of files) {
         const cached = await cache.get(file)
         if (cached) {
-          data[file] = JSON.parse(cached)
+          if (cached.indexOf('{') === 0) {
+            data[file] = JSON.parse(cached)
+          } else {
+            data[file] = JSON.parse(cached)
+          }
         } else {
           noncachedFiles.push(file)
         }
@@ -71,6 +75,9 @@ module.exports = {
         continue
       }
       data[file] = decrypt(uncachedData[file])
+      if (data[file].indexOf('{') === 0) {
+        data[file] = JSON.parse(data[file])
+      }
       if (cache) {
         await cache.set(file, data[file])
       }
