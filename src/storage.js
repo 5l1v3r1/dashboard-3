@@ -37,7 +37,11 @@ module.exports = {
     }
     const data = decrypt(contents)
     if (cache) {
-      await cache.set(file, data)
+      if (data.substring || data < 0 || data >= 0) {
+        await cache.set(file, data)
+      } else {
+        await cache.set(file, JSON.stringify(data))
+      }
     }
     return data
   },
@@ -79,7 +83,11 @@ module.exports = {
         data[file] = JSON.parse(data[file])
       }
       if (cache) {
-        await cache.set(file, data[file])
+        if (data[file].substring || data[file] < 0 || data[file] >= 0) {
+          await cache.set(file, data[file])
+        } else {
+          await cache.set(file, JSON.stringify(data[file]))
+        }
       }
     }
     return data
@@ -96,7 +104,7 @@ module.exports = {
     }
     const data = storage.readImage(file)
     if (cache) {
-      await cache.set(file, data)
+      await cache.set(file, data.toString('hex'))
     }
     return data
   },
@@ -107,12 +115,13 @@ module.exports = {
     if (!contents && contents !== '') {
       throw new Error('invalid-contents')
     }
-    if (contents && !contents.substring) {
-      contents = JSON.stringify(contents)
+    let string = contents
+    if (string && !string.substring) {
+      string = JSON.stringify(string)
     }
-    await storage.write(file, encrypt(contents))
+    await storage.write(file, encrypt(string))
     if (cache) {
-      await cache.set(file, contents)
+      await cache.set(file, string)
     }
   },
   writeImage: async (file, buffer) => {
