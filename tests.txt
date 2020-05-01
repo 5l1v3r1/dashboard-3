@@ -1,5 +1,15 @@
 
-> @userdashboard/dashboard@1.0.172 test /home/runner/work/dashboard/dashboard
+> puppeteer@2.1.1 install /home/benlowry/SynologyDrive/workspaces/userdashboard/dashboard/node_modules/puppeteer
+> node install.js
+
+Chromium downloaded to /home/benlowry/SynologyDrive/workspaces/userdashboard/dashboard/node_modules/puppeteer/.local-chromium/linux-722234
++ puppeteer@2.1.1
++ @userdashboard/storage-redis@1.0.6
+added 1 package, removed 1 package, updated 1 package and audited 37 packages in 25.477s
+found 0 vulnerabilities
+
+
+> @userdashboard/dashboard@1.0.172 test /home/benlowry/SynologyDrive/workspaces/userdashboard/dashboard
 > mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
 
 
@@ -1509,5 +1519,5 @@
       ✓ override req.userProfileFields
 
 
-  834 passing (15m)
+  834 passing (16m)
 
