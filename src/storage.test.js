@@ -44,9 +44,9 @@ describe('internal-api/storage', () => {
       await Storage.write('test/2', { test: 2 })
       await Storage.write('test/3', { test: 3 })
       const files = await Storage.readMany('test', ['1', '2', '3'])
-      assert.strictEqual(files['1'], '{"test":1}')
-      assert.strictEqual(files['2'], '{"test":2}')
-      assert.strictEqual(files['3'], '{"test":3}')
+      assert.strictEqual(files['1'].test, 1)
+      assert.strictEqual(files['2'].test, 2)
+      assert.strictEqual(files['3'].test, 3)
     })
   })
 
