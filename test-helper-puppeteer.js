@@ -237,7 +237,7 @@ async function relaunchBrowser () {
           '--disable-dev-shm-usage',
           '--disable-features=site-per-process'
         ],
-        slowMo: 0
+        slowMo: 1
       })
       return browser
     } catch (error) {
@@ -543,26 +543,9 @@ async function fill (page, fieldContainer, body, uploads) {
         }
       }
     } else {
+      // inaccessible input fields such as Stripe payment information
       await clickElement(element)
-      // For fields in iframes that cannot be read, like
-      // Stripe card information, existing values must
-      // be brute-force cleared or else they get garbled
-      for (let i = 0, len = 1000; i < len; i++) {
-        let error
-        try {
-          await page.keyboard.press('Backspace')
-        } catch (_) {
-          error = true
-        }
-        if (error) {
-          await clickElement(element)
-          await wait(1)
-        }
-      }
-      for (const character of body[field]) {
-        await page.keyboard.press(character)
-        await wait(1)
-      }
+      await page.type(body[field])
     }
   }
 }
