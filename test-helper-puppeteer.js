@@ -237,7 +237,7 @@ async function relaunchBrowser () {
           '--disable-dev-shm-usage',
           '--disable-features=site-per-process'
         ],
-        slowMo: 1
+        slowMo: 10
       })
       return browser
     } catch (error) {
@@ -544,8 +544,10 @@ async function fill (page, fieldContainer, body, uploads) {
       }
     } else {
       // inaccessible input fields such as Stripe payment information
+      await wait(100)
       await clickElement(element)
-      await page.type(body[field])
+      await wait(100)
+      await typeInElement(element, body[field])
     }
   }
 }
