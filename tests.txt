@@ -1,6 +1,6 @@
 
-> @userdashboard/dashboard@1.0.176 test /home/runner/work/dashboard/dashboard
-> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 600000 --slow 600000 './src{,!(public)/**}/*.test.js'
+> @userdashboard/dashboard@1.0.177 test /home/runner/work/dashboard/dashboard
+> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 30000 --slow 30000 './src{,!(public)/**}/*.test.js'
 
 
 
@@ -399,6 +399,7 @@
   /account/register
     Register#GET
       ✓ should present the form
+      ✓ should disable registration
     Register#POST
       ✓ should reject missing username
       ✓ should enforce username length
@@ -475,9 +476,9 @@
   /account/sessions
     Sessions#BEFORE
       ✓ should bind sessions to req
+      ✓ should exclude ended sessions
     Sessions#GET
-      ✓ should exclude ended sessions (screenshots)
-      ✓ should limit sessions to one page
+      ✓ should limit sessions to one page (screenshots)
       ✓ should enforce page size
       ✓ should enforce specified offset
 
@@ -529,7 +530,7 @@
     AccountProfiles#BEFORE
       ✓ should bind profiles to req
     Profiles#GET
-      ✓ should present the account table (screenshots)
+      ✓ should present the profiles table (screenshots)
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -539,7 +540,6 @@
       ✓ should bind reset codes to req
     AccountResetCodes#GET
       ✓ should present the reset codes table (screenshots)
-      ✓ should present the account table
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -549,7 +549,6 @@
       ✓ should bind sessions to req
     AccountSessions#GET
       ✓ should present the sessions table (screenshots)
-      ✓ should present the account table
       ✓ should return one page by default
       ✓ should enforce page size
       ✓ should enforce specified offset
@@ -709,76 +708,6 @@
     TransferOwnership#POST
       ✓ should change ownership (screenshots)
 
-  /api/administrator/account-profiles-count
-    exceptions
-      invalid-accountid
-        ✓ missing querystring accountid
-        ✓ invalid querystring accountid
-    returns
-      ✓ integer
-
-  /api/administrator/account-profiles
-    exceptions
-      invalid-accountid
-        ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid
-    receives
-      ✓ optional querystring offset (integer)
-      ✓ optional querystring limit (integer)
-      ✓ optional querystring all (boolean)
-    returns
-      ✓ array
-    configuration
-      ✓ environment PAGE_SIZE
-
-  /api/administrator/account-reset-codes-count
-    exceptions
-      invalid-accountid
-        ✓ missing querystring accountid
-        ✓ invalid querystring accountid
-    returns
-      ✓ integer
-
-  /api/administrator/account-reset-codes
-    exceptions
-      invalid-accountid
-        ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid
-    receives
-      ✓ optional querystring offset (integer)
-      ✓ optional querystring limit (integer)
-      ✓ optional querystring all (boolean)
-    returns
-      ✓ array
-    redacts
-      ✓ secretCodeHash
-    configuration
-      ✓ environment PAGE_SIZE
-
-  /api/administrator/account-sessions-count
-    exceptions
-      invalid-accountid
-        ✓ missing querystring accountid
-        ✓ invalid querystring accountid
-    returns
-      ✓ integer
-
-  /api/administrator/account-sessions
-    exceptions
-      invalid-accountid
-        ✓ unspecified querystring accountid
-        ✓ invalid querystring accountid
-    receives
-      ✓ optional querystring offset (integer)
-      ✓ optional querystring limit (integer)
-      ✓ optional querystring all (boolean)
-    returns
-      ✓ array
-    redacts
-      ✓ session tokens
-    configuration
-      ✓ environment PAGE_SIZE
-
   /api/administrator/account
     exceptions
       invalid-accountid
@@ -887,6 +816,7 @@
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
+      ✓ optional querystring accountid (string)
     returns
       ✓ array
     configuration
@@ -922,6 +852,7 @@
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
+      ✓ optional querystring accountid (string)
     returns
       ✓ array
     redacts
@@ -960,6 +891,7 @@
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
       ✓ optional querystring all (boolean)
+      ✓ optional querystring accountid (string)
     returns
       ✓ array
     redacts
@@ -1238,8 +1170,6 @@
       ✓ optional querystring all (boolean)
     returns
       ✓ array
-    redacts
-      ✓ profile hash
     configuration
       ✓ environment PAGE_SIZE
 
@@ -1306,7 +1236,7 @@
     returns
       ✓ array
     redacts
-      ✓ secret code hash
+      ✓ secretCodeHash
     configuration
       ✓ environment PAGE_SIZE
 
@@ -1509,5 +1439,5 @@
       ✓ override req.userProfileFields
 
 
-  834 passing (19m)
+  803 passing (7m)
 

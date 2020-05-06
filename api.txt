@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.176
+@userdashboard/dashboard 1.0.177
 http://localhost:9000
 
 |-------------------------------------------------------------------|
@@ -8,54 +8,6 @@ http://localhost:9000
 |          | password hash  |  * unspecified querystring accountid  |
 |          | session key    |  * invalid querystring accountid      |
 |----------|----------------|---------------------------------------|
-
-|--------------------------------------------------------------------------------------------------------------------|
-| /api/administrator/account-profiles                                                                                |
-| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS----------------------------| CONFIGURATION----------|
-| optional querystring offset (integer)  | array    | invalid-accountid                     | environment PAGE_SIZE  |
-| optional querystring limit (integer)   |          |  * unspecified querystring accountid  |                        |
-| optional querystring all (boolean)     |          |  * invalid querystring accountid      |                        |
-|----------------------------------------|----------|---------------------------------------|------------------------|
-
-|--------------------------------------------------------------------------------|
-| /api/administrator/account-profiles-count                                      |
-| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
-| required querystring accountid  | integer  | invalid-accountid                 |
-|                                 |          |  * missing querystring accountid  |
-|                                 |          |  * invalid querystring accountid  |
-|---------------------------------|----------|-----------------------------------|
-
-|--------------------------------------------------------------------------------------------------------------------------------------|
-| /api/administrator/account-reset-codes                                                                                               |
-| RECEIVES-------------------------------| RETURNS--| REDACTS---------| EXCEPTIONS----------------------------| CONFIGURATION----------|
-| optional querystring offset (integer)  | array    | secretCodeHash  | invalid-accountid                     | environment PAGE_SIZE  |
-| optional querystring limit (integer)   |          |                 |  * unspecified querystring accountid  |                        |
-| optional querystring all (boolean)     |          |                 |  * invalid querystring accountid      |                        |
-|----------------------------------------|----------|-----------------|---------------------------------------|------------------------|
-
-|--------------------------------------------------------------------------------|
-| /api/administrator/account-reset-codes-count                                   |
-| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
-| required querystring accountid  | integer  | invalid-accountid                 |
-|                                 |          |  * missing querystring accountid  |
-|                                 |          |  * invalid querystring accountid  |
-|---------------------------------|----------|-----------------------------------|
-
-|--------------------------------------------------------------------------------------------------------------------------------------|
-| /api/administrator/account-sessions                                                                                                  |
-| RECEIVES-------------------------------| RETURNS--| REDACTS---------| EXCEPTIONS----------------------------| CONFIGURATION----------|
-| optional querystring offset (integer)  | array    | session tokens  | invalid-accountid                     | environment PAGE_SIZE  |
-| optional querystring limit (integer)   |          |                 |  * unspecified querystring accountid  |                        |
-| optional querystring all (boolean)     |          |                 |  * invalid querystring accountid      |                        |
-|----------------------------------------|----------|-----------------|---------------------------------------|------------------------|
-
-|--------------------------------------------------------------------------------|
-| /api/administrator/account-sessions-count                                      |
-| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
-| required querystring accountid  | integer  | invalid-accountid                 |
-|                                 |          |  * missing querystring accountid  |
-|                                 |          |  * invalid querystring accountid  |
-|---------------------------------|----------|-----------------------------------|
 
 |---------------------------------------------------------------------------------------------|
 | /api/administrator/accounts                                                                 |
@@ -129,13 +81,14 @@ http://localhost:9000
 |                                 |          |  * invalid querystring profileid  |
 |---------------------------------|----------|-----------------------------------|
 
-|----------------------------------------------------------------------------|
-| /api/administrator/profiles                                                |
-| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
-| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
-| optional querystring limit (integer)   |          |                        |
-| optional querystring all (boolean)     |          |                        |
-|----------------------------------------|----------|------------------------|
+|------------------------------------------------------------------------------|
+| /api/administrator/profiles                                                  |
+| RECEIVES---------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)    | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)     |          |                        |
+| optional querystring all (boolean)       |          |                        |
+| optional querystring accountid (string)  |          |                        |
+|------------------------------------------|----------|------------------------|
 
 |------------------------------------|
 | /api/administrator/profiles-count  |
@@ -162,13 +115,14 @@ http://localhost:9000
 |                              |          |                   |  * invalid querystring codeid  |
 |------------------------------|----------|-------------------|--------------------------------|
 
-|------------------------------------------------------------------------------------------------|
-| /api/administrator/reset-codes                                                                 |
-| RECEIVES-------------------------------| RETURNS--| REDACTS-----------| CONFIGURATION----------|
-| optional querystring offset (integer)  | array    | secret code hash  | environment PAGE_SIZE  |
-| optional querystring limit (integer)   |          |                   |                        |
-| optional querystring all (boolean)     |          |                   |                        |
-|----------------------------------------|----------|-------------------|------------------------|
+|--------------------------------------------------------------------------------------------------|
+| /api/administrator/reset-codes                                                                   |
+| RECEIVES---------------------------------| RETURNS--| REDACTS-----------| CONFIGURATION----------|
+| optional querystring offset (integer)    | array    | secret code hash  | environment PAGE_SIZE  |
+| optional querystring limit (integer)     |          |                   |                        |
+| optional querystring all (boolean)       |          |                   |                        |
+| optional querystring accountid (string)  |          |                   |                        |
+|------------------------------------------|----------|-------------------|------------------------|
 
 |---------------------------------------|
 | /api/administrator/reset-codes-count  |
@@ -196,13 +150,14 @@ http://localhost:9000
 |          |             |  * invalid querystring sessionid      |
 |----------|-------------|---------------------------------------|
 
-|---------------------------------------------------------------------------------------------|
-| /api/administrator/sessions                                                                 |
-| RECEIVES-------------------------------| RETURNS--| REDACTS--------| CONFIGURATION----------|
-| optional querystring offset (integer)  | array    | session token  | environment PAGE_SIZE  |
-| optional querystring limit (integer)   |          |                |                        |
-| optional querystring all (boolean)     |          |                |                        |
-|----------------------------------------|----------|----------------|------------------------|
+|-----------------------------------------------------------------------------------------------|
+| /api/administrator/sessions                                                                   |
+| RECEIVES---------------------------------| RETURNS--| REDACTS--------| CONFIGURATION----------|
+| optional querystring offset (integer)    | array    | session token  | environment PAGE_SIZE  |
+| optional querystring limit (integer)     |          |                |                        |
+| optional querystring all (boolean)       |          |                |                        |
+| optional querystring accountid (string)  |          |                |                        |
+|------------------------------------------|----------|----------------|------------------------|
 
 |------------------------------------|
 | /api/administrator/sessions-count  |
@@ -397,15 +352,15 @@ http://localhost:9000
 |                                 |          |  * ineligible querystring profileid  |
 |---------------------------------|----------|--------------------------------------|
 
-|--------------------------------------------------------------------------------------------------------------------------------|
-| /api/user/profiles                                                                                                             |
-| RECEIVES-------------------------------| RETURNS--| REDACTS-------| EXCEPTIONS------------------------| CONFIGURATION----------|
-| required querystring accountid         | array    | profile hash  | invalid-accountid                 | environment PAGE_SIZE  |
-| optional querystring offset (integer)  |          |               |  * missing querystring accountid  |                        |
-| optional querystring limit (integer)   |          |               |  * invalid querystring accountid  |                        |
-| optional querystring all (boolean)     |          |               | invalid-account                   |                        |
-|                                        |          |               |  * ineligible accessing account   |                        |
-|----------------------------------------|----------|---------------|-----------------------------------|------------------------|
+|----------------------------------------------------------------------------------------------------------------|
+| /api/user/profiles                                                                                             |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                 | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)     |          | invalid-account                   |                        |
+|                                        |          |  * ineligible accessing account   |                        |
+|----------------------------------------|----------|-----------------------------------|------------------------|
 
 |--------------------------------------------------------------------------------|
 | /api/user/profiles-count                                                       |
@@ -454,15 +409,15 @@ http://localhost:9000
 |                              |          |                   |  * ineligible querystring codeid  |
 |------------------------------|----------|-------------------|-----------------------------------|
 
-|------------------------------------------------------------------------------------------------------------------------------------|
-| /api/user/reset-codes                                                                                                              |
-| RECEIVES-------------------------------| RETURNS--| REDACTS-----------| EXCEPTIONS------------------------| CONFIGURATION----------|
-| required querystring accountid         | array    | secret code hash  | invalid-accountid                 | environment PAGE_SIZE  |
-| optional querystring offset (integer)  |          |                   |  * missing querystring accountid  |                        |
-| optional querystring limit (integer)   |          |                   |  * invalid querystring accountid  |                        |
-| optional querystring all (boolean)     |          |                   | invalid-account                   |                        |
-|                                        |          |                   |  * ineligible accessing account   |                        |
-|----------------------------------------|----------|-------------------|-----------------------------------|------------------------|
+|----------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/reset-codes                                                                                                            |
+| RECEIVES-------------------------------| RETURNS--| REDACTS---------| EXCEPTIONS------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | secretCodeHash  | invalid-accountid                 | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |                 |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)   |          |                 |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)     |          |                 | invalid-account                   |                        |
+|                                        |          |                 |  * ineligible accessing account   |                        |
+|----------------------------------------|----------|-----------------|-----------------------------------|------------------------|
 
 |--------------------------------------------------------------------------------|
 | /api/user/reset-codes-count                                                    |
