@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.176
+@userdashboard/dashboard 1.0.177
 http://localhost:9000
 
 Administrator menu:
@@ -63,12 +63,6 @@ URL ------------------------------------------- AUTH - TEMPLATE - HTTP REQUESTS 
 /administrator/sessions                                           GET             /src/www     /src/www    
 /administrator/transfer-ownership                                 GET POST        /src/www     /src/www    
 /api/administrator/account                                        GET             /src/www                 
-/api/administrator/account-profiles                               GET             /src/www                 
-/api/administrator/account-profiles-count                         GET             /src/www                 
-/api/administrator/account-reset-codes                            GET             /src/www                 
-/api/administrator/account-reset-codes-count                      GET             /src/www                 
-/api/administrator/account-sessions                               GET             /src/www                 
-/api/administrator/account-sessions-count                         GET             /src/www                 
 /api/administrator/accounts                                       GET             /src/www                 
 /api/administrator/accounts-count                                 GET             /src/www                 
 /api/administrator/administrator-accounts                         GET             /src/www                 
