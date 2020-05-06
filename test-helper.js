@@ -421,12 +421,19 @@ const proxy = util.promisify((method, path, req, callback) => {
   }
   let delayedCallback
   if (global.delayDiskWrites) {
-    // when testing with disk-storage a delay is needed
-    // to ensure the sort order
-    delayedCallback = (error, result) => {
-      return setTimeout(() => {
-        callback(error, result)
-      }, 1200)
+    // these storage engines do not require a delay
+    if (process.env.STORAGE_ENGINE === '@userdashboard/storage-redis' ||
+        process.env.STORAGE_ENGINE === '@userdashboard/storage-mysql' ||
+        process.env.STORAGE_ENGINE === '@userdashboard/storage-mongodb' ||
+        process.env.STORAGE_ENGINE === '@userdashboard/storage-postgresql') {
+      delayedCallback = callback
+    } else {
+      // using fs or s3 a delay is needed to guarantee sort order
+      delayedCallback = (error, result) => {
+        return setTimeout(() => {
+          callback(error, result)
+        }, 1200)
+      }
     }
   } else {
     delayedCallback = callback
