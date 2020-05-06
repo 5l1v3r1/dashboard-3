@@ -27,7 +27,7 @@ const mimeTypes = {
   svg: 'image/svg+xml'
 }
 
-before(async () => {
+async function setupBefore () {
   global.requests = []
   global.port = 9000
   let dashboardServer = global.dashboardServer
@@ -46,9 +46,9 @@ before(async () => {
   }
   packageJSON = {}
   Object.assign(packageJSON, global.packageJSON)
-})
+}
 
-beforeEach(async () => {
+async function setupBeforeEach () {
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
   testDataIndex = Math.floor(Math.random() * testData.length)
   global.applicationServer = false
@@ -85,7 +85,10 @@ beforeEach(async () => {
   if (dashboard.StorageList.flush) {
     await dashboard.StorageList.flush()
   }
-})
+}
+
+before(setupBefore)
+beforeEach(setupBeforeEach)
 
 afterEach(async () => {
   await dashboard.Storage.flush()
@@ -125,7 +128,9 @@ module.exports = {
   extractDoc,
   extractRedirectURL,
   requireVerification,
-  wait
+  wait,
+  setupBefore,
+  setupBeforeEach
 }
 
 function createRequest (rawURL) {
@@ -415,11 +420,12 @@ const proxy = util.promisify((method, path, req, callback) => {
   }
   let delayedCallback
   if (global.delayDiskWrites) {
-    // when testing with disk-storage a delay is needed to distinguish timestamps
+    // when testing with disk-storage a delay is needed
+    // to ensure the sort order
     delayedCallback = (error, result) => {
       return setTimeout(() => {
         callback(error, result)
-      }, 2000)
+      }, 1200)
     }
   } else {
     delayedCallback = callback
