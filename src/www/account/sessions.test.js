@@ -26,12 +26,12 @@ describe('/account/sessions', function () {
     await req1.route.api.before(req1)
     cachedResponses.before = req1.data
     cachedResponses.returns = await req1.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req1.get()
     const req2 = TestHelper.createRequest(`/account/sessions?accountid=${user.account.accountid}&offset=1`)
     req2.account = user.account
     req2.session = user.session
     cachedResponses.offset = await req2.get()
-    global.pageSize = 3
-    cachedResponses.pageSize = await req1.get()
   })
   describe('Sessions#BEFORE', () => {
     it('should bind sessions to req', async () => {

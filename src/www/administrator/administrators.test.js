@@ -26,12 +26,12 @@ describe('/administrator/administrators', function () {
     await req1.route.api.before(req1)
     cachedResponses.before = req1.data
     cachedResponses.returns = await req1.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req1.get()
     const req2 = TestHelper.createRequest('/administrator/administrators?offset=1')
     req2.account = owner.account
     req2.session = owner.session
     cachedResponses.offset = await req2.get()
-    global.pageSize = 3
-    cachedResponses.pageSize = await req1.get()
   })
 
   describe('Administrators#BEFORE', () => {
