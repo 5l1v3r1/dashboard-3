@@ -87,7 +87,7 @@ describe('/account/signin', () => {
         password: user.account.password
       }
       await req.post()
-      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      const req2 = TestHelper.createRequest(`/api/administrator/sessions?accountid=${user.account.accountid}`)
       req2.account = administrator.account
       req2.session = administrator.session
       const sessions = await req2.get()
@@ -106,7 +106,7 @@ describe('/account/signin', () => {
         remember: 'minutes'
       }
       await req.post()
-      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      const req2 = TestHelper.createRequest(`/api/administrator/sessions?accountid=${user.account.accountid}`)
       req2.account = administrator.account
       req2.session = administrator.session
       const sessions = await req2.get()
@@ -126,7 +126,7 @@ describe('/account/signin', () => {
       }
       await req.post()
       await req.post()
-      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      const req2 = TestHelper.createRequest(`/api/administrator/sessions?accountid=${user.account.accountid}`)
       req2.account = administrator.account
       req2.session = administrator.session
       const sessions = await req2.get()
@@ -145,7 +145,7 @@ describe('/account/signin', () => {
         remember: 'days'
       }
       await req.post()
-      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      const req2 = TestHelper.createRequest(`/api/administrator/sessions?accountid=${user.account.accountid}`)
       req2.account = administrator.account
       req2.session = administrator.session
       const sessions = await req2.get()

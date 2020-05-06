@@ -11,7 +11,7 @@ describe('/account/signout', () => {
       req.account = user.account
       req.session = user.session
       await req.get()
-      const req2 = TestHelper.createRequest(`/api/administrator/account-sessions?accountid=${user.account.accountid}`)
+      const req2 = TestHelper.createRequest(`/api/administrator/sessions?accountid=${user.account.accountid}`)
       req2.account = administrator.account
       req2.session = administrator.session
       const sessions = await req2.get()
