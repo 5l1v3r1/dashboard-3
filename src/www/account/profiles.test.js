@@ -2,40 +2,53 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe('/account/profiles', () => {
+describe('/account/profiles', function () {
+  const cachedResponses = {}
+  const cachedProfiles = []
+  before(async () => {
+    await TestHelper.setupBeforeEach()
+    global.delayDiskWrites = true
+    const user = await TestHelper.createUser()
+    cachedProfiles.push(user.profile.profileid)
+    for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      await TestHelper.createProfile(user, {
+        'first-name': 'Test',
+        'last-name': 'Person',
+        'contact-email': 'test1@test.com'
+      })
+      cachedProfiles.unshift(user.profile.profileid)
+    }
+    const req1 = TestHelper.createRequest('/account/profiles')
+    req1.account = user.account
+    req1.session = user.session
+    req1.filename = __filename
+    req1.screenshots = [
+      { hover: '#account-menu-container' },
+      { click: '/account' },
+      { click: '/account/profiles' }
+    ]
+    await req1.route.api.before(req1)
+    cachedResponses.before = req1.data
+    cachedResponses.returns = await req1.get()
+    const req2 = TestHelper.createRequest('/account/profiles?offset=1')
+    req2.account = user.account
+    req2.session = user.session
+    cachedResponses.offset = await req2.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req1.get()
+  })
+
   describe('Profiles#BEFORE', () => {
     it('should bind profiles to req', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/profiles')
-      req.account = user.account
-      req.session = user.session
-      await req.route.api.before(req)
-      assert.strictEqual(req.data.profiles.length, 1)
-      assert.strictEqual(req.data.profiles[0].profileid, user.profile.profileid)
+      const data = cachedResponses.before
+      assert.strictEqual(data.profiles.length, global.pageSize)
+      assert.strictEqual(data.profiles[0].profileid, cachedProfiles[0])
     })
   })
 
   describe('Profiles#GET', () => {
     it('should limit profiles to one page (screenshots)', async () => {
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user, {
-          'first-name': user.profile.firstName,
-          'last-name': user.profile.lastName,
-          'contact-email': user.profile.contactEmail,
-          default: 'true'
-        })
-      }
-      const req = TestHelper.createRequest('/account/profiles')
-      req.account = user.account
-      req.session = user.session
-      req.filename = __filename
-      req.screenshots = [
-        { hover: '#account-menu-container' },
-        { click: '/account' },
-        { click: '/account/profiles' }
-      ]
-      const result = await req.get()
+      const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
       const rows = table.getElementsByTagName('tr')
@@ -44,19 +57,7 @@ describe('/account/profiles', () => {
 
     it('should enforce page size', async () => {
       global.pageSize = 3
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user, {
-          'first-name': user.profile.firstName,
-          'last-name': user.profile.lastName,
-          'contact-email': user.profile.contactEmail,
-          default: 'true'
-        })
-      }
-      const req = TestHelper.createRequest('/account/profiles')
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
+      const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
       const rows = table.getElementsByTagName('tr')
@@ -64,26 +65,11 @@ describe('/account/profiles', () => {
     })
 
     it('should enforce specified offset', async () => {
-      global.delayDiskWrites = true
       const offset = 1
-      const user = await TestHelper.createUser()
-      const profiles = [user.profile.profileid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user, {
-          'first-name': user.profile.firstName,
-          'last-name': user.profile.lastName,
-          'contact-email': user.profile.contactEmail,
-          default: 'true'
-        })
-        profiles.unshift(user.profile.profileid)
-      }
-      const req = TestHelper.createRequest(`/account/profiles?offset=${offset}`)
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
+      const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(profiles[offset + i]).tag, 'tr')
+        assert.strictEqual(doc.getElementById(cachedProfiles[offset + i]).tag, 'tr')
       }
     })
 

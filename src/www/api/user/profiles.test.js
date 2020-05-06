@@ -2,7 +2,44 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe('/api/user/profiles', () => {
+describe('/api/user/profiles', function () {
+  const cachedResponses = {}
+  const cachedProfiles = []
+  before(async () => {
+    await TestHelper.setupBeforeEach()
+    const user = await TestHelper.createUser()
+    cachedProfiles.push(user.profile.profileid)
+    global.delayDiskWrites = true
+    for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
+      cachedProfiles.unshift(user.profile.profileid)
+    }
+    const req1 = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&offset=1`)
+    req1.account = user.account
+    req1.session = user.session
+    cachedResponses.offset = await req1.get()
+    const req2 = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&limit=1`)
+    req2.account = user.account
+    req2.session = user.session
+    cachedResponses.limit = await req2.get()
+    const req3 = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&all=true`)
+    req3.account = user.account
+    req3.session = user.session
+    cachedResponses.all = await req3.get()
+    const req4 = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}`)
+    req4.account = user.account
+    req4.session = user.session
+    req4.saveResponse = true
+    cachedResponses.returns = await req4.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req4.get()
+  })
+
   describe('exceptions', () => {
     describe('invalid-accountid', () => {
       it('missing querystring accountid', async () => {
@@ -54,124 +91,36 @@ describe('/api/user/profiles', () => {
 
   describe('receives', () => {
     it('optional querystring offset (integer)', async () => {
-      global.delayDiskWrites = true
       const offset = 1
-      const user = await TestHelper.createUser()
-      const profiles = [user.profile.profileid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user, {
-          'first-name': user.profile.firstName,
-          'last-name': user.profile.lastName,
-          'contact-email': user.profile.contactEmail,
-          default: 'true'
-        })
-        profiles.unshift(user.profile.profileid)
-      }
-      const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&offset=${offset}`)
-      req.account = user.account
-      req.session = user.session
-      const profilesNow = await req.get()
+      const profilesNow = cachedResponses.offset
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(profilesNow[i].profileid, profiles[offset + i])
+        assert.strictEqual(profilesNow[i].profileid, cachedProfiles[offset + i])
       }
     })
 
     it('optional querystring limit (integer)', async () => {
       const limit = 1
-      const user = await TestHelper.createUser()
-      const profiles = [user.profile.profileid]
-      for (let i = 0, len = limit + 1; i < len; i++) {
-        await TestHelper.createProfile(user, {
-          'first-name': user.profile.firstName,
-          'last-name': user.profile.lastName,
-          'contact-email': user.profile.contactEmail,
-          default: 'true'
-        })
-        profiles.unshift(user.profile.profileid)
-      }
-      const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&limit=${limit}`)
-      req.account = user.account
-      req.session = user.session
-      const profilesNow = await req.get()
+      const profilesNow = cachedResponses.limit
       assert.strictEqual(profilesNow.length, limit)
     })
 
     it('optional querystring all (boolean)', async () => {
-      const user = await TestHelper.createUser()
-      const profiles = [user.profile.profileid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user, {
-          'first-name': user.profile.firstName,
-          'last-name': user.profile.lastName,
-          'contact-email': user.profile.contactEmail,
-          default: 'true'
-        })
-        profiles.unshift(user.profile.profileid)
-      }
-      const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}&all=true`)
-      req.account = user.account
-      req.session = user.session
-      const profilesNow = await req.get()
-      assert.strictEqual(profilesNow.length, profiles.length)
+      const profilesNow = cachedResponses.all
+      assert.strictEqual(profilesNow.length, cachedProfiles.length)
     })
   })
 
   describe('returns', () => {
     it('array', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
-        default: 'true'
-      })
-      const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      const profilesNow = await req.get()
+      const profilesNow = cachedResponses.returns
       assert.strictEqual(profilesNow.length, global.pageSize)
-    })
-  })
-
-  describe('redacts', () => {
-    it('profile hash', async () => {
-      const user = await TestHelper.createUser()
-      const profile1 = user.profile
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
-        default: 'true'
-      })
-      const profile2 = user.profile
-      const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      req.filename = __filename
-      req.saveResponse = true
-      const profilesNow = await req.get()
-      assert.strictEqual(profilesNow.length, global.pageSize)
-      assert.strictEqual(profilesNow[0].profileid, profile2.profileid)
-      assert.strictEqual(profilesNow[1].profileid, profile1.profileid)
     })
   })
 
   describe('configuration', () => {
     it('environment PAGE_SIZE', async () => {
       global.pageSize = 3
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createProfile(user, {
-          'first-name': user.profile.firstName,
-          'last-name': user.profile.lastName,
-          'contact-email': user.profile.contactEmail,
-          default: 'true'
-        })
-      }
-      const req = TestHelper.createRequest(`/api/user/profiles?accountid=${user.account.accountid}`)
-      req.account = user.account
-      req.session = user.session
-      const profilesNow = await req.get()
+      const profilesNow = cachedResponses.pageSize
       assert.strictEqual(profilesNow.length, global.pageSize)
     })
   })

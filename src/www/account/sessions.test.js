@@ -2,52 +2,65 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe('/account/sessions', () => {
+describe('/account/sessions', function () {
+  const cachedResponses = {}
+  const cachedSessions = []
+  before(async () => {
+    await TestHelper.setupBeforeEach()
+    global.delayDiskWrites = true
+    const user = await TestHelper.createUser()
+    cachedSessions.push(user.session.sessionid)
+    for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      await TestHelper.createSession(user)
+      cachedSessions.unshift(user.session.sessionid)
+    }
+    const req1 = TestHelper.createRequest(`/account/sessions?accountid=${user.account.accountid}`)
+    req1.account = user.account
+    req1.session = user.session
+    req1.filename = __filename
+    req1.screenshots = [
+      { hover: '#account-menu-container' },
+      { click: '/account' },
+      { click: '/account/sessions' }
+    ]
+    await req1.route.api.before(req1)
+    cachedResponses.before = req1.data
+    cachedResponses.returns = await req1.get()
+    const req2 = TestHelper.createRequest(`/account/sessions?accountid=${user.account.accountid}&offset=1`)
+    req2.account = user.account
+    req2.session = user.session
+    cachedResponses.offset = await req2.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req1.get()
+  })
   describe('Sessions#BEFORE', () => {
     it('should bind sessions to req', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/sessions')
-      req.account = user.account
-      req.session = user.session
-      await req.route.api.before(req)
-      assert.strictEqual(req.data.sessions.length, 1)
-      assert.strictEqual(req.data.sessions[0].sessionid, user.session.sessionid)
+      const data = cachedResponses.before
+      assert.strictEqual(data.sessions.length, global.pageSize)
+      assert.strictEqual(data.sessions[0].sessionid, cachedSessions[0])
     })
-  })
 
-  describe('Sessions#GET', () => {
-    it('should exclude ended sessions (screenshots)', async () => {
+    it('should exclude ended sessions', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/signout')
       req.account = user.account
       req.session = user.session
-      req.filename = __filename
-      req.screenshots = [
-        { hover: '#account-menu-container' },
-        { click: '/account' },
-        { click: '/account/sessions' }
-      ]
       await req.get()
-      const req2 = TestHelper.createRequest('/account/signin')
-      req2.body = {
-        username: user.account.username,
-        password: user.account.password
+      const endedSession = user.session.sessionid
+      await TestHelper.createSession(user)
+      const req2 = TestHelper.createRequest(`/account/sessions?accountid=${user.account.accountid}`)
+      req2.account = user.account
+      req2.session = user.session
+      await req2.route.api.before(req2)
+      for (const session of req2.data.sessions) {
+        assert.notStrictEqual(session.sessionid, endedSession.sessionid)
       }
-      const result = await req2.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const sessionRow = doc.getElementById(`${req.session.sessionid}`)
-      assert.strictEqual(undefined, sessionRow)
     })
+  })
 
-    it('should limit sessions to one page', async () => {
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createSession(user)
-      }
-      const req = TestHelper.createRequest('/account/sessions')
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
+  describe('Sessions#GET', () => {
+    it('should limit sessions to one page (screenshots)', async () => {
+      const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
@@ -56,14 +69,7 @@ describe('/account/sessions', () => {
 
     it('should enforce page size', async () => {
       global.pageSize = 3
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createSession(user)
-      }
-      const req = TestHelper.createRequest('/account/sessions')
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
+      const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
@@ -71,21 +77,11 @@ describe('/account/sessions', () => {
     })
 
     it('should enforce specified offset', async () => {
-      global.delayDiskWrites = true
       const offset = 1
-      const user = await TestHelper.createUser()
-      const sessions = [user.session.sessionid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        const session = await TestHelper.createSession(user)
-        sessions.unshift(session.sessionid)
-      }
-      const req = TestHelper.createRequest(`/account/sessions?offset=${offset}`)
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
+      const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(sessions[offset + i]).tag, 'tr')
+        assert.strictEqual(doc.getElementById(cachedSessions[offset + i]).tag, 'tr')
       }
     })
   })

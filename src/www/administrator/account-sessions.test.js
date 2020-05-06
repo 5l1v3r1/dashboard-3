@@ -2,71 +2,60 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe('/administrator/account-sessions', () => {
+describe('/administrator/account-sessions', function () {
+  const cachedResponses = {}
+  const cachedSessions = []
+  before(async () => {
+    await TestHelper.setupBeforeEach()
+    const administrator = await TestHelper.createOwner()
+    global.delayDiskWrites = true
+    const user = await TestHelper.createUser()
+    cachedSessions.unshift(user.session.sessionid)
+    for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      await TestHelper.createSession(user)
+      cachedSessions.unshift(user.session.sessionid)
+    }
+    const req1 = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
+    req1.account = administrator.account
+    req1.session = administrator.session
+    req1.filename = __filename
+    req1.screenshots = [
+      { hover: '#administrator-menu-container' },
+      { click: '/administrator' },
+      { click: '/administrator/accounts' },
+      { click: `/administrator/account?accountid=${user.account.accountid}` },
+      { click: `/administrator/account-sessions?accountid=${user.account.accountid}` }
+    ]
+    await req1.route.api.before(req1)
+    cachedResponses.before = req1.data
+    cachedResponses.returns = await req1.get()
+    const req2 = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}&offset=1`)
+    req2.account = administrator.account
+    req2.session = administrator.session
+    cachedResponses.offset = await req2.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req1.get()
+  })
   describe('AccountSessions#BEFORE', () => {
     it('should bind sessions to req', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const firstSession = user.session
-      await TestHelper.createSession(user)
-      const secondSession = user.session
-      const user2 = await TestHelper.createUser()
-      await TestHelper.createSession(user2)
-      const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      await req.route.api.before(req)
-      assert.strictEqual(req.data.sessions.length, 2)
-      assert.strictEqual(req.data.sessions[0].sessionid, secondSession.sessionid)
-      assert.strictEqual(req.data.sessions[1].sessionid, firstSession.sessionid)
+      const data = cachedResponses.before
+      assert.strictEqual(data.sessions.length, global.pageSize)
+      assert.strictEqual(data.sessions[0].sessionid, cachedSessions[0])
+      assert.strictEqual(data.sessions[1].sessionid, cachedSessions[1])
     })
   })
 
   describe('AccountSessions#GET', () => {
     it('should present the sessions table (screenshots)', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.createSession(user)
-      const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      req.filename = __filename
-      req.screenshots = [
-        { hover: '#administrator-menu-container' },
-        { click: '/administrator' },
-        { click: '/administrator/accounts' },
-        { click: `/administrator/account?accountid=${user.account.accountid}` },
-        { click: `/administrator/account-sessions?accountid=${user.account.accountid}` }
-      ]
-      const result = await req.get()
+      const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const tableString = table.toString()
-      assert.strictEqual(tableString.indexOf(user.session.sessionid) > -1, true)
-    })
-
-    it('should present the account table', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
-      const doc = TestHelper.extractDoc(result.html)
-      const row = doc.getElementById(user.account.accountid)
-      assert.strictEqual(row.tag, 'tr')
+      assert.strictEqual(tableString.indexOf(cachedSessions[0]) > -1, true)
     })
 
     it('should return one page by default', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createSession(user)
-      }
-      const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
+      const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
@@ -75,15 +64,7 @@ describe('/administrator/account-sessions', () => {
 
     it('should enforce page size', async () => {
       global.pageSize = 3
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createSession(user)
-      }
-      const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
+      const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
       const rows = table.getElementsByTagName('tr')
@@ -91,22 +72,11 @@ describe('/administrator/account-sessions', () => {
     })
 
     it('should enforce specified offset', async () => {
-      global.delayDiskWrites = true
       const offset = 1
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const sessions = [user.session.sessionid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createSession(user)
-        sessions.unshift(user.session.sessionid)
-      }
-      const req = TestHelper.createRequest(`/administrator/account-sessions?accountid=${user.account.accountid}&offset=${offset}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
+      const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(sessions[offset + i]).tag, 'tr')
+        assert.strictEqual(doc.getElementById(cachedSessions[offset + i]).tag, 'tr')
       }
     })
   })

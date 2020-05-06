@@ -2,36 +2,47 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe('/account/reset-codes', () => {
+describe('/account/reset-codes', function () {
+  const cachedResponses = {}
+  const cachedResetCodes = []
+  before(async () => {
+    await TestHelper.setupBeforeEach()
+    global.delayDiskWrites = true
+    const user = await TestHelper.createUser()
+    for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      await TestHelper.createResetCode(user)
+      cachedResetCodes.unshift(user.resetCode.codeid)
+    }
+    const req1 = TestHelper.createRequest(`/account/reset-codes?accountid=${user.account.accountid}`)
+    req1.account = user.account
+    req1.session = user.session
+    req1.filename = __filename
+    req1.screenshots = [
+      { hover: '#account-menu-container' },
+      { click: '/account' },
+      { click: '/account/reset-codes' }
+    ]
+    await req1.route.api.before(req1)
+    cachedResponses.before = req1.data
+    cachedResponses.returns = await req1.get()
+    const req2 = TestHelper.createRequest(`/account/reset-codes?accountid=${user.account.accountid}&offset=1`)
+    req2.account = user.account
+    req2.session = user.session
+    cachedResponses.offset = await req2.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req1.get()
+  })
   describe('ResetCodes#BEFORE', () => {
     it('should bind reset codes to req', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest('/account/reset-codes')
-      req.account = user.account
-      req.session = user.session
-      await req.route.api.before(req)
-      assert.strictEqual(req.data.resetCodes.length, 1)
-      assert.strictEqual(req.data.resetCodes[0].accountid, user.account.accountid)
+      const data = cachedResponses.before
+      assert.strictEqual(data.resetCodes.length, global.pageSize)
+      assert.strictEqual(data.resetCodes[0].codeid, cachedResetCodes[0])
     })
   })
 
   describe('ResetCodes#GET', () => {
     it('should limit reset codes to one page (screenshots)', async () => {
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-      }
-      const req = TestHelper.createRequest('/account/reset-codes')
-      req.account = user.account
-      req.session = user.session
-      req.filename = __filename
-      req.screenshots = [
-        { hover: '#account-menu-container' },
-        { click: '/account' },
-        { click: '/account/reset-codes' }
-      ]
-      const result = await req.get()
+      const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('reset-codes-table')
       const rows = table.getElementsByTagName('tr')
@@ -40,14 +51,7 @@ describe('/account/reset-codes', () => {
 
     it('should enforce page size', async () => {
       global.pageSize = 3
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-      }
-      const req = TestHelper.createRequest('/account/reset-codes')
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
+      const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('reset-codes-table')
       const rows = table.getElementsByTagName('tr')
@@ -55,21 +59,11 @@ describe('/account/reset-codes', () => {
     })
 
     it('should enforce specified offset', async () => {
-      global.delayDiskWrites = true
       const offset = 1
-      const user = await TestHelper.createUser()
-      const codes = []
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode.codeid)
-      }
-      const req = TestHelper.createRequest(`/account/reset-codes?offset=${offset}`)
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
+      const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(codes[offset + i]).tag, 'tr')
+        assert.strictEqual(doc.getElementById(cachedResetCodes[offset + i]).tag, 'tr')
       }
     })
   })

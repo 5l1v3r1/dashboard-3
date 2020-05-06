@@ -2,88 +2,84 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe('/api/administrator/reset-codes', () => {
+describe('/api/administrator/reset-codes', function () {
+  const cachedResponses = {}
+  const cachedResetCodes = []
+  const accountResetCodes = []
+  before(async () => {
+    await TestHelper.setupBeforeEach()
+    const administrator = await TestHelper.createOwner()
+    global.delayDiskWrites = true
+    for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      cachedResetCodes.unshift(user.resetCode.codeid)
+    }
+    for (let i = 0, len = 3; i < len; i++) {
+      await TestHelper.createResetCode(administrator)
+      cachedResetCodes.unshift(administrator.resetCode.codeid)
+      accountResetCodes.unshift(administrator.resetCode.codeid)
+    }
+    const req1 = TestHelper.createRequest('/api/administrator/reset-codes?offset=1')
+    req1.account = administrator.account
+    req1.session = administrator.session
+    cachedResponses.offset = await req1.get()
+    const req2 = TestHelper.createRequest('/api/administrator/reset-codes?limit=1')
+    req2.account = administrator.account
+    req2.session = administrator.session
+    cachedResponses.limit = await req2.get()
+    const req3 = TestHelper.createRequest('/api/administrator/reset-codes?all=true')
+    req3.account = administrator.account
+    req3.session = administrator.session
+    cachedResponses.all = await req3.get()
+    const req4 = TestHelper.createRequest(`/api/administrator/reset-codes?accountid=${administrator.account.accountid}&all=true`)
+    req4.account = administrator.account
+    req4.session = administrator.session
+    cachedResponses.accountid = await req4.get()
+    const req5 = TestHelper.createRequest('/api/administrator/reset-codes')
+    req5.account = administrator.account
+    req5.session = administrator.session
+    req5.saveResponse = true
+    cachedResponses.returns = await req5.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req5.get()
+  })
   describe('receives', () => {
     it('optional querystring offset (integer)', async () => {
-      global.delayDiskWrites = true
       const offset = 1
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const codes = []
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode.codeid)
-      }
-      const req = TestHelper.createRequest(`/api/administrator/reset-codes?offset=${offset}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const codesNow = await req.get()
+      const codesNow = cachedResponses.offset
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(codesNow[i].codeid, codes[offset + i])
+        assert.strictEqual(codesNow[i].codeid, cachedResetCodes[offset + i])
       }
     })
 
     it('optional querystring limit (integer)', async () => {
       const limit = 1
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const codes = []
-      for (let i = 0, len = limit + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode.codeid)
-      }
-      const req = TestHelper.createRequest(`/api/administrator/reset-codes?limit=${limit}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const codesNow = await req.get()
+      const codesNow = cachedResponses.limit
       assert.strictEqual(codesNow.length, limit)
     })
 
     it('optional querystring all (boolean)', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const codes = []
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode.codeid)
-      }
-      const req = TestHelper.createRequest('/api/administrator/reset-codes?all=true')
-      req.account = administrator.account
-      req.session = administrator.session
-      const codesNow = await req.get()
-      assert.strictEqual(codesNow.length, codes.length)
+      const codesNow = cachedResponses.all
+      assert.strictEqual(codesNow.length, cachedResetCodes.length)
+    })
+
+    it('optional querystring accountid (string)', async () => {
+      const codesNow = cachedResponses.accountid
+      assert.strictEqual(codesNow.length, accountResetCodes.length)
     })
   })
 
   describe('returns', () => {
     it('array', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const user2 = await TestHelper.createUser()
-      await TestHelper.createResetCode(user2)
-      const req = TestHelper.createRequest('/api/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      req.filename = __filename
-      req.saveResponse = true
-      const resetCodes = await req.get()
+      const resetCodes = cachedResponses.returns
       assert.strictEqual(resetCodes.length, global.pageSize)
-      assert.strictEqual(resetCodes[0].accountid, user2.account.accountid)
-      assert.strictEqual(resetCodes[1].accountid, user.account.accountid)
     })
   })
 
   describe('redacts', () => {
     it('secret code hash', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest('/api/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      const resetCodes = await req.get()
-      assert.strictEqual(resetCodes.length, 1)
+      const resetCodes = cachedResponses.returns
       assert.strictEqual(undefined, resetCodes[0].secretCodeHash)
     })
   })
@@ -91,15 +87,7 @@ describe('/api/administrator/reset-codes', () => {
   describe('configuration', () => {
     it('environment PAGE_SIZE', async () => {
       global.pageSize = 3
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-      }
-      const req = TestHelper.createRequest('/api/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      const codesNow = await req.get()
+      const codesNow = cachedResponses.pageSize
       assert.strictEqual(codesNow.length, global.pageSize)
     })
   })

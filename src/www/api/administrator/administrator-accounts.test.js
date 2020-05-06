@@ -2,96 +2,78 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe('/api/administrator/administrator-accounts', () => {
+describe('/api/administrator/administrator-accounts', function () {
+  const cachedResponses = {}
+  const cachedAccounts = []
+  before(async () => {
+    await TestHelper.setupBeforeEach()
+    const owner = await TestHelper.createOwner()
+    cachedAccounts.push(owner.account.accountid)
+    global.delayDiskWrites = true
+    for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+      const administrator = await TestHelper.createAdministrator(owner)
+      cachedAccounts.unshift(administrator.account.accountid)
+    }
+    const req1 = TestHelper.createRequest('/api/administrator/administrator-accounts?offset=1')
+    req1.account = owner.account
+    req1.session = owner.session
+    cachedResponses.offset = await req1.get()
+    const req2 = TestHelper.createRequest('/api/administrator/administrator-accounts?limit=1')
+    req2.account = owner.account
+    req2.session = owner.session
+    cachedResponses.limit = await req2.get()
+    const req3 = TestHelper.createRequest('/api/administrator/administrator-accounts?all=true')
+    req3.account = owner.account
+    req3.session = owner.session
+    cachedResponses.all = await req3.get()
+    const req4 = TestHelper.createRequest('/api/administrator/administrator-accounts')
+    req4.account = owner.account
+    req4.session = owner.session
+    req4.saveResponse = true
+    cachedResponses.returns = await req4.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req4.get()
+  })
   describe('receives', () => {
     it('optional querystring offset (integer)', async () => {
-      global.delayDiskWrites = true
       const offset = 1
-      const owner = await TestHelper.createOwner()
-      const accounts = [owner.account.accountid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        const administrator = await TestHelper.createAdministrator(owner)
-        accounts.unshift(administrator.account.accountid)
-      }
-      const req = TestHelper.createRequest(`/api/administrator/administrator-accounts?offset=${offset}`)
-      req.account = owner.account
-      req.session = owner.session
-      const accountsNow = await req.get()
+      const accountsNow = cachedResponses.offset
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(accountsNow[i].accountid, accounts[offset + i])
+        assert.strictEqual(accountsNow[i].accountid, cachedAccounts[offset + i])
       }
     })
 
     it('optional querystring limit (integer)', async () => {
       const limit = 1
-      const owner = await TestHelper.createOwner()
-      const accounts = [owner.account.accountid]
-      for (let i = 0, len = limit + 1; i < len; i++) {
-        const administrator = await TestHelper.createAdministrator(owner)
-        accounts.unshift(administrator.account.accountid)
-      }
-      const req = TestHelper.createRequest(`/api/administrator/administrator-accounts?limit=${limit}`)
-      req.account = owner.account
-      req.session = owner.session
-      const accountsNow = await req.get()
+      const accountsNow = cachedResponses.limit
       assert.strictEqual(accountsNow.length, limit)
     })
 
     it('optional querystring all (boolean)', async () => {
-      const owner = await TestHelper.createOwner()
-      const accounts = [owner.account.accountid]
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        const administrator = await TestHelper.createAdministrator(owner)
-        accounts.unshift(administrator.account.accountid)
-      }
-      const req = TestHelper.createRequest('/api/administrator/administrator-accounts?all=true')
-      req.account = owner.account
-      req.session = owner.session
-      const accountsNow = await req.get()
-      assert.strictEqual(accountsNow.length, accounts.length)
+      const accountsNow = cachedResponses.all
+      assert.strictEqual(accountsNow.length, cachedAccounts.length)
     })
   })
   describe('returns', () => {
     it('array', async () => {
-      const owner = await TestHelper.createOwner()
-      const administrator2 = await TestHelper.createAdministrator(owner)
-      const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
-      req.account = owner.account
-      req.session = owner.session
-      req.filename = __filename
-      req.saveResponse = true
-      const administrators = await req.get()
+      const administrators = cachedResponses.returns
       assert.strictEqual(administrators.length, global.pageSize)
-      assert.strictEqual(administrators[0].accountid, administrator2.account.accountid)
-      assert.strictEqual(administrators[1].accountid, owner.account.accountid)
     })
   })
 
   describe('redacts', () => {
     it('username hash', async () => {
-      const owner = await TestHelper.createOwner()
-      const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
-      req.account = owner.account
-      req.session = owner.session
-      const administrators = await req.get()
+      const administrators = cachedResponses.returns
       assert.strictEqual(undefined, administrators[0].usernameHash)
     })
 
     it('password hash', async () => {
-      const owner = await TestHelper.createOwner()
-      const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
-      req.account = owner.account
-      req.session = owner.session
-      const administrators = await req.get()
+      const administrators = cachedResponses.returns
       assert.strictEqual(undefined, administrators[0].passwordHash)
     })
 
     it('session key', async () => {
-      const owner = await TestHelper.createOwner()
-      const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
-      req.account = owner.account
-      req.session = owner.session
-      const administrators = await req.get()
+      const administrators = cachedResponses.returns
       assert.strictEqual(undefined, administrators[0].sessionKey)
     })
   })
@@ -99,15 +81,8 @@ describe('/api/administrator/administrator-accounts', () => {
   describe('configuration', () => {
     it('environment PAGE_SIZE', async () => {
       global.pageSize = 3
-      const owner = await TestHelper.createOwner()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createAdministrator(owner)
-      }
-      const req = TestHelper.createRequest('/api/administrator/administrator-accounts')
-      req.account = owner.account
-      req.session = owner.session
-      const accountsNow = await req.get()
-      assert.strictEqual(accountsNow.length, global.pageSize)
+      const administrators = cachedResponses.pageSize
+      assert.strictEqual(administrators.length, global.pageSize)
     })
   })
 })

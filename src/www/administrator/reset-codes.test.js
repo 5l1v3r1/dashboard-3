@@ -2,54 +2,56 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe('/administrator/reset-codes', () => {
-  describe('ResetCodes#BEFORE', () => {
-    it('should bind reset codes to req', async () => {
-      const administrator = await TestHelper.createOwner()
+describe('/administrator/reset-codes', function () {
+  const cachedResponses = {}
+  const cachedResetCodes = []
+  before(async () => {
+    await TestHelper.setupBeforeEach()
+    const administrator = await TestHelper.createOwner()
+    global.delayDiskWrites = true
+    for (let i = 0, len = global.pageSize + 2; i < len; i++) {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
-      const user2 = await TestHelper.createUser()
-      await TestHelper.createResetCode(user2)
-      const req = TestHelper.createRequest('/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      await req.route.api.before(req)
-      assert.strictEqual(req.data.resetCodes.length, global.pageSize)
-      assert.strictEqual(req.data.resetCodes[0].accountid, user2.account.accountid)
-      assert.strictEqual(req.data.resetCodes[1].accountid, user.account.accountid)
+      cachedResetCodes.unshift(user.resetCode.codeid)
+    }
+    const req1 = TestHelper.createRequest('/administrator/reset-codes')
+    req1.account = administrator.account
+    req1.session = administrator.session
+    req1.filename = __filename
+    req1.screenshots = [
+      { hover: '#administrator-menu-container' },
+      { click: '/administrator' },
+      { click: '/administrator/reset-codes' }
+    ]
+    await req1.route.api.before(req1)
+    cachedResponses.before = req1.data
+    cachedResponses.returns = await req1.get()
+    global.pageSize = 3
+    cachedResponses.pageSize = await req1.get()
+    const req2 = TestHelper.createRequest('/administrator/reset-codes?offset=1')
+    req2.account = administrator.account
+    req2.session = administrator.session
+    cachedResponses.offset = await req2.get()
+  })
+  describe('ResetCodes#BEFORE', () => {
+    it('should bind reset codes to req', async () => {
+      const data = cachedResponses.before
+      assert.strictEqual(data.resetCodes.length, global.pageSize)
+      assert.strictEqual(data.resetCodes[0].codeid, cachedResetCodes[0])
+      assert.strictEqual(data.resetCodes[1].codeid, cachedResetCodes[1])
     })
   })
 
   describe('ResetCodes#GET', () => {
     it('should present the reset codes table (screenshots)', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest('/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      req.filename = __filename
-      req.screenshots = [
-        { hover: '#administrator-menu-container' },
-        { click: '/administrator' },
-        { click: '/administrator/reset-codes' }
-      ]
-      const result = await req.get()
+      const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
-      const row = doc.getElementById(user.resetCode.codeid)
+      const row = doc.getElementById(cachedResetCodes[0])
       assert.strictEqual(row.tag, 'tr')
     })
 
     it('should return one page by default', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-      }
-      const req = TestHelper.createRequest('/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
+      const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('reset-codes-table')
       const rows = table.getElementsByTagName('tr')
@@ -58,15 +60,7 @@ describe('/administrator/reset-codes', () => {
 
     it('should enforce page size', async () => {
       global.pageSize = 3
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-      }
-      const req = TestHelper.createRequest('/administrator/reset-codes')
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
+      const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('reset-codes-table')
       const rows = table.getElementsByTagName('tr')
@@ -74,22 +68,11 @@ describe('/administrator/reset-codes', () => {
     })
 
     it('should enforce specified offset', async () => {
-      global.delayDiskWrites = true
       const offset = 1
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const codes = []
-      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.resetCode.codeid)
-      }
-      const req = TestHelper.createRequest(`/administrator/reset-codes?offset=${offset}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
+      const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)
       for (let i = 0, len = global.pageSize; i < len; i++) {
-        assert.strictEqual(doc.getElementById(codes[offset + i]).tag, 'tr')
+        assert.strictEqual(doc.getElementById(cachedResetCodes[offset + i]).tag, 'tr')
       }
     })
   })
