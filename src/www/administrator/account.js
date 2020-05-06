@@ -14,20 +14,20 @@ async function beforeRequest (req) {
   account.createdFormatted = dashboard.Format.date(account.created)
   account.lastSignedInFormatted = dashboard.Format.date(account.lastSignedIn)
   req.query.profileid = account.profileid
-  const profiles = await global.api.administrator.AccountProfiles.get(req)
+  const profiles = await global.api.administrator.Profiles.get(req)
   if (profiles && profiles.length) {
     for (const profile of profiles) {
       profile.createdFormatted = dashboard.Format.date(profile.created)
     }
   }
-  const sessions = await global.api.administrator.AccountSessions.get(req)
+  const sessions = await global.api.administrator.Sessions.get(req)
   if (sessions && sessions.length) {
     for (const session of sessions) {
       session.createdFormatted = dashboard.Format.date(session.created)
       session.expiresFormatted = dashboard.Format.date(session.expires)
     }
   }
-  const resetCodes = await global.api.administrator.AccountResetCodes.get(req)
+  const resetCodes = await global.api.administrator.ResetCodes.get(req)
   if (resetCodes && resetCodes.length) {
     for (const resetCode of resetCodes) {
       resetCode.createdFormatted = dashboard.Format.date(resetCode.created)
