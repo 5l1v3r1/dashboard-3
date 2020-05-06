@@ -10,8 +10,8 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.accountid) {
     throw new Error('invalid-accountid')
   }
-  const total = await global.api.administrator.AccountSessionsCount.get(req)
-  const sessions = await global.api.administrator.AccountSessions.get(req)
+  const total = await global.api.administrator.SessionsCount.get(req)
+  const sessions = await global.api.administrator.Sessions.get(req)
   if (sessions && sessions.length) {
     for (const session of sessions) {
       session.createdFormatted = dashboard.Format.date(session.created)
