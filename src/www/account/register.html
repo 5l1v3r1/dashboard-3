@@ -12,68 +12,70 @@
       <fieldset>
         <h1>Register</h1>
         <div id="message-container"></div>
-        <div class="pure-control-group">
-          <label for="username">Signin username</label>
-          <input placeholder="${requirements.minimumUsernameLength}+ characters" name="username" id="username" type="text" maxlength="1000" />
-        </div>
-        <div class="pure-control-group">
-          <label for="password">Signin password</label>
-          <input placeholder="${requirements.minimumPasswordLength}+ characters" name="password" id="password" type="password" maxlength="1000" />
-        </div>
-        <div class="pure-control-group">
-          <label for="confirm">Confirm your password</label>
-          <input name="confirm" id="confirm" type="password" maxlength="1000" />
-        </div>
-        <div id="display-name-container" class="pure-control-group">
-          <label for="display-name">Display name</label>
-          <input require id="display-name" name="display-name" type="text" maxlength="1000" />
-        </div>
-        <div id="display-email-container" class="pure-control-group">
-          <label for="display-email">Display email</label>
-          <input require id="display-email" name="display-email" type="text" maxlength="1000" size="50" />
-        </div>
-        <div id="contact-email-container" class="pure-control-group">
-          <label for="contact-email">Contact email</label>
-          <input require id="contact-email" name="contact-email" type="text" maxlength="1000" size="50" />
-        </div>
-        <div id="full-name-container">
+        <div id="form-container">
           <div class="pure-control-group">
-            <label for="first-name">First name</label>
-            <input require id="first-name" name="first-name" type="text" maxlength="1000" />
+            <label for="username">Signin username</label>
+            <input placeholder="${requirements.minimumUsernameLength}+ characters" name="username" id="username" type="text" maxlength="1000" />
           </div>
           <div class="pure-control-group">
-            <label for="last-name">Last name</label>
-            <input require id="last-name" name="last-name" type="text" maxlength="1000" />
+            <label for="password">Signin password</label>
+            <input placeholder="${requirements.minimumPasswordLength}+ characters" name="password" id="password" type="password" maxlength="1000" />
           </div>
-        </div>
-        <div id="dob-container">
           <div class="pure-control-group">
-            <label for="dob">Date of birth</label>
-            <input require id="dob" name="dob" type="text" maxlength="11" />
+            <label for="confirm">Confirm your password</label>
+            <input name="confirm" id="confirm" type="password" maxlength="1000" />
           </div>
-        </div>
-        <div id="phone-container" class="pure-control-group">
-          <label for="phone">Telephone</label>
-          <input require id="phone" name="phone" type="text" maxlength="1000" />
-        </div>
-        <div id="occupation-container" class="pure-control-group">
-          <label for="occupation">Occupation</label>
-          <input require id="occupation" name="occupation" type="text" maxlength="1000" />
-        </div>
-        <div id="location-container" class="pure-control-group">
-          <label for="location">Location</label>
-          <input require id="location" name="location" type="text" maxlength="1000" />
-        </div>
-        <div id="company-name-container" class="pure-control-group">
-          <label for="company-name">Company name</label>
-          <input require id="company-name" name="company-name" type="text" maxlength="1000" />
-        </div>
-        <div id="website-container" class="pure-control-group">
-          <label for="website">Website</label>
-          <input require id="website" name="website" type="text" maxlength="1000" />
-        </div>
-        <div class="pure-controls">
-          <button id="submit-button" type="submit" class="pure-button pure-button-primary">Register</button>
+          <div id="display-name-container" class="pure-control-group">
+            <label for="display-name">Display name</label>
+            <input require id="display-name" name="display-name" type="text" maxlength="1000" />
+          </div>
+          <div id="display-email-container" class="pure-control-group">
+            <label for="display-email">Display email</label>
+            <input require id="display-email" name="display-email" type="text" maxlength="1000" size="50" />
+          </div>
+          <div id="contact-email-container" class="pure-control-group">
+            <label for="contact-email">Contact email</label>
+            <input require id="contact-email" name="contact-email" type="text" maxlength="1000" size="50" />
+          </div>
+          <div id="full-name-container">
+            <div class="pure-control-group">
+              <label for="first-name">First name</label>
+              <input require id="first-name" name="first-name" type="text" maxlength="1000" />
+            </div>
+            <div class="pure-control-group">
+              <label for="last-name">Last name</label>
+              <input require id="last-name" name="last-name" type="text" maxlength="1000" />
+            </div>
+          </div>
+          <div id="dob-container">
+            <div class="pure-control-group">
+              <label for="dob">Date of birth</label>
+              <input require id="dob" name="dob" type="text" maxlength="11" />
+            </div>
+          </div>
+          <div id="phone-container" class="pure-control-group">
+            <label for="phone">Telephone</label>
+            <input require id="phone" name="phone" type="text" maxlength="1000" />
+          </div>
+          <div id="occupation-container" class="pure-control-group">
+            <label for="occupation">Occupation</label>
+            <input require id="occupation" name="occupation" type="text" maxlength="1000" />
+          </div>
+          <div id="location-container" class="pure-control-group">
+            <label for="location">Location</label>
+            <input require id="location" name="location" type="text" maxlength="1000" />
+          </div>
+          <div id="company-name-container" class="pure-control-group">
+            <label for="company-name">Company name</label>
+            <input require id="company-name" name="company-name" type="text" maxlength="1000" />
+          </div>
+          <div id="website-container" class="pure-control-group">
+            <label for="website">Website</label>
+            <input require id="website" name="website" type="text" maxlength="1000" />
+          </div>
+          <div class="pure-controls">
+            <button id="submit-button" type="submit" class="pure-button pure-button-primary">Register</button>
+          </div>
         </div>
         <ul>
           <li><a href="/account/signin">I have an account</a></li>
@@ -81,6 +83,9 @@
       </fieldset>
     </form>
   </body>
+  <template id="registration-disabled">
+    <div class="error message">Registration has been disabled.</div>
+  </template>
   <template id="invalid-username">
     <div class="error message">Error! Invalid or registered username</div>
   </template>

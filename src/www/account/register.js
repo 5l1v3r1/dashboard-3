@@ -12,8 +12,16 @@ function renderPage (req, res, messageTemplate) {
     minimumPasswordLength: global.minimumPasswordLength
   }
   const doc = dashboard.HTML.parse(req.route.html, requirements, 'requirements')
+  if (global.disableRegistration) {
+    messageTemplate = 'registration-disabled'
+  }
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (messageTemplate === 'registration-disabled') {
+      const submitForm = doc.getElementById('form-container')
+      submitForm.parentNode.removeChild(submitForm)
+      return dashboard.Response.end(req, res, doc)
+    }
   }
   const removeFields = [].concat(global.profileFields)
   if (!global.requireProfile) {
@@ -38,6 +46,9 @@ function renderPage (req, res, messageTemplate) {
 }
 
 async function submitForm (req, res) {
+  if (global.disableRegistration) {
+    return renderPage(req, res)
+  }
   if (!req || !req.body) {
     return renderPage(req, res, 'invalid-username')
   }

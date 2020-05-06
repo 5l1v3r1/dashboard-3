@@ -12,6 +12,15 @@ describe('/account/register', () => {
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
+
+    it('should disable registration', async () => {
+      global.disableRegistration = true
+      const req = TestHelper.createRequest('/account/register')
+      const result = await req.get()
+      const doc = await TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'registration-disabled')
+    })
   })
 
   describe('Register#POST', () => {

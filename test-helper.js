@@ -60,6 +60,7 @@ async function setupBeforeEach () {
   global.encryptionSecret = process.env.ENCRYPTION_SECRET || ''
   global.encryptionSecretIV = process.env.ENCRYPTION_SECRET_IV || ''
   global.requireProfile = false
+  global.disableRegistration = false
   global.userProfileFields = ['full-name', 'contact-email']
   global.apiDependencies = []
   global.minimumUsernameLength = 1

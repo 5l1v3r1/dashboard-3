@@ -39,6 +39,7 @@ if (process.env.ENCRYPTION_SECRET) {
   global.encryptionSecret = process.env.ENCRYPTION_SECRET
   global.encryptionSecretIV = process.env.ENCRYPTION_SECRET_IV
 }
+global.disableRegistration = process.env.DISABLE_REGISTRATION === 'true'
 global.requireProfile = process.env.REQUIRE_PROFILE === 'true'
 global.profileFields = ['display-name', 'display-email', 'contact-email', 'full-name', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
 global.profileFieldMap = {}

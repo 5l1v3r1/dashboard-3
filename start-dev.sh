@@ -24,18 +24,6 @@ node main.js
 # integer 4+ in production 10+
 # the strength with which to protect passwords
 
-# GENERATE_SITEMAP_TXT=false
-# boolean
-# skip writing sitemap.txt on start
-
-# GENERATE_API_TXT=false
-# boolean
-# skip writing api.txt on start
-
-# DASHBOARD_LANGUAGE=select|fr-FR|it-IT|etc
-# any translation from /languages default is en-US in /src/www
-# serve content in a desired language
-
 # BCRYPT_FIXED_SALT
 # string
 # make a fixed-salt like this:
@@ -50,6 +38,23 @@ node main.js
 # ENCRYPTION_SECRET_IV
 # string
 # 16-character string to randomize the encryption
+
+# GENERATE_SITEMAP_TXT=false
+# boolean
+# skip writing sitemap.txt on start
+
+# GENERATE_API_TXT=false
+# boolean
+# skip writing api.txt on start
+
+# DASHBOARD_LANGUAGE=select|fr-FR|it-IT|etc
+# any translation from /languages default is en-US in /src/www
+# serve content in a desired language
+
+# DISABLE_REGISTRATION=true
+# prevents new accounts being created via /account/register
+# it does not deactivate /api/user/create-account which is
+# not publicly accessible by default 
 
 # PAGE_SIZE=3 
 # number
