@@ -66,7 +66,7 @@ describe('/api/user/session', () => {
   })
 
   describe('redacts', () => {
-    it('token hash', async () => {
+    it('tokenHash', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/session?sessionid=${user.session.sessionid}`)
       req.account = user.account

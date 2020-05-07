@@ -33,8 +33,8 @@ describe('/account/sessions', function () {
     req2.session = user.session
     cachedResponses.offset = await req2.get()
   })
-  describe('Sessions#BEFORE', () => {
-    it('should bind sessions to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const data = cachedResponses.before
       assert.strictEqual(data.sessions.length, global.pageSize)
       assert.strictEqual(data.sessions[0].sessionid, cachedSessions[0])
@@ -58,8 +58,8 @@ describe('/account/sessions', function () {
     })
   })
 
-  describe('Sessions#GET', () => {
-    it('should limit sessions to one page (screenshots)', async () => {
+  describe('view', () => {
+    it('should use default page size (screenshots)', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')
@@ -67,7 +67,7 @@ describe('/account/sessions', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce page size', async () => {
+    it('should change page size', async () => {
       global.pageSize = 3
       const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
@@ -76,7 +76,7 @@ describe('/account/sessions', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce specified offset', async () => {
+    it('should change offset', async () => {
       const offset = 1
       const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)

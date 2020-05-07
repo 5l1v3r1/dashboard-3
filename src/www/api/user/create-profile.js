@@ -99,8 +99,8 @@ module.exports = {
     await dashboard.StorageList.add(`${req.appid}/account/profiles/${req.query.accountid}`, profileid)
     if (req.body.default === 'true') {
       accountProperties.profileid = profileid
-      await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, accountProperties)
     }
+    await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.query.accountid}`, accountProperties)
     return profileInfo
   }
 }

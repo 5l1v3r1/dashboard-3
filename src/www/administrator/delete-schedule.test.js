@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/administrator/delete-schedule', () => {
-  describe('DeleteSchedule#BEFORE', () => {
-    it('should bind deleted accounts to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -20,7 +20,7 @@ describe('/administrator/delete-schedule', () => {
     })
   })
 
-  describe('DeleteSchedule#GET', () => {
+  describe('view', () => {
     it('should present the deleted accounts table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -56,7 +56,7 @@ describe('/administrator/delete-schedule', () => {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce page size', async () => {
+    it('should change page size', async () => {
       global.pageSize = 3
       const administrator = await TestHelper.createOwner()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
@@ -73,7 +73,7 @@ describe('/administrator/delete-schedule', () => {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce specified offset', async () => {
+    it('should change offset', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const administrator = await TestHelper.createOwner()

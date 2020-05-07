@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/signout-complete', () => {
-  describe('SignoutComplete#GET', () => {
+  describe('view', () => {
     it('should sign out (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/signout')

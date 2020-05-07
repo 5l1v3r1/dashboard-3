@@ -34,9 +34,9 @@ async function renderPage (req, res, messageTemplate) {
     if (messageTemplate === 'success') {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
-      const sessionTable = doc.getElementById('sessions-table')
-      sessionTable.parentNode.removeChild(sessionTable)
     }
+  } else {
+    dashboard.HTML.renderTemplate(doc, null, 'instant-delete', 'message-container')
   }
   return dashboard.Response.end(req, res, doc)
 }

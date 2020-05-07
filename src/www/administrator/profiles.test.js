@@ -33,8 +33,8 @@ describe('/administrator/profiles', function () {
     req2.session = administrator.session
     cachedResponses.offset = await req2.get()
   })
-  describe('Profiles#BEFORE', () => {
-    it('should bind profiles to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const data = cachedResponses.before
       assert.strictEqual(data.profiles.length, global.pageSize)
       assert.strictEqual(data.profiles[0].profileid, cachedProfiles[0])
@@ -42,7 +42,7 @@ describe('/administrator/profiles', function () {
     })
   })
 
-  describe('Profiles#GET', () => {
+  describe('view', () => {
     it('should return one page by default (screenshots)', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
@@ -51,7 +51,7 @@ describe('/administrator/profiles', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce page size', async () => {
+    it('should change page size', async () => {
       global.pageSize = 3
       const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
@@ -60,7 +60,7 @@ describe('/administrator/profiles', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce specified offset', async () => {
+    it('should change offset', async () => {
       const offset = 1
       const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)

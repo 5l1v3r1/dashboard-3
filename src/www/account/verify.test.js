@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/verify', () => {
-  describe('Verify#GET', () => {
+  describe('view', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
@@ -16,52 +16,7 @@ describe('/account/verify', () => {
     })
   })
 
-  describe('Verify#POST', () => {
-    it('should reject missing username', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        username: '',
-        password: 'password'
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-username')
-    })
-
-    it('should reject missing password', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        username: 'asdfasdf',
-        password: ''
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-password')
-    })
-
-    it('should reject invalid password', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        username: user.account.username,
-        password: 'invalid-password'
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-password')
-    })
-
+  describe('submit', () => {
     it('should mark session as verified', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
@@ -112,6 +67,38 @@ describe('/account/verify', () => {
       ]
       await req.get()
       assert.strictEqual(req.location, `${global.dashboardServer}/account`)
+    })
+  })
+
+  describe('errors', () => {
+    it('invalid-username', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        username: '',
+        password: 'password'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-username')
+    })
+
+    it('invalid-password', async () => {
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/verify?return-url=/redirecting')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        username: user.account.username,
+        password: 'invalid-password'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-password')
     })
   })
 })

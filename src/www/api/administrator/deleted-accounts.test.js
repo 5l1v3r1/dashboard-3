@@ -75,7 +75,7 @@ describe('/api/administrator/deleted-accounts', () => {
   })
 
   describe('redacts', () => {
-    it('username hash', async () => {
+    it('usernameHash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -86,7 +86,7 @@ describe('/api/administrator/deleted-accounts', () => {
       assert.strictEqual(undefined, accounts[0].usernameHash)
     })
 
-    it('password hash', async () => {
+    it('passwordHash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)
@@ -97,7 +97,7 @@ describe('/api/administrator/deleted-accounts', () => {
       assert.strictEqual(undefined, accounts[0].passwordHash)
     })
 
-    it('session key', async () => {
+    it('sessionKey', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.setDeleted(user)

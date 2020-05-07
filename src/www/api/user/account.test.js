@@ -66,7 +66,7 @@ describe('/api/user/account', () => {
   })
 
   describe('redacts', () => {
-    it('username hash', async () => {
+    it('usernameHash', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
       req.account = user.account
@@ -75,7 +75,7 @@ describe('/api/user/account', () => {
       assert.strictEqual(undefined, account.usernameHash)
     })
 
-    it('password hash', async () => {
+    it('passwordHash', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/account?accountid=${user.account.accountid}`)
       req.account = user.account

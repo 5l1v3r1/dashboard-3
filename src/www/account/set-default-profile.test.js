@@ -3,29 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/set-default-profile', () => {
-  describe('SetDefaultProfile#BEFORE', () => {
-    it('should bind posted profile to req', async () => {
-      const user = await TestHelper.createUser()
-      const profile1 = user.profile
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
-        default: 'true'
-      })
-      const req = TestHelper.createRequest('/account/set-default-profile')
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        profileid: profile1.profileid
-      }
-      await req.route.api.before(req)
-      assert.strictEqual(req.data.profile.profileid, profile1.profileid)
-    })
-
-    it('should bind all profiles to req', async () => {
-      global.pageSize = 1
-      global.delayDiskWrites = true
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
       const profile2 = await TestHelper.createProfile(user, {
@@ -43,7 +22,11 @@ describe('/account/set-default-profile', () => {
       const req = TestHelper.createRequest('/account/set-default-profile')
       req.account = user.account
       req.session = user.session
+      req.body = {
+        profileid: profile1.profileid
+      }
       await req.route.api.before(req)
+      assert.strictEqual(req.data.profile.profileid, profile1.profileid)
       assert.strictEqual(req.data.profiles.length, 3)
       assert.strictEqual(req.data.profiles[0].profileid, profile3.profileid)
       assert.strictEqual(req.data.profiles[1].profileid, profile2.profileid)
@@ -51,7 +34,7 @@ describe('/account/set-default-profile', () => {
     })
   })
 
-  describe('SetDefaultProfile#GET', () => {
+  describe('view', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
@@ -74,7 +57,7 @@ describe('/account/set-default-profile', () => {
     })
   })
 
-  describe('SetDefaultProfile#POST', () => {
+  describe('submit', () => {
     it('should set the profile as default (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const profile1id = user.profile.profileid

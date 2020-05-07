@@ -3,7 +3,7 @@ const assert = require('assert')
 const StorageObject = require('./storage-object.js')
 
 describe('internal-api/storage-object', () => {
-  describe('StorageObject#getProperties', async () => {
+  describe('getProperties', async () => {
     it('should return string properties', async () => {
       const testObject = {
         one: '1',
@@ -49,7 +49,7 @@ describe('internal-api/storage-object', () => {
     })
   })
 
-  describe('StorageObject#getProperty', () => {
+  describe('getProperty', () => {
     it('should return string property', async () => {
       await StorageObject.setProperty('test-object/id', 'property', 'thing')
       const property = await StorageObject.getProperty('test-object/id', 'property')
@@ -75,7 +75,7 @@ describe('internal-api/storage-object', () => {
     })
   })
 
-  describe('StorageObject#removeProperty', () => {
+  describe('removeProperty', () => {
     it('should delete properties', async () => {
       await StorageObject.setProperties('test-object/id', { one: true, two: 'thing', three: 8 })
       await StorageObject.removeProperties('test-object/id', ['one', 'two'])
@@ -86,7 +86,7 @@ describe('internal-api/storage-object', () => {
     })
   })
 
-  describe('StorageObject#removeProperties', () => {
+  describe('removeProperties', () => {
     it('should delete properties', async () => {
       await StorageObject.setProperty('test-object/id', 'property', true)
       await StorageObject.removeProperty('test-object/id', 'property')
@@ -95,7 +95,7 @@ describe('internal-api/storage-object', () => {
     })
   })
 
-  describe('StorageObject#setProperty', () => {
+  describe('setProperty', () => {
     it('should set string property', async () => {
       await StorageObject.setProperty('test-object/id', 'property', 'thing')
       const property = await StorageObject.getProperty('test-object/id', 'property')
@@ -121,7 +121,7 @@ describe('internal-api/storage-object', () => {
     })
   })
 
-  describe('StorageObject#setProperties', () => {
+  describe('setProperties', () => {
     it('should set string properties', async () => {
       const testObject = {
         one: '1',

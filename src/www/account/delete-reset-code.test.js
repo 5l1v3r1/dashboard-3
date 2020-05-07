@@ -3,8 +3,20 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/delete-reset-code', () => {
-  describe('DeleteResetCode#BEFORE', () => {
-    it('should reject invalid code', async () => {
+  describe('before', () => {
+    it('should bind data', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      const req = TestHelper.createRequest(`/account/delete-reset-code?codeid=${user.resetCode.codeid}`)
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.data.resetCode.codeid, user.resetCode.codeid)
+    })
+  })
+
+  describe('exceptions', () => {
+    it('invalid-reset-codeid', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/delete-reset-code?codeid=invalid')
       req.account = user.account
@@ -18,7 +30,7 @@ describe('/account/delete-reset-code', () => {
       assert.strictEqual(errorMessage, 'invalid-reset-codeid')
     })
 
-    it('should reject other account\'s code', async () => {
+    it('invalid-account', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const user2 = await TestHelper.createUser()
@@ -35,7 +47,7 @@ describe('/account/delete-reset-code', () => {
     })
   })
 
-  describe('DeleteResetCode#GET', () => {
+  describe('view', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
@@ -47,22 +59,9 @@ describe('/account/delete-reset-code', () => {
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
-
-    it('should present the reset code table', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      const req = TestHelper.createRequest(`/account/delete-reset-code?codeid=${user.resetCode.codeid}`)
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
-      const doc = TestHelper.extractDoc(result.html)
-      const table = doc.getElementById('reset-codes-table')
-      const row = table.getElementById(user.resetCode.codeid)
-      assert.strictEqual(row.tag, 'tr')
-    })
   })
 
-  describe('DeleteResetCode#POST', () => {
+  describe('submit', () => {
     it('should delete reset code (screenshots)', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)

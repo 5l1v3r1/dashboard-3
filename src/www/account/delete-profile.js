@@ -19,12 +19,12 @@ async function beforeRequest (req) {
     }
     return
   }
+  if (req.query.profileid === req.account.profileid) {
+    throw new Error('invalid-profile')
+  }
   const profile = await global.api.user.Profile.get(req)
   if (!profile) {
     throw new Error('invalid-profileid')
-  }
-  if (profile.profileid === req.account.profileid) {
-    throw new Error('invalid-profile')
   }
   profile.createdFormatted = dashboard.Format.date(profile.created)
   profile.default = req.account.profileid === profile.profileid
@@ -41,6 +41,8 @@ async function renderPage (req, res, messageTemplate) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
     }
+  } else {
+    dashboard.HTML.renderTemplate(doc, null, 'instant-delete', 'message-container')
   }
   return dashboard.Response.end(req, res, doc)
 }

@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/reset-account', () => {
-  describe('ResetAccount#GET', () => {
+  describe('view', () => {
     it('should present the form', async () => {
       const req = TestHelper.createRequest('/account/reset-account')
       const result = await req.get()
@@ -13,96 +13,7 @@ describe('/account/reset-account', () => {
     })
   })
 
-  describe('ResetAccount#POST', () => {
-    it('should reject missing username', async () => {
-      const req = TestHelper.createRequest('/account/reset-account')
-      req.body = {
-        username: '',
-        'new-password': 'new-password',
-        'confirm-password': 'new-password',
-        'secret-code': 'reset-code'
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-username')
-    })
-
-    it('should reject missing reset code', async () => {
-      const req = TestHelper.createRequest('/account/reset-account')
-      req.body = {
-        username: 'username',
-        'new-password': 'new-password',
-        'confirm-password': 'new-password',
-        'secret-code': ''
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-secret-code')
-    })
-
-    it('should reject missing password', async () => {
-      const req = TestHelper.createRequest('/account/reset-account')
-      req.body = {
-        username: 'username',
-        'new-password': '',
-        'confirm-password': 'new-password',
-        'secret-code': 'reset-code'
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-new-password')
-    })
-
-    it('should enforce password length', async () => {
-      const req = TestHelper.createRequest('/account/reset-account')
-      req.body = {
-        username: 'username',
-        'new-password': '1',
-        'confirm-password': '1',
-        'secret-code': 'reset-code'
-      }
-      global.minimumPasswordLength = 100
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-new-password-length')
-    })
-
-    it('should require confirm', async () => {
-      const req = TestHelper.createRequest('/account/reset-account')
-      req.body = {
-        username: 'username',
-        'new-password': 'new-password',
-        'confirm-password': '',
-        'secret-code': 'reset-code'
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-confirm-password')
-    })
-
-    it('should not reset deleted account', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createResetCode(user)
-      global.deleteDelay = -1
-      await TestHelper.setDeleted(user)
-      const req = TestHelper.createRequest('/account/reset-account')
-      req.body = {
-        username: user.account.username,
-        'new-password': 'my-new-password',
-        'confirm-password': 'my-new-password',
-        'secret-code': user.resetCode.code
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const message = doc.getElementById('message-container').child[0]
-      assert.strictEqual(message.attr.template, 'invalid-account')
-    })
-
+  describe('submit', () => {
     it('should reset session key', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -164,6 +75,97 @@ describe('/account/reset-account', () => {
       ]
       const result = await req.post()
       assert.strictEqual(result.redirect, '/home')
+    })
+  })
+
+  describe('errors', () => {
+    it('invalid-username', async () => {
+      const req = TestHelper.createRequest('/account/reset-account')
+      req.body = {
+        username: '',
+        'new-password': 'new-password',
+        'confirm-password': 'new-password',
+        'secret-code': 'reset-code'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-username')
+    })
+
+    it('invalid-secret-code', async () => {
+      const req = TestHelper.createRequest('/account/reset-account')
+      req.body = {
+        username: 'username',
+        'new-password': 'new-password',
+        'confirm-password': 'new-password',
+        'secret-code': ''
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-secret-code')
+    })
+
+    it('invalid-new-password', async () => {
+      const req = TestHelper.createRequest('/account/reset-account')
+      req.body = {
+        username: 'username',
+        'new-password': '',
+        'confirm-password': 'new-password',
+        'secret-code': 'reset-code'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-new-password')
+    })
+
+    it('invalid-new-password-length', async () => {
+      const req = TestHelper.createRequest('/account/reset-account')
+      req.body = {
+        username: 'username',
+        'new-password': '1',
+        'confirm-password': '1',
+        'secret-code': 'reset-code'
+      }
+      global.minimumPasswordLength = 100
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-new-password-length')
+    })
+
+    it('invalid-confirm-password', async () => {
+      const req = TestHelper.createRequest('/account/reset-account')
+      req.body = {
+        username: 'username',
+        'new-password': 'new-password',
+        'confirm-password': '',
+        'secret-code': 'reset-code'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-confirm-password')
+    })
+
+    it('invalid-account', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createResetCode(user)
+      global.deleteDelay = -1
+      await TestHelper.setDeleted(user)
+      const req = TestHelper.createRequest('/account/reset-account')
+      req.body = {
+        username: user.account.username,
+        'new-password': 'my-new-password',
+        'confirm-password': 'my-new-password',
+        'secret-code': user.resetCode.code
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-account')
     })
   })
 })

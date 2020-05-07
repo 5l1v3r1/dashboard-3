@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/signout', () => {
-  describe('Signout#GET', () => {
+  describe('view', () => {
     it('should end the session', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

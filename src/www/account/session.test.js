@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/session', () => {
-  describe('Session#BEFORE', () => {
-    it('should bind session to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/session?sessionid=${user.session.sessionid}`)
       req.account = user.account
@@ -14,7 +14,7 @@ describe('/account/session', () => {
     })
   })
 
-  describe('Session#GET', () => {
+  describe('view', () => {
     it('should present the session table (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/session?sessionid=${user.session.sessionid}`)

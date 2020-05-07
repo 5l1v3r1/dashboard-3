@@ -72,7 +72,7 @@ describe('internal-api/storage-list', () => {
   })
 
   describe('StorageList#list', async () => {
-    it('should enforce page size', async () => {
+    it('should change page size', async () => {
       global.pageSize = 3
       await StorageList.add('test-data', 1)
       await TestHelper.wait(2000)

@@ -26,12 +26,6 @@ async function submitForm (req, res) {
   if (!req.body.password || !req.body.password.length) {
     return renderPage(req, res, 'invalid-password')
   }
-  if (global.minimumUsernameLength > req.body.username.length) {
-    return renderPage(req, res, 'invalid-username-length')
-  }
-  if (global.minimumPasswordLength > req.body.password.length) {
-    return renderPage(req, res, 'invalid-password-length')
-  }
   try {
     await global.api.user.ResetAccountDeleted.patch(req)
   } catch (error) {

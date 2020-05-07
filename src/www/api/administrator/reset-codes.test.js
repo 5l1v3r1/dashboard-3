@@ -78,7 +78,7 @@ describe('/api/administrator/reset-codes', function () {
   })
 
   describe('redacts', () => {
-    it('secret code hash', async () => {
+    it('secretCodeHash', async () => {
       const resetCodes = cachedResponses.returns
       assert.strictEqual(undefined, resetCodes[0].secretCodeHash)
     })

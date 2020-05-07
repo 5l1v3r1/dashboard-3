@@ -68,7 +68,7 @@ describe('/api/user/reset-code', () => {
   })
 
   describe('redacts', () => {
-    it('secret code hash', async () => {
+    it('secretCodeHash', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest(`/api/user/reset-code?codeid=${user.resetCode.codeid}`)

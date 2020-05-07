@@ -38,16 +38,16 @@ describe('/account/profiles', function () {
     cachedResponses.offset = await req2.get()
   })
 
-  describe('Profiles#BEFORE', () => {
-    it('should bind profiles to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const data = cachedResponses.before
       assert.strictEqual(data.profiles.length, global.pageSize)
       assert.strictEqual(data.profiles[0].profileid, cachedProfiles[0])
     })
   })
 
-  describe('Profiles#GET', () => {
-    it('should limit profiles to one page (screenshots)', async () => {
+  describe('view', () => {
+    it('should use default page size (screenshots)', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')
@@ -55,7 +55,7 @@ describe('/account/profiles', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce page size', async () => {
+    it('should change page size', async () => {
       global.pageSize = 3
       const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
@@ -64,7 +64,7 @@ describe('/account/profiles', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce specified offset', async () => {
+    it('should change offset', async () => {
       const offset = 1
       const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)

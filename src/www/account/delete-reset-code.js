@@ -35,6 +35,8 @@ function renderPage (req, res, messageTemplate) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
     }
+  } else {
+    dashboard.HTML.renderTemplate(doc, null, 'instant-delete', 'message-container')
   }
   return dashboard.Response.end(req, res, doc)
 }

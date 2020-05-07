@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account', () => {
-  describe('Index#GET', () => {
+  describe('view', () => {
     it('should return page (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account')

@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/delete-account-complete', () => {
-  describe('DeleteAccountComplete#GET', () => {
+  describe('view', () => {
     it('should present 3 days remaining message', async () => {
       global.deleteDelay = 3
       await TestHelper.createOwner()

@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/administrator/session', () => {
-  describe('Session#BEFORE', () => {
-    it('should bind session to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/session?sessionid=${user.session.sessionid}`)
@@ -15,7 +15,7 @@ describe('/administrator/session', () => {
     })
   })
 
-  describe('Session#GET', () => {
+  describe('view', () => {
     it('should present the session table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

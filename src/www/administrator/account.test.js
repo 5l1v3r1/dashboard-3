@@ -3,39 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/administrator/account', () => {
-  describe('Account#BEFORE', () => {
-    it('should bind account to req', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/administrator/account?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      await req.route.api.before(req)
-      assert.strictEqual(req.data.account.accountid, user.account.accountid)
-    })
-
-    it('should bind profiles to req', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/administrator/account?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      await req.route.api.before(req)
-      assert.strictEqual(req.data.profiles[0].accountid, user.profile.accountid)
-    })
-
-    it('should bind sessions to req', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/administrator/account?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      await req.route.api.before(req)
-      assert.strictEqual(req.data.sessions.length, 1)
-      assert.strictEqual(req.data.sessions[0].sessionid, user.session.sessionid)
-    })
-
-    it('should bind reset codes to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
@@ -43,12 +12,16 @@ describe('/administrator/account', () => {
       req.account = administrator.account
       req.session = administrator.session
       await req.route.api.before(req)
+      assert.strictEqual(req.data.account.accountid, user.account.accountid)
+      assert.strictEqual(req.data.profiles[0].accountid, user.profile.accountid)
+      assert.strictEqual(req.data.sessions.length, 1)
+      assert.strictEqual(req.data.sessions[0].sessionid, user.session.sessionid)
       assert.strictEqual(req.data.resetCodes.length, 1)
       assert.strictEqual(req.data.resetCodes[0].accountid, user.account.accountid)
     })
   })
 
-  describe('Account#GET', () => {
+  describe('view', () => {
     it('should present the account table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()

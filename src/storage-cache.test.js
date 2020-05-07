@@ -3,7 +3,7 @@ const assert = require('assert')
 const StorageCache = require('./storage-cache.js')
 
 describe('internal-api/storage-cache', () => {
-  describe('StorageCache#get', () => {
+  describe('get', () => {
     it('should require key', async () => {
       StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
       let errorMessage
@@ -25,7 +25,7 @@ describe('internal-api/storage-cache', () => {
     })
   })
 
-  describe('StorageCache#set', () => {
+  describe('set', () => {
     it('should require key', async () => {
       StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
       let errorMessage
@@ -47,7 +47,7 @@ describe('internal-api/storage-cache', () => {
     })
   })
 
-  describe('StorageCache#remove', () => {
+  describe('remove', () => {
     it('should require key', async () => {
       StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
       let errorMessage

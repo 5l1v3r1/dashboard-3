@@ -62,17 +62,17 @@ describe('/api/administrator/administrator-accounts', function () {
   })
 
   describe('redacts', () => {
-    it('username hash', async () => {
+    it('usernameHash', async () => {
       const administrators = cachedResponses.returns
       assert.strictEqual(undefined, administrators[0].usernameHash)
     })
 
-    it('password hash', async () => {
+    it('passwordHash', async () => {
       const administrators = cachedResponses.returns
       assert.strictEqual(undefined, administrators[0].passwordHash)
     })
 
-    it('session key', async () => {
+    it('sessionKey', async () => {
       const administrators = cachedResponses.returns
       assert.strictEqual(undefined, administrators[0].sessionKey)
     })

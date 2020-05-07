@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/reset-code', () => {
-  describe('ResetCode#BEFORE', () => {
-    it('should bind reset code to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)
       const req = TestHelper.createRequest(`/account/reset-code?codeid=${user.resetCode.codeid}`)
@@ -15,7 +15,7 @@ describe('/account/reset-code', () => {
     })
   })
 
-  describe('ResetCode#GET', () => {
+  describe('view', () => {
     it('should present the reset code table (screenshots)', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)

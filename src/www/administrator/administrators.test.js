@@ -34,8 +34,8 @@ describe('/administrator/administrators', function () {
     cachedResponses.offset = await req2.get()
   })
 
-  describe('Administrators#BEFORE', () => {
-    it('should bind administrators to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const data = cachedResponses.before
       assert.strictEqual(data.administrators.length, global.pageSize)
       assert.strictEqual(data.administrators[0].accountid, cachedAccounts[0])
@@ -43,7 +43,7 @@ describe('/administrator/administrators', function () {
     })
   })
 
-  describe('Administrators#GET', () => {
+  describe('view', () => {
     it('should present the administrators table (screenshots)', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
@@ -59,7 +59,7 @@ describe('/administrator/administrators', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce page size', async () => {
+    it('should change page size', async () => {
       global.pageSize = 3
       const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
@@ -68,7 +68,7 @@ describe('/administrator/administrators', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce specified offset', async () => {
+    it('should change offset', async () => {
       const offset = 1
       const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)

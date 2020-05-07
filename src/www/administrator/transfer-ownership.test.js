@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/administrator/transfer-ownership', () => {
-  describe('TransferOwnership#BEFORE', () => {
-    it('should bind account to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const owner = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/administrator/transfer-ownership?accountid=${user.account.accountid}`)
@@ -15,7 +15,7 @@ describe('/administrator/transfer-ownership', () => {
     })
   })
 
-  describe('TransferOwnership#GET', () => {
+  describe('view', () => {
     it('should present the form', async () => {
       const owner = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -27,21 +27,9 @@ describe('/administrator/transfer-ownership', () => {
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
-
-    it('should present the account table', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/administrator/transfer-ownership?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
-      const doc = TestHelper.extractDoc(result.html)
-      const row = doc.getElementById(user.account.accountid)
-      assert.strictEqual(row.tag, 'tr')
-    })
   })
 
-  describe('TransferOwnership#POST', () => {
+  describe('submit', () => {
     it('should change ownership (screenshots)', async () => {
       const owner = await TestHelper.createOwner()
       const administrator2 = await TestHelper.createAdministrator(owner)

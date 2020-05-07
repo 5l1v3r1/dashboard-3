@@ -34,8 +34,8 @@ describe('/administrator/accounts', function () {
     cachedResponses.offset = await req2.get()
   })
 
-  describe('Accounts#BEFORE', () => {
-    it('should bind accounts to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const data = cachedResponses.before
       assert.strictEqual(data.accounts.length, global.pageSize)
       assert.strictEqual(data.accounts[0].accountid, cachedAccounts[0])
@@ -43,7 +43,7 @@ describe('/administrator/accounts', function () {
     })
   })
 
-  describe('Accounts#GET', () => {
+  describe('view', () => {
     it('should present the accounts table (screenshots)', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
@@ -62,7 +62,7 @@ describe('/administrator/accounts', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce page size', async () => {
+    it('should change page size', async () => {
       global.pageSize = 3
       const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
@@ -71,7 +71,7 @@ describe('/administrator/accounts', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce specified offset', async () => {
+    it('should change offset', async () => {
       global.delayDiskWrites = true
       const offset = 1
       const result = cachedResponses.offset

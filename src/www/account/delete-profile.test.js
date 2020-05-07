@@ -3,8 +3,27 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/delete-profile', () => {
-  describe('DeleteProfile#BEFORE', () => {
-    it('should reject invalid profile', async () => {
+  describe('before', () => {
+    it('should bind data', async () => {
+      const user = await TestHelper.createUser()
+      const profile1 = user.profile
+      await TestHelper.createProfile(user, {
+        'first-name': user.profile.firstName,
+        'last-name': user.profile.lastName,
+        'contact-email': user.profile.contactEmail,
+        default: 'true'
+      })
+      const req = TestHelper.createRequest(`/account/delete-profile?profileid=${profile1.profileid}`)
+      req.account = user.account
+      req.account.profileid = user.profile.profileid
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.data.profile.profileid, profile1.profileid)
+    })
+  })
+
+  describe('exceptions', () => {
+    it('invalid-profileid', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/delete-profile?profileid=invalid')
       req.account = user.account
@@ -18,7 +37,7 @@ describe('/account/delete-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-profileid')
     })
 
-    it('should reject default profile', async () => {
+    it('invalid-profile', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/delete-profile?profileid=${user.profile.profileid}`)
       req.account = user.account
@@ -32,7 +51,7 @@ describe('/account/delete-profile', () => {
       assert.strictEqual(errorMessage, 'invalid-profile')
     })
 
-    it('should reject other account\'s profile', async () => {
+    it('invalid-account', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createUser()
       const user2 = await TestHelper.createUser()
@@ -49,7 +68,7 @@ describe('/account/delete-profile', () => {
     })
   })
 
-  describe('DeleteProfile#GET', () => {
+  describe('view', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile
@@ -67,28 +86,9 @@ describe('/account/delete-profile', () => {
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
-
-    it('should present the profile table', async () => {
-      const user = await TestHelper.createUser()
-      const profile1 = user.profile
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName,
-        'contact-email': user.profile.contactEmail,
-        default: 'true'
-      })
-      const req = TestHelper.createRequest(`/account/delete-profile?profileid=${profile1.profileid}`)
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
-      const doc = TestHelper.extractDoc(result.html)
-      const table = doc.getElementById('profiles-table')
-      const row = table.getElementById(profile1.profileid)
-      assert.strictEqual(row.tag, 'tr')
-    })
   })
 
-  describe('DeleteProfile#POST', () => {
+  describe('submit', () => {
     it('should delete profile (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const profile1 = user.profile

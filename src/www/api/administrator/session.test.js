@@ -51,7 +51,7 @@ describe('/api/administrator/session', () => {
   })
 
   describe('redacts', () => {
-    it('token hash', async () => {
+    it('tokenHash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/session?sessionid=${user.session.sessionid}`)

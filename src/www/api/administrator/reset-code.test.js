@@ -49,7 +49,7 @@ describe('/api/administrator/reset-code', () => {
   })
 
   describe('redacts', () => {
-    it('secret code hash', async () => {
+    it('secretCodeHash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       await TestHelper.createResetCode(user)

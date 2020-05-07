@@ -33,8 +33,8 @@ describe('/administrator/reset-codes', function () {
     req2.session = administrator.session
     cachedResponses.offset = await req2.get()
   })
-  describe('ResetCodes#BEFORE', () => {
-    it('should bind reset codes to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const data = cachedResponses.before
       assert.strictEqual(data.resetCodes.length, global.pageSize)
       assert.strictEqual(data.resetCodes[0].codeid, cachedResetCodes[0])
@@ -42,7 +42,7 @@ describe('/administrator/reset-codes', function () {
     })
   })
 
-  describe('ResetCodes#GET', () => {
+  describe('view', () => {
     it('should present the reset codes table (screenshots)', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
@@ -58,7 +58,7 @@ describe('/administrator/reset-codes', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce page size', async () => {
+    it('should change page size', async () => {
       global.pageSize = 3
       const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
@@ -67,7 +67,7 @@ describe('/administrator/reset-codes', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce specified offset', async () => {
+    it('should change offset', async () => {
       const offset = 1
       const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)

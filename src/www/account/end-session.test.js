@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/end-session', () => {
-  describe('EndSession#BEFORE', () => {
-    it('should bind session to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
       req.account = user.account
@@ -14,7 +14,7 @@ describe('/account/end-session', () => {
     })
   })
 
-  describe('EndSession#GET', () => {
+  describe('view', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
@@ -25,21 +25,9 @@ describe('/account/end-session', () => {
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
-
-    it('should present the session table', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/end-session?sessionid=${user.session.sessionid}`)
-      req.account = user.account
-      req.session = user.session
-      const result = await req.get()
-      const doc = TestHelper.extractDoc(result.html)
-      const row = doc.getElementById(req.session.sessionid)
-      assert.notStrictEqual(row, undefined)
-      assert.notStrictEqual(row, null)
-    })
   })
 
-  describe('EndSession#POST', () => {
+  describe('submit', () => {
     it('should end the session (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const firstSession = user.session

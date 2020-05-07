@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/administrator/delete-account', () => {
-  describe('DeleteAccount#BEFORE', () => {
+  describe('exceptions', () => {
     it('should reject invalid accountid', async () => {
       const administrator = await TestHelper.createOwner()
       const req = TestHelper.createRequest('/administrator/delete-account?accountid=invalid')
@@ -17,40 +17,10 @@ describe('/administrator/delete-account', () => {
       }
       assert.strictEqual(errorMessage, 'invalid-accountid')
     })
+  })
 
-    it('should allow account not scheduled for deletion', async () => {
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/administrator/delete-account?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, undefined)
-    })
-
-    it('should allow account not ready for deletion', async () => {
-      global.deleteDelay = 3
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.setDeleted(user)
-      const req = TestHelper.createRequest(`/administrator/delete-account?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, undefined)
-    })
-
-    it('should bind account to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       global.deleteDelay = 0
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
@@ -63,7 +33,7 @@ describe('/administrator/delete-account', () => {
     })
   })
 
-  describe('DeleteAccount#GET', () => {
+  describe('view', () => {
     it('should present the form', async () => {
       global.deleteDelay = 0
       const administrator = await TestHelper.createOwner()
@@ -77,23 +47,9 @@ describe('/administrator/delete-account', () => {
       assert.strictEqual(doc.getElementById('submit-form').tag, 'form')
       assert.strictEqual(doc.getElementById('submit-button').tag, 'button')
     })
-
-    it('should present the account table', async () => {
-      global.deleteDelay = -1
-      const administrator = await TestHelper.createOwner()
-      const user = await TestHelper.createUser()
-      await TestHelper.setDeleted(user)
-      const req = TestHelper.createRequest(`/administrator/delete-account?accountid=${user.account.accountid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const result = await req.get()
-      const doc = TestHelper.extractDoc(result.html)
-      const row = doc.getElementById(user.account.accountid)
-      assert.strictEqual(row.tag, 'tr')
-    })
   })
 
-  describe('DeleteAccount#POST', () => {
+  describe('submit', () => {
     it('should immediately delete (screenshots)', async () => {
       global.deleteDelay = -1
       const administrator = await TestHelper.createOwner()

@@ -50,7 +50,7 @@ describe('/api/administrator/account', () => {
   })
 
   describe('redacts', () => {
-    it('username hash', async () => {
+    it('usernameHash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
@@ -60,7 +60,7 @@ describe('/api/administrator/account', () => {
       assert.strictEqual(undefined, account.usernameHash)
     })
 
-    it('password hash', async () => {
+    it('passwordHash', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)
@@ -71,7 +71,7 @@ describe('/api/administrator/account', () => {
       assert.strictEqual(undefined, account.passwordHash)
     })
 
-    it('session key', async () => {
+    it('sessionKey', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/administrator/account?accountid=${user.account.accountid}`)

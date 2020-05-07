@@ -72,10 +72,10 @@ describe('/api/administrator/sessions', function () {
   })
 
   describe('redacts', () => {
-    it('session token', async () => {
+    it('tokenHash', async () => {
       const sessions = cachedResponses.returns
-      assert.strictEqual(undefined, sessions[0].token)
-      assert.strictEqual(undefined, sessions[1].token)
+      assert.strictEqual(undefined, sessions[0].tokenHash)
+      assert.strictEqual(undefined, sessions[1].tokenHash)
     })
   })
 

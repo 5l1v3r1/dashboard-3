@@ -33,14 +33,14 @@ describe('/administrator/sessions', function () {
     req2.session = administrator.session
     cachedResponses.offset = await req2.get()
   })
-  describe('Sessions#BEFORE', () => {
-    it('should bind sessions to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const data = cachedResponses.before
       assert.strictEqual(data.sessions.length, global.pageSize)
     })
   })
 
-  describe('Sessions#GET', () => {
+  describe('view', () => {
     it('should present the sessions table (screenshots)', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
@@ -66,7 +66,7 @@ describe('/administrator/sessions', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce page size', async () => {
+    it('should change page size', async () => {
       global.pageSize = 3
       const result = cachedResponses.pageSize
       const doc = TestHelper.extractDoc(result.html)
@@ -75,7 +75,7 @@ describe('/administrator/sessions', function () {
       assert.strictEqual(rows.length, global.pageSize + 1)
     })
 
-    it('should enforce specified offset', async () => {
+    it('should change offset', async () => {
       const offset = 1
       const result = cachedResponses.offset
       const doc = TestHelper.extractDoc(result.html)

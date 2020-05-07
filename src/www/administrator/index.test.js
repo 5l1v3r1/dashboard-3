@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/administrator', () => {
-  describe('Index#GET', () => {
+  describe('view', () => {
     it('should return page (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const req = TestHelper.createRequest('/administrator')

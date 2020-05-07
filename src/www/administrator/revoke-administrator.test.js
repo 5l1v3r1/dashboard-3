@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/administrator/revoke-administrator', () => {
-  describe('RevokeAdministrator#BEFORE', () => {
-    it('should bind account to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const owner = await TestHelper.createOwner()
       const administrator2 = await TestHelper.createAdministrator(owner)
       const req = TestHelper.createRequest(`/administrator/revoke-administrator?accountid=${administrator2.account.accountid}`)
@@ -15,7 +15,7 @@ describe('/administrator/revoke-administrator', () => {
     })
   })
 
-  describe('RevokeAdministrator#GET', () => {
+  describe('view', () => {
     it('should present the form', async () => {
       const owner = await TestHelper.createOwner()
       const administrator2 = await TestHelper.createAdministrator(owner)
@@ -29,7 +29,7 @@ describe('/administrator/revoke-administrator', () => {
     })
   })
 
-  describe('RevokeAdministrator#POST', () => {
+  describe('submit', () => {
     it('should revoke administrator status (screenshots)', async () => {
       const owner = await TestHelper.createOwner()
       const administrator2 = await TestHelper.createAdministrator(owner)

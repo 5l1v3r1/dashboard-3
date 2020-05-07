@@ -3,8 +3,8 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe('/account/profile', () => {
-  describe('Profile#BEFORE', () => {
-    it('should bind profile to req', async () => {
+  describe('before', () => {
+    it('should bind data to req', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/profile?profileid=${user.profile.profileid}`)
       req.account = user.account
@@ -14,7 +14,7 @@ describe('/account/profile', () => {
     })
   })
 
-  describe('Profile#GET', () => {
+  describe('view', () => {
     it('should present the profile table (screenshots)', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/account/profile?profileid=${user.profile.profileid}`)
