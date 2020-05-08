@@ -7,8 +7,8 @@ const Proxy = require('./proxy.js')
 const querystring = require('querystring')
 const Response = require('./response.js')
 const util = require('util')
-let dashboard
 const languageCache = {}
+let dashboard
 
 const parsePostData = util.promisify((req, callback) => {
   if (req.headers &&
@@ -96,6 +96,7 @@ function stop () {
 }
 
 async function receiveRequest (req, res) {
+  try {
   if (process.env.DEBUG_REQUESTS) {
     console.log('server.receive', req.method, req.url)
   }
@@ -382,6 +383,9 @@ async function receiveRequest (req, res) {
     }
     return Response.throw500(req, res)
   }
+} catch (error) {
+  console.log(error)
+}
 }
 
 async function executeAPIRequest (req, res) {

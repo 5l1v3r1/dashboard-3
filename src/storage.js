@@ -154,6 +154,11 @@ module.exports = {
         await storage.flush()
       }
     }
+    for (const x in storage) {
+      if (!container[x]) {
+        container[x] = storage[x]
+      }
+    }
     return container
   }
 }

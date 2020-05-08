@@ -4,10 +4,10 @@ module.exports = {
     const env = moduleName ? `${moduleName}_STORAGE` : 'STORAGE'
     if (env && process.env[env]) {
       const StorageList = require(process.env[env]).StorageList
-      storageList = await StorageList.setup(moduleName)
+      storageList = await StorageList.setup(storage, moduleName)
     } else {
       const StorageList = require('./storage-list-fs.js')
-      storageList = await StorageList.setup(moduleName)
+      storageList = await StorageList.setup(storage, moduleName)
     }
     const container = {
       add: async (path, itemid) => {

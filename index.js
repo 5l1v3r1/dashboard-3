@@ -101,8 +101,8 @@ module.exports = {
   Response: require('./src/response.js'),
   Timestamp: require('./src/timestamp.js'),
   UUID: require('./src/uuid.js'),
-  start: (applicationPath) => {
-    module.exports.setup(applicationPath)
+  start: async (applicationPath) => {
+    await module.exports.setup(applicationPath)
     return Server.start()
   },
   stop: () => {
