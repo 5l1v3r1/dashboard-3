@@ -1,6 +1,6 @@
 
-> @userdashboard/dashboard@1.0.179 test /home/runner/work/dashboard/dashboard
-> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 60000 --slow 60000 './src{,!(public)/**}/*.test.js'
+> @userdashboard/dashboard@1.0.180 test /home/runner/work/dashboard/dashboard
+> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 120000 --slow 120000 './src{,!(public)/**}/*.test.js'
 
 
 
@@ -163,13 +163,13 @@
       ✓ should substitute language HTML file
 
   internal-api/storage-cache
-    StorageCache#get
+    get
       ✓ should require key
       ✓ should return value
-    StorageCache#set
+    set
       ✓ should require key
       ✓ should set value
-    StorageCache#remove
+    remove
       ✓ should require key
       ✓ should remove object
 
@@ -185,32 +185,32 @@
     StorageList#remove
       ✓ should remove the item
     StorageList#list
-      ✓ should enforce page size
+      ✓ should change page size
       ✓ should enforce offset
     StorageList#listAll
       ✓ should return all records
 
   internal-api/storage-object
-    StorageObject#getProperties
+    getProperties
       ✓ should return string properties
       ✓ should return int properties
       ✓ should return float properties
       ✓ should return boolean properties
-    StorageObject#getProperty
+    getProperty
       ✓ should return string property
       ✓ should return int property
       ✓ should return float property
       ✓ should return boolean property
-    StorageObject#removeProperty
+    removeProperty
       ✓ should delete properties
-    StorageObject#removeProperties
+    removeProperties
       ✓ should delete properties
-    StorageObject#setProperty
+    setProperty
       ✓ should set string property
       ✓ should set int property
       ✓ should set float property
       ✓ should set boolean property
-    StorageObject#setProperties
+    setProperties
       ✓ should set string properties
       ✓ should set int properties
       ✓ should set float properties
@@ -230,7 +230,7 @@
       ✓ should accept content string
       ✓ should write file contents
       ✓ should encrypt contents
-    Storage#deleteFile
+    Storage#delete
       ✓ should require file
       ✓ should delete file
 
@@ -247,319 +247,366 @@
       ✓ should be a v4 uuid
 
   /account/change-password
-    ChangePassword#GET
+    view
       ✓ should present the form
-    ChangePassword#POST
-      ✓ should reject missing password
-      ✓ should reject short password
-      ✓ should reject mismatched passwords
-      ✓ should reject invalid current password
+    submit
       ✓ should apply new password (screenshots)
+    errors
+      ✓ invalid-new-password
+      ✓ invalid-new-password-length
+      ✓ invalid-confirm-password
+      ✓ invalid-password
 
   /account/change-username
-    ChangeUsername#GET
+    view
       ✓ should present the form
-    ChangeUsername#POST
-      ✓ should reject missing username
-      ✓ should reject short username
-      ✓ should reject invalid password
+    submit
       ✓ should apply new username (screenshots)
+    errors
+      ✓ invalid-new-username
+      ✓ invalid-new-username-length
+      ✓ invalid-password
 
   /account/create-profile
-    CreateProfile#GET
+    view
       ✓ should present the form
-    CreateProfile#POST
-      ✓ should require full name
-      ✓ should enforce name field lengths
-      ✓ should create new profile with full name
-      ✓ should reject missing contact email
-      ✓ should require "@" in contact email
-      ✓ should create new profile with contact email
-      ✓ should reject missing display email
-      ✓ should require "@" in display email
-      ✓ should create new profile with display email
-      ✓ should require display name
-      ✓ should enforce display name lengths
-      ✓ should create new profile with display name
-      ✓ should require date of birth
-      ✓ should require valid date of birth
-      ✓ should accept dob in YYYY-MM-DD
-      ✓ should accept dob in MM-DD-YYYY
-      ✓ should require unvalidated fields
-      ✓ should save unvalidated fields
-      ✓ should create new profile and set as default (screenshots)
+      ✓ should have elements for full-name
+      ✓ should have elements for contact-email
+      ✓ should have elements for display-email
+      ✓ should have elements for dob
+      ✓ should have elements for phone
+      ✓ should have elements for occupation
+      ✓ should have elements for location
+      ✓ should have elements for company-name
+      ✓ should have elements for website
+    submit
+      ✓ should create profile (screenshots)
+      ✓ should create profile with full-name
+      ✓ should create profile and set default
+      ✓ should create profile with display name
+      ✓ should create profile with contact-email
+      ✓ should create profile with display-email
+      ✓ should create profile with dob in YYYY-MM-DD
+      ✓ should create profile with dob in MM-DD-YYYY
+      ✓ should create profile with phone
+      ✓ should create profile with occupation
+      ✓ should create profile with location
+      ✓ should create profile with company-name
+      ✓ should create profile with website
+    errors
+      ✓ invalid-first-name
+      ✓ invalid-first-name-length
+      ✓ invalid-last-name
+      ✓ invalid-last-name-length
+      ✓ invalid-contact-email
+      ✓ invalid-display-email
+      ✓ invalid-display-name
+      ✓ invalid-display-name-length
+      ✓ invalid-dob
+      ✓ invalid-phone
+      ✓ invalid-occupation
+      ✓ invalid-location
+      ✓ invalid-company-name
+      ✓ invalid-website
 
   /account/create-reset-code
-    CreateResetCode#GET
+    view
       ✓ should present the form
-    CreateResetCode#POST
-      ✓ should reject missing secret-code
-      ✓ should reject short secret-code
-      ✓ should reject long secret-code
+    submit
       ✓ should create reset code (screenshots)
+    errors
+      ✓ invalid-secret-code
+      ✓ invalid-secret-code-length
 
   /account/delete-account-complete
-    DeleteAccountComplete#GET
+    view
       ✓ should present 3 days remaining message
       ✓ should present 7 days remaining message
       ✓ should present instant deletion message
       ✓ should present instant delete message (screenshots)
 
   /account/delete-account
-    DeleteAccount#GET
+    view
       ✓ should present the form
-    DeleteAccount#POST
-      ✓ should reject invalid password
+    submit
       ✓ should mark account deleted (screenshots)
+    errors
+      ✓ invalid-password
 
   /account/delete-profile
-    DeleteProfile#BEFORE
-      ✓ should reject invalid profile
-      ✓ should reject default profile
-      ✓ should reject other account's profile
-    DeleteProfile#GET
+    before
+      ✓ should bind data
+    exceptions
+      ✓ invalid-profileid
+      ✓ invalid-profile
+      ✓ invalid-account
+    view
       ✓ should present the form
-      ✓ should present the profile table
-    DeleteProfile#POST
+    submit
       ✓ should delete profile (screenshots)
 
   /account/delete-reset-code
-    DeleteResetCode#BEFORE
-      ✓ should reject invalid code
-      ✓ should reject other account's code
-    DeleteResetCode#GET
+    before
+      ✓ should bind data
+    exceptions
+      ✓ invalid-reset-codeid
+      ✓ invalid-account
+    view
       ✓ should present the form
-      ✓ should present the reset code table
-    DeleteResetCode#POST
+    submit
       ✓ should delete reset code (screenshots)
 
   /account/edit-profile
-    EditProfile#BEFORE
-      ✓ should bind profile to req
-    EditProfile#GET
+    view
       ✓ should present the form
-    EditProfile#POST
-      ✓ should require full name
-      ✓ should enforce name field lengths
-      ✓ should create new profile with full name
-      ✓ should reject missing contact email
-      ✓ should require "@" in contact email
-      ✓ should create new profile with contact email
-      ✓ should reject missing display email
-      ✓ should require "@" in display email
-      ✓ should create new profile with display email
-      ✓ should require display name
-      ✓ should enforce display name lengths
-      ✓ should create new profile with display name
-      ✓ should require date of birth
-      ✓ should require valid date of birth
-      ✓ should accept dob in YYYY-MM-DD
-      ✓ should accept dob in MM-DD-YYYY
-      ✓ should require unvalidated fields
-      ✓ should save unvalidated fields
-      ✓ should update profile and set as default (screenshots)
+      ✓ should have elements for full-name
+      ✓ should have elements for display-name
+      ✓ should have elements for contact-email
+      ✓ should have elements for display-email
+      ✓ should have elements for dob
+      ✓ should have elements for phone
+      ✓ should have elements for occupation
+      ✓ should have elements for location
+      ✓ should have elements for company-name
+      ✓ should have elements for website
+    submit
+      ✓ should update profile (screenshots)
+      ✓ should update profile with full-name
+      ✓ should update profile with display name
+      ✓ should update profile with contact-email
+      ✓ should update profile with display-email
+      ✓ should update profile with dob in YYYY-MM-DD
+      ✓ should update profile with dob in MM-DD-YYYY
+      ✓ should update profile with phone
+      ✓ should update profile with occupation
+      ✓ should update profile with location
+      ✓ should update profile with company-name
+      ✓ should update profile with website
+    errors
+      ✓ invalid-first-name
+      ✓ invalid-first-name-length
+      ✓ invalid-last-name
+      ✓ invalid-last-name-length
+      ✓ invalid-contact-email
+      ✓ invalid-display-email
+      ✓ invalid-display-name
+      ✓ invalid-display-name-length
+      ✓ invalid-dob
+      ✓ invalid-phone
+      ✓ invalid-occupation
+      ✓ invalid-location
+      ✓ invalid-company-name
+      ✓ invalid-website
 
   /account/end-all-sessions
-    EndAllSessions#GET
+    view
       ✓ should present the form
-    EndAllSessions#POST
+    submit
       ✓ should generate a new session key (screenshots)
-      ✓ should invalidate current session
 
   /account/end-session
-    EndSession#BEFORE
-      ✓ should bind session to req
-    EndSession#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the form
-      ✓ should present the session table
-    EndSession#POST
+    submit
       ✓ should end the session (screenshots)
       ✓ should end current session
 
   /account
-    Index#GET
+    view
       ✓ should return page (screenshots)
 
   /account/profile
-    Profile#BEFORE
-      ✓ should bind profile to req
-    Profile#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the profile table (screenshots)
       ✓ should show fields if data exists
 
   /account/profiles
-    Profiles#BEFORE
-      ✓ should bind profiles to req
-    Profiles#GET
-      ✓ should limit profiles to one page (screenshots)
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+    before
+      ✓ should bind data to req
+    view
+      ✓ should return one page (screenshots)
+      ✓ should change page size
+      ✓ should change offset
       ✓ should show fields if data exists
 
   /account/register
-    Register#GET
+    view
       ✓ should present the form
-      ✓ should disable registration
-    Register#POST
-      ✓ should reject missing username
-      ✓ should enforce username length
-      ✓ should reject missing password
-      ✓ should enforce password length
-      ✓ should reject invalid confirm
-      ✓ should require full name
-      ✓ should enforce full name lengths
+      ✓ should disable the form
+      ✓ should have elements for full-name
+      ✓ should have elements for contact-email
+      ✓ should have elements for display-email
+      ✓ should have elements for dob
+      ✓ should have elements for phone
+      ✓ should have elements for occupation
+      ✓ should have elements for location
+      ✓ should have elements for company-name
+      ✓ should have elements for website
+    submit
       ✓ should create new account with full name
-      ✓ should reject missing contact email
-      ✓ should require "@" in contact email
       ✓ should create new profile with contact email
-      ✓ should reject missing display email
-      ✓ should require "@" in display email
       ✓ should create new profile with display email
-      ✓ should require display name
-      ✓ should enforce display name lengths
       ✓ should create new profile with display name
-      ✓ should require date of birth
-      ✓ should require valid date of birth
-      ✓ should accept dob in YYYY-MM-DD
-      ✓ should accept dob in MM-DD-YYYY
-      ✓ should require unvalidated fields
-      ✓ should save unvalidated fields
-      ✓ should create account and 20-minute session
+      ✓ should create new profile with dob in YYYY-MM-DD
+      ✓ should create new profile with dob in MM-DD-YYYY
+      ✓ should create new profile with phone
+      ✓ should create new profile with occupation
+      ✓ should create new profile with location
+      ✓ should create new profile with company-name
+      ✓ should create new profile with website
+      ✓ should create 20-minute session
       ✓ should create account (screenshots)
+    errors
+      ✓ invalid-username
+      ✓ invalid-username-length
+      ✓ invalid-password
+      ✓ invalid-password-length
+      ✓ invalid-confirm
+      ✓ invalid-first-name
+      ✓ invalid-first-name-length
+      ✓ invalid-last-name
+      ✓ invalid-last-name-length
+      ✓ invalid-contact-email
+      ✓ invalid-display-email
+      ✓ invalid-display-name
+      ✓ invalid-display-name-length
+      ✓ invalid-dob
+      ✓ invalid-phone
+      ✓ invalid-occupation
+      ✓ invalid-location
+      ✓ invalid-company-name
+      ✓ invalid-website
 
   /account/reset-account
-    ResetAccount#GET
+    view
       ✓ should present the form
-    ResetAccount#POST
-      ✓ should reject missing username
-      ✓ should reject missing reset code
-      ✓ should reject missing password
-      ✓ should enforce password length
-      ✓ should require confirm
-      ✓ should not reset deleted account
+    submit
       ✓ should reset session key
       ✓ should reset code last used
       ✓ should sign in (screenshots)
+    errors
+      ✓ invalid-username
+      ✓ invalid-secret-code
+      ✓ invalid-new-password
+      ✓ invalid-new-password-length
+      ✓ invalid-confirm-password
+      ✓ invalid-account
 
   /account/reset-code
-    ResetCode#BEFORE
-      ✓ should bind reset code to req
-    ResetCode#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the reset code table (screenshots)
 
   /account/reset-codes
-    ResetCodes#BEFORE
-      ✓ should bind reset codes to req
-    ResetCodes#GET
-      ✓ should limit reset codes to one page (screenshots)
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+    before
+      ✓ should bind data to req
+    view
+      ✓ should return one page (screenshots)
+      ✓ should change page size
+      ✓ should change offset
 
   /account/restore-account
-    RestoreAccount#GET
+    view
       ✓ should present the form
-    RestoreAccount#POST
-      ✓ should reject missing username
-      ✓ should enforce username length
-      ✓ should reject missing password
-      ✓ should enforce password length
-      ✓ should reject invalid password
-      ✓ should reject if after deletion date
+    submit
       ✓ should unset account deleted (screenshots)
+    errors
+      ✓ invalid-username
+      ✓ invalid-password
+      ✓ invalid-account
 
   /account/session
-    Session#BEFORE
-      ✓ should bind session to req
-    Session#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the session table (screenshots)
 
   /account/sessions
-    Sessions#BEFORE
-      ✓ should bind sessions to req
+    before
+      ✓ should bind data to req
       ✓ should exclude ended sessions
-    Sessions#GET
-      ✓ should limit sessions to one page (screenshots)
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+    view
+      ✓ should return one page (screenshots)
+      ✓ should change page size
+      ✓ should change offset
 
   /account/set-default-profile
-    SetDefaultProfile#BEFORE
-      ✓ should bind posted profile to req
-      ✓ should bind all profiles to req
-    SetDefaultProfile#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the form
-    SetDefaultProfile#POST
+    submit
       ✓ should set the profile as default (screenshots)
 
   /account/signin
-    Signin#GET
+    view
       ✓ should present the form
-    Signin#POST
-      ✓ should reject missing username
-      ✓ should enforce username length
-      ✓ should reject missing password
-      ✓ should reject invalid password
-      ✓ should enforce password length
+    submit
       ✓ should create session expiring in 20 minutes as default
       ✓ should create session expiring in 20 minutes
       ✓ should create session expiring in 8 hours
       ✓ should create session expiring in 30 days
       ✓ should sign in (screenshots)
+    errors
+      ✓ invalid-username
+      ✓ invalid-password
 
   /account/signout-complete
-    SignoutComplete#GET
+    view
       ✓ should sign out (screenshots)
 
   /account/signout
-    Signout#GET
+    view
       ✓ should end the session
       ✓ should redirect to signout complete page
       ✓ should signout (screenshots)
 
   /account/verify
-    Verify#GET
+    view
       ✓ should present the form
-    Verify#POST
-      ✓ should reject missing username
-      ✓ should reject missing password
-      ✓ should reject invalid password
+    submit
       ✓ should mark session as verified
       ✓ should verify session (screenshots)
+    errors
+      ✓ invalid-username
+      ✓ invalid-password
 
   /administrator/account-profiles
-    AccountProfiles#BEFORE
-      ✓ should bind profiles to req
-    Profiles#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the profiles table (screenshots)
-      ✓ should return one page by default
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+      ✓ should return one page
+      ✓ should change page size
+      ✓ should change offset
 
   /administrator/account-reset-codes
-    AccountResetCodes#BEFORE
-      ✓ should bind reset codes to req
-    AccountResetCodes#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the reset codes table (screenshots)
-      ✓ should return one page by default
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+      ✓ should return one page
+      ✓ should change page size
+      ✓ should change offset
 
   /administrator/account-sessions
-    AccountSessions#BEFORE
-      ✓ should bind sessions to req
-    AccountSessions#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the sessions table (screenshots)
-      ✓ should return one page by default
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+      ✓ should return one page
+      ✓ should change page size
+      ✓ should change offset
 
   /administrator/account
-    Account#BEFORE
-      ✓ should bind account to req
-      ✓ should bind profiles to req
-      ✓ should bind sessions to req
-      ✓ should bind reset codes to req
-    Account#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the account table (screenshots)
       ✓ should present the profile table
       ✓ should present the sessions table
@@ -567,145 +614,141 @@
       ✓ should present a populated reset codes table
 
   /administrator/accounts
-    Accounts#BEFORE
-      ✓ should bind accounts to req
-    Accounts#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the accounts table (screenshots)
-      ✓ should return one page by default
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+      ✓ should return one page
+      ✓ should change page size
+      ✓ should change offset
 
   /administrator/administrators
-    Administrators#BEFORE
-      ✓ should bind administrators to req
-    Administrators#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the administrators table (screenshots)
-      ✓ should return one page by default
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+      ✓ should return one page
+      ✓ should change page size
+      ✓ should change offset
 
   /administrator/assign-administrator
-    AssignAdministrator#BEFORE
-      ✓ should bind account to req
-    AssignAdministrator#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the form
-      ✓ should present the account table
-    AssignAdministrator#POST
+    submit
       ✓ should apply account update (screenshots)
 
   /administrator/create-reset-code
-    CreateResetCode#BEFORE
-      ✓ should bind account to req
-    CreateResetCode#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the form
-      ✓ should present the account table
-    CreateResetCode#POST
+    submit
       ✓ should create reset code (screenshots)
+    errors
+      ✓ invalid-secret-code
+      ✓ invalid-secret-code-length
 
   /administrator/delete-account
-    DeleteAccount#BEFORE
+    exceptions
       ✓ should reject invalid accountid
-      ✓ should allow account not scheduled for deletion
-      ✓ should allow account not ready for deletion
-      ✓ should bind account to req
-    DeleteAccount#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the form
-      ✓ should present the account table
-    DeleteAccount#POST
+    submit
       ✓ should immediately delete (screenshots)
 
   /administrator/delete-schedule
-    DeleteSchedule#BEFORE
-      ✓ should bind deleted accounts to req
-    DeleteSchedule#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the deleted accounts table (screenshots)
-      ✓ should return one page by default
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+      ✓ should return one page
+      ✓ should change page size
+      ✓ should change offset
 
   /administrator
-    Index#GET
+    view
       ✓ should return page (screenshots)
 
   /administrator/profile
-    Profile#BEFORE
-      ✓ should bind profile to req
-    Profile#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the profile table (screenshots)
       ✓ should show fields if data exists
 
   /administrator/profiles
-    Profiles#BEFORE
-      ✓ should bind profiles to req
-    Profiles#GET
-      ✓ should return one page by default (screenshots)
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+    before
+      ✓ should bind data to req
+    view
+      ✓ should return one page (screenshots)
+      ✓ should change page size
+      ✓ should change offset
       ✓ should show fields if data exists
 
   /administrator/reset-code
-    ResetCode#BEFORE
-      ✓ should bind reset code to req
-    ResetCode#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the reset code table (screenshots)
 
   /administrator/reset-codes
-    ResetCodes#BEFORE
-      ✓ should bind reset codes to req
-    ResetCodes#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the reset codes table (screenshots)
-      ✓ should return one page by default
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+      ✓ should return one page
+      ✓ should change page size
+      ✓ should change offset
 
   /administrator/reset-session-key
-    ResetSessionKey#BEFORE
-      ✓ should bind account to req
-    ResetSessionKey#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the form
-      ✓ should present the account table
-    ResetSessionKey#POST
+    submit
       ✓ should reset session key (screenshots)
 
   /administrator/revoke-administrator
-    RevokeAdministrator#BEFORE
-      ✓ should bind account to req
-    RevokeAdministrator#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the form
-    RevokeAdministrator#POST
+    submit
       ✓ should revoke administrator status (screenshots)
 
   /administrator/schedule-account-delete
-    ScheduleAccountDelete#BEFORE
-      ✓ should bind account to req
-    ScheduleAccountDelete#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the form
-      ✓ should present the account table
-    ScheduleAccountDelete#POST
+    submit
       ✓ should schedule account for deletion (screenshots)
 
   /administrator/session
-    Session#BEFORE
-      ✓ should bind session to req
-    Session#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the session table (screenshots)
 
   /administrator/sessions
-    Sessions#BEFORE
-      ✓ should bind sessions to req
-    Sessions#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the sessions table (screenshots)
-      ✓ should return one page by default
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+      ✓ should return one page
+      ✓ should change page size
+      ✓ should change offset
 
   /administrator/transfer-ownership
-    TransferOwnership#BEFORE
-      ✓ should bind account to req
-    TransferOwnership#GET
+    before
+      ✓ should bind data to req
+    view
       ✓ should present the form
-      ✓ should present the account table
-    TransferOwnership#POST
+    submit
       ✓ should change ownership (screenshots)
 
   /api/administrator/account
@@ -716,9 +759,9 @@
     returns
       ✓ object
     redacts
-      ✓ username hash
-      ✓ password hash
-      ✓ session key
+      ✓ usernameHash
+      ✓ passwordHash
+      ✓ sessionKey
 
   /api/administrator/accounts-count
     returns
@@ -732,8 +775,8 @@
     returns
       ✓ array
     redacts
-      ✓ username hash
-      ✓ password hash
+      ✓ usernameHash
+      ✓ passwordHash
       ✓ sessionKey
     configuration
       ✓ environment PAGE_SIZE
@@ -750,9 +793,9 @@
     returns
       ✓ array
     redacts
-      ✓ username hash
-      ✓ password hash
-      ✓ session key
+      ✓ usernameHash
+      ✓ passwordHash
+      ✓ sessionKey
     configuration
       ✓ environment PAGE_SIZE
 
@@ -793,9 +836,9 @@
     returns
       ✓ array
     redacts
-      ✓ username hash
-      ✓ password hash
-      ✓ session key
+      ✓ usernameHash
+      ✓ passwordHash
+      ✓ sessionKey
     configuration
       ✓ environment PAGE_SIZE
 
@@ -841,7 +884,7 @@
     returns
       ✓ object
     redacts
-      ✓ secret code hash
+      ✓ secretCodeHash
 
   /api/administrator/reset-codes-count
     returns
@@ -856,7 +899,7 @@
     returns
       ✓ array
     redacts
-      ✓ secret code hash
+      ✓ secretCodeHash
     configuration
       ✓ environment PAGE_SIZE
 
@@ -880,7 +923,7 @@
     returns
       ✓ object
     redacts
-      ✓ token hash
+      ✓ tokenHash
 
   /api/administrator/sessions-count
     returns
@@ -895,7 +938,7 @@
     returns
       ✓ array
     redacts
-      ✓ session token
+      ✓ tokenHash
     configuration
       ✓ environment PAGE_SIZE
 
@@ -950,8 +993,8 @@
     returns
       ✓ object
     redacts
-      ✓ username hash
-      ✓ password hash
+      ✓ usernameHash
+      ✓ passwordHash
       ✓ sessionKey
 
   /api/user/create-account
@@ -1210,7 +1253,7 @@
     returns
       ✓ object
     redacts
-      ✓ secret code hash
+      ✓ secretCodeHash
 
   /api/user/reset-codes-count
     exceptions
@@ -1260,7 +1303,7 @@
     returns
       ✓ object
     redacts
-      ✓ token hash
+      ✓ tokenHash
 
   /api/user/sessions-count
     exceptions
@@ -1439,5 +1482,5 @@
       ✓ override req.userProfileFields
 
 
-  803 passing (7m)
+  832 passing (27m)
 
