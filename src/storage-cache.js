@@ -1,9 +1,9 @@
 let storageCache
-if (process.env.STORAGE_CACHE) {
-  if (process.env.STORAGE_CACHE === 'node') {
+if (process.env.CACHE) {
+  if (process.env.CACHE === 'node') {
     storageCache = require('./storage-cache-node.js')
   } else {
-    storageCache = require(process.env.STORAGE_CACHE)
+    storageCache = require(process.env.CACHE)
   }
 }
 
@@ -39,14 +39,14 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'testing') {
   module.exports.setStorageCache = () => {
-    if (process.env.STORAGE_CACHE && process.env.STORAGE_CACHE !== 'node') {
-      storageCache = require(process.env.STORAGE_CACHE)
+    if (process.env.CACHE && process.env.CACHE !== 'node') {
+      storageCache = require(process.env.CACHE)
     } else {
       storageCache = require('./storage-cache-node.js')
     }
   }
   module.exports.unsetStorageCache = () => {
-    if (process.env.STORAGE_CACHE) {
+    if (process.env.CACHE) {
       return
     }
     storageCache = null

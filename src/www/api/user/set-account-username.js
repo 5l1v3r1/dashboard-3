@@ -32,7 +32,7 @@ module.exports = {
     }
     const usernameHash = await dashboard.Hash.fixedSaltHash(req.body['new-username'], bcryptFixedSalt, dashboardEncryptionKey)
     const oldUsernameHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'usernameHash')
-    await dashboard.Storage.deleteFile(`${req.appid}/map/usernames/${oldUsernameHash}`)
+    await dashboard.Storage.delete(`${req.appid}/map/usernames/${oldUsernameHash}`)
     await dashboard.Storage.write(`${req.appid}/map/usernames/${usernameHash}`, req.query.accountid)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'usernameHash', usernameHash)
     req.account.usernameLastChanged = dashboard.Timestamp.now

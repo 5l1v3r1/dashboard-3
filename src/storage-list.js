@@ -1,118 +1,112 @@
-let storageList
-if (process.env.STORAGE_ENGINE) {
-  storageList = require(process.env.STORAGE_ENGINE).StorageList
-} else {
-  storageList = require('./storage-list-fs.js')
-}
-
 module.exports = {
-  add,
-  count,
-  exists,
-  list,
-  listAll,
-  remove
-}
-
-if (process.env.NODE_ENV === 'testing') {
-  module.exports.flush = async () => {
-    if (storageList.flush) {
-      await storageList.flush()
+  setup: async (storage, moduleName) => {
+    let storageList
+    const env = moduleName ? `${moduleName}_STORAGE` : 'STORAGE'
+    if (env && process.env[env]) {
+      const StorageList = require(process.env[env]).StorageList
+      storageList = await StorageList.setup(moduleName)
+    } else {
+      const StorageList = require('./storage-list-fs.js')
+      storageList = await StorageList.setup(moduleName)
     }
-  }
-}
-
-async function exists (path, itemid) {
-  return storageList.exists(path, itemid)
-}
-
-async function add (path, itemid) {
-  const added = await exists(path, itemid)
-  if (added) {
-    return
-  }
-  return storageList.add(path, itemid)
-}
-
-async function count (path) {
-  return storageList.count(path)
-}
-
-async function listAll (path) {
-  const itemids = await storageList.listAll(path)
-  if (!itemids || !itemids.length) {
-    return null
-  }
-  for (const i in itemids) {
-    if (itemids[i] === 'true' || itemids[i] === 'false') {
-      itemids[i] = itemids[i] === 'true'
-      continue
-    }
-    if (itemids[i].indexOf && itemids[i].indexOf('.')) {
-      try {
-        const float = parseFloat(itemids[i])
-        if (float.toString() === itemids[i]) {
-          itemids[i] = float
-          continue
+    const container = {
+      add: async (path, itemid) => {
+        const added = await storageList.exists(path, itemid)
+        if (added) {
+          return
         }
-      } catch (error) {
+        return storageList.add(path, itemid)
+      },
+      count: async (path) => {
+        return storageList.count(path)
+      },
+      exists: async (path, itemid) => {
+        return storageList.exists(path, itemid)
+      },
+      list: async (path, offset, pageSize) => {
+        offset = offset || 0
+        if (pageSize === null || pageSize === undefined) {
+          pageSize = global.pageSize
+        }
+        if (offset < 0) {
+          throw new Error('invalid-offset')
+        }
+        const itemids = await storageList.list(path, offset, pageSize)
+        if (!itemids || !itemids.length) {
+          return null
+        }
+        for (const i in itemids) {
+          if (itemids[i] === 'true' || itemids[i] === 'false') {
+            itemids[i] = itemids[i] === 'true'
+            continue
+          }
+          if (itemids[i].indexOf && itemids[i].indexOf('.')) {
+            try {
+              const float = parseFloat(itemids[i])
+              if (float.toString() === itemids[i]) {
+                itemids[i] = float
+                continue
+              }
+            } catch (error) {
+            }
+          }
+          if (itemids[i].substring && itemids[i].length) {
+            try {
+              const int = parseInt(itemids[i], 10)
+              if (int.toString() === itemids[i]) {
+                itemids[i] = int
+                continue
+              }
+            } catch (error) {
+            }
+          }
+        }
+        return itemids
+      },
+      listAll: async (path) => {
+        const itemids = await storageList.listAll(path)
+        if (!itemids || !itemids.length) {
+          return null
+        }
+        for (const i in itemids) {
+          if (itemids[i] === 'true' || itemids[i] === 'false') {
+            itemids[i] = itemids[i] === 'true'
+            continue
+          }
+          if (itemids[i].indexOf && itemids[i].indexOf('.')) {
+            try {
+              const float = parseFloat(itemids[i])
+              if (float.toString() === itemids[i]) {
+                itemids[i] = float
+                continue
+              }
+            } catch (error) {
+            }
+          }
+          if (itemids[i].substring && itemids[i].length) {
+            try {
+              const int = parseInt(itemids[i], 10)
+              if (int.toString() === itemids[i]) {
+                itemids[i] = int
+                continue
+              }
+            } catch (error) {
+            }
+          }
+        }
+        return itemids
+      },
+      remove: async (path, itemid) => {
+        return storageList.remove(path, itemid)
       }
     }
-    if (itemids[i].substring && itemids[i].length) {
-      try {
-        const int = parseInt(itemids[i], 10)
-        if (int.toString() === itemids[i]) {
-          itemids[i] = int
-          continue
+    if (process.env.NODE_ENV === 'testing') {
+      container.flush = async () => {
+        if (storageList.flush) {
+          await storageList.flush()
         }
-      } catch (error) {
       }
     }
+    return container
   }
-  return itemids
-}
-
-async function list (path, offset, pageSize) {
-  offset = offset || 0
-  if (pageSize === null || pageSize === undefined) {
-    pageSize = global.pageSize
-  }
-  if (offset < 0) {
-    throw new Error('invalid-offset')
-  }
-  const itemids = await storageList.list(path, offset, pageSize)
-  if (!itemids || !itemids.length) {
-    return null
-  }
-  for (const i in itemids) {
-    if (itemids[i] === 'true' || itemids[i] === 'false') {
-      itemids[i] = itemids[i] === 'true'
-      continue
-    }
-    if (itemids[i].indexOf && itemids[i].indexOf('.')) {
-      try {
-        const float = parseFloat(itemids[i])
-        if (float.toString() === itemids[i]) {
-          itemids[i] = float
-          continue
-        }
-      } catch (error) {
-      }
-    }
-    if (itemids[i].substring && itemids[i].length) {
-      try {
-        const int = parseInt(itemids[i], 10)
-        if (int.toString() === itemids[i]) {
-          itemids[i] = int
-          continue
-        }
-      } catch (error) {
-      }
-    }
-  }
-  return itemids
-}
-
-async function remove (path, itemid) {
-  return storageList.remove(path, itemid)
 }

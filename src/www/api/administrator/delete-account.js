@@ -9,7 +9,7 @@ module.exports = {
     if (!account) {
       throw new Error('invalid-accountid')
     }
-    await dashboard.Storage.deleteFile(`${req.appid}/account/${req.query.accountid}`)
+    await dashboard.Storage.delete(`${req.appid}/account/${req.query.accountid}`)
     await dashboard.StorageList.remove(`${req.appid}/accounts`, req.query.accountid)
     if (account.administrator) {
       await dashboard.StorageList.remove(`${req.appid}/administrator/accounts`, req.query.accountid)

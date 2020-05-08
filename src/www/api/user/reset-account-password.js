@@ -60,10 +60,10 @@ module.exports = {
       passwordLastChanged: dashboard.Timestamp.now,
       sessionKeyNumber: account.sessionKeyNumber + 1
     })
-    await dashboard.Storage.deleteFile(`${req.appid}/resetCode/${codeid}`)
+    await dashboard.Storage.delete(`${req.appid}/resetCode/${codeid}`)
     await dashboard.StorageList.remove(`${req.appid}/resetCodes`, codeid)
     await dashboard.StorageList.remove(`${req.appid}/account/resetCodes/${accountid}`, codeid)
-    await dashboard.Storage.deleteFile(`${req.appid}/map/account/resetCodes/${accountid}/${secretCodeHash}`)
+    await dashboard.Storage.delete(`${req.appid}/map/account/resetCodes/${accountid}/${secretCodeHash}`)
     return true
   }
 }

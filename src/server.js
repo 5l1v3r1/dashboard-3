@@ -1,15 +1,13 @@
 const bcrypt = require('./bcrypt.js')
 const fs = require('fs')
 const Hash = require('./hash.js')
-const HTML = require('./html.js')
 const http = require('http')
 const Multiparty = require('multiparty')
 const Proxy = require('./proxy.js')
 const querystring = require('querystring')
 const Response = require('./response.js')
-const Timestamp = require('./timestamp.js')
 const util = require('util')
-let Storage
+let dashboard
 const languageCache = {}
 
 const parsePostData = util.promisify((req, callback) => {
@@ -73,8 +71,7 @@ module.exports = {
 }
 
 function start (callback) {
-  require('./storage-object.js')
-  Storage = require('./storage.js')
+  dashboard = require('../index.js')
   server = http.createServer(receiveRequest)
   server.on('error', (error) => {
     callback(error)
@@ -331,18 +328,18 @@ async function receiveRequest (req, res) {
   }
   if (req.session) {
     req.session.lastVerified = req.session.lastVerified || req.session.created
-    if (Timestamp.now - req.session.lastVerified > 86400) {
+    if (dashboard.Timestamp.now - req.session.lastVerified > 86400) {
       delete (req.session.lastVerified)
     }
-    if (req.session.lastSeen && Timestamp.now - req.session.lastSeen > 3600) {
+    if (req.session.lastSeen && dashboard.Timestamp.now - req.session.lastSeen > 3600) {
       delete (req.session.lastVerified)
     }
-    if (!req.session.lastSeen && Timestamp.now - req.session.created > 3600) {
+    if (!req.session.lastSeen && dashboard.Timestamp.now - req.session.created > 3600) {
       delete (req.session.lastVerified)
     }
-    if (req.session.lastSeen < Timestamp.now - 30) {
-      req.session.lastSeen = Timestamp.now
-      await Storage(`${req.appid}/session/${req.session.sessionid}`, 'lastSeen', Timestamp.now)
+    if (req.session.lastSeen < dashboard.Timestamp.now - 30) {
+      req.session.lastSeen = dashboard.Timestamp.now
+      await dashboard.Storage(`${req.appid}/session/${req.session.sessionid}`, 'lastSeen', dashboard.Timestamp.now)
     }
     if (req.urlPath === '/administrator' || req.urlPath.startsWith('/administrator/') ||
         req.urlPath === '/account' || req.urlPath.startsWith('/account/')) {
@@ -365,7 +362,7 @@ async function receiveRequest (req, res) {
     req.route.reload()
   }
   if (req.route.api === 'static-page') {
-    const doc = HTML.parse(req.route.html)
+    const doc = dashboard.HTML.parse(req.route.html)
     return Response.end(req, res, doc)
   }
   if (req.route.iframe) {
@@ -478,7 +475,7 @@ async function authenticateRequest (req) {
   }
   let session
   try {
-    const sessionRaw = await Storage.read(`${req.appid}/session/${cookie.sessionid}`)
+    const sessionRaw = await dashboard.Storage.read(`${req.appid}/session/${cookie.sessionid}`)
     if (sessionRaw && sessionRaw.length) {
       session = JSON.parse(sessionRaw)
     }
@@ -489,7 +486,7 @@ async function authenticateRequest (req) {
   }
   let account
   try {
-    const accountRaw = await Storage.read(`${req.appid}/account/${session.accountid}`)
+    const accountRaw = await dashboard.Storage.read(`${req.appid}/account/${session.accountid}`)
     if (accountRaw && accountRaw.length) {
       account = JSON.parse(accountRaw)
     }

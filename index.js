@@ -103,9 +103,6 @@ module.exports = {
   UUID: require('./src/uuid.js'),
   start: (applicationPath) => {
     module.exports.setup(applicationPath)
-    module.exports.Storage = require('./src/storage.js')
-    module.exports.StorageList = require('./src/storage-list.js')
-    module.exports.StorageObject = require('./src/storage-object.js')
     return Server.start()
   },
   stop: () => {
@@ -113,7 +110,16 @@ module.exports = {
     delete (Timestamp.interval)
     return Server.stop()
   },
-  setup: (applicationPath) => {
+  setup: async (applicationPath) => {
+    const Storage = require('./src/storage.js')
+    const storage = await Storage.setup()
+    const StorageList = require('./src/storage-list.js')
+    const storageList = await StorageList.setup(storage)
+    const StorageObject = require('./src/storage-object.js')
+    const storageObject = await StorageObject.setup(storage)
+    module.exports.Storage = storage
+    module.exports.StorageList = storageList
+    module.exports.StorageObject = storageObject
     global.applicationPath = applicationPath
     global.rootPath = `${applicationPath}/src/www`
     global.packageJSON = mergePackageJSON()

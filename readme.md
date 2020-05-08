@@ -114,9 +114,9 @@ You can access the Dashboard HTTP APIs on behalf of the user making requests.  D
       })
     }
 
-# Dashboard storage backends
+# Storage backends
 
-Dashboard by default uses local disk, this is good for development and under certain circumstances but generally you should use any of Redis, PostgreSQL, MySQL, MongoDB or S3-compatible backends.
+Dashboard by default uses local disk, this is good for development and under certain circumstances but generally you should use any of Redis, PostgreSQL, MySQL, MongoDB or S3-compatible for storage.
 
 |      | Name | Description | Package   | Repository |
 |------|------|-------------|-----------|------------|
@@ -129,11 +129,11 @@ Dashboard by default uses local disk, this is good for development and under cer
 
 You can activate a storage backend with an environment variable.  Each have unique configuration requirements specified in their readme files.
 
-    $ STORAGE_ENGINE=@userdashboard/storage-mongodb \
+    $ STORAGE=@userdashboard/storage-mongodb \
       MONGODB_URL=mongodb:/.... \
       node main.js
 
-## Dashboard storage caching
+## Storage caching
 
 You can complement your storage backend with caching.
 
@@ -142,21 +142,20 @@ You can complement your storage backend with caching.
 | ![Test suite status using NodeJS caching](https://github.com/userdashboard/dashboard/workflows/test-node-cache/badge.svg?branch=master) | NodeJS | For single-server apps | - | - |
 | ![Test suite status using Redis caching](https://github.com/userdashboard/dashboard/workflows/test-redis-cache/badge.svg?branch=master) | Redis | For speeding up disk-based storage | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
 
+You can optionally use Redis as a cache, this is good for any storage on slow disks.
 
-You can optionally use Redis as a cache, this is good if your storage is not fast enough.
-
-    $ STORAGE_CACHE=@userdashboard/storage-cache-redis \
+    $ CACHE=@userdashboard/storage-cache-redis \
       CACHE_REDIS_URL=redis:/.... \
       node main.js
 
 If you have a single Dashboard server you can cache within memory:
 
-    $ STORAGE_CACHE=node \
+    $ CACHE=node \
       node main.js
 
 # Dashboard modules
 
-Dashboard is modular, and by itself it provides only the signing in and basic account management.  Modules add new pages and API routes for additional functionality.
+Dashboard is modular and by itself it provides only the signing in, account management and basic administration.  Modules add new pages and API routes for additional functionality.
 
 | Name | Description | Package   | Repository |
 |------|-------------|-----------|------------|
@@ -179,9 +178,19 @@ You need to notify Dashboard which modules you are using in `package.json` conff
 
 If you have built your own modules you may submit a pull request to add them to this list.  
 
+Dashboard modules are able to use their own storage and cache settings:
+
+    $ SUBSCRIPTIONS_STORAGE=@userdashboard/storage-postgresql \
+      SUBSCRIPTIONS_DATABASE_URL=postgres://localhost:5432/subscriptions \
+      ORGANIZATIONS_STORAGE=@userdashboard/storage-postgresql \
+      ORGANIZATIONS_DATABASE_URL=postgres://localhost:5433/organizations \
+      STORAGE=@userdashboard/storage-redis \
+      REDIS_URL=redis://localhost:6379 \
+      node main.js
+
 # Creating modules for Dashboard
 
-A module is a NodeJS application too.  It should use the same folder structure as Dashboard.  When Dashboard starts it scans its own files, and then any modules, to create a combined sitemap of UI and API routes.  You can browse the official modules' source to see examples.
+A module is a NodeJS application with the same folder structure as Dashboard.  When Dashboard starts it scans its own files, and then any modules specified in the `package.json` to create a combined sitemap of UI and API routes.  You can browse the official modules' source to see examples.
 
     $ mkdir my-module
     $ cd my-module

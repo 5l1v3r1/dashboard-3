@@ -2,17 +2,32 @@ const fs = require('fs')
 const util = require('util')
 
 module.exports = {
-  exists: util.promisify(exists),
-  read: util.promisify(read),
-  readImage: util.promisify(readImage),
-  readMany: util.promisify(readMany),
-  write: util.promisify(write),
-  writeImage: util.promisify(writeImage),
-  deleteFile: util.promisify(deleteFile)
+  setup: async () => {
+    const container = {
+      exists: util.promisify(exists),
+      read: util.promisify(read),
+      readBinary: util.promisify(readBinary),
+      readMany: util.promisify(readMany),
+      write: util.promisify(write),
+      writeBinary: util.promisify(writeBinary),
+      delete: util.promisify(deleteFile)
+    }
+    if (process.env.NODE_ENV === 'testing') {
+      const execSync = require('child_process').execSync
+      container.flush = util.promisify((callback) => {
+        if (!storagePath || storagePath.length < 5) {
+          throw new Error('unsafe storage path ' + storagePath)
+        }
+        execSync(`rm -rf ${storagePath} && mkdir -p ${storagePath}`)
+        return callback()
+      })
+    }
+    return container
+  }
 }
 
 let storagePath
-if (!process.env.STORAGE_ENGINE) {
+if (!process.env.STORAGE) {
   storagePath = process.env.STORAGE_PATH || `${global.applicationPath}/data`
   if (!fs.existsSync(storagePath)) {
     createFolderSync(storagePath)
@@ -29,17 +44,6 @@ function createFolderSync (path) {
       fs.mkdirSync(nestedPath)
     }
   }
-}
-
-if (process.env.NODE_ENV === 'testing') {
-  const execSync = require('child_process').execSync
-  module.exports.flush = util.promisify((callback) => {
-    if (!storagePath || storagePath.length < 5) {
-      throw new Error('unsafe storage path ' + storagePath)
-    }
-    execSync(`rm -rf ${storagePath} && mkdir -p ${storagePath}`)
-    return callback()
-  })
 }
 
 function exists (file, callback) {
@@ -87,7 +91,7 @@ function write (file, contents, callback) {
   })
 }
 
-function writeImage (file, buffer, callback) {
+function writeBinary (file, buffer, callback) {
   if (!file) {
     throw new Error('invalid-file')
   }
@@ -162,7 +166,7 @@ function readMany (prefix, files, callback) {
   return nextFile()
 }
 
-function readImage (file, callback) {
+function readBinary (file, callback) {
   if (!file) {
     throw new Error('invalid-file')
   }

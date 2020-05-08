@@ -7,10 +7,7 @@ const wait = util.promisify(function (amount, callback) {
     callback = amount
     amount = null
   }
-  if (!process.env.STORAGE_ENGINE) {
-    return setTimeout(callback, amount || 1)
-  }
-  return callback()
+  return setTimeout(callback, amount || 1)
 })
 const allDevices = require('puppeteer/DeviceDescriptors')
 const devices = [{

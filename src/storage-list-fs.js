@@ -1,8 +1,32 @@
 const fs = require('fs')
 const util = require('util')
 
+module.exports = {
+  setup: async () => {
+    const container = {
+      add: util.promisify(add),
+      count: util.promisify(count),
+      exists: util.promisify(exists),
+      list: util.promisify(list),
+      listAll: util.promisify(listAll),
+      remove: util.promisify(remove)
+    }
+    if (process.env.NODE_ENV === 'testing') {
+      const execSync = require('child_process').execSync
+      container.flush = util.promisify((callback) => {
+        if (!storagePath || storagePath.length < 5) {
+          throw new Error('unsafe storage path ' + storagePath)
+        }
+        execSync(`rm -rf ${storagePath} && mkdir -p ${storagePath}`)
+        return callback()
+      })
+    }
+    return container
+  }
+}
+
 let storagePath
-if (!process.env.STORAGE_ENGINE) {
+if (!process.env.STORAGE) {
   storagePath = process.env.STORAGE_PATH || `${global.applicationPath}/data`
   if (!fs.existsSync(storagePath)) {
     createFolder(storagePath)
@@ -12,27 +36,6 @@ if (!process.env.STORAGE_ENGINE) {
     createFolder(storagePath)
   }
 }
-
-module.exports = {
-  add: util.promisify(add),
-  count: util.promisify(count),
-  exists: util.promisify(exists),
-  list: util.promisify(list),
-  listAll: util.promisify(listAll),
-  remove: util.promisify(remove)
-}
-
-if (process.env.NODE_ENV === 'testing') {
-  const execSync = require('child_process').execSync
-  module.exports.flush = util.promisify((callback) => {
-    if (!storagePath || storagePath.length < 5) {
-      throw new Error('unsafe storage path ' + storagePath)
-    }
-    execSync(`rm -rf ${storagePath} && mkdir -p ${storagePath}`)
-    return callback()
-  })
-}
-
 const statCache = {}
 const statCacheItems = []
 

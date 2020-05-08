@@ -5,7 +5,7 @@ const StorageCache = require('./storage-cache.js')
 describe('internal-api/storage-cache', () => {
   describe('get', () => {
     it('should require key', async () => {
-      StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
+      StorageCache.setStorageCache(process.env.CACHE || 'node')
       let errorMessage
       try {
         await StorageCache.get()
@@ -17,7 +17,7 @@ describe('internal-api/storage-cache', () => {
     })
 
     it('should return value', async () => {
-      StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
+      StorageCache.setStorageCache(process.env.CACHE || 'node')
       await StorageCache.set('test-read/1', 'value')
       const file = await StorageCache.get('test-read/1')
       StorageCache.unsetStorageCache()
@@ -27,7 +27,7 @@ describe('internal-api/storage-cache', () => {
 
   describe('set', () => {
     it('should require key', async () => {
-      StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
+      StorageCache.setStorageCache(process.env.CACHE || 'node')
       let errorMessage
       try {
         await StorageCache.set(null, 'value')
@@ -39,7 +39,7 @@ describe('internal-api/storage-cache', () => {
     })
 
     it('should set value', async () => {
-      StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
+      StorageCache.setStorageCache(process.env.CACHE || 'node')
       await StorageCache.set('test-read/1', '{ "test": true }')
       const file = await StorageCache.get('test-read/1')
       StorageCache.unsetStorageCache()
@@ -49,7 +49,7 @@ describe('internal-api/storage-cache', () => {
 
   describe('remove', () => {
     it('should require key', async () => {
-      StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
+      StorageCache.setStorageCache(process.env.CACHE || 'node')
       let errorMessage
       try {
         await StorageCache.set(null, 'value')
@@ -60,7 +60,7 @@ describe('internal-api/storage-cache', () => {
     })
 
     it('should remove object', async () => {
-      StorageCache.setStorageCache(process.env.STORAGE_CACHE || 'node')
+      StorageCache.setStorageCache(process.env.CACHE || 'node')
       await StorageCache.set('test-read/1', '{ "test": true }')
       const file = await StorageCache.get('test-read/1')
       assert.strictEqual(file, '{ "test": true }')
