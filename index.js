@@ -141,6 +141,14 @@ module.exports = {
         delete (global.sitemap['/home'])
       }
     }
+    if (global.packageJSON.modules && global.packageJSON.modules.length) {
+      for (const moduleName of global.packageJSON.modules) {
+        const addition = require(moduleName)
+        if (addition.setup) {
+          await addition.setup()
+        }
+      }
+    }
     if (process.env.EXIT_ON_START) {
       return process.exit(0)
     }
