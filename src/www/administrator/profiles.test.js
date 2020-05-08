@@ -43,7 +43,7 @@ describe('/administrator/profiles', function () {
   })
 
   describe('view', () => {
-    it('should return one page by default (screenshots)', async () => {
+    it('should return one page (screenshots)', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('profiles-table')

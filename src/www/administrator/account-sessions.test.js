@@ -54,7 +54,7 @@ describe('/administrator/account-sessions', function () {
       assert.strictEqual(tableString.indexOf(cachedSessions[0]) > -1, true)
     })
 
-    it('should return one page by default', async () => {
+    it('should return one page', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('sessions-table')

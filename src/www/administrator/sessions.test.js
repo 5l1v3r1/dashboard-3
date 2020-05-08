@@ -50,7 +50,7 @@ describe('/administrator/sessions', function () {
       assert.strictEqual(tableString.indexOf(cachedSessions[1]) > -1, true)
     })
 
-    it('should return one page by default', async () => {
+    it('should return one page', async () => {
       const administrator = await TestHelper.createOwner()
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {

@@ -54,7 +54,7 @@ describe('/administrator/accounts', function () {
       assert.strictEqual(row2.tag, 'tr')
     })
 
-    it('should return one page by default', async () => {
+    it('should return one page', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('accounts-table')

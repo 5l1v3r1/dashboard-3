@@ -51,7 +51,7 @@ describe('/administrator/administrators', function () {
       assert.strictEqual(row.tag, 'tr')
     })
 
-    it('should return one page by default', async () => {
+    it('should return one page', async () => {
       const result = cachedResponses.returns
       const doc = TestHelper.extractDoc(result.html)
       const table = doc.getElementById('administrators-table')

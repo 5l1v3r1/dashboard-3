@@ -40,7 +40,7 @@ describe('/administrator/delete-schedule', () => {
       assert.strictEqual(row.tag, 'tr')
     })
 
-    it('should return one page by default', async () => {
+    it('should return one page', async () => {
       const administrator = await TestHelper.createOwner()
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
         const user = await TestHelper.createUser()
