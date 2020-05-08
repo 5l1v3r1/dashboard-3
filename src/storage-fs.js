@@ -1,8 +1,15 @@
 const fs = require('fs')
 const util = require('util')
+let storagePath
 
 module.exports = {
   setup: async () => {
+    if (!process.env.STORAGE) {
+      storagePath = process.env.STORAGE_PATH || `${global.applicationPath}/data`
+      if (!fs.existsSync(storagePath)) {
+        createFolderSync(storagePath)
+      }
+    }
     const container = {
       exists: util.promisify(exists),
       read: util.promisify(read),
@@ -23,14 +30,6 @@ module.exports = {
       })
     }
     return container
-  }
-}
-
-let storagePath
-if (!process.env.STORAGE) {
-  storagePath = process.env.STORAGE_PATH || `${global.applicationPath}/data`
-  if (!fs.existsSync(storagePath)) {
-    createFolderSync(storagePath)
   }
 }
 
