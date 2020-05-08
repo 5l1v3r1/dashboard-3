@@ -111,15 +111,6 @@ module.exports = {
     return Server.stop()
   },
   setup: async (applicationPath) => {
-    const Storage = require('./src/storage.js')
-    const storage = await Storage.setup()
-    const StorageList = require('./src/storage-list.js')
-    const storageList = await StorageList.setup(storage)
-    const StorageObject = require('./src/storage-object.js')
-    const storageObject = await StorageObject.setup(storage)
-    module.exports.Storage = storage
-    module.exports.StorageList = storageList
-    module.exports.StorageObject = storageObject
     global.applicationPath = applicationPath
     global.rootPath = `${applicationPath}/src/www`
     global.packageJSON = mergePackageJSON()
@@ -141,6 +132,15 @@ module.exports = {
         delete (global.sitemap['/home'])
       }
     }
+    const Storage = require('./src/storage.js')
+    const storage = await Storage.setup()
+    const StorageList = require('./src/storage-list.js')
+    const storageList = await StorageList.setup(storage)
+    const StorageObject = require('./src/storage-object.js')
+    const storageObject = await StorageObject.setup(storage)
+    module.exports.Storage = storage
+    module.exports.StorageList = storageList
+    module.exports.StorageObject = storageObject
     if (global.packageJSON.modules && global.packageJSON.modules.length) {
       for (const moduleName of global.packageJSON.modules) {
         const addition = require(moduleName)
