@@ -29,6 +29,7 @@ describe('/api/administrator/administrator-accounts', function () {
     const req4 = TestHelper.createRequest('/api/administrator/administrator-accounts')
     req4.account = owner.account
     req4.session = owner.session
+    req4.filename = __filename
     req4.saveResponse = true
     cachedResponses.returns = await req4.get()
     global.pageSize = 3

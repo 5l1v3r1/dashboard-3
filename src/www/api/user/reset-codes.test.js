@@ -28,6 +28,7 @@ describe('/api/user/reset-codes', function () {
     const req4 = TestHelper.createRequest(`/api/user/reset-codes?accountid=${user.account.accountid}`)
     req4.account = user.account
     req4.session = user.session
+    req4.filename = __filename
     req4.saveResponse = true
     cachedResponses.returns = await req4.get()
     global.pageSize = 3

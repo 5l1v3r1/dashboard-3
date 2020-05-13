@@ -39,6 +39,7 @@ describe('/api/administrator/reset-codes', function () {
     const req5 = TestHelper.createRequest('/api/administrator/reset-codes')
     req5.account = administrator.account
     req5.session = administrator.session
+    req5.filename = __filename
     req5.saveResponse = true
     cachedResponses.returns = await req5.get()
     global.pageSize = 3
