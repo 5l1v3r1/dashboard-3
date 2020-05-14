@@ -1,15 +1,16 @@
 const crypto = require('crypto')
 
 module.exports = {
-  setup: async (moduleName) => {
-    let storage, cache
-    if (process.env.STORAGE) {
-      const Storage = require(process.env.STORAGE).Storage
-      storage = await Storage.setup(moduleName)
+  setup: async (envPrefix) => {
+    let Storage, storage, cache
+    if (envPrefix) {
+      Storage = require(process.env[`${envPrefix}_STORAGE`]).Storage
+    } else if (process.env.STORAGE) {
+      Storage = require(process.env.STORAGE).Storage
     } else {
-      const Storage = require('./storage-fs.js')
-      storage = await Storage.setup(moduleName)
+      Storage = require('./storage-fs.js')
     }
+    storage = await Storage.setup(envPrefix)
     if (process.env.CACHE) {
       cache = require('./storage-cache.js')
     }

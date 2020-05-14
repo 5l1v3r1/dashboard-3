@@ -102,15 +102,6 @@ module.exports = {
   Timestamp: require('./src/timestamp.js'),
   UUID: require('./src/uuid.js'),
   start: async (applicationPath) => {
-    await module.exports.setup(applicationPath)
-    return Server.start()
-  },
-  stop: () => {
-    clearInterval(Timestamp.interval)
-    delete (Timestamp.interval)
-    return Server.stop()
-  },
-  setup: async (applicationPath) => {
     global.applicationPath = applicationPath
     global.rootPath = `${applicationPath}/src/www`
     global.packageJSON = mergePackageJSON()
@@ -132,6 +123,19 @@ module.exports = {
         delete (global.sitemap['/home'])
       }
     }
+    await module.exports.setup(applicationPath)
+    await Server.start()
+    if (process.env.EXIT_ON_START) {
+      module.exports.stop()
+      return process.exit(0)
+    }
+  },
+  stop: () => {
+    clearInterval(Timestamp.interval)
+    delete (Timestamp.interval)
+    return Server.stop()
+  },
+  setup: async () => {
     const Storage = require('./src/storage.js')
     const storage = await Storage.setup()
     const StorageList = require('./src/storage-list.js')
@@ -149,8 +153,11 @@ module.exports = {
         }
       }
     }
-    if (process.env.EXIT_ON_START) {
-      return process.exit(0)
+    if (fs.existsSync('./node_modules/@userdashboard/dashboard')) {
+      const root = require(global.applicationPath + '/index.js')
+      if (root.setup) {
+        await root.setup()
+      }
     }
   }
 }
