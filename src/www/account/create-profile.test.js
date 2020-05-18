@@ -129,7 +129,7 @@ describe('/account/create-profile', () => {
   describe('submit', () => {
     it('should create profile (screenshots)', async () => {
       const user = await TestHelper.createUser()
-      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
+      global.userProfileFields = ['full-name', 'display-name', 'contact-email', 'website']
       const req = TestHelper.createRequest('/account/create-profile')
       req.account = user.account
       req.session = user.session
@@ -137,13 +137,7 @@ describe('/account/create-profile', () => {
         'first-name': 'Test',
         'last-name': 'Person',
         'contact-email': 'test1@test.com',
-        'display-email': 'test2@test.com',
-        dob: '2000-01-01',
         'display-name': 'tester',
-        phone: '456-789-0123',
-        occupation: 'Programmer',
-        location: 'USA',
-        'company-name': 'Test company',
         website: 'https://example.com',
         default: 'true'
       }
