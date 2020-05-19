@@ -168,6 +168,12 @@ async function fetch (method, req) {
             return status === 200
           })
         }
+        html = await getContent(page)
+        if (html.indexOf('<meta http-equiv="refresh"') > -1) {
+          let redirectLocation = html.substring(html.indexOf(';url=') + 5)
+          redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
+          result.redirect = redirectLocation
+        }
       }
       lastStep = step
     }
@@ -202,12 +208,12 @@ async function fetch (method, req) {
     }
   }
   html = await getContent(page)
-  if (html.indexOf('<meta http-equiv="refresh"') > -1) {
+  if (!result.redirect && html.indexOf('<meta http-equiv="refresh"') > -1) {
     let redirectLocation = html.substring(html.indexOf(';url=') + 5)
     redirectLocation = redirectLocation.substring(0, redirectLocation.indexOf('"'))
     result.redirect = redirectLocation
   }
-  if (result.redirect) {
+  if (result.redirect && !result.redirect.startsWith('/account/signin')) {
     await gotoURL(page, `${global.dashboardServer}${result.redirect}`)
     html = await getContent(page)
   }
@@ -342,7 +348,7 @@ async function emulate (page, device) {
   while (true) {
     await wait(100)
     try {
-      await page.emulate(device)
+      await page.setViewport(device.viewport)
       return
     } catch (error) {
       await wait(100)
@@ -896,3 +902,4 @@ function createFolderSync (folderPath) {
     }
   }
 }
+  
