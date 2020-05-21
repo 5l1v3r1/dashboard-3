@@ -348,7 +348,7 @@ async function emulate (page, device) {
   while (true) {
     await wait(100)
     try {
-      await page.setViewport(device.viewport)
+      await page.emulate(device)
       return
     } catch (error) {
       await wait(100)
@@ -547,10 +547,24 @@ async function fill (page, fieldContainer, body, uploads) {
       }
     } else {
       // inaccessible input fields such as Stripe payment information
+      await element.click()
       await wait(100)
-      await clickElement(element)
-      await wait(100)
-      await typeInElement(element, body[field])
+      for (let i = 0, len = 100; i < len; i++) {
+        await page.keyboard.press('Backspace')
+        await wait(10)
+      }
+      if (field.endsWith('-container')) {
+        for (const char of body[field]) {
+          await element.focus()
+          await wait(10)
+          await element.type(char)
+          await wait(10)
+        }
+      } else {
+        await clickElement(element)
+        await wait(100)
+        await typeInElement(element, body[field])
+      }
     }
   }
 }
