@@ -1,8 +1,101 @@
 
-> @userdashboard/dashboard@1.0.187 test /home/runner/work/dashboard/dashboard
-> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 360000 --slow 360000 './src{,!(public)/**}/*.test.js'
+> @userdashboard/dashboard@1.0.188 test /home/runner/work/dashboard/dashboard
+> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 360000 --slow 360000 './{,!(public)/**}/*.test.js'
 
 
+
+  index
+    PAGE_SIZE
+      Rows of data per page
+        ✓ default 10
+        ✓ integer
+    DOMAIN
+      Domain of server
+        ✓ default unset
+        ✓ string
+    HOST
+      IP or address web server listens on
+        ✓ default localhost
+        ✓ ip
+    PORT
+      Port web server listens on
+        ✓ default 8000
+        ✓ integer
+    ID_LENGTH
+      Length of random ID
+        ✓ default 8
+        ✓ integer
+    ALLOW_PUBLIC_API
+      Allow HTTP access to /api
+        ✓ default false
+        ✓ boolean
+    DELETE_DELAY
+      Cool-down time in days to delete accounts
+        ✓ default 7
+        ✓ integer
+    APPLICATION_SERVER
+      URL of application server
+        ✓ address
+    APPLICATION_SERVER_TOKEN
+      Secret shared between servers
+        ✓ string
+    BCRYPT_FIXED_SALT
+      Salt for hashing indexed values
+        ✓ string
+    BCRYPT_WORKLOAD_FACTOR
+      Strength to protect passwords
+        ✓ default 10
+        ✓ integer
+    ENCRYPTION_SECRET
+      32-character secret string
+        ✓ string
+    ENCRYPTION_SECRET_IV
+      16-character secret string
+        ✓ string
+    LANGUAGE
+      Default, fixed or selectable UI language
+        ✓ default en-us
+        ✓ languages folder name
+    DISABLE_REGISTRATION
+      Disable UI (not API) for registering
+        ✓ default unset
+        ✓ boolean
+    DASHBOARD_SERVER
+      URL of dashboard server
+        ✓ default unset
+        ✓ address
+    MINIMUM_PASSWORD_LENGTH
+      Shortest password length
+        ✓ default 1
+        ✓ integer
+    MAXIMUM_PASSWORD_LENGTH
+      Longest password length
+        ✓ default 50
+        ✓ integer
+    MINIMUM_USERNAME_LENGTH
+      Shortest username length
+        ✓ default 1
+        ✓ integer
+    MAXIMUM_USERNAME_LENGTH
+      Longest username length
+        ✓ default 50
+        ✓ integer
+    MINIMUM_RESET_CODE_LENGTH
+      Shortest reset code length
+        ✓ default 6
+        ✓ integer
+    MAXIMUM_RESET_CODE_LENGTH
+      Longest reset code length
+        ✓ default 50
+        ✓ integer
+    REQUIRE_PROFILE
+      Require registration information
+        ✓ default unset
+        ✓ integer
+    USER_PROFILE_FIELDS
+      Information to collect at registration
+        ✓ default contact-email,full-name
+        ✓ Profile property list
 
   internal-api/api
     API#createFromSitemap
@@ -1482,5 +1575,5 @@
       ✓ override req.userProfileFields
 
 
-  832 passing (27m)
+  875 passing (26m)
 
