@@ -44,15 +44,20 @@ async function setupBefore () {
       global.dashboardServer = `${dashboardServer}:${global.port}`
     }
   }
+  global.usingPort = global.port
+  global.usingDashboardServer = dashboardServer
   packageJSON = {}
   Object.assign(packageJSON, global.packageJSON)
 }
 
 async function setupBeforeEach () {
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
-  testDataIndex = Math.floor(Math.random() * testData.length)
-  global.applicationServer = false
+  global.applicationServer = undefined
+  global.applicationServerToken = undefined
+  global.language  = undefined
   global.packageJSON = {}
+  global.port = global.usingPort
+  global.dashboardServer = `${global.usingDashboardServer}:${global.port}`
   Object.assign(global.packageJSON, packageJSON)
   global.appid = `tests_${dashboard.Timestamp.now}`
   global.testNumber = dashboard.Timestamp.now

@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
   defaultSessionKey = 'dashboard-session-key'
 }
 
-global.host = process.env.IP || 'localhost'
+global.host = process.env.HOST || 'localhost'
 global.port = parseInt(process.env.PORT || '8000', 10)
 global.applicationServer = process.env.APPLICATION_SERVER
 global.applicationServerToken = process.env.APPLICATION_SERVER_TOKEN
@@ -19,6 +19,7 @@ if (global.applicationServer && !global.applicationServerToken) {
   throw new Error('Invalid APPLICATION_SERVER_TOKEN')
 }
 global.dashboardSessionKey = process.env.DASHBOARD_SESSION_KEY || defaultSessionKey
+global.bcryptWorkloadFactor = parseInt(process.env.BCRYPT_WORKLOAD_FACTOR || '10', 10)
 global.bcryptFixedSalt = process.env.BCRYPT_FIXED_SALT || defaultFixedSalt
 if (!global.bcryptFixedSalt) {
   throw new Error('Invalid BCRYPT_FIXED_SALT')
