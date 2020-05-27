@@ -2,7 +2,7 @@ const crypto = require('crypto')
 
 module.exports = {
   setup: async (envPrefix) => {
-    let Storage, storage, cache
+    let Storage, cache
     if (envPrefix) {
       Storage = require(process.env[`${envPrefix}_STORAGE`]).Storage
     } else if (process.env.STORAGE) {
@@ -10,7 +10,7 @@ module.exports = {
     } else {
       Storage = require('./storage-fs.js')
     }
-    storage = await Storage.setup(envPrefix)
+    const storage = await Storage.setup(envPrefix)
     if (process.env.CACHE) {
       cache = require('./storage-cache.js')
     }

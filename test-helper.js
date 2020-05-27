@@ -53,7 +53,7 @@ async function setupBeforeEach () {
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
   global.applicationServer = undefined
   global.applicationServerToken = undefined
-  global.language  = undefined
+  global.language = undefined
   global.packageJSON = {}
   global.port = global.usingPort
   global.dashboardServer = `${global.usingDashboardServer}:${global.port}`

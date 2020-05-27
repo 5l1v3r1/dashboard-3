@@ -50,7 +50,8 @@ async function fetch (method, req) {
     page.on('error', msg => console.log('[error]', msg.text()))
     page.on('console', msg => console.log('[console]', msg.text()))
   }
-  // these huge timeouts allow webhooks to be received
+  // these huge timeouts allow webhooks to be received, in production
+  // you'd send an email with a link or otherwise notify your user
   await page.setDefaultTimeout(360000)
   await page.setDefaultNavigationTimeout(360000)
   await page.setBypassCSP(true)
@@ -916,4 +917,3 @@ function createFolderSync (folderPath) {
     }
   }
 }
-  
