@@ -27,7 +27,6 @@ const mimeTypes = {
 }
 
 async function setupBefore () {
-  global.requests = []
   global.port = 9000
   let dashboardServer = global.dashboardServer
   if (dashboardServer.lastIndexOf(':') > dashboardServer.indexOf(':')) {
@@ -124,9 +123,6 @@ after((callback) => {
   global.testEnded = true
   delete (global.apiDependencies)
   TestHelperPuppeteer.close()
-  if (process.env.DEBUG_REQUESTS) {
-    fs.writeFileSync(path.join(global.applicationPath, 'debug-requests.txt'), JSON.stringify(global.requests, null, '  '))
-  }
   return callback()
 })
 

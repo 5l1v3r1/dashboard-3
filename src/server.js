@@ -100,17 +100,6 @@ async function receiveRequest (req, res) {
   if (process.env.DEBUG_REQUESTS) {
     console.log('server.receive', req.method, req.url)
   }
-  let testRecord
-  if (global.testNumber) {
-    testRecord = {
-      appid: global.appid,
-      url: req.url,
-      headers: req.headers,
-      account: req.account,
-      session: req.session
-    }
-    global.requests.unshift(testRecord)
-  }
   const question = req.url.indexOf('?')
   req.appid = global.appid
   req.urlPath = question === -1 ? req.url : req.url.substring(0, question)
@@ -119,18 +108,11 @@ async function receiveRequest (req, res) {
   req.extension = dot > -1 ? req.urlPath.substring(dot + 1) : null
   if (question !== -1) {
     req.query = querystring.parse(req.url.substring(question + 1), '&', '=')
-    if (testRecord) {
-      testRecord.query = req.query
-    }
   }
   if (req.method === 'POST' || req.method === 'PATCH' || req.method === 'PUT' || req.method === 'DELETE') {
     if (req.headers['content-type'] && req.headers['content-type'].indexOf('multipart/form-data;') > -1) {
       try {
         await parseMultiPartData(req)
-        if (testRecord) {
-          testRecord.uploads = req.uploads
-          testRecord.body = req.body
-        }
       } catch (error) {
         if (process.env.DEBUG_ERRORS) {
           console.log('server.parseMultiPartData', error)
@@ -149,10 +131,6 @@ async function receiveRequest (req, res) {
       }
       if (req.bodyRaw) {
         req.body = querystring.parse(req.bodyRaw, '&', '=')
-        if (testRecord) {
-          testRecord.body = req.body
-          testRecord.bodyRaw = req.bodyRaw
-        }
       }
     }
   }
@@ -276,11 +254,6 @@ async function receiveRequest (req, res) {
     req.session = user.session
     req.account = user.account
     req.language = global.language || req.account.language || 'en-US'
-    if (testRecord) {
-      testRecord.session = user.session
-      testRecord.account = user.account
-      testRecord.language = user.language
-    }
   } else {
     req.language = global.language || 'en-US'
   }
