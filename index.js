@@ -1,4 +1,5 @@
 const API = require('./src/api.js')
+const ENV = require('./env.js')
 const fs = require('fs')
 const mergePackageJSON = require('./src/merge-package-json.js')
 const Server = require('./src/server.js')
@@ -113,6 +114,9 @@ module.exports = {
     global.api = API.createFromSitemap()
     if (process.env.GENERATE_API_TXT !== 'false') {
       API.outputConfiguration()
+    }
+    if (process.env.GENERATE_ENV_TXT !== 'false') {
+      ENV.write()
     }
     if (global.applicationServer) {
       const rootIndexPageExists = fs.existsSync(`${global.applicationPath}/src/www/index.html`)
