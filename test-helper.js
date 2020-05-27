@@ -49,6 +49,7 @@ async function setupBefore () {
 }
 
 async function setupBeforeEach () {
+  global.domain = 'localhost'
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
   global.applicationServer = undefined
   global.applicationServerToken = undefined
@@ -82,6 +83,7 @@ async function setupBeforeEach () {
   global.maximumProfileCompanyNameLength = 100
   global.deleteDelay = 7
   global.pageSize = 2
+  global.idLength = 7
   global.allowPublicAPI = true
   global.delayDiskWrites = false
   global.bcryptFixedSalt = bcrypt.genSaltSync(4)

@@ -24,25 +24,33 @@ Dashboard requires NodeJS `12.16.3` be installed.
     $ echo "require('@userdashboard/dashboard').start(__dirname)" > main.js
     $ node main.js
 
+# Configuration Dashboard
+
+Dashboard hashes passwords, usernames and account reset codes with random salts.  Some other fields are hashed with a fixed salt that allows the hashed value to still determine uniqueness and existance.  Each Dashboard server must create its own fixed salt.  If you are hosting Dashboard on Heroku you will need to escape the `$` with `/` on the CLI when setting `heroku config:add BCRYPT_FIXED_SALT=\$02\$04\$xxxxxxx`.
+
+        $ node
+        > const bcrypt = require('bcryptjs')
+        > bcrypt.genSaltSync(4)
+
 # Customize registration information
 
 By default users may register with just a username and password, both of which are encrypted so they cannot be used for anything but signing in.  You can specify some personal information fields to require in an environment variable:
 
         REQUIRE_PROFILE=true
-        PROFILE_FIEDLS=any,combination
+        PROFILE_FIELDS=any,combination
 
-|Field|
-|----------
-|full-name|
-|contact-email|
-|display-name|
-|display-email|
-|dob|
-|location|
-|phone|
-|company-name|
-|website|
-|occupation|
+| Field         | Description                |
+|---------------|----------------------------|
+| full-name     | First and last name        |
+| contact-email | Contact email              |
+| display-name  | Name to display to users   |
+| display-email | Email to display to users  |
+| dob           | Date of birth              |
+| location      | Location description       |
+| phone         | Phone number               |
+| company-name  | Company name               |
+| website       | Website                    |
+| occupation    | Occupation                 |
 
 # Adding links to the account or administrator menus
 
@@ -118,14 +126,14 @@ You can access the Dashboard HTTP APIs on behalf of the user making requests.  D
 
 Dashboard by default uses local disk, this is good for development and under certain circumstances but generally you should use any of Redis, PostgreSQL, MySQL, MongoDB or S3-compatible for storage.
 
-|      | Name | Description | Package   | Repository |
-|------|------|-------------|-----------|------------|
-| ![Test suite status using file system](https://github.com/userdashboard/dashboard/workflows/test-fs/badge.svg?branch=master) | File system | For development and single-server apps  | - | - |
-| ![Test suite status using S3 storage](https://github.com/userdashboard/dashboard/workflows/test-s3/badge.svg?branch=master) | Amazon S3 | Minimum speed and minimum scaling cost | [@userdashboard/storage-s3](https://npmjs.com/package/@userdashboard/storage-s3) | [github](https://github.com/userdashboard/storage-s3) |
-| ![Test suite status using MySQL storage](https://github.com/userdashboard/dashboard/workflows/test-mysql/badge.svg?branch=master) | MySQL | Medium speed and medium scaling cost | [@userdashboard/storage-mysql](https://npmjs.com/package/@userdashboard/storage-mysql) | [github](https://github.com/userdashboard/storage-mysql) |
-| ![Test suite status using MongoDB storage](https://github.com/userdashboard/dashboard/workflows/test-mongodb/badge.svg?branch=master) | MongoDB | Medium speed and medium scaling cost | [@userdashboard/storage-mongodb](https://npmjs.com/package/@userdashboard/storage-mongodb) | [github](https://github.com/userdashboard/storage-mongodb) |
-| ![Test suite status using PostgreSQL storage](https://github.com/userdashboard/dashboard/workflows/test-postgresql/badge.svg?branch=master) | PostgreSQL | Medium speed and medium scaling cost | [@userdashboard/storage-postgresql](https://npmjs.com/package/@userdashboard/storage-postgresql) | [github](https://github.com/userdashboard/storage-postgresql) |
-| ![Test suite status using Redis storage](https://github.com/userdashboard/dashboard/workflows/test-redis/badge.svg?branch=master) | Redis | Maximum speed and maximum scaling cost | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
+|                                                                                                                                             | Name        | Description                             | Package                                                                                          | Repository                                                    |
+|---------------------------------------------------------------------------------------------------------------------------------------------|-------------|-----------------------------------------|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| ![Test suite status using file system](https://github.com/userdashboard/dashboard/workflows/test-fs/badge.svg?branch=master)                | File system | For development and single-server apps  | -                                                                                                | -                                                             |
+| ![Test suite status using S3 storage](https://github.com/userdashboard/dashboard/workflows/test-s3/badge.svg?branch=master)                 | Amazon S3   | Minimum speed and minimum scaling cost  | [@userdashboard/storage-s3](https://npmjs.com/package/@userdashboard/storage-s3)                 | [github](https://github.com/userdashboard/storage-s3)         |
+| ![Test suite status using MySQL storage](https://github.com/userdashboard/dashboard/workflows/test-mysql/badge.svg?branch=master)           | MySQL       | Medium speed and medium scaling cost    | [@userdashboard/storage-mysql](https://npmjs.com/package/@userdashboard/storage-mysql)           | [github](https://github.com/userdashboard/storage-mysql)      |
+| ![Test suite status using MongoDB storage](https://github.com/userdashboard/dashboard/workflows/test-mongodb/badge.svg?branch=master)       | MongoDB     | Medium speed and medium scaling cost    | [@userdashboard/storage-mongodb](https://npmjs.com/package/@userdashboard/storage-mongodb)       | [github](https://github.com/userdashboard/storage-mongodb)    |
+| ![Test suite status using PostgreSQL storage](https://github.com/userdashboard/dashboard/workflows/test-postgresql/badge.svg?branch=master) | PostgreSQL  | Medium speed and medium scaling cost    | [@userdashboard/storage-postgresql](https://npmjs.com/package/@userdashboard/storage-postgresql) | [github](https://github.com/userdashboard/storage-postgresql) |
+| ![Test suite status using Redis storage](https://github.com/userdashboard/dashboard/workflows/test-redis/badge.svg?branch=master)           | Redis       | Maximum speed and maximum scaling cost  | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis)           | [github](https://github.com/userdashboard/storage-edis)       |
 
 You can activate a storage backend with an environment variable.  Each have unique configuration requirements specified in their readme files.
 
@@ -137,10 +145,10 @@ You can activate a storage backend with an environment variable.  Each have uniq
 
 You can complement your storage backend with caching.
 
-|      |Name | Description | Package   | Repository |
-|------|-----|-------------|-----------|------------|
-| ![Test suite status using NodeJS caching](https://github.com/userdashboard/dashboard/workflows/test-node-cache/badge.svg?branch=master) | NodeJS | For single-server apps | - | - |
-| ![Test suite status using Redis caching](https://github.com/userdashboard/dashboard/workflows/test-redis-cache/badge.svg?branch=master) | Redis | For speeding up disk-based storage | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-edis) |
+|                                                                                                                                         |Name    | Description                            | Package                                                                                  | Repository                                             |
+|-----------------------------------------------------------------------------------------------------------------------------------------|--------|----------------------------------------|------------------------------------------------------------------------------------------|--------------------------------------------------------|
+| ![Test suite status using NodeJS caching](https://github.com/userdashboard/dashboard/workflows/test-node-cache/badge.svg?branch=master) | NodeJS | For development and single-server apps | -                                                                                        | -                                                      |
+| ![Test suite status using Redis caching](https://github.com/userdashboard/dashboard/workflows/test-redis-cache/badge.svg?branch=master) | Redis  | For speeding up disk-based storage     | [@userdashboard/storage-redis](https://npmjs.com/package/@userdashboard/storage-redis) | [github](https://github.com/userdashboard/storage-redis) |
 
 You can optionally use Redis as a cache, this is good for any storage on slow disks.
 
@@ -157,12 +165,12 @@ If you have a single Dashboard server you can cache within memory:
 
 Dashboard is modular and by itself it provides only the signing in, account management and basic administration.  Modules add new pages and API routes for additional functionality.
 
-| Name | Description | Package   | Repository |
-|------|-------------|-----------|------------|
-| MaxMind GeoIP | IP address-based geolocation | [@userdashboard/maxmind-geoip](https://npmjs.com/package/userdashboard/maxmind-geoip)| [github](https://github.com/userdashboard/maxmind-geoip) |
-| Organizations | User created groups | [@userdashboard/organizations](https://npmjs.com/package/userdashboard/organizations) | [github](https://github.com/userdashboard/organizations) |
-| Stripe Connect | Marketplace functionality | [@userdashboard/stripe-connect](https://npmjs.com/package/userdashboard/stripe-connect) | [github](https://github.com/userdashboard/stripe-connect)
-| Stripe Subscriptions | SaaS functionality | [@userdashboard/stripe-subscriptions](https://npmjs.com/package/userdashboard/stripe-subscriptions) | [github](https://github.com/userdashboard/stripe-subscriptions) |
+| Name                 | Description                   | Package                                                                                             | Repository                                                      |
+|----------------------|-------------------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| MaxMind GeoIP        | IP address-based geolocation  | [@userdashboard/maxmind-geoip](https://npmjs.com/package/userdashboard/maxmind-geoip)               | [github](https://github.com/userdashboard/maxmind-geoip)        |
+| Organizations        | User created groups           | [@userdashboard/organizations](https://npmjs.com/package/userdashboard/organizations)               | [github](https://github.com/userdashboard/organizations)        |
+| Stripe Connect       | Marketplace functionality     | [@userdashboard/stripe-connect](https://npmjs.com/package/userdashboard/stripe-connect)             | [github](https://github.com/userdashboard/stripe-connect)       |
+| Stripe Subscriptions | SaaS functionality            | [@userdashboard/stripe-subscriptions](https://npmjs.com/package/userdashboard/stripe-subscriptions) | [github](https://github.com/userdashboard/stripe-subscriptions) |
 
 Modules are NodeJS packages that you install with NPM:
 
@@ -200,7 +208,7 @@ A module is a NodeJS application with the same folder structure as Dashboard.  W
     # add your content
     $ npm publish
 
-The "--no-save" flag is used to install Dashboard, this prevents your module from requiring a specific version of Dashboard when it is being installed by users.
+The "--no-save" flag is used to install Dashboard, this prevents your module from installing a redundant version of Dashboard when it is being installed by users.
 
 When your module is published users can install it with NPM:
 
@@ -214,19 +222,19 @@ Modules must be activated in a web app's `package.json`:
 
 These paths have special significance:
 
-| Folder | Description |
-|-------|--------------|
-| `/src/www` | Web server root |
-| `/src/www/public` | Static assets served quickly |
-| `/src/www/account` | User account management pages |
-| `/src/www/account/YOUR_MODULE/` | Your additions (if applicable) |
-| `/src/www/administrator` | Administration pages |
-| `/src/www/administrator/YOUR_MODULE/` | Your additions (if applicable) |
-| `/src/www/api/user` | User account management pages |
-| `/src/www/api/user/YOUR_MODULE/` | Your additions (if applicable) |
-| `/src/www/api/administrator` | Administration APIs |
-| `/src/www/api/administrator/YOUR_MODULE/` | Your additions (if applicable) |
-| `/src/www/webhooks/YOUR_MODULE/` | Endpoints for receiving webhooks (if applicable) |
+| Folder                                    | Description                                      |
+|-------------------------------------------|--------------------------------------------------|
+| `/src/www`                                | Web server root                                  |
+| `/src/www/public`                         | Static assets served quickly                     |
+| `/src/www/account`                        | User account management pages                    |
+| `/src/www/account/YOUR_MODULE/`           | Your additions (if applicable)                   |
+| `/src/www/administrator`                  | Administration pages                             |
+| `/src/www/administrator/YOUR_MODULE/`     | Your additions (if applicable)                   |
+| `/src/www/api/user`                       | User account management pages                    |
+| `/src/www/api/user/YOUR_MODULE/`          | Your additions (if applicable)                   |
+| `/src/www/api/administrator`              | Administration APIs                              |
+| `/src/www/api/administrator/YOUR_MODULE/` | Your additions (if applicable)                   |
+| `/src/www/webhooks/YOUR_MODULE/`          | Endpoints for receiving webhooks (if applicable) |
 
 Content pages may export `before`, `get` and `post` methods.  API routes may export `before`, `get`, `post`, `patch`, `delete`, `put` methods.   If specified, the `before` methods will execute before any `verb`.
  
