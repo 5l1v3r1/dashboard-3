@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 module.exports = {
-  outputConfiguration,
+  write,
   createFromSitemap: () => {
     const api = {}
     for (const url in global.sitemap) {
@@ -43,12 +43,12 @@ module.exports = {
   }
 }
 
-function outputConfiguration () {
-  const filePath = path.join(global.applicationPath, 'tests.txt')
-  if (!fs.existsSync(filePath)) {
+function write () {
+  const testsFilePath = path.join(global.applicationPath, 'tests.txt')
+  if (!fs.existsSync(testsFilePath)) {
     return
   }
-  let tests = fs.readFileSync(filePath).toString()
+  let tests = fs.readFileSync(testsFilePath).toString()
   tests = tests.substring(tests.indexOf('\n\n'))
   while (true) {
     const lastTick = tests.lastIndexOf('✓')
@@ -120,12 +120,8 @@ function outputConfiguration () {
     }
     api[item.url] = item
   }
-  return writeAPI(api)
-}
-
-function writeAPI (configuration) {
   const sortedURLs = []
-  for (const url in configuration) {
+  for (const url in api) {
     sortedURLs.push(url)
   }
   sortedURLs.sort()
@@ -143,7 +139,7 @@ function writeAPI (configuration) {
   const groups = ['receives', 'returns', 'redacts', 'exceptions', 'configuration', 'override']
   for (const url of sortedURLs) {
     const columns = {}
-    const route = configuration[url]
+    const route = api[url]
     if (route.exceptions) {
       const exceptions = []
       for (const key in route.exceptions) {

@@ -4,7 +4,7 @@ const HTML = require('./html.js')
 
 module.exports = {
   generate,
-  outputConfiguration
+  write
 }
 
 function generate () {
@@ -137,7 +137,7 @@ function readHTMLAttributes (html) {
   return { template, auth, navbar }
 }
 
-function outputConfiguration () {
+function write () {
   const configuration = parseDashboardConfiguration()
   let widestURL = 0
   let widestHTML = 0

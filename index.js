@@ -109,11 +109,11 @@ module.exports = {
     global.packageJSON = mergePackageJSON()
     global.sitemap = Sitemap.generate()
     if (process.env.GENERATE_SITEMAP_TXT !== 'false') {
-      Sitemap.outputConfiguration()
+      Sitemap.write()
     }
     global.api = API.createFromSitemap()
     if (process.env.GENERATE_API_TXT !== 'false') {
-      API.outputConfiguration()
+      API.write()
     }
     if (process.env.GENERATE_ENV_TXT !== 'false') {
       ENV.write()
