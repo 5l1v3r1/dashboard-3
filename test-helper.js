@@ -4,17 +4,16 @@ global.appid = global.appid || 'tests'
 
 const bcrypt = require('./src/bcrypt.js')
 const dashboard = require('./index.js')
+const faker = require('faker')
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
 const path = require('path')
 const querystring = require('querystring')
-const testData = require('./test-data.json')
 const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
 const helperRoutes = require('./test-helper-routes.js')
 const util = require('util')
 
-let testDataIndex = 0
 let packageJSON
 const mimeTypes = {
   js: 'text/javascript;',
@@ -87,6 +86,7 @@ async function setupBeforeEach () {
   global.allowPublicAPI = true
   global.delayDiskWrites = false
   global.bcryptFixedSalt = bcrypt.genSaltSync(4)
+  global.bcryptWorkloadFactor = 4
   await dashboard.Storage.flush()
   if (dashboard.StorageList.flush) {
     await dashboard.StorageList.flush()
@@ -246,11 +246,14 @@ function extractRedirectURL (doc) {
 }
 
 function nextIdentity () {
-  testDataIndex++
-  if (testDataIndex >= testData.length) {
-    testDataIndex = 0
+  const gender = Math.random() > 0.5 ? 1 : 0
+  const firstName = faker.name.firstName(gender)
+  const lastName = faker.name.lastName(gender)
+  return {
+    firstName,
+    lastName,
+    email: faker.internet.email(firstName, lastName)
   }
-  return testData[testDataIndex]
 }
 
 async function createAdministrator (owner) {
