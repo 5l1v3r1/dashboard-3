@@ -37,6 +37,7 @@ module.exports = {
       browser = null
     }
     puppeteer = null
+    global.puppeteer = null
   }
 }
 
