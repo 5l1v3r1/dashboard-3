@@ -40,7 +40,10 @@ function write () {
       continue
     }
     if (line.indexOf('default') > -1) {
-      properties[lastProperty].default = line.substring('✓ default '.length)
+      properties[lastProperty].default = line.substring('✓ default '.length).trim()
+      if (!properties[lastProperty].default.length) {
+        properties[lastProperty].default = 'unset'
+      }
     } else {
       properties[lastProperty].value = line.substring('✓ '.length)
       lastProperty = null
