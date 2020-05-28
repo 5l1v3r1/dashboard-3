@@ -1,6 +1,6 @@
 
-> @userdashboard/dashboard@1.0.188 test /home/runner/work/dashboard/dashboard
-> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 360000 --slow 360000 './{,!(public)/**}/*.test.js'
+> @userdashboard/dashboard@1.0.189 test /home/runner/work/dashboard/dashboard
+> mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 360000 --slow 360000 './{,!(public|node_modules)/**}/*.test.js'
 
 
 
@@ -8,90 +8,90 @@
     PAGE_SIZE
       Rows of data per page
         ✓ default 10
-        ✓ integer
+        ✓ Integer
     DOMAIN
       Domain of server
         ✓ default unset
-        ✓ string
+        ✓ String
     HOST
       IP or address web server listens on
         ✓ default localhost
-        ✓ ip
+        ✓ IP address
     PORT
       Port web server listens on
         ✓ default 8000
-        ✓ integer
+        ✓ Integer
     ID_LENGTH
       Length of random ID
         ✓ default 8
-        ✓ integer
+        ✓ Integer
     ALLOW_PUBLIC_API
       Allow HTTP access to /api
         ✓ default false
-        ✓ boolean
+        ✓ Boolean
     DELETE_DELAY
       Cool-down time in days to delete accounts
         ✓ default 7
-        ✓ integer
+        ✓ Integer
     APPLICATION_SERVER
       URL of application server
-        ✓ address
+        ✓ Address
     APPLICATION_SERVER_TOKEN
       Secret shared between servers
-        ✓ string
+        ✓ String
     BCRYPT_FIXED_SALT
       Salt for hashing indexed values
-        ✓ string
+        ✓ String
     BCRYPT_WORKLOAD_FACTOR
       Strength to protect passwords
         ✓ default 10
-        ✓ integer
+        ✓ Integer
     ENCRYPTION_SECRET
       32-character secret string
-        ✓ string
+        ✓ String
     ENCRYPTION_SECRET_IV
       16-character secret string
-        ✓ string
+        ✓ String
     LANGUAGE
       Default, fixed or selectable UI language
         ✓ default en-us
-        ✓ languages folder name
+        ✓ Languages folder name
     DISABLE_REGISTRATION
       Disable UI (not API) for registering
         ✓ default unset
-        ✓ boolean
+        ✓ Boolean
     DASHBOARD_SERVER
       URL of dashboard server
         ✓ default unset
-        ✓ address
+        ✓ Address
     MINIMUM_PASSWORD_LENGTH
       Shortest password length
         ✓ default 1
-        ✓ integer
+        ✓ Integer
     MAXIMUM_PASSWORD_LENGTH
       Longest password length
         ✓ default 50
-        ✓ integer
+        ✓ Integer
     MINIMUM_USERNAME_LENGTH
       Shortest username length
         ✓ default 1
-        ✓ integer
+        ✓ Integer
     MAXIMUM_USERNAME_LENGTH
       Longest username length
         ✓ default 50
-        ✓ integer
+        ✓ Integer
     MINIMUM_RESET_CODE_LENGTH
       Shortest reset code length
         ✓ default 6
-        ✓ integer
+        ✓ Integer
     MAXIMUM_RESET_CODE_LENGTH
       Longest reset code length
         ✓ default 50
-        ✓ integer
+        ✓ Integer
     REQUIRE_PROFILE
       Require registration information
         ✓ default unset
-        ✓ integer
+        ✓ Integer
     USER_PROFILE_FIELDS
       Information to collect at registration
         ✓ default contact-email,full-name
