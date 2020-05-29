@@ -53,8 +53,9 @@ async function fetch (method, req) {
   }
   // these huge timeouts allow webhooks to be received, in production
   // you'd send an email with a link or otherwise notify your user
-  await page.setDefaultTimeout(360000)
-  await page.setDefaultNavigationTimeout(360000)
+  // asynchronously but tests wait for webhooks to be received
+  await page.setDefaultTimeout(3600000)
+  await page.setDefaultNavigationTimeout(3600000)
   await page.setBypassCSP(true)
   await page.setRequestInterception(true)
   page.on('request', async (request) => {
