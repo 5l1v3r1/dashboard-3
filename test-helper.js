@@ -8,6 +8,7 @@ const faker = require('faker')
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
+const Log = require('./src/log.js')('dashboard-test-helper')
 const path = require('path')
 const querystring = require('querystring')
 const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
@@ -184,15 +185,13 @@ function createRequest (rawURL) {
           }
           errorMessage = result ? result.message : null
         } catch (error) {
-          errorMessage = error.message
+          errorMessage = error
         }
-        if (process.env.DEBUG_ERRORS) {
-          console.log('request failed', errorMessage, req)
-        }
+        Log.error('request proxy error', errorMessage, req)
         if (errorMessage === 'socket hang up') {
           return req[verb]()
         }
-        throw new Error(errorMessage || 'api proxying failed')
+        throw new Error(errorMessage.message || errorMessage || 'api proxying failed')
       }
       let result
       try {
@@ -201,12 +200,7 @@ function createRequest (rawURL) {
           throw new Error('there was no result from puppeteer')
         }
       } catch (error) {
-        if (process.env.DEBUG_ERRORS) {
-          console.log('error fetching with puppeteer', error)
-        }
-      }
-      if (process.env.DEBUG_PAGES) {
-        console.log('puppeteer fetched html', '\n' + JSON.stringify(result))
+        Log.error('request execution error', error)
       }
       return result
     }
@@ -498,9 +492,7 @@ const proxy = util.promisify((method, path, req, callback) => {
     })
   })
   proxyRequest.on('error', (error) => {
-    if (process.env.DEBUG_ERRORS) {
-      console.log('dashboard proxy error', error)
-    }
+    Log.error('dashboard proxy error', error)
     ended = true
     try {
       if (proxyRequest && proxyRequest.end) {

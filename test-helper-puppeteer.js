@@ -1,5 +1,6 @@
 let puppeteer, browser
 const fs = require('fs')
+const Log = require('./src/log.js')('dashboard-test-helper-puppeteer')
 const path = require('path')
 const util = require('util')
 const wait = util.promisify(function (amount, callback) {
@@ -47,10 +48,8 @@ async function fetch (method, req) {
   const result = {}
   const page = await launchBrowserPage()
   await emulate(page, devices[0])
-  if (process.env.DEBUG_PUPPETEER) {
-    page.on('error', msg => console.log('[error]', msg.text()))
-    page.on('console', msg => console.log('[console]', msg.text()))
-  }
+  page.on('error', msg => Log.error('puppeteer page error', msg.text()))
+  page.on('console', msg => Log.info('puppeteer console message', msg.text()))
   // these huge timeouts allow webhooks to be received, in production
   // you'd send an email with a link or otherwise notify your user
   // asynchronously but tests wait for webhooks to be received
@@ -80,9 +79,7 @@ async function fetch (method, req) {
     let screenshotNumber = 1
     let lastStep
     for (const step of req.screenshots) {
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('screenshot step', JSON.stringify(step))
-      }
+      Log.info('screenshot step', JSON.stringify(step))
       if (step.save) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           for (const device of devices) {
@@ -247,9 +244,7 @@ async function relaunchBrowser () {
       })
       return browser
     } catch (error) {
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error instantiating browser', error.toString())
-      }
+      Log.error('error instantiating browser', error.toString())
     }
   }
 }
@@ -288,9 +283,7 @@ async function gotoURL (page, url) {
       return true
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error going to url', error.toString())
-      }
+      Log.error('puppeteer gotoURL error', error.toString())
     }
   }
 }
@@ -360,9 +353,7 @@ async function emulate (page, device) {
 }
 
 async function saveScreenshot (device, page, number, action, identifier, scriptName) {
-  if (process.env.DEBUG_PUPPETEER) {
-    console.log('taking screenshot', number, action, identifier, scriptName)
-  }
+  Log.info('taking screenshot', number, action, identifier, scriptName)
   let filePath = scriptName.substring(scriptName.indexOf('/src/www/') + '/src/www/'.length)
   filePath = filePath.substring(0, filePath.lastIndexOf('.test.js'))
   filePath = path.join(process.env.SCREENSHOT_PATH, filePath)
@@ -434,9 +425,8 @@ async function execute (action, page, identifier) {
   if (element) {
     return method(element)
   }
-  if (process.env.DEBUG_PUPPETEER) {
-    console.log('could not hover element', identifier)
-  }
+  Log.error('puppeteer execute error', new Error('element-not-found'))
+  throw new Error('element not found ' + identifier)
 }
 
 async function getText (page, element) {
@@ -602,9 +592,7 @@ async function getElement (page, identifier) {
               href === `${global.dashboardServer}${identifier}` ||
               href.startsWith(`${global.dashboardServer}${identifier}?`) ||
               href.startsWith(`${global.dashboardServer}${identifier}&`)) {
-              if (process.env.DEBUG_PUPPETEER) {
-                console.log('found frame link', identifier)
-              }
+              Log.info('puppeteer found frame link', identifier)
               return element
             }
           }
@@ -633,9 +621,7 @@ async function getElement (page, identifier) {
               href === `${global.dashboardServer}${identifier}` ||
               href.startsWith(`${global.dashboardServer}${identifier}?`) ||
               href.startsWith(`${global.dashboardServer}${identifier}&`)) {
-            if (process.env.DEBUG_PUPPETEER) {
-              console.log('found page link', identifier)
-            }
+            Log.info('puppeteer found page link', identifier)
             return element
           }
         }
@@ -649,9 +635,7 @@ async function getElement (page, identifier) {
               href === `${global.dashboardServer}${identifier}` ||
               href.startsWith(`${global.dashboardServer}${identifier}?`) ||
               href.startsWith(`${global.dashboardServer}${identifier}&`)) {
-            if (process.env.DEBUG_PUPPETEER) {
-              console.log('found page menu link', identifier)
-            }
+            Log.info('puppeteer found menu link', identifier)
             return element
           }
         }
@@ -669,9 +653,7 @@ async function getElement (page, identifier) {
         const text = await getText(element)
         if (text) {
           if (text === identifier || text.indexOf(identifier) > -1) {
-            if (process.env.DEBUG_PUPPETEER) {
-              console.log('found frame element', identifier)
-            }
+            Log.info('puppeteer found frame element', identifier)
             return element
           }
         }
@@ -685,9 +667,7 @@ async function getElement (page, identifier) {
       const text = await getText(element)
       if (text) {
         if (text === identifier || text.indexOf(identifier) > -1) {
-          if (process.env.DEBUG_PUPPETEER) {
-            console.log('found page element', identifier)
-          }
+          Log.info('puppeteer found page element', identifier)
           return element
         }
       }
@@ -705,12 +685,11 @@ async function evaluate (page, method, element) {
       return thing
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error evaluating method', error.toString())
-      }
+      Log.error('puppeteer evaluate error', error.toString())
     }
     fails++
     if (fails > 10) {
+      Log.error('puppeteer evaluate fail ten times')
       throw new Error('evaluate failed ten times')
     }
   }
@@ -730,9 +709,7 @@ async function getOptionalApplicationFrame (page) {
       }
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error getting application frame', error.toString())
-      }
+      Log.error('puppeteer getOptionalApplicationFrame error', error.toString())
     }
     fails++
     if (fails > 10) {
@@ -750,12 +727,11 @@ async function getTags (page, tag) {
       return links
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log(`error getting ${tag} tags`, error.toString())
-      }
+      Log.error(`puppeteer getTags(${tag}) error`, error.toString())
     }
     fails++
     if (fails > 10) {
+      Log.error('puppeteer getTags fail ten times')
       throw new Error('getTags failed ten times')
     }
   }
@@ -770,12 +746,11 @@ async function hoverElement (element) {
       return
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error hovering element', error.toString())
-      }
+      Log.error('puppeteer hoverElement error', error.toString())
     }
     fails++
     if (fails > 10) {
+      Log.error('puppeteer hoverElement fail ten times')
       throw new Error('hoverElement failed ten times')
     }
   }
@@ -792,12 +767,11 @@ async function clickElement (element) {
       return
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error clicking element', error.toString())
-      }
+      Log.error('puppeteer clickElement error', error.toString())
     }
     fails++
     if (fails > 10) {
+      Log.error('puppeteer clickElement fail ten times')
       throw new Error('clickElement failed ten times')
     }
   }
@@ -814,12 +788,12 @@ async function focusElement (element) {
       return
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error focusing element', error.toString())
-      }
+      Log.error('puppeteer focusElement error', error.toString())
+
     }
     fails++
     if (fails > 10) {
+      Log.error('puppeteer focusElement fail ten times')
       throw new Error('focusElement failed ten times')
     }
   }
@@ -836,12 +810,12 @@ async function uploadFile (element, path) {
       return
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error uploading file', error.toString())
-      }
+      Log.error('puppeteer uploadFile error', error.toString())
+
     }
     fails++
     if (fails > 10) {
+      Log.error('puppeteer uploadFile fail ten times')
       throw new Error('uploadFile failed ten times')
     }
   }
@@ -864,12 +838,11 @@ async function typeInElement (element, text) {
       return
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error typing in element', error.toString())
-      }
+      Log.error('puppeteer typeInElement error', error.toString())
     }
     fails++
     if (fails > 10) {
+      Log.error('puppeteer typeInElement fail ten times')
       throw new Error('typeElement failed ten times')
     }
   }
@@ -898,12 +871,11 @@ async function selectOption (element, value) {
       return
     } catch (error) {
       await wait(100)
-      if (process.env.DEBUG_PUPPETEER) {
-        console.log('error selecting option', error.toString())
-      }
+      Log.error('puppeteer selectOption error', error.toString())
     }
     fails++
     if (fails > 10) {
+      Log.error('puppeteer selectOption fail ten times')
       throw new Error('selectOption failed ten times')
     }
   }
