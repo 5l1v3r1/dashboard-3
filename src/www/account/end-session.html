@@ -1,28 +1,32 @@
 <!doctype html>
 <html navbar="/account/navbar-session.html">
-  <head>
-    <title>End ${session.sessionid}</title>
-    <link href="/public/pure-min.css" rel="stylesheet" />
-    <link href="/public/content.css" rel="stylesheet" />
-    <link href="/public/content-additional.css" rel="stylesheet" />
-    <base target="_top" href="/" />
-  </head>
-  <body>
-    <h1>End session ${session.sessionid}</h1>
+
+<head>
+  <title translate="yes">End ${session.sessionid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet" />
+  <link href="/public/content.css" rel="stylesheet" />
+  <link href="/public/content-additional.css" rel="stylesheet" />
+  <base target="_top" href="/" />
+</head>
+
+<body>
+  <h1 translate="yes">End session ${session.sessionid}</h1>
     <div id="message-container"></div>
     <form id="submit-form" method="POST" class="pure-form" action="/account/end-session?sessionid=${session.sessionid}">
       <fieldset>
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary">End session</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">End
+          session</button>
       </fieldset>
     </form>
-  </body>
-  <template id="instant-delete">
-    <p>The session will be ended immediately.</p>
-  </template>
-  <template id="success">
-    <div class="success message">Success! The session has been ended</div>
-  </template>
-  <template id="unknown-error">
-    <div class="error message">Error! An unknown error occurred</div>
-  </template>
+</body>
+<template id="instant-delete">
+  <p translate="yes">The session will be ended immediately.</p>
+</template>
+<template id="success">
+  <div class="success message" translate="yes">Success! The session has been ended</div>
+</template>
+<template id="unknown-error">
+  <div class="error message" translate="yes">Error! An unknown error occurred</div>
+</template>
+
 </html>

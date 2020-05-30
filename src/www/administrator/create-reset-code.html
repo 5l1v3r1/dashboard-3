@@ -1,56 +1,61 @@
 <!doctype html>
 <html navbar="/administrator/navbar-account.html">
-  <head>
-    <title>Create reset code</title>
-    <link href="/public/pure-min.css" rel="stylesheet" />
-    <link href="/public/content.css" rel="stylesheet" />
-    <link href="/public/content-additional.css" rel="stylesheet" />
-    <base target="_top" href="/" />
-  </head>
-  <body>
-    <h1>Create reset code for ${account.accountid}</h1>
-    <p>Reset account access for users without reset codes, after you verify their identity first.</p>
-    <div id="message-container"></div>
-    <table id="accounts-table" class="pure-table object-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Created</th>
-          <th>Last signed in</th>
-        </tr>
-      </thead>
-      <tr id="${account.accountid}">
-        <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
-        <td>${account.firstName} ${account.lastName}</td>
-        <td><a href="mailto:${account.email}">${account.email}</a></td>
-        <td>${account.createdFormatted}</td>
-        <td>${account.lastSignedInFormatted}</td>
+
+<head>
+  <title translate="yes">Create reset code</title>
+  <link href="/public/pure-min.css" rel="stylesheet" />
+  <link href="/public/content.css" rel="stylesheet" />
+  <link href="/public/content-additional.css" rel="stylesheet" />
+  <base target="_top" href="/" />
+</head>
+
+<body>
+  <h1 translate="yes">Create reset code for ${account.accountid}</h1>
+  <p translate="yes">Reset account access for users without reset codes, after you verify their identity first.</p>
+  <div id="message-container"></div>
+  <table id="accounts-table" class="pure-table object-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Created</th>
+        <th>Last signed in</th>
       </tr>
-    </table>
-    <form id="submit-form" method="POST" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}">
-      <fieldset>
-        <div class="pure-control-group">
-          <label for="secret-code">Reset code</label>
-          <input id="secret-code" name="secret-code" type="text" maxlength="1000" />
-        </div>
-        <div id="form-buttons" class="pure-controls spaced-buttons">
-          <button id="submit-button" type="submit" class="pure-button pure-button-primary">Create reset code</button>
-        </div>
-      </fieldset>
-    </form>
-  </body>
-  <template id="success">
-    <div class="success message">Success! You may share the reset code with the user</div>
-  </template>
-  <template id="unknown-error">
-    <div class="error message">Error! An unknown error occurred</div>
-  </template>
-  <template id="invalid-secret-code">
-    <div class="error message">Error! Invalid reset code</div>
-  </template>
-  <template id="invalid-secret-code-length">
-    <div class="error message">Error! Invalid reset code length</div>
-  </template>
+    </thead>
+    <tr id="${account.accountid}">
+      <td><a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a></td>
+      <td>${account.firstName} ${account.lastName}</td>
+      <td><a href="mailto:${account.email}">${account.email}</a></td>
+      <td>${account.createdFormatted}</td>
+      <td>${account.lastSignedInFormatted}</td>
+    </tr>
+  </table>
+  <form id="submit-form" method="POST" class="pure-form pure-form-stacked"
+    action="/administrator/create-reset-code?accountid=${account.accountid}">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">Reset code</label>
+        <input id="secret-code" name="secret-code" type="text" maxlength="1000" />
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Create reset
+          code</button>
+      </div>
+    </fieldset>
+  </form>
+</body>
+<template id="success">
+  <div class="success message" translate="yes">Success! You may share the reset code with the user</div>
+</template>
+<template id="unknown-error">
+  <div class="error message" translate="yes">Error! An unknown error occurred</div>
+</template>
+<template id="invalid-secret-code">
+  <div class="error message" translate="yes">Error! Invalid reset code</div>
+</template>
+<template id="invalid-secret-code-length">
+  <div class="error message" translate="yes">Error! Invalid reset code length</div>
+</template>
+
 </html>

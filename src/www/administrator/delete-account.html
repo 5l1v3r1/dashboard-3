@@ -1,32 +1,37 @@
 <!doctype html>
 <html navbar="/administrator/navbar-account.html">
-  <head>
-    <title>Delete ${account.accountid}</title>
-    <link href="/public/pure-min.css" rel="stylesheet" />
-    <link href="/public/content.css" rel="stylesheet" />
-    <link href="/public/content-additional.css" rel="stylesheet" />
-    <base target="_top" href="/" />
-  </head>
-  <body>
-    <h1>Delete ${account.accountid}</h1>
-    <p>Accounts can be deleted after passing their scheduled deletion period.</p>
-    <div id="message-container"></div>
-    <form id="submit-form" method="POST" class="pure-form" action="/administrator/delete-account?accountid=${account.accountid}">
-      <fieldset>
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary">Delete account</button>
-      </fieldset>
-    </form>
-  </body>
-  <template id="success">
-    <div class="success message">Success! The account has been deleted</div>
-  </template>
-  <template id="unknown-error">
-    <div class="error message">Error! An unknown error occurred</div>
-  </template>
-  <template id="schedule-error">
-    <div class="error message">Error! The account must be scheduled for deletion first</div>
-  </template>
-  <template id="duration-error">
-    <div class="error message">Error! The account cannot be deleted until after its scheduled date</div>
-  </template>
+
+<head>
+  <title translate="yes">Delete ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet" />
+  <link href="/public/content.css" rel="stylesheet" />
+  <link href="/public/content-additional.css" rel="stylesheet" />
+  <base target="_top" href="/" />
+</head>
+
+<body>
+  <h1 translate="yes">Delete ${account.accountid}</h1>
+  <p translate="yes">Accounts can be deleted after passing their scheduled deletion period.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="POST" class="pure-form"
+    action="/administrator/delete-account?accountid=${account.accountid}">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Delete
+        account</button>
+    </fieldset>
+  </form>
+</body>
+<template id="success">
+  <div class="success message" translate="yes">Success! The account has been deleted</div>
+</template>
+<template id="unknown-error">
+  <div class="error message" translate="yes">Error! An unknown error occurred</div>
+</template>
+<template id="schedule-error">
+  <div class="error message" translate="yes">Error! The account must be scheduled for deletion first</div>
+</template>
+<template id="duration-error">
+  <div class="error message" translate="yes">Error! The account cannot be deleted until after its scheduled date</div>
+</template>
+
 </html>

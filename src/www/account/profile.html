@@ -1,14 +1,16 @@
 <!doctype html>
 <html navbar="/account/navbar-profile.html">
-  <head>
-    <title>View ${profile.profileid}</title>
-    <link href="/public/pure-min.css" rel="stylesheet" />
-    <link href="/public/content.css" rel="stylesheet" />
-    <link href="/public/content-additional.css" rel="stylesheet" />
-    <base target="_top" href="/" />
-  </head>
-  <body>
-    <h1>View ${profile.profileid}</h1>
+
+<head>
+  <title translate="yes">View ${profile.profileid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet" />
+  <link href="/public/content.css" rel="stylesheet" />
+  <link href="/public/content-additional.css" rel="stylesheet" />
+  <base target="_top" href="/" />
+</head>
+
+<body>
+  <h1 translate="yes">View ${profile.profileid}</h1>
     <table id="profiles-table" class="pure-table data-table">
       <tbody id="${profile.profileid}">
         <tr>
@@ -66,5 +68,6 @@
         </tr>
       </tbody>
     </table>
-  </body>
+</body>
+
 </html>

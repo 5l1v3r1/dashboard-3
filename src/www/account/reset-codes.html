@@ -1,35 +1,39 @@
 <!doctype html>
 <html navbar="/account/navbar.html">
-  <head>
-    <title>Reset codes</title>
-    <link href="/public/pure-min.css" rel="stylesheet" />
-    <link href="/public/content.css" rel="stylesheet" />
-    <base target="_top" href="/" />
-  </head>
-  <body>
-    <h1>Reset codes</h1>
-    <p>These codes can restore access to your account if you forget your password.</p>
-    <p><a href="/account/create-reset-code" class="pure-button pure-button-primary">Create code</a></p>
-    <div id="no-reset-codes">
-      <p>You do not have any reset codes.</p>
-    </div>
-    <table id="reset-codes-table" class="pure-table pure-table-striped list-table">
-      <tr>
-        <thead>
-          <th>ID</th>
-          <th>Created</th>
-        </thead>
-      </tr>
-    </table>
-    <ul id="page-links" class="pagination"></ul>
-  </body>
-  <template id="page-link">
-    <li><a href="/account/reset-codes?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
-  </template>
-  <template id="reset-code-row">
-    <tr id="${resetCode.codeid}">
-      <td><a href="/account/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a></td>
-      <td>${resetCode.createdFormatted}</td>
+
+<head>
+  <title translate="yes">Reset codes</title>
+  <link href="/public/pure-min.css" rel="stylesheet" />
+  <link href="/public/content.css" rel="stylesheet" />
+  <base target="_top" href="/" />
+</head>
+
+<body>
+  <h1 translate="yes">Reset codes</h1>
+  <p translate="yes">These codes can restore access to your account if you forget your password.</p>
+  <p translate="yes"><a href="/account/create-reset-code" class="pure-button pure-button-primary" translate="yes">Create
+      code</a></p>
+  <div id="no-reset-codes">
+    <p translate="yes">You do not have any reset codes.</p>
+  </div>
+  <table id="reset-codes-table" class="pure-table pure-table-striped list-table">
+    <tr>
+      <thead>
+        <th>ID</th>
+        <th>Created</th>
+      </thead>
     </tr>
-  </template>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+</body>
+<template id="page-link">
+  <li><a href="/account/reset-codes?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
+</template>
+<template id="reset-code-row">
+  <tr id="${resetCode.codeid}">
+    <td><a href="/account/reset-code?codeid=${resetCode.codeid}">${resetCode.codeid}</a></td>
+    <td>${resetCode.createdFormatted}</td>
+  </tr>
+</template>
+
 </html>

@@ -1,16 +1,21 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Error ${code}</title>
-    <link rel="stylesheet" href="/public/pure-min.css" />
-    <link rel="stylesheet" href="/public/content.css" />
-    <base target="_top" href="/" />
-    <template id="navbar">
-      <a href="/home"><img src="/public/home.svg" title="Home" /><span>Home</span></a>
-    </template>
-  </head>
-  <body>
-    <h1 id="error-title">{code}</h1>
-    <p>An error has occurred.  You might want to <a href="/home">go to the homepage</a> or <a href="/account/signin">sign in again</a>.</p> 
-  </body>
+
+<head>
+  <title translate="yes">Error ${code}</title>
+  <link rel="stylesheet" href="/public/pure-min.css" />
+  <link rel="stylesheet" href="/public/content.css" />
+  <base target="_top" href="/" />
+  <template id="navbar">
+    <a href="/home"><img src="/public/home.svg" title="Home" /><span>Home</span></a>
+  </template>
+</head>
+
+<body>
+  <h1 id="error-title">{code}</h1>
+  <p translate="yes">An error has occurred. You might want to <a href="/home">go to the homepage</a> or <a
+      href="/account/signin">sign
+      in again</a>.</p>
+</body>
+
 </html>

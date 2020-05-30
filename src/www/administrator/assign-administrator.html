@@ -1,26 +1,31 @@
 <!doctype html>
 <html navbar="/administrator/navbar-account.html">
-  <head>
-    <title>Assign administrator to ${account.accountid}</title>
-    <link href="/public/pure-min.css" rel="stylesheet" />
-    <link href="/public/content.css" rel="stylesheet" />
-    <link href="/public/content-additional.css" rel="stylesheet" />
-    <base target="_top" href="/" />
-  </head>
-  <body>
-    <h1>Assign administrator to ${account.accountid}</h1>
-    <p>This will grant the nominated account access to the administrators system.</p>
-    <div id="message-container"></div>
-    <form id="submit-form" method="POST" class="pure-form" action="/administrator/assign-administrator?accountid=${account.accountid}">
-      <fieldset>
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary">Assign administrator</button>
-      </fieldset>
-    </form>
-  </body>
-  <template id="success">
-    <div class="success message">Success! The user is now an administrator</div>
-  </template>
-  <template id="unknown-error">
-    <div class="error message">Error! An unknown error occurred</div>
-  </template>
+
+<head>
+  <title translate="yes">Assign administrator to ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet" />
+  <link href="/public/content.css" rel="stylesheet" />
+  <link href="/public/content-additional.css" rel="stylesheet" />
+  <base target="_top" href="/" />
+</head>
+
+<body>
+  <h1 translate="yes">Assign administrator to ${account.accountid}</h1>
+  <p translate="yes">This will grant the nominated account access to the administrators system.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="POST" class="pure-form"
+    action="/administrator/assign-administrator?accountid=${account.accountid}">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Assign
+        administrator</button>
+    </fieldset>
+  </form>
+</body>
+<template id="success">
+  <div class="success message" translate="yes">Success! The user is now an administrator</div>
+</template>
+<template id="unknown-error">
+  <div class="error message" translate="yes">Error! An unknown error occurred</div>
+</template>
+
 </html>
