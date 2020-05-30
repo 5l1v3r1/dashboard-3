@@ -7,8 +7,8 @@
 
 const fs = require('fs')
 
-if (fs.existsSync(`${applicationPath}/log.js`) && fs.existsSync(`${applicationPath}/node_modules/@userdashboard/dashboard/src/log.js`)) {
-  module.exports = require(`${applicationPath}/log.js`)
+if (fs.existsSync(`${global.applicationPath}/log.js`) && fs.existsSync(`${global.applicationPath}/node_modules/@userdashboard/dashboard/src/log.js`)) {
+  module.exports = require(`${global.applicationPath}/log.js`)
 } else {
   const noop = function () { }
   const Timestamp = require('./timestamp.js')
