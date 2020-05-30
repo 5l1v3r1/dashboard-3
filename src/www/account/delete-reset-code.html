@@ -1,5 +1,5 @@
 <!doctype html>
-<html navbar="/account/navbar-reset-code.html">
+<html data-navbar="/account/navbar-reset-code.html">
 
 <head>
   <title translate="yes">Delete ${resetCode.codeid}</title>
@@ -11,14 +11,13 @@
 
 <body>
   <h1 translate="yes">Delete ${resetCode.codeid}</h1>
-    <div id="message-container"></div>
-    <form id="submit-form" method="POST" class="pure-form"
-      action="/account/delete-reset-code?codeid=${resetCode.codeid}">
-      <fieldset>
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Delete
-          code</button>
-      </fieldset>
-    </form>
+  <div id="message-container"></div>
+  <form id="submit-form" method="POST" class="pure-form" action="/account/delete-reset-code?codeid=${resetCode.codeid}">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Delete
+        code</button>
+    </fieldset>
+  </form>
 </body>
 <template id="instant-delete">
   <p translate="yes">Your reset code will be deleted immediately and cannot be recovered.</p>

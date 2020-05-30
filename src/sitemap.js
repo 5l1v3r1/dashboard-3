@@ -130,8 +130,8 @@ function readHTMLAttributes (html) {
   let auth = true
   let navbar = ''
   if (htmlTag && htmlTag.attr) {
-    template = htmlTag.attr.template !== 'false' && htmlTag.attr.template !== false
-    auth = htmlTag.attr.auth !== 'false' && htmlTag.attr.auth !== false
+    template = htmlTag.attr['data-template'] !== 'false' && htmlTag.attr['data-template'] !== false
+    auth = htmlTag.attr['data-auth'] !== 'false' && htmlTag.attr['data-auth'] !== false
     navbar = htmlTag.attr.navbar || ''
   }
   return { template, auth, navbar }

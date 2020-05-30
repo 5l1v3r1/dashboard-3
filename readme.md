@@ -9,7 +9,7 @@ Dashboard is a stateless web server designed to scale horizontally, written in N
 
 Dashboard's UI offers a generic account management and administration interface resembling the last two decades of web applications.  Your application server can serve two special CSS files, `/public/template-additional.css` and `/public/content-additional.css` to theme the Dashboard template and content.  If your server does not provide these files your Dashboard server will respond with blank files rather than 404 errors.
 
-Your content can occupy the full screen with `<html template="false">`.  Your content can be accessible to guests by specifying `<html auth="false">`.  The content you serve can include a `<template id="head"></template>` with HTML to be copied into Dashboard's template `<HEAD>` tag.  You can use Dashboard's navigation bar by providing a `<template id="navbar"></template>` with your HTML links.
+Your content can occupy the full screen with `<html data-template="false">`.  Your content can be accessible to guests by specifying `<html data-auth="false">`.  The content you serve can include a `<template id="head"></template>` with HTML to be copied into Dashboard's template `<HEAD>` tag.  You can use Dashboard's navigation bar by providing a `<template id="navbar"></template>` with your HTML links.
 
 Your application server can access Dashboard's APIs on behalf of your users and administrators to do anything Dashboard's UI offers and more.
 

@@ -70,8 +70,8 @@ function parse (fileOrHTML, dataObject, dataObjectName) {
   let htmlTag = raw.substring(0, raw.indexOf('>') + 1)
   htmlTag = htmlTag.substring(htmlTag.indexOf('<'))
   if (htmlTag.indexOf('<html') === 0) {
-    if (htmlTag.indexOf(' navbar="') > -1) {
-      let navbar = htmlTag.split(' navbar="')[1]
+    if (htmlTag.indexOf(' data-navbar="') > -1) {
+      let navbar = htmlTag.split(' data-navbar="')[1]
       navbar = navbar.substring(0, navbar.indexOf('"'))
       let navbarPath = path.join(global.rootPath, navbar)
       if (!fs.existsSync(navbarPath)) {

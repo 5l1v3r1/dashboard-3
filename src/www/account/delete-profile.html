@@ -1,5 +1,5 @@
 <!doctype html>
-<html navbar="/account/navbar-profile.html">
+<html data-navbar="/account/navbar-profile.html">
 
 <head>
   <title translate="yes">Delete ${profile.profileid}</title>
@@ -11,14 +11,14 @@
 
 <body>
   <h1 translate="yes">Delete ${profile.profileid}</h1>
-    <div id="message-container"></div>
-    <form id="submit-form" method="POST" class="pure-form"
-      action="/account/delete-profile?profileid=${profile.profileid}">
-      <fieldset>
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Delete
-          profile</button>
-      </fieldset>
-    </form>
+  <div id="message-container"></div>
+  <form id="submit-form" method="POST" class="pure-form"
+    action="/account/delete-profile?profileid=${profile.profileid}">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Delete
+        profile</button>
+    </fieldset>
+  </form>
 </body>
 <template id="instant-delete">
   <p translate="yes">The profile will be deleted immediately and cannot be recovered.</p>

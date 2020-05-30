@@ -1,5 +1,5 @@
 <!doctype html>
-<html navbar="/account/navbar-account.html">
+<html data-navbar="/account/navbar-account.html">
 
 <head>
   <title translate="yes">Change username</title>
@@ -11,24 +11,24 @@
 
 <body>
   <h1 translate="yes">Change username</h1>
-    <p translate="yes">All usernames are irreversibly-encrypted before storing the data (bcrypt + shared salt).</p>
-    <div id="message-container"></div>
-    <form id="submit-form" method="POST" class="pure-form pure-form-stacked" action="/account/change-username">
-      <fieldset>
-        <div class="pure-control-group">
-          <label for="new-username" translate="yes">New username</label>
-          <input id="new-username" name="new-username" type="text" maxlength="1000" />
-        </div>
-        <div class="pure-control-group">
-          <label for="password" translate="yes">Current password</label>
-          <input required="required" id="password" name="password" type="password" maxlength="1000" />
-        </div>
-        <div class="pure-controls">
-          <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Set new
-            username</button>
-        </div>
-      </fieldset>
-    </form>
+  <p translate="yes">All usernames are irreversibly-encrypted before storing the data (bcrypt + shared salt).</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="POST" class="pure-form pure-form-stacked" action="/account/change-username">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="new-username" translate="yes">New username</label>
+        <input id="new-username" name="new-username" type="text" maxlength="1000" />
+      </div>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">Current password</label>
+        <input required="required" id="password" name="password" type="password" maxlength="1000" />
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Set new
+          username</button>
+      </div>
+    </fieldset>
+  </form>
 </body>
 <template id="success">
   <div class="success message" translate="yes">Success! Your new username must be used from now on</div>
