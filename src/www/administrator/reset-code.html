@@ -1,28 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html data-navbar="/account/navbar-reset-code.html">
-
 <head>
   <title translate="yes">View ${resetCode.codeid}</title>
-  <link href="/public/pure-min.css" rel="stylesheet" />
-  <link href="/public/content.css" rel="stylesheet" />
-  <base target="_top" href="/" />
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <base target="_top" href="/">
 </head>
-
 <body>
   <h1 translate="yes">Reset code</h1>
   <div id="current-status"></div>
   <table id="reset-codes-table" class="pure-table data-table">
     <tbody id="${resetCode.codeid}">
       <tr>
-        <th>ID</th>
+        <th translate="yes">ID</th>
         <td>${resetCode.codeid}</td>
       </tr>
       <tr>
-        <th>Created</th>
+        <th translate="yes">Created</th>
         <td>${resetCode.createdFormatted}</td>
       </tr>
     </tbody>
   </table>
 </body>
-
 </html>

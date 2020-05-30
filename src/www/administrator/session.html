@@ -1,33 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html data-navbar="/administrator/navbar-session.html">
-
 <head>
   <title translate="yes">View ${session.sessionid}</title>
-  <link href="/public/pure-min.css" rel="stylesheet" />
-  <link href="/public/content.css" rel="stylesheet" />
-  <link href="/public/content-additional.css" rel="stylesheet" />
-  <base target="_top" href="/" />
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
 </head>
-
 <body>
   <h1 translate="yes">View ${session.sessionid}</h1>
   <div id="message-container"></div>
   <table id="sessions-table" class="pure-table data-table">
     <tbody id="${session.sessionid}">
       <tr>
-        <th>ID</th>
+        <th translate="yes">ID</th>
         <td>${session.sessionid}</td>
       </tr>
       <tr>
-        <th>Created</th>
+        <th translate="yes">Created</th>
         <td>${session.createdFormatted}</td>
       </tr>
       <tr>
-        <th>Expires</th>
+        <th translate="yes">Expires</th>
         <td>${session.expiresFormatted}</td>
       </tr>
     </tbody>
   </table>
 </body>
-
 </html>
