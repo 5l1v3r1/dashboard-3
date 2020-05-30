@@ -1,5 +1,5 @@
-// This code suppresses the console when not required.  To override the 
-// log method with your own logging make a /log.js in your project that 
+// This code suppresses the console when not required.  To override the
+// log method with your own logging make a /log.js in your project that
 // exports your alternative.
 //
 // This script can allow logging by setting an ENV variable:

@@ -789,7 +789,6 @@ async function focusElement (element) {
     } catch (error) {
       await wait(100)
       Log.error('puppeteer focusElement error', error.toString())
-
     }
     fails++
     if (fails > 10) {
@@ -811,7 +810,6 @@ async function uploadFile (element, path) {
     } catch (error) {
       await wait(100)
       Log.error('puppeteer uploadFile error', error.toString())
-
     }
     fails++
     if (fails > 10) {

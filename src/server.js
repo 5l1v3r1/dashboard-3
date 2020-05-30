@@ -96,7 +96,7 @@ function stop () {
   }
 }
 
-async function receiveRequest(req, res) {
+async function receiveRequest (req, res) {
   const question = req.url.indexOf('?')
   req.appid = global.appid
   req.ip = requestIPAddress(req)
@@ -244,7 +244,7 @@ async function receiveRequest(req, res) {
   try {
     await executeHandlers(req, res, 'after', global.packageJSON.dashboard.server, global.packageJSON.dashboard.serverFilePaths)
   } catch (error) {
-     Log.error('after error', error)
+    Log.error('after error', error)
     if (error.message === 'invalid-route') {
       return Response.throw404(req, res)
     }
@@ -453,7 +453,6 @@ async function authenticateRequest (req) {
   }
   return { session, account }
 }
-
 
 function requestIPAddress (req) {
   const xForwardFor = req.headers['x-forwarded-for']
