@@ -1,4 +1,5 @@
 const dashboard = require('../../../index.js')
+const navbar = require('./navbar-account.js')
 
 module.exports = {
   get: renderPage,
@@ -8,6 +9,7 @@ module.exports = {
 function renderPage (req, res, messageTemplate) {
   messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.route.html)
+  navbar.setup(doc)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }

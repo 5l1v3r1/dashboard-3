@@ -4,6 +4,7 @@ const Hash = require('./hash.js')
 const http = require('http')
 const Log = require('./log.js')('dashboard-server')
 const Multiparty = require('multiparty')
+const path = require('path')
 const Proxy = require('./proxy.js')
 const querystring = require('querystring')
 const Response = require('./response.js')
@@ -229,9 +230,13 @@ async function receiveRequest (req, res) {
   if (user) {
     req.session = user.session
     req.account = user.account
-    req.language = global.language || req.account.language || 'en-US'
+    if (global.enableLanguagePreference) {
+      req.language = req.account.language || global.language || 'en'
+    } else {
+      req.language = global.language || 'en'
+    }
   } else {
-    req.language = global.language || 'en-US'
+    req.language = global.language || 'en'
   }
   if (!req.account && req.route && req.route.auth !== false) {
     if (req.urlPath.startsWith('/api/')) {
@@ -253,7 +258,7 @@ async function receiveRequest (req, res) {
   if (res.ended) {
     return
   }
-  if (req.language !== 'en-US' && req.route && req.route.htmlFilePath) {
+  if (req.language !== 'en' && req.route && req.route.htmlFilePath) {
     const newRoute = {}
     for (const x in req.route) {
       newRoute[x] = req.route[x]
@@ -261,8 +266,11 @@ async function receiveRequest (req, res) {
     const htmlFilePath = req.route.htmlFilePath.replace('/src/www', '/languages/' + req.language)
     if (languageCache[htmlFilePath]) {
       newRoute.html = languageCache[htmlFilePath]
-    } else if (fs.existsSync(htmlFilePath)) {
-      newRoute.html = languageCache[htmlFilePath] = fs.readFileSync(htmlFilePath)
+    } else {
+      const fullPath = path.join(global.applicationPath, htmlFilePath)
+      if (fs.existsSync(fullPath)) {
+        newRoute.html = languageCache[htmlFilePath] = fs.readFileSync(fullPath).toString()
+      }
     }
     req.route = newRoute
   }

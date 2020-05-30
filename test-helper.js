@@ -55,6 +55,7 @@ async function setupBeforeEach () {
   global.applicationServer = undefined
   global.applicationServerToken = undefined
   global.language = undefined
+  global.enableLanguagePreference = false
   global.packageJSON = {}
   global.port = global.usingPort
   global.dashboardServer = `${global.usingDashboardServer}:${global.port}`

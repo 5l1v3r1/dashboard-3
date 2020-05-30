@@ -24,13 +24,19 @@ Dashboard requires NodeJS `12.16.3` be installed.
     $ echo "require('@userdashboard/dashboard').start(__dirname)" > main.js
     $ node main.js
 
-# Configuration Dashboard
+# Configuration
 
-Dashboard hashes passwords, usernames and account reset codes with random salts.  Some other fields are hashed with a fixed salt that allows the hashed value to still determine uniqueness and existance.  Each Dashboard server must create its own fixed salt.  If you are hosting Dashboard on Heroku you will need to escape the `$` with `/` on the CLI when setting `heroku config:add BCRYPT_FIXED_SALT=\$02\$04\$xxxxxxx`.
+Dashboard hashes passwords, usernames and account reset codes with random salts.  Some other fields are hashed with a fixed salt that allows the hashed value to still determine uniqueness and existance.  Each Dashboard server must create its own fixed salt.
 
         $ node
         > const bcrypt = require('bcryptjs')
         > bcrypt.genSaltSync(4)
+
+If you are hosting Dashboard on Heroku you will need to escape the `$` with `/` on the CLI when setting 
+
+        heroku config:add BCRYPT_FIXED_SALT=\$02\$04\$xxxxxxx
+
+Check the `env.txt` or online documentation for more configuration variables.
 
 # Customize registration information
 
@@ -160,6 +166,39 @@ If you have a single Dashboard server you can cache within memory:
 
     $ CACHE=node \
       node main.js
+
+# Logging
+
+By default Dashboard does not have any active `console.*` being emitted.  You can enable logging with `LOG_LEVEL` containing a list of valid console.* methods.
+
+    $ LOG_LEVEL=log,warn,info,error node main.js
+
+Override Dashboard's logging by creating your own `log.js` in the root of your project:
+
+    module.exports = (group) => {
+      return {
+        log: () => {
+        },
+        info: () => {
+        },
+        warn: () => {
+        }
+      }
+    }
+
+# Localization
+
+Dashboard has been automatically-localized into a variety of languages.  You can submit corrections by editing the HTML files directly on Github in the `languages` folder in Dashboard and its official modules, except the `maxmind-geoip` module which has no UI to translate.
+
+Users can specify their preferred language, timezone, date and formatting in their account settings.
+
+You can set the language with an environment variable:
+
+    LANGUAGE=es node main.js
+
+By default users may not customize language settings.  You can enable the option with an environment variable:
+
+    ENABLE_LANGUAGE_PREFERENCE=true LANGUAGE=en node main.js
 
 # Dashboard modules
 

@@ -6,6 +6,10 @@ module.exports = {
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html, req.account, 'account')
+  if (!global.enableLanguagePreference) {
+    const preferencesContainer = doc.getElementById('language-preference-container')
+    preferencesContainer.parentNode.removeChild(preferencesContainer)
+  }
   if (req.account.profileid) {
     const createLink = doc.getElementById('create-profile-link')
     createLink.parentNode.removeChild(createLink)
