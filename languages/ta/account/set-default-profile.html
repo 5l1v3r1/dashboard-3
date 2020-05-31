@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">இயல்புநிலை சுயவிவரத்தை அமை</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">இயல்புநிலை சுயவிவரத்தை அமை</h1>
+  <p translate="yes">உங்கள் கணக்கிற்கான தொடர்பின் முதன்மை புள்ளியாக உங்கள் இயல்புநிலை சுயவிவரம் செயல்படுகிறது.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/account/set-default-profile" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <select id="profileid" name="profileid">
+          <option value="" translate="yes">
+            சுயவிவரத்தை தேர்ந்தெடு
+          </option>
+        </select>
+      </div>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">இயல்புநிலை சுயவிவரத்தை அமை</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      வெற்றி! சுயவிவரம் இப்போது உங்கள் இயல்புநிலையாக உள்ளது
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      தவறு! அறியப்படாத பிழை நேர்ந்தது
+    </div>
+  </template>
+  <template id="default-profile">
+    <div class="error message" translate="yes">
+      தவறு! இது ஏற்கனவே உங்கள் இயல்புநிலை சுயவிவரமாக உள்ளது
+    </div>
+  </template>
+  <template id="profile-option">
+    <option value="${profile.profileid}">
+      ${profile.contactEmail}, ${profile.firstName} ${profile.lastName}
+    </option>
+  </template>
+</body>
+</html>

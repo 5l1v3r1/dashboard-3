@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-reset-codes.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">建立重置碼</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">建立重置碼</h1>
+  <p translate="yes">重置代碼可讓您訪問您的帳戶,如果您忘記了密碼。</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/create-reset-code" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">秘密代碼</label> <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">儲存代碼</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      成功!您的新代碼已準備好存放在安全的地方
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      錯誤!不合法的金鑰碼
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      錯誤!不合法的金鑰代碼長度
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      錯誤!發生未知的錯誤
+    </div>
+  </template>
+</body>
+</html>

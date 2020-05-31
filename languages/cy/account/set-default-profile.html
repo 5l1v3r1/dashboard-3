@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Gosod proffil rhagosodedig</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Gosod proffil rhagosodedig</h1>
+  <p translate="yes">Mae eich proffil rhagosodedig yn gwasanaethu fel y prif bwynt cyswllt ar gyfer eich cyfrif.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/account/set-default-profile" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <select id="profileid" name="profileid">
+          <option value="" translate="yes">
+            Dewis proffil
+          </option>
+        </select>
+      </div>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Gosod proffil rhagosodedig</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Llwyddiant! Y proffil yw eich rhagosodiad nawr
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Gwall! Digwyddodd gwall anhysbys
+    </div>
+  </template>
+  <template id="default-profile">
+    <div class="error message" translate="yes">
+      Gwall! Dyma eich proffil rhagosodedig yn barod
+    </div>
+  </template>
+  <template id="profile-option">
+    <option value="${profile.profileid}">
+      ${profile.contactEmail}, ${profile.firstName} ${profile.lastName}
+    </option>
+  </template>
+</body>
+</html>

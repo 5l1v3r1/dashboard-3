@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-reset-codes.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ರಿಸೆಟ್ ಕೋಡ್ ಅನ್ನು ರಚಿಸಿ</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">ರಿಸೆಟ್ ಕೋಡ್ ಅನ್ನು ರಚಿಸಿ</h1>
+  <p translate="yes">ರೀಸೆಟ್ ಕೋಡ್ ಗಳು ನಿಮ್ಮ ಪಾಸ್ ವರ್ಡ್ ಮರೆತರೆ ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಪ್ರವೇಶಿಸಲಿ.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/create-reset-code" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">ರಹಸ್ಯ ಸಂಹಿತೆ</label> <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">ಸೇವ್ ಕೋಡ್</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      ಯಶಸ್ಸು! ನಿಮ್ಮ ಹೊಸ ಕೋಡ್ ಎಲ್ಲಿಯಾದರೂ ಸುರಕ್ಷಿತವಾಗಿರಲು ಸಿದ್ಧವಾಗಿದೆ
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಮಾನ್ಯ ರಹಸ್ಯ ಸಂಹಿತೆ
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಮಾನ್ಯವಾದ ರಹಸ್ಯ ಸಂಕೇತ ಉದ್ದ
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಪರಿಚಿತ ದೋಷ ಸಂಭವಿಸಿದ್ದು
+    </div>
+  </template>
+</body>
+</html>

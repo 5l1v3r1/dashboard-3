@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">删除计划</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">删除计划</h1>
+  <p translate="yes">这些帐户正在等待删除。</p>
+  <div id="message-container"></div>
+  <table id="accounts-table" class="pure-table object-table">
+    <thead>
+      <tr>
+        <th translate="yes">Id</th>
+        <th translate="yes">名字</th>
+        <th translate="yes">电子邮件</th>
+        <th translate="yes">创建</th>
+        <th translate="yes">上次登录</th>
+        <th translate="yes">删除日期</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <ul>
+      <li>
+        <a href="/administrator/delete-schedule?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+      </li>
+    </ul>
+  </template>
+  <template id="account-row">
+    <table>
+      <tr id="${account.accountid}">
+        <td>
+          <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+        </td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td>
+          <a href="mailto:${account.email}">${account.email}</a>
+        </td>
+        <td>${account.createdFormatted}</td>
+        <td>${account.lastSignedInFormatted}</td>
+        <td>${account.deletedFormatted}</td>
+      </tr>
+    </table>
+  </template>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ตั้งค่าโปรไฟล์เริ่มต้น</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">ตั้งค่าโปรไฟล์เริ่มต้น</h1>
+  <p translate="yes">โปรไฟล์เริ่มต้นของคุณทําหน้าที่เป็นจุดติดต่อหลักสําหรับบัญชีของคุณ</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/account/set-default-profile" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <select id="profileid" name="profileid">
+          <option value="" translate="yes">
+            เลือกโปรไฟล์
+          </option>
+        </select>
+      </div>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">ตั้งค่าโปรไฟล์เริ่มต้น</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      สำเร็จ! โปรไฟล์เป็นตอนนี้ค่าเริ่มต้นของคุณ
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! เกิดข้อผิดพลาดที่ไม่รู้จัก
+    </div>
+  </template>
+  <template id="default-profile">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! นี่คือโปรไฟล์เริ่มต้นของคุณอยู่แล้ว
+    </div>
+  </template>
+  <template id="profile-option">
+    <option value="${profile.profileid}">
+      ${profile.contactEmail}, ${profile.firstName} ${profile.lastName}
+    </option>
+  </template>
+</body>
+</html>

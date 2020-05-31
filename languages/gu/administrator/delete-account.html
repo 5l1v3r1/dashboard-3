@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">કાઢી નાંખો ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">કાઢી નાંખો ${account.accountid}</h1>
+  <p translate="yes">તેમના નિર્ધારિત કાઢી નાખવાનો સમયગાળો પસાર કર્યા પછી ખાતાઓ ને કાઢી શકાય છે.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/delete-account?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">ખાતાને કાઢી નાંખો</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      સફળતા! ખાતુ કાઢી નાખવામાં આવ્યું છે
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ભૂલ! અજ્ઞાત ભૂલ ઉદ્ભવી
+    </div>
+  </template>
+  <template id="schedule-error">
+    <div class="error message" translate="yes">
+      ભૂલ! ખાતાને પહેલા કાઢી નાંખવા માટે નિર્ધારિત થયેલ હોવું જ જોઇએ
+    </div>
+  </template>
+  <template id="duration-error">
+    <div class="error message" translate="yes">
+      ભૂલ! ખાતાને તેની નિર્ધારિત તારીખ પછી કાઢી શકાતુ નથી
+    </div>
+  </template>
+</body>
+</html>

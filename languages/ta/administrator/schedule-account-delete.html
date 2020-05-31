@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">அட்டவணை நீக்கு</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">இதற்கான அட்டவணை நீக்கு ${account.accountid}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/schedule-account-delete?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">நீக்குகிறது அட்டவணை</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      வெற்றி! கணக்கு நீக்கப்பட்டது
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      தவறு! அறியப்படாத பிழை நேர்ந்தது
+    </div>
+  </template>
+  <template id="scheduled-delete">
+    <p translate="yes">இதில், நீக்குவதற்கான கணக்கு திட்டமிடப்படும் ${data.numDays} days and you or the user may cancel before then.</p>
+  </template>
+</body>
+</html>

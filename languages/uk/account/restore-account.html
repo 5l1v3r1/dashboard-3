@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false" data-template="false">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Відновити обліковий запис</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="entry">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/restore-account" name="submit-form">
+    <fieldset>
+      <h1 translate="yes">Відновити обліковий запис</h1>
+      <div id="message-container"></div>
+      <div class="pure-control-group">
+        <label for="username" translate="yes">Ім'я користувача</label> <input id="username" name="username" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">Пароль</label> <input id="password" name="password" type="password" maxlength="1000">
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Відновити обліковий запис</button>
+      </div>
+      <ul>
+        <li>
+          <a href="/account/register" translate="yes">Зареєструвати акаунт</a>
+        </li>
+        <li>
+          <a href="/account/reset-account" translate="yes">Забули пароль</a>
+        </li>
+        <li>
+          <a href="/account/restore-account" translate="yes">Скасувати видалення облікового запису</a>
+        </li>
+      </ul>
+    </fieldset>
+  </form>
+  <template id="invalid-account">
+    <div class="error message" translate="yes">
+      Помилка! Неприпустимий обліковий запис або період скасування
+    </div>
+  </template>
+  <template id="account-deleted">
+    <div class="error message" translate="yes">
+      Помилка! Видалений обліковий запис або закінчився термін скасування
+    </div>
+  </template>
+  <template id="invalid-username">
+    <div class="error message" translate="yes">
+      Помилка! Неправильне або відсутнє ім'я користувача
+    </div>
+  </template>
+  <template id="invalid-password">
+    <div class="error message" translate="yes">
+      Помилка! Неправильний або відсутній пароль
+    </div>
+  </template>
+  <template id="invalid-username-length">
+    <div class="error message" translate="yes">
+      Помилка! Неприпустима Довжина імені користувача
+    </div>
+  </template>
+  <template id="invalid-password-length">
+    <div class="error message" translate="yes">
+      Помилка! Неприпустима Довжина пароля
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Сталася невідома помилка
+    </div>
+  </template>
+</body>
+</html>

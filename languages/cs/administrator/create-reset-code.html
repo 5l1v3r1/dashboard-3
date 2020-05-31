@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Vytvořit resetovací kód</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Vytvořit resetovací kód pro ${account.accountid}</h1>
+  <p translate="yes">Po ověření jejich identity obnovte přístup k účtu pro uživatele bez resetování kódů.</p>
+  <div id="message-container"></div>
+  <table id="accounts-table" class="pure-table object-table">
+    <thead>
+      <tr>
+        <th translate="yes">Id</th>
+        <th translate="yes">Jméno</th>
+        <th translate="yes">E-mail</th>
+        <th translate="yes">Vytvořen</th>
+        <th translate="yes">Naposledy přihlášené</th>
+      </tr>
+    </thead>
+    <tr id="${account.accountid}">
+      <td>
+        <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+      </td>
+      <td>${account.firstName} ${account.lastName}</td>
+      <td>
+        <a href="mailto:${account.email}">${account.email}</a>
+      </td>
+      <td>${account.createdFormatted}</td>
+      <td>${account.lastSignedInFormatted}</td>
+    </tr>
+  </table>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">Obnovit kód</label> <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Vytvořit resetovací kód</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Úspěch! Resetovací kód můžete sdílet s uživatelem
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Chyba! Došlo k neznámé chybě.
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      Chyba! Neplatný resetovací kód
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      Chyba! Neplatná délka resetovacího kódu
+    </div>
+  </template>
+</body>
+</html>

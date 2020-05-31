@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ಡಿಲೀಟ್ ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">ಡಿಲೀಟ್ ${account.accountid}</h1>
+  <p translate="yes">ಖಾತೆಗಳನ್ನು ತಮ್ಮ ನಿಗದಿತ ಅಳಿಸುವಿಕೆಯ ಅವಧಿಯನ್ನು ತೇರ್ಗಡೆಯಾದ ನಂತರ ಅಳಿಸಬಹುದು.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/delete-account?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">ಖಾತೆಯನ್ನು ಅಳಿಸಿ</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      ಯಶಸ್ಸು! ಖಾತೆಯನ್ನು ಡಿಲೀಟ್ ಮಾಡಲಾಗಿದೆ
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಪರಿಚಿತ ದೋಷ ಸಂಭವಿಸಿದ್ದು
+    </div>
+  </template>
+  <template id="schedule-error">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಖಾತೆಯನ್ನು ಮೊದಲು ಅಳಿಸುವಿಕೆಗೆ ನಿಗದಿಪಡಿಸಬೇಕಾಗುತ್ತದೆ
+    </div>
+  </template>
+  <template id="duration-error">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅದರ ನಿಗದಿತ ದಿನಾಂಕದ ನಂತರದವರೆಗೆ ಖಾತೆಯನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">માલિકીને ટ્રાન્સફર કરો ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">માલિકીને ટ્રાન્સફર કરો ${account.accountid}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/transfer-ownership?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">માલિકી ને તબદીલ કરો</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      સફળતા! વપરાશકર્તાને માલિક બનાવવામાં આવ્યો છે
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ભૂલ! અજ્ઞાત ભૂલ ઉદ્ભવી
+    </div>
+  </template>
+  <template id="invalid-account">
+    <div class="error message" translate="yes">
+      ભૂલ! માત્ર વર્તમાન માલિક માલિકીને હસ્તાંતરિત કરી શકે છે
+    </div>
+  </template>
+</body>
+</html>

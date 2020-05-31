@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ఖాతాను తొలగించు</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">ఖాతాను తొలగించు</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/delete-account" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">ప్రస్తుత అనుమతిపదం</label> <input required="required" id="password" name="password" type="password" maxlength="1000">
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">ఖాతాను తొలగించు</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="invalid-password">
+    <div class="error message" translate="yes">
+      దోషం! మీ ప్రస్తుత అనుమతిపదం చెల్లదు
+    </div>
+  </template>
+  <template id="instant-delete">
+    <p translate="yes">వెంటనే డిలీట్ చేయడం కొరకు మీ ఖాతా షెడ్యూల్ చేయబడింది మరియు రికవరీ చేయలేం.</p>
+  </template>
+  <template id="scheduled-delete">
+    <p translate="yes">లో డిలీట్ చేయడం కొరకు మీ అకౌంట్ షెడ్యూల్ చేయబడింది. ${data.numDays} days and you may cancel before then.</p>
+  </template>
+  <template id="owner-account">
+    <div class="error message" translate="yes">
+      దోషం! ప్లాట్ ఫారం యాజమాన్యాన్ని ముందుగా వేరొకరికి బదిలీ చేయాలి
+    </div>
+  </template>
+  <template id="administrator-account">
+    <div class="error message" translate="yes">
+      దోషం! మీరు ముందుగా మీ నిర్వాహకుల అధికారాలను ఉపసంహరించుకోవాలి
+    </div>
+  </template>
+</body>
+</html>

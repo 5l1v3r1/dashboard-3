@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false" data-template="false">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">รีเซ็ตสิทธิ์การเข้าถึงบัญชีของฉัน</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="entry">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/reset-account" name="submit-form">
+    <fieldset>
+      <div id="message-container"></div>
+      <h1 translate="yes">รีเซ็ตสิทธิ์การเข้าถึงบัญชีของฉัน</h1>
+      <div class="pure-control-group">
+        <label for="username" translate="yes">ชื่อ</label> <input id="username" name="username" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">รีเซ็ตรหัส</label> <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="new-password" translate="yes">รหัสผ่านใหม่</label> <input id="new-password" name="new-password" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="confirm-password" translate="yes">ยืนยันรหัสผ่านใหม่</label> <input id="confirm-password" name="confirm-password" type="text" maxlength="1000">
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">รีเซ็ตและลงชื่อเข้าใช้</button>
+      </div>
+      <ul>
+        <li>
+          <a href="/account/signin" translate="yes">กลับไปลงชื่อเข้าใช้</a>
+        </li>
+        <li>
+          <a href="/account/register" translate="yes">สร้างบัญชี</a>
+        </li>
+      </ul>
+    </fieldset>
+  </form>
+  <template id="invalid-reset-code">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! รหัสลับไม่ถูกต้อง
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! รหัสลับไม่ถูกต้อง
+    </div>
+  </template>
+  <template id="invalid-username">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! ชื่อผู้ใช้ไม่ถูกต้อง
+    </div>
+  </template>
+  <template id="invalid-username-length">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! ความยาวของชื่อผู้ใช้ไม่ถูกต้อง
+    </div>
+  </template>
+  <template id="invalid-new-password">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! รหัสผ่านใหม่ไม่ถูกต้อง
+    </div>
+  </template>
+  <template id="invalid-new-password-length">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! ความยาวรหัสผ่านใหม่ไม่ถูกต้อง
+    </div>
+  </template>
+  <template id="invalid-confirm-password">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! รหัสผ่านการยืนยันไม่ถูกต้อง
+    </div>
+  </template>
+  <template id="invalid-account">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! บัญชีไม่ถูกต้อง
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! ข้อผิดพลาดที่ไม่รู้จักเกิดขึ้น
+    </div>
+  </template>
+</body>
+</html>

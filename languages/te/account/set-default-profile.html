@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">స్వయంసిద్ధ ప్రొఫైల్ ను నెలకొల్పు</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">స్వయంసిద్ధ ప్రొఫైల్ ను నెలకొల్పు</h1>
+  <p translate="yes">మీ ఖాతా కొరకు మీ డిఫాల్ట్ ప్రొఫైల్ కాంటాక్ట్ యొక్క ప్రాథమిక పాయింట్ వలే పనిచేస్తుంది.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/account/set-default-profile" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <select id="profileid" name="profileid">
+          <option value="" translate="yes">
+            ప్రొఫైల్ ఎంచుకోండి
+          </option>
+        </select>
+      </div>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">స్వయంసిద్ధ ప్రొఫైల్ ను నెలకొల్పు</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      సక్సెస్! ప్రొఫైల్ ఇప్పుడు మీ డిఫాల్ట్
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      దోషం! తెలియని దోషం ఏర్పడింది
+    </div>
+  </template>
+  <template id="default-profile">
+    <div class="error message" translate="yes">
+      దోషం! ఇది ఇప్పటికే మీ డిఫాల్ట్ ప్రొఫైల్
+    </div>
+  </template>
+  <template id="profile-option">
+    <option value="${profile.profileid}">
+      ${profile.contactEmail}, ${profile.firstName} ${profile.lastName}
+    </option>
+  </template>
+</body>
+</html>

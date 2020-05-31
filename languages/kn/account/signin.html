@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false" data-template="false">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ನನ್ನ ಅಕೌಂಟ್ ಗೆ ಸೈನ್ ಇನ್ ಆಗಿ</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="entry">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/signin" name="submit-form">
+    <fieldset>
+      <h1 translate="yes">ಸೈನ್ ಇನ್ ಮಾಡಿ</h1>
+      <div id="message-container"></div>
+      <div class="pure-control-group">
+        <label for="username" translate="yes">ಯೂಸರ್ ನೇಮ್</label> <input id="username" name="username" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">ಪಾಸ್ ವರ್ಡ್</label> <input id="password" name="password" type="password" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <div class="pure-checkbox">
+          <label for="remember-minutes" translate="yes"><span><input type="radio" name="remember" value="minutes" id="remember-nothing" checked="checked"></span> 20 ನಿಮಿಷಗಳಲ್ಲಿ ಸೈನ್ ಔಟ್ ಮಾಡಿ</label>
+        </div>
+        <div class="pure-checkbox">
+          <label for="remember-hours" translate="yes"><span><input type="radio" name="remember" value="hours" id="remember-hours"></span> 8 ಗಂಟೆಗಳಲ್ಲಿ ಸೈನ್ ಔಟ್ ಮಾಡಿ</label>
+        </div>
+        <div class="pure-checkbox">
+          <label for="remember-days" translate="yes"><span><input type="radio" name="remember" value="days" id="remember-days"></span> 30 ದಿನಗಳಲ್ಲಿ ಸೈನ್ ಔಟ್</label>
+        </div>
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">ಸೈನ್ ಇನ್ ಮಾಡಿ</button>
+      </div>
+      <ul>
+        <li>
+          <a href="/account/register" translate="yes">ಖಾತೆ ನೋಂದಣಿ</a>
+        </li>
+        <li>
+          <a href="/account/reset-account" translate="yes">ಪಾಸ್ ವರ್ಡ್ ಮರೆತು</a>
+        </li>
+        <li>
+          <a href="/account/restore-account" translate="yes">ಡಿಲೀಟ್ ಖಾತೆಯನ್ನು ರದ್ದುಗೊಳಿಸಿ</a>
+        </li>
+      </ul>
+    </fieldset>
+  </form>
+  <template id="invalid-username">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಮಾನ್ಯವಾದ ಯೂಸರ್ ನೇಮ್
+    </div>
+  </template>
+  <template id="invalid-password">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಮಾನ್ಯವಾದ ಗುಪ್ತಪದ
+    </div>
+  </template>
+  <template id="invalid-username-length">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಮಾನ್ಯವಾದ ಯೂಸರ್ ನೇಮ್ ಉದ್ದ
+    </div>
+  </template>
+  <template id="invalid-password-length">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಮಾನ್ಯವಾದ ಗುಪ್ತಪದ ಉದ್ದ
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಪರಿಚಿತ ದೋಷ ಒಕ್ಯುರೆಡ್
+    </div>
+  </template>
+  <template id="account-deleted">
+    <div class="error message" translate="yes">
+      ದೋಷ! ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ <a href="/account/recover-account">and can still be recovered</a>
+    </div>
+  </template>
+</body>
+</html>

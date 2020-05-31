@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">મૂળભૂત રૂપરેખા સુયોજિત કરો</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">મૂળભૂત રૂપરેખા સુયોજિત કરો</h1>
+  <p translate="yes">તમારી મૂળભૂત રૂપરેખા તમારા ખાતા માટે સંપર્કના પ્રાથમિક બિંદુ તરીકે કામ કરે છે.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/account/set-default-profile" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <select id="profileid" name="profileid">
+          <option value="" translate="yes">
+            રૂપરેખા પસંદ કરો
+          </option>
+        </select>
+      </div>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">મૂળભૂત રૂપરેખા સુયોજિત કરો</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      સફળતા! રૂપરેખા હવે તમારો મૂળભૂત છે
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ભૂલ! અજ્ઞાત ભૂલ ઉદ્ભવી
+    </div>
+  </template>
+  <template id="default-profile">
+    <div class="error message" translate="yes">
+      ભૂલ! આ તમારી મૂળભૂત રૂપરેખા છે
+    </div>
+  </template>
+  <template id="profile-option">
+    <option value="${profile.profileid}">
+      ${profile.contactEmail}, ${profile.firstName} ${profile.lastName}
+    </option>
+  </template>
+</body>
+</html>

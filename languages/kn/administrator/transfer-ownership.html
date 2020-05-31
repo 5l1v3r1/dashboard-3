@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ವರ್ಗಾವಣೆ ಮಾಲೀಕತ್ವವನ್ನು ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">ವರ್ಗಾವಣೆ ಮಾಲೀಕತ್ವವನ್ನು ${account.accountid}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/transfer-ownership?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">ವರ್ಗಾವಣೆ ಮಾಲೀಕತ್ವ</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      ಯಶಸ್ಸು! ಬಳಕೆದಾರನನ್ನು ಮಾಲೀಕರಾಗಿ ಮಾಡಲಾಗಿದೆ
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಅಪರಿಚಿತ ದೋಷ ಸಂಭವಿಸಿದ್ದು
+    </div>
+  </template>
+  <template id="invalid-account">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಪ್ರಸ್ತುತ ಮಾಲಿಕನು ಮಾತ್ರ ಮಾಲೀಕತ್ವವನ್ನು ವರ್ಗಾವಣೆ ಮಾಡಬಹುದು
+    </div>
+  </template>
+</body>
+</html>

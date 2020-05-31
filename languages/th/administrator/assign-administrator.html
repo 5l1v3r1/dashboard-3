@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">มอบหมายผู้ดูแลระบบให้ ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">มอบหมายผู้ดูแลระบบให้ ${account.accountid}</h1>
+  <p translate="yes">นี้จะอนุญาตให้เข้าถึงบัญชีที่ได้รับการเสนอชื่อไปยังผู้ดูแลระบบ</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/assign-administrator?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">กําหนดผู้ดูแล</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      สำเร็จ! ขณะนี้ผู้ใช้เป็นผู้ดูแลระบบ
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ข้อ ผิด พลาด! เกิดข้อผิดพลาดที่ไม่รู้จัก
+    </div>
+  </template>
+</body>
+</html>

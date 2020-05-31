@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ಖಾತೆಯನ್ನು ಅಳಿಸಿ</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">ಖಾತೆಯನ್ನು ಅಳಿಸಿ</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/delete-account" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">ಪ್ರಸ್ತುತ ಪಾಸ್ ವರ್ಡ್</label> <input required="required" id="password" name="password" type="password" maxlength="1000">
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">ಖಾತೆಯನ್ನು ಅಳಿಸಿ</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="invalid-password">
+    <div class="error message" translate="yes">
+      ದೋಷ! ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪಾಸ್ ವರ್ಡ್ ಅಮಾನ್ಯವಾಗಿದೆ
+    </div>
+  </template>
+  <template id="instant-delete">
+    <p translate="yes">ನಿಮ್ಮ ಖಾತೆಯನ್ನು ತಕ್ಷಣವೇ ಅಳಿಸುವಿಕೆಗೆ ನಿಗದಿಪಡಿಸಲಾಗುವುದು ಮತ್ತು ಚೇತರಿಸಲಾಗುವುದಿಲ್ಲ.</p>
+  </template>
+  <template id="scheduled-delete">
+    <p translate="yes">ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಅಳಿಸುವಿಕೆಗೆ ನಿಗದಿಪಡಿಸಲಾಗುವುದು ${data.numDays} days and you may cancel before then.</p>
+  </template>
+  <template id="owner-account">
+    <div class="error message" translate="yes">
+      ದೋಷ! ನೀವು ಪ್ಲಾಟ್ ಫಾರಂ ಮಾಲೀಕತ್ವವನ್ನು ಇನ್ನೊಬ್ಬರಿಗೆ ಮೊದಲು ವರ್ಗಾವಣೆ ಮಾಡಬೇಕು
+    </div>
+  </template>
+  <template id="administrator-account">
+    <div class="error message" translate="yes">
+      ದೋಷ! ನೀವು ಮೊದಲು ನಿಮ್ಮ ನಿರ್ವಾಹಕರ ಸವಲತ್ತುಗಳನ್ನು ರದ್ದು ಮಾಡಬೇಕು
+    </div>
+  </template>
+</body>
+</html>

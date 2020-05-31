@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Konto</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Konto</h1>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account">Kustuta konto</a></p>
+  <h2 translate="yes">Taastekoodid</h2>
+  <p translate="yes">Need ühekordse kasutuse koodid võivad lähtestada teie parooli ja keelata autentimismärkide.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/create-reset-code">Create a code</a> <a class="pure-button" href="/account/reset-codes">Reset codes</a></p>
+  <h2 translate="yes">Profiili teave</h2>
+  <p translate="yes">Halduskaalutlustel võib osutuda vajalikuks teiega mõnikord ühendust võtta.</p>
+  <p class="pure-button-group"><a id="create-profile-link" class="pure-button" href="/account/create-profile">Create profile</a> <a id="update-profile-link" class="pure-button" href="/account/edit-profile?profileid=${account.profileid}">Update my profile</a></p>
+  <h2 translate="yes">Seansside haldamine</h2>
+  <p translate="yes">Vaadake oma hiljutis signiinid.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/sessions">Sessions</a> <a class="pure-button" href="/account/end-all-sessions">End all sessions</a></p>
+  <h2 translate="yes">Muuda sisselogimine mandaatidele</h2>
+  <p translate="yes">Teie kasutajanimi ja parool on salajased ja neid kasutatakse ainult sisselogimisel.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/change-username">Change username</a> <a class="pure-button" href="/account/change-password">Change password</a></p>
+  <div id="language-preference-container">
+    <h2 translate="yes">Keel</h2>
+    <p translate="yes">Kohanda oma keele eelistus.</p>
+    <p class="pure-button-group"><a class="pure-button" href="/account/language">Select language</a></p>
+  </div>
+  <h2 translate="yes">Delete account</h2>
+  <p translate="yes">Ajasta oma konto kustutamiseks lähitulevikus ja Tühista, kui muudate meelt.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account">Delete account</a></p>
+</body>
+</html>

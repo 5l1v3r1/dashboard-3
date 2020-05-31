@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ಸತ್ರ</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">ಸತ್ರ</h1>
+  <p translate="yes">ಇವುಗಳು ಪ್ರತಿ ಬಾರಿ ಬಳಕೆದಾರ ಚಿಹ್ನೆಗಳಲ್ಲಿ ಸೃಷ್ಟಿಯಾಗುತ್ತಿವೆ.</p>
+  <div id="message-container"></div>
+  <div id="no-sessions">
+    <p translate="yes">ಇನ್ನೂ ಅಧಿವೇಶನಗಳು ಇಲ್ಲ.</p>
+  </div>
+  <table id="sessions-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th translate="yes">ಐಡಿ</th>
+        <th translate="yes">ಖಾತೆ</th>
+        <th translate="yes">ಹೆಸರು</th>
+        <th translate="yes">ಇಮೇಲ್</th>
+        <th translate="yes">ಸೃಷ್ಟಿಸಿದೆ</th>
+        <th translate="yes">ಮುಗಿಯುತ್ತದೆ</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <ul>
+      <li>
+        <a href="/administrator/sessions?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+      </li>
+    </ul>
+  </template>
+  <template id="session-row">
+    <table>
+      <tr id="${session.sessionid}">
+        <td>
+          <a href="/administrator/session?sessionid=${session.sessionid}">${session.sessionid}</a>
+        </td>
+        <td>
+          <a href="/administrator/account?accountid=${session.accountid}">${session.accountid}</a>
+        </td>
+        <td>${session.firstName} ${session.lastName}</td>
+        <td>
+          <a href="mailto:${session.email}">${session.email}</a>
+        </td>
+        <td>${session.createdFormatted}</td>
+        <td>${session.expiresFormatted}</td>
+      </tr>
+    </table>
+  </template>
+</body>
+</html>

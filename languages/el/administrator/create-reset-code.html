@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Δημιουργία κωδικού επαναφοράς</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Δημιουργία κωδικού επαναφοράς για ${account.accountid}</h1>
+  <p translate="yes">Επαναφορά πρόσβασης λογαριασμού για χρήστες χωρίς κωδικούς επαναφοράς, αφού επαληθεύσετε πρώτα την ταυτότητά τους.</p>
+  <div id="message-container"></div>
+  <table id="accounts-table" class="pure-table object-table">
+    <thead>
+      <tr>
+        <th translate="yes">Αναγνωριστικό</th>
+        <th translate="yes">Όνομα</th>
+        <th translate="yes">Ηλεκτρονικού ταχυδρομείου</th>
+        <th translate="yes">Δημιουργήθηκε</th>
+        <th translate="yes">Τελευταία είσοδος</th>
+      </tr>
+    </thead>
+    <tr id="${account.accountid}">
+      <td>
+        <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+      </td>
+      <td>${account.firstName} ${account.lastName}</td>
+      <td>
+        <a href="mailto:${account.email}">${account.email}</a>
+      </td>
+      <td>${account.createdFormatted}</td>
+      <td>${account.lastSignedInFormatted}</td>
+    </tr>
+  </table>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">Επαναφορά κώδικα</label> <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Δημιουργία κωδικού επαναφοράς</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Επιτυχία! Μπορείτε να μοιραστείτε τον κωδικό επαναφοράς με το χρήστη
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Σφάλμα! Παρουσιάστηκε άγνωστο σφάλμα
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      Σφάλμα! Ο κωδικός επαναφοράς δεν είναι έγκυρος
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      Σφάλμα! Το μήκος κώδικα επαναφοράς δεν είναι έγκυρο
+    </div>
+  </template>
+</body>
+</html>
