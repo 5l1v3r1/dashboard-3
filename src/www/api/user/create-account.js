@@ -82,13 +82,11 @@ module.exports = {
     }
     const accountid = `account_${await dashboard.UUID.generateID()}`
     let dashboardEncryptionKey = global.dashboardEncryptionKey
-    let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
-      bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
-    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)
-    const passwordHash = await dashboard.Hash.randomSaltHash(req.body.password, dashboardEncryptionKey)
+    const usernameHash = await dashboard.Hash.sha512Hash(req.body.username, dashboardEncryptionKey)
+    const passwordHash = await dashboard.Hash.bcryptHashHash(req.body.password, dashboardEncryptionKey)
     const accountInfo = {
       object: 'account',
       accountid: accountid,

@@ -1,4 +1,3 @@
-const bcrypt = require('./bcrypt.js')
 const http = require('http')
 const https = require('https')
 const HTML = require('./html.js')
@@ -30,22 +29,14 @@ async function pass (req, res) {
       'x-dashboard-server': global.dashboardServer
     }
   }
-  if (req.method === 'GET' && req.headers['if-none-match']) {
+  if (req.method === 'GET' && req.headers && req.headers['if-none-match']) {
     requestOptions.headers['if-none-match'] = req.headers['if-none-match']
   }
   if (req.account) {
-    const token = `${req.applicationServerToken || global.applicationServerToken}/${req.account.accountid}/${req.session.sessionid}`
-    const salt = bcrypt.genSaltSync(4)
-    const tokenHash = bcrypt.hashSync(token, salt)
     requestOptions.headers['x-accountid'] = req.account.accountid
     requestOptions.headers['x-sessionid'] = req.session.sessionid
-    requestOptions.headers['x-dashboard-token'] = tokenHash
-  } else {
-    const token = req.applicationServerToken || global.applicationServerToken
-    const salt = bcrypt.genSaltSync(4)
-    const tokenHash = bcrypt.hashSync(token, salt)
-    requestOptions.headers['x-dashboard-token'] = tokenHash
   }
+  requestOptions.headers['x-application-server-token'] = req.applicationServerToken || global.applicationServerToken
   const proxyHandlers = global.packageJSON.dashboard.proxy
   if (proxyHandlers && proxyHandlers.length) {
     for (const handler of proxyHandlers) {
@@ -78,15 +69,15 @@ async function pass (req, res) {
     requestOptions.headers['content-type'] = 'multipart/form-data; boundary=' + boundary
   }
   const protocol = (req.applicationServerToken || global.applicationServer).startsWith('https') ? https : http
-  const proxyReq = protocol.request(requestOptions, (proxyRes) => {
+  const proxyRequest = protocol.request(requestOptions, (proxyResponse) => {
     let body
-    proxyRes.on('data', (chunk) => {
+    proxyResponse.on('data', (chunk) => {
       body = body ? Buffer.concat([body, chunk]) : chunk
     })
-    proxyRes.on('end', () => {
-      switch (proxyRes.statusCode) {
+    proxyResponse.on('end', () => {
+      switch (proxyResponse.statusCode) {
         case 200:
-          if (proxyRes.headers['content-type'] && proxyRes.headers['content-type'].indexOf('text/html') === 0) {
+          if (proxyResponse.headers['content-type'] && proxyResponse.headers['content-type'].indexOf('text/html') === 0) {
             body = body.toString()
             const htmlTagIndex = body.indexOf('<html')
             if (htmlTagIndex > -1) {
@@ -101,19 +92,19 @@ async function pass (req, res) {
               return Response.end(req, res, doc)
             }
           }
-          if (proxyRes.headers['content-type']) {
-            res.setHeader('content-type', proxyRes.headers['content-type'])
+          if (proxyResponse.headers['content-type']) {
+            res.setHeader('content-type', proxyResponse.headers['content-type'])
           }
-          if (proxyRes.headers['content-disposition']) {
-            res.setHeader('content-disposition', proxyRes.headers['content-disposition'])
+          if (proxyResponse.headers['content-disposition']) {
+            res.setHeader('content-disposition', proxyResponse.headers['content-disposition'])
           }
-          if (proxyRes.headers['content-length']) {
-            res.setHeader('content-length', proxyRes.headers['content-length'])
+          if (proxyResponse.headers['content-length']) {
+            res.setHeader('content-length', proxyResponse.headers['content-length'])
           }
           res.statusCode = 200
           return res.end(body)
         case 302:
-          return Response.redirect(req, res, proxyRes.headers.location)
+          return Response.redirect(req, res, proxyResponse.headers.location)
         case 304:
           res.statusCode = 304
           return res.end()
@@ -140,10 +131,10 @@ async function pass (req, res) {
     })
   })
   if (req.bodyRaw) {
-    proxyReq.write(req.bodyRaw)
+    proxyRequest.write(req.bodyRaw)
   } else if (req.body) {
-    proxyReq.write(req.body)
+    proxyRequest.write(req.body)
   }
-  proxyReq.end()
+  proxyRequest.end()
   return requestOptions
 }

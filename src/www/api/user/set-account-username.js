@@ -20,17 +20,15 @@ module.exports = {
       throw new Error('invalid-password')
     }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
-    let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
-      bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
     const realPasswordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash')
-    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, realPasswordHash, dashboardEncryptionKey)
+    const validPassword = await dashboard.Hash.bcryptHashCompare(req.body.password, realPasswordHash, dashboardEncryptionKey)
     if (!validPassword) {
       throw new Error('invalid-password')
     }
-    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body['new-username'], bcryptFixedSalt, dashboardEncryptionKey)
+    const usernameHash = await dashboard.Hash.sha512Hash(req.body['new-username'], dashboardEncryptionKey)
     const oldUsernameHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'usernameHash')
     await dashboard.Storage.delete(`${req.appid}/map/usernames/${oldUsernameHash}`)
     await dashboard.Storage.write(`${req.appid}/map/usernames/${usernameHash}`, req.query.accountid)

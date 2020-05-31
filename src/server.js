@@ -154,7 +154,7 @@ async function receiveRequest (req, res) {
     applicationServer = req.server.applicationServer || applicationServer
   }
   if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
-    const receivedToken = req.headers['x-dashboard-token']
+    const receivedToken = req.headers['x-application-server-token']
     const tokenWorkload = bcrypt.getRounds(receivedToken)
     if (tokenWorkload === 4) {
       let applicationServerToken = global.applicationServerToken
@@ -449,13 +449,11 @@ async function authenticateRequest (req) {
   }
   let dashboardEncryptionKey = global.dashboardEncryptionKey
   let dashboardSessionKey = global.dashboardSessionKey
-  let bcryptFixedSalt = global.bcryptFixedSalt
   if (req.server) {
     dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
     dashboardSessionKey = req.server.dashboardSessionKey || dashboardSessionKey
-    bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
   }
-  const tokenHash = await Hash.fixedSaltHash(`${account.accountid}/${cookie.token}/${account.sessionKey}/${dashboardSessionKey}`, bcryptFixedSalt, dashboardEncryptionKey)
+  const tokenHash = await Hash.sha512Hash(`${account.accountid}/${cookie.token}/${account.sessionKey}/${dashboardSessionKey}`, dashboardEncryptionKey)
   if (session.tokenHash !== tokenHash) {
     return
   }

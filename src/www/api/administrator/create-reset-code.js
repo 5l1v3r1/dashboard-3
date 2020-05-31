@@ -17,12 +17,10 @@ module.exports = {
       throw new Error('invalid-secret-code-length')
     }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
-    let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
-      bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
-    const secretCodeHash = await dashboard.Hash.fixedSaltHash(req.body['secret-code'], bcryptFixedSalt, dashboardEncryptionKey)
+    const secretCodeHash = await dashboard.Hash.sha512Hash(req.body['secret-code'], dashboardEncryptionKey)
     const codeid = `code_${await dashboard.UUID.generateID()}`
     await dashboard.Storage.write(`${req.appid}/resetCode/${codeid}`, {
       object: 'resetCode',

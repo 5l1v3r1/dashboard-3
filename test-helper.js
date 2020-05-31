@@ -88,7 +88,6 @@ async function setupBeforeEach () {
   global.idLength = 7
   global.allowPublicAPI = true
   global.delayDiskWrites = false
-  global.bcryptFixedSalt = bcrypt.genSaltSync(4)
   global.bcryptWorkloadFactor = 4
   await dashboard.Storage.flush()
   if (dashboard.StorageList.flush) {

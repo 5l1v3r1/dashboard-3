@@ -1,62 +1,45 @@
 const bcrypt = require('./bcrypt.js')
+const crypto = require('crypto')
 const util = require('util')
-const UUID = require('./uuid.js')
 
 module.exports = {
-  fixedSaltCompare: util.promisify(fixedSaltCompare),
-  fixedSaltHash: util.promisify(fixedSaltHash),
-  randomSaltCompare: util.promisify(randomSaltCompare),
-  randomSaltHash: util.promisify(randomSaltHash)
+  sha512Hash,
+  sha512HashCompare,
+  bcryptHashCompare: util.promisify(bcryptHashCompare),
+  bcryptHashHash: util.promisify(bcryptHashHash)
 }
 
-function fixedSaltCompare (text, hash, alternativeFixedSalt, alternativeDashboardEncryptionKey, callback) {
-  if (!callback) {
-    callback = alternativeFixedSalt
-    alternativeFixedSalt = null
-  }
-  return fixedSaltHash(text, alternativeFixedSalt, alternativeDashboardEncryptionKey, (error, textHash) => {
-    if (error) {
-      return callback(error)
-    }
-    return callback(null, textHash === hash)
-  })
+function sha512HashCompare (text, hash, alternativeDashboardEncryptionKey) {
+  const textHash = sha512Hash(text, alternativeDashboardEncryptionKey)
+  return textHash === hash
 }
 
 const fixedCache = {}
 const fixedCacheItems = []
 
-function fixedSaltHash (text, alternativeFixedSalt, alternativeDashboardEncryptionKey, callback) {
-  if (!callback) {
-    callback = alternativeFixedSalt
-    alternativeFixedSalt = null
-  }
-  const cacheKey = `${text}:${alternativeFixedSalt}:${alternativeDashboardEncryptionKey}`
+function sha512Hash (text, alternativeDashboardEncryptionKey) {
+  const cacheKey = `${text}:${alternativeDashboardEncryptionKey | ''}`
   const cached = fixedCache[cacheKey]
   if (cached) {
-    return callback(null, cached)
+    return cached
   }
-  const finalText = text + (alternativeDashboardEncryptionKey || global.dashboardEncryptionKey || '')
-  const salt = alternativeFixedSalt || global.bcryptFixedSalt
-  return bcrypt.hash(finalText, salt, (error, full) => {
-    if (error) {
-      return callback(error)
-    }
-    const hashed = full.substring(salt.length)
-    const fileFriendlyFormat = UUID.encode(hashed)
-    fixedCache[cacheKey] = fileFriendlyFormat
-    fixedCacheItems.unshift(cacheKey)
-    if (fixedCacheItems.length > 10000) {
-      const removed = fixedCacheItems.pop()
-      delete (fixedCache[removed])
-    }
-    return callback(null, fileFriendlyFormat)
-  })
+  const hash = crypto.createHash('sha512')
+  const finalText = text + ':' + (alternativeDashboardEncryptionKey || global.dashboardEncryptionKey)
+  const data = hash.update(finalText, 'utf-8')
+  const hashed = data.digest('hex')
+  fixedCache[cacheKey] = hashed
+  fixedCacheItems.unshift(cacheKey)
+  if (fixedCacheItems.length > 10000) {
+    const removed = fixedCacheItems.pop()
+    delete (fixedCache[removed])
+  }
+  return hashed
 }
 
 const randomCache = {}
 const randomCacheItems = []
 
-function randomSaltCompare (text, hash, alternativeDashboardEncryptionKey, callback) {
+function bcryptHashCompare (text, hash, alternativeDashboardEncryptionKey, callback) {
   if (!callback) {
     callback = alternativeDashboardEncryptionKey
     alternativeDashboardEncryptionKey = null
@@ -81,7 +64,7 @@ function randomSaltCompare (text, hash, alternativeDashboardEncryptionKey, callb
   })
 }
 
-function randomSaltHash (text, alternativeDashboardEncryptionKey, callback) {
+function bcryptHashHash (text, alternativeDashboardEncryptionKey, callback) {
   if (!callback) {
     callback = alternativeDashboardEncryptionKey
     alternativeDashboardEncryptionKey = null

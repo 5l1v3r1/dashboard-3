@@ -22,18 +22,16 @@ module.exports = {
       throw new Error('invalid-password-length')
     }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
-    let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
-      bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
-    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)
+    const usernameHash = await dashboard.Hash.sha512Hash(req.body.username, dashboardEncryptionKey)
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
       throw new Error('invalid-username')
     }
     const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${accountid}`, 'passwordHash')
-    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, passwordHash, dashboardEncryptionKey)
+    const validPassword = await dashboard.Hash.bcryptHashCompare(req.body.password, passwordHash, dashboardEncryptionKey)
     if (!validPassword) {
       throw new Error('invalid-password')
     }

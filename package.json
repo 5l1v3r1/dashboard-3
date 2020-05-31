@@ -15,7 +15,7 @@
   "scripts": {
     "debug": "node main.js --debug-brk=5858",
     "start": "node main.js",
-    "test": "mocha --exit --inline-diffs --full-trace --bail --async-only --recursive --timeout 360000 --slow 360000 './{,!(public|node_modules)/**}/*.test.js'"
+    "test": "mocha --exit --inline-diffs --full-trace --async-only --recursive --timeout 360000 --slow 360000 './{,!(public|node_modules)/**}/*.test.js'"
   },
   "dashboard": {
     "content": [],

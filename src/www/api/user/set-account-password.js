@@ -24,11 +24,11 @@ module.exports = {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
     }
     const realPasswordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash')
-    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, realPasswordHash, dashboardEncryptionKey)
+    const validPassword = await dashboard.Hash.bcryptHashCompare(req.body.password, realPasswordHash, dashboardEncryptionKey)
     if (!validPassword) {
       throw new Error('invalid-password')
     }
-    const newPasswordHash = await dashboard.Hash.randomSaltHash(req.body['new-password'], dashboardEncryptionKey)
+    const newPasswordHash = await dashboard.Hash.bcryptHashHash(req.body['new-password'], dashboardEncryptionKey)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash', newPasswordHash)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordLastChanged', dashboard.Timestamp.now)
     return global.api.user.Account.get(req)

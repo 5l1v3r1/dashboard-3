@@ -1,6 +1,5 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const bcrypt = require('./src/bcrypt.js')
 const UUID = require('./src/uuid.js')
 const properties = [
   { camelCase: 'pageSize', raw: 'PAGE_SIZE', description: 'Rows of data per page', value: '7', default: '10', valueDescription: 'Integer' },
@@ -12,7 +11,6 @@ const properties = [
   { camelCase: 'deleteDelay', raw: 'DELETE_DELAY', description: 'Cool-down time in days to delete accounts', value: '3', default: '7', valueDescription: 'Integer' },
   { camelCase: 'applicationServer', raw: 'APPLICATION_SERVER', description: 'URL of application server', value: 'http://localhost:3000', noDefaultValue: true, valueDescription: 'Address' },
   { camelCase: 'applicationServerToken', raw: 'APPLICATION_SERVER_TOKEN', description: 'Secret shared between servers', value: 'secret', noDefaultValue: true, valueDescription: 'String' },
-  { camelCase: 'bcryptFixedSalt', raw: 'BCRYPT_FIXED_SALT', description: 'Salt for hashing indexed values', value: bcrypt.genSaltSync(10), noDefaultValue: true, valueDescription: 'String' },
   { camelCase: 'bcryptWorkloadFactor', raw: 'BCRYPT_WORKLOAD_FACTOR', description: 'Strength to protect passwords', value: '4', default: '10', valueDescription: 'Integer' },
   { camelCase: 'encryptionSecret', raw: 'ENCRYPTION_SECRET', description: '32-character secret string', value: UUID.random(32), noDefaultValue: true, valueDescription: 'String' },
   { camelCase: 'encryptionSecretIV', raw: 'ENCRYPTION_SECRET_IV', description: '16-character secret string', value: UUID.random(16), noDefaultValue: true, valueDescription: 'String' },

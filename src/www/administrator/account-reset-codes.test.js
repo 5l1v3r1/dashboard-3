@@ -46,7 +46,6 @@ describe('/administrator/account-reset-codes', function () {
   describe('view', () => {
     it('should present the reset codes table (screenshots)', async () => {
       const result = cachedResponses.returns
-      console.log(result)
       const doc = TestHelper.extractDoc(result.html)
       const row = doc.getElementById(cachedResetCodes[0])
       assert.strictEqual(row.tag, 'tr')

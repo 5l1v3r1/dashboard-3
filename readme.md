@@ -3,9 +3,9 @@
 
 Dashboard provides the user boilerplate web apps require for users to register, create groups, subscription billing with Stripe etc.
 
-You write your application server in any language and Dashboard runs in parallel.  Users browse your Dashboard server's URL and it serves its own content for account-related requests and proxies your application server for everything else.  An application server needs to serve a guest landing page on `/` and your web app on `/home`, and optionally any other URLs you require.
+You can write your web app in any language running its own server and Dashboard runs in parallel.  Users browse your Dashboard server's URL and it either responds with its own content or proxies your application.  An application server needs to serve a guest landing page on `/` and your web app on `/home`, and optionally any other URLs you require.
 
-Dashboard is a stateless web server designed to scale horizontally, written in NodeJS.  You can publish it to Heroku or similar PaaS and run multiple instances, or use web hosts like Digital Ocean, Vultr, AWS etc load balancing services they provide.  In production you should have at least 2 instances of the server sharing requests for basic redundancy.
+Dashboard is a stateless web server designed to scale horizontally, written in NodeJS.  You can publish it to Heroku or similar PaaS and run multiple instances, or use web hosts like Digital Ocean, Vultr, AWS etc load balancing services they provide.  In production you should have at least 2 instances of the server sharing requests for basic redundancy.  Dashboard hashes passwords and account reset codes with random salts and usernames and other fields using sha512.  Data is optionally AES-encrypted before writing to your storage.
 
 Dashboard's UI offers a generic account management and administration interface resembling the last two decades of web applications.  Your application server can serve two special CSS files, `/public/template-additional.css` and `/public/content-additional.css` to theme the Dashboard template and content.  If your server does not provide these files your Dashboard server will respond with blank files rather than 404 errors.
 
@@ -23,18 +23,6 @@ Dashboard requires NodeJS `12.16.3` be installed.
     $ npm install @userdashboard/dashboard
     $ echo "require('@userdashboard/dashboard').start(__dirname)" > main.js
     $ node main.js
-
-# Configuration
-
-Dashboard hashes passwords, usernames and account reset codes with random salts.  Some other fields are hashed with a fixed salt that allows the hashed value to still determine uniqueness and existance.  Each Dashboard server must create its own fixed salt.
-
-        $ node
-        > const bcrypt = require('bcryptjs')
-        > bcrypt.genSaltSync(4)
-
-If you are hosting Dashboard on Heroku you will need to escape the `$` with `/` on the CLI when setting 
-
-        heroku config:add BCRYPT_FIXED_SALT=\$02\$04\$xxxxxxx
 
 Check the `env.txt` or online documentation for more configuration variables.
 
@@ -85,48 +73,39 @@ Your web application can add links to the account and administrator menus in its
 
 # Access user data from your application server
 
-You can access the Dashboard HTTP APIs on behalf of the user making requests.  Dashboard and its modules are entirely API-driven so your application server can retrieve, modify or create any user data.   This example uses NodeJS to fetch the user's account from the Dashboard server.
+You can access the Dashboard HTTP APIs on behalf of the user making requests.  Dashboard and its modules are entirely API-driven so your application server can retrieve, modify or create any user data.   This example uses NodeJS to fetch the user's account from the Dashboard server.  You can use a shared secret `APPLICATION_SERVER_TOKEN` to verify requests between servers,  dashboard will always send it in `x-application-server-token` and your application server should too.  You can use a firewall to ensure there is no other communication to your server.
 
-    const account = await proxy(`/api/user/account?accountid=${accountid}`, accountid, sessionid)
-
-    const proxy = util.promisify((path, accountid, sessionid, callback) => {
-        let hashText
-        if (accountid) {
-            hashText = `${process.env.APPLICATION_SERVER_TOKEN}/${accountid}/${sessionid}`
-        } else {
-            hashText = process.env.APPLICATION_SERVER_TOKEN
-        }
-        const salt = bcrypt.genSaltSync(4)
-        const token = bcrypt.hashSync(hashText, salt)
         const requestOptions = {
             host: 'dashboard.example.com',
-            path: path,
+            path: `/api/user/sessions?accountid=${accountid}`,
             port: '443',
             method: 'GET',
             headers: {
                 'x-application-server': 'application.example.com',
-                'x-dashboard-token': token
+                'x-application-server-token': process.env.APPLICATION_SERVER_TOKEN
             }
         }
         if (accountid) {
             requestOptions.headers['x-accountid'] = accountid
             requestOptions.headers['x-sessionid'] = sessionid
         }
-        const proxyRequest = require('jj').request(requestOptions, (proxyResponse) => {
-            let body = ''
-            proxyResponse.on('data', (chunk) => {
-                body += chunk
-            })
-            return proxyResponse.on('end', () => {
-                return callback(null, JSON.parse(body))
-            })
+        const accountObject = await proxy(requestOptions)
+
+        function proxy = util.promisify((requestOptions, callback) => {
+          const proxyRequest = require('https').request(requestOptions, (proxyResponse) => {
+              let body = ''
+              proxyResponse.on('data', (chunk) => {
+                  body += chunk
+              })
+              return proxyResponse.on('end', () => {
+                  return callback(null, JSON.parse(body))
+              })
+          })
+          proxyRequest.on('error', (error) => {
+              return callback(error)
+          })
+          return proxyRequest.end()
         })
-        proxyRequest.on('error', (error) => {
-            return callback(error)
-        })
-        return proxyRequest.end()
-      })
-    }
 
 # Storage backends
 

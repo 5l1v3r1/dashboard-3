@@ -9,6 +9,7 @@ const TestHelper = require('../test-helper.js')
 describe('internal-api/proxy', () => {
   describe('Proxy#pass', () => {
     it('should include x-accountid header', async () => {
+      global.applicationServerToken = 'secret'
       const server = http.createServer((_, res) => {
         res.end()
         server.close()
@@ -19,6 +20,7 @@ describe('internal-api/proxy', () => {
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
       req.session = user.session
+      req.method = 'GET'
       const res = {
         headers: {},
         setHeader: () => {
@@ -31,6 +33,7 @@ describe('internal-api/proxy', () => {
     })
 
     it('should include x-sessionid header', async () => {
+      global.applicationServerToken = 'secret'
       const server = http.createServer((_, res) => {
         res.end()
         server.close()
@@ -41,6 +44,7 @@ describe('internal-api/proxy', () => {
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
       req.session = user.session
+      req.method = 'GET'
       const res = {
         headers: {},
         setHeader: () => {
@@ -53,6 +57,7 @@ describe('internal-api/proxy', () => {
     })
 
     it('should include x-dashboard-server header', async () => {
+      global.applicationServerToken = 'secret'
       const server = http.createServer((_, res) => {
         res.end()
         server.close()
@@ -63,6 +68,7 @@ describe('internal-api/proxy', () => {
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
       req.session = user.session
+      req.method = 'GET'
       const res = {
         headers: {},
         setHeader: () => {
@@ -74,7 +80,8 @@ describe('internal-api/proxy', () => {
       const requestOptions = await Proxy.pass(req, res)
     })
 
-    it('should create x-dashboard-token header', async () => {
+    it('should create x-application-server-token header', async () => {
+      global.applicationServerToken = 'secret'
       const server = http.createServer((_, res) => {
         res.end()
         server.close()
@@ -85,20 +92,22 @@ describe('internal-api/proxy', () => {
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
       req.session = user.session
+      req.method = 'GET'
       const res = {
         headers: {},
         setHeader: () => {
         },
         end: () => {
-          assert.notStrictEqual(requestOptions.headers['x-dashboard-token'], null)
-          assert.notStrictEqual(requestOptions.headers['x-dashboard-token'], undefined)
-          assert.notStrictEqual(requestOptions.headers['x-dashboard-token'].length, 0)
+          assert.notStrictEqual(requestOptions.headers['x-application-server-token'], null)
+          assert.notStrictEqual(requestOptions.headers['x-application-server-token'], undefined)
+          assert.notStrictEqual(requestOptions.headers['x-application-server-token'].length, 0)
         }
       }
       const requestOptions = await Proxy.pass(req, res)
     })
 
     it('should include referer header', async () => {
+      global.applicationServerToken = 'secret'
       const server = http.createServer((_, res) => {
         res.end()
         server.close()
@@ -109,6 +118,7 @@ describe('internal-api/proxy', () => {
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
       req.session = user.session
+      req.method = 'GET'
       const res = {
         headers: {},
         setHeader: () => {
@@ -121,6 +131,7 @@ describe('internal-api/proxy', () => {
     })
 
     it('should send POST data', async () => {
+      global.applicationServerToken = 'secret'
       const server = http.createServer((req, res) => {
         let body = ''
         req.on('data', (data) => {
@@ -139,6 +150,7 @@ describe('internal-api/proxy', () => {
       const req = TestHelper.createRequest('/api/user/some-application-page')
       req.account = user.account
       req.session = user.session
+      req.method = 'GET'
       req.headers = {
         'content-type': 'x-www-form-urlencoded'
       }
@@ -149,6 +161,7 @@ describe('internal-api/proxy', () => {
     })
 
     it('should send multipart POST data', async () => {
+      global.applicationServerToken = 'secret'
       const server = http.createServer((req, res) => {
         const form = new Multiparty.Form()
         return form.parse(req, async (error, fields, files) => {
@@ -170,6 +183,7 @@ describe('internal-api/proxy', () => {
       const req = TestHelper.createRequest('/api/user/some-application-page')
       req.account = user.account
       req.session = user.session
+      req.method = 'GET'
       req.body = TestHelper.createMultiPart(req, {
         complex: 'payload'
       })
@@ -177,6 +191,7 @@ describe('internal-api/proxy', () => {
     })
 
     it('should send file upload POST data', async () => {
+      global.applicationServerToken = 'secret'
       const server = http.createServer((req, res) => {
         const form = new Multiparty.Form()
         return form.parse(req, async (error, _, files) => {
@@ -195,6 +210,7 @@ describe('internal-api/proxy', () => {
       const req = TestHelper.createRequest('/api/user/some-application-page')
       req.account = user.account
       req.session = user.session
+      req.method = 'GET'
       req.body = TestHelper.createMultiPart(req, {}, {
         'upload-name': {
           filename: 'proxy.js',
@@ -206,6 +222,7 @@ describe('internal-api/proxy', () => {
     })
 
     it('should execute proxy handlers', async () => {
+      global.applicationServerToken = 'secret'
       global.packageJSON.dashboard = {
         proxy: [
           async (_, requestOptions) => {
@@ -223,6 +240,7 @@ describe('internal-api/proxy', () => {
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
       req.session = user.session
+      req.method = 'GET'
       const res = {
         headers: {},
         setHeader: () => {

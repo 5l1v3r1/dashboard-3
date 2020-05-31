@@ -23,12 +23,10 @@ module.exports = {
       throw new Error('invalid-secret-code')
     }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
-    let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
-      bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
-    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)
+    const usernameHash = await dashboard.Hash.sha512Hash(req.body.username, dashboardEncryptionKey)
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
       throw new Error('invalid-username')
@@ -46,12 +44,12 @@ module.exports = {
     if (account.deleted < dashboard.Timestamp.now) {
       throw new Error('invalid-account')
     }
-    const secretCodeHash = await dashboard.Hash.fixedSaltHash(req.body['secret-code'], bcryptFixedSalt, dashboardEncryptionKey)
+    const secretCodeHash = await dashboard.Hash.sha512Hash(req.body['secret-code'], dashboardEncryptionKey)
     const codeid = await dashboard.Storage.read(`${req.appid}/map/account/resetCodes/${accountid}/${secretCodeHash}`)
     if (!codeid) {
       throw new Error('invalid-reset-code')
     }
-    const passwordHash = await dashboard.Hash.randomSaltHash(req.body['new-password'], dashboardEncryptionKey)
+    const passwordHash = await dashboard.Hash.bcryptHashHash(req.body['new-password'], dashboardEncryptionKey)
     await dashboard.StorageObject.setProperties(`${req.appid}/account/${accountid}`, {
       passwordHash,
       resetCodeLastUsed: dashboard.Timestamp.now,

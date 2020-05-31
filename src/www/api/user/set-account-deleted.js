@@ -17,7 +17,7 @@ module.exports = {
       throw new Error('invalid-password')
     }
     const realPasswordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${req.query.accountid}`, 'passwordHash')
-    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, realPasswordHash, dashboardEncryptionKey)
+    const validPassword = await dashboard.Hash.bcryptHashCompare(req.body.password, realPasswordHash, dashboardEncryptionKey)
     if (!validPassword) {
       throw new Error('invalid-password')
     }

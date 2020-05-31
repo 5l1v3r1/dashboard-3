@@ -14,13 +14,11 @@ module.exports = {
     }
     let dashboardEncryptionKey = global.dashboardEncryptionKey
     let dashboardSessionKey = global.dashboardSessionKey
-    let bcryptFixedSalt = global.bcryptFixedSalt
     if (req.server) {
       dashboardEncryptionKey = req.server.dashboardEncryptionKey || dashboardEncryptionKey
       dashboardSessionKey = req.server.dashboardSessionKey || dashboardSessionKey
-      bcryptFixedSalt = req.server.bcryptFixedSalt || bcryptFixedSalt
     }
-    const usernameHash = await dashboard.Hash.fixedSaltHash(req.body.username, bcryptFixedSalt, dashboardEncryptionKey)
+    const usernameHash = await dashboard.Hash.sha512Hash(req.body.username, dashboardEncryptionKey)
     const accountid = await dashboard.Storage.read(`${req.appid}/map/usernames/${usernameHash}`)
     if (!accountid) {
       if (global.minimumUsernameLength > req.body.username.length ||
@@ -34,7 +32,7 @@ module.exports = {
       throw new Error('invalid-username')
     }
     const passwordHash = await dashboard.StorageObject.getProperty(`${req.appid}/account/${accountid}`, 'passwordHash')
-    const validPassword = await dashboard.Hash.randomSaltCompare(req.body.password, passwordHash, dashboardEncryptionKey)
+    const validPassword = await dashboard.Hash.bcryptHashCompare(req.body.password, passwordHash, dashboardEncryptionKey)
     if (!validPassword) {
       throw new Error('invalid-password')
     }
@@ -57,7 +55,7 @@ module.exports = {
     const sessionid = `session_${await dashboard.UUID.generateID()}`
     const sessionToken = dashboard.UUID.random(64)
     const sessionKey = await dashboard.StorageObject.getProperty(`${req.appid}/account/${account.accountid}`, 'sessionKey')
-    const tokenHash = await dashboard.Hash.fixedSaltHash(`${accountid}/${sessionToken}/${sessionKey}/${dashboardSessionKey}`, bcryptFixedSalt, dashboardEncryptionKey)
+    const tokenHash = await dashboard.Hash.sha512Hash(`${accountid}/${sessionToken}/${sessionKey}/${dashboardSessionKey}`, dashboardEncryptionKey)
     const sessionInfo = {
       object: 'session',
       sessionid: sessionid,
