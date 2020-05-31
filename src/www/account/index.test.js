@@ -52,7 +52,7 @@ describe('/account', () => {
       ]
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
-      const accountPreferences = doc.getElementById('account-language-container')
+      const accountPreferences = doc.getElementById('language-preference-container')
       assert.strictEqual(accountPreferences.tag, 'div')
     })
   })
