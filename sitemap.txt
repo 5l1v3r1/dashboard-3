@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.191
+@userdashboard/dashboard 1.0.192
 http://localhost:9000
 
 Administrator menu:
@@ -27,6 +27,7 @@ URL ------------------------------------------- AUTH - TEMPLATE - HTTP REQUESTS 
 /account/edit-profile                                             GET POST        /src/www     /src/www    
 /account/end-all-sessions                                         GET POST        /src/www     /src/www    
 /account/end-session                                              GET POST        /src/www     /src/www    
+/account/language                                                 GET POST        /src/www     /src/www    
 /account/profile                                                  GET             /src/www     /src/www    
 /account/profiles                                                 GET             /src/www     /src/www    
 /account/register                               GUEST  FULLSCREEN GET POST        /src/www     /src/www    
@@ -105,6 +106,7 @@ URL ------------------------------------------- AUTH - TEMPLATE - HTTP REQUESTS 
 /api/user/sessions                                                GET             /src/www                 
 /api/user/sessions-count                                          GET             /src/www                 
 /api/user/set-account-deleted                                     PATCH           /src/www                 
+/api/user/set-account-language                                    PATCH           /src/www                 
 /api/user/set-account-password                                    PATCH           /src/www                 
 /api/user/set-account-profile                                     PATCH           /src/www                 
 /api/user/set-account-username                                    PATCH           /src/www                 

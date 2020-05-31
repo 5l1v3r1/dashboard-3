@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.191
+@userdashboard/dashboard 1.0.192
 http://localhost:9000
 
 |-----------------------------------------|
@@ -25,6 +25,17 @@ http://localhost:9000
 | submit                                     |
 |  * should delete reset code (screenshots)  |
 |--------------------------------------------|
+
+|----------------------------------------------|
+| /account/language                            |
+| EXCEPTIONS-----------------------------------|
+| undefined                                    |
+|  * should require language enabled           |
+| view                                         |
+|  * should present the form                   |
+| submit                                       |
+|  * should change the language (screenshots)  |
+|----------------------------------------------|
 
 |---------------------------------------------|
 | /administrator/delete-account               |
@@ -519,6 +530,19 @@ http://localhost:9000
 |                                 |          |  * missing posted password        |                           |
 |                                 |          |  * invalid posted password        |                           |
 |---------------------------------|----------|-----------------------------------|---------------------------|
+
+|--------------------------------------------------------------------------------|
+| /api/user/set-account-language                                                 |
+| RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
+| required posted language        | object   | invalid-accountid                 |
+| required querystring accountid  |          |  * missing querystring accountid  |
+| required posted language        |          |  * invalid querystring accountid  |
+|                                 |          | invalid-account                   |
+|                                 |          |  * ineligible accessing account   |
+|                                 |          | invalid-language                  |
+|                                 |          |  * missing posted language        |
+|                                 |          |  * invalid posted language        |
+|---------------------------------|----------|-----------------------------------|
 
 |--------------------------------------------------------------------------------|
 | /api/user/set-account-password                                                 |
