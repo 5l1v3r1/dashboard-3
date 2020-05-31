@@ -27,11 +27,9 @@
   </table>
   <ul id="page-links" class="pagination"></ul>
   <template id="page-link">
-    <ul>
-      <li>
-        <a href="/administrator/accounts?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
-      </li>
-    </ul>
+    <li>
+      <a href="/administrator/accounts?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
   </template>
   <template id="account-row">
     <tr id="${account.accountid}">
