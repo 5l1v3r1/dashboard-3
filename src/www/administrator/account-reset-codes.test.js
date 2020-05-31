@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe.only('/administrator/account-reset-codes', function () {
+describe('/administrator/account-reset-codes', function () {
   const cachedResponses = {}
   const cachedResetCodes = []
   before(async () => {
