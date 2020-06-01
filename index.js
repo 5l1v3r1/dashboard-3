@@ -96,7 +96,11 @@ global.minimumProfileCompanyNameLength = parseInt(process.env.MINIMUM_PROFILE_CO
 global.maximumProfileCompanyNameLength = parseInt(process.env.MAXIMUM_PROFILE_COMPANY_NAME_LENGTH || '50', 10)
 global.deleteDelay = parseInt(process.env.DELETE_DELAY || '7', 10)
 global.pageSize = parseInt(process.env.PAGE_SIZE || '10', 10)
-global.languages = require('./languages.json')
+if (fs.existsSync(`${global.applicationPath}/languages.json`) && fs.existsSync(`${global.applicationPath}/node_modules/@userdashboard/dashboard/languages.json`)) {
+  global.languages = require(`${global.applicationPath}/languages.json`)
+} else {
+  global.languages = require('./languages.json')
+}
 global.languages.sort((a, b) => {
   return a.code.toLowerCase() > b.code.toLowerCase() ? 1 : -1
 })
