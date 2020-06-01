@@ -88,8 +88,11 @@ async function setupBeforeEach () {
   global.allowPublicAPI = true
   global.delayDiskWrites = false
   global.bcryptWorkloadFactor = 4
+  if (dashboard.Storage && dashboard.Storage.flush) {
+    await dashboard.Storage.flush()
+  }
   await dashboard.Storage.flush()
-  if (dashboard.StorageList.flush) {
+  if (dashboard.StorageList && dashboard.StorageList.flush) {
     await dashboard.StorageList.flush()
   }
   if (global.packageJSON.modules && global.packageJSON.modules.length) {
