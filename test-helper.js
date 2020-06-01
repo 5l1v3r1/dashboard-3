@@ -116,8 +116,10 @@ before(setupBefore)
 beforeEach(setupBeforeEach)
 
 afterEach(async () => {
-  await dashboard.Storage.flush()
-  if (dashboard.StorageList.flush) {
+  if (dashboard.Storage && dashboard.Storage.flush) {
+    await dashboard.Storage.flush()
+  }
+  if (dashboard.StorageList && dashboard.StorageList.flush) {
     await dashboard.StorageList.flush()
   }
 })
