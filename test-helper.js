@@ -2,7 +2,6 @@
 global.applicationPath = global.applicationPath || __dirname
 global.appid = global.appid || 'tests'
 
-const bcrypt = require('./src/bcrypt.js')
 const dashboard = require('./index.js')
 const faker = require('faker')
 const fs = require('fs')
@@ -29,7 +28,7 @@ const mimeTypes = {
 
 async function setupBefore () {
   global.port = 9000
-  let dashboardServer = global.dashboardServer
+  let dashboardServer = global.dashboardServer || 'http://localhost:9000'
   if (dashboardServer.lastIndexOf(':') > dashboardServer.indexOf(':')) {
     dashboardServer = dashboardServer.substring(0, dashboardServer.lastIndexOf(':'))
   }
