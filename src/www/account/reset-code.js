@@ -15,6 +15,6 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html, req.data.resetCode, 'resetCode')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.resetCode, 'resetCode', req.language)
   return dashboard.Response.end(req, res, doc)
 }

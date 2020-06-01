@@ -5,7 +5,7 @@ module.exports = {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html, req.account, 'account')
+  const doc = dashboard.HTML.parse(req.route.html, req.account, 'account', req.language)
   if (!global.enableLanguagePreference) {
     const preferencesContainer = doc.getElementById('language-preference-container')
     preferencesContainer.parentNode.removeChild(preferencesContainer)

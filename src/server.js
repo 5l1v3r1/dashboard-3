@@ -1,4 +1,3 @@
-const bcrypt = require('./bcrypt.js')
 const fs = require('fs')
 const Hash = require('./hash.js')
 const http = require('http')
@@ -59,8 +58,6 @@ const parseMultiPartData = util.promisify((req, callback) => {
 
 let server
 const fileCache = {}
-const hashCache = {}
-const hashCacheItems = []
 
 module.exports = {
   authenticateRequest,
