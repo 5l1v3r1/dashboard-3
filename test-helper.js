@@ -91,7 +91,6 @@ async function setupBeforeEach () {
   if (dashboard.Storage && dashboard.Storage.flush) {
     await dashboard.Storage.flush()
   }
-  await dashboard.Storage.flush()
   if (dashboard.StorageList && dashboard.StorageList.flush) {
     await dashboard.StorageList.flush()
   }
