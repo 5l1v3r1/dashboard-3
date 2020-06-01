@@ -228,7 +228,6 @@ async function relaunchBrowser () {
     browser = null
   }
   while (!browser) {
-    await wait(100)
     try {
       browser = await puppeteer.launch({
         headless: !(process.env.SHOW_BROWSERS === 'true'),
@@ -242,38 +241,46 @@ async function relaunchBrowser () {
         ],
         slowMo: 10
       })
-      return browser
+      if (browser) {
+        return browser
+      }
     } catch (error) {
       Log.error('error instantiating browser', error.toString())
     }
+    await wait(100)
   }
 }
 
 async function launchBrowserPage () {
   let pages
   while (!pages) {
-    await wait(100)
     try {
       pages = await browser.pages()
     } catch (error) {
     }
+    if (pages && pages.length) {
+      break
+    }
+    await wait(100)
   }
   if (pages && pages.length) {
     return pages[0]
   }
   let page
   while (!page) {
-    await wait(100)
     try {
       page = await browser.newPage()
     } catch (error) {
     }
+    if (page) {
+      return page
+    }
+    await wait(100)
   }
 }
 
 async function gotoURL (page, url) {
   while (true) {
-    await wait(100)
     try {
       await page.goto(url, { waitLoad: true, waitNetworkIdle: true })
       let content
@@ -282,23 +289,22 @@ async function gotoURL (page, url) {
       }
       return true
     } catch (error) {
-      await wait(100)
       Log.error('puppeteer gotoURL error', error.toString())
     }
+    await wait(100)
   }
 }
 
 async function getContent (page) {
   let html
   while (!html || !html.length) {
-    await wait(100)
     try {
       html = await page.content()
+      return html
     } catch (error) {
-      await wait(100)
     }
+    await wait(100)
   }
-  return html
 }
 async function setCookie (page, req) {
   const cookies = await page.cookies()
@@ -321,34 +327,31 @@ async function setCookie (page, req) {
     url: global.dashboardServer
   }
   while (true) {
-    await wait(100)
     try {
       await page.setCookie(cookie)
       break
     } catch (error) {
-      await wait(100)
     }
+    await wait(100)
   }
   while (true) {
-    await wait(100)
     try {
       await page.setCookie(cookie2)
       return
     } catch (error) {
-      await wait(100)
     }
+    await wait(100)
   }
 }
 
 async function emulate (page, device) {
   while (true) {
-    await wait(100)
     try {
       await page.emulate(device)
       return
     } catch (error) {
-      await wait(100)
     }
+    await wait(100)
   }
 }
 
@@ -541,21 +544,22 @@ async function fill (page, fieldContainer, body, uploads) {
     } else {
       // inaccessible input fields such as Stripe payment information
       await element.click()
-      await wait(100)
+      await wait(1)
       for (let i = 0, len = 100; i < len; i++) {
         await page.keyboard.press('Backspace')
-        await wait(10)
+        await wait(1)
       }
       if (field.endsWith('-container')) {
         for (const char of body[field]) {
           await element.focus()
-          await wait(10)
+          await wait(1)
           await element.type(char)
-          await wait(10)
+          await wait(1)
         }
       } else {
+        await wait(1)
         await clickElement(element)
-        await wait(100)
+        await wait(1)
         await typeInElement(element, body[field])
       }
     }
@@ -679,12 +683,10 @@ async function evaluate (page, method, element) {
   let fails = 0
   const active = element || page
   while (true) {
-    await wait(100)
     try {
       const thing = await active.evaluate(method, element)
       return thing
     } catch (error) {
-      await wait(100)
       Log.error('puppeteer evaluate error', error.toString())
     }
     fails++
@@ -692,6 +694,7 @@ async function evaluate (page, method, element) {
       Log.error('puppeteer evaluate fail ten times')
       throw new Error('evaluate failed ten times')
     }
+    await wait(100)
   }
 }
 
@@ -701,32 +704,29 @@ async function getOptionalApplicationFrame (page) {
   }
   let fails = 0
   while (true) {
-    await wait(100)
     try {
       const frame = await page.frames().find(f => f.name() === 'application-iframe')
       if (frame) {
         return frame
       }
     } catch (error) {
-      await wait(100)
       Log.error('puppeteer getOptionalApplicationFrame error', error.toString())
     }
     fails++
     if (fails > 10) {
       return null
     }
+    await wait(100)
   }
 }
 
 async function getTags (page, tag) {
   let fails = 0
   while (true) {
-    await wait(100)
     try {
       const links = await page.$$(tag)
       return links
     } catch (error) {
-      await wait(100)
       Log.error(`puppeteer getTags(${tag}) error`, error.toString())
     }
     fails++
@@ -734,18 +734,17 @@ async function getTags (page, tag) {
       Log.error('puppeteer getTags fail ten times')
       throw new Error('getTags failed ten times')
     }
+    await wait(100)
   }
 }
 
 async function hoverElement (element) {
   let fails = 0
   while (true) {
-    await wait(100)
     try {
       await element.hover()
       return
     } catch (error) {
-      await wait(100)
       Log.error('puppeteer hoverElement error', error.toString())
     }
     fails++
@@ -753,20 +752,17 @@ async function hoverElement (element) {
       Log.error('puppeteer hoverElement fail ten times')
       throw new Error('hoverElement failed ten times')
     }
+    await wait(100)
   }
 }
 
 async function clickElement (element) {
   let fails = 0
   while (true) {
-    if (fails) {
-      await wait(100)
-    }
     try {
       await element.click()
       return
     } catch (error) {
-      await wait(100)
       Log.error('puppeteer clickElement error', error.toString())
     }
     fails++
@@ -774,20 +770,17 @@ async function clickElement (element) {
       Log.error('puppeteer clickElement fail ten times')
       throw new Error('clickElement failed ten times')
     }
+    await wait(100)
   }
 }
 
 async function focusElement (element) {
   let fails = 0
   while (true) {
-    if (fails) {
-      await wait(100)
-    }
     try {
       await element.focus()
       return
     } catch (error) {
-      await wait(100)
       Log.error('puppeteer focusElement error', error.toString())
     }
     fails++
@@ -795,20 +788,17 @@ async function focusElement (element) {
       Log.error('puppeteer focusElement fail ten times')
       throw new Error('focusElement failed ten times')
     }
+    await wait(100)
   }
 }
 
 async function uploadFile (element, path) {
   let fails = 0
   while (true) {
-    if (fails) {
-      await wait(100)
-    }
     try {
       await element.uploadFile(path)
       return
     } catch (error) {
-      await wait(100)
       Log.error('puppeteer uploadFile error', error.toString())
     }
     fails++
@@ -816,15 +806,13 @@ async function uploadFile (element, path) {
       Log.error('puppeteer uploadFile fail ten times')
       throw new Error('uploadFile failed ten times')
     }
+    await wait(100)
   }
 }
 
 async function typeInElement (element, text) {
   let fails = 0
   while (true) {
-    if (fails) {
-      await wait(100)
-    }
     try {
       if (!text || !text.length) {
         await element.evaluate((element) => {
@@ -835,7 +823,6 @@ async function typeInElement (element, text) {
       await element.type(text || '')
       return
     } catch (error) {
-      await wait(100)
       Log.error('puppeteer typeInElement error', error.toString())
     }
     fails++
@@ -843,6 +830,7 @@ async function typeInElement (element, text) {
       Log.error('puppeteer typeInElement fail ten times')
       throw new Error('typeElement failed ten times')
     }
+    await wait(100)
   }
 }
 
@@ -850,9 +838,6 @@ async function selectOption (element, value) {
   const id = await element.evaluate(element => element.id, element)
   let fails = 0
   while (true) {
-    if (fails) {
-      await wait(100)
-    }
     try {
       await element.evaluate((_, data) => {
         var select = document.getElementById(data.id)
@@ -868,7 +853,6 @@ async function selectOption (element, value) {
       }, { id, value })
       return
     } catch (error) {
-      await wait(100)
       Log.error('puppeteer selectOption error', error.toString())
     }
     fails++
@@ -876,6 +860,7 @@ async function selectOption (element, value) {
       Log.error('puppeteer selectOption fail ten times')
       throw new Error('selectOption failed ten times')
     }
+    await wait(100)
   }
 }
 
