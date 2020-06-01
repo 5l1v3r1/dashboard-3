@@ -155,33 +155,7 @@ async function receiveRequest (req, res) {
   }
   if (req.headers['x-application-server'] && req.headers['x-application-server'] === applicationServer) {
     const receivedToken = req.headers['x-application-server-token']
-    const tokenWorkload = bcrypt.getRounds(receivedToken)
-    if (tokenWorkload === 4) {
-      let applicationServerToken = global.applicationServerToken
-      if (req.server) {
-        applicationServerToken = req.server.applicationServerToken || applicationServerToken
-      }
-      let expectedText
-      if (req.headers['x-accountid']) {
-        const accountid = req.headers['x-accountid']
-        const sessionid = req.headers['x-sessionid']
-        expectedText = `${applicationServerToken}/${accountid}/${sessionid}`
-      } else {
-        expectedText = applicationServerToken
-      }
-      if (hashCache[expectedText] === receivedToken) {
-        req.applicationServer = true
-      } else {
-        req.applicationServer = bcrypt.compareSync(expectedText, receivedToken)
-        if (req.applicationServer) {
-          hashCache[expectedText] = receivedToken
-          hashCacheItems.unshift(expectedText)
-          if (hashCacheItems.length > 100000) {
-            hashCacheItems.pop()
-          }
-        }
-      }
-    }
+    req.applicationServer = receivedToken === req.server.applicationServerToken || receivedToken === global.applicationServerToken
   }
   if (!req.applicationServer && req.headers['x-application-server']) {
     return Response.throw500(req, res)

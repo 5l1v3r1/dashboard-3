@@ -6,9 +6,8 @@ const Server = require('./src/server.js')
 const Sitemap = require('./src/sitemap.js')
 const Timestamp = require('./src/timestamp.js')
 
-let defaultFixedSalt, defaultSessionKey
+let defaultSessionKey
 if (process.env.NODE_ENV !== 'production') {
-  defaultFixedSalt = '$2a$10$uyrNLHlx/gxwbdSowtRP7u'
   defaultSessionKey = 'dashboard-session-key'
 }
 
@@ -21,10 +20,6 @@ if (global.applicationServer && !global.applicationServerToken) {
 }
 global.dashboardSessionKey = process.env.DASHBOARD_SESSION_KEY || defaultSessionKey
 global.bcryptWorkloadFactor = parseInt(process.env.BCRYPT_WORKLOAD_FACTOR || '10', 10)
-global.bcryptFixedSalt = process.env.BCRYPT_FIXED_SALT || defaultFixedSalt
-if (!global.bcryptFixedSalt) {
-  throw new Error('Invalid BCRYPT_FIXED_SALT')
-}
 if (!global.dashboardSessionKey) {
   throw new Error('Invalid DASHBOARD_SESSION_KEY')
 }
