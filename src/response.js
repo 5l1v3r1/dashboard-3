@@ -250,17 +250,22 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     accountMenuContainer.parentNode.removeChild(accountMenuContainer)
     administratorMenuContainer.removeChild(administratorMenuContainer)
   } else {
-    // menus
-    if (packageJSON.dashboard.menus && packageJSON.dashboard.menus.account && packageJSON.dashboard.menus.account.length) {
-      accountMenuContainer.child = packageJSON.dashboard.menus.account
+    if (packageJSON.dashboard.menus &&
+        packageJSON.dashboard.menus.account &&
+        packageJSON.dashboard.menus.account.length) {
+      const accountMenu = templateDoc.getElementById('account-menu')
+      accountMenu.child = HTML.parse('<div>' + packageJSON.dashboard.menus.account.join('\n') + '</div>').child
     } else {
-      accountMenuContainer.parentNode.removeChild(accountMenuContainer)
+      accountMenuContainer.setAttribute('style', 'display: none')
     }
     if (!req.account.administrator) {
-      administratorMenuContainer.removeChild(administratorMenuContainer)
+      administratorMenuContainer.setAttribute('style', 'display: none')
     } else {
-      if (packageJSON.dashboard.menus && packageJSON.dashboard.menus.administrator && packageJSON.dashboard.menus.administrator.length) {
-        accountMenuContainer.child = packageJSON.dashboard.menus.administrator
+      if (packageJSON.dashboard.menus &&
+          packageJSON.dashboard.menus.administrator &&
+          packageJSON.dashboard.menus.administrator.length) {
+        const administratorMenu = templateDoc.getElementById('administrator-menu')
+        administratorMenu.child = HTML.parse('<div>' + packageJSON.dashboard.menus.administrator.join('\n') + '</div>').child
       } else {
         administratorMenuContainer.setAttribute('style', 'display: none')
       }

@@ -194,6 +194,8 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   const dashboardAccountMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/menu-account.html`
   if (fs.existsSync(dashboardAccountMenuHTMLPath)) {
     packageJSON.dashboard.menus.account.push(fs.readFileSync(dashboardAccountMenuHTMLPath).toString())
+  } else if (!applicationJSON) {
+    packageJSON.dashboard.menus.account.push(fs.readFileSync(rootAccountMenuHTMLPath).toString())
   }
   const rootAdministratorMenuHTMLPath = `${global.applicationPath}/src/menu-administrator.html`
   if (applicationJSON && dashboardJSON && fs.existsSync(rootAdministratorMenuHTMLPath)) {
@@ -208,6 +210,8 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   const dashboardAdministratorMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/menu-administrator.html`
   if (fs.existsSync(dashboardAdministratorMenuHTMLPath)) {
     packageJSON.dashboard.menus.administrator.push(fs.readFileSync(dashboardAdministratorMenuHTMLPath).toString())
+  } else if (!applicationJSON) {
+    packageJSON.dashboard.menus.administrator.push(fs.readFileSync(rootAdministratorMenuHTMLPath).toString())
   }
   return packageJSON
 }

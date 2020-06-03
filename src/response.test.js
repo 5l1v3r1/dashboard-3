@@ -272,7 +272,7 @@ describe('internal-api/response', () => {
           content: [],
           menus: {
             account: [
-              { href: '/this', text: 'This', object: 'link' }
+              '<a href="/">This is a link</a>'
             ]
           }
         },
@@ -310,7 +310,7 @@ describe('internal-api/response', () => {
       const menu = completed.getElementById('account-menu-container')
       const links = menu.getElementsByTagName('a')
       assert.strictEqual(links.length, 1)
-      assert.strictEqual(links[0].child[0].text, 'This')
+      assert.strictEqual(links[0].child[0].text, 'This is a link')
     })
 
     it('should add administrator menu links from package.json', async () => {
@@ -320,7 +320,7 @@ describe('internal-api/response', () => {
           content: [],
           menus: {
             administrator: [
-              { href: '/this', text: 'This', object: 'link' }
+              '<a href="/">Administrator menu link</a>'
             ]
           }
         },
@@ -358,7 +358,7 @@ describe('internal-api/response', () => {
       const menu = completed.getElementById('administrator-menu-container')
       const links = menu.getElementsByTagName('a')
       assert.strictEqual(links.length, 1)
-      assert.strictEqual(links[0].child[0].text, 'This')
+      assert.strictEqual(links[0].child[0].text, 'Administrator menu link')
     })
   })
 
@@ -736,7 +736,7 @@ describe('internal-api/response', () => {
           content: [],
           menus: {
             account: [
-              { href: '/this', text: 'Not This' }
+              '<a href="/">Ignore this link</a>'
             ]
           }
         },
@@ -774,7 +774,7 @@ describe('internal-api/response', () => {
           content: [],
           menus: {
             account: [
-              { href: '/this', text: 'This', object: 'link' }
+              '<a href="/">Embed this link</a>'
             ]
           }
         },
@@ -802,7 +802,7 @@ describe('internal-api/response', () => {
       const accountMenu = completed.getElementById('account-menu-container')
       const links = accountMenu.getElementsByTagName('a')
       assert.strictEqual(links.length, 1)
-      assert.strictEqual(links[0].child[0].text, 'This')
+      assert.strictEqual(links[0].child[0].text, 'Embed this link')
       const scripts = completed.getElementsByTagName('script')
       assert.strictEqual(scripts.length, 1)
       assert.strictEqual(scripts[0].attr.src, 'override.js')
@@ -815,7 +815,7 @@ describe('internal-api/response', () => {
           content: [],
           menus: {
             administrator: [
-              { href: '/this', text: 'Not this' }
+              '<a href="/">Ignore this link</a>'
             ]
           }
         },
@@ -853,7 +853,7 @@ describe('internal-api/response', () => {
           content: [],
           menus: {
             administrator: [
-              { href: '/this', text: 'This', object: 'link' }
+              '<a href="/">Embed this link</a>'
             ]
           }
         },
@@ -881,7 +881,7 @@ describe('internal-api/response', () => {
       const administratorMenu = completed.getElementById('administrator-menu-container')
       const links = administratorMenu.getElementsByTagName('a')
       assert.strictEqual(links.length, 1)
-      assert.strictEqual(links[0].child[0].text, 'This')
+      assert.strictEqual(links[0].child[0].text, 'Embed this link')
       const scripts = completed.getElementsByTagName('script')
       assert.strictEqual(scripts.length, 1)
       assert.strictEqual(scripts[0].attr.src, 'override.js')
