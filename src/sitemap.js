@@ -262,18 +262,33 @@ function parseDashboardConfiguration () {
     redirectHTMLPath: trimApplicationPath(global.packageJSON.redirectHTMLPath)
   }
   for (const link of global.packageJSON.dashboard.menus.administrator) {
-    const item = HTML.parse(`<div>${link}</div>`).child
-    if (item.attr && item.attr['data-module']) {
-      configuration.administrator.push(item.attr['data-module'] + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+    const item = HTML.parse(`<div>${link}</div>`).child[0]
+    if (!item.attr) {
+      continue
+    }
+    let text = item.toString()
+    text = text.substring(text.indexOf('>') + 1)
+    text = text.substring(0, text.indexOf('</a>'))
+    text = text.replace('&amp;', '&')
+    if (item.attr['data-module']) {
+      configuration.administrator.push(item.attr['data-module'] + '/src/www' + item.attr.href + ' "' + text + '"')
     } else {
-      configuration.administrator.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+      configuration.administrator.push(item.attr.href + ' "' + text + '"')
     }
   }
-  for (const item of global.packageJSON.dashboard.menus.account) {
-    if (item.module) {
-      configuration.account.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+  for (const link of global.packageJSON.dashboard.menus.account) {
+    const item = HTML.parse(`<div>${link}</div>`).child[0]
+    if (!item.attr) {
+      continue
+    }
+    let text = item.toString()
+    text = text.substring(text.indexOf('>') + 1)
+    text = text.substring(0, text.indexOf('</a>'))
+    text = text.replace('&amp;', '&')
+    if (item.attr['data-module']) {
+      configuration.account.push(item.attr['data-module'] + '/src/www' + item.attr.href + ' "' + text + '"')
     } else {
-      configuration.account.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+      configuration.account.push(item.attr.href + ' "' + text + '"')
     }
   }
   if (global.packageJSON.dashboard.moduleNames.length) {
