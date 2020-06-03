@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.201 test /home/runner/work/dashboard/dashboard
+> @userdashboard/dashboard@1.0.202 test /home/runner/work/dashboard/dashboard
 > mocha --exit --inline-diffs --full-trace --async-only --recursive --timeout 360000 --slow 360000 './{,!(public|node_modules)/**}/*.test.js'
 
 
@@ -164,11 +164,6 @@
 
   internal-api/merge-package-json
     MergePackageJSON#loadRootJSON
-      Merged menu order
-        ✓ should put application menus first
-        ✓ should put dashboard menus last
-        ✓ should put module menus between between application and dashboard
-        ✓ should include nested modules
       Merged content handler order
         ✓ should put application content handler last
         ✓ should put dashboard content handlers first
@@ -1601,5 +1596,5 @@
       ✓ override req.userProfileFields
 
 
-  888 passing (12m)
+  884 passing (12m)
 

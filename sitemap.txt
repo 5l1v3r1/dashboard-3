@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.201
+@userdashboard/dashboard 1.0.202
 http://localhost:9000
 
 Administrator menu:
@@ -6,7 +6,6 @@ Administrator menu:
 
 Account menu:
 /account "My account"
-/account/signout "Sign out"
 
 Special HTML files:
 /src/template.html
