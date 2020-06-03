@@ -261,9 +261,10 @@ function parseDashboardConfiguration () {
     errorHTMLPath: trimApplicationPath(global.packageJSON.errorHTMLPath),
     redirectHTMLPath: trimApplicationPath(global.packageJSON.redirectHTMLPath)
   }
-  for (const item of global.packageJSON.dashboard.menus.administrator) {
-    if (item.module) {
-      configuration.administrator.push(item.module + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
+  for (const link of global.packageJSON.dashboard.menus.administrator) {
+    const item = HTML.parse(`<div>${link}</div>`).child
+    if (item.attr && item.attr['data-module']) {
+      configuration.administrator.push(item.attr['data-module'] + '/src/www' + item.href + ' "' + item.text.replace('&amp;', '&') + '"')
     } else {
       configuration.administrator.push(item.href + ' "' + item.text.replace('&amp;', '&') + '"')
     }

@@ -48,28 +48,19 @@ By default users may register with just a username and password, both of which a
 
 # Adding links to the account or administrator menus
 
-Your web application can add links to the account and administrator menus in its `package.json`:
+The account and administrator drop-down menus are created from stub HTML files placed in Dashboard, modules, and your project.  To add your own links create a `/src/menu-account.html` and `/src/menu-administrator.html` in your project with the HTML top include.  Dashboard and its modules use plain links, if you deviate from that you might need to add some styling to your `/public/template-additional.css` to accommodate other tags.
 
-    {
-        dashboard: {
-            "menus": {
-                "administrator": [
-                    {
-                    "href": "/administrator/manage-things",
-                    "text": "Manage things",
-                    "object": "link"
-                    }
-                ],
-                "account": [
-                    {
-                    "href": "/mortgage-calculator",
-                    "text": "Mortgage calculator",
-                    "object": "link"
-                    }
-                ]
-            },
-        }
-    }
+### Account menu compilation
+
+    1) Your project's `/src/menu-account.html`
+    2) Any module you use in order specified in your `package.json` `/src/menu-account.html`
+    3) Dashboard's `/src/menu-account.html`
+
+### Administrator menu compilation
+
+    1) Your project's `/src/menu-administrator.html`
+    2) Any module you use in order specified in your `package.json` `/src/menu-administrator.html`
+    3) Dashboard's `/src/menu-administrator.html`
 
 # Access user data from your application server
 
