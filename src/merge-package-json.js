@@ -22,10 +22,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   packageJSON.dashboard.modules = []
   packageJSON.dashboard.moduleNames = []
   packageJSON.dashboard.moduleVersions = []
-  packageJSON.dashboard.menus = {
-    account: [],
-    administrator: []
-  }
   if (applicationJSON && applicationJSON.dashboard) {
     packageJSON.dashboard.title = applicationJSON.dashboard.title
   }
@@ -114,22 +110,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
         packageJSON.dashboard.proxyFilePaths.push(filePath)
       }
     }
-    if (applicationJSON.dashboard.menus) {
-      if (applicationJSON.dashboard.menus.administrator && applicationJSON.dashboard.menus.administrator.length) {
-        packageJSON.dashboard.menus.administrator = applicationJSON.dashboard.menus.administrator.concat(packageJSON.dashboard.menus.administrator)
-      }
-      if (applicationJSON.dashboard.menus.account && applicationJSON.dashboard.menus.account.length) {
-        packageJSON.dashboard.menus.account = applicationJSON.dashboard.menus.account.concat(packageJSON.dashboard.menus.account)
-      }
-    }
-  }
-  if (dashboardJSON.dashboard.menus) {
-    if (dashboardJSON.dashboard.menus.administrator && dashboardJSON.dashboard.menus.administrator.length) {
-      packageJSON.dashboard.menus.administrator = packageJSON.dashboard.menus.administrator.concat(dashboardJSON.dashboard.menus.administrator)
-    }
-    if (dashboardJSON.dashboard.menus.account && dashboardJSON.dashboard.menus.account.length) {
-      packageJSON.dashboard.menus.account = packageJSON.dashboard.menus.account.concat(dashboardJSON.dashboard.menus.account)
-    }
   }
   for (const i in packageJSON.dashboard.modules) {
     const moduleName = packageJSON.dashboard.modules[i]
@@ -197,24 +177,42 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   packageJSON.errorHTML = fs.readFileSync(packageJSON.errorHTMLPath).toString()
   packageJSON.redirectHTML = fs.readFileSync(packageJSON.redirectHTMLPath).toString()
   packageJSON.templateHTML = fs.readFileSync(packageJSON.templateHTMLPath).toString()
+  packageJSON.dashboard.menus = {
+    account: [],
+    administrator: []
+  }
+  const rootAccountMenuHTMLPath = `${global.applicationPath}/src/menu-account.html`
+  if (applicationJSON && dashboardJSON && fs.existsSync(rootAccountMenuHTMLPath)) {
+    packageJSON.dashboard.menus.account.push(fs.readFileSync(rootAccountMenuHTMLPath).toString())
+  }
+  for (const module of packageJSON.dashboard.modules) {
+    const moduleAccountMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/${module}/src/menu-account.html`
+    if (fs.existsSync(moduleAccountMenuHTMLPath)) {
+      packageJSON.dashboard.menus.account.push(fs.readFileSync(moduleAccountMenuHTMLPath).toString())
+    }
+  }
+  const dashboardAccountMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/menu-account.html`
+  if (fs.existsSync(dashboardAccountMenuHTMLPath)) {
+    packageJSON.dashboard.menus.account.push(fs.readFileSync(dashboardAccountMenuHTMLPath).toString())
+  }
+  const rootAdministratorMenuHTMLPath = `${global.applicationPath}/src/menu-administrator.html`
+  if (applicationJSON && dashboardJSON && fs.existsSync(rootAdministratorMenuHTMLPath)) {
+    packageJSON.dashboard.menus.administrator.push(fs.readFileSync(rootAdministratorMenuHTMLPath).toString())
+  }
+  for (const module of packageJSON.dashboard.modules) {
+    const moduleAdministratorMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/${module}/src/menu-administrator.html`
+    if (fs.existsSync(moduleAdministratorMenuHTMLPath)) {
+      packageJSON.dashboard.menus.administrator.push(fs.readFileSync(moduleAdministratorMenuHTMLPath).toString())
+    }
+  }
+  const dashboardAdministratorMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/menu-administrator.html`
+  if (fs.existsSync(dashboardAdministratorMenuHTMLPath)) {
+    packageJSON.dashboard.menus.administrator.push(fs.readFileSync(dashboardAdministratorMenuHTMLPath).toString())
+  }
   return packageJSON
 }
 
 function mergeModuleJSON (baseJSON, moduleJSON, nested) {
-  if (moduleJSON.dashboard.menus && moduleJSON.dashboard.menus.account.length) {
-    if (nested) {
-      baseJSON.dashboard.menus.account = baseJSON.dashboard.menus.account.concat(moduleJSON.dashboard.menus.account)
-    } else {
-      baseJSON.dashboard.menus.account = moduleJSON.dashboard.menus.account.concat(baseJSON.dashboard.menus.account)
-    }
-  }
-  if (moduleJSON.dashboard.menus && moduleJSON.dashboard.menus.administrator.length) {
-    if (nested) {
-      baseJSON.dashboard.menus.administrator = baseJSON.dashboard.menus.administrator.concat(moduleJSON.dashboard.menus.administrator)
-    } else {
-      baseJSON.dashboard.menus.administrator = moduleJSON.dashboard.menus.administrator.concat(baseJSON.dashboard.menus.administrator)
-    }
-  }
   if (moduleJSON.dashboard.server && moduleJSON.dashboard.server.length) {
     for (const i in moduleJSON.dashboard.server) {
       const relativePath = moduleJSON.dashboard.server[i]

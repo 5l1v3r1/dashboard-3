@@ -244,26 +244,24 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
     text: newTitle
   }
   HTML.renderTemplate(templateDoc, headingLink, 'heading-link', 'heading')
+  const accountMenuContainer = templateDoc.getElementById('account-menu-container')
+  const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
   if (!req.account) {
-    const accountMenuContainer = templateDoc.getElementById('account-menu-container')
     accountMenuContainer.parentNode.removeChild(accountMenuContainer)
-    const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
     administratorMenuContainer.removeChild(administratorMenuContainer)
   } else {
+    // menus
     if (packageJSON.dashboard.menus && packageJSON.dashboard.menus.account && packageJSON.dashboard.menus.account.length) {
-      HTML.renderList(templateDoc, packageJSON.dashboard.menus.account, 'menu-link', 'account-menu')
+      accountMenuContainer.child = packageJSON.dashboard.menus.account
     } else {
-      const accountMenuContainer = templateDoc.getElementById('account-menu-container')
       accountMenuContainer.parentNode.removeChild(accountMenuContainer)
     }
     if (!req.account.administrator) {
-      const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
-      administratorMenuContainer.setAttribute('style', 'display: none')
+      administratorMenuContainer.removeChild(administratorMenuContainer)
     } else {
       if (packageJSON.dashboard.menus && packageJSON.dashboard.menus.administrator && packageJSON.dashboard.menus.administrator.length) {
-        HTML.renderList(templateDoc, packageJSON.dashboard.menus.administrator, 'menu-link', 'administrator-menu')
+        accountMenuContainer.child = packageJSON.dashboard.menus.administrator
       } else {
-        const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
         administratorMenuContainer.setAttribute('style', 'display: none')
       }
     }

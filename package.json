@@ -20,28 +20,7 @@
   "dashboard": {
     "content": [],
     "modules": [],
-    "server": [],
-    "menus": {
-      "account": [
-        {
-          "href": "/account",
-          "text": "My account",
-          "object": "link"
-        },
-        {
-          "href": "/account/signout",
-          "text": "Sign out",
-          "object": "link"
-        }
-      ],
-      "administrator": [
-        {
-          "href": "/administrator",
-          "text": "Dashboard administration",
-          "object": "link"
-        }
-      ]
-    }
+    "server": []
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
