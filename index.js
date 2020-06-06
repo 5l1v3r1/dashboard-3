@@ -131,7 +131,9 @@ module.exports = {
         delete (global.sitemap['/home'])
       }
     }
-    await module.exports.setup(applicationPath)
+    if (!module.exports.Storage) {
+      await module.exports.setup(applicationPath)
+    }
     await Server.start()
     if (process.env.EXIT_ON_START) {
       module.exports.stop()
