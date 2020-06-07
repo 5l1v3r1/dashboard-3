@@ -5,6 +5,7 @@ module.exports = {
   setup: async () => {
     const container = {
       add: util.promisify(add),
+      addMany: util.promisify(addMany),
       count: util.promisify(count),
       exists: util.promisify(exists),
       list: util.promisify(list),
@@ -46,13 +47,24 @@ function exists (path, itemid, callback) {
 }
 
 function add (path, itemid, callback) {
-  return exists(path, itemid, (_, exists) => {
-    if (!exists) {
-      createFolder(`${storagePath}/${path}`)
-      return fs.writeFile(`${storagePath}/${path}/${itemid}`, '', callback)
+  createFolder(`${storagePath}/${path}`)
+  return fs.writeFile(`${storagePath}/${path}/${itemid}`, '', callback)
+}
+
+function addMany (items, callback) {
+  const paths = Object.keys(items)
+  function nextItem () {
+    if (!paths.length) {
+      return callback()
     }
-    return callback()
-  })
+    const path = paths.shift()
+    const itemid = items[path]
+    createFolder(`${storagePath}/${path}`)
+    return fs.writeFile(`${storagePath}/${path}/${itemid}`, '', () => {
+      return nextItem()
+    })
+  }
+  return nextItem()
 }
 
 function count (path, callback) {

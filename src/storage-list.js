@@ -17,6 +17,16 @@ module.exports = {
         }
         return storageList.add(path, itemid)
       },
+      addMany: async (items) => {
+        for (const path in items) {
+          const itemid = items[path]
+          const added = await storageList.exists(path, itemid)
+          if (added) {
+            delete (items[path])
+          }
+        }
+        return storageList.addMany(items)
+      },
       count: async (path) => {
         return storageList.count(path)
       },

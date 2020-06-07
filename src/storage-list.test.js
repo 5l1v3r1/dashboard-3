@@ -40,6 +40,35 @@ describe('internal-api/storage-list', function () {
     })
   })
 
+  describe('StorageList#addMany', () => {
+    it('should add multiple properties', async () => {
+      await storageList.addMany({
+        'test-data': 'string',
+        'second-piece': 'value'
+      })
+      const object1 = await storageList.list('test-data')
+      assert.strictEqual(object1.length, 1)
+      assert.strictEqual(object1[0], 'string')
+      const object2 = await storageList.list('second-piece')
+      assert.strictEqual(object2.length, 1)
+      assert.strictEqual(object2[0], 'value')
+    })
+
+    it('should skip duplicates', async () => {
+      await storageList.add('test-data', 'first value')
+      await storageList.addMany({
+        'test-data': 'first value',
+        'second-piece': 'value'
+      })
+      const object1 = await storageList.list('test-data')
+      assert.strictEqual(object1.length, 1)
+      assert.strictEqual(object1[0], 'first value')
+      const object2 = await storageList.list('second-piece')
+      assert.strictEqual(object2.length, 1)
+      assert.strictEqual(object2[0], 'value')
+    })
+  })
+
   describe('StorageList#count', async () => {
     it('should count the items', async () => {
       await storageList.add('test-data', 1)
