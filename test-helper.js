@@ -48,6 +48,17 @@ async function setupBefore () {
   if (dashboard.StorageList && dashboard.StorageList.flush) {
     await dashboard.StorageList.flush()
   }
+  if (global.packageJSON.modules && global.packageJSON.modules.length) {
+    for (const moduleName of global.packageJSON.modules) {
+      const addition = require(moduleName)
+      if (addition.Storage && addition.Storage.flush) {
+        await addition.Storage.flush()
+      }
+      if (addition.StorageList && addition.StorageList.flush) {
+        await addition.StorageList.flush()
+      }
+    }
+  }
   global.usingPort = global.port
   global.usingDashboardServer = dashboardServer
   packageJSON = {}
@@ -95,22 +106,6 @@ async function setupBeforeEach () {
   global.allowPublicAPI = true
   global.delayDiskWrites = false
   global.bcryptWorkloadFactor = 4
-  if (global.packageJSON.modules && global.packageJSON.modules.length) {
-    for (const moduleName of global.packageJSON.modules) {
-      const addition = require(moduleName)
-      await addition.Storage.flush()
-      if (addition.StorageList.flush) {
-        await addition.StorageList.flush()
-      }
-    }
-  }
-  if (fs.existsSync('./node_modules/@userdashboard/dashboard')) {
-    const root = require(global.applicationPath + '/index.js')
-    await root.Storage.flush()
-    if (root.StorageList.flush) {
-      await root.StorageList.flush()
-    }
-  }
 }
 
 before(setupBefore)
@@ -122,6 +117,17 @@ afterEach(async () => {
   }
   if (dashboard.StorageList && dashboard.StorageList.flush) {
     await dashboard.StorageList.flush()
+  }
+  if (global.packageJSON.modules && global.packageJSON.modules.length) {
+    for (const moduleName of global.packageJSON.modules) {
+      const addition = require(moduleName)
+      if (addition.Storage && addition.Storage.flush) {
+        await addition.Storage.flush()
+      }
+      if (addition.StorageList && addition.StorageList.flush) {
+        await addition.StorageList.flush()
+      }
+    }
   }
 })
 
