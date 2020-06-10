@@ -103,10 +103,13 @@ module.exports = {
     }
     await dashboard.Storage.write(`${req.appid}/map/usernames/${usernameHash}`, accountid)
     await dashboard.Storage.write(`${req.appid}/account/${accountid}`, accountInfo)
-    await dashboard.StorageList.add(`${req.appid}/accounts`, accountid)
-    if (!otherUsersExist) {
-      await dashboard.StorageList.add(`${req.appid}/administrator/accounts`, accountid)
+    const indexing = {
+      [`${req.appid}/accounts`]: accountid
     }
+    if (!otherUsersExist) {
+      indexing[`${req.appid}/administrator/accounts`] = accountid
+    }
+    await dashboard.StorageList.addMany(indexing)
     req.query = req.query || {}
     req.query.accountid = accountid
     req.body.default = 'true'

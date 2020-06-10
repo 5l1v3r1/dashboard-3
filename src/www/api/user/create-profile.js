@@ -95,8 +95,10 @@ module.exports = {
       }
     }
     await dashboard.Storage.write(`${req.appid}/profile/${profileid}`, profileInfo)
-    await dashboard.StorageList.add(`${req.appid}/profiles`, profileid)
-    await dashboard.StorageList.add(`${req.appid}/account/profiles/${req.query.accountid}`, profileid)
+    await dashboard.StorageList.addMany({
+      [`${req.appid}/profiles`]: profileid,
+      [`${req.appid}/account/profiles/${req.query.accountid}`]: profileid
+    })
     if (req.body.default === 'true') {
       accountProperties.profileid = profileid
     }

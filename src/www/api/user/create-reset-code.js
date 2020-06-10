@@ -31,8 +31,10 @@ module.exports = {
     }
     await dashboard.Storage.write(`${req.appid}/resetCode/${codeid}`, resetCodeInfo)
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${req.account.accountid}`, 'resetCodeLastCreated', dashboard.Timestamp.now)
-    await dashboard.StorageList.add(`${req.appid}/resetCodes`, codeid)
-    await dashboard.StorageList.add(`${req.appid}/account/resetCodes/${req.query.accountid}`, codeid)
+    await dashboard.StorageList.addMany({
+      [`${req.appid}/resetCodes`]: codeid,
+      [`${req.appid}/account/resetCodes/${req.query.accountid}`]: codeid
+    })
     await dashboard.Storage.write(`${req.appid}/map/account/resetCodes/${req.query.accountid}/${secretCodeHash}`, codeid)
     return resetCodeInfo
   }

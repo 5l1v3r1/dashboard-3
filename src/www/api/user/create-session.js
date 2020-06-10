@@ -68,8 +68,10 @@ module.exports = {
     await dashboard.StorageObject.setProperty(`${req.appid}/account/${account.accountid}`, 'lastSignedIn', dashboard.Timestamp.now)
     await dashboard.Storage.write(`${req.appid}/session/${sessionid}`, sessionInfo)
     await dashboard.Storage.write(`${req.appid}/map/sessionids/${sessionid}`, accountid)
-    await dashboard.StorageList.add(`${req.appid}/sessions`, sessionid)
-    await dashboard.StorageList.add(`${req.appid}/account/sessions/${accountid}`, sessionid)
+    await dashboard.StorageList.addMany({
+      [`${req.appid}/sessions`]: sessionid,
+      [`${req.appid}/account/sessions/${accountid}`]: sessionid
+    })
     req.session = sessionInfo
     req.session.token = sessionToken
     return req.session
