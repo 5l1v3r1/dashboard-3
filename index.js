@@ -98,7 +98,7 @@ let Server
 
 module.exports = {
   start: async (applicationPath) => {
-    global.applicationPath = applicationPath
+    global.applicationPath = global.applicationPath || applicationPath
     global.rootPath = `${applicationPath}/src/www`
     const mergePackageJSON = require(`${__dirname}/src/merge-package-json.js`)
     global.packageJSON = mergePackageJSON()
