@@ -164,14 +164,22 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     administrator: []
   }
   const rootAccountMenuHTMLPath = `${global.applicationPath}/src/menu-account.html`
-  if (applicationJSON && dashboardJSON && fs.existsSync(rootAccountMenuHTMLPath)) {
+  if (fs.existsSync(rootAccountMenuHTMLPath)) {
     packageJSON.dashboard.menus.account.push(fs.readFileSync(rootAccountMenuHTMLPath).toString())
+  }
+  const rootAdministratorMenuHTMLPath = `${global.applicationPath}/src/menu-administrator.html`
+  if (fs.existsSync(rootAdministratorMenuHTMLPath)) {
+    packageJSON.dashboard.menus.administrator.push(fs.readFileSync(rootAdministratorMenuHTMLPath).toString())
   }
   if (applicationJSON && applicationJSON.dashboard.modules && applicationJSON.dashboard.modules.length) {
     for (const module of applicationJSON.dashboard.modules) {
       const moduleAccountMenuHTMLPath = `${global.applicationPath}/node_modules/${module}/src/menu-account.html`
       if (fs.existsSync(moduleAccountMenuHTMLPath)) {
         packageJSON.dashboard.menus.account.push(fs.readFileSync(moduleAccountMenuHTMLPath).toString())
+      }
+      const moduleAdministratorMenuHTMLPath = `${global.applicationPath}/node_modules/${module}/src/menu-administrator.html`
+      if (fs.existsSync(moduleAdministratorMenuHTMLPath)) {
+        packageJSON.dashboard.menus.administrator.push(fs.readFileSync(moduleAdministratorMenuHTMLPath).toString())
       }
     }
   }
@@ -180,28 +188,18 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     if (fs.existsSync(moduleAccountMenuHTMLPath)) {
       packageJSON.dashboard.menus.account.push(fs.readFileSync(moduleAccountMenuHTMLPath).toString())
     }
-  }
-  const dashboardAccountMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/menu-account.html`
-  if (fs.existsSync(dashboardAccountMenuHTMLPath)) {
-    packageJSON.dashboard.menus.account.push(fs.readFileSync(dashboardAccountMenuHTMLPath).toString())
-  } else if (!applicationJSON) {
-    packageJSON.dashboard.menus.account.push(fs.readFileSync(rootAccountMenuHTMLPath).toString())
-  }
-  const rootAdministratorMenuHTMLPath = `${global.applicationPath}/src/menu-administrator.html`
-  if (applicationJSON && dashboardJSON && fs.existsSync(rootAdministratorMenuHTMLPath)) {
-    packageJSON.dashboard.menus.administrator.push(fs.readFileSync(rootAdministratorMenuHTMLPath).toString())
-  }
-  for (const module of packageJSON.dashboard.modules) {
-    const moduleAdministratorMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/${module}/src/menu-administrator.html`
+    const moduleAdministratorMenuHTMLPath = `${global.applicationPath}/node_modules/${module}/src/menu-administrator.html`
     if (fs.existsSync(moduleAdministratorMenuHTMLPath)) {
       packageJSON.dashboard.menus.administrator.push(fs.readFileSync(moduleAdministratorMenuHTMLPath).toString())
     }
   }
+  const dashboardAccountMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/menu-account.html`
+  if (fs.existsSync(dashboardAccountMenuHTMLPath)) {
+    packageJSON.dashboard.menus.account.push(fs.readFileSync(dashboardAccountMenuHTMLPath).toString())
+  }
   const dashboardAdministratorMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/src/menu-administrator.html`
   if (fs.existsSync(dashboardAdministratorMenuHTMLPath)) {
     packageJSON.dashboard.menus.administrator.push(fs.readFileSync(dashboardAdministratorMenuHTMLPath).toString())
-  } else if (!applicationJSON) {
-    packageJSON.dashboard.menus.administrator.push(fs.readFileSync(rootAdministratorMenuHTMLPath).toString())
   }
   return packageJSON
 }
