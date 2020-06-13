@@ -167,8 +167,16 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   if (applicationJSON && dashboardJSON && fs.existsSync(rootAccountMenuHTMLPath)) {
     packageJSON.dashboard.menus.account.push(fs.readFileSync(rootAccountMenuHTMLPath).toString())
   }
+  if (applicationJSON && applicationJSON.dashboard.modules && applicationJSON.dashboard.modules.length) {
+    for (const module of applicationJSON.dashboard.modules) {
+      const moduleAccountMenuHTMLPath = `${global.applicationPath}/node_modules/${module}/src/menu-account.html`
+      if (fs.existsSync(moduleAccountMenuHTMLPath)) {
+        packageJSON.dashboard.menus.account.push(fs.readFileSync(moduleAccountMenuHTMLPath).toString())
+      }
+    }
+  }
   for (const module of packageJSON.dashboard.modules) {
-    const moduleAccountMenuHTMLPath = `${global.applicationPath}/node_modules/@userdashboard/${module}/src/menu-account.html`
+    const moduleAccountMenuHTMLPath = `${global.applicationPath}/node_modules/${module}/src/menu-account.html`
     if (fs.existsSync(moduleAccountMenuHTMLPath)) {
       packageJSON.dashboard.menus.account.push(fs.readFileSync(moduleAccountMenuHTMLPath).toString())
     }
