@@ -5,11 +5,12 @@ module.exports = {
     if (!req.query || !req.query.profileid) {
       throw new Error('invalid-profileid')
     }
+    const storage = req.storage || dashboard
     let profile
     if (req.cacheData && req.cacheData[req.query.profileid]) {
       profile = req.cacheData[req.query.profileid]
     } else {
-      profile = await dashboard.Storage.read(`${req.appid}/profile/${req.query.profileid}`)
+      profile = await storage.Storage.read(`${req.appid}/profile/${req.query.profileid}`)
     }
     if (!profile) {
       throw new Error('invalid-profileid')

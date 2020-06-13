@@ -9,6 +9,7 @@ module.exports = {
     if (!account) {
       throw new Error('invalid-accountid')
     }
-    return dashboard.StorageList.count(`${req.appid}/account/profiles/${req.query.accountid}`)
+    const storage = req.storage || dashboard
+    return storage.StorageList.count(`${req.appid}/account/profiles/${req.query.accountid}`)
   }
 }

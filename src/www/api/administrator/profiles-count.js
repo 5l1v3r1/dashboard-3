@@ -9,6 +9,7 @@ module.exports = {
     } else {
       index = `${req.appid}/profiles`
     }
-    return dashboard.StorageList.count(index)
+    const storage = req.storage || dashboard
+    return storage.StorageList.count(index)
   }
 }

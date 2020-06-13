@@ -9,18 +9,19 @@ module.exports = {
     if (!account) {
       throw new Error('invalid-accountid')
     }
+    const storage = req.storage || dashboard
     let profileids
     if (req.query.all) {
-      profileids = await dashboard.StorageList.listAll(`${req.appid}/account/profiles/${req.query.accountid}`)
+      profileids = await storage.StorageList.listAll(`${req.appid}/account/profiles/${req.query.accountid}`)
     } else {
       const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
       const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
-      profileids = await dashboard.StorageList.list(`${req.appid}/account/profiles/${req.query.accountid}`, offset, limit)
+      profileids = await storage.StorageList.list(`${req.appid}/account/profiles/${req.query.accountid}`, offset, limit)
     }
     if (!profileids || !profileids.length) {
       return null
     }
-    req.cacheData = await dashboard.Storage.readMany(`${req.appid}/profile`, profileids)
+    req.cacheData = await storage.Storage.readMany(`${req.appid}/profile`, profileids)
     const profiles = []
     for (const profileid of profileids) {
       req.query.profileid = profileid

@@ -9,18 +9,19 @@ module.exports = {
     } else {
       index = `${req.appid}/profiles`
     }
+    const storage = req.storage || dashboard
     let profileids
     if (req.query.all) {
-      profileids = await dashboard.StorageList.listAll(index)
+      profileids = await storage.StorageList.listAll(index)
     } else {
       const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
       const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
-      profileids = await dashboard.StorageList.list(index, offset, limit)
+      profileids = await storage.StorageList.list(index, offset, limit)
     }
     if (!profileids || !profileids.length) {
       return null
     }
-    req.cacheData = await dashboard.Storage.readMany(`${req.appid}/profile`, profileids)
+    req.cacheData = await storage.Storage.readMany(`${req.appid}/profile`, profileids)
     const profiles = []
     for (const profileid of profileids) {
       req.query.profileid = profileid

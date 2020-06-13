@@ -88,9 +88,10 @@ module.exports = {
           continue
       }
     }
-    await dashboard.StorageObject.setProperties(`${req.appid}/profile/${req.query.profileid}`, profileInfo)
+    const storage = req.storage || dashboard
+    await storage.StorageObject.setProperties(`${req.appid}/profile/${req.query.profileid}`, profileInfo)
     if (req.query.profileid === req.account.profileid || req.body.default === 'true') {
-      await dashboard.StorageObject.setProperties(`${req.appid}/account/${req.account.accountid}`, accountProperties)
+      await storage.StorageObject.setProperties(`${req.appid}/account/${req.account.accountid}`, accountProperties)
     }
     for (const field in profileInfo) {
       profile[field] = profileInfo[field]
