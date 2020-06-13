@@ -1,6 +1,5 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const UUID = require('./src/uuid.js')
 const properties = [
   { camelCase: 'pageSize', raw: 'PAGE_SIZE', description: 'Rows of data per page', value: '7', default: '10', valueDescription: 'Integer' },
   { camelCase: 'domain', raw: 'DOMAIN', description: 'Domain of server', value: 'example.com', default: '', valueDescription: 'String' },
@@ -12,8 +11,8 @@ const properties = [
   { camelCase: 'applicationServer', raw: 'APPLICATION_SERVER', description: 'URL of application server', value: 'http://localhost:3000', noDefaultValue: true, valueDescription: 'Address' },
   { camelCase: 'applicationServerToken', raw: 'APPLICATION_SERVER_TOKEN', description: 'Secret shared between servers', value: 'secret', noDefaultValue: true, valueDescription: 'String' },
   { camelCase: 'bcryptWorkloadFactor', raw: 'BCRYPT_WORKLOAD_FACTOR', description: 'Strength to protect passwords', value: '4', default: '10', valueDescription: 'Integer' },
-  { camelCase: 'encryptionSecret', raw: 'ENCRYPTION_SECRET', description: '32-character secret string', value: UUID.random(32), noDefaultValue: true, valueDescription: 'String' },
-  { camelCase: 'encryptionSecretIV', raw: 'ENCRYPTION_SECRET_IV', description: '16-character secret string', value: UUID.random(16), noDefaultValue: true, valueDescription: 'String' },
+  { camelCase: 'encryptionSecret', raw: 'ENCRYPTION_SECRET', description: '32-character secret string', value: '0123456789abcdef0123456789abcdef', noDefaultValue: true, valueDescription: 'String' },
+  { camelCase: 'encryptionSecretIV', raw: 'ENCRYPTION_SECRET_IV', description: '16-character secret string', value: '0123456789abcdef', noDefaultValue: true, valueDescription: 'String' },
   { camelCase: 'language', raw: 'LANGUAGE', description: 'Default, fixed or selectable UI language', value: 'fr', default: 'en', valueDescription: 'Languages folder name' },
   { camelCase: 'enableLanguagePreference', raw: 'ENABLE_LANGUAGE_PREFERENCE', description: 'Allows users to customize language, timezone and formats', value: 'true', default: '', valueDescription: 'Boolean' },
   { camelCase: 'disableRegistration', raw: 'DISABLE_REGISTRATION', description: 'Disable UI (not API) for registering', value: 'false', default: '', valueDescription: 'Boolean' },
@@ -43,9 +42,9 @@ describe('index', () => {
             }
             if (property.raw.startsWith('ENCRYPTION_')) {
               if (property.raw === 'ENCRYPTION_SECRET') {
-                process.env.ENCRYPTION_SECRET_IV = UUID.random(16)
+                process.env.ENCRYPTION_SECRET_IV = '0123456789abcdef'
               } else {
-                process.env.ENCRYPTION_SECRET = UUID.random(32)
+                process.env.ENCRYPTION_SECRET = '0123456789abcdef0123456789abcdef'
               }
             }
             delete (process.env[property.raw])
@@ -66,9 +65,9 @@ describe('index', () => {
           }
           if (property.raw.startsWith('ENCRYPTION_')) {
             if (property.raw === 'ENCRYPTION_SECRET') {
-              process.env.ENCRYPTION_SECRET_IV = UUID.random(16)
+              process.env.ENCRYPTION_SECRET_IV = '0123456789abcdef'
             } else {
-              process.env.ENCRYPTION_SECRET = UUID.random(32)
+              process.env.ENCRYPTION_SECRET = '0123456789abcdef0123456789abcdef'
             }
           }
           delete require.cache[require.resolve('./index.js')]

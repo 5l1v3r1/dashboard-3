@@ -2,16 +2,12 @@
 global.applicationPath = global.applicationPath || __dirname
 global.appid = global.appid || 'tests'
 
-const dashboard = require('./index.js')
 const faker = require('faker')
 const fs = require('fs')
 const http = require('http')
 const https = require('https')
-const Log = require('./src/log.js')('dashboard-test-helper')
 const path = require('path')
 const querystring = require('querystring')
-const TestHelperPuppeteer = require('./test-helper-puppeteer.js')
-const helperRoutes = require('./test-helper-routes.js')
 const util = require('util')
 
 let packageJSON
@@ -26,7 +22,20 @@ const mimeTypes = {
   svg: 'image/svg+xml'
 }
 
+let dashboard, helperRoutes, TestHelperPuppeteer, Log
 async function setupBefore () {
+  const nestedDashboardPath = path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/index.js')
+  if (fs.existsSync(nestedDashboardPath)) {
+    dashboard = require(nestedDashboardPath)
+    helperRoutes = require(path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/test-helper-routes.js'))
+    TestHelperPuppeteer = require(path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/test-helper-puppeteer.js'))
+    Log = require(path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/src/log.js'))('dashboard-test-helper')
+  } else {
+    dashboard = require('./index.js')
+    helperRoutes = require('./test-helper-routes.js')
+    TestHelperPuppeteer = require('./test-helper-puppeteer.js')
+    Log = require('./src/log.js')('dashboard-test-helper')
+  }
   global.port = 9000
   let dashboardServer = global.dashboardServer || 'http://localhost:9000'
   if (dashboardServer.lastIndexOf(':') > dashboardServer.indexOf(':')) {
@@ -73,9 +82,9 @@ async function setupBeforeEach () {
   global.language = undefined
   global.languages = require('./languages.json')
   global.enableLanguagePreference = false
-  global.packageJSON = {}
   global.port = global.usingPort
   global.dashboardServer = `${global.usingDashboardServer}:${global.port}`
+  global.packageJSON = {}
   Object.assign(global.packageJSON, packageJSON)
   global.appid = `tests_${dashboard.Timestamp.now}`
   global.testNumber = dashboard.Timestamp.now

@@ -1,10 +1,5 @@
-const API = require('./src/api.js')
-const ENV = require('./env.js')
 const fs = require('fs')
-const mergePackageJSON = require('./src/merge-package-json.js')
-const Server = require('./src/server.js')
-const Sitemap = require('./src/sitemap.js')
-const Timestamp = require('./src/timestamp.js')
+const path = require('path')
 
 let defaultSessionKey
 if (process.env.NODE_ENV !== 'production') {
@@ -99,25 +94,25 @@ if (fs.existsSync(`${global.applicationPath}/languages.json`) && fs.existsSync(`
 global.languages.sort((a, b) => {
   return a.code.toLowerCase() > b.code.toLowerCase() ? 1 : -1
 })
+let Server
+
 module.exports = {
-  Format: require('./src/format.js'),
-  Hash: require('./src/hash.js'),
-  HTML: require('./src/html.js'),
-  Response: require('./src/response.js'),
-  Timestamp: require('./src/timestamp.js'),
-  UUID: require('./src/uuid.js'),
   start: async (applicationPath) => {
     global.applicationPath = applicationPath
     global.rootPath = `${applicationPath}/src/www`
+    const mergePackageJSON = require(`${__dirname}/src/merge-package-json.js`)
     global.packageJSON = mergePackageJSON()
+    const Sitemap = require(`${__dirname}/src/sitemap.js`)
     global.sitemap = Sitemap.generate()
     if (process.env.GENERATE_SITEMAP_TXT !== 'false') {
       Sitemap.write()
     }
+    const API = require(`${__dirname}/src/api.js`)
     global.api = API.createFromSitemap()
     if (process.env.GENERATE_API_TXT !== 'false') {
       API.write()
     }
+    const ENV = require(`${__dirname}/env.js`)
     if (process.env.GENERATE_ENV_TXT !== 'false') {
       ENV.write()
     }
@@ -134,6 +129,7 @@ module.exports = {
     if (!module.exports.Storage) {
       await module.exports.setup(applicationPath)
     }
+    Server = require(`${__dirname}/src/server.js`)
     await Server.start()
     if (process.env.EXIT_ON_START) {
       module.exports.stop()
@@ -141,20 +137,30 @@ module.exports = {
     }
   },
   stop: () => {
+    if (!Server) {
+      return
+    }
+    const Timestamp = require(`${__dirname}/src/timestamp.js`)
     clearInterval(Timestamp.interval)
     delete (Timestamp.interval)
     return Server.stop()
   },
   setup: async () => {
-    const Storage = require('./src/storage.js')
+    const Storage = require(`${__dirname}/src/storage.js`)
     const storage = await Storage.setup()
-    const StorageList = require('./src/storage-list.js')
+    const StorageList = require(`${__dirname}/src/storage-list.js`)
     const storageList = await StorageList.setup(storage)
-    const StorageObject = require('./src/storage-object.js')
+    const StorageObject = require(`${__dirname}/src/storage-object.js`)
     const storageObject = await StorageObject.setup(storage)
     module.exports.Storage = storage
     module.exports.StorageList = storageList
     module.exports.StorageObject = storageObject
+    module.exports.Format = require(`${__dirname}/src/format.js`)
+    module.exports.Hash = require(`${__dirname}/src/hash.js`)
+    module.exports.HTML = require(`${__dirname}/src/html.js`)
+    module.exports.Response = require(`${__dirname}/src/response.js`)
+    module.exports.Timestamp = require(`${__dirname}/src/timestamp.js`)
+    module.exports.UUID = require(`${__dirname}/src/uuid.js`)
     if (global.packageJSON.modules && global.packageJSON.modules.length) {
       for (const moduleName of global.packageJSON.modules) {
         const addition = require(moduleName)
@@ -164,9 +170,12 @@ module.exports = {
       }
     }
     if (fs.existsSync('./node_modules/@userdashboard/dashboard')) {
-      const root = require(global.applicationPath + '/index.js')
-      if (root.setup) {
-        await root.setup()
+      const rootIndex = path.join(global.applicationPath, '/index.js')
+      if (fs.existsSync(rootIndex)) {
+        const root = require()
+        if (root.setup) {
+          await root.setup()
+        }
       }
     }
   }

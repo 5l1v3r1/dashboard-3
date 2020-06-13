@@ -1,6 +1,5 @@
-let puppeteer, browser
+let puppeteer, browser, Log
 const fs = require('fs')
-const Log = require('./src/log.js')('dashboard-test-helper-puppeteer')
 const path = require('path')
 const util = require('util')
 const wait = util.promisify(function (amount, callback) {
@@ -43,6 +42,7 @@ module.exports = {
 }
 
 async function fetch (method, req) {
+  Log = require('./src/log.js')('dashboard-test-helper-puppeteer')
   puppeteer = global.puppeteer = global.puppeteer || require('puppeteer')
   browser = await relaunchBrowser()
   const result = {}
