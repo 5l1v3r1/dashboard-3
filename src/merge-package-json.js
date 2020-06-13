@@ -26,44 +26,26 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     packageJSON.dashboard.title = applicationJSON.dashboard.title
   }
   packageJSON.dashboard.title = packageJSON.dashboard.title || 'Dashboard'
-  if (applicationJSON) {
-    for (const i in dashboardJSON.dashboard.server) {
-      const relativePath = dashboardJSON.dashboard.server[i]
-      const filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/${relativePath}`
-      packageJSON.dashboard.server[i] = relativePath
-      packageJSON.dashboard.serverFilePaths[i] = filePath
-    }
-    for (const i in dashboardJSON.dashboard.content) {
-      const relativePath = dashboardJSON.dashboard.content[i]
-      const filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/${relativePath}`
-      packageJSON.dashboard.content[i] = relativePath
-      packageJSON.dashboard.contentFilePaths[i] = filePath
-    }
-    for (const i in dashboardJSON.dashboard.proxy) {
-      const relativePath = dashboardJSON.dashboard.proxy[i]
-      const filePath = `${global.applicationPath}/node_modules/@userdashboard/dashboard/${relativePath}`
-      packageJSON.dashboard.proxy[i] = relativePath
-      packageJSON.dashboard.proxyFilePaths[i] = filePath
-    }
-  } else {
-    for (const i in dashboardJSON.dashboard.server) {
-      const relativePath = dashboardJSON.dashboard.server[i]
-      const filePath = `${global.applicationPath}/${relativePath}`
-      packageJSON.dashboard.server[i] = relativePath
-      packageJSON.dashboard.serverFilePaths[i] = filePath
-    }
-    for (const i in dashboardJSON.dashboard.content) {
-      const relativePath = dashboardJSON.dashboard.content[i]
-      const filePath = `${global.applicationPath}/${relativePath}`
-      packageJSON.dashboard.content[i] = relativePath
-      packageJSON.dashboard.contentFilePaths[i] = filePath
-    }
-    for (const i in dashboardJSON.dashboard.proxy) {
-      const relativePath = dashboardJSON.dashboard.proxy[i]
-      const filePath = `${global.applicationPath}/${relativePath}`
-      packageJSON.dashboard.proxy[i] = relativePath
-      packageJSON.dashboard.proxyFilePaths[i] = filePath
-    }
+  for (const i in dashboardJSON.dashboard.server) {
+    const relativePath = dashboardJSON.dashboard.server[i]
+    const filePath = `${global.applicationPath}/${relativePath}`
+    packageJSON.dashboard.server[i] = relativePath
+    packageJSON.dashboard.serverFilePaths[i] = filePath
+  }
+  for (const i in dashboardJSON.dashboard.content) {
+    const relativePath = dashboardJSON.dashboard.content[i]
+    const filePath = `${global.applicationPath}/${relativePath}`
+    packageJSON.dashboard.content[i] = relativePath
+    packageJSON.dashboard.contentFilePaths[i] = filePath
+  }
+  for (const i in dashboardJSON.dashboard.proxy) {
+    const relativePath = dashboardJSON.dashboard.proxy[i]
+    const filePath = `${global.applicationPath}/${relativePath}`
+    packageJSON.dashboard.proxy[i] = relativePath
+    packageJSON.dashboard.proxyFilePaths[i] = filePath
+  }
+  for (const i in dashboardJSON.dashboard.modules) {
+    packageJSON.dashboard.modules[i] = dashboardJSON.dashboard.modules[i]
   }
   if (applicationJSON && applicationJSON.dashboard) {
     if (applicationJSON.dashboard.modules && applicationJSON.dashboard.modules.length) {
