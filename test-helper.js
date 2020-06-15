@@ -51,23 +51,6 @@ async function setupBefore () {
       global.dashboardServer = `${dashboardServer}:${global.port}`
     }
   }
-  if (dashboard.Storage && dashboard.Storage.flush) {
-    await dashboard.Storage.flush()
-  }
-  if (dashboard.StorageList && dashboard.StorageList.flush) {
-    await dashboard.StorageList.flush()
-  }
-  if (global.packageJSON.modules && global.packageJSON.modules.length) {
-    for (const moduleName of global.packageJSON.modules) {
-      const addition = require(moduleName)
-      if (addition.Storage && addition.Storage.flush) {
-        await addition.Storage.flush()
-      }
-      if (addition.StorageList && addition.StorageList.flush) {
-        await addition.StorageList.flush()
-      }
-    }
-  }
   global.usingPort = global.port
   global.usingDashboardServer = dashboardServer
   packageJSON = {}
@@ -118,27 +101,9 @@ async function setupBeforeEach () {
 }
 
 before(setupBefore)
+before(flushAllStorage)
 beforeEach(setupBeforeEach)
-
-afterEach(async () => {
-  if (dashboard.Storage && dashboard.Storage.flush) {
-    await dashboard.Storage.flush()
-  }
-  if (dashboard.StorageList && dashboard.StorageList.flush) {
-    await dashboard.StorageList.flush()
-  }
-  if (global.packageJSON.modules && global.packageJSON.modules.length) {
-    for (const moduleName of global.packageJSON.modules) {
-      const addition = require(moduleName)
-      if (addition.Storage && addition.Storage.flush) {
-        await addition.Storage.flush()
-      }
-      if (addition.StorageList && addition.StorageList.flush) {
-        await addition.StorageList.flush()
-      }
-    }
-  }
-})
+afterEach(flushAllStorage)
 
 after((callback) => {
   dashboard.stop()
@@ -171,6 +136,28 @@ module.exports = {
   wait,
   setupBefore,
   setupBeforeEach
+}
+
+async function flushAllStorage () {
+  if (dashboard.Storage && dashboard.Storage.flush) {
+    await dashboard.Storage.flush()
+  }
+  if (dashboard.StorageList && dashboard.StorageList.flush) {
+    await dashboard.StorageList.flush()
+  }
+  if (global.packageJSON.dashboard.modules && global.packageJSON.dashboard.modules.length) {
+    for (const addition of global.packageJSON.dashboard.modules) {
+      if (addition.Storage === dashboard.Storage) {
+        continue
+      }
+      if (addition.Storage && addition.Storage.flush) {
+        await addition.Storage.flush()
+      }
+      if (addition.StorageList && addition.StorageList.flush) {
+        await addition.StorageList.flush()
+      }
+    }
+  }
 }
 
 function createRequest (rawURL) {
