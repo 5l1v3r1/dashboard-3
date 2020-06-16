@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-
+console.log('embedded dashboard index')
 let defaultSessionKey
 if (process.env.NODE_ENV !== 'production') {
   defaultSessionKey = 'dashboard-session-key'
@@ -161,8 +161,8 @@ module.exports = {
     module.exports.Response = require(`${__dirname}/src/response.js`)
     module.exports.Timestamp = require(`${__dirname}/src/timestamp.js`)
     module.exports.UUID = require(`${__dirname}/src/uuid.js`)
-    if (global.packageJSON.modules && global.packageJSON.modules.length) {
-      for (const moduleName of global.packageJSON.modules) {
+    if (global.packageJSON.dashboard.modules && global.packageJSON.dashboard.modules.length) {
+      for (const moduleName of global.packageJSON.dashboard.modules) {
         const addition = require(moduleName)
         if (addition.setup) {
           await addition.setup()
