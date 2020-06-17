@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-console.log('embedded dashboard index')
 let defaultSessionKey
 if (process.env.NODE_ENV !== 'production') {
   defaultSessionKey = 'dashboard-session-key'
@@ -146,15 +145,20 @@ module.exports = {
     return Server.stop()
   },
   setup: async () => {
+    const Log = require('./src/log.js')('dashboard')
+    Log.info('setting up storage')
     const Storage = require(`${__dirname}/src/storage.js`)
     const storage = await Storage.setup()
+    Log.info('setting up storage list')
     const StorageList = require(`${__dirname}/src/storage-list.js`)
     const storageList = await StorageList.setup(storage)
+    Log.info('setting up storage object')
     const StorageObject = require(`${__dirname}/src/storage-object.js`)
     const storageObject = await StorageObject.setup(storage)
     module.exports.Storage = storage
     module.exports.StorageList = storageList
     module.exports.StorageObject = storageObject
+    Log.info('setting up exports')
     module.exports.Format = require(`${__dirname}/src/format.js`)
     module.exports.Hash = require(`${__dirname}/src/hash.js`)
     module.exports.HTML = require(`${__dirname}/src/html.js`)
@@ -163,6 +167,7 @@ module.exports = {
     module.exports.UUID = require(`${__dirname}/src/uuid.js`)
     if (global.packageJSON.dashboard.modules && global.packageJSON.dashboard.modules.length) {
       for (const moduleName of global.packageJSON.dashboard.modules) {
+        Log.info('setting up module', moduleName)
         const addition = require(moduleName)
         if (addition.setup) {
           await addition.setup()
@@ -170,9 +175,10 @@ module.exports = {
       }
     }
     if (fs.existsSync('./node_modules/@userdashboard/dashboard')) {
+      Log.info('setting up embedded dashboard')
       const rootIndex = path.join(global.applicationPath, '/index.js')
       if (fs.existsSync(rootIndex)) {
-        const root = require()
+        const root = require(rootIndex)
         if (root.setup) {
           await root.setup()
         }
