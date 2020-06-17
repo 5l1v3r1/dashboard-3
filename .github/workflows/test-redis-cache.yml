@@ -25,12 +25,23 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
+    - name: Install Redis
+      run: sudo apt-get install -y redis-server
       run: |
-        sudo apt-get install -y redis-server
-        npm install mocha faker puppeteer@2.1.1 @userdashboard/storage-postgresql @userdashboard/storage-cache-redis --no-save
+        HERE=`pwd`
+        mkdir /tmp/project
+        cd /tmp/project
+        npm init -y
+        npm install faker puppeteer@2.1.1 @userdashboard/dashboard @userdashboard/storage-cache-redis @userdashboard/storage-postgresql
+        npm install -g mocha
+        rm node_modules/@userdashboard/dashboard/*.js
+        rm -rf node_modules/@userdashboard/dashboard/src
+        cp $HERE/*.js node_modules/@userdashboard/dashboard
+        cp -R $HERE/src/ node_modules/@userdashboard/dashboard/src/
+        echo "global.applicationPath = __dirname" > main.js
+        echo "require('@userdashboard/dashboard/test-helper.js')" >> main.js
     - name: Test Redis cache with unencrypted data
-      run: npm test
+      run: cd /tmp/project && mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/**/*.test.js"
       env:
         NODE_ENV: testing
         FAST_START: true
@@ -43,7 +54,7 @@ jobs:
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
     - name: Test Redis cache with encrypted data
-      run: npm test
+      run: cd /tmp/project && mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/**/*.test.js"
       env:
         NODE_ENV: testing
         FAST_START: true
