@@ -1,146 +1,102 @@
 
-> @userdashboard/dashboard@1.0.211 test /home/runner/work/dashboard/dashboard
+> @userdashboard/dashboard@1.0.212 test /home/runner/work/dashboard/dashboard
 > mocha --exit --inline-diffs --full-trace --async-only --recursive --timeout 360000 --slow 360000 './{,!(public|node_modules)/**}/*.test.js'
 
-embedded dashboard index
 
 
+Setting up
   index
     PAGE_SIZE
       Rows of data per page
-embedded dashboard index
         ✓ default 10
-embedded dashboard index
         ✓ Integer
     DOMAIN
       Domain of server
-embedded dashboard index
         ✓ default unset
-embedded dashboard index
         ✓ String
     HOST
       IP or address web server listens on
-embedded dashboard index
         ✓ default localhost
-embedded dashboard index
         ✓ IP address
     PORT
       Port web server listens on
-embedded dashboard index
         ✓ default 8000
-embedded dashboard index
         ✓ Integer
     ID_LENGTH
       Length of random ID
-embedded dashboard index
         ✓ default 8
-embedded dashboard index
         ✓ Integer
     ALLOW_PUBLIC_API
       Allow HTTP access to /api
-embedded dashboard index
         ✓ default false
-embedded dashboard index
         ✓ Boolean
     DELETE_DELAY
       Cool-down time in days to delete accounts
-embedded dashboard index
         ✓ default 7
-embedded dashboard index
         ✓ Integer
     APPLICATION_SERVER
       URL of application server
-embedded dashboard index
         ✓ Address
     APPLICATION_SERVER_TOKEN
       Secret shared between servers
-embedded dashboard index
         ✓ String
     BCRYPT_WORKLOAD_FACTOR
       Strength to protect passwords
-embedded dashboard index
         ✓ default 10
-embedded dashboard index
         ✓ Integer
     ENCRYPTION_SECRET
       32-character secret string
-embedded dashboard index
         ✓ String
     ENCRYPTION_SECRET_IV
       16-character secret string
-embedded dashboard index
         ✓ String
     LANGUAGE
       Default, fixed or selectable UI language
-embedded dashboard index
         ✓ default en
-embedded dashboard index
         ✓ Languages folder name
     ENABLE_LANGUAGE_PREFERENCE
       Allows users to customize language, timezone and formats
-embedded dashboard index
         ✓ default unset
-embedded dashboard index
         ✓ Boolean
     DISABLE_REGISTRATION
       Disable UI (not API) for registering
-embedded dashboard index
         ✓ default unset
-embedded dashboard index
         ✓ Boolean
     DASHBOARD_SERVER
       URL of dashboard server
-embedded dashboard index
         ✓ default unset
-embedded dashboard index
         ✓ Address
     MINIMUM_PASSWORD_LENGTH
       Shortest password length
-embedded dashboard index
         ✓ default 1
-embedded dashboard index
         ✓ Integer
     MAXIMUM_PASSWORD_LENGTH
       Longest password length
-embedded dashboard index
         ✓ default 50
-embedded dashboard index
         ✓ Integer
     MINIMUM_USERNAME_LENGTH
       Shortest username length
-embedded dashboard index
         ✓ default 1
-embedded dashboard index
         ✓ Integer
     MAXIMUM_USERNAME_LENGTH
       Longest username length
-embedded dashboard index
         ✓ default 50
-embedded dashboard index
         ✓ Integer
     MINIMUM_RESET_CODE_LENGTH
       Shortest reset code length
-embedded dashboard index
         ✓ default 6
-embedded dashboard index
         ✓ Integer
     MAXIMUM_RESET_CODE_LENGTH
       Longest reset code length
-embedded dashboard index
         ✓ default 50
-embedded dashboard index
         ✓ Integer
     REQUIRE_PROFILE
       Require registration information
-embedded dashboard index
         ✓ default unset
-embedded dashboard index
         ✓ Integer
     USER_PROFILE_FIELDS
       Information to collect at registration
-embedded dashboard index
         ✓ default contact-email,full-name
-embedded dashboard index
         ✓ Profile property list
 
   internal-api/api
@@ -385,679 +341,89 @@ embedded dashboard index
 
   /account/change-password
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should apply new password (screenshots)
     errors
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-new-password
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-new-password-length
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-confirm-password
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-password
 
   /account/change-username
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should apply new username (screenshots)
     errors
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-new-username
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-new-username-length
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-password
 
   /account/create-profile
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for full-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for contact-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for display-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for dob
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for phone
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for occupation
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for location
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for company-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for website
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile (screenshots)
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with full-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile and set default
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with display name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with contact-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with display-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with dob in YYYY-MM-DD
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with dob in MM-DD-YYYY
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with phone
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with occupation
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with location
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with company-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create profile with website
     errors
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-first-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-first-name-length
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-last-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-last-name-length
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-contact-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-display-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-display-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-display-name-length
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-dob
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-phone
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-occupation
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-location
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-company-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-website
 
   /account/create-reset-code
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create reset code (screenshots)
     errors
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-secret-code
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-secret-code-length
 
   /account/delete-account-complete
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present 3 days remaining message
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present 7 days remaining message
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present instant deletion message
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present instant delete message (screenshots)
 
   /account/delete-account
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should mark account deleted (screenshots)
     errors
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-password
 
   /account/delete-profile
@@ -1068,40 +434,8 @@ embedded dashboard index
       ✓ invalid-profile
       ✓ invalid-account
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should delete profile (screenshots)
 
   /account/delete-reset-code
@@ -1111,1123 +445,167 @@ embedded dashboard index
       ✓ invalid-reset-codeid
       ✓ invalid-account
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should delete reset code (screenshots)
 
   /account/edit-profile
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for full-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for display-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for contact-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for display-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for dob
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for phone
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for occupation
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for location
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for company-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for website
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile (screenshots)
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with full-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with display name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with contact-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with display-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with dob in YYYY-MM-DD
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with dob in MM-DD-YYYY
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with phone
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with occupation
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with location
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with company-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should update profile with website
     errors
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-first-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-first-name-length
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-last-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-last-name-length
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-contact-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-display-email
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-display-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-display-name-length
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-dob
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-phone
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-occupation
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-location
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-company-name
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-website
 
   /account/end-all-sessions
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should generate a new session key (screenshots)
 
   /account/end-session
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should end the session (screenshots)
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should end current session
 
   /account
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should return page (screenshots)
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should not link to account preferences
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should link to account preferences
 
   /account/language
     exceptions
       ✓ should require language enabled
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should change the language (screenshots)
 
   /account/profile
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the profile table (screenshots)
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should show fields if data exists
 
   /account/profiles
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
       ✓ should return one page (screenshots)
       ✓ should change page size
       ✓ should change offset
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should show fields if data exists
 
   /account/register
     view
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should disable the form
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for full-name
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for contact-email
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for display-email
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for dob
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for phone
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for occupation
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for location
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for company-name
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should have elements for website
     submit
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new account with full name
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with contact email
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with display email
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with display name
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with dob in YYYY-MM-DD
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with dob in MM-DD-YYYY
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with phone
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with occupation
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with location
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with company-name
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create new profile with website
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create 20-minute session
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create account (screenshots)
     errors
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-username
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-username-length
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-password
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-password-length
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-confirm
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-first-name
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-first-name-length
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-last-name
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-last-name-length
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-contact-email
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-display-email
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-display-name
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-display-name-length
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-dob
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-phone
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-occupation
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-location
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-company-name
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-website
 
   /account/reset-account
     view
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should reset session key
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should reset code last used
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should sign in (screenshots)
     errors
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-username
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-secret-code
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-new-password
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-new-password-length
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-confirm-password
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-account
 
   /account/reset-code
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
       ✓ should present the reset code table (screenshots)
 
   /account/reset-codes
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
@@ -2237,97 +615,23 @@ embedded dashboard index
 
   /account/restore-account
     view
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should unset account deleted (screenshots)
     errors
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-username
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-password
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-account
 
   /account/session
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the session table (screenshots)
 
   /account/sessions
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should exclude ended sessions
     view
       ✓ should return one page (screenshots)
@@ -2338,244 +642,44 @@ embedded dashboard index
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should set the profile as default (screenshots)
 
   /account/signin
     view
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create session expiring in 20 minutes as default
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create session expiring in 20 minutes
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create session expiring in 8 hours
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create session expiring in 30 days
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should sign in (screenshots)
     errors
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-username
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-password
 
   /account/signout-complete
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should sign out (screenshots)
 
   /account/signout
     view
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should end the session
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should redirect to signout complete page
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should signout (screenshots)
 
   /account/verify
     view
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
       ✓ should mark session as verified
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should verify session (screenshots)
     errors
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-username
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-password
 
   /administrator/account-profiles
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
@@ -2585,50 +689,6 @@ embedded dashboard index
       ✓ should change offset
 
   /administrator/account-reset-codes
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
@@ -2638,50 +698,6 @@ embedded dashboard index
       ✓ should change offset
 
   /administrator/account-sessions
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
@@ -2694,73 +710,13 @@ embedded dashboard index
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the account table (screenshots)
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the profile table
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the sessions table
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should hide empty reset codes table
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present a populated reset codes table
 
   /administrator/accounts
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
@@ -2770,34 +726,6 @@ embedded dashboard index
       ✓ should change offset
 
   /administrator/administrators
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
@@ -2810,107 +738,19 @@ embedded dashboard index
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should apply account update (screenshots)
 
   /administrator/create-reset-code
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should create reset code (screenshots)
     errors
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-secret-code
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ invalid-secret-code-length
 
   /administrator/delete-account
@@ -2919,268 +759,46 @@ embedded dashboard index
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should immediately delete (screenshots)
 
   /administrator/delete-schedule
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the deleted accounts table (screenshots)
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should return one page
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should change page size
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should change offset
 
   /administrator
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should return page (screenshots)
 
   /administrator/profile
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the profile table (screenshots)
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should show fields if data exists
 
   /administrator/profiles
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
       ✓ should return one page (screenshots)
       ✓ should change page size
       ✓ should change offset
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should show fields if data exists
 
   /administrator/reset-code
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
       ✓ should present the reset code table (screenshots)
 
   /administrator/reset-codes
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
@@ -3193,181 +811,37 @@ embedded dashboard index
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should reset session key (screenshots)
 
   /administrator/revoke-administrator
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should revoke administrator status (screenshots)
 
   /administrator/schedule-account-delete
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should schedule account for deletion (screenshots)
 
   /administrator/session
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the session table (screenshots)
 
   /administrator/sessions
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
     before
       ✓ should bind data to req
     view
       ✓ should present the sessions table (screenshots)
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should return one page
       ✓ should change page size
       ✓ should change offset
@@ -3376,40 +850,8 @@ embedded dashboard index
     before
       ✓ should bind data to req
     view
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should present the form
     submit
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/template-additional.css
-**** serving blank special file
-**** unresolved public file undefined /public/content-additional.css
-**** serving blank special file
       ✓ should change ownership (screenshots)
 
   /api/administrator/account

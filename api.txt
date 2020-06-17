@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.211
+@userdashboard/dashboard 1.0.212
 http://localhost:9000
 
 |-----------------------------------------|
@@ -8,8 +8,9 @@ http://localhost:9000
 |  * invalid-profileid                    |
 |  * invalid-profile                      |
 |  * invalid-account                      |
-| **** serving blank special file         |
+| view                                    |
 |  * should present the form              |
+| submit                                  |
 |  * should delete profile (screenshots)  |
 |-----------------------------------------|
 
@@ -19,8 +20,9 @@ http://localhost:9000
 | before                                     |
 |  * invalid-reset-codeid                    |
 |  * invalid-account                         |
-| **** serving blank special file            |
+| view                                       |
 |  * should present the form                 |
+| submit                                     |
 |  * should delete reset code (screenshots)  |
 |--------------------------------------------|
 
@@ -29,8 +31,9 @@ http://localhost:9000
 | EXCEPTIONS-----------------------------------|
 | undefined                                    |
 |  * should require language enabled           |
-| **** serving blank special file              |
+| view                                         |
 |  * should present the form                   |
+| submit                                       |
 |  * should change the language (screenshots)  |
 |----------------------------------------------|
 
@@ -41,8 +44,9 @@ http://localhost:9000
 |  * should reject invalid accountid          |
 | before                                      |
 |  * should bind data to req                  |
-| **** serving blank special file             |
+| view                                        |
 |  * should present the form                  |
+| submit                                      |
 |  * should immediately delete (screenshots)  |
 |---------------------------------------------|
 
