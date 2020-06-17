@@ -48,6 +48,7 @@ async function setupBefore () {
       await dashboard.start(global.applicationPath || __dirname)
       break
     } catch (error) {
+      Log.error('error starting server', error)
       global.port++
       global.dashboardServer = `${dashboardServer}:${global.port}`
     }
