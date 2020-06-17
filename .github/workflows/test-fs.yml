@@ -16,18 +16,16 @@ jobs:
     - name: Install dependencies
       run: |
         HERE=`pwd`
-        rm -rf /tmp/project
         mkdir /tmp/project
         cd /tmp/project
         npm init -y
         npm install faker puppeteer@2.1.1 @userdashboard/dashboard
         npm install -g mocha
         rm node_modules/@userdashboard/dashboard/*.js
+        rm -rf node_modules/@userdashboard/dashboard/src
         cp $HERE/*.js node_modules/@userdashboard/dashboard
         cp -R $HERE/src/ node_modules/@userdashboard/dashboard/src/
         echo "global.applicationPath = __dirname" > main.js
-        echo "require('@userdashboard/dashboard/test-helper.js')" >> main.js
-        echo "require('@userdashboard/dashboard').setup(__dirname)" >> main.js
     - name: Test unencrypted file-system storage
       run: cd /tmp/project && mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/**/*.test.js"
       env:
