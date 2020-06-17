@@ -25,10 +25,21 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: npm install mocha faker puppeteer@2.1.1 @userdashboard/storage-postgresql --no-save
+      run: |
+        HERE=`pwd`
+        mkdir /tmp/project
+        cd /tmp/project
+        npm init -y
+        npm install faker puppeteer@2.1.1 @userdashboard/dashboard @userdashboard/storage-postgrseql
+        npm install -g mocha
+        rm node_modules/@userdashboard/dashboard/*.js
+        rm -rf node_modules/@userdashboard/dashboard/src
+        cp $HERE/*.js node_modules/@userdashboard/dashboard
+        cp -R $HERE/src/ node_modules/@userdashboard/dashboard/src/
+        echo "global.applicationPath = __dirname" > main.js
+        echo "require('@userdashboard/dashboard/test-helper.js')" >> main.js
     - name: Test unencrypted PostgreSQL storage
-      run: npm test
+      run: cd /tmp/project && mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/*.test.js"
       env:
         NODE_ENV: testing
         FAST_START: true
@@ -39,7 +50,7 @@ jobs:
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
     - name: Test encrypted PostgreSQL storage
-      run: npm test
+      run: cd /tmp/project && mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/*.test.js"
       env:
         NODE_ENV: testing
         FAST_START: true
