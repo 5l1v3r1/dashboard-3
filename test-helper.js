@@ -24,11 +24,13 @@ let dashboard, helperRoutes, TestHelperPuppeteer, Log
 async function setupBefore () {
   const nestedDashboardPath = path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/index.js')
   if (fs.existsSync(nestedDashboardPath)) {
-    dashboard = require(nestedDashboardPath)
-    helperRoutes = require(path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/test-helper-routes.js'))
-    TestHelperPuppeteer = require(path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/test-helper-puppeteer.js'))
-    Log = require(path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/src/log.js'))('dashboard-test-helper')
+    console.log('Setting up with Dashboard as module')
+    dashboard = require('@userdashboard/dashboard')
+    helperRoutes = require('@userdashboard/dashboard/test-helper-routes.js')
+    TestHelperPuppeteer = require('@userdashboard/dashboard/test-helper-puppeteer.js')
+    Log = require('@userdashboard/dashboard/src/log.js')('dashboard-test-helper')
   } else {
+    console.log('Setting up')
     dashboard = require('./index.js')
     helperRoutes = require('./test-helper-routes.js')
     TestHelperPuppeteer = require('./test-helper-puppeteer.js')
@@ -40,6 +42,7 @@ async function setupBefore () {
     dashboardServer = dashboardServer.substring(0, dashboardServer.lastIndexOf(':'))
   }
   global.dashboardServer = `${dashboardServer}:${global.port}`
+  Log.info('starting server')
   while (true) {
     try {
       await dashboard.start(global.applicationPath || __dirname)
@@ -51,11 +54,10 @@ async function setupBefore () {
   }
   global.usingPort = global.port
   global.usingDashboardServer = dashboardServer
-  const mergePackageJSON = require(`${__dirname}/src/merge-package-json.js`)
-  global.packageJSON = mergePackageJSON()
 }
 
 async function setupBeforeEach () {
+  Log.info('beforeEach')
   global.domain = 'localhost'
   global.sitemap['/api/require-verification'] = helperRoutes.requireVerification
   global.applicationServer = undefined
