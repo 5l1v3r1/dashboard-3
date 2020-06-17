@@ -14,9 +14,22 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
-      run: npm install mocha faker puppeteer@2.1.1 @userdashboard/storage-redis --no-save
+      run: |
+        HERE=`pwd`
+        rm -rf /tmp/project
+        mkdir /tmp/project
+        cd /tmp/project
+        npm init -y
+        npm install faker puppeteer@2.1.1 @userdashboard/dashboard
+        npm install -g mocha
+        rm node_modules/@userdashboard/dashboard/*.js
+        cp $HERE/dashboard/*.js node_modules/@userdashboard/dashboard
+        cp -R $HERE/dashboard/src/ node_modules/@userdashboard/dashboard/src/
+        echo "global.applicationPath = __dirname" > main.js
+        echo "require('@userdashboard/dashboard/test-helper.js')" >> main.js
+        echo "require('@userdashboard/dashboard').setup(__dirname)" >> main.js
     - name: Test unencrypted file-system storage
-      run: npm test
+      run: cd /tmp/project && mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/**/*.test.js"
       env:
         NODE_ENV: testing
         FAST_START: true
@@ -25,7 +38,7 @@ jobs:
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
     - name: Test encrypted file-system storage
-      run: npm test
+      run: cd /tmp/project && mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/**/*.test.js"
       env:
         NODE_ENV: testing
         FAST_START: true
