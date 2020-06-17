@@ -13,7 +13,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
+    - name: Set up as module
       run: |
         HERE=`pwd`
         mkdir /tmp/project
@@ -31,7 +31,8 @@ jobs:
         cd /tmp/project
         ls
         cat main.js
-        mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/**/*.test.js"
+        find . -name "*.test.js" -type f
+        mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/*.test.js"
       env:
         NODE_ENV: testing
         FAST_START: true
