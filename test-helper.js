@@ -51,6 +51,8 @@ async function setupBefore () {
   }
   global.usingPort = global.port
   global.usingDashboardServer = dashboardServer
+  const mergePackageJSON = require(`${__dirname}/src/merge-package-json.js`)
+  global.packageJSON = mergePackageJSON()
 }
 
 async function setupBeforeEach () {
