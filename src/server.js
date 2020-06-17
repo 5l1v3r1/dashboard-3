@@ -372,12 +372,10 @@ async function staticFile (req, res) {
     }
     return Response.end(req, res, null, blob)
   }
-  console.log('**** unresolved public file', global.applicationServer, req.urlPath)
   if (global.applicationServer) {
     return Proxy.pass(req, res)
   }
   if (req.urlPath === '/public/content-additional.css' || req.urlPath === '/public/template-additional.css') {
-    console.log('**** serving blank special file')
     res.setHeader('content-type', 'text/css')
     res.statusCode = 200
     return res.end('')
