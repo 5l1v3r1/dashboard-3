@@ -3,6 +3,8 @@ const fs = require('fs')
 module.exports = mergePackageJSON
 
 function mergePackageJSON (applicationJSON, dashboardJSON) {
+  const Log = require('./Log.js')('dashboard')
+  Log.info('setting up package JSON')
   applicationJSON = applicationJSON || loadApplicationJSON(applicationJSON)
   if (applicationJSON && applicationJSON.name === '@userdashboard/dashboard') {
     dashboardJSON = applicationJSON
@@ -47,6 +49,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   for (const i in dashboardJSON.dashboard.modules) {
     packageJSON.dashboard.modules[i] = dashboardJSON.dashboard.modules[i]
   }
+  Log.info('setting up application JSON')
   if (applicationJSON && applicationJSON.dashboard) {
     if (applicationJSON.dashboard.modules && applicationJSON.dashboard.modules.length) {
       packageJSON.dashboard.modules = [].concat(applicationJSON.dashboard.modules)
@@ -93,6 +96,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
       }
     }
   }
+  Log.info('setting up modules')
   for (const i in packageJSON.dashboard.modules) {
     const moduleName = packageJSON.dashboard.modules[i]
     if (!moduleName) {
@@ -156,6 +160,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   } else {
     packageJSON.templateHTMLPath = fs.existsSync(applicationTemplateHTMLPath) ? applicationTemplateHTMLPath : dashboardTemplateHTMLPath
   }
+  Log.info('setting up HTML')
   packageJSON.errorHTML = fs.readFileSync(packageJSON.errorHTMLPath).toString()
   packageJSON.redirectHTML = fs.readFileSync(packageJSON.redirectHTMLPath).toString()
   packageJSON.templateHTML = fs.readFileSync(packageJSON.templateHTMLPath).toString()
@@ -163,6 +168,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     account: [],
     administrator: []
   }
+  Log.info('setting up menus')
   const rootAccountMenuHTMLPath = `${global.applicationPath}/src/menu-account.html`
   if (fs.existsSync(rootAccountMenuHTMLPath)) {
     packageJSON.dashboard.menus.account.push(fs.readFileSync(rootAccountMenuHTMLPath).toString())
