@@ -33,7 +33,8 @@ jobs:
         ls
         cat main.js
         find . -name "*.test.js" -type f
-        mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/*.test.js"
+        mocha --version
+        mocha --file main.js --bail --exit --full-trace --recursive --timeout 30000 "./node_modules/@userdashboard/**/{,!(public)}/*.test.js"
       env:
         NODE_ENV: testing
         FAST_START: true
@@ -41,6 +42,7 @@ jobs:
         DOMAIN: "localhost"
         GENERATE_SITEMAP_TXT: false
         GENERATE_API_TXT: false
+        LOG_LEVEL: "info,warn,debug,log"
     - name: Test encrypted file-system storage
       run: cd /tmp/project && mocha --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/**/*.test.js"
       env:
