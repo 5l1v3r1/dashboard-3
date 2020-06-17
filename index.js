@@ -145,7 +145,7 @@ module.exports = {
     return Server.stop()
   },
   setup: async () => {
-    const Log = require('./src/log.js')('dashboard')
+    const Log = require(`${__dirname}/src/log.js`)('dashboard')
     Log.info('setting up storage')
     const Storage = require(`${__dirname}/src/storage.js`)
     const storage = await Storage.setup()
