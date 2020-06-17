@@ -51,6 +51,10 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     if (moduleName === '@userdashboard/dashboard') {
       continue
     }
+    const moduleFilePath = `${global.applicationPath}/node_modules/${moduleName}`
+    if (!fs.existsSync(moduleFilePath)) {
+      continue
+    }
     packageJSON.dashboard.modules.push(moduleName)
   }
   Log.info('setting up application JSON')
@@ -100,7 +104,6 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   Log.info('setting up modules')
   for (const i in packageJSON.dashboard.modules) {
     const moduleName = packageJSON.dashboard.modules[i]
-
     const moduleJSON = loadModuleJSON(moduleName)
     if (!moduleJSON) {
       throw new Error('invalid-module')
@@ -210,7 +213,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   return packageJSON
 }
 
-function mergeModuleJSON (baseJSON, moduleJSON, nested) {
+function mergeModuleJSON (baseJSON, moduleJSON) {
   if (moduleJSON.dashboard.server && moduleJSON.dashboard.server.length) {
     for (const i in moduleJSON.dashboard.server) {
       const relativePath = moduleJSON.dashboard.server[i]
@@ -256,6 +259,10 @@ function mergeModuleJSON (baseJSON, moduleJSON, nested) {
         continue
       }
       if (baseJSON.dashboard.modules.indexOf(moduleName) > -1) {
+        continue
+      }
+      const moduleFilePath = `${global.applicationPath}/node_modules/${moduleName}`
+      if (!fs.existsSync(moduleFilePath)) {
         continue
       }
       baseJSON.dashboard.modules.push(moduleName)
