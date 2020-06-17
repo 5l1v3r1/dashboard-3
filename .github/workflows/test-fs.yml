@@ -23,8 +23,8 @@ jobs:
         npm install faker puppeteer@2.1.1 @userdashboard/dashboard
         npm install -g mocha
         rm node_modules/@userdashboard/dashboard/*.js
-        cp $HERE/dashboard/*.js node_modules/@userdashboard/dashboard
-        cp -R $HERE/dashboard/src/ node_modules/@userdashboard/dashboard/src/
+        cp $HERE/*.js node_modules/@userdashboard/dashboard
+        cp -R $HERE/src/ node_modules/@userdashboard/dashboard/src/
         echo "global.applicationPath = __dirname" > main.js
         echo "require('@userdashboard/dashboard/test-helper.js')" >> main.js
         echo "require('@userdashboard/dashboard').setup(__dirname)" >> main.js
