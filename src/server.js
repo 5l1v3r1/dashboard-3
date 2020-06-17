@@ -1,15 +1,12 @@
 const fs = require('fs')
-const Hash = require('./hash.js')
 const http = require('http')
-const Log = require('./log.js')('dashboard-server')
 const Multiparty = require('multiparty')
 const path = require('path')
-const Proxy = require('./proxy.js')
 const querystring = require('querystring')
 const Response = require('./response.js')
 const util = require('util')
 const languageCache = {}
-let dashboard
+let dashboard, Hash, Log, Proxy
 
 const parsePostData = util.promisify((req, callback) => {
   if (req.headers &&
@@ -70,7 +67,10 @@ module.exports = {
 }
 
 function start (callback) {
-  dashboard = require('../index.js')
+  dashboard = require(path.join(__dirname, '../index.js'))
+  Hash = require(`${__dirname}/hash.js`)
+  Log = require(`${__dirname}/log.js`)('dashboard-server')
+  Proxy = require(`${__dirname}/proxy.js`)
   server = http.createServer(receiveRequest)
   server.on('error', (error) => {
     callback(error)
