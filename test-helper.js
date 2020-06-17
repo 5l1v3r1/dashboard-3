@@ -9,8 +9,6 @@ const https = require('https')
 const path = require('path')
 const querystring = require('querystring')
 const util = require('util')
-
-let packageJSON
 const mimeTypes = {
   js: 'text/javascript;',
   css: 'text/css',
@@ -53,8 +51,6 @@ async function setupBefore () {
   }
   global.usingPort = global.port
   global.usingDashboardServer = dashboardServer
-  packageJSON = {}
-  Object.assign(packageJSON, global.packageJSON)
 }
 
 async function setupBeforeEach () {
@@ -67,8 +63,8 @@ async function setupBeforeEach () {
   global.enableLanguagePreference = false
   global.port = global.usingPort
   global.dashboardServer = `${global.usingDashboardServer}:${global.port}`
-  global.packageJSON = {}
-  Object.assign(global.packageJSON, packageJSON)
+  const mergePackageJSON = require(`${__dirname}/src/merge-package-json.js`)
+  global.packageJSON = mergePackageJSON()
   global.appid = `tests_${dashboard.Timestamp.now}`
   global.testNumber = dashboard.Timestamp.now
   global.testModuleJSON = null
