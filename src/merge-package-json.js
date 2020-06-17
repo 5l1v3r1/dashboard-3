@@ -177,7 +177,7 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   if (fs.existsSync(rootAdministratorMenuHTMLPath)) {
     packageJSON.dashboard.menus.administrator.push(fs.readFileSync(rootAdministratorMenuHTMLPath).toString())
   }
-  if (applicationJSON && applicationJSON.dashboard.modules && applicationJSON.dashboard.modules.length) {
+  if (applicationJSON && applicationJSON.dashboard && applicationJSON.dashboard.modules && applicationJSON.dashboard.modules.length) {
     for (const module of applicationJSON.dashboard.modules) {
       const moduleAccountMenuHTMLPath = `${global.applicationPath}/node_modules/${module}/src/menu-account.html`
       if (fs.existsSync(moduleAccountMenuHTMLPath)) {
