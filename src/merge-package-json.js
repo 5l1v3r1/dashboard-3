@@ -47,27 +47,28 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
     packageJSON.dashboard.proxyFilePaths[i] = filePath
   }
   for (const i in dashboardJSON.dashboard.modules) {
-    packageJSON.dashboard.modules[i] = dashboardJSON.dashboard.modules[i]
+    const moduleName = packageJSON.dashboard.modules[i]
+    if (moduleName === '@userdashboard/dashboard') {
+      continue
+    }
+    packageJSON.dashboard.modules.push(moduleName)
   }
   Log.info('setting up application JSON')
   if (applicationJSON && applicationJSON.dashboard) {
     if (applicationJSON.dashboard.modules && applicationJSON.dashboard.modules.length) {
-      packageJSON.dashboard.modules = [].concat(applicationJSON.dashboard.modules)
-      for (const i in packageJSON.dashboard.modules) {
-        const moduleName = packageJSON.dashboard.modules[i]
+      for (const i in applicationJSON.dashboard.modules) {
+        const moduleName = applicationJSON.dashboard.modules[i]
         if (moduleName === '@userdashboard/dashboard') {
           continue
         }
-        if (moduleName === applicationJSON.name) {
-          packageJSON.dashboard.modules.push(false)
-          packageJSON.dashboard.moduleNames.push(moduleName)
-          packageJSON.dashboard.moduleVersions.push(applicationJSON.version)
+        if (applicationJSON && moduleName === applicationJSON.name) {
           continue
         }
         const moduleJSON = loadModuleJSON(moduleName)
         if (!moduleJSON) {
           throw new Error('invalid-module')
         }
+        packageJSON.dashboard.modules.push(moduleName)
         mergeModuleJSON(packageJSON, moduleJSON)
       }
     }
@@ -99,15 +100,14 @@ function mergePackageJSON (applicationJSON, dashboardJSON) {
   Log.info('setting up modules')
   for (const i in packageJSON.dashboard.modules) {
     const moduleName = packageJSON.dashboard.modules[i]
-    if (!moduleName) {
-      continue
+
+    const moduleJSON = loadModuleJSON(moduleName)
+    if (!moduleJSON) {
+      throw new Error('invalid-module')
     }
-    packageJSON.dashboard.moduleNames[i] = moduleName
-    if (fs.existsSync(`${global.applicationPath}/node_modules/${moduleName}/package.json`)) {
-      packageJSON.dashboard.modules[i] = require(moduleName)
-      const modulePackageJSON = require(`${global.applicationPath}/node_modules/${moduleName}/package.json`)
-      packageJSON.dashboard.moduleVersions[i] = modulePackageJSON.version
-    }
+    packageJSON.dashboard.modules[i] = require(moduleName)
+    packageJSON.dashboard.moduleNames.push(moduleName)
+    packageJSON.dashboard.moduleVersions.push(moduleJSON.version)
   }
   for (const i in packageJSON.dashboard.serverFilePaths) {
     const filePath = packageJSON.dashboard.serverFilePaths[i]

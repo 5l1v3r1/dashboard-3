@@ -166,9 +166,7 @@ module.exports = {
     module.exports.Timestamp = require(`${__dirname}/src/timestamp.js`)
     module.exports.UUID = require(`${__dirname}/src/uuid.js`)
     if (global.packageJSON.dashboard.modules && global.packageJSON.dashboard.modules.length) {
-      for (const moduleName of global.packageJSON.dashboard.modules) {
-        Log.info('setting up module', moduleName)
-        const addition = require(moduleName)
+      for (const addition of global.packageJSON.dashboard.modules) {
         if (addition.setup) {
           await addition.setup()
         }
