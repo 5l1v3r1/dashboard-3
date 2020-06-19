@@ -486,6 +486,7 @@ async function fill (page, fieldContainer, body, uploads) {
   }
   if (uploads) {
     for (const field in uploads) {
+      Log.info('filling upload field', field)
       const element = await getElement(formFields, `#${field}`)
       if (element) {
         await uploadFile(element, uploads[field].path)
@@ -497,6 +498,7 @@ async function fill (page, fieldContainer, body, uploads) {
     return
   }
   for (const field in body) {
+    Log.info('filling form field', field)
     const element = await getElement(formFields, `#${field}`)
     if (!element) {
       const checkboxes = await getTags(formFields, 'input[type=checkbox]')
@@ -582,6 +584,7 @@ async function fill (page, fieldContainer, body, uploads) {
 }
 
 async function getElement (page, identifier) {
+  Log.info('get element', identifier)
   const frame = await getOptionalApplicationFrame(page)
   let element
   if (identifier.startsWith('#')) {
@@ -695,6 +698,7 @@ async function getElement (page, identifier) {
 }
 
 async function evaluate (page, method, element) {
+  Log.info('evaluate')
   let fails = 0
   const active = element || page
   while (true) {

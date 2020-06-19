@@ -241,6 +241,14 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   HTML.renderTemplate(templateDoc, headingLink, 'heading-link', 'heading')
   const accountMenuContainer = templateDoc.getElementById('account-menu-container')
   const administratorMenuContainer = templateDoc.getElementById('administrator-menu-container')
+  const Log = require(`${__dirname}/log.js`)('merge-package-json')
+  if (packageJSON.dashboard.menus && packageJSON.dashboard.menus.account) {
+    Log.info('setting up account menu', packageJSON.dashboard.menus.account.join('\n'))
+  }
+  if (packageJSON.dashboard.menus && packageJSON.dashboard.menus.administrator) {
+    Log.info('setting up administrator menu', packageJSON.dashboard.menus.administrator.join('\n'))
+  }
+
   if (!req.account) {
     accountMenuContainer.parentNode.removeChild(accountMenuContainer)
     administratorMenuContainer.removeChild(administratorMenuContainer)

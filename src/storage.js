@@ -2,6 +2,7 @@ const crypto = require('crypto')
 
 module.exports = {
   setup: async (envPrefix) => {
+    const Log = require(`${__dirname}/log.js`)('storage')
     let Storage, cache
     if (envPrefix) {
       Storage = require(process.env[`${envPrefix}_STORAGE`]).Storage
@@ -16,12 +17,14 @@ module.exports = {
     }
     const container = {
       exists: async (file) => {
+        Log.info('exists', file)
         if (!file) {
           throw new Error('invalid-file')
         }
         return storage.exists(file)
       },
       read: async (file) => {
+        Log.info('read', file)
         if (!file) {
           throw new Error('invalid-file')
         }
@@ -50,6 +53,7 @@ module.exports = {
         return data
       },
       readMany: async (prefix, files) => {
+        Log.info('readMany', prefix, files)
         if (!files || !files.length) {
           throw new Error('invalid-files')
         }
@@ -97,6 +101,7 @@ module.exports = {
         return data
       },
       readBinary: async (file) => {
+        Log.info('readBinary', file)
         if (!file) {
           throw new Error('invalid-file')
         }
@@ -113,6 +118,7 @@ module.exports = {
         return data
       },
       write: async (file, contents) => {
+        Log.info('write', file)
         if (!file) {
           throw new Error('invalid-file')
         }
@@ -129,6 +135,7 @@ module.exports = {
         }
       },
       writeMany: async (file, contents) => {
+        Log.info('writeMany', file)
         if (!file) {
           throw new Error('invalid-file')
         }
@@ -157,6 +164,7 @@ module.exports = {
         }
       },
       delete: async (file) => {
+        Log.info('delete', file)
         if (!file) {
           throw new Error('invalid-file')
         }
@@ -167,9 +175,7 @@ module.exports = {
       }
     }
     if (process.env.NODE_ENV === 'testing') {
-      container.flush = async () => {
-        await storage.flush()
-      }
+      container.flush = storage.flush
     }
     for (const x in storage) {
       if (!container[x]) {

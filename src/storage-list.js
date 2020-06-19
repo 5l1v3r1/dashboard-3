@@ -1,6 +1,7 @@
 module.exports = {
   setup: async (storage, moduleName) => {
     let storageList
+    const Log = require(`${__dirname}/log.js`)('storage-list')
     const env = moduleName ? `${moduleName}_STORAGE` : 'STORAGE'
     if (env && process.env[env]) {
       const StorageList = require(process.env[env]).StorageList
@@ -11,6 +12,7 @@ module.exports = {
     }
     const container = {
       add: async (path, itemid) => {
+        Log.info('add', path, itemid)
         const added = await storageList.exists(path, itemid)
         if (added) {
           return
@@ -18,6 +20,7 @@ module.exports = {
         return storageList.add(path, itemid)
       },
       addMany: async (items) => {
+        Log.info('addMany', items)
         for (const path in items) {
           const itemid = items[path]
           const added = await storageList.exists(path, itemid)
@@ -28,12 +31,15 @@ module.exports = {
         return storageList.addMany(items)
       },
       count: async (path) => {
+        Log.info('count', path)
         return storageList.count(path)
       },
       exists: async (path, itemid) => {
+        Log.info('existing', path, itemid)
         return storageList.exists(path, itemid)
       },
       list: async (path, offset, pageSize) => {
+        Log.info('list', path, offset, pageSize)
         offset = offset || 0
         if (pageSize === null || pageSize === undefined) {
           pageSize = global.pageSize
@@ -74,6 +80,7 @@ module.exports = {
         return itemids
       },
       listAll: async (path) => {
+        Log.info('listAll', path)
         const itemids = await storageList.listAll(path)
         if (!itemids || !itemids.length) {
           return null
@@ -107,15 +114,12 @@ module.exports = {
         return itemids
       },
       remove: async (path, itemid) => {
+        Log.info('remove', path, itemid)
         return storageList.remove(path, itemid)
       }
     }
     if (process.env.NODE_ENV === 'testing') {
-      container.flush = async () => {
-        if (storageList.flush) {
-          await storageList.flush()
-        }
-      }
+      container.flush = storageList.flush
     }
     return container
   }
