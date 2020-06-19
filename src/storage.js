@@ -133,6 +133,9 @@ module.exports = {
         if (cache) {
           await cache.set(file, string)
         }
+        if (process.env.NODE_ENV === 'testing') {
+          await wait()
+        }
       },
       writeMany: async (file, contents) => {
         Log.info('writeMany', file)
@@ -150,6 +153,9 @@ module.exports = {
         if (cache) {
           await cache.set(file, string)
         }
+        if (process.env.NODE_ENV === 'testing') {
+          await wait()
+        }
       },
       writeBinary: async (file, buffer) => {
         if (!file) {
@@ -161,6 +167,9 @@ module.exports = {
         await storage.writeBinary(file, buffer)
         if (cache) {
           await cache.set(file, buffer.toString('hex'))
+        }
+        if (process.env.NODE_ENV === 'testing') {
+          await wait()
         }
       },
       delete: async (file) => {
@@ -174,8 +183,14 @@ module.exports = {
         }
       }
     }
+    let wait
     if (process.env.NODE_ENV === 'testing') {
       container.flush = storage.flush
+      const util = require('util')
+      wait = util.promisify((callback) => {
+        console.log('waiting on write')
+        return setTimeout(callback, 1000)
+      })
     }
     for (const x in storage) {
       if (!container[x]) {

@@ -17,7 +17,10 @@ module.exports = {
         if (added) {
           return
         }
-        return storageList.add(path, itemid)
+        await storageList.add(path, itemid)
+        if (process.env.NODE_ENV === 'testing') {
+          await wait()
+        }
       },
       addMany: async (items) => {
         Log.info('addMany', items)
@@ -28,7 +31,10 @@ module.exports = {
             delete (items[path])
           }
         }
-        return storageList.addMany(items)
+        await storageList.addMany(items)
+        if (process.env.NODE_ENV === 'testing') {
+          await wait()
+        }
       },
       count: async (path) => {
         Log.info('count', path)
@@ -118,8 +124,13 @@ module.exports = {
         return storageList.remove(path, itemid)
       }
     }
+    let wait
     if (process.env.NODE_ENV === 'testing') {
       container.flush = storageList.flush
+      const util = require('util')
+      wait = util.promisify((callback) => {
+        return setTimeout(callback, 1000)
+      })
     }
     return container
   }

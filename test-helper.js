@@ -440,25 +440,6 @@ const proxy = util.promisify((method, path, req, callback) => {
       requestOptions.headers[header] = req.headers[header]
     }
   }
-  let delayedCallback
-  if (global.delayDiskWrites) {
-    // these storage engines do not require a delay
-    if (process.env.STORAGE === '@userdashboard/storage-redis' ||
-        process.env.STORAGE === '@userdashboard/storage-mysql' ||
-        process.env.STORAGE === '@userdashboard/storage-mongodb' ||
-        process.env.STORAGE === '@userdashboard/storage-postgresql') {
-      delayedCallback = callback
-    } else {
-      // using fs or s3 a delay is needed to guarantee sort order
-      delayedCallback = (error, result) => {
-        return setTimeout(() => {
-          callback(error, result)
-        }, 1200)
-      }
-    }
-  } else {
-    delayedCallback = callback
-  }
   const protocol = baseURLParts[0] === 'https' ? https : http
   let ended
   const proxyRequest = protocol.request(requestOptions, (proxyResponse) => {
@@ -471,7 +452,7 @@ const proxy = util.promisify((method, path, req, callback) => {
         return
       }
       if (!body) {
-        return delayedCallback()
+        return callback()
       }
       if (proxyResponse.headers['set-cookie']) {
         const cookie = proxyResponse.headers['set-cookie']
@@ -488,12 +469,12 @@ const proxy = util.promisify((method, path, req, callback) => {
         if (proxyResponse.headers['content-type'].startsWith('application/json')) {
           body = JSON.parse(body.toString())
           if (body.object === 'error') {
-            return delayedCallback(new Error(body.message))
+            return callback(new Error(body.message))
           }
-          return delayedCallback(null, body)
+          return callback(null, body)
         }
       }
-      return delayedCallback(null, body)
+      return callback(null, body)
     })
   })
   proxyRequest.on('error', (error) => {
