@@ -33,11 +33,12 @@ describe('index', () => {
       describe(property.description, () => {
         if (!property.noDefaultValue) {
           it('default ' + (property.default || property.defaultDescription || 'unset'), async () => {
+            const port = 2000 + Math.floor(Math.random() * 50000)
             if (property.raw.startsWith('APPLICATION_SERVER')) {
               if (property.raw === 'APPLICATION_SERVER') {
                 process.env.APPLICATION_SERVER_TOKEN = 'a secret string'
               } else {
-                process.env.APPLICATION_SERVER = 'http://localhost:1234'
+                process.env.APPLICATION_SERVER = `http://localhost:${port}`
               }
             }
             if (property.raw.startsWith('ENCRYPTION_')) {
@@ -55,12 +56,13 @@ describe('index', () => {
           })
         }
         it(property.valueDescription, async () => {
+          const port = 2000 + Math.floor(Math.random() * 50000)
           process.env[property.raw] = property.value
           if (property.raw.startsWith('APPLICATION_SERVER')) {
             if (property.raw === 'APPLICATION_SERVER') {
               process.env.APPLICATION_SERVER_TOKEN = 'a secret string'
             } else {
-              process.env.APPLICATION_SERVER = 'http://localhost:1234'
+              process.env.APPLICATION_SERVER = `http://localhost:${port}`
             }
           }
           if (property.raw.startsWith('ENCRYPTION_')) {
