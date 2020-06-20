@@ -14,8 +14,9 @@ describe('internal-api/proxy', () => {
         res.end()
         server.close()
       })
-      server.listen('1234', 'localhost')
-      global.applicationServer = 'http://localhost:1234'
+      const port = global.port + 2000
+      server.listen(port, 'localhost')
+      global.applicationServer = `http://localhost:${port}`
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
@@ -38,8 +39,9 @@ describe('internal-api/proxy', () => {
         res.end()
         server.close()
       })
-      server.listen('1234', 'localhost')
-      global.applicationServer = 'http://localhost:1234'
+      const port = global.port + 2000
+      server.listen(port, 'localhost')
+      global.applicationServer = `http://localhost:${port}`
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
@@ -62,8 +64,9 @@ describe('internal-api/proxy', () => {
         res.end()
         server.close()
       })
-      server.listen('1234', 'localhost')
-      global.applicationServer = 'http://localhost:1234'
+      const port = global.port + 2000
+      server.listen(port, 'localhost')
+      global.applicationServer = `http://localhost:${port}`
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
@@ -86,8 +89,9 @@ describe('internal-api/proxy', () => {
         res.end()
         server.close()
       })
-      server.listen('1234', 'localhost')
-      global.applicationServer = 'http://localhost:1234'
+      const port = global.port + 2000
+      server.listen(port, 'localhost')
+      global.applicationServer = `http://localhost:${port}`
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
@@ -112,8 +116,9 @@ describe('internal-api/proxy', () => {
         res.end()
         server.close()
       })
-      server.listen('1234', 'localhost')
-      global.applicationServer = 'http://localhost:1234'
+      const port = global.port + 2000
+      server.listen(port, 'localhost')
+      global.applicationServer = `http://localhost:${port}`
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
@@ -144,8 +149,9 @@ describe('internal-api/proxy', () => {
           server.close()
         })
       })
-      server.listen('1234', 'localhost')
-      global.applicationServer = 'http://localhost:1234'
+      const port = global.port + 2000
+      server.listen(port, 'localhost')
+      global.applicationServer = `http://localhost:${port}`
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/api/user/some-application-page')
       req.account = user.account
@@ -164,7 +170,7 @@ describe('internal-api/proxy', () => {
       global.applicationServerToken = 'secret'
       const server = http.createServer((req, res) => {
         const form = new Multiparty.Form()
-        return form.parse(req, async (error, fields, files) => {
+        return form.parse(req, async (error, fields) => {
           if (error) {
             throw error
           }
@@ -177,8 +183,9 @@ describe('internal-api/proxy', () => {
           server.close()
         })
       })
-      server.listen('1234', 'localhost')
-      global.applicationServer = 'http://localhost:1234'
+      const port = global.port + 2000
+      server.listen(port, 'localhost')
+      global.applicationServer = `http://localhost:${port}`
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/api/user/some-application-page')
       req.account = user.account
@@ -204,8 +211,9 @@ describe('internal-api/proxy', () => {
           server.close()
         })
       })
-      server.listen('1234', 'localhost')
-      global.applicationServer = 'http://localhost:1234'
+      const port = global.port + 2000
+      server.listen(port, 'localhost')
+      global.applicationServer = `http://localhost:${port}`
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/api/user/some-application-page')
       req.account = user.account
@@ -234,8 +242,9 @@ describe('internal-api/proxy', () => {
         res.end()
         server.close()
       })
-      server.listen('1234', 'localhost')
-      global.applicationServer = 'http://localhost:1234'
+      const port = global.port + 2000
+      server.listen(port, 'localhost')
+      global.applicationServer = `http://localhost:${port}`
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/some-application-page')
       req.account = user.account
