@@ -188,7 +188,6 @@ module.exports = {
       container.flush = storage.flush
       const util = require('util')
       wait = util.promisify((callback) => {
-        console.log('waiting on write')
         return setTimeout(callback, 1000)
       })
     }
