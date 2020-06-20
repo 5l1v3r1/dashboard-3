@@ -1,5 +1,5 @@
 
-> @userdashboard/dashboard@1.0.216 test /home/runner/work/dashboard/dashboard
+> @userdashboard/dashboard@1.0.217 test /home/runner/work/dashboard/dashboard
 > mocha --exit --inline-diffs --full-trace --async-only --recursive --timeout 360000 --slow 360000 './{,!(public|node_modules)/**}/*.test.js'
 
 
@@ -182,77 +182,14 @@
 
   internal-api/proxy
     Proxy#pass
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should include x-accountid header
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should include x-sessionid header
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should include x-dashboard-server header
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create x-application-server-token header
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should include referer header
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should send POST data
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should send multipart POST data
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should send file upload POST data
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should execute proxy handlers
 
   internal-api/response
@@ -262,29 +199,8 @@ waiting on write
       ✓ should transfer navigation to template from page
       ✓ should transfer title to page from template
       ✓ should remove menus for guests
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should disable administrator menu for normal user
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should add account menu links from package.json
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should add administrator menu links from package.json
     Response#wrapTemplateWithSrcDoc (config override)
       ✓ should transfer head content from page to template
@@ -292,29 +208,8 @@ waiting on write
       ✓ should transfer navigation to template from page
       ✓ should transfer title to page from template
       ✓ should remove menus for guests
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should disable administrator menu for normal user
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should add account menu links from package.json
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should add administrator menu links from package.json
       ✓ should execute "page" handlers on the rendered page
       ✓ should execute "template" handlers on the rendered + page-merged template
@@ -336,13 +231,6 @@ waiting on write
     Server#authenticateRequest
       ✓ should reject missing token
       ✓ should reject invalid token
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should identify user from token
     Server#parsePostData
       ✓ should ignore file uploads
@@ -352,32 +240,8 @@ waiting on write
       ✓ should bind query data of URL to req
       ✓ should not bind route for unknown url
       ✓ should bind route to req
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should redirect user to verification
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should execute "before" server handler before identifying user
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should execute "after" server handler after identifying user
       ✓ should execute "after" server handler after identifying guest
       ✓ should execute "before" and "after" server handler
@@ -385,16 +249,6 @@ waiting on write
 
   internal-api/sitemap
     Sitemap#authenticateRequest
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should substitute language HTML file
 
   internal-api/storage-cache
@@ -430,75 +284,46 @@ waiting on write
 
   internal-api/storage-object
     getProperties
-waiting on write
       ✓ should return string properties
-waiting on write
       ✓ should return int properties
-waiting on write
       ✓ should return float properties
-waiting on write
       ✓ should return boolean properties
     getProperty
-waiting on write
       ✓ should return string property
-waiting on write
       ✓ should return int property
-waiting on write
       ✓ should return float property
-waiting on write
       ✓ should return boolean property
     removeProperty
-waiting on write
-waiting on write
       ✓ should delete properties
     removeProperties
-waiting on write
-waiting on write
       ✓ should delete properties
     setProperty
-waiting on write
       ✓ should set string property
-waiting on write
       ✓ should set int property
-waiting on write
       ✓ should set float property
-waiting on write
       ✓ should set boolean property
     setProperties
-waiting on write
       ✓ should set string properties
-waiting on write
       ✓ should set int properties
-waiting on write
       ✓ should set float properties
-waiting on write
       ✓ should set boolean properties
 
   internal-api/storage
     Storage#read
       ✓ should require file
-waiting on write
       ✓ should return file contents
     Storage#readMany
       ✓ should require files array
-waiting on write
-waiting on write
-waiting on write
       ✓ should return files contents
     Storage#write
       ✓ should require file
       ✓ should require contents
-waiting on write
       ✓ should accept content object
-waiting on write
       ✓ should accept content string
-waiting on write
       ✓ should write file contents
-waiting on write
       ✓ should encrypt contents
     Storage#delete
       ✓ should require file
-waiting on write
       ✓ should delete file
 
   internal-api/timestamp
@@ -515,1322 +340,199 @@ waiting on write
 
   /account/change-password
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should apply new password (screenshots)
     errors
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-new-password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-new-password-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-confirm-password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-password
 
   /account/change-username
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should apply new username (screenshots)
     errors
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-new-username
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-new-username-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-password
 
   /account/create-profile
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for full-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for dob
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for website
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile (screenshots)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with full-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile and set default
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with display name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with dob in YYYY-MM-DD
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with dob in MM-DD-YYYY
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create profile with website
     errors
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-first-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-first-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-last-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-last-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-display-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-display-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-dob
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-website
 
   /account/create-reset-code
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create reset code (screenshots)
     errors
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-secret-code
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-secret-code-length
 
   /account/delete-account-complete
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present 3 days remaining message
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present 7 days remaining message
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present instant deletion message
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present instant delete message (screenshots)
 
   /account/delete-account
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should mark account deleted (screenshots)
     errors
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-password
 
   /account/delete-profile
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data
     exceptions
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-profile
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-account
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should delete profile (screenshots)
 
   /account/delete-reset-code
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data
     exceptions
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-reset-codeid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-account
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should delete reset code (screenshots)
 
   /account/edit-profile
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for full-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for display-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for dob
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should have elements for website
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile (screenshots)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with full-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with display name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with dob in YYYY-MM-DD
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with dob in MM-DD-YYYY
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should update profile with website
     errors
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-first-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-first-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-last-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-last-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-display-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-display-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-dob
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-website
 
   /account/end-all-sessions
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should generate a new session key (screenshots)
 
   /account/end-session
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should end the session (screenshots)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should end current session
 
   /account
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should return page (screenshots)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should not link to account preferences
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should link to account preferences
 
   /account/language
     exceptions
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should require language enabled
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should change the language (screenshots)
 
   /account/profile
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the profile table (screenshots)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should show fields if data exists
 
   /account/profiles
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
       ✓ should return one page (screenshots)
       ✓ should change page size
       ✓ should change offset
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should show fields if data exists
 
   /account/register
@@ -1847,108 +549,18 @@ waiting on write
       ✓ should have elements for company-name
       ✓ should have elements for website
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new account with full name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with contact email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with display email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with display name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with dob in YYYY-MM-DD
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with dob in MM-DD-YYYY
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create new profile with website
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create 20-minute session
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create account (screenshots)
     errors
       ✓ invalid-username
@@ -1975,64 +587,8 @@ waiting on write
     view
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should reset session key
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should reset code last used
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should sign in (screenshots)
     errors
       ✓ invalid-username
@@ -2040,62 +596,15 @@ waiting on write
       ✓ invalid-new-password
       ✓ invalid-new-password-length
       ✓ invalid-confirm-password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-account
 
   /account/reset-code
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the reset code table (screenshots)
 
   /account/reset-codes
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
@@ -2105,112 +614,23 @@ waiting on write
 
   /account/restore-account
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should unset account deleted (screenshots)
     errors
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-username
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-account
 
   /account/session
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the session table (screenshots)
 
   /account/sessions
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should exclude ended sessions
     view
       ✓ should return one page (screenshots)
@@ -2219,262 +639,46 @@ waiting on write
 
   /account/set-default-profile
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should set the profile as default (screenshots)
 
   /account/signin
     view
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create session expiring in 20 minutes as default
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create session expiring in 20 minutes
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create session expiring in 8 hours
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create session expiring in 30 days
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should sign in (screenshots)
     errors
       ✓ invalid-username
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-password
 
   /account/signout-complete
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should sign out (screenshots)
 
   /account/signout
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should end the session
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should redirect to signout complete page
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should signout (screenshots)
 
   /account/verify
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should mark session as verified
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should verify session (screenshots)
     errors
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-username
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-password
 
   /administrator/account-profiles
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
@@ -2484,29 +688,6 @@ waiting on write
       ✓ should change offset
 
   /administrator/account-reset-codes
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
@@ -2516,29 +697,6 @@ waiting on write
       ✓ should change offset
 
   /administrator/account-sessions
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
@@ -2549,133 +707,15 @@ waiting on write
 
   /administrator/account
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the account table (screenshots)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the profile table
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the sessions table
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should hide empty reset codes table
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present a populated reset codes table
 
   /administrator/accounts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
@@ -2685,37 +725,6 @@ waiting on write
       ✓ should change offset
 
   /administrator/administrators
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
@@ -2726,566 +735,69 @@ waiting on write
 
   /administrator/assign-administrator
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should apply account update (screenshots)
 
   /administrator/create-reset-code
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should create reset code (screenshots)
     errors
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-secret-code
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ invalid-secret-code-length
 
   /administrator/delete-account
     exceptions
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should reject invalid accountid
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should immediately delete (screenshots)
 
   /administrator/delete-schedule
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the deleted accounts table (screenshots)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should return one page
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should change page size
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should change offset
 
   /administrator
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should return page (screenshots)
 
   /administrator/profile
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the profile table (screenshots)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should show fields if data exists
 
   /administrator/profiles
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
       ✓ should return one page (screenshots)
       ✓ should change page size
       ✓ should change offset
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should show fields if data exists
 
   /administrator/reset-code
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the reset code table (screenshots)
 
   /administrator/reset-codes
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
@@ -3296,450 +808,68 @@ waiting on write
 
   /administrator/reset-session-key
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should reset session key (screenshots)
 
   /administrator/revoke-administrator
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should revoke administrator status (screenshots)
 
   /administrator/schedule-account-delete
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should schedule account for deletion (screenshots)
 
   /administrator/session
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the session table (screenshots)
 
   /administrator/sessions
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     before
       ✓ should bind data to req
     view
       ✓ should present the sessions table (screenshots)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should return one page
       ✓ should change page size
       ✓ should change offset
 
   /administrator/transfer-ownership
     before
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should bind data to req
     view
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should present the form
     submit
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ should change ownership (screenshots)
 
   /api/administrator/account
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ unspecified querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     redacts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ usernameHash
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ passwordHash
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ sessionKey
 
   /api/administrator/accounts-count
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ integer
 
   /api/administrator/accounts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -3755,55 +885,9 @@ waiting on write
 
   /api/administrator/administrator-accounts-count
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ integer
 
   /api/administrator/administrator-accounts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -3820,497 +904,59 @@ waiting on write
   /api/administrator/create-reset-code
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ unspecified querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-secret-code
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted secret-code
       invalid-secret-code-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid posted secret-code length
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     configuration
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MINIMUM_RESET_CODE_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_RESET_CODE_LENGTH
 
   /api/administrator/delete-account
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
     receieves
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ querystring accountid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ boolean
 
   /api/administrator/deleted-accounts-count
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ querystring accountid
 
   /api/administrator/deleted-accounts
     receives
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optional querystring offset (integer)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optional querystring limit (integer)
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optional querystring all (boolean)
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ array
     redacts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ usernameHash
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ passwordHash
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ sessionKey
     configuration
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment PAGE_SIZE
 
   /api/administrator/profile
     exceptions
       invalid-profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring profileid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/administrator/profiles-count
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ integer
 
   /api/administrator/profiles
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -4324,218 +970,29 @@ waiting on write
   /api/administrator/reset-account-administrator
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ accessing account is not owner
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ querystring accountid is not administrator
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/administrator/reset-code
     exceptions
       invalid-reset-codeid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring codeid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring codeid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     redacts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ secretCodeHash
 
   /api/administrator/reset-codes-count
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ integer
 
   /api/administrator/reset-codes
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -4551,187 +1008,30 @@ waiting on write
   /api/administrator/reset-session-key
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
     invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ ineligible querystring account is deleted
     requires
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ querystring accountid is not deleted
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/administrator/session
     exceptions
       invalid-sessionid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ unspecified querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring sessionid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     redacts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ tokenHash
 
   /api/administrator/sessions-count
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ integer
 
   /api/administrator/sessions
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -4747,332 +1047,56 @@ waiting on write
   /api/administrator/set-account-administrator
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ unspecified querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring account is already administrator
     requires
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ querystring accountid is not administrator
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/administrator/set-account-deleted
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ unspecified querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring account is already deleted
     invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ querystring accountid is deleted
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     configuration
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment DELETE_DELAY
 
   /api/administrator/set-owner-account
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring account is already owner
     requires
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ accessing account is owner
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ querystring account is not owner
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ querystring account is not deleted
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/account
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     redacts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ usernameHash
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ passwordHash
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ sessionKey
 
   /api/user/create-account
@@ -5117,59 +1141,17 @@ waiting on write
       invalid-dob
         ✓ missing posted dob
     receives
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted first-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted last-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted display-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted dob
     returns
-waiting on write
-waiting on write
       ✓ object
     configuration
       ✓ environment MINIMUM_USERNAME_LENGTH
@@ -5177,46 +1159,6 @@ waiting on write
       ✓ environment MINIMUM_PASSWORD_LENGTH
       ✓ environment MAXIMUM_PASSWORD_LENGTH
       ✓ environment REQUIRE_PROFILE
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment USER_PROFILE_FIELDS
       ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
       ✓ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
@@ -5224,553 +1166,87 @@ waiting on write
       ✓ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
       ✓ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
-waiting on write
-waiting on write
       ✓ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ override req.userProfileFields
 
   /api/user/create-profile
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
       invalid-first-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted first-name
       invalid-first-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted first-name too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted first-name too long
       invalid-last-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted last-name
       invalid-last-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted last-name too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted last-name too long
       invalid-display-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted display-name
       invalid-display-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted display-name too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted display-name too long
       invalid-company-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted company-name too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted company-name too long
       invalid-company-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid-company-name-length
       invalid-contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted contact-email
       invalid-display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted display-email
       invalid-location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted location
       invalid-occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted occupation
       invalid-phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted phone
       invalid-dob
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted dob
     receives
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted first-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted last-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted display-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted dob
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     configuration
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment USER_PROFILE_FIELDS
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ override req.userProfileFields
 
   /api/user/create-reset-code
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
       invalid-secret-code
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted secret-code
       invalid-secret-code-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted secret code too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted secret code too long
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/create-session
@@ -5780,285 +1256,58 @@ waiting on write
       invalid-password
         ✓ missing posted password
     receives
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optional posted remember (hours|days)
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/delete-profile
     exceptions
       invalid-profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring profileid
       invalid-profile
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ querystring profileid is default contact profile
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring profileid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ boolean
 
   /api/user/delete-reset-code
     exceptions
       invalid-reset-codeid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring codeid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring codeid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring codeid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ boolean
 
   /api/user/profile
     exceptions
       invalid-profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring profileid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring profileid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/profiles-count
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ integer
 
   /api/user/profiles
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
     receives
       ✓ optional querystring offset (integer)
@@ -6072,62 +1321,14 @@ waiting on write
   /api/user/reset-account-deleted
     exceptions
       invalid-username
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted username
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid posted username
       invalid-password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid posted password
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ credentialed account is not scheduled for deletion
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/reset-account-password
@@ -6140,198 +1341,38 @@ waiting on write
       invalid-secret-code
         ✓ missing posted secret-code
       invalid-reset-code
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid posted secret-code
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ boolean
 
   /api/user/reset-code
     exceptions
       invalid-reset-codeid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring codeid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring codeid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring codeid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     redacts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ secretCodeHash
 
   /api/user/reset-codes-count
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ integer
 
   /api/user/reset-codes
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
     receives
       ✓ optional querystring offset (integer)
@@ -6347,209 +1388,41 @@ waiting on write
   /api/user/reset-session-key
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ boolean
 
   /api/user/session
     exceptions
       invalid-sessionid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring sessionid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring sessionid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring sessionid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     redacts
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ tokenHash
 
   /api/user/sessions-count
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ integer
 
   /api/user/sessions
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
     receives
       ✓ optional querystring offset (integer)
@@ -6563,925 +1436,166 @@ waiting on write
   /api/user/set-account-deleted
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
       invalid-password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid posted password
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     configuration
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment DELETE_DELAY
 
   /api/user/set-account-language
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
       invalid-language
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted language
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid posted language
     receives
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ required posted language
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/set-account-password
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
       invalid-password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid posted password
       invalid-new-password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted new-password
       invalid-new-password-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted new-password too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted new-password too long
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/set-account-profile
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
       invalid-profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid posted profileid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/set-account-username
     exceptions
       invalid-accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring accountid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring accountid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible accessing account
       invalid-password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted password
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid posted password
       invalid-new-username
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted new-username
       invalid-new-username-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted new-username too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted new-username too long
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/set-session-ended
     exceptions
       invalid-sessionid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring sessionid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring sessionid
       invalid-session
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ querystring sessionid is not active session
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring sessionid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/set-session-verified
     exceptions
       invalid-sessionid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring sessionid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring sessionid
       invalid-account
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring sessionid
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
 
   /api/user/update-profile
     exceptions
       invalid-profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing querystring profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ invalid querystring profileid
       invalid-profileid
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ ineligible querystring profileid
       invalid-first-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted first-name
       invalid-first-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted first-name too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted first-name too long
       invalid-last-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted last-name
       invalid-last-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted last-name too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted last-name too long
       invalid-display-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted display-name
       invalid-display-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted display-name too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted display-name too long
       invalid-company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted company-name
       invalid-company-name-length
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted company-name too short
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ posted company-name too long
       invalid-contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted contact-email
       invalid-display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted display-email
       invalid-location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted location
       invalid-occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted occupation
       invalid-phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted phone
       invalid-dob
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
         ✓ missing posted dob
     receives
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted first-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted last-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted display-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted company-name
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted contact-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted display-email
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted location
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted occupation
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted phone
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ optionally-required posted dob
     returns
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ object
     configuration
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment USER_PROFILE_FIELDS
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
-waiting on write
       ✓ override req.userProfileFields
 
 
