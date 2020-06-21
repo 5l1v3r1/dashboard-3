@@ -12,15 +12,6 @@ module.exports = {
       listAll: util.promisify(listAll),
       remove: util.promisify(remove)
     }
-    if (process.env.NODE_ENV === 'testing') {
-      const exec = require('child_process').execSync
-      container.flush = util.promisify((callback) => {
-        if (!storagePath || storagePath.length < 5) {
-          throw new Error('unsafe storage path ' + storagePath)
-        }
-        return exec(`rm -rf ${storagePath} && mkdir -p ${storagePath}`, callback)
-      })
-    }
     return container
   }
 }
