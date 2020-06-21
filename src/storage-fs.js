@@ -2,6 +2,15 @@ const fs = require('fs')
 const util = require('util')
 let storagePath
 
+let writeFile = fs.writeFile
+if (process.env.NODE_ENV === 'testing') {
+  writeFile = (filepath, contents, callback) => {
+    return fs.writeFile(filepath, contents, () => {
+      return setTimeout(callback, 1000)
+    })
+  }
+}
+
 module.exports = {
   setup: async () => {
     if (!process.env.STORAGE) {
@@ -82,10 +91,10 @@ function write (file, contents, callback) {
         if (error) {
           return callback(error)
         }
-        return fs.writeFile(`${storagePath}/${file}`, contents.toString(), callback)
+        return writeFile(`${storagePath}/${file}`, contents.toString(), callback)
       })
     }
-    return fs.writeFile(`${storagePath}/${file}`, contents.toString(), callback)
+    return writeFile(`${storagePath}/${file}`, contents.toString(), callback)
   })
 }
 
@@ -103,10 +112,10 @@ function writeBinary (file, buffer, callback) {
         if (error) {
           return callback(error)
         }
-        return fs.writeFile(`${storagePath}/${file}`, buffer, callback)
+        return writeFile(`${storagePath}/${file}`, buffer, callback)
       })
     }
-    return fs.writeFile(`${storagePath}/${file}`, buffer, callback)
+    return writeFile(`${storagePath}/${file}`, buffer, callback)
   })
 }
 

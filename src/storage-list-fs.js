@@ -16,6 +16,15 @@ module.exports = {
   }
 }
 
+let writeFile = fs.writeFile
+if (process.env.NODE_ENV === 'testing') {
+  writeFile = (filepath, contents, callback) => {
+    return fs.writeFile(filepath, contents, () => {
+      return setTimeout(callback, 1000)
+    })
+  }
+}
+
 let storagePath
 if (!process.env.STORAGE) {
   storagePath = process.env.STORAGE_PATH || `${global.applicationPath}/data`
@@ -38,7 +47,7 @@ function exists (path, itemid, callback) {
 
 function add (path, itemid, callback) {
   createFolder(`${storagePath}/${path}`)
-  return fs.writeFile(`${storagePath}/${path}/${itemid}`, '', callback)
+  return writeFile(`${storagePath}/${path}/${itemid}`, '', callback)
 }
 
 function addMany (items, callback) {
@@ -50,7 +59,7 @@ function addMany (items, callback) {
     const path = paths.shift()
     const itemid = items[path]
     createFolder(`${storagePath}/${path}`)
-    return fs.writeFile(`${storagePath}/${path}/${itemid}`, '', () => {
+    return writeFile(`${storagePath}/${path}/${itemid}`, '', () => {
       return nextItem()
     })
   }
