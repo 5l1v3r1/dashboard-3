@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">account</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">account</h1>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account" translate="yes">account delete</a></p>
+  <h2 translate="yes">recovery ngoq</h2>
+  <p translate="yes">laH mu'wIj reset 'ej authentication tokens Qotlh Vas-lo' tlhe' ngoq.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/create-reset-code" translate="yes">ngoq chenmoH</a>
+    <a class="pure-button" href="/account/reset-codes" translate="yes">ngoq reset</a></p>
+  <h2 translate="yes">qoghDu'DajDaq De'</h2>
+  <p translate="yes">administrative meq SoH contact rut chaq nIS maH.</p>
+  <p class="pure-button-group"><a id="create-profile-link" class="pure-button" href="/account/create-profile">Create profile</a>
+    <a id="update-profile-link" class="pure-button" href="/account/edit-profile?profileid=${account.profileid}">Update my profile</a></p>
+  <h2 translate="yes">sessions vu'</h2>
+  <p translate="yes">signins recent jIH.</p>
+  <p class="pure-button-group">
+    <a class="pure-button" href="/account/sessions" translate="yes">sessions</a>
+    <a class="pure-button" href="/account/end-all-sessions" translate="yes">'o'megh Hoch sessions</a>
+  </p>
+  <h2 translate="yes">choH rurmoH neH credentials</h2>
+  <p translate="yes">username mu'wIj 'ej pegh 'ej neH qI' lo'.</p>
+  <p class="pure-button-group">
+    <a class="pure-button" href="/account/change-username" translate="yes">choH username</a>
+    <a class="pure-button" href="/account/change-password" translate="yes">choH mu'wIj</a>
+  </p>
+  <div id="language-preference-container">
+    <h2 translate="yes">Hol</h2>
+    <p translate="yes">Hol preference customize.</p>
+    <p class="pure-button-group"><a class="pure-button" href="/account/language" translate="yes">Hol wIv</a></p>
+  </div>
+  <h2 translate="yes">account delete</h2>
+  <p translate="yes">deletion je Sum pIq account schedule 'ej qIl vaj DaHechbogh choH.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account" translate="yes">account delete</a></p>
+</body>
+</html>

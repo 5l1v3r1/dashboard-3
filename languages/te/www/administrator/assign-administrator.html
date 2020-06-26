@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">నిర్వాహకుడిని కు కేటాయించు ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">నిర్వాహకుడిని కు కేటాయించు ${account.accountid}</h1>
+  <p translate="yes">ఇది అడ్మినిస్ట్రేటర్ ల సిస్టమ్ కు నామినేట్ చేయబడ్డ అకౌంట్ యాక్సెస్ ని మంజూరు చేస్తుంది.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/assign-administrator?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">నిర్వాహకుడిని కేటాయించు</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      విజయం! యూజర్ ఇప్పుడు అడ్మినిస్ట్రేటర్
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      తప్పు! తెలియని దోషం ఏర్పడింది
+    </div>
+  </template>
+</body>
+</html>

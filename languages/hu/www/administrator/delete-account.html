@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Töröl ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Töröl ${account.accountid}</h1>
+  <p translate="yes">A fiókok az ütemezett törlési időszak lejárta után törölhetők.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/delete-account?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Fiók törlése</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Siker! A fiókot törölték
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Hiba! Ismeretlen hiba történt
+    </div>
+  </template>
+  <template id="schedule-error">
+    <div class="error message" translate="yes">
+      Hiba! A fiókot először törlésre kell ütemezni.
+    </div>
+  </template>
+  <template id="duration-error">
+    <div class="error message" translate="yes">
+      Hiba! A fiók csak az ütemezett dátum után törölhető.
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">പുന:ക്രമീകരണ കോഡ് സൃഷ്ടിക്കുക</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">ഇതിനായി പുനക്രമീകരണ കോഡ് സൃഷ്ടിക്കുക ${account.accountid}</h1>
+  <p translate="yes">നിങ്ങൾ അവരുടെ ഐഡന്റിറ്റി ആദ്യം പരിശോധിച്ചുറപ്പിച്ചതിന് ശേഷം, പുനക്രമീകരിക്കൽ കോഡുകൾ ഇല്ലാതെ ഉപയോക്താക്കൾക്ക് അക്കൗണ്ട് ആക്സസ് പുനഃക്രമീകരിക്കുക.</p>
+  <div id="message-container"></div>
+  <table id="accounts-table" class="pure-table object-table">
+    <thead>
+      <tr>
+        <th >ID</th>
+        <th translate="yes">പേരു്</th>
+        <th translate="yes">ഇമെയിൽ</th>
+        <th translate="yes">സൃഷ്ടിക്കപ്പെട്ടത്</th>
+        <th translate="yes">അവസാനം സൈനിൻ ചെയ്തു</th>
+      </tr>
+    </thead>
+    <tr id="${account.accountid}">
+      <td>
+        <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+      </td>
+      <td>${account.firstName} ${account.lastName}</td>
+      <td>
+        <a href="mailto:${account.email}">${account.email}</a>
+      </td>
+      <td>${account.createdFormatted}</td>
+      <td>${account.lastSignedInFormatted}</td>
+    </tr>
+  </table>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">കോഡ് പുനക്രമീകരിക്കുക</label>
+        <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">പുന:ക്രമീകരണ കോഡ് സൃഷ്ടിക്കുക</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      വിജയം! നിങ്ങൾക്ക് റീസെറ്റ് കോഡ് ഉപയോക്താവുമായി പങ്കിടാവുന്നതാണ്
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      തെറ്റ്! അപരിചിതമായ ഒരു പിശക് സംഭവിച്ചു
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      തെറ്റ്! അസാധുവായ പുന:ക്രമീകരണ കോഡ്
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      തെറ്റ്! അസാധുവായ പുന:ക്രമീകരണ കോഡ് length
+    </div>
+  </template>
+</body>
+</html>

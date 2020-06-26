@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Mamorona données-potoana</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Mamorona données-potoana ho an' ${account.accountid}</h1>
+  <p translate="yes">Données ny tantara fa tsy mpampiasa ny données fehezan filazan', rehefa avy manamarina ny maha-izy azy aloha ianao.</p>
+  <div id="message-container"></div>
+  <table id="accounts-table" class="pure-table object-table">
+    <thead>
+      <tr>
+        <th >ID</th>
+        <th translate="yes">Anaran'</th>
+        <th translate="yes">Email</th>
+        <th translate="yes">Nahary</th>
+        <th translate="yes">Ny sonia farany</th>
+      </tr>
+    </thead>
+    <tr id="${account.accountid}">
+      <td>
+        <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+      </td>
+      <td>${account.firstName} ${account.lastName}</td>
+      <td>
+        <a href="mailto:${account.email}">${account.email}</a>
+      </td>
+      <td>${account.createdFormatted}</td>
+      <td>${account.lastSignedInFormatted}</td>
+    </tr>
+  </table>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">Données ny mari-pamantarana</label>
+        <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Mamorona données-potoana</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Fahombiazana! Azonao atao ny mizara ny données amin' ilay mpampiasa.
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Fahadisoana! Nisy fahadisoana tsy fantatra
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      Fahadisoana! Nahitana données ny minitra
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      Fahadisoana! Nahitana données ny minitra length
+    </div>
+  </template>
+</body>
+</html>

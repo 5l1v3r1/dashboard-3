@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Nyiaj</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Nyiaj</h1>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account" translate="yes">Rho tawm tus account</a></p>
+  <h2 translate="yes">Lis dej num kev muab rov qab</h2>
+  <p translate="yes">Cov lis dej num siv yuav pib dua koj lo lus zais thiab lov tes taw authentication tokens.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/create-reset-code" translate="yes">Tsim ib txoj</a>
+    <a class="pure-button" href="/account/reset-codes" translate="yes">Rov qab qhib cov lis dej num</a></p>
+  <h2 translate="yes">Ntaub ntawv profile</h2>
+  <p translate="yes">Kom kev vim li cas peb yuav tau mus cuag koj tej zaum.</p>
+  <p class="pure-button-group"><a id="create-profile-link" class="pure-button" href="/account/create-profile">Create profile</a>
+    <a id="update-profile-link" class="pure-button" href="/account/edit-profile?profileid=${account.profileid}">Update my profile</a></p>
+  <h2 translate="yes">Tswj zaug</h2>
+  <p translate="yes">Saib koj signins tsis ntev los no.</p>
+  <p class="pure-button-group">
+    <a class="pure-button" href="/account/sessions" translate="yes">Zaug</a>
+    <a class="pure-button" href="/account/end-all-sessions" translate="yes">Kawg txhua zaug</a>
+  </p>
+  <h2 translate="yes">Kev hloov signin hauv lub peev xwm</h2>
+  <p translate="yes">Koj tus username thiab password yog zais cia thiab tsuas siv rau kev kos npe.</p>
+  <p class="pure-button-group">
+    <a class="pure-button" href="/account/change-username" translate="yes">Hloov username</a>
+    <a class="pure-button" href="/account/change-password" translate="yes">Hloov lo lus zais</a>
+  </p>
+  <div id="language-preference-container">
+    <h2 translate="yes">Lus</h2>
+    <p translate="yes">Customize koj tus nyiam hais lus.</p>
+    <p class="pure-button-group"><a class="pure-button" href="/account/language" translate="yes">Xaiv lus</a></p>
+  </div>
+  <h2 translate="yes">Rho tawm tus account</h2>
+  <p translate="yes">Teem lub sij hawm koj tus account rau deletion near yav tom ntej, thiab ncua tseg yog hais tias koj hloov siab.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account" translate="yes">Rho tawm tus account</a></p>
+</body>
+</html>

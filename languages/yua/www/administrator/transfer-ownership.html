@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Transferir le propiedad ti' ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Transferir le propiedad ti' ${account.accountid}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/transfer-ownership?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Propiedad transferencia</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Éxito! Le usuario ts'o'ok sido u meentik propietario
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Ba'alo'! U ts'o'ok u producido jump'éel ba'alo' desconocido
+    </div>
+  </template>
+  <template id="invalid-account">
+    <div class="error message" translate="yes">
+      Ba'alo'! Chéen le propietario ma'alo'ob je'el u páajtal u transferir le propiedad
+    </div>
+  </template>
+</body>
+</html>

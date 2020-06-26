@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Администратори</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Администратори</h1>
+  <p translate="yes">Ови налози могу да приступе све што је у администрацији осим у преносу власништва.</p>
+  <div id="message-container"></div>
+  <div id="no-administrators">
+    <p translate="yes">Нема администраторских налога.</p>
+  </div>
+  <table id="administrators-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th >ID</th>
+        <th translate="yes">Име</th>
+        <th translate="yes">Е - поште</th>
+        <th translate="yes">Креирали</th>
+        <th translate="yes">Администратор од</th>
+        <th translate="yes">Последњи пут потписан у</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/administrators?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="administrator-row">
+    <table>
+      <tr id="${account.accountid}">
+        <td>
+          <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+        </td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td>
+          <a href="mailto:${account.email}">${account.email}</a>
+        </td>
+        <td>${account.createdFormatted}</td>
+        <td>${account.administratorFormatted}</td>
+        <td>${account.lastSignedInFormatted}</td>
+      </tr>
+    </table>
+  </template>
+</body>
+</html>

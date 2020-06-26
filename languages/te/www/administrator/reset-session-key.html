@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">కార్య వ్యవధి మీటను తిరిగి అమర్చు</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">కొరకు సెషన్ కీని రీసెట్ చేయండి ${account.accountid}</h1>
+  <p translate="yes">ప్రతి ఖాతా దాని సెషన్ లను ఒక రహస్య కీతో సంతకం చేస్తుంది, తద్వారా ఇది అన్ని ముందస్తు సెషన్ లను మార్చినప్పుడు ముగుస్తుంది.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/reset-session-key?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">కార్య వ్యవధి మీటను తిరిగి అమర్చు</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      విజయం! యూజర్ యొక్క సెషన్ లు ముగిశాయి
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      తప్పు! తెలియని దోషం ఏర్పడింది
+    </div>
+  </template>
+</body>
+</html>

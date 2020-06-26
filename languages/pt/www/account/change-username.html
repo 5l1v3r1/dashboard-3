@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Alterar nome de utilizador</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Alterar nome de utilizador</h1>
+  <p translate="yes">Todos os nomes de utilizador são irreversivelmente encriptados antes de armazenar os dados com bcrypt + sal partilhado.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/change-username" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="new-username" translate="yes">Novo nome de utilizador</label>
+        <input id="new-username" name="new-username" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">Senha atual</label>
+        <input required="required" id="password" name="password" type="password" maxlength="1000">
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Definir novo nome de utilizador</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Que sucesso! O seu novo nome de utilizador deve ser usado a partir de agora
+    </div>
+  </template>
+  <template id="invalid-new-username">
+    <div class="error message" translate="yes">
+      Um erro! Nome de utilizador inválido ou duplicado
+    </div>
+  </template>
+  <template id="invalid-password">
+    <div class="error message" translate="yes">
+      Um erro! A sua palavra-passe atual é inválida
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Um erro! Ocorreu um erro desconhecido
+    </div>
+  </template>
+  <template id="invalid-new-username-length">
+    <div class="error message" translate="yes">
+      Um erro! Novo comprimento inválido do nome de utilizador
+    </div>
+  </template>
+  <template id="duplicate-username">
+    <div class="error message" translate="yes">
+      Um erro! Outra pessoa está a usar esse nome de utilizador.
+    </div>
+  </template>
+</body>
+</html>

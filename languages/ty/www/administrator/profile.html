@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Mataitai ${profile.profileid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Hohoa</h1>
+  <table id="profiles-table" class="pure-table data-table">
+    <tbody id="${profile.profileid}">
+      <tr>
+        <th >ID</th>
+        <td>
+          <a href="/administrator/profile?profileid=${profile.profileid}">${profile.profileid}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Hamani</th>
+        <td>${profile.createdFormatted}</td>
+      </tr>
+      <tr id="full-name">
+        <th translate="yes">Ioa taatoa</th>
+        <td>${profile.firstName} ${profile.lastName}</td>
+      </tr>
+      <tr id="contact-email">
+        <th translate="yes">Farerei i te rata uira</th>
+        <td>
+          <a href="mailto:${profile.contactEmail}">${profile.contactEmail}</a>
+        </td>
+      </tr>
+      <tr id="display-name">
+        <th translate="yes">Tuu i te ioa</th>
+        <td>${profile.displayName}</td>
+      </tr>
+      <tr id="display-email">
+        <th translate="yes">Pia i te rata uira</th>
+        <td>
+          <a href="mailto:${profile.displayEmail}">${profile.displayEmail}</a>
+        </td>
+      </tr>
+      <tr id="dob">
+        <th translate="yes">Taio mahana fanauraa</th>
+        <td>${profile.dob}</td>
+      </tr>
+      <tr id="phone">
+        <th translate="yes">Niuniu</th>
+        <td>${profile.phone}</td>
+      </tr>
+      <tr id="occupation">
+        <th translate="yes">Ohipa</th>
+        <td>${profile.occupation}</td>
+      </tr>
+      <tr id="location">
+        <th translate="yes">Vahi</th>
+        <td>${profile.location}</td>
+      </tr>
+      <tr id="company-name">
+        <th translate="yes">Ioa o te pupu</th>
+        <td>${profile.companyName}</td>
+      </tr>
+      <tr id="website">
+        <th translate="yes">Tahua itenati</th>
+        <td>
+          <a href="${profile.website}">${profile.website}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

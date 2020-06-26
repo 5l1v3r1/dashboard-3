@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-reset-codes.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">రీసెట్ కోడ్ సృష్టించండి</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">రీసెట్ కోడ్ సృష్టించండి</h1>
+  <p translate="yes">మీరు మీ పాస్ వర్డ్ మర్చిపోయినట్లయితే, రీసెట్ కోడ్ లు మీ ఖాతాను యాక్సెస్ చేసుకునేందుకు అనుమతిస్తుంది.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/create-reset-code" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">రహస్య సంకేతం</label>
+        <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">కోడ్ సేవ్ చేయి</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      విజయం! మీ కొత్త కోడ్ ఎక్కడైనా సురక్షితంగా ఉండటం కొరకు సిద్ధంగా ఉంది.
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      తప్పు! చెల్లని రహస్య సంకేతం
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      తప్పు! చెల్లని రహస్య సంకేతం length
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      తప్పు! తెలియని దోషం ఏర్పడింది
+    </div>
+  </template>
+</body>
+</html>

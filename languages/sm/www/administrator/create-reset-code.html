@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Fatu le numera faailo o le toe seti</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Fatu le numera faailo e toe seti ai mo ${account.accountid}</h1>
+  <p translate="yes">Toe seti le faaaogaina o le faitotoa mo tagata faaaoga e aunoa ma le toe setiina o numera, pe a uma ona e faamaonia muamua mai lo latou faasinomaga.</p>
+  <div id="message-container"></div>
+  <table id="accounts-table" class="pure-table object-table">
+    <thead>
+      <tr>
+        <th >ID</th>
+        <th translate="yes">Igoa</th>
+        <th translate="yes">Imeli</th>
+        <th translate="yes">Foafoaina</th>
+        <th translate="yes">Na sainia mulimuli i le</th>
+      </tr>
+    </thead>
+    <tr id="${account.accountid}">
+      <td>
+        <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+      </td>
+      <td>${account.firstName} ${account.lastName}</td>
+      <td>
+        <a href="mailto:${account.email}">${account.email}</a>
+      </td>
+      <td>${account.createdFormatted}</td>
+      <td>${account.lastSignedInFormatted}</td>
+    </tr>
+  </table>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">Numera faalilolilo</label>
+        <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Fatu le numera faailo o le toe seti</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Manuia! E mafai ona e faasoaina atu le numera faailo o le toe seti faatasi ma le tagata faaaoga
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Mea sese! Na tupu se mea sese e le mailoa
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      Mea sese! Faaleaogaina le numera faailo
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      Mea sese! Faaleaogaina le numera faailo length
+    </div>
+  </template>
+</body>
+</html>

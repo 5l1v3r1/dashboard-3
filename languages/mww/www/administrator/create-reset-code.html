@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Ua kom muaj chaws pib dua</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Tsim pib dua txoj kev ${account.accountid}</h1>
+  <p translate="yes">Rov qab qhib tus account mus saib rau cov neeg siv tsis tas rov qab qhib leb, tom qab uas koj qhia peb txog lawv ua ntej.</p>
+  <div id="message-container"></div>
+  <table id="accounts-table" class="pure-table object-table">
+    <thead>
+      <tr>
+        <th >ID</th>
+        <th translate="yes">Lub npe</th>
+        <th translate="yes">Tug</th>
+        <th translate="yes">Tsim</th>
+        <th translate="yes">Xeem kos npe</th>
+      </tr>
+    </thead>
+    <tr id="${account.accountid}">
+      <td>
+        <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+      </td>
+      <td>${account.firstName} ${account.lastName}</td>
+      <td>
+        <a href="mailto:${account.email}">${account.email}</a>
+      </td>
+      <td>${account.createdFormatted}</td>
+      <td>${account.lastSignedInFormatted}</td>
+    </tr>
+  </table>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/create-reset-code?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">Rov qab qhib txoj</label>
+        <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Ua kom muaj chaws pib dua</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Kev tau zoo! Koj yuav muab cai uas muaj pib dua lub rau tus neeg siv
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Yuam kev! Ib qho yuam kev lawm tsis paub tias tshwm sim
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid pib dua txoj
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid pib dua txoj length
+    </div>
+  </template>
+</body>
+</html>

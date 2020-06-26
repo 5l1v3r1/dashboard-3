@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Reo pūkete</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Reo pūkete</h1>
+  <p translate="yes">Tīpakohia tō reo, ā, ka mahi ngā ihirangi ki tō reo manako.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/language" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">Reo</label>
+        <select id="language" name="language">
+          <option value="" translate="yes">
+            Tīpako reo
+          </option>
+        </select>
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Huri reo</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="language-option">
+    <option value="${language.code}">
+      ${language.name}
+    </option>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Angitu! Ka pā tō manakohanga reo mai i tēnei wā.
+    </div>
+  </template>
+  <template id="invalid-language">
+    <div class="error message" translate="yes">
+      Hē! I tīpakohia tētahi reo muhu
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Hē! I puta tētahi hapa tē mōhiotia
+    </div>
+  </template>
+</body>
+</html>

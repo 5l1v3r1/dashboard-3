@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">स्वामित्व को स्थानांतरित करें ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">स्वामित्व को स्थानांतरित करें ${account.accountid}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/transfer-ownership?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">स्वामित्व हस्तांतरण</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      सफलता! उपयोगकर्ता को मालिक बनाया गया है
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      त्रुटि! एक अज्ञात त्रुटि हुई
+    </div>
+  </template>
+  <template id="invalid-account">
+    <div class="error message" translate="yes">
+      त्रुटि! केवल वर्तमान मालिक ही स्वामित्व स्थानांतरित कर सकता है
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Administrators</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Administrators</h1>
+  <p translate="yes">E nehenehe teie mau aamu e farii i te mau mea atoa i roto i te faatereraa maori ra te transferring avariraa.</p>
+  <div id="message-container"></div>
+  <div id="no-administrators">
+    <p translate="yes">Aita e aamu faatere.</p>
+  </div>
+  <table id="administrators-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th >ID</th>
+        <th translate="yes">Ioa</th>
+        <th translate="yes">Rata uira</th>
+        <th translate="yes">Hamani</th>
+        <th translate="yes">Faatere mai</th>
+        <th translate="yes">Te tomoraa hopea i roto</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/administrators?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="administrator-row">
+    <table>
+      <tr id="${account.accountid}">
+        <td>
+          <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+        </td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td>
+          <a href="mailto:${account.email}">${account.email}</a>
+        </td>
+        <td>${account.createdFormatted}</td>
+        <td>${account.administratorFormatted}</td>
+        <td>${account.lastSignedInFormatted}</td>
+      </tr>
+    </table>
+  </template>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Konta</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Konta</h1>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account" translate="yes">Usuń konto</a></p>
+  <h2 translate="yes">Kody odzyskiwania</h2>
+  <p translate="yes">Te kody jednorazowego użytku można zresetować hasło i wyłączyć tokeny uwierzytelniania.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/create-reset-code" translate="yes">Tworzenie kodu</a>
+    <a class="pure-button" href="/account/reset-codes" translate="yes">Resetowanie kodów</a></p>
+  <h2 translate="yes">Informacje o profilu</h2>
+  <p translate="yes">Ze względów administracyjnych może czasami musimy skontaktować się z Tobą.</p>
+  <p class="pure-button-group"><a id="create-profile-link" class="pure-button" href="/account/create-profile">Create profile</a>
+    <a id="update-profile-link" class="pure-button" href="/account/edit-profile?profileid=${account.profileid}">Update my profile</a></p>
+  <h2 translate="yes">Zarządzanie sesjami</h2>
+  <p translate="yes">Wyświetl swoje ostatnie znaki.</p>
+  <p class="pure-button-group">
+    <a class="pure-button" href="/account/sessions" translate="yes">Sesji</a>
+    <a class="pure-button" href="/account/end-all-sessions" translate="yes">Zakończ wszystkie sesje</a>
+  </p>
+  <h2 translate="yes">Zmienianie poświadczeń logowania</h2>
+  <p translate="yes">Twoja nazwa użytkownika i hasło są tajne i są używane tylko do logowania.</p>
+  <p class="pure-button-group">
+    <a class="pure-button" href="/account/change-username" translate="yes">Zmiana nazwy użytkownika</a>
+    <a class="pure-button" href="/account/change-password" translate="yes">Zmienianie hasła</a>
+  </p>
+  <div id="language-preference-container">
+    <h2 translate="yes">Język</h2>
+    <p translate="yes">Dostosuj swoje preferencje językowe.</p>
+    <p class="pure-button-group"><a class="pure-button" href="/account/language" translate="yes">Wybierz język</a></p>
+  </div>
+  <h2 translate="yes">Usuń konto</h2>
+  <p translate="yes">Zaplanuj usunięcie konta w najbliższej przyszłości i anuluj, jeśli zmienisz zdanie.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account" translate="yes">Usuń konto</a></p>
+</body>
+</html>

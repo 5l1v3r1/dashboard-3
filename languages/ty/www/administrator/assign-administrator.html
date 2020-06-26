@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Horoa i te faatere i ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Horoa i te faatere i ${account.accountid}</h1>
+  <p translate="yes">Na te reira e horoa mai i te nominohia o te tomoraa i nia i te faanahoraa administrators.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/assign-administrator?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Horoa i te faatere</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Manuiaraa! Teie i muri nei te hoe faatere
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Hape! Ua tupu te hoe hape matau ore
+    </div>
+  </template>
+</body>
+</html>

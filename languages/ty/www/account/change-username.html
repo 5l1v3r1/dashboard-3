@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Taui i te ioa tomoraa</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Taui i te ioa tomoraa</h1>
+  <p translate="yes">Ang lahat ng usernames ay irreversibly-peeutari sa tuu na kasama ng bcrypt + sa.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/change-username" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="new-username" translate="yes">Ioa tomoraa api</label>
+        <input id="new-username" name="new-username" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">Tao huna i teie nei</label>
+        <input required="required" id="password" name="password" type="password" maxlength="1000">
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Haamau i te ioa tomoraa api</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Manuiaraa! E tia i ta outou ioa tomoraa api ia faaohipahia i teie nei
+    </div>
+  </template>
+  <template id="invalid-new-username">
+    <div class="error message" translate="yes">
+      Hape! Faaitehia e aore ra e tapiti api ioa tomoraa
+    </div>
+  </template>
+  <template id="invalid-password">
+    <div class="error message" translate="yes">
+      Hape! Ang inyong tao huna ay faaitehia
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Hape! Ua tupu te hoe hape matau ore
+    </div>
+  </template>
+  <template id="invalid-new-username-length">
+    <div class="error message" translate="yes">
+      Hape! Faaitehia New ioa tomoraa
+    </div>
+  </template>
+  <template id="duplicate-username">
+    <div class="error message" translate="yes">
+      Hape! Te vai ra te tahi atu taata o te faaohipa nei i te reira ioa tomoraa
+    </div>
+  </template>
+</body>
+</html>

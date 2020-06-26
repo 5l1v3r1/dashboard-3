@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-sessions.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Farano avokoa ireo fivoriana rehetra</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Farano avokoa ireo fivoriana rehetra</h1>
+  <p translate="yes">Potoana avy hatrany izany amin' ny fivoriana rehetra izay misy izany.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/account/end-all-sessions" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Midira ireo fivoriana rehetra</button>
+    </fieldset>
+  </form>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Fahadisoana! Nisy fahadisoana tsy fantatra
+    </div>
+  </template>
+</body>
+</html>

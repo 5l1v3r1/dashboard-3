@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Vim koj muab profile</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Vim koj muab profile</h1>
+  <p translate="yes">Koj vim profile pab raws li cov ua thawj tswv cheej nyob ntawm hu rau koj tus account.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/account/set-default-profile" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <select id="profileid" name="profileid">
+          <option value="" translate="yes">
+            Xaiv profile
+          </option>
+        </select>
+      </div>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Vim koj muab profile</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Kev tau zoo! Qhov profile tam sim no yog koj lub neej ntawd
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Yuam kev! Ib qho yuam kev lawm tsis paub tias tshwm sim
+    </div>
+  </template>
+  <template id="default-profile">
+    <div class="error message" translate="yes">
+      Yuam kev! Qhov no yog twb tau koj vim profile
+    </div>
+  </template>
+  <template id="profile-option">
+    <option value="${profile.profileid}">
+      ${profile.contactEmail}, ${profile.firstName} ${profile.lastName}
+    </option>
+  </template>
+</body>
+</html>

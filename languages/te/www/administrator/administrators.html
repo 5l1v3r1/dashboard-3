@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">నిర్వాహకులు</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">నిర్వాహకులు</h1>
+  <p translate="yes">ఈ ఖాతాలు యాజమాన్యాన్ని బదిలీ చేయడం మినహా అడ్మినిస్ట్రేషన్ లోని ప్రతిదానిని యాక్సెస్ చేసుకోవచ్చు.</p>
+  <div id="message-container"></div>
+  <div id="no-administrators">
+    <p translate="yes">నిర్వాహకుల ఖాతాలు ఏవీ లేవు.</p>
+  </div>
+  <table id="administrators-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th >ID</th>
+        <th translate="yes">పేరు</th>
+        <th translate="yes">ఇమెయిల్</th>
+        <th translate="yes">సృష్టించబడింది</th>
+        <th translate="yes">అప్పటి నుంచి అడ్మినిస్ట్రేటర్</th>
+        <th translate="yes">చివరిగా సైన్ ఇన్ చేయబడింది</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/administrators?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="administrator-row">
+    <table>
+      <tr id="${account.accountid}">
+        <td>
+          <a href="/administrator/account?accountid=${account.accountid}">${account.accountid}</a>
+        </td>
+        <td>${account.firstName} ${account.lastName}</td>
+        <td>
+          <a href="mailto:${account.email}">${account.email}</a>
+        </td>
+        <td>${account.createdFormatted}</td>
+        <td>${account.administratorFormatted}</td>
+        <td>${account.lastSignedInFormatted}</td>
+      </tr>
+    </table>
+  </template>
+</body>
+</html>

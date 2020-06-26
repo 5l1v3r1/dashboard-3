@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false" data-template="false">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">A tomo i roto i tau aamu</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="entry">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/signin" name="submit-form">
+    <fieldset>
+      <h1 translate="yes">Tomo i roto i</h1>
+      <div id="message-container"></div>
+      <div class="pure-control-group">
+        <label for="username" translate="yes">Ioa tomoraa</label>
+        <input id="username" name="username" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">Tao huna</label>
+        <input id="password" name="password" type="password" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <div class="pure-checkbox">
+          <label for="remember-minutes" translate="yes"><span><input type="radio" name="remember" value="minutes" id="remember-nothing" checked="checked"></span> Tomo i roto e 20 minuti</label>
+        </div>
+        <div class="pure-checkbox">
+          <label for="remember-hours" translate="yes"><span><input type="radio" name="remember" value="hours" id="remember-hours"></span> A tomo i roto e 8 hora</label>
+        </div>
+        <div class="pure-checkbox">
+          <label for="remember-days" translate="yes"><span><input type="radio" name="remember" value="days" id="remember-days"></span> A tomo i roto e 30 mahana</label>
+        </div>
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Tomo i roto i</button>
+      </div>
+      <ul>
+        <li>
+          <a href="/account/register" translate="yes">Tapaoraa i te hoe aamu</a>
+        </li>
+        <li>
+          <a href="/account/reset-account" translate="yes">Moe tao huna</a>
+        </li>
+        <li>
+          <a href="/account/restore-account" translate="yes">Faaore i te deleting aamu</a>
+        </li>
+      </ul>
+    </fieldset>
+  </form>
+  <template id="invalid-username">
+    <div class="error message" translate="yes">
+      Hape! Faaitehia ioa tomoraa
+    </div>
+  </template>
+  <template id="invalid-password">
+    <div class="error message" translate="yes">
+      Hape! Faaitehia tao huna
+    </div>
+  </template>
+  <template id="invalid-username-length">
+    <div class="error message" translate="yes">
+      Hape! Faaitehia ioa tomoraa
+    </div>
+  </template>
+  <template id="invalid-password-length">
+    <div class="error message" translate="yes">
+      Hape! Faaitehia tao huna
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Hape! Te hoe hape matau ocurred
+    </div>
+  </template>
+  <template id="account-deleted">
+    <div class="error message" translate="yes">
+      Hape! E te tumaraa o ta outou aamu <a href="/account/recover-account">and can still be recovered</a>
+    </div>
+  </template>
+</body>
+</html>

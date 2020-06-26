@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Excluir ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Excluir ${account.accountid}</h1>
+  <p translate="yes">As contas podem ser eliminadas após a passagem do período de eliminação programado.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/delete-account?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Eliminar conta</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Que sucesso! A conta foi eliminada
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Um erro! Ocorreu um erro desconhecido
+    </div>
+  </template>
+  <template id="schedule-error">
+    <div class="error message" translate="yes">
+      Um erro! A conta deve ser agendada para a eliminação primeiro
+    </div>
+  </template>
+  <template id="duration-error">
+    <div class="error message" translate="yes">
+      Um erro! A conta só pode ser eliminada após a data prevista
+    </div>
+  </template>
+</body>
+</html>

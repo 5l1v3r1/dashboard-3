@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Учетной записи</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Учетной записи</h1>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account" translate="yes">Удалить учетную запись</a></p>
+  <h2 translate="yes">Коды восстановления</h2>
+  <p translate="yes">Эти одноразовые коды могут сбросить пароль и отключить маркеры аутентификации.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/create-reset-code" translate="yes">Создание кода</a>
+    <a class="pure-button" href="/account/reset-codes" translate="yes">Коды сброса</a></p>
+  <h2 translate="yes">Информация о профиле</h2>
+  <p translate="yes">По административным причинам нам может потребоваться связаться с вами иногда.</p>
+  <p class="pure-button-group"><a id="create-profile-link" class="pure-button" href="/account/create-profile">Create profile</a>
+    <a id="update-profile-link" class="pure-button" href="/account/edit-profile?profileid=${account.profileid}">Update my profile</a></p>
+  <h2 translate="yes">Управление сеансами</h2>
+  <p translate="yes">Просмотр последних знаков.</p>
+  <p class="pure-button-group">
+    <a class="pure-button" href="/account/sessions" translate="yes">Сеансов</a>
+    <a class="pure-button" href="/account/end-all-sessions" translate="yes">Завершение всех сеансов</a>
+  </p>
+  <h2 translate="yes">Изменение signin в учетных данных</h2>
+  <p translate="yes">Ваше имя пользователя и пароль являются секретными и используются только для входа.</p>
+  <p class="pure-button-group">
+    <a class="pure-button" href="/account/change-username" translate="yes">Изменение имени пользователя</a>
+    <a class="pure-button" href="/account/change-password" translate="yes">Изменение пароля</a>
+  </p>
+  <div id="language-preference-container">
+    <h2 translate="yes">Язык</h2>
+    <p translate="yes">Настройте свои языковые предпочтения.</p>
+    <p class="pure-button-group"><a class="pure-button" href="/account/language" translate="yes">Выбрать язык</a></p>
+  </div>
+  <h2 translate="yes">Удалить учетную запись</h2>
+  <p translate="yes">Расписание вашей учетной записи для удаления в ближайшем будущем, и отменить, если вы передумаете.</p>
+  <p class="pure-button-group"><a class="pure-button" href="/account/delete-account" translate="yes">Удалить учетную запись</a></p>
+</body>
+</html>

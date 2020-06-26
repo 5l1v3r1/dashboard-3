@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Whakakore kaiwhakahaere</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Whakakore kaiwhakahaere mai i ${account.accountid}</h1>
+  <p translate="yes">Ka ngaro te pūkete i tīpakohia i te urunga ki te pūnaha whakahaere.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/revoke-administrator?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Whakakore kaiwhakahaere</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Angitu! Kāore he kaiwhakahaere o te kaiwhakamahi
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Hē! I puta tētahi hapa tē mōhiotia
+    </div>
+  </template>
+</body>
+</html>

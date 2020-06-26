@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-auth="false" data-template="false">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Rov qab qhib saib rau kuv tus account</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="entry">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/reset-account" name="submit-form">
+    <fieldset>
+      <div id="message-container"></div>
+      <h1 translate="yes">Rov qab qhib saib rau kuv tus account</h1>
+      <div class="pure-control-group">
+        <label for="username" translate="yes">Username</label>
+        <input id="username" name="username" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">Rov qab qhib txoj</label>
+        <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="new-password" translate="yes">Lo lus qhib tshiab</label>
+        <input id="new-password" name="new-password" type="text" maxlength="1000">
+      </div>
+      <div class="pure-control-group">
+        <label for="confirm-password" translate="yes">Paub meej tias nws lo lus qhib tshiab</label>
+        <input id="confirm-password" name="confirm-password" type="text" maxlength="1000">
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Rov qab qhib thiab kos npe rau</button>
+      </div>
+      <ul>
+        <li>
+          <a href="/account/signin" translate="yes">Xa tau kos npe rau</a>
+        </li>
+        <li>
+          <a href="/account/register" translate="yes">Ua ib tug account</a>
+        </li>
+      </ul>
+    </fieldset>
+  </form>
+  <template id="invalid-reset-code">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid chaws zais cia
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid chaws zais cia
+    </div>
+  </template>
+  <template id="invalid-username">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid username
+    </div>
+  </template>
+  <template id="invalid-username-length">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid username ntev
+    </div>
+  </template>
+  <template id="invalid-new-password">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid tshiab lo lus zais
+    </div>
+  </template>
+  <template id="invalid-new-password-length">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid tshiab lo lus zais length
+    </div>
+  </template>
+  <template id="invalid-confirm-password">
+    <div class="error message" translate="yes">
+      Yuam kev! Lo lus zais kabke invalid
+    </div>
+  </template>
+  <template id="invalid-account">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid tus account
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Yuam kev! Ib qho kev ua yuam kev tsis paub ocurred
+    </div>
+  </template>
+</body>
+</html>

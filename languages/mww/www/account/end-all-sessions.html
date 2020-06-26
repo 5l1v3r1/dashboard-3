@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-sessions.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Kawg txhua zaug</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Kawg txhua zaug</h1>
+  <p translate="yes">Qhov no yuav tam sim ntawd muaj cai tag nrho koj zaug nrog rau qhov no.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/account/end-all-sessions" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Piav txhua zaug tawm</button>
+    </fieldset>
+  </form>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Yuam kev! Ib qho yuam kev lawm tsis paub tias tshwm sim
+    </div>
+  </template>
+</body>
+</html>
