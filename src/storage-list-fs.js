@@ -59,7 +59,7 @@ function addMany (items, callback) {
     const path = paths.shift()
     const itemid = items[path]
     createFolder(`${storagePath}/${path}`)
-    return writeFile(`${storagePath}/${path}/${itemid}`, '', () => {
+    return fs.writeFile(`${storagePath}/${path}/${itemid}`, '', () => {
       return nextItem()
     })
   }
