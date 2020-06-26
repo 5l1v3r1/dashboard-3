@@ -2,59 +2,59 @@
 <html lang="en" data-navbar="/account/navbar-account.html">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">Change username</title>
+  <title translate="yes">Αλλαγή ονόματος χρήστη</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
   <base target="_top" href="/">
 </head>
 <body>
-  <h1 translate="yes">Change username</h1>
+  <h1 translate="yes">Αλλαγή ονόματος χρήστη</h1>
   <p translate="yes">Όλα τα ονόματα χρήστη είναι αμετάκλητα κρυπτογραφημένα πριν από την αποθήκευση των δεδομένων με bcrypt + κοινόχρηστο αλάτι.</p>
   <div id="message-container"></div>
   <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/change-username" name="submit-form">
     <fieldset>
       <div class="pure-control-group">
-        <label for="new-username" translate="yes">New username</label>
+        <label for="new-username" translate="yes">Νέο όνομα χρήστη</label>
         <input id="new-username" name="new-username" type="text" maxlength="1000">
       </div>
       <div class="pure-control-group">
-        <label for="password" translate="yes">Current password</label>
+        <label for="password" translate="yes">Τρέχων κωδικός πρόσβασης</label>
         <input required="required" id="password" name="password" type="password" maxlength="1000">
       </div>
       <div class="pure-controls">
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Set new username</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Ορισμός νέου ονόματος χρήστη</button>
       </div>
     </fieldset>
   </form>
   <template id="success">
     <div class="success message" translate="yes">
-      Success! Your new username must be used from now on
+      Επιτυχία! Το νέο σας όνομα χρήστη πρέπει να χρησιμοποιείται από εδώ και πέρα
     </div>
   </template>
   <template id="invalid-new-username">
     <div class="error message" translate="yes">
-      Error! Invalid or duplicate new username
+      Σφάλμα! Μη έγκυρο ή διπλότυπο νέο όνομα χρήστη
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Your current password is invalid
+      Σφάλμα! Ο τρέχων κωδικός πρόσβασής σας δεν είναι έγκυρος
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Error! An unknown error occurred
+      Σφάλμα! Παρουσιάστηκε άγνωστο σφάλμα
     </div>
   </template>
   <template id="invalid-new-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid new username length
+      Σφάλμα! Μη έγκυρο νέο μήκος ονόματος χρήστη
     </div>
   </template>
   <template id="duplicate-username">
     <div class="error message" translate="yes">
-      Error! Somebody else is using that username
+      Σφάλμα! Κάποιος άλλος χρησιμοποιεί αυτό το όνομα χρήστη
     </div>
   </template>
 </body>

@@ -15,19 +15,19 @@
       <div id="message-container"></div>
       <div id="form-container">
         <div class="pure-control-group">
-          <label for="username" translate="yes">Signin username</label>
+          <label for="username" translate="yes">Kirjautumisnimi</label>
           <input placeholder="${requirements.minimumUsernameLength}+ characters" name="username" id="username" type="text" maxlength="1000">
         </div>
         <div class="pure-control-group">
-          <label for="password" translate="yes">Signin password</label>
+          <label for="password" translate="yes">Kirjautumisen salasana</label>
           <input placeholder="${requirements.minimumPasswordLength}+ characters" name="password" id="password" type="password" maxlength="1000">
         </div>
         <div class="pure-control-group">
-          <label for="confirm" translate="yes">Confirm your password</label>
+          <label for="confirm" translate="yes">Vahvista salasanasi</label>
           <input name="confirm" id="confirm" type="password" maxlength="1000">
         </div>
         <div id="display-name-container" class="pure-control-group">
-          <label for="display-name" translate="yes">Display name</label>
+          <label for="display-name" translate="yes">Näyttönimi</label>
           <input required="required" id="display-name" name="display-name" type="text" maxlength="1000">
         </div>
         <div id="display-email-container" class="pure-control-group">
@@ -40,38 +40,38 @@
         </div>
         <div id="full-name-container">
           <div class="pure-control-group">
-            <label for="first-name" translate="yes">First name</label>
+            <label for="first-name" translate="yes">Etunimi</label>
             <input required="required" id="first-name" name="first-name" type="text" maxlength="1000">
           </div>
           <div class="pure-control-group">
-            <label for="last-name" translate="yes">Last name</label>
+            <label for="last-name" translate="yes">Sukunimi</label>
             <input required="required" id="last-name" name="last-name" type="text" maxlength="1000">
           </div>
         </div>
         <div id="dob-container">
           <div class="pure-control-group">
-            <label for="dob" translate="yes">Date of birth</label>
+            <label for="dob" translate="yes">Syntymäpäivämäärä</label>
             <input required="required" id="dob" name="dob" type="text" maxlength="11">
           </div>
         </div>
         <div id="phone-container" class="pure-control-group">
-          <label for="phone" translate="yes">Telephone</label>
+          <label for="phone" translate="yes">Puhelin</label>
           <input required="required" id="phone" name="phone" type="text" maxlength="1000">
         </div>
         <div id="occupation-container" class="pure-control-group">
-          <label for="occupation" translate="yes">Occupation</label>
+          <label for="occupation" translate="yes">Ammatti</label>
           <input required="required" id="occupation" name="occupation" type="text" maxlength="1000">
         </div>
         <div id="location-container" class="pure-control-group">
-          <label for="location" translate="yes">Location</label>
+          <label for="location" translate="yes">Sijainti</label>
           <input required="required" id="location" name="location" type="text" maxlength="1000">
         </div>
         <div id="company-name-container" class="pure-control-group">
-          <label for="company-name" translate="yes">Company name</label>
+          <label for="company-name" translate="yes">Yrityksen nimi</label>
           <input required="required" id="company-name" name="company-name" type="text" maxlength="1000">
         </div>
         <div id="website-container" class="pure-control-group">
-          <label for="website" translate="yes">Website</label>
+          <label for="website" translate="yes">Sivusto</label>
           <input required="required" id="website" name="website" type="text" maxlength="1000">
         </div>
         <div class="pure-controls">
@@ -80,124 +80,124 @@
       </div>
       <ul>
         <li>
-          <a href="/account/signin" translate="yes">I have an account</a>
+          <a href="/account/signin" translate="yes">Minulla on tili</a>
         </li>
       </ul>
     </fieldset>
   </form>
   <template id="registration-disabled">
     <div class="error message" translate="yes">
-      Registration has been disabled.
+      Rekisteröinti on poistettu käytöstä.
     </div>
   </template>
   <template id="invalid-username">
     <div class="error message" translate="yes">
-      Error! Invalid or registered username
+      Virhe! Virheellinen tai rekisteröity käyttäjänimi
     </div>
   </template>
   <template id="duplicate-username">
     <div class="error message" translate="yes">
-      Error! Invalid or registered username
+      Virhe! Virheellinen tai rekisteröity käyttäjänimi
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Invalid password or confirmation password
+      Virhe! Virheellinen salasana tai vahvistussalasana
     </div>
   </template>
   <template id="invalid-confirm">
     <div class="error message" translate="yes">
-      Error! Invalid confirmation password
+      Virhe! Virheellinen vahvistussalasana
     </div>
   </template>
   <template id="invalid-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid username length
+      Virhe! Virheellinen käyttäjänimen pituus
     </div>
   </template>
   <template id="invalid-password-length">
     <div class="error message" translate="yes">
-      Error! Invalid password length
+      Virhe! Virheellinen salasanan pituus
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Error! Invalid username or password
+      Virhe! Virheellinen käyttäjänimi tai salasana
     </div>
   </template>
   <template id="invalid-first-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid first name provided
+      Virhe! Annettu etunimi puuttuu tai ei kelpaa
     </div>
   </template>
   <template id="invalid-first-name-length">
     <div class="error message" translate="yes">
-      Error! An invalid first name was provided
+      Virhe! Etunimi ei kelpaa
     </div>
   </template>
   <template id="invalid-last-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid last name was provided
+      Virhe! Annettu sukunimi puuttuu tai ei kelpaa
     </div>
   </template>
   <template id="invalid-last-name-length">
     <div class="error message" translate="yes">
-      Error! An invalid last name was provided
+      Virhe! Annettu sukunimi ei kelpaa
     </div>
   </template>
   <template id="invalid-contact-email">
     <div class="error message" translate="yes">
-      Error! Invalid contact email address
+      Virhe! Virheellinen yhteyshenkilön sähköpostiosoite
     </div>
   </template>
   <template id="invalid-display-email">
     <div class="error message" translate="yes">
-      Error! Invalid display email address
+      Virhe! Virheellinen näyttösähköpostiosoite
     </div>
   </template>
   <template id="invalid-display-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid display name was provided
+      Virhe! Näyttönimi puuttuu tai se ei kelpaa
     </div>
   </template>
   <template id="invalid-dob">
     <div class="error message" translate="yes">
-      Error! A missing or invalid date of birth was provided
+      Virhe! Puuttuva tai virheellinen syntymäaika annettiin
     </div>
   </template>
   <template id="invalid-phone">
     <div class="error message" translate="yes">
-      Error! A missing or invalid phone was provided.
+      Virhe! Annettu puhelin puuttuu tai ei kelpaa.
     </div>
   </template>
   <template id="invalid-occupation">
     <div class="error message" translate="yes">
-      Error! A missing or invalid occupation was provided.
+      Virhe! Kadotettiin tai se on virheellinen ammatti.
     </div>
   </template>
   <template id="invalid-location">
     <div class="error message" translate="yes">
-      Error! A missing or invalid location was provided.
+      Virhe! Annettu sijainti puuttuu tai ei kelpaa.
     </div>
   </template>
   <template id="invalid-company-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid company name was provided.
+      Virhe! Yrityksen nimi puuttuu tai se ei kelpaa.
     </div>
   </template>
   <template id="invalid-website">
     <div class="error message" translate="yes">
-      Error! A missing or invalid website was provided.
+      Virhe! Puuttuva tai virheellinen sivusto toimitettiin.
     </div>
   </template>
   <template id="invalid-address-postal-code">
     <div class="error message" translate="yes">
-      Error! A missing or invalid address postal code was provided.
+      Virhe! Osoitepostipostipostipostipoispoispostipois.
     </div>
   </template>
   <template id="invalid-display-name-length">
     <div class="error message" translate="yes">
-      Error! A missing or invalid display name was provided
+      Virhe! Näyttönimi puuttuu tai se ei kelpaa
     </div>
   </template>
 </body>

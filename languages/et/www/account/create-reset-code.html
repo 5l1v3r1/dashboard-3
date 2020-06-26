@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-reset-codes.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Lähtestuskoodi loomine</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Lähtestuskoodi loomine</h1>
+  <p translate="yes">Koodide lähtestamine võimaldab teil parooli unustamisel oma kontole juurde pääseda.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/create-reset-code" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">Salajane kood</label>
+        <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Salvesta kood</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Edu! Teie uus kood on valmis olema peitis kuhugi ohutusse kohta.
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      Viga! Lubamatu salakood
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      Viga! Lubamatu salakood length
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Viga! Ilmnes tundmatu tõrge
+    </div>
+  </template>
+</body>
+</html>

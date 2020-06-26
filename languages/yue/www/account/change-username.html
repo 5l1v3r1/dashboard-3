@@ -2,59 +2,59 @@
 <html lang="en" data-navbar="/account/navbar-account.html">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">Change username</title>
+  <title translate="yes">更改用戶名</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
   <base target="_top" href="/">
 </head>
 <body>
-  <h1 translate="yes">Change username</h1>
+  <h1 translate="yes">更改用戶名</h1>
   <p translate="yes">在使用bcrypt +共享鹽存儲數據之前,所有用戶名都係不可逆轉的加密。</p>
   <div id="message-container"></div>
   <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/change-username" name="submit-form">
     <fieldset>
       <div class="pure-control-group">
-        <label for="new-username" translate="yes">New username</label>
+        <label for="new-username" translate="yes">新用戶名</label>
         <input id="new-username" name="new-username" type="text" maxlength="1000">
       </div>
       <div class="pure-control-group">
-        <label for="password" translate="yes">Current password</label>
+        <label for="password" translate="yes">當前密碼</label>
         <input required="required" id="password" name="password" type="password" maxlength="1000">
       </div>
       <div class="pure-controls">
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Set new username</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">設置新用戶名</button>
       </div>
     </fieldset>
   </form>
   <template id="success">
     <div class="success message" translate="yes">
-      Success! Your new username must be used from now on
+      成功! 必須由而家起使用您的新用戶名
     </div>
   </template>
   <template id="invalid-new-username">
     <div class="error message" translate="yes">
-      Error! Invalid or duplicate new username
+      錯誤! 新用戶名無效或重複
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Your current password is invalid
+      錯誤! 你當前嘅密碼無效
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Error! An unknown error occurred
+      錯誤! 發生未知錯誤
     </div>
   </template>
   <template id="invalid-new-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid new username length
+      錯誤! 無效嘅新用戶名長度
     </div>
   </template>
   <template id="duplicate-username">
     <div class="error message" translate="yes">
-      Error! Somebody else is using that username
+      錯誤! 其他人正在使用該用戶名
     </div>
   </template>
 </body>

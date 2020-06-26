@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Prebaci vlasništvo u ${account.accountid}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Prebaci vlasništvo u ${account.accountid}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form" action="/administrator/transfer-ownership?accountid=${account.accountid}" name="submit-form">
+    <fieldset>
+      <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Transfer vlasništva</button>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Uspjeh! Korisnik je postao vlasnik
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Greška! Dogodila se nepoznata greška
+    </div>
+  </template>
+  <template id="invalid-account">
+    <div class="error message" translate="yes">
+      Greška! Samo sadašnji vlasnik može prenijeti vlasništvo
+    </div>
+  </template>
+</body>
+</html>

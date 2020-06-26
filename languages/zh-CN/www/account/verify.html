@@ -2,7 +2,7 @@
 <html lang="en" data-auth="false" data-template="false">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">Verify your account</title>
+  <title translate="yes">验证您的帐户</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
@@ -11,44 +11,44 @@
 <body class="entry">
   <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/verify" name="submit-form">
     <fieldset>
-      <h1 translate="yes">Verify your account</h1>
+      <h1 translate="yes">验证您的帐户</h1>
       <div id="message-container"></div>
       <div class="pure-control-group">
         <label for="username" translate="yes">用户</label>
         <input id="username" name="username" type="text" maxlength="1000">
       </div>
       <div class="pure-control-group">
-        <label for="password" translate="yes">Password</label>
+        <label for="password" translate="yes">密码</label>
         <input id="password" name="password" type="password" maxlength="1000">
       </div>
       <div class="pure-controls">
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Verify account</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">验证帐户</button>
       </div>
     </fieldset>
   </form>
   <template id="invalid-username">
     <div class="error message" translate="yes">
-      Error! Invalid username
+      错误！用户名无效
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Invalid password
+      错误！密码无效
     </div>
   </template>
   <template id="invalid-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid username length
+      错误！用户名长度无效
     </div>
   </template>
   <template id="invalid-password-length">
     <div class="error message" translate="yes">
-      Error! Invalid password length
+      错误！密码长度无效
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Error! An unknown error ocurred
+      错误！发生未知错误
     </div>
   </template>
 </body>

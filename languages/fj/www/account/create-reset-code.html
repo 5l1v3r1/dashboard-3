@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-reset-codes.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Tauyavutaka na nabavuni ni kena vakadaberi</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Tauyavutaka na nabavuni ni kena vakadaberi</h1>
+  <p translate="yes">Vakadaberi tale nabavuni me rawa ni o taura na nomu akaude kevaka o guilecava na nomu vosanicuru.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/create-reset-code" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="secret-code" translate="yes">Nabavuni vuni</label>
+        <input id="secret-code" name="secret-code" type="text" maxlength="1000">
+      </div>
+      <div id="form-buttons" class="pure-controls spaced-buttons">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Maroroya na nabavuni</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Qaqa! Sa vakarau tu na nomu nabavuni vou me stashed ena dua na vanua me taqomaki kina
+    </div>
+  </template>
+  <template id="invalid-secret-code">
+    <div class="error message" translate="yes">
+      Cala! Nabavuni vuni ni cala
+    </div>
+  </template>
+  <template id="invalid-secret-code-length">
+    <div class="error message" translate="yes">
+      Cala! Nabavuni vuni ni cala length
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Cala! Dua na cala tawakilai a yaco
+    </div>
+  </template>
+</body>
+</html>

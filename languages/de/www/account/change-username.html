@@ -2,59 +2,59 @@
 <html lang="en" data-navbar="/account/navbar-account.html">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">Change username</title>
+  <title translate="yes">Benutzername ändern</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
   <base target="_top" href="/">
 </head>
 <body>
-  <h1 translate="yes">Change username</h1>
+  <h1 translate="yes">Benutzername ändern</h1>
   <p translate="yes">Alle Benutzernamen werden irreversibel verschlüsselt, bevor die Daten mit bcrypt + shared salt gespeichert werden.</p>
   <div id="message-container"></div>
   <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/change-username" name="submit-form">
     <fieldset>
       <div class="pure-control-group">
-        <label for="new-username" translate="yes">New username</label>
+        <label for="new-username" translate="yes">Neuer Benutzername</label>
         <input id="new-username" name="new-username" type="text" maxlength="1000">
       </div>
       <div class="pure-control-group">
-        <label for="password" translate="yes">Current password</label>
+        <label for="password" translate="yes">Aktuelles Kennwort</label>
         <input required="required" id="password" name="password" type="password" maxlength="1000">
       </div>
       <div class="pure-controls">
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Set new username</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Neuer Benutzername festlegen</button>
       </div>
     </fieldset>
   </form>
   <template id="success">
     <div class="success message" translate="yes">
-      Success! Your new username must be used from now on
+      Erfolg! Ihr neuer Benutzername muss von nun an verwendet werden
     </div>
   </template>
   <template id="invalid-new-username">
     <div class="error message" translate="yes">
-      Error! Invalid or duplicate new username
+      Fehler! Ungültigoder Duplizieren neuer Benutzername
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Your current password is invalid
+      Fehler! Ihr aktuelles Kennwort ist ungültig
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Error! An unknown error occurred
+      Fehler! Ein unbekannter Fehler ist aufgetreten
     </div>
   </template>
   <template id="invalid-new-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid new username length
+      Fehler! Ungültige Länge des neuen Benutzernamens
     </div>
   </template>
   <template id="duplicate-username">
     <div class="error message" translate="yes">
-      Error! Somebody else is using that username
+      Fehler! Jemand anderes verwendet diesen Benutzernamen
     </div>
   </template>
 </body>

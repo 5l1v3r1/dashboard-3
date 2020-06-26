@@ -15,19 +15,19 @@
       <div id="message-container"></div>
       <div id="form-container">
         <div class="pure-control-group">
-          <label for="username" translate="yes">Signin username</label>
+          <label for="username" translate="yes">Gebruikersnaam aanmelden</label>
           <input placeholder="${requirements.minimumUsernameLength}+ characters" name="username" id="username" type="text" maxlength="1000">
         </div>
         <div class="pure-control-group">
-          <label for="password" translate="yes">Signin password</label>
+          <label for="password" translate="yes">Aanmeldingswachtwoord</label>
           <input placeholder="${requirements.minimumPasswordLength}+ characters" name="password" id="password" type="password" maxlength="1000">
         </div>
         <div class="pure-control-group">
-          <label for="confirm" translate="yes">Confirm your password</label>
+          <label for="confirm" translate="yes">Uw wachtwoord bevestigen</label>
           <input name="confirm" id="confirm" type="password" maxlength="1000">
         </div>
         <div id="display-name-container" class="pure-control-group">
-          <label for="display-name" translate="yes">Display name</label>
+          <label for="display-name" translate="yes">Weergavenaam</label>
           <input required="required" id="display-name" name="display-name" type="text" maxlength="1000">
         </div>
         <div id="display-email-container" class="pure-control-group">
@@ -40,34 +40,34 @@
         </div>
         <div id="full-name-container">
           <div class="pure-control-group">
-            <label for="first-name" translate="yes">First name</label>
+            <label for="first-name" translate="yes">Voornaam</label>
             <input required="required" id="first-name" name="first-name" type="text" maxlength="1000">
           </div>
           <div class="pure-control-group">
-            <label for="last-name" translate="yes">Last name</label>
+            <label for="last-name" translate="yes">Achternaam</label>
             <input required="required" id="last-name" name="last-name" type="text" maxlength="1000">
           </div>
         </div>
         <div id="dob-container">
           <div class="pure-control-group">
-            <label for="dob" translate="yes">Date of birth</label>
+            <label for="dob" translate="yes">Geboortedatum</label>
             <input required="required" id="dob" name="dob" type="text" maxlength="11">
           </div>
         </div>
         <div id="phone-container" class="pure-control-group">
-          <label for="phone" translate="yes">Telephone</label>
+          <label for="phone" translate="yes">Telefoon</label>
           <input required="required" id="phone" name="phone" type="text" maxlength="1000">
         </div>
         <div id="occupation-container" class="pure-control-group">
-          <label for="occupation" translate="yes">Occupation</label>
+          <label for="occupation" translate="yes">Bezetting</label>
           <input required="required" id="occupation" name="occupation" type="text" maxlength="1000">
         </div>
         <div id="location-container" class="pure-control-group">
-          <label for="location" translate="yes">Location</label>
+          <label for="location" translate="yes">Locatie</label>
           <input required="required" id="location" name="location" type="text" maxlength="1000">
         </div>
         <div id="company-name-container" class="pure-control-group">
-          <label for="company-name" translate="yes">Company name</label>
+          <label for="company-name" translate="yes">Bedrijfsnaam</label>
           <input required="required" id="company-name" name="company-name" type="text" maxlength="1000">
         </div>
         <div id="website-container" class="pure-control-group">
@@ -80,124 +80,124 @@
       </div>
       <ul>
         <li>
-          <a href="/account/signin" translate="yes">I have an account</a>
+          <a href="/account/signin" translate="yes">Ik heb een account</a>
         </li>
       </ul>
     </fieldset>
   </form>
   <template id="registration-disabled">
     <div class="error message" translate="yes">
-      Registration has been disabled.
+      De registratie is uitgeschakeld.
     </div>
   </template>
   <template id="invalid-username">
     <div class="error message" translate="yes">
-      Error! Invalid or registered username
+      Fout! Ongeldige of geregistreerde gebruikersnaam
     </div>
   </template>
   <template id="duplicate-username">
     <div class="error message" translate="yes">
-      Error! Invalid or registered username
+      Fout! Ongeldige of geregistreerde gebruikersnaam
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Invalid password or confirmation password
+      Fout! Ongeldig wachtwoord of bevestigingswachtwoord
     </div>
   </template>
   <template id="invalid-confirm">
     <div class="error message" translate="yes">
-      Error! Invalid confirmation password
+      Fout! Ongeldig bevestigingswachtwoord
     </div>
   </template>
   <template id="invalid-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid username length
+      Fout! Ongeldige gebruikersnaamlengte
     </div>
   </template>
   <template id="invalid-password-length">
     <div class="error message" translate="yes">
-      Error! Invalid password length
+      Fout! Ongeldige wachtwoordlengte
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Error! Invalid username or password
+      Fout! Ongeldige gebruikersnaam of wachtwoord
     </div>
   </template>
   <template id="invalid-first-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid first name provided
+      Fout! Een ontbrekende of ongeldige voornaam
     </div>
   </template>
   <template id="invalid-first-name-length">
     <div class="error message" translate="yes">
-      Error! An invalid first name was provided
+      Fout! Er is een ongeldige voornaam opgegeven
     </div>
   </template>
   <template id="invalid-last-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid last name was provided
+      Fout! Er is een ontbrekende of ongeldige achternaam opgegeven
     </div>
   </template>
   <template id="invalid-last-name-length">
     <div class="error message" translate="yes">
-      Error! An invalid last name was provided
+      Fout! Er is een ongeldige achternaam opgegeven
     </div>
   </template>
   <template id="invalid-contact-email">
     <div class="error message" translate="yes">
-      Error! Invalid contact email address
+      Fout! Ongeldig e-mailadres met contactpersonen
     </div>
   </template>
   <template id="invalid-display-email">
     <div class="error message" translate="yes">
-      Error! Invalid display email address
+      Fout! Ongeldig e-mailadres voor weergeven
     </div>
   </template>
   <template id="invalid-display-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid display name was provided
+      Fout! Er is een ontbrekende of ongeldige weergavenaam opgegeven
     </div>
   </template>
   <template id="invalid-dob">
     <div class="error message" translate="yes">
-      Error! A missing or invalid date of birth was provided
+      Fout! Er is een ontbrekende of ongeldige geboortedatum verstrekt
     </div>
   </template>
   <template id="invalid-phone">
     <div class="error message" translate="yes">
-      Error! A missing or invalid phone was provided.
+      Fout! Er is een ontbrekende of ongeldige telefoon verstrekt.
     </div>
   </template>
   <template id="invalid-occupation">
     <div class="error message" translate="yes">
-      Error! A missing or invalid occupation was provided.
+      Fout! Een ontbrekend of ongeldig beroep werd verstrekt.
     </div>
   </template>
   <template id="invalid-location">
     <div class="error message" translate="yes">
-      Error! A missing or invalid location was provided.
+      Fout! Er is een ontbrekende of ongeldige locatie opgegeven.
     </div>
   </template>
   <template id="invalid-company-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid company name was provided.
+      Fout! Er is een ontbrekende of ongeldige bedrijfsnaam opgegeven.
     </div>
   </template>
   <template id="invalid-website">
     <div class="error message" translate="yes">
-      Error! A missing or invalid website was provided.
+      Fout! Er is een ontbrekende of ongeldige website verstrekt.
     </div>
   </template>
   <template id="invalid-address-postal-code">
     <div class="error message" translate="yes">
-      Error! A missing or invalid address postal code was provided.
+      Fout! Er is een ontbrekende of ongeldige postcode opgegeven.
     </div>
   </template>
   <template id="invalid-display-name-length">
     <div class="error message" translate="yes">
-      Error! A missing or invalid display name was provided
+      Fout! Er is een ontbrekende of ongeldige weergavenaam opgegeven
     </div>
   </template>
 </body>

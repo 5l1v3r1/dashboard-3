@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/account/navbar-profile.html">
 <head>
-  <title translate="yes">View ${profile.profileid}</title>
+  <title translate="yes">视图 ${profile.profileid}</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
   <base target="_top" href="/">
 </head>
 <body>
-  <h1 translate="yes">View ${profile.profileid}</h1>
+  <h1 translate="yes">视图 ${profile.profileid}</h1>
   <table id="profiles-table" class="pure-table data-table">
     <tbody id="${profile.profileid}">
       <tr>
@@ -16,16 +16,16 @@
         <td>${profile.profileid}</td>
       </tr>
       <tr>
-        <th translate="yes">Default</th>
+        <th translate="yes">默认</th>
         <td id="is-default" translated="yes">Yes</td>
         <td id="is-not-default" translated="yes">No</td>
       </tr>
       <tr>
-        <th translate="yes">Created</th>
+        <th translate="yes">创建</th>
         <td>${profile.createdFormatted}</td>
       </tr>
       <tr id="full-name">
-        <th translate="yes">Full name</th>
+        <th translate="yes">全名</th>
         <td>${profile.firstName} ${profile.lastName}</td>
       </tr>
       <tr id="contact-email">
@@ -35,7 +35,7 @@
         </td>
       </tr>
       <tr id="display-name">
-        <th translate="yes">Display name</th>
+        <th translate="yes">显示名称</th>
         <td>${profile.displayName}</td>
       </tr>
       <tr id="display-email">
@@ -45,27 +45,27 @@
         </td>
       </tr>
       <tr id="dob">
-        <th translate="yes">Date of birth</th>
+        <th translate="yes">出生日期</th>
         <td>${profile.dob}</td>
       </tr>
       <tr id="phone">
-        <th translate="yes">Phone</th>
+        <th translate="yes">电话</th>
         <td>${profile.phone}</td>
       </tr>
       <tr id="occupation">
-        <th translate="yes">Occupation</th>
+        <th translate="yes">职业</th>
         <td>${profile.occupation}</td>
       </tr>
       <tr id="location">
-        <th translate="yes">Location</th>
+        <th translate="yes">位置</th>
         <td>${profile.location}</td>
       </tr>
       <tr id="company-name">
-        <th translate="yes">Company name</th>
+        <th translate="yes">公司名称</th>
         <td>${profile.companyName}</td>
       </tr>
       <tr id="website">
-        <th translate="yes">Website</th>
+        <th translate="yes">网站</th>
         <td>
           <a href="${profile.website}">${profile.website}</a>
         </td>

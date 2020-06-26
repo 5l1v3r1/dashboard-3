@@ -2,14 +2,14 @@
 <html lang="en" data-navbar="/administrator/navbar-profile.html">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">View ${profile.profileid}</title>
+  <title translate="yes">Katso ${profile.profileid}</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
   <base target="_top" href="/">
 </head>
 <body>
-  <h1 translate="yes">Profile</h1>
+  <h1 translate="yes">Profiili</h1>
   <table id="profiles-table" class="pure-table data-table">
     <tbody id="${profile.profileid}">
       <tr>
@@ -19,11 +19,11 @@
         </td>
       </tr>
       <tr>
-        <th translate="yes">Created</th>
+        <th translate="yes">Luotu</th>
         <td>${profile.createdFormatted}</td>
       </tr>
       <tr id="full-name">
-        <th translate="yes">Full name</th>
+        <th translate="yes">Koko nimi</th>
         <td>${profile.firstName} ${profile.lastName}</td>
       </tr>
       <tr id="contact-email">
@@ -33,7 +33,7 @@
         </td>
       </tr>
       <tr id="display-name">
-        <th translate="yes">Display name</th>
+        <th translate="yes">Näyttönimi</th>
         <td>${profile.displayName}</td>
       </tr>
       <tr id="display-email">
@@ -43,27 +43,27 @@
         </td>
       </tr>
       <tr id="dob">
-        <th translate="yes">Date of birth</th>
+        <th translate="yes">Syntymäpäivämäärä</th>
         <td>${profile.dob}</td>
       </tr>
       <tr id="phone">
-        <th translate="yes">Phone</th>
+        <th translate="yes">Puhelin</th>
         <td>${profile.phone}</td>
       </tr>
       <tr id="occupation">
-        <th translate="yes">Occupation</th>
+        <th translate="yes">Ammatti</th>
         <td>${profile.occupation}</td>
       </tr>
       <tr id="location">
-        <th translate="yes">Location</th>
+        <th translate="yes">Sijainti</th>
         <td>${profile.location}</td>
       </tr>
       <tr id="company-name">
-        <th translate="yes">Company name</th>
+        <th translate="yes">Yrityksen nimi</th>
         <td>${profile.companyName}</td>
       </tr>
       <tr id="website">
-        <th translate="yes">Website</th>
+        <th translate="yes">Sivusto</th>
         <td>
           <a href="${profile.website}">${profile.website}</a>
         </td>

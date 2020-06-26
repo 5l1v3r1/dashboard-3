@@ -2,7 +2,7 @@
 <html lang="en" data-auth="false" data-template="false">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">Restore my account</title>
+  <title translate="yes">Restaurar el meu compte</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
@@ -11,65 +11,65 @@
 <body class="entry">
   <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/restore-account" name="submit-form">
     <fieldset>
-      <h1 translate="yes">Restore my account</h1>
+      <h1 translate="yes">Restaurar el meu compte</h1>
       <div id="message-container"></div>
       <div class="pure-control-group">
         <label for="username" translate="yes">Nom</label>
         <input id="username" name="username" type="text" maxlength="1000">
       </div>
       <div class="pure-control-group">
-        <label for="password" translate="yes">Password</label>
+        <label for="password" translate="yes">Contrasenya</label>
         <input id="password" name="password" type="password" maxlength="1000">
       </div>
       <div class="pure-controls">
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Restore my account</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Restaurar el meu compte</button>
       </div>
       <ul>
         <li>
-          <a href="/account/register" translate="yes">Register an account</a>
+          <a href="/account/register" translate="yes">Registrar un compte</a>
         </li>
         <li>
-          <a href="/account/reset-account" translate="yes">Forgot password</a>
+          <a href="/account/reset-account" translate="yes">Oblidat contrasenya</a>
         </li>
         <li>
-          <a href="/account/restore-account" translate="yes">Cancel deleting account</a>
+          <a href="/account/restore-account" translate="yes">Cancel·lar el compte suprimint</a>
         </li>
       </ul>
     </fieldset>
   </form>
   <template id="invalid-account">
     <div class="error message" translate="yes">
-      Error! Invalid account or the cancelation period has ended
+      Error! El compte no és vàlid o el període de cancel·lació ha finalitzat
     </div>
   </template>
   <template id="account-deleted">
     <div class="error message" translate="yes">
-      Error! Account deleted or the cancelation period has ended
+      Error! Compte eliminat o el termini de cancel·lació ha finalitzat
     </div>
   </template>
   <template id="invalid-username">
     <div class="error message" translate="yes">
-      Error! Incorrect or missing username
+      Error! Nom d'usuari incorrecte o absent
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Incorrect or missing password
+      Error! Contrasenya incorrecta o perduda
     </div>
   </template>
   <template id="invalid-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid username length
+      Error! Longitud d'usuari no vàlida
     </div>
   </template>
   <template id="invalid-password-length">
     <div class="error message" translate="yes">
-      Error! Invalid password length
+      Error! Longitud de contrasenya no vàlida
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      An unknown error occurred
+      S'ha produït un error desconegut
     </div>
   </template>
 </body>

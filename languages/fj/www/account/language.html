@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/navbar-account.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Vosa ni Akaude</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top" href="/">
+</head>
+<body>
+  <h1 translate="yes">Vosa ni Akaude</h1>
+  <p translate="yes">Digitaka na nomu vosa kei na vanua e rawa ni na qaravi kina na lewena ena nomu vosa e vinakati.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/language" name="submit-form">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="password" translate="yes">Vosa</label>
+        <select id="language" name="language">
+          <option value="" translate="yes">
+            Digitaka na vosa
+          </option>
+        </select>
+      </div>
+      <div class="pure-controls">
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Veisau na vosa</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="language-option">
+    <option value="${language.code}">
+      ${language.name}
+    </option>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Qaqa! Na nomu vosa lavelavetaki ena yaco ena gauna oqo.
+    </div>
+  </template>
+  <template id="invalid-language">
+    <div class="error message" translate="yes">
+      Cala! A digitaki e dua na vosa sega ni vakabau
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Cala! Dua na cala tawakilai a yaco
+    </div>
+  </template>
+</body>
+</html>

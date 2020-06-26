@@ -2,7 +2,7 @@
 <html lang="en" data-auth="false" data-template="false">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">Restore my account</title>
+  <title translate="yes">Laai my rekening terug</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
@@ -11,65 +11,65 @@
 <body class="entry">
   <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/restore-account" name="submit-form">
     <fieldset>
-      <h1 translate="yes">Restore my account</h1>
+      <h1 translate="yes">Laai my rekening terug</h1>
       <div id="message-container"></div>
       <div class="pure-control-group">
         <label for="username" translate="yes">Gebruikersnaam</label>
         <input id="username" name="username" type="text" maxlength="1000">
       </div>
       <div class="pure-control-group">
-        <label for="password" translate="yes">Password</label>
+        <label for="password" translate="yes">Wagwoord</label>
         <input id="password" name="password" type="password" maxlength="1000">
       </div>
       <div class="pure-controls">
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Restore my account</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Laai my rekening terug</button>
       </div>
       <ul>
         <li>
-          <a href="/account/register" translate="yes">Register an account</a>
+          <a href="/account/register" translate="yes">Registreer 'n rekening</a>
         </li>
         <li>
-          <a href="/account/reset-account" translate="yes">Forgot password</a>
+          <a href="/account/reset-account" translate="yes">Wagwoord vergeet</a>
         </li>
         <li>
-          <a href="/account/restore-account" translate="yes">Cancel deleting account</a>
+          <a href="/account/restore-account" translate="yes">Kanselleer skrapping van rekening</a>
         </li>
       </ul>
     </fieldset>
   </form>
   <template id="invalid-account">
     <div class="error message" translate="yes">
-      Error! Invalid account or the cancelation period has ended
+      Fout! Ongeldige rekening of die kansellasie tydperk is beëindig
     </div>
   </template>
   <template id="account-deleted">
     <div class="error message" translate="yes">
-      Error! Account deleted or the cancelation period has ended
+      Fout! Rekening geskrap of die kansellasie tydperk geëindig het
     </div>
   </template>
   <template id="invalid-username">
     <div class="error message" translate="yes">
-      Error! Incorrect or missing username
+      Fout! Verkeerde of vermiste gebruikernaam
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Incorrect or missing password
+      Fout! Verkeerde of vermiste wagwoord
     </div>
   </template>
   <template id="invalid-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid username length
+      Fout! Ongeldige gebruikernaam lengte
     </div>
   </template>
   <template id="invalid-password-length">
     <div class="error message" translate="yes">
-      Error! Invalid password length
+      Fout! Ongeldige wagwoordlengte
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      An unknown error occurred
+      'N Onbekende fout het voorgekom
     </div>
   </template>
 </body>

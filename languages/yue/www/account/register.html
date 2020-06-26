@@ -15,19 +15,19 @@
       <div id="message-container"></div>
       <div id="form-container">
         <div class="pure-control-group">
-          <label for="username" translate="yes">Signin username</label>
+          <label for="username" translate="yes">登錄用戶名</label>
           <input placeholder="${requirements.minimumUsernameLength}+ characters" name="username" id="username" type="text" maxlength="1000">
         </div>
         <div class="pure-control-group">
-          <label for="password" translate="yes">Signin password</label>
+          <label for="password" translate="yes">登錄密碼</label>
           <input placeholder="${requirements.minimumPasswordLength}+ characters" name="password" id="password" type="password" maxlength="1000">
         </div>
         <div class="pure-control-group">
-          <label for="confirm" translate="yes">Confirm your password</label>
+          <label for="confirm" translate="yes">確認密碼</label>
           <input name="confirm" id="confirm" type="password" maxlength="1000">
         </div>
         <div id="display-name-container" class="pure-control-group">
-          <label for="display-name" translate="yes">Display name</label>
+          <label for="display-name" translate="yes">顯示名稱</label>
           <input required="required" id="display-name" name="display-name" type="text" maxlength="1000">
         </div>
         <div id="display-email-container" class="pure-control-group">
@@ -40,38 +40,38 @@
         </div>
         <div id="full-name-container">
           <div class="pure-control-group">
-            <label for="first-name" translate="yes">First name</label>
+            <label for="first-name" translate="yes">名</label>
             <input required="required" id="first-name" name="first-name" type="text" maxlength="1000">
           </div>
           <div class="pure-control-group">
-            <label for="last-name" translate="yes">Last name</label>
+            <label for="last-name" translate="yes">姓氏</label>
             <input required="required" id="last-name" name="last-name" type="text" maxlength="1000">
           </div>
         </div>
         <div id="dob-container">
           <div class="pure-control-group">
-            <label for="dob" translate="yes">Date of birth</label>
+            <label for="dob" translate="yes">出生日期</label>
             <input required="required" id="dob" name="dob" type="text" maxlength="11">
           </div>
         </div>
         <div id="phone-container" class="pure-control-group">
-          <label for="phone" translate="yes">Telephone</label>
+          <label for="phone" translate="yes">電話</label>
           <input required="required" id="phone" name="phone" type="text" maxlength="1000">
         </div>
         <div id="occupation-container" class="pure-control-group">
-          <label for="occupation" translate="yes">Occupation</label>
+          <label for="occupation" translate="yes">職業</label>
           <input required="required" id="occupation" name="occupation" type="text" maxlength="1000">
         </div>
         <div id="location-container" class="pure-control-group">
-          <label for="location" translate="yes">Location</label>
+          <label for="location" translate="yes">位置</label>
           <input required="required" id="location" name="location" type="text" maxlength="1000">
         </div>
         <div id="company-name-container" class="pure-control-group">
-          <label for="company-name" translate="yes">Company name</label>
+          <label for="company-name" translate="yes">公司名稱</label>
           <input required="required" id="company-name" name="company-name" type="text" maxlength="1000">
         </div>
         <div id="website-container" class="pure-control-group">
-          <label for="website" translate="yes">Website</label>
+          <label for="website" translate="yes">網站</label>
           <input required="required" id="website" name="website" type="text" maxlength="1000">
         </div>
         <div class="pure-controls">
@@ -80,124 +80,124 @@
       </div>
       <ul>
         <li>
-          <a href="/account/signin" translate="yes">I have an account</a>
+          <a href="/account/signin" translate="yes">我有一個帳戶</a>
         </li>
       </ul>
     </fieldset>
   </form>
   <template id="registration-disabled">
     <div class="error message" translate="yes">
-      Registration has been disabled.
+      註冊已禁用。
     </div>
   </template>
   <template id="invalid-username">
     <div class="error message" translate="yes">
-      Error! Invalid or registered username
+      錯誤! 無效或已註冊嘅用戶名
     </div>
   </template>
   <template id="duplicate-username">
     <div class="error message" translate="yes">
-      Error! Invalid or registered username
+      錯誤! 無效或已註冊嘅用戶名
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Invalid password or confirmation password
+      錯誤! 無效密碼或確認密碼
     </div>
   </template>
   <template id="invalid-confirm">
     <div class="error message" translate="yes">
-      Error! Invalid confirmation password
+      錯誤! 無效確認密碼
     </div>
   </template>
   <template id="invalid-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid username length
+      錯誤! 用戶名長度無效
     </div>
   </template>
   <template id="invalid-password-length">
     <div class="error message" translate="yes">
-      Error! Invalid password length
+      錯誤! 密碼長度無效
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Error! Invalid username or password
+      錯誤! 無效嘅用戶名或密碼
     </div>
   </template>
   <template id="invalid-first-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid first name provided
+      錯誤! 提供缺少或無效嘅名
     </div>
   </template>
   <template id="invalid-first-name-length">
     <div class="error message" translate="yes">
-      Error! An invalid first name was provided
+      錯誤! 提供咗無效嘅名
     </div>
   </template>
   <template id="invalid-last-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid last name was provided
+      錯誤! 提供咗缺失或無效嘅姓氏
     </div>
   </template>
   <template id="invalid-last-name-length">
     <div class="error message" translate="yes">
-      Error! An invalid last name was provided
+      錯誤! 提供咗無效嘅姓氏
     </div>
   </template>
   <template id="invalid-contact-email">
     <div class="error message" translate="yes">
-      Error! Invalid contact email address
+      錯誤! 無效嘅聯繫人電子郵件地址
     </div>
   </template>
   <template id="invalid-display-email">
     <div class="error message" translate="yes">
-      Error! Invalid display email address
+      錯誤! 無效顯示電子郵件地址
     </div>
   </template>
   <template id="invalid-display-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid display name was provided
+      錯誤! 提供咗缺失或無效嘅顯示名稱
     </div>
   </template>
   <template id="invalid-dob">
     <div class="error message" translate="yes">
-      Error! A missing or invalid date of birth was provided
+      錯誤! 提供咗失蹤或無效嘅出生日期
     </div>
   </template>
   <template id="invalid-phone">
     <div class="error message" translate="yes">
-      Error! A missing or invalid phone was provided.
+      錯誤! 提供咗賴或無效嘅電話。
     </div>
   </template>
   <template id="invalid-occupation">
     <div class="error message" translate="yes">
-      Error! A missing or invalid occupation was provided.
+      錯誤! 提供咗失蹤或無效嘅佔領。
     </div>
   </template>
   <template id="invalid-location">
     <div class="error message" translate="yes">
-      Error! A missing or invalid location was provided.
+      錯誤! 提供咗缺失或無效嘅位置。
     </div>
   </template>
   <template id="invalid-company-name">
     <div class="error message" translate="yes">
-      Error! A missing or invalid company name was provided.
+      錯誤! 提供咗缺失或無效嘅公司名稱。
     </div>
   </template>
   <template id="invalid-website">
     <div class="error message" translate="yes">
-      Error! A missing or invalid website was provided.
+      錯誤! 提供咗缺少或無效嘅網站。
     </div>
   </template>
   <template id="invalid-address-postal-code">
     <div class="error message" translate="yes">
-      Error! A missing or invalid address postal code was provided.
+      錯誤! 提供了缺少或無效的地址郵政編碼。
     </div>
   </template>
   <template id="invalid-display-name-length">
     <div class="error message" translate="yes">
-      Error! A missing or invalid display name was provided
+      錯誤! 提供咗缺失或無效嘅顯示名稱
     </div>
   </template>
 </body>

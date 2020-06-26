@@ -2,7 +2,7 @@
 <html lang="en" data-auth="false" data-template="false">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">Verify your account</title>
+  <title translate="yes">Tilin vahvistaminen</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
@@ -11,44 +11,44 @@
 <body class="entry">
   <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/verify" name="submit-form">
     <fieldset>
-      <h1 translate="yes">Verify your account</h1>
+      <h1 translate="yes">Tilin vahvistaminen</h1>
       <div id="message-container"></div>
       <div class="pure-control-group">
         <label for="username" translate="yes">Käyttäjätunnus</label>
         <input id="username" name="username" type="text" maxlength="1000">
       </div>
       <div class="pure-control-group">
-        <label for="password" translate="yes">Password</label>
+        <label for="password" translate="yes">Salasana</label>
         <input id="password" name="password" type="password" maxlength="1000">
       </div>
       <div class="pure-controls">
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Verify account</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Vahvista tili</button>
       </div>
     </fieldset>
   </form>
   <template id="invalid-username">
     <div class="error message" translate="yes">
-      Error! Invalid username
+      Virhe! Virheellinen käyttäjänimi
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Invalid password
+      Virhe! Virheellinen salasana
     </div>
   </template>
   <template id="invalid-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid username length
+      Virhe! Virheellinen käyttäjänimen pituus
     </div>
   </template>
   <template id="invalid-password-length">
     <div class="error message" translate="yes">
-      Error! Invalid password length
+      Virhe! Virheellinen salasanan pituus
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Error! An unknown error ocurred
+      Virhe! Tuntematon virhe
     </div>
   </template>
 </body>

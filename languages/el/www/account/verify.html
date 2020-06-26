@@ -2,7 +2,7 @@
 <html lang="en" data-auth="false" data-template="false">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">Verify your account</title>
+  <title translate="yes">Επαλήθευση του λογαριασμού σας</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
@@ -11,44 +11,44 @@
 <body class="entry">
   <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/verify" name="submit-form">
     <fieldset>
-      <h1 translate="yes">Verify your account</h1>
+      <h1 translate="yes">Επαλήθευση του λογαριασμού σας</h1>
       <div id="message-container"></div>
       <div class="pure-control-group">
         <label for="username" translate="yes">Όνομα χρήστη</label>
         <input id="username" name="username" type="text" maxlength="1000">
       </div>
       <div class="pure-control-group">
-        <label for="password" translate="yes">Password</label>
+        <label for="password" translate="yes">Κωδικό πρόσβασης</label>
         <input id="password" name="password" type="password" maxlength="1000">
       </div>
       <div class="pure-controls">
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Verify account</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Επαλήθευση λογαριασμού</button>
       </div>
     </fieldset>
   </form>
   <template id="invalid-username">
     <div class="error message" translate="yes">
-      Error! Invalid username
+      Σφάλμα! Το όνομα χρήστη δεν είναι έγκυρο
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Invalid password
+      Σφάλμα! Μη έγκυρος κωδικός πρόσβασης
     </div>
   </template>
   <template id="invalid-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid username length
+      Σφάλμα! Μη έγκυρο μήκος ονόματος χρήστη
     </div>
   </template>
   <template id="invalid-password-length">
     <div class="error message" translate="yes">
-      Error! Invalid password length
+      Σφάλμα! Μη έγκυρο μήκος κωδικού πρόσβασης
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Error! An unknown error ocurred
+      Σφάλμα! Ένα άγνωστο σφάλμα ocurred
     </div>
   </template>
 </body>

@@ -2,7 +2,7 @@
 <html lang="en" data-auth="false" data-template="false">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">Restore my account</title>
+  <title translate="yes">Επαναφορά του λογαριασμού μου</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
   <link href="/public/content-additional.css" rel="stylesheet">
@@ -11,65 +11,65 @@
 <body class="entry">
   <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/restore-account" name="submit-form">
     <fieldset>
-      <h1 translate="yes">Restore my account</h1>
+      <h1 translate="yes">Επαναφορά του λογαριασμού μου</h1>
       <div id="message-container"></div>
       <div class="pure-control-group">
         <label for="username" translate="yes">Όνομα χρήστη</label>
         <input id="username" name="username" type="text" maxlength="1000">
       </div>
       <div class="pure-control-group">
-        <label for="password" translate="yes">Password</label>
+        <label for="password" translate="yes">Κωδικό πρόσβασης</label>
         <input id="password" name="password" type="password" maxlength="1000">
       </div>
       <div class="pure-controls">
-        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Restore my account</button>
+        <button id="submit-button" type="submit" class="pure-button pure-button-primary" translate="yes">Επαναφορά του λογαριασμού μου</button>
       </div>
       <ul>
         <li>
-          <a href="/account/register" translate="yes">Register an account</a>
+          <a href="/account/register" translate="yes">Εγγραφή λογαριασμού</a>
         </li>
         <li>
-          <a href="/account/reset-account" translate="yes">Forgot password</a>
+          <a href="/account/reset-account" translate="yes">Ξεχάσατε τον κωδικό πρόσβασης</a>
         </li>
         <li>
-          <a href="/account/restore-account" translate="yes">Cancel deleting account</a>
+          <a href="/account/restore-account" translate="yes">Ακύρωση διαγραφής λογαριασμού</a>
         </li>
       </ul>
     </fieldset>
   </form>
   <template id="invalid-account">
     <div class="error message" translate="yes">
-      Error! Invalid account or the cancelation period has ended
+      Σφάλμα! Ο λογαριασμός δεν είναι έγκυρος ή η περίοδος ακύρωσης τερματίστηκε
     </div>
   </template>
   <template id="account-deleted">
     <div class="error message" translate="yes">
-      Error! Account deleted or the cancelation period has ended
+      Σφάλμα! Ο λογαριασμός διαγράφηκε ή η περίοδος ακύρωσης έχει λήξει
     </div>
   </template>
   <template id="invalid-username">
     <div class="error message" translate="yes">
-      Error! Incorrect or missing username
+      Σφάλμα! Εσφαλμένο ή λείπει όνομα χρήστη
     </div>
   </template>
   <template id="invalid-password">
     <div class="error message" translate="yes">
-      Error! Incorrect or missing password
+      Σφάλμα! Εσφαλμένος ή λείπει κωδικός πρόσβασης
     </div>
   </template>
   <template id="invalid-username-length">
     <div class="error message" translate="yes">
-      Error! Invalid username length
+      Σφάλμα! Μη έγκυρο μήκος ονόματος χρήστη
     </div>
   </template>
   <template id="invalid-password-length">
     <div class="error message" translate="yes">
-      Error! Invalid password length
+      Σφάλμα! Μη έγκυρο μήκος κωδικού πρόσβασης
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      An unknown error occurred
+      Παρουσιάστηκε άγνωστο σφάλμα
     </div>
   </template>
 </body>
