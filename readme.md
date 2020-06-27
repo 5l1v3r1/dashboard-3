@@ -343,7 +343,9 @@ Modules are tested by creating a running instance of `Dashboard` configured with
 
 Storage engines are tested by creating a running instance of `Dashboard` with the `Organizations` module.  Each storage engine is tested as being the only storage shared by both Dashboard and the Organizations module, being just Dashboard storage, being just the module storage, and being both Dashboard and module storage each with their own database.
 
-The documentation site is built by running Dashboard and module test suites, with flags that  save API responses and UI screenshots.
+The tests are all run via Github Actions when pushing to a repository.  You can browse their configuration in the `YML` files in the `.github` folder.  Github Actions can be run locally [with this software](https://github.com/nektos/act).  Some of the workflows publish to NPM and commit changes back to Github, which will not work for you locally.
+
+The documentation site is built by running Dashboard and module test suites, with flags that save API responses and UI screenshots.
 
 # Support and contributions
 
