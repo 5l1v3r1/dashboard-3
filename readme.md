@@ -335,6 +335,16 @@ Proxy handlers can add to the headers sent to application servers:
     module.exports = async (req, proxyRequestOptions) => {
     }
     
+# Testing
+
+Dashboard's test suite covers the `API` and the `UI`.  The `API` tests are performed by proxying a running instance of the software.  The `UI` tests are performed with `puppeteer` remotely-controlling `Chrome` to browse a running instance of the software.  These tests are performed using each storage type.
+
+Modules are tested by creating a running instance of `Dashboard` configured with the module.  They run both Dashboard and their own test suites using each storage type.
+
+Storage engines are tested by creating a running instance of `Dashboard` with the `Organizations` module.  Each storage engine is tested as being the only storage shared by both Dashboard and the Organizations module, being just Dashboard storage, being just the module storage, and being both Dashboard and module storage each with their own database.
+
+The documentation site is built by running Dashboard and module test suites, with flags that  save API responses and UI screenshots.
+
 # Support and contributions
 
 If you have encountered a problem post an issue on the appropriate [Github repository](https://github.com/userdashboard).  
