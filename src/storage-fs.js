@@ -6,7 +6,7 @@ let writeFile = fs.writeFile
 if (process.env.NODE_ENV === 'testing') {
   writeFile = (filepath, contents, callback) => {
     return fs.writeFile(filepath, contents, () => {
-      return setTimeout(callback, 1000)
+      return setTimeout(callback, 100)
     })
   }
 }
