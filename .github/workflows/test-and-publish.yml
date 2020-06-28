@@ -18,7 +18,7 @@ jobs:
         git config --global user.name "${{ secrets.NAME }}"
         git config --global user.email "${{ secrets.EMAIL }}"
         npm version patch
-        HERE=`pwd`
+        export HERE=`pwd`
         mkdir /tmp/project
         cd /tmp/project
         npm init -y
@@ -34,6 +34,7 @@ jobs:
       run: standard src
     - name: Test (redis)
       run: mocha --retries 2 --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/*.test.js" | tee $HERE/tests.txt
+      working-directory: '/tmp/project'
       env:
         NODE_ENV: testing
         FAST_START: true
