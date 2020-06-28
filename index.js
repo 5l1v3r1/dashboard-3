@@ -172,15 +172,5 @@ module.exports = {
         }
       }
     }
-    if (fs.existsSync('./node_modules/@userdashboard/dashboard')) {
-      Log.info('setting up embedded dashboard')
-      const rootIndex = path.join(global.applicationPath, '/index.js')
-      if (fs.existsSync(rootIndex)) {
-        const root = require(rootIndex)
-        if (root.setup) {
-          await root.setup()
-        }
-      }
-    }
   }
 }
