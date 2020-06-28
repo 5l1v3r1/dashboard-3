@@ -23,7 +23,7 @@ jobs:
         cd /tmp/project
         npm init -y
         npm install faker puppeteer@2.1.1 @userdashboard/dashboard @userdashboard/storage-redis
-        npm install -g mocha
+        npm install -g mocha standard
         rm node_modules/@userdashboard/dashboard/*.js
         rm -rf node_modules/@userdashboard/dashboard/src
         cp $HERE/*.js node_modules/@userdashboard/dashboard
