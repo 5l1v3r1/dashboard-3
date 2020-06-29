@@ -37,10 +37,8 @@ jobs:
         mocha --retries 2 --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/*.test.js" | tee /home/runner/work/dashboard/dashboard/tests.txt
         TESTS=`cat /home/runner/work/dashboard/dashboard/tests.txt`
         if [[ "$TESTS" == *" 1)"* ]]; then
-          echo " 1) found in file"
           exit 1
         fi
-        echo "no exceptions"
       working-directory: '/tmp/project'
       env:
         NODE_ENV: testing
