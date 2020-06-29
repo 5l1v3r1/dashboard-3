@@ -30,7 +30,6 @@ jobs:
         cp $HERE/*.js node_modules/@userdashboard/dashboard
         cp -R $HERE/src/ node_modules/@userdashboard/dashboard/src/
         echo "global.applicationPath = __dirname" > main.js
-        set -o pipefail
     - name: Lint (standard.js)
       run: standard src
     - name: Test (redis)
