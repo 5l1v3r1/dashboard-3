@@ -178,5 +178,6 @@ module.exports = {
         }
       }
     }
+    Log.info('finished setting up')
   }
 }
