@@ -170,7 +170,11 @@ module.exports = {
       for (const addition of global.packageJSON.dashboard.modules) {
         Log.info('setting up addition', addition)
         if (addition.setup) {
-          await addition.setup()
+          try {
+            await addition.setup()
+          } catch (error) {
+            Log.error(error)
+          }
         }
       }
     }
