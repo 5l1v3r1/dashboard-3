@@ -22,7 +22,8 @@ const mimeTypes = {
 
 let dashboard, helperRoutes, TestHelperPuppeteer, Log
 async function setupBefore () {
-  const logPath = path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/log.js')
+  const logPath = path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/src/log.js')
+  console.log('setupBefore', global.applicationPath, logPath)
   if (fs.existsSync(logPath)) {
     Log = require(logPath)('dashboard-test-helper')
     Log.info('dashboard is nested as module')
