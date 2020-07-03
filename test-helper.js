@@ -22,21 +22,21 @@ const mimeTypes = {
 
 let dashboard, helperRoutes, TestHelperPuppeteer, Log
 async function setupBefore () {
-  Log.info('before')
-  const nestedDashboardPath = path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/index.js')
-  if (fs.existsSync(nestedDashboardPath)) {
+  const logPath = path.join(global.applicationPath, 'node_modules/@userdashboard/dashboard/log.js')
+  if (fs.existsSync(logPath)) {
+    Log = require(logPath)('dashboard-test-helper')
     Log.info('dashboard is nested as module')
     dashboard = require('@userdashboard/dashboard')
     helperRoutes = require('@userdashboard/dashboard/test-helper-routes.js')
     TestHelperPuppeteer = require('@userdashboard/dashboard/test-helper-puppeteer.js')
-    Log = require('@userdashboard/dashboard/src/log.js')('dashboard-test-helper')
   } else {
+    Log = require('./src/log.js')('dashboard-test-helper')
     Log.info('dashboard is application')
     dashboard = require('./index.js')
     helperRoutes = require('./test-helper-routes.js')
     TestHelperPuppeteer = require('./test-helper-puppeteer.js')
-    Log = require('./src/log.js')('dashboard-test-helper')
   }
+  Log.info('before')
   global.port = 9000
   let dashboardServer = global.dashboardServer || 'http://localhost:9000'
   if (dashboardServer.lastIndexOf(':') > dashboardServer.indexOf(':')) {
