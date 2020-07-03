@@ -57,6 +57,7 @@ async function setupBefore () {
   }
   global.usingPort = global.port
   global.usingDashboardServer = dashboardServer
+  Log.info('finished before')
 }
 
 async function setupBeforeEach () {
