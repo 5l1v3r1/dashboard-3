@@ -165,8 +165,10 @@ module.exports = {
     module.exports.Response = require(`${__dirname}/src/response.js`)
     module.exports.Timestamp = require(`${__dirname}/src/timestamp.js`)
     module.exports.UUID = require(`${__dirname}/src/uuid.js`)
+    Log.info('setting up modules')
     if (global.packageJSON.dashboard.modules && global.packageJSON.dashboard.modules.length) {
       for (const addition of global.packageJSON.dashboard.modules) {
+        Log.info('setting up addition', addition)
         if (addition.setup) {
           await addition.setup()
         }
