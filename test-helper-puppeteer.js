@@ -83,7 +83,7 @@ async function fetch (method, req) {
       if (step.save) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           // for (const language of global.languages) {
-            global.language = language.code
+            // global.language = language.code
             for (const device of devices) {
               await emulate(page, device)
               await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename)
@@ -97,7 +97,7 @@ async function fetch (method, req) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
           // for (const language of global.languages) {
             for (const device of devices) {
-              global.language = language.code
+              // global.language = language.code
               await emulate(page, device, req)
               await execute('hover', page, step.hover)
               await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
