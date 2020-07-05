@@ -378,42 +378,47 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   if (!fs.existsSync(filePath)) {
     createFolderSync(filePath)
   }
-  let title
-  if (identifier === '#submit-form') {
-    title = 'form'
-  } else if (identifier === '#submit-button') {
-    const element = await getElement(page, identifier)
-    let text = await getText(page, element)
-    if (text.indexOf('_') > -1) {
-      text = text.substring(0, text.indexOf('_'))
+  try {
+    let title
+    if (identifier === '#submit-form') {
+      title = 'form'
+    } else if (identifier === '#submit-button') {
+      const element = await getElement(page, identifier)
+      let text = await getText(page, element)
+      if (text.indexOf('_') > -1) {
+        text = text.substring(0, text.indexOf('_'))
+      } else {
+        text = text.split(' ').join('-').toLowerCase()
+      }
+      title = text
+    } else if (identifier && identifier[0] === '/') {
+      const element = await getElement(page, identifier)
+      let text = await getText(page, element)
+      if (text.indexOf('_') > -1) {
+        text = text.substring(0, text.indexOf('_'))
+      } else {
+        text = text.split(' ').join('-').toLowerCase()
+      }
+      title = text
+    } else if (action === 'index') {
+      title = 'index'
+    } else if (identifier) {
+      title = 'form'
     } else {
-      text = text.split(' ').join('-').toLowerCase()
+      title = ''
     }
-    title = text
-  } else if (identifier && identifier[0] === '/') {
-    const element = await getElement(page, identifier)
-    let text = await getText(page, element)
-    if (text.indexOf('_') > -1) {
-      text = text.substring(0, text.indexOf('_'))
+    Log.info('screenshot title', title)
+    let filename
+    if (title) {
+      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
     } else {
-      text = text.split(' ').join('-').toLowerCase()
+      filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
     }
-    title = text
-  } else if (action === 'index') {
-    title = 'index'
-  } else if (identifier) {
-    title = 'form'
-  } else {
-    title = ''
+    Log.info('saving screenshot', `${filePath}/${filename}`)
+    await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
+  } catch (error) {
+    Log.error('error saving screenshot', error)
   }
-  let filename
-  if (title) {
-    filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
-  } else {
-    filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
-  }
-  Log.info('saving screenshot', `${filePath}/${filename}`)
-  await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
 }
 
 async function fillForm (page, fieldContainer, body, uploads) {
