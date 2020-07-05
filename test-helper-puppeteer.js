@@ -412,6 +412,7 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   } else {
     filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
   }
+  Log.info('saving screenshot', `${filePath}/${filename}`)
   await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
 }
 
