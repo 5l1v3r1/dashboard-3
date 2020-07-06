@@ -15,11 +15,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - uses: zhulik/redis-action@1.1.0
       with:
-        redis version: '5'
+        redis version: "5"
         number of databases: 1
     - uses: actions/checkout@v2
       with:
-        repository: 'userdashboard/userdashboard.github.io'
+        repository: "userdashboard/userdashboard.github.io"
         path: documentation
     - name: Set up as module
       run: |
@@ -46,7 +46,7 @@ jobs:
         if [[ "$TESTS" == *" 1)"* ]]; then
           exit 1
         fi
-      working-directory: '/tmp/project'
+      working-directory: "/tmp/project"
       env:
         NODE_ENV: testing
         FAST_START: true
@@ -73,13 +73,14 @@ jobs:
       with:
         commit_message: Automatically regenerated against current version
         branch: ${{ github.head_ref }}
-        commit_options: '--no-verify --signoff'
+        commit_options: "--no-verify --signoff"
         repository: .
     - name: Publish documentation to Github
       uses: peaceiris/actions-gh-pages@v3
       with:
+        external_repository: "userdashboard/userdashboard.github.io"
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: documentation
+        publish_dir: ./documentation
         keep_files: true
         publish_branch: master
     - name: Publish to NPM
