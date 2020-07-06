@@ -23,6 +23,10 @@ jobs:
         git config --global user.email "${{ secrets.EMAIL }}"
         npm install
         npm version patch
+        mkdir /tmp/documentation
+        cd /tmp/documentation
+        git init
+        git remote add origin git@github.com:userdashboard/userdashboard.github.io
         mkdir /tmp/project
         cd /tmp/project
         npm init -y
@@ -51,7 +55,11 @@ jobs:
         STORAGE: "@userdashboard/storage-redis"
         REDIS_URL: "redis://localhost:6379"
         GENERATE_SITEMAP_TXT: false
-        GENERATE_API_TXT: false        
+        GENERATE_API_TXT: false   
+        GENERATE_RESPONSE: true
+        GENERATE_SCREENSHOTS: true
+        RESPONSE_PATH: "/tmp/documentation/"
+        SCREENSHOT_PATH: "/tmp/documentation/screenshots"
     - name: Generate supporting texts
       run: node main.js
       env:
@@ -67,6 +75,13 @@ jobs:
         branch: ${{ github.head_ref }}
         commit_options: '--no-verify --signoff'
         repository: .
+    - name: Publish documentation to Github
+      uses: stefanzweifel/git-auto-commit-action@v4.1.6
+      with:
+        commit_message: Automatically regenerated against current version
+        branch: "master"
+        commit_options: '--no-verify --signoff'
+        repository: /tmp/documentation
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
       with:
