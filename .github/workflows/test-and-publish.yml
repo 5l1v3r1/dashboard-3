@@ -76,12 +76,12 @@ jobs:
         commit_options: '--no-verify --signoff'
         repository: .
     - name: Publish documentation to Github
-      uses: stefanzweifel/git-auto-commit-action@v4.1.6
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        commit_message: Automatically regenerated against current version
-        branch: "master"
-        commit_options: '--no-verify --signoff'
-        repository: /tmp/documentation
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: /tmp/documentation
+        keep_files: true
+        publish_branch: master
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
       with:
