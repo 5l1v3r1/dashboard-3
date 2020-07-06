@@ -22,7 +22,7 @@ jobs:
         persist-credentials: false
         ref: release
         repository: 'userdashboard/userdashboard.github.io'
-        path: /tmp/documentation
+        path: documentation
     - name: Set up as module
       run: |
         git config --global user.name "${{ secrets.NAME }}"
@@ -81,7 +81,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: /tmp/documentation
+        publish_dir: documentation
         keep_files: true
         publish_branch: master
     - name: Publish to NPM
