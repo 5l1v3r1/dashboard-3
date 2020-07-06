@@ -19,9 +19,6 @@ jobs:
         number of databases: 1
     - uses: actions/checkout@v2
       with:
-        persist-credentials: false
-        ref: master
-        fetch-depth: 1
         repository: 'userdashboard/userdashboard.github.io'
         path: documentation
     - name: Set up as module
