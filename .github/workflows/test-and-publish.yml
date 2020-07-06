@@ -21,7 +21,7 @@ jobs:
       with:
         persist-credentials: false
         ref: master
-         fetch-depth: 1
+        fetch-depth: 1
         repository: 'userdashboard/userdashboard.github.io'
         path: documentation
     - name: Set up as module
