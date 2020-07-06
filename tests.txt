@@ -155,7 +155,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
       ✓ should require a document
       ✓ should require a total greater than 0
       ✓ should require an offset less than total
-      ✓ should accept null or string offset (49ms)
+      ✓ should accept null or string offset (50ms)
       ✓ should enforce global page size
       ✓ should override global page size
 
@@ -179,13 +179,13 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
 
   internal-api/proxy
     Proxy#pass
-      ✓ should include x-accountid header (48ms)
+      ✓ should include x-accountid header (47ms)
       ✓ should include x-sessionid header
       ✓ should include x-dashboard-server header
       ✓ should create x-application-server-token header
       ✓ should include referer header
       ✓ should send POST data (40ms)
-      ✓ should send multipart POST data (44ms)
+      ✓ should send multipart POST data (76ms)
       ✓ should send file upload POST data
       ✓ should execute proxy handlers
 
@@ -269,13 +269,13 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
       ✓ should add multiple properties
       ✓ should skip duplicates
     StorageList#count
-      ✓ should count the items (3606ms)
-      ✓ should not count removed items (4806ms)
+      ✓ should count the items (3607ms)
+      ✓ should not count removed items (4808ms)
     StorageList#remove
-      ✓ should remove the item (2402ms)
+      ✓ should remove the item (2403ms)
     StorageList#list
-      ✓ should change page size (4807ms)
-      ✓ should enforce offset (3606ms)
+      ✓ should change page size (4808ms)
+      ✓ should enforce offset (3607ms)
     StorageList#listAll
       ✓ should return all records (7212ms)
 
@@ -337,90 +337,90 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
 
   /account/change-password
     view
-      ✓ should present the form (671ms)
+      ✓ should present the form (673ms)
     submit
-      ✓ should apply new password (screenshots) (25696ms)
+      ✓ should apply new password (screenshots) (25060ms)
     errors
-      ✓ invalid-new-password (1713ms)
-      ✓ invalid-new-password-length (2025ms)
-      ✓ invalid-confirm-password (1916ms)
-      ✓ invalid-password (1592ms)
+      ✓ invalid-new-password (1729ms)
+      ✓ invalid-new-password-length (1963ms)
+      ✓ invalid-confirm-password (1902ms)
+      ✓ invalid-password (1549ms)
 
   /account/change-username
     view
-      ✓ should present the form (506ms)
+      ✓ should present the form (489ms)
     submit
-      ✓ should apply new username (screenshots) (26484ms)
+      ✓ should apply new username (screenshots) (25880ms)
     errors
-      ✓ invalid-new-username (1365ms)
-      ✓ invalid-new-username-length (1419ms)
-      ✓ invalid-password (1771ms)
+      ✓ invalid-new-username (1383ms)
+      ✓ invalid-new-username-length (1433ms)
+      ✓ invalid-password (1712ms)
 
   /account/create-profile
     view
-      ✓ should present the form (510ms)
-      ✓ should have elements for full-name (509ms)
-      ✓ should have elements for contact-email (508ms)
-      ✓ should have elements for display-email (501ms)
-      ✓ should have elements for dob (506ms)
-      ✓ should have elements for phone (491ms)
-      ✓ should have elements for occupation (504ms)
-      ✓ should have elements for location (507ms)
-      ✓ should have elements for company-name (500ms)
-      ✓ should have elements for website (474ms)
+      ✓ should present the form (511ms)
+      ✓ should have elements for full-name (490ms)
+      ✓ should have elements for contact-email (481ms)
+      ✓ should have elements for display-email (491ms)
+      ✓ should have elements for dob (501ms)
+      ✓ should have elements for phone (481ms)
+      ✓ should have elements for occupation (516ms)
+      ✓ should have elements for location (487ms)
+      ✓ should have elements for company-name (489ms)
+      ✓ should have elements for website (494ms)
     submit
-      ✓ should create profile (screenshots) (34250ms)
-      ✓ should create profile with full-name (1264ms)
-      ✓ should create profile and set default (1339ms)
-      ✓ should create profile with display name (1156ms)
-      ✓ should create profile with contact-email (1560ms)
-      ✓ should create profile with display-email (1547ms)
-      ✓ should create profile with dob in YYYY-MM-DD (1216ms)
-      ✓ should create profile with dob in MM-DD-YYYY (1262ms)
-      ✓ should create profile with phone (1641ms)
-      ✓ should create profile with occupation (1628ms)
-      ✓ should create profile with location (1644ms)
-      ✓ should create profile with company-name (1646ms)
-      ✓ should create profile with website (1685ms)
+      ✓ should create profile (screenshots) (33638ms)
+      ✓ should create profile with full-name (1289ms)
+      ✓ should create profile and set default (1318ms)
+      ✓ should create profile with display name (1161ms)
+      ✓ should create profile with contact-email (1399ms)
+      ✓ should create profile with display-email (1651ms)
+      ✓ should create profile with dob in YYYY-MM-DD (1221ms)
+      ✓ should create profile with dob in MM-DD-YYYY (1222ms)
+      ✓ should create profile with phone (1697ms)
+      ✓ should create profile with occupation (1664ms)
+      ✓ should create profile with location (1679ms)
+      ✓ should create profile with company-name (1638ms)
+      ✓ should create profile with website (1686ms)
     errors
-      ✓ invalid-first-name (1024ms)
-      ✓ invalid-first-name-length (2225ms)
-      ✓ invalid-last-name (999ms)
-      ✓ invalid-last-name-length (2225ms)
-      ✓ invalid-contact-email (1806ms)
-      ✓ invalid-display-email (1820ms)
-      ✓ invalid-display-name (823ms)
-      ✓ invalid-display-name-length (1876ms)
-      ✓ invalid-dob (1927ms)
-      ✓ invalid-phone (865ms)
-      ✓ invalid-occupation (848ms)
-      ✓ invalid-location (861ms)
-      ✓ invalid-company-name (835ms)
-      ✓ invalid-website (854ms)
+      ✓ invalid-first-name (999ms)
+      ✓ invalid-first-name-length (2246ms)
+      ✓ invalid-last-name (978ms)
+      ✓ invalid-last-name-length (2259ms)
+      ✓ invalid-contact-email (1807ms)
+      ✓ invalid-display-email (1801ms)
+      ✓ invalid-display-name (820ms)
+      ✓ invalid-display-name-length (1873ms)
+      ✓ invalid-dob (1920ms)
+      ✓ invalid-phone (820ms)
+      ✓ invalid-occupation (851ms)
+      ✓ invalid-location (866ms)
+      ✓ invalid-company-name (838ms)
+      ✓ invalid-website (841ms)
 
   /account/create-reset-code
     view
-      ✓ should present the form (511ms)
+      ✓ should present the form (492ms)
     submit
-      ✓ should create reset code (screenshots) (23763ms)
+      ✓ should create reset code (screenshots) (22205ms)
     errors
-      ✓ invalid-secret-code (891ms)
-      ✓ invalid-secret-code-length (1848ms)
+      ✓ invalid-secret-code (827ms)
+      ✓ invalid-secret-code-length (1894ms)
 
   /account/delete-account-complete
     view
-      ✓ should present 3 days remaining message (1423ms)
-      ✓ should present 7 days remaining message (1470ms)
-      ✓ should present instant deletion message (1410ms)
-      ✓ should present instant delete message (screenshots) (20662ms)
+      ✓ should present 3 days remaining message (1418ms)
+      ✓ should present 7 days remaining message (1413ms)
+      ✓ should present instant deletion message (1373ms)
+      ✓ should present instant delete message (screenshots) (20430ms)
 
   /account/delete-account
     view
-      ✓ should present the form (514ms)
+      ✓ should present the form (504ms)
     submit
-      ✓ should mark account deleted (screenshots) (21020ms)
+      ✓ should mark account deleted (screenshots) (20031ms)
     errors
-      ✓ invalid-password (1035ms)
+      ✓ invalid-password (1006ms)
 
   /account/delete-profile
     before
@@ -428,100 +428,100 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
     exceptions
       ✓ invalid-profileid
       ✓ invalid-profile
-      ✓ invalid-account (67ms)
+      ✓ invalid-account (70ms)
     view
-      ✓ should present the form (489ms)
+      ✓ should present the form (512ms)
     submit
-      ✓ should delete profile (screenshots) (35418ms)
+      ✓ should delete profile (screenshots) (34201ms)
 
   /account/delete-reset-code
     before
       ✓ should bind data
     exceptions
       ✓ invalid-reset-codeid
-      ✓ invalid-account (57ms)
+      ✓ invalid-account (53ms)
     view
-      ✓ should present the form (521ms)
+      ✓ should present the form (501ms)
     submit
-      ✓ should delete reset code (screenshots) (29742ms)
+      ✓ should delete reset code (screenshots) (28747ms)
 
   /account/edit-profile
     view
-      ✓ should present the form (528ms)
-      ✓ should have elements for full-name (521ms)
-      ✓ should have elements for display-name (517ms)
-      ✓ should have elements for contact-email (508ms)
-      ✓ should have elements for display-email (538ms)
-      ✓ should have elements for dob (505ms)
-      ✓ should have elements for phone (502ms)
-      ✓ should have elements for occupation (513ms)
-      ✓ should have elements for location (500ms)
-      ✓ should have elements for company-name (501ms)
-      ✓ should have elements for website (522ms)
+      ✓ should present the form (471ms)
+      ✓ should have elements for full-name (467ms)
+      ✓ should have elements for display-name (485ms)
+      ✓ should have elements for contact-email (480ms)
+      ✓ should have elements for display-email (509ms)
+      ✓ should have elements for dob (503ms)
+      ✓ should have elements for phone (476ms)
+      ✓ should have elements for occupation (505ms)
+      ✓ should have elements for location (494ms)
+      ✓ should have elements for company-name (495ms)
+      ✓ should have elements for website (499ms)
     submit
-      ✓ should update profile (screenshots) (51349ms)
-      ✓ should update profile with full-name (1301ms)
-      ✓ should update profile with display name (1206ms)
-      ✓ should update profile with contact-email (1610ms)
-      ✓ should update profile with display-email (1559ms)
-      ✓ should update profile with dob in YYYY-MM-DD (1213ms)
-      ✓ should update profile with dob in MM-DD-YYYY (1186ms)
-      ✓ should update profile with phone (1698ms)
-      ✓ should update profile with occupation (1635ms)
-      ✓ should update profile with location (1694ms)
-      ✓ should update profile with company-name (1676ms)
-      ✓ should update profile with website (1669ms)
+      ✓ should update profile (screenshots) (49960ms)
+      ✓ should update profile with full-name (1266ms)
+      ✓ should update profile with display name (1128ms)
+      ✓ should update profile with contact-email (1559ms)
+      ✓ should update profile with display-email (1378ms)
+      ✓ should update profile with dob in YYYY-MM-DD (1203ms)
+      ✓ should update profile with dob in MM-DD-YYYY (1192ms)
+      ✓ should update profile with phone (1632ms)
+      ✓ should update profile with occupation (1614ms)
+      ✓ should update profile with location (1618ms)
+      ✓ should update profile with company-name (1619ms)
+      ✓ should update profile with website (1610ms)
     errors
-      ✓ invalid-first-name (978ms)
-      ✓ invalid-first-name-length (2284ms)
-      ✓ invalid-last-name (986ms)
-      ✓ invalid-last-name-length (2232ms)
-      ✓ invalid-contact-email (1867ms)
-      ✓ invalid-display-email (1862ms)
-      ✓ invalid-display-name (845ms)
-      ✓ invalid-display-name-length (1888ms)
-      ✓ invalid-dob (1933ms)
-      ✓ invalid-phone (846ms)
-      ✓ invalid-occupation (858ms)
-      ✓ invalid-location (871ms)
-      ✓ invalid-company-name (824ms)
-      ✓ invalid-website (873ms)
+      ✓ invalid-first-name (976ms)
+      ✓ invalid-first-name-length (2229ms)
+      ✓ invalid-last-name (979ms)
+      ✓ invalid-last-name-length (2164ms)
+      ✓ invalid-contact-email (1812ms)
+      ✓ invalid-display-email (1855ms)
+      ✓ invalid-display-name (798ms)
+      ✓ invalid-display-name-length (1827ms)
+      ✓ invalid-dob (1898ms)
+      ✓ invalid-phone (838ms)
+      ✓ invalid-occupation (844ms)
+      ✓ invalid-location (820ms)
+      ✓ invalid-company-name (848ms)
+      ✓ invalid-website (832ms)
 
   /account/end-all-sessions
     view
-      ✓ should present the form (485ms)
+      ✓ should present the form (483ms)
     submit
-      ✓ should generate a new session key (screenshots) (19283ms)
+      ✓ should generate a new session key (screenshots) (18538ms)
 
   /account/end-session
     before
       ✓ should bind data to req
     view
-      ✓ should present the form (492ms)
+      ✓ should present the form (487ms)
     submit
-      ✓ should end the session (screenshots) (30094ms)
-      ✓ should end current session (768ms)
+      ✓ should end the session (screenshots) (29039ms)
+      ✓ should end current session (766ms)
 
   /account
     view
-      ✓ should return page (screenshots) (12258ms)
-      ✓ should not link to account preferences (12331ms)
-      ✓ should link to account preferences (12317ms)
+      ✓ should return page (screenshots) (12006ms)
+      ✓ should not link to account preferences (11812ms)
+      ✓ should link to account preferences (12588ms)
 
   /account/language
     exceptions
       ✓ should require language enabled
     view
-      ✓ should present the form (742ms)
+      ✓ should present the form (551ms)
     submit
-      ✓ should change the language (screenshots) (20706ms)
+      ✓ should change the language (screenshots) (19978ms)
 
   /account/profile
     before
       ✓ should bind data to req
     view
-      ✓ should present the profile table (screenshots) (23789ms)
-      ✓ should show fields if data exists (4392ms)
+      ✓ should present the profile table (screenshots) (23459ms)
+      ✓ should show fields if data exists (4448ms)
 
   /account/profiles
     before
@@ -530,76 +530,76 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
       ✓ should return one page (screenshots)
       ✓ should change page size
       ✓ should change offset
-      ✓ should show fields if data exists (4399ms)
+      ✓ should show fields if data exists (4336ms)
 
   /account/register
     view
-      ✓ should present the form (385ms)
-      ✓ should disable the form (359ms)
-      ✓ should have elements for full-name (388ms)
-      ✓ should have elements for contact-email (396ms)
-      ✓ should have elements for display-email (389ms)
+      ✓ should present the form (365ms)
+      ✓ should disable the form (377ms)
+      ✓ should have elements for full-name (373ms)
+      ✓ should have elements for contact-email (348ms)
+      ✓ should have elements for display-email (378ms)
       ✓ should have elements for dob (374ms)
-      ✓ should have elements for phone (375ms)
-      ✓ should have elements for occupation (392ms)
-      ✓ should have elements for location (373ms)
-      ✓ should have elements for company-name (368ms)
-      ✓ should have elements for website (381ms)
+      ✓ should have elements for phone (362ms)
+      ✓ should have elements for occupation (372ms)
+      ✓ should have elements for location (360ms)
+      ✓ should have elements for company-name (350ms)
+      ✓ should have elements for website (373ms)
     submit
-      ✓ should create new account with full name (6554ms)
-      ✓ should create new profile with contact email (6668ms)
-      ✓ should create new profile with display email (6839ms)
+      ✓ should create new account with full name (6510ms)
+      ✓ should create new profile with contact email (6830ms)
+      ✓ should create new profile with display email (6624ms)
       ✓ should create new profile with display name (6349ms)
-      ✓ should create new profile with dob in YYYY-MM-DD (6455ms)
-      ✓ should create new profile with dob in MM-DD-YYYY (6481ms)
-      ✓ should create new profile with phone (6886ms)
-      ✓ should create new profile with occupation (6886ms)
-      ✓ should create new profile with location (6950ms)
-      ✓ should create new profile with company-name (6917ms)
-      ✓ should create new profile with website (6933ms)
-      ✓ should create 20-minute session (6196ms)
-      ✓ should create account (screenshots) (49322ms)
+      ✓ should create new profile with dob in YYYY-MM-DD (6467ms)
+      ✓ should create new profile with dob in MM-DD-YYYY (6429ms)
+      ✓ should create new profile with phone (6853ms)
+      ✓ should create new profile with occupation (6832ms)
+      ✓ should create new profile with location (6855ms)
+      ✓ should create new profile with company-name (6820ms)
+      ✓ should create new profile with website (6857ms)
+      ✓ should create 20-minute session (6135ms)
+      ✓ should create account (screenshots) (48424ms)
     errors
-      ✓ invalid-username (5420ms)
-      ✓ invalid-username-length (5422ms)
-      ✓ invalid-password (5408ms)
-      ✓ invalid-password-length (5180ms)
-      ✓ invalid-confirm (5546ms)
-      ✓ invalid-first-name (6270ms)
-      ✓ invalid-first-name-length (12721ms)
-      ✓ invalid-last-name (6247ms)
-      ✓ invalid-last-name-length (12749ms)
-      ✓ invalid-contact-email (12346ms)
-      ✓ invalid-display-email (12387ms)
-      ✓ invalid-display-name (6092ms)
-      ✓ invalid-display-name-length (12464ms)
-      ✓ invalid-dob (12519ms)
-      ✓ invalid-phone (6079ms)
-      ✓ invalid-occupation (6116ms)
-      ✓ invalid-location (6094ms)
-      ✓ invalid-company-name (6086ms)
-      ✓ invalid-website (6111ms)
+      ✓ invalid-username (5369ms)
+      ✓ invalid-username-length (5377ms)
+      ✓ invalid-password (5354ms)
+      ✓ invalid-password-length (5135ms)
+      ✓ invalid-confirm (5483ms)
+      ✓ invalid-first-name (6194ms)
+      ✓ invalid-first-name-length (12627ms)
+      ✓ invalid-last-name (6206ms)
+      ✓ invalid-last-name-length (12670ms)
+      ✓ invalid-contact-email (12484ms)
+      ✓ invalid-display-email (12354ms)
+      ✓ invalid-display-name (6063ms)
+      ✓ invalid-display-name-length (12377ms)
+      ✓ invalid-dob (12409ms)
+      ✓ invalid-phone (6065ms)
+      ✓ invalid-occupation (6093ms)
+      ✓ invalid-location (6061ms)
+      ✓ invalid-company-name (6077ms)
+      ✓ invalid-website (6075ms)
 
   /account/reset-account
     view
-      ✓ should present the form (365ms)
+      ✓ should present the form (371ms)
     submit
-      ✓ should reset session key (6889ms)
-      ✓ should reset code last used (6848ms)
-      ✓ should sign in (screenshots) (72013ms)
+      ✓ should reset session key (6803ms)
+      ✓ should reset code last used (6801ms)
+      ✓ should sign in (screenshots) (71487ms)
     errors
-      ✓ invalid-username (5681ms)
-      ✓ invalid-secret-code (5636ms)
-      ✓ invalid-new-password (5576ms)
-      ✓ invalid-new-password-length (5382ms)
-      ✓ invalid-confirm-password (5586ms)
-      ✓ invalid-account (6664ms)
+      ✓ invalid-username (5700ms)
+      ✓ invalid-secret-code (5610ms)
+      ✓ invalid-new-password (5573ms)
+      ✓ invalid-new-password-length (5337ms)
+      ✓ invalid-confirm-password (5560ms)
+      ✓ invalid-account (6673ms)
 
   /account/reset-code
     before
       ✓ should bind data to req
     view
-      ✓ should present the reset code table (screenshots) (19684ms)
+      ✓ should present the reset code table (screenshots) (19197ms)
 
   /account/reset-codes
     before
@@ -611,24 +611,24 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
 
   /account/restore-account
     view
-      ✓ should present the form (487ms)
+      ✓ should present the form (454ms)
     submit
-      ✓ should unset account deleted (screenshots) (67617ms)
+      ✓ should unset account deleted (screenshots) (67417ms)
     errors
-      ✓ invalid-username (5331ms)
-      ✓ invalid-password (5337ms)
-      ✓ invalid-account (5749ms)
+      ✓ invalid-username (5307ms)
+      ✓ invalid-password (5315ms)
+      ✓ invalid-account (5664ms)
 
   /account/session
     before
       ✓ should bind data to req
     view
-      ✓ should present the session table (screenshots) (19626ms)
+      ✓ should present the session table (screenshots) (19257ms)
 
   /account/sessions
     before
       ✓ should bind data to req
-      ✓ should exclude ended sessions (570ms)
+      ✓ should exclude ended sessions (534ms)
     view
       ✓ should return one page (screenshots)
       ✓ should change page size
@@ -636,44 +636,44 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
 
   /account/set-default-profile
     before
-      ✓ should bind data to req (71ms)
+      ✓ should bind data to req
     view
-      ✓ should present the form (509ms)
+      ✓ should present the form (471ms)
     submit
-      ✓ should set the profile as default (screenshots) (34618ms)
+      ✓ should set the profile as default (screenshots) (32497ms)
 
   /account/signin
     view
-      ✓ should present the form (390ms)
+      ✓ should present the form (344ms)
     submit
-      ✓ should create session expiring in 20 minutes as default (5943ms)
-      ✓ should create session expiring in 20 minutes (6072ms)
-      ✓ should create session expiring in 8 hours (12125ms)
-      ✓ should create session expiring in 30 days (6079ms)
-      ✓ should sign in (screenshots) (48212ms)
+      ✓ should create session expiring in 20 minutes as default (6094ms)
+      ✓ should create session expiring in 20 minutes (6139ms)
+      ✓ should create session expiring in 8 hours (12140ms)
+      ✓ should create session expiring in 30 days (6055ms)
+      ✓ should sign in (screenshots) (47806ms)
     errors
-      ✓ invalid-username (4937ms)
-      ✓ invalid-password (5607ms)
+      ✓ invalid-username (4925ms)
+      ✓ invalid-password (5640ms)
 
   /account/signout-complete
     view
-      ✓ should sign out (screenshots) (12221ms)
+      ✓ should sign out (screenshots) (11897ms)
 
   /account/signout
     view
-      ✓ should end the session (562ms)
-      ✓ should redirect to signout complete page (551ms)
-      ✓ should signout (screenshots) (12178ms)
+      ✓ should end the session (561ms)
+      ✓ should redirect to signout complete page (529ms)
+      ✓ should signout (screenshots) (11908ms)
 
   /account/verify
     view
-      ✓ should present the form (449ms)
+      ✓ should present the form (437ms)
     submit
-      ✓ should mark session as verified (5931ms)
-      ✓ should verify session (screenshots) (41454ms)
+      ✓ should mark session as verified (5912ms)
+      ✓ should verify session (screenshots) (40761ms)
     errors
-      ✓ invalid-username (5042ms)
-      ✓ invalid-password (5705ms)
+      ✓ invalid-username (5020ms)
+      ✓ invalid-password (5651ms)
 
   /administrator/account-profiles
     before
@@ -704,13 +704,13 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
 
   /administrator/account
     before
-      ✓ should bind data to req (59ms)
+      ✓ should bind data to req (46ms)
     view
-      ✓ should present the account table (screenshots) (19042ms)
-      ✓ should present the profile table (547ms)
-      ✓ should present the sessions table (510ms)
-      ✓ should hide empty reset codes table (516ms)
-      ✓ should present a populated reset codes table (530ms)
+      ✓ should present the account table (screenshots) (17479ms)
+      ✓ should present the profile table (499ms)
+      ✓ should present the sessions table (499ms)
+      ✓ should hide empty reset codes table (492ms)
+      ✓ should present a populated reset codes table (507ms)
 
   /administrator/accounts
     before
@@ -732,52 +732,52 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
 
   /administrator/assign-administrator
     before
-      ✓ should bind data to req (51ms)
+      ✓ should bind data to req (38ms)
     view
-      ✓ should present the form (507ms)
+      ✓ should present the form (484ms)
     submit
-      ✓ should apply account update (screenshots) (30434ms)
+      ✓ should apply account update (screenshots) (28227ms)
 
   /administrator/create-reset-code
     before
-      ✓ should bind data to req (44ms)
+      ✓ should bind data to req (38ms)
     view
-      ✓ should present the form (503ms)
+      ✓ should present the form (501ms)
     submit
-      ✓ should create reset code (screenshots) (33253ms)
+      ✓ should create reset code (screenshots) (31499ms)
     errors
-      ✓ invalid-secret-code (953ms)
-      ✓ invalid-secret-code-length (1916ms)
+      ✓ invalid-secret-code (926ms)
+      ✓ invalid-secret-code-length (1764ms)
 
   /administrator/delete-account
     exceptions
       ✓ should reject invalid accountid
     before
-      ✓ should bind data to req (47ms)
+      ✓ should bind data to req (70ms)
     view
-      ✓ should present the form (528ms)
+      ✓ should present the form (474ms)
     submit
-      ✓ should immediately delete (screenshots) (31845ms)
+      ✓ should immediately delete (screenshots) (29799ms)
 
   /administrator/delete-schedule
     before
-      ✓ should bind data to req (73ms)
+      ✓ should bind data to req (65ms)
     view
-      ✓ should present the deleted accounts table (screenshots) (16296ms)
-      ✓ should return one page (587ms)
-      ✓ should change page size (605ms)
-      ✓ should change offset (579ms)
+      ✓ should present the deleted accounts table (screenshots) (15056ms)
+      ✓ should return one page (540ms)
+      ✓ should change page size (550ms)
+      ✓ should change offset (545ms)
 
   /administrator
     view
-      ✓ should return page (screenshots) (11944ms)
+      ✓ should return page (screenshots) (11084ms)
 
   /administrator/profile
     before
-      ✓ should bind data to req (54ms)
+      ✓ should bind data to req (41ms)
     view
-      ✓ should present the profile table (screenshots) (23043ms)
-      ✓ should show fields if data exists (4407ms)
+      ✓ should present the profile table (screenshots) (21551ms)
+      ✓ should show fields if data exists (4035ms)
 
   /administrator/profiles
     before
@@ -786,13 +786,13 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
       ✓ should return one page (screenshots)
       ✓ should change page size
       ✓ should change offset
-      ✓ should show fields if data exists (4479ms)
+      ✓ should show fields if data exists (4068ms)
 
   /administrator/reset-code
     before
-      ✓ should bind data to req (47ms)
+      ✓ should bind data to req (46ms)
     view
-      ✓ should present the reset code table (screenshots) (19548ms)
+      ✓ should present the reset code table (screenshots) (17920ms)
 
   /administrator/reset-codes
     before
@@ -805,50 +805,50 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
 
   /administrator/reset-session-key
     before
-      ✓ should bind data to req (84ms)
+      ✓ should bind data to req (47ms)
     view
-      ✓ should present the form (517ms)
+      ✓ should present the form (490ms)
     submit
-      ✓ should reset session key (screenshots) (31321ms)
+      ✓ should reset session key (screenshots) (29081ms)
 
   /administrator/revoke-administrator
     before
-      ✓ should bind data to req (61ms)
+      ✓ should bind data to req (46ms)
     view
-      ✓ should present the form (543ms)
+      ✓ should present the form (484ms)
     submit
-      ✓ should revoke administrator status (screenshots) (30709ms)
+      ✓ should revoke administrator status (screenshots) (28521ms)
 
   /administrator/schedule-account-delete
     before
-      ✓ should bind data to req (52ms)
+      ✓ should bind data to req (43ms)
     view
-      ✓ should present the form (524ms)
+      ✓ should present the form (517ms)
     submit
-      ✓ should schedule account for deletion (screenshots) (31561ms)
+      ✓ should schedule account for deletion (screenshots) (29352ms)
 
   /administrator/session
     before
-      ✓ should bind data to req (48ms)
+      ✓ should bind data to req (40ms)
     view
-      ✓ should present the session table (screenshots) (19202ms)
+      ✓ should present the session table (screenshots) (18080ms)
 
   /administrator/sessions
     before
       ✓ should bind data to req
     view
       ✓ should present the sessions table (screenshots)
-      ✓ should return one page (572ms)
+      ✓ should return one page (504ms)
       ✓ should change page size
       ✓ should change offset
 
   /administrator/transfer-ownership
     before
-      ✓ should bind data to req (47ms)
+      ✓ should bind data to req
     view
-      ✓ should present the form (548ms)
+      ✓ should present the form (477ms)
     submit
-      ✓ should change ownership (screenshots) (30999ms)
+      ✓ should change ownership (screenshots) (28788ms)
 
   /api/administrator/account
     exceptions
@@ -856,15 +856,15 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid
     returns
-      ✓ object (46ms)
+      ✓ object (38ms)
     redacts
-      ✓ usernameHash (72ms)
-      ✓ passwordHash (45ms)
-      ✓ sessionKey (49ms)
+      ✓ usernameHash (47ms)
+      ✓ passwordHash (42ms)
+      ✓ sessionKey
 
   /api/administrator/accounts-count
     returns
-      ✓ integer (93ms)
+      ✓ integer (77ms)
 
   /api/administrator/accounts
     receives
@@ -882,7 +882,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
 
   /api/administrator/administrator-accounts-count
     returns
-      ✓ integer (51ms)
+      ✓ integer (42ms)
 
   /api/administrator/administrator-accounts
     receives
@@ -904,14 +904,14 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid
       invalid-secret-code
-        ✓ missing posted secret-code (52ms)
+        ✓ missing posted secret-code (40ms)
       invalid-secret-code-length
-        ✓ invalid posted secret-code length (44ms)
+        ✓ invalid posted secret-code length (38ms)
     returns
-      ✓ object (54ms)
+      ✓ object (42ms)
     configuration
-      ✓ environment MINIMUM_RESET_CODE_LENGTH (44ms)
-      ✓ environment MAXIMUM_RESET_CODE_LENGTH (52ms)
+      ✓ environment MINIMUM_RESET_CODE_LENGTH (45ms)
+      ✓ environment MAXIMUM_RESET_CODE_LENGTH
 
   /api/administrator/delete-account
     exceptions
@@ -919,27 +919,27 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
     receieves
-      ✓ querystring accountid (54ms)
+      ✓ querystring accountid (44ms)
     returns
-      ✓ boolean (50ms)
+      ✓ boolean (44ms)
 
   /api/administrator/deleted-accounts-count
     returns
-      ✓ querystring accountid (100ms)
+      ✓ querystring accountid (85ms)
 
   /api/administrator/deleted-accounts
     receives
-      ✓ optional querystring offset (integer) (114ms)
-      ✓ optional querystring limit (integer) (82ms)
-      ✓ optional querystring all (boolean) (115ms)
+      ✓ optional querystring offset (integer) (107ms)
+      ✓ optional querystring limit (integer) (60ms)
+      ✓ optional querystring all (boolean) (95ms)
     returns
-      ✓ array (87ms)
+      ✓ array (64ms)
     redacts
-      ✓ usernameHash (50ms)
-      ✓ passwordHash (49ms)
-      ✓ sessionKey (51ms)
+      ✓ usernameHash (49ms)
+      ✓ passwordHash (44ms)
+      ✓ sessionKey (39ms)
     configuration
-      ✓ environment PAGE_SIZE (125ms)
+      ✓ environment PAGE_SIZE (102ms)
 
   /api/administrator/profile
     exceptions
@@ -947,11 +947,11 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring profileid
         ✓ invalid querystring profileid
     returns
-      ✓ object (54ms)
+      ✓ object (49ms)
 
   /api/administrator/profiles-count
     returns
-      ✓ integer (92ms)
+      ✓ integer (74ms)
 
   /api/administrator/profiles
     receives
@@ -970,10 +970,10 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ accessing account is not owner (49ms)
-        ✓ querystring accountid is not administrator (44ms)
+        ✓ accessing account is not owner (38ms)
+        ✓ querystring accountid is not administrator (40ms)
     returns
-      ✓ object (49ms)
+      ✓ object (46ms)
 
   /api/administrator/reset-code
     exceptions
@@ -981,13 +981,13 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring codeid
         ✓ invalid querystring codeid
     returns
-      ✓ object (49ms)
+      ✓ object (45ms)
     redacts
-      ✓ secretCodeHash (50ms)
+      ✓ secretCodeHash (39ms)
 
   /api/administrator/reset-codes-count
     returns
-      ✓ integer (99ms)
+      ✓ integer (84ms)
 
   /api/administrator/reset-codes
     receives
@@ -1008,11 +1008,11 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
     invalid-account
-      ✓ ineligible querystring account is deleted (48ms)
+      ✓ ineligible querystring account is deleted (41ms)
     requires
-      ✓ querystring accountid is not deleted (47ms)
+      ✓ querystring accountid is not deleted (41ms)
     returns
-      ✓ object (63ms)
+      ✓ object (44ms)
 
   /api/administrator/session
     exceptions
@@ -1020,13 +1020,13 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ unspecified querystring accountid
         ✓ invalid querystring sessionid
     returns
-      ✓ object (45ms)
+      ✓ object (42ms)
     redacts
-      ✓ tokenHash (44ms)
+      ✓ tokenHash (64ms)
 
   /api/administrator/sessions-count
     returns
-      ✓ integer (93ms)
+      ✓ integer (72ms)
 
   /api/administrator/sessions
     receives
@@ -1051,7 +1051,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
     requires
       ✓ querystring accountid is not administrator
     returns
-      ✓ object (48ms)
+      ✓ object (38ms)
 
   /api/administrator/set-account-deleted
     exceptions
@@ -1059,13 +1059,13 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ unspecified querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible querystring account is already deleted (47ms)
+        ✓ ineligible querystring account is already deleted (40ms)
     invalid-account
-      ✓ querystring accountid is deleted (51ms)
+      ✓ querystring accountid is deleted (39ms)
     returns
       ✓ object (44ms)
     configuration
-      ✓ environment DELETE_DELAY (46ms)
+      ✓ environment DELETE_DELAY (41ms)
 
   /api/administrator/set-owner-account
     exceptions
@@ -1073,14 +1073,14 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (72ms)
+        ✓ ineligible accessing account (59ms)
         ✓ ineligible querystring account is already owner
     requires
-      ✓ accessing account is owner (66ms)
+      ✓ accessing account is owner (60ms)
       ✓ querystring account is not owner
-      ✓ querystring account is not deleted (48ms)
+      ✓ querystring account is not deleted (42ms)
     returns
-      ✓ object (47ms)
+      ✓ object (42ms)
 
   /api/user/account
     exceptions
@@ -1088,7 +1088,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (41ms)
+        ✓ ineligible accessing account (42ms)
     returns
       ✓ object
     redacts
@@ -1156,7 +1156,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
       ✓ environment MINIMUM_PASSWORD_LENGTH
       ✓ environment MAXIMUM_PASSWORD_LENGTH
       ✓ environment REQUIRE_PROFILE
-      ✓ environment USER_PROFILE_FIELDS (63ms)
+      ✓ environment USER_PROFILE_FIELDS (66ms)
       ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
       ✓ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
       ✓ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
@@ -1165,7 +1165,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
       ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✓ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
       ✓ environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH
-      ✓ override req.userProfileFields (59ms)
+      ✓ override req.userProfileFields (53ms)
 
   /api/user/create-profile
     exceptions
@@ -1173,7 +1173,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-accountid
-        ✓ ineligible accessing account (42ms)
+        ✓ ineligible accessing account
       invalid-first-name
         ✓ missing posted first-name
       invalid-first-name-length
@@ -1220,16 +1220,16 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
     returns
       ✓ object
     configuration
-      ✓ environment USER_PROFILE_FIELDS (59ms)
+      ✓ environment USER_PROFILE_FIELDS (60ms)
       ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
       ✓ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
       ✓ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
       ✓ environment MAXIMUM_PROFILE_LAST_NAME_LENGTH
       ✓ environment MINIMUM_PROFILE_DISPLAY_NAME_LENGTH
-      ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH (63ms)
+      ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✓ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
       ✓ environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH
-      ✓ override req.userProfileFields (47ms)
+      ✓ override req.userProfileFields (40ms)
 
   /api/user/create-reset-code
     exceptions
@@ -1237,7 +1237,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-accountid
-        ✓ ineligible accessing account (49ms)
+        ✓ ineligible accessing account (41ms)
       invalid-secret-code
         ✓ missing posted secret-code
       invalid-secret-code-length
@@ -1265,7 +1265,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
       invalid-profile
         ✓ querystring profileid is default contact profile
       invalid-account
-        ✓ ineligible querystring profileid (40ms)
+        ✓ ineligible querystring profileid
     returns
       ✓ boolean
 
@@ -1275,7 +1275,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring codeid
         ✓ invalid querystring codeid
       invalid-account
-        ✓ ineligible querystring codeid (44ms)
+        ✓ ineligible querystring codeid (40ms)
     returns
       ✓ boolean
 
@@ -1285,7 +1285,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring profileid
         ✓ invalid querystring profileid
       invalid-account
-        ✓ ineligible querystring profileid (41ms)
+        ✓ ineligible querystring profileid (38ms)
     returns
       ✓ object
 
@@ -1295,7 +1295,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (43ms)
+        ✓ ineligible accessing account (44ms)
     returns
       ✓ integer
 
@@ -1305,7 +1305,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (52ms)
+        ✓ ineligible accessing account (38ms)
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -1348,7 +1348,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring codeid
         ✓ invalid querystring codeid
       invalid-account
-        ✓ ineligible querystring codeid (54ms)
+        ✓ ineligible querystring codeid (39ms)
     returns
       ✓ object
     redacts
@@ -1360,9 +1360,9 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (42ms)
+        ✓ ineligible accessing account
     returns
-      ✓ integer (38ms)
+      ✓ integer
 
   /api/user/reset-codes
     exceptions
@@ -1370,7 +1370,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (42ms)
+        ✓ ineligible accessing account (39ms)
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -1388,7 +1388,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (41ms)
+        ✓ ineligible accessing account
     returns
       ✓ boolean
 
@@ -1398,7 +1398,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring sessionid
         ✓ invalid querystring sessionid
       invalid-account
-        ✓ ineligible querystring sessionid (44ms)
+        ✓ ineligible querystring sessionid (41ms)
     returns
       ✓ object
     redacts
@@ -1410,7 +1410,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (42ms)
+        ✓ ineligible accessing account
     returns
       ✓ integer
 
@@ -1420,7 +1420,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (48ms)
+        ✓ ineligible accessing account (43ms)
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -1436,7 +1436,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (41ms)
+        ✓ ineligible accessing account
       invalid-password
         ✓ missing posted password
         ✓ invalid posted password
@@ -1451,7 +1451,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (41ms)
+        ✓ ineligible accessing account (53ms)
       invalid-language
         ✓ missing posted language
         ✓ invalid posted language
@@ -1466,7 +1466,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (42ms)
+        ✓ ineligible accessing account
       invalid-password
         ✓ missing posted password
         ✓ invalid posted password
@@ -1484,7 +1484,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (43ms)
+        ✓ ineligible accessing account (42ms)
       invalid-profileid
         ✓ missing posted profileid
         ✓ invalid posted profileid
@@ -1497,7 +1497,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (42ms)
+        ✓ ineligible accessing account
       invalid-password
         ✓ missing posted password
         ✓ invalid posted password
@@ -1517,7 +1517,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
       invalid-session
         ✓ querystring sessionid is not active session
       invalid-account
-        ✓ ineligible querystring sessionid (47ms)
+        ✓ ineligible querystring sessionid (39ms)
     returns
       ✓ object
 
@@ -1527,7 +1527,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring sessionid
         ✓ invalid querystring sessionid
       invalid-account
-        ✓ ineligible querystring sessionid (51ms)
+        ✓ ineligible querystring sessionid
     returns
       ✓ object
 
@@ -1537,7 +1537,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
         ✓ missing querystring profileid
         ✓ invalid querystring profileid
       invalid-profileid
-        ✓ ineligible querystring profileid (43ms)
+        ✓ ineligible querystring profileid (38ms)
       invalid-first-name
         ✓ missing posted first-name
       invalid-first-name-length
@@ -1584,7 +1584,7 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
     returns
       ✓ object
     configuration
-      ✓ environment USER_PROFILE_FIELDS (60ms)
+      ✓ environment USER_PROFILE_FIELDS (52ms)
       ✓ environment MINIMUM_PROFILE_FIRST_NAME_LENGTH
       ✓ environment MAXIMUM_PROFILE_FIRST_NAME_LENGTH
       ✓ environment MINIMUM_PROFILE_LAST_NAME_LENGTH
@@ -1593,8 +1593,8 @@ setupBefore /tmp/project /tmp/project/node_modules/@userdashboard/dashboard/src/
       ✓ environment MAXIMUM_PROFILE_DISPLAY_NAME_LENGTH
       ✓ environment MINIMUM_PROFILE_COMPANY_NAME_LENGTH
       ✓ environment MAXIMUM_PROFILE_COMPANY_NAME_LENGTH
-      ✓ override req.userProfileFields (39ms)
+      ✓ override req.userProfileFields
 
 
-  886 passing (35m)
+  886 passing (34m)
 
