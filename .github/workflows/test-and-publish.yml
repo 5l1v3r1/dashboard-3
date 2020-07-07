@@ -29,6 +29,9 @@ jobs:
         npm install
         npm version patch
         mkdir /tmp/project
+        cd documentation
+        git remote rm origin
+        git remote add origin git@github.com:userdashboard/userdashboard.github.io.git
         cd /tmp/project
         npm init -y
         npm install faker puppeteer@2.1.1 @userdashboard/dashboard @userdashboard/storage-redis
@@ -80,8 +83,8 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:
         commit_message: Automatically regenerated against current version
-        repository: /home/runner/work/dashboard/dashboard/documentation
-        branch: ${{ github.head_ref }}
+        repository: ./documentation
+        branch: "master"
         token: ${{ secrets.DOCUMENTATION_PAT }}        
         commit_options: "--no-verify --signoff"
     - name: Publish to NPM
