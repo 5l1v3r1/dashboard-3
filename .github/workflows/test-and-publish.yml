@@ -84,7 +84,7 @@ jobs:
         publish_dir: ./documentation
         keep_files: true
         publish_branch: master
-        token: ${{ secrets.DOCUMENTATION_PAT }}
+        github-token: ${{ secrets.DOCUMENTATION_PAT }}
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
       with:
