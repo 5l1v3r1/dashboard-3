@@ -84,8 +84,7 @@ jobs:
       with:
         commit_message: Automatically regenerated against current version
         repository: ./documentation
-        branch: "master"
-        token: ${{ secrets.DOCUMENTATION_PAT }}        
+        branch: ${{ github.head_ref }}
         commit_options: "--no-verify --signoff"
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
