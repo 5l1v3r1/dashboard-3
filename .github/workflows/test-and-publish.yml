@@ -59,8 +59,8 @@ jobs:
         GENERATE_API_TXT: false   
         GENERATE_RESPONSE: true
         GENERATE_SCREENSHOTS: true
-        RESPONSE_PATH: "/tmp/documentation/"
-        SCREENSHOT_PATH: "/tmp/documentation/screenshots"
+        RESPONSE_PATH: "/home/runner/work/dashboard/dashboard/documentation"
+        SCREENSHOT_PATH: "/home/runner/work/dashboard/dashboard/documentation/screenshots"
     - name: Generate supporting texts
       run: node main.js
       env:
