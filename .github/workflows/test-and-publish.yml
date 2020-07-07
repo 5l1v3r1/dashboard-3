@@ -77,12 +77,12 @@ jobs:
         commit_options: "--no-verify --signoff"
         repository: .
     - name: Publish documentation to Github
-      uses: peaceiris/actions-gh-pages@v3
+      uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:
-        external_repository: "userdashboard/userdashboard.github.io"
+        repository: "userdashboard/userdashboard.github.io"
         publish_dir: ./documentation
         keep_files: true
-        publish_branch: master
+        publish_branch: ${{ github.head_ref }}
         github_token: ${{ secrets.DOCUMENTATION_PAT }}
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
