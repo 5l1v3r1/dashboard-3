@@ -22,6 +22,7 @@ jobs:
         repository: "userdashboard/userdashboard.github.io"
         path: documentation
         persist-credentials: "true"
+        branch: master
     - name: Set up as module
       run: |
         git config --global user.name "${{ secrets.NAME }}"
@@ -84,7 +85,7 @@ jobs:
       with:
         commit_message: Automatically regenerated against current version
         repository: ./documentation
-        branch: ${{ github.head_ref }}
+        branch: master
         commit_options: "--no-verify --signoff"
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
