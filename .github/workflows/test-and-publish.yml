@@ -79,9 +79,11 @@ jobs:
     - name: Publish documentation to Github
       uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:
-        repository: ./documentation
+        commit_message: Automatically regenerated against current version
+        repository: /home/runner/work/dashboard/dashboard/documentation
         branch: ${{ github.head_ref }}
-        token: ${{ secrets.DOCUMENTATION_PAT }}
+        token: ${{ secrets.DOCUMENTATION_PAT }}        
+        commit_options: "--no-verify --signoff"
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
       with:
