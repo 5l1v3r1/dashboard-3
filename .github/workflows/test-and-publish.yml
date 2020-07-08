@@ -24,10 +24,8 @@ jobs:
         npm install
         npm version patch
         mkdir /tmp/project
-        git clone https://github.com/userdashboard/userdashboard.github.io documentation
+        git clone git@github.com:userdashboard/userdashboard.github.io.git documentation
         cd documentation
-        git remote rm origin
-        git remote add origin git@github.com:userdashboard/userdashboard.github.io.git
         git fetch
         cd /tmp/project
         npm init -y
