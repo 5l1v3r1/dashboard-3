@@ -85,10 +85,15 @@ jobs:
       run: |
         cd documentation
         find .
+        echo git1
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/userdashboard/userdashboard.github.io.git
+        echo git2
         git add -A
+        echo git3
         git commit -m "Automated report"
+        echo git4
         git push origin master
+        echo git5
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
       with:
