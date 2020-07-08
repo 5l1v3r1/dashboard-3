@@ -22,8 +22,7 @@ jobs:
         repository: "userdashboard/userdashboard.github.io"
         path: documentation
         persist-credentials: "true"
-        token: ${{ secrets.DOCUMENTATION_PAT }} 
-        fetch-depth: 1
+        token: ${{ secrets.DOCUMENTATION_PAT }}
     - name: Set up as module
       run: |
         git config --global user.name "${{ secrets.NAME }}"
@@ -31,9 +30,6 @@ jobs:
         npm install
         npm version patch
         mkdir /tmp/project
-        cd documentation
-        git remote rm origin
-        git remote add origin git@github.com:userdashboard/dyus
         cd /tmp/project
         npm init -y
         npm install faker puppeteer@2.1.1 @userdashboard/dashboard @userdashboard/storage-redis
@@ -85,15 +81,10 @@ jobs:
       run: |
         cd documentation
         find .
-        echo git1
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/userdashboard/userdashboard.github.io.git
-        echo git2
-        git add -A
-        echo git3
-        git commit -m "Automated report"
-        echo git4
+        git add .
+        git commit -m "Automatically regenerated against current version"
         git push origin master
-        echo git5
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
       with:
