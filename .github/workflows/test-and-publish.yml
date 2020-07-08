@@ -17,12 +17,6 @@ jobs:
       with:
         redis version: "5"
         number of databases: 1
-    - uses: actions/checkout@v2
-      with:
-        repository: "userdashboard/userdashboard.github.io"
-        path: documentation
-        persist-credentials: "true"
-        branch: master
     - name: Set up as module
       run: |
         git config --global user.name "${{ secrets.NAME }}"
@@ -30,6 +24,7 @@ jobs:
         npm install
         npm version patch
         mkdir /tmp/project
+        git clone https://github.com/userdashboard/userdashboard.github.io documentation
         cd documentation
         git remote rm origin
         git remote add origin git@github.com:userdashboard/userdashboard.github.io.git
