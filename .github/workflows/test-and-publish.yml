@@ -82,12 +82,11 @@ jobs:
         commit_options: "--no-verify --signoff"
         repository: .
     - name: Publish documentation to Github
-      uses: stefanzweifel/git-auto-commit-action@v4.1.6
-      with:
-        commit_message: Automatically regenerated against current version
-        repository: ./documentation
-        branch: "master"        
-        commit_options: "--no-verify --signoff"
+      run: |
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/userdashboard/userdashboard.github.io.git
+        git add -A
+        git commit -m "Automated report"
+        git push
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
       with:
