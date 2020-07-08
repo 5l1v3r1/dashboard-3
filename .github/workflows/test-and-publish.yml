@@ -88,7 +88,7 @@ jobs:
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/userdashboard/userdashboard.github.io.git
         git add -A
         git commit -m "Automated report"
-        git push
+        git push origin master
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
       with:
