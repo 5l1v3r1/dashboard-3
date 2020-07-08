@@ -82,9 +82,9 @@ jobs:
         cd documentation
         find .
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/userdashboard/userdashboard.github.io.git
-        git add .
+        git add . --all
         git commit -m "Automatically regenerated against current version"
-        git push origin master
+        git push origin HEAD:master
     - name: Publish to NPM
       uses: JS-DevTools/npm-publish@v1
       with:
