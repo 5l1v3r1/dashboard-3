@@ -82,35 +82,35 @@ async function fetch (method, req) {
       Log.info('screenshot step', JSON.stringify(step))
       if (step.save) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          // for (const language of global.languages) {
-            // global.language = language.code
+          for (const language of global.languages) {
+            global.language = language.code
             for (const device of devices) {
               await emulate(page, device)
               await saveScreenshot(device, page, screenshotNumber, 'index', 'page', req.filename)
             }
-          // }
+          }
         }
         screenshotNumber++
         continue
       }
       if (step.hover) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          // for (const language of global.languages) {
+          for (const language of global.languages) {
             for (const device of devices) {
-              // global.language = language.code
+              global.language = language.code
               await emulate(page, device, req)
               await execute('hover', page, step.hover)
               await saveScreenshot(device, page, screenshotNumber, 'hover', step.hover, req.filename)
             }
-          // }
+          }
         } else {
           await execute('hover', page, step.hover)
         }
         screenshotNumber++
       } else if (step.click) {
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          // for (const language of global.languages) {
-            // global.language = language.code
+          for (const language of global.languages) {
+            global.language = language.code
             for (const device of devices) {
               await emulate(page, device)
               if (lastStep && lastStep.hover === '#account-menu-container') {
@@ -122,7 +122,7 @@ async function fetch (method, req) {
               await execute('focus', page, step.click)
               await saveScreenshot(device, page, screenshotNumber, 'click', step.click, req.filename)
             }
-          // }
+          }
         } else {
           if (lastStep && lastStep.hover === '#account-menu-container') {
             await execute('hover', page, '#account-menu-container')
@@ -150,8 +150,8 @@ async function fetch (method, req) {
           await step.waitBefore(page)
         }
         if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-          // for (const language of global.languages) {
-            // global.language = language.code
+          for (const language of global.languages) {
+            global.language = language.code
             for (const device of devices) {
               await emulate(page, device, req)
               if (step.waitFormLoad) {
@@ -161,7 +161,7 @@ async function fetch (method, req) {
               await execute('hover', page, req.button || '#submit-button')
               await saveScreenshot(device, page, screenshotNumber, 'submit', step.fill, req.filename)
             }
-          // }
+          }
         } else {
           if (step.waitFormLoad) {
             await step.waitFormLoad(page)
@@ -190,13 +190,13 @@ async function fetch (method, req) {
       lastStep = step
     }
     if (process.env.GENERATE_SCREENSHOTS && process.env.SCREENSHOT_PATH) {
-      // for (const language of global.languages) {
-        // global.language = language.code
+      for (const language of global.languages) {
+        global.language = language.code
         for (const device of devices) {
           await emulate(page, device)
           await saveScreenshot(device, page, screenshotNumber, 'complete', null, req.filename)
         }
-      // }
+      }
     }
     screenshotNumber++
   } else {
