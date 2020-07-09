@@ -3,7 +3,7 @@ name: test-and-publish
 on: [push]
 
 jobs:
-  test-and-publish:
+  generate-documentation:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -57,6 +57,7 @@ jobs:
         GENERATE_SCREENSHOTS: true
         RESPONSE_PATH: "/home/runner/work/dashboard/dashboard/documentation"
         SCREENSHOT_PATH: "/home/runner/work/dashboard/dashboard/documentation/screenshots"
+        SCREENSHOT_LANGUAGES: "en,es,af,bg,pl,tr,hu,vi"
         LOG_LEVEL: "info,error,warn,log"
     - name: Publish documentation to Github
       run: |

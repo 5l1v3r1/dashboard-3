@@ -67,6 +67,16 @@ async function setupBeforeEach () {
   global.applicationServerToken = undefined
   global.language = undefined
   global.languages = require('./languages.json')
+  if (process.env.SCREENSHOT_LANGUAGES) {
+    const supported = process.env.SCREENSHOT_LANGUAGES.split(',')
+    const newLanguages = []
+    for (const language of global.languages) {
+      if (supported.indexOf(language.code) > -1) {
+        newLanguages.push(language)
+      }
+    }
+    global.languages = newLanguages
+  }
   global.enableLanguagePreference = false
   global.port = global.usingPort
   global.dashboardServer = `${global.usingDashboardServer}:${global.port}`
