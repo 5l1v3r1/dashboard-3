@@ -370,6 +370,9 @@ async function emulate (page, device) {
   }
 }
 
+const screenshotCache = {
+}
+
 async function saveScreenshot (device, page, number, action, identifier, scriptName) {
   Log.info('taking screenshot', number, action, identifier, scriptName)
   let filePath = scriptName.substring(scriptName.indexOf('/src/www/') + '/src/www/'.length)
@@ -378,46 +381,47 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
   if (!fs.existsSync(filePath)) {
     createFolderSync(filePath)
   }
-  try {
-    let title
-    if (identifier === '#submit-form') {
-      title = 'form'
-    } else if (identifier === '#submit-button') {
-      const element = await getElement(page, identifier)
-      let text = await getText(page, element)
-      if (text.indexOf('_') > -1) {
-        text = text.substring(0, text.indexOf('_'))
-      } else {
-        text = text.split(' ').join('-').toLowerCase()
-      }
-      title = text
-    } else if (identifier && identifier[0] === '/') {
-      const element = await getElement(page, identifier)
-      let text = await getText(page, element)
-      if (text.indexOf('_') > -1) {
-        text = text.substring(0, text.indexOf('_'))
-      } else {
-        text = text.split(' ').join('-').toLowerCase()
-      }
-      title = text
-    } else if (action === 'index') {
-      title = 'index'
-    } else if (identifier) {
-      title = 'form'
+  let title
+  if (identifier === '#submit-form') {
+    title = 'form'
+  } else if (identifier === '#submit-button') {
+    const element = await getElement(page, identifier)
+    let text = await getText(page, element)
+    if (text.indexOf('_') > -1) {
+      text = text.substring(0, text.indexOf('_'))
     } else {
-      title = ''
+      text = text.split(' ').join('-').toLowerCase()
     }
-    Log.info('screenshot title', title)
-    let filename
-    if (title) {
-      filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+    title = text
+  } else if (identifier && identifier[0] === '/') {
+    const element = await getElement(page, identifier)
+    let text = await getText(page, element)
+    if (text.indexOf('_') > -1) {
+      text = text.substring(0, text.indexOf('_'))
     } else {
-      filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+      text = text.split(' ').join('-').toLowerCase()
     }
-    Log.info('saving screenshot', `${filePath}/${filename}`)
-    await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
-  } catch (error) {
-    Log.error('error saving screenshot', error)
+    title = text
+  } else if (action === 'index') {
+    title = 'index'
+  } else if (identifier) {
+    title = 'form'
+  } else {
+    title = ''
+  }
+  let filename
+  if (title) {
+    filename = `${number}-${action}-${title}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+  } else {
+    filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
+  }
+  if (screenshotCache[filename]) {
+    return fs.writeFileSync(screenshotCache[filename], `${filePath}/${filename}`)
+  }
+  await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
+  if ((number === 1 && action === 'hover') ||
+      (number === 2 && action === 'click')) {
+    screenshotCache[filename] = fs.readFileSync(`${filePath}/${filename}`)
   }
 }
 
