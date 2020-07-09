@@ -416,7 +416,7 @@ async function saveScreenshot (device, page, number, action, identifier, scriptN
     filename = `${number}-${action}-${device.name.split(' ').join('-')}-${global.language}.png`.toLowerCase()
   }
   if (screenshotCache[filename]) {
-    return fs.writeFileSync(screenshotCache[filename], `${filePath}/${filename}`)
+    return fs.writeFileSync(`${filePath}/${filename}`, screenshotCache[filename])
   }
   await page.screenshot({ path: `${filePath}/${filename}`, type: 'png' })
   if ((number === 1 && action === 'hover') ||
