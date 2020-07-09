@@ -308,7 +308,7 @@ async function wrapTemplateWithSrcDoc (req, res, doc) {
   highlightCurrentPage(req.urlPath, templateDoc)
   const iframe = templateDoc.getElementById('application-iframe')
   iframe.attr.srcdoc = doc.toString().split("'").join('&#39;').split('"').join("'")
-  if (pageTitles && pageTitles.length) {
+  if (pageTitles && pageTitles.length && pageTitles[0].child && pageTitles[0].child.length) {
     iframe.attr.title = pageTitles[0].child[0].text
   }
   return templateDoc.toString()
